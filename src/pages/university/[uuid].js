@@ -20,3 +20,5 @@ export async function getServerSideProps(context) {
     props: { uuid: 1, name: "보라스 대학교", country: "스웨덴", region: "예톄보리", requirements: "토익 775 토플 90" },
   };
 }
+
+export const runtime = "edge";
