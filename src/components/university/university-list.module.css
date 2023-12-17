@@ -1,0 +1,10 @@
+.container {
+  padding: 16px;
+  background-color: #f0f0f0;
+}
+
+.collegeList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
