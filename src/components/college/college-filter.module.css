@@ -6,9 +6,10 @@
 .select {
   margin-right: 16px;
 
-  -webkit-appearance: none; /* for chrome */
+  -webkit-appearance: none; /* for chrome, safari */
   -moz-appearance: none; /*for firefox*/
   appearance: none;
+  -webkit-border-radius: 0; /* for safari */
   background: url("/ui/ArrowDropDownFilled.svg") no-repeat;
   background-position: 100% 50%;
   background-size: 20px 20px;
