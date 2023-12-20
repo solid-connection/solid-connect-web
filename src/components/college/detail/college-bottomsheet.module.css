@@ -1,0 +1,49 @@
+.bottomSheet {
+  border: 1px solid green;
+}
+
+.title {
+  margin-left: 20px;
+
+  color: #000;
+  font-family: Pretendard;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.infoList {
+  margin-left: 20px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.info {
+  display: flex;
+  flex-direction: row;
+}
+
+.infoKey {
+  margin-left: 8px;
+
+  width: 116px;
+
+  color: #171717;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.infoValue {
+  color: #000;
+  font-family: Pretendard;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
