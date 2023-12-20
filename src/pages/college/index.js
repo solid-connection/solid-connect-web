@@ -1,14 +1,19 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 
 import CollegeList from "../../components/college/college-list";
 import CollegeSearch from "@/components/college/college-search";
+import CollegeFilter from "@/components/college/college-filter";
 
 function CollegePage(props) {
   const { colleges } = props;
+
+  const [filteredColleges, setFilteredColleges] = useState(colleges);
+
   return (
     <Fragment>
       <CollegeSearch />
-      <CollegeList colleges={colleges} />
+      <CollegeFilter />
+      <CollegeList colleges={filteredColleges} />
     </Fragment>
   );
 }

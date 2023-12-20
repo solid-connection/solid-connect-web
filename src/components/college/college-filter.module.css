@@ -1,0 +1,15 @@
+.wrapper {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.select {
+  margin-right: 16px;
+
+  width: 42px;
+  height: 23px;
+  padding: 0;
+  background-color: white;
+  border: none;
+  border-bottom: 1px solid black;
+}
