@@ -1,4 +1,6 @@
-function UniversityDetail(props) {
+import CollegeMap from "../college-map";
+
+function CollegeDetail(props) {
   const { uuid, name, country, region, requirements } = props;
   return (
     <div>
@@ -7,8 +9,9 @@ function UniversityDetail(props) {
         {country} {region}
       </p>
       <p>{requirements}</p>
+      <CollegeMap />
     </div>
   );
 }
 
-export default UniversityDetail;
+export default CollegeDetail;

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import classes from "./university-search.module.css";
+import classes from "./college-search.module.css";
 
-function UniversitySearch() {
+function CollegeSearch() {
   const [country, setCountry] = useState("");
   const [region, setRegion] = useState("");
   const [query, setQuery] = useState("");
@@ -20,4 +20,4 @@ function UniversitySearch() {
   );
 }
 
-export default UniversitySearch;
+export default CollegeSearch;

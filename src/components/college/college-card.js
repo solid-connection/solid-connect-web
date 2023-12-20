@@ -2,14 +2,15 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-import classes from "./university-card.module.css";
+import classes from "./college-card.module.css";
+
 import CheveronRightFilled from "../ui/ChevronRightFilled";
 
-function UniversityCard(props) {
+function CollegeCard(props) {
   const { uuid, name, country, region, requirements } = props;
 
   return (
-    <Link href={`/university/${uuid}`}>
+    <Link href={`/college/${uuid}`}>
       <div className={classes.card}>
         <img className={classes.image} src="" width={100} height={100} />
         <div className={classes.info}>
@@ -27,4 +28,4 @@ function UniversityCard(props) {
   );
 }
 
-export default UniversityCard;
+export default CollegeCard;

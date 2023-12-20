@@ -5,7 +5,7 @@ import classes from "./bottom-navigation.module.css";
 function BottomNavigation() {
   return (
     <nav className={classes.bottom_nav}>
-      <Link href="/university" className={classes.nav_item}>
+      <Link href="/college" className={classes.nav_item}>
         <div className={classes.nav_icon}>
           <FavoriteFilled />
         </div>
