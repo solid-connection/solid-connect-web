@@ -6,10 +6,25 @@
 .select {
   margin-right: 16px;
 
+  -webkit-appearance: none; /* for chrome */
+  -moz-appearance: none; /*for firefox*/
+  appearance: none;
+  background: url("/ui/ArrowDropDownFilled.svg") no-repeat;
+  background-position: 100% 50%;
+  background-size: 20px 20px;
+
   width: 42px;
   height: 23px;
   padding: 0;
   background-color: white;
   border: none;
   border-bottom: 1px solid black;
+
+  color: var(--Light-Text-Primary, rgba(0, 0, 0, 0.87));
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Pretendard;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
 }
