@@ -25,7 +25,7 @@
 
   color: var(--Light-Text-Primary, rgba(0, 0, 0, 0.87));
   font-feature-settings: "clig" off, "liga" off;
-  font-family: Pretendard;
+  font-family: Pretendard, sans-serif;
   font-size: 12px;
   font-style: normal;
   font-weight: 400;

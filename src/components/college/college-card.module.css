@@ -30,7 +30,7 @@
 
   color: #000;
   font-feature-settings: "clig" off, "liga" off;
-  font-family: Pretendard;
+  font-family: Pretendard, sans-serif;
   font-size: 16px;
   font-style: normal;
   font-weight: 600;
@@ -45,7 +45,7 @@
 
   color: #7c7c7c;
   font-feature-settings: "clig" off, "liga" off;
-  font-family: Pretendard;
+  font-family: Pretendard, sans-serif;
   font-size: 13px;
   font-style: normal;
   font-weight: 600;
@@ -60,7 +60,7 @@
 
   color: #7c7c7c;
   font-feature-settings: "clig" off, "liga" off;
-  font-family: Pretendard;
+  font-family: Pretendard, sans-serif;
   font-size: 12px;
   font-style: normal;
   font-weight: 600;

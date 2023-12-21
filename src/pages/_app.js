@@ -9,8 +9,9 @@ export default function App({ Component, pageProps }) {
     <Fragment>
       <Layout>
         <Head>
-          <title>solid connection</title>
           <meta name="description" content="solid connection" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1" />
+          <title>solid connection</title>
         </Head>
         <Component {...pageProps} />
       </Layout>

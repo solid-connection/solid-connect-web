@@ -15,7 +15,7 @@
   margin-left: 20px;
 
   color: #000;
-  font-family: Pretendard;
+  font-family: Pretendard, sans-serif;
   font-size: 24px;
   font-style: normal;
   font-weight: 600;
@@ -42,7 +42,7 @@
   width: 116px;
 
   color: #171717;
-  font-family: Pretendard;
+  font-family: Pretendard, sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: 600;
@@ -51,7 +51,7 @@
 
 .infoValue {
   color: #000;
-  font-family: Pretendard;
+  font-family: Pretendard, sans-serif;
   font-size: 12px;
   font-style: normal;
   font-weight: 600;
@@ -62,7 +62,7 @@
   margin: 22px 0 8px 20px;
 
   color: #000;
-  font-family: Pretendard;
+  font-family: Pretendard, sans-serif;
   font-size: 16px;
   font-style: normal;
   font-weight: 600;
