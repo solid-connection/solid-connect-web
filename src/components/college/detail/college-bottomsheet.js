@@ -4,11 +4,13 @@ import CollegeMap from "./college-map";
 import CheckCircleFilled from "@/components/ui/icon/CheckCircleFilled";
 import CheckCircleOutlined from "@/components/ui/icon/CheckCircleOutlined";
 import CollegeReviews from "./college-reviews";
+import { Fragment } from "react";
 
 function CollegeBottomSheet(props) {
   const { uuid, name, country, region, requirements } = props;
   return (
     <div className={styles.bottomSheet}>
+      <div className={styles.englishTitle}>{name}</div>
       <div className={styles.title}>{name}</div>
       <div className={styles.infoList}>
         <div className={styles.info}>

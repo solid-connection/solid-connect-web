@@ -1,4 +1,5 @@
 .bottomSheet {
+  position: relative;
   margin-top: calc(100vw / 2);
 
   background-color: white;
@@ -8,6 +9,19 @@
   .bottomSheet {
     margin-top: 300px;
   }
+}
+
+.englishTitle {
+  position: absolute;
+  margin-left: 30px;
+  top: -58px;
+
+  color: #000;
+  font-family: Pretendard;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
 }
 
 .title {
