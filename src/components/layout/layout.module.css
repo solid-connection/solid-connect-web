@@ -1,6 +1,7 @@
 .layout {
   width: 100%;
   max-width: 600px;
+  min-width: 360px;
   margin: 0 auto;
   /* box-sizing: border-box; */
   /* overflow-x: hidden; */

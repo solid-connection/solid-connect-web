@@ -1,15 +1,15 @@
 import styles from "./college-bottomsheet.module.css";
 
-import CollegeMap from "../college-map";
+import CollegeMap from "./college-map";
 import CheckCircleFilled from "@/components/ui/icon/CheckCircleFilled";
 import CheckCircleOutlined from "@/components/ui/icon/CheckCircleOutlined";
+import CollegeReviews from "./college-reviews";
 
 function CollegeBottomSheet(props) {
   const { uuid, name, country, region, requirements } = props;
   return (
     <div className={styles.bottomSheet}>
-      <h1 className={styles.title}>{name}</h1>
-
+      <div className={styles.title}>{name}</div>
       <div className={styles.infoList}>
         <div className={styles.info}>
           <CheckCircleFilled />
@@ -32,7 +32,10 @@ function CollegeBottomSheet(props) {
           <div className={styles.infoKey}>기숙사 제공 여부</div>
         </div>
       </div>
+      <div className={styles.subject}>위치</div>
       <CollegeMap />
+      <div className={styles.subject}>파견 후기</div>
+      <CollegeReviews />
     </div>
   );
 }

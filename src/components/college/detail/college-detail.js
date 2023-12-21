@@ -9,7 +9,7 @@ function CollegeDetail(props) {
     <Fragment>
       {/* <Image src={image} alt={name} width={300} height={300} /> */}
       <img className={classes.image} src={image} alt={name} height={300} />
-      <div>대학 영어 이름</div>
+      <div className={classes.title}>{name}</div>
     </Fragment>
   );
 }

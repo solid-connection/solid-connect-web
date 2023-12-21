@@ -1,8 +1,17 @@
 .bottomSheet {
-  border: 1px solid green;
+  margin-top: calc(100vw / 2);
+
+  background-color: white;
+  border-radius: 30px 30px 0px 0px;
+}
+@media (min-width: 600px) {
+  .bottomSheet {
+    margin-top: 300px;
+  }
 }
 
 .title {
+  padding-top: 24px;
   margin-left: 20px;
 
   color: #000;
@@ -14,6 +23,7 @@
 }
 
 .infoList {
+  margin-top: 18px;
   margin-left: 20px;
 
   display: flex;
@@ -43,6 +53,17 @@
   color: #000;
   font-family: Pretendard;
   font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.subject {
+  margin: 22px 0 8px 20px;
+
+  color: #000;
+  font-family: Pretendard;
+  font-size: 16px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;

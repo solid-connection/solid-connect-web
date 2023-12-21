@@ -6,6 +6,7 @@
   max-width: 600px;
   height: 56px;
   display: flex;
+  background-color: white;
 }
 
 .nav_item {
