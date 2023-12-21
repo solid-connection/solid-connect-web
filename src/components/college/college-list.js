@@ -1,9 +1,11 @@
+import styles from "./college-list.module.css";
+
 import CollegeCard from "./college-card";
 
 function CollegeList(props) {
   const { colleges } = props;
   return (
-    <div>
+    <div className={styles.container}>
       {colleges.map((univ) => (
         <CollegeCard key={univ.uuid} {...univ} />
       ))}

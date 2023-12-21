@@ -1,6 +1,6 @@
 .card {
   position: relative;
-  margin: 0 16px 8px 16px;
+  margin: 0 16px 0 16px;
   height: 105px;
   flex-shrink: 0;
   border-radius: 6px;
@@ -20,8 +20,7 @@
 }
 
 .info {
-  position: relative;
-  left: 97px;
+  margin-left: 97px;
 }
 
 .name {

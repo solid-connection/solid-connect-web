@@ -1,19 +1,50 @@
-/* .search {
-  margin-top: 24px;
-  display: flex;
-  align-items: center;
+.wrapper {
+  margin: 24px 16px 0 16px;
+}
 
-  height: 36px;
+.searchBar {
+  display: flex;
 
   border-radius: 4px;
   border: 1px solid rgba(180, 183, 186, 0.5);
 }
 
 .dropdown {
-  display: flex;
-  padding: 6px 6px 6px 16px;
-  justify-content: center;
-  align-items: center;
+  -webkit-appearance: none; /* for chrome, safari */
+  -moz-appearance: none; /*for firefox*/
+  appearance: none;
+  -webkit-border-radius: 0; /* for safari */
+  background: url("/ui/ArrowDropDownFilled.svg") no-repeat;
+  background-position: 90% 50%;
+  background-size: 20px 20px;
 
-  background-color: white;
-} */
+  width: 67px;
+  height: 37px;
+  padding-left: 16px;
+  border: 1px solid rgba(180, 183, 186, 0.5);
+
+  color: #444;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  /* font-weight: 600; */
+  line-height: 24px; /* 171.429% */
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+.input {
+  width: calc(100% - 134px);
+
+  padding-left: 16px;
+  border: 1px solid rgba(180, 183, 186, 0.5);
+
+  color: #444;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  /* font-weight: 600; */
+  line-height: 24px; /* 171.429% */
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
