@@ -39,7 +39,7 @@ function CollegeSearch(props) {
                 </option>
               ))}
           </select>
-          <select className={styles.dropdown} value={region} onChange={(e) => setRegion(e.target.value)} disabled={!country}>
+          <select className={country ? styles.dropdown : styles.dropdown__deactive} value={region} onChange={(e) => setRegion(e.target.value)} disabled={!country}>
             <option value="">지역</option>
             {regionsOptions.map((r, index) => (
               <option key={index} value={r}>
