@@ -7,10 +7,10 @@ import CollegeReviews from "./college-reviews";
 import { Fragment } from "react";
 
 function CollegeBottomSheet(props) {
-  const { uuid, name, country, region, requirements } = props;
+  const { id, name, englishName, country, region, url, requirements } = props;
   return (
     <div className={styles.bottomSheet}>
-      <div className={styles.englishTitle}>{name}</div>
+      <div className={styles.englishTitle}>{englishName}</div>
       <div className={styles.title}>{name}</div>
       <div className={styles.infoList}>
         <div className={styles.info}>

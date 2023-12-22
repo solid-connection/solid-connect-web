@@ -71,5 +71,3 @@ function getCollegeList(country, region, text) {
   }
   return colleges;
 }
-
-export const runtime = "experimental-edge";
