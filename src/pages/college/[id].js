@@ -3,6 +3,7 @@ import Image from "next/image";
 import CollegeDetail from "../../components/college/detail/college-detail";
 import CollegeBottomSheet from "../../components/college/detail/college-bottomsheet";
 import { Fragment } from "react";
+import { getCollegeDetailData } from "../api/college/[id]";
 
 export default function CollegeDetailPage(props) {
   return (
@@ -17,9 +18,8 @@ export async function getServerSideProps(context) {
   const { params } = context;
   const { id } = params;
 
-  const res = await fetch("http://localhost:3000/api/college/" + id);
-  const data = await res.json();
-  const college = data.college;
+  const college = await getCollegeDetailData();
+  console.log(college);
 
   return {
     props: {
