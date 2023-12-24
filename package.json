@@ -13,6 +13,7 @@
     "pages:dev": "npx wrangler pages dev .vercel/output/static --compatibility-date=2023-12-06 --compatibility-flag=nodejs_compat"
   },
   "dependencies": {
+    "@react-google-maps/api": "^2.19.2",
     "next": "14.0.4",
     "react": "^18",
     "react-dom": "^18"
