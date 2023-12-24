@@ -1,0 +1,9 @@
+.container {
+  margin-left: 20px;
+  overflow-x: auto;
+}
+
+.items {
+  display: flex;
+  gap: 8px;
+}

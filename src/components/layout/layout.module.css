@@ -2,7 +2,8 @@
   width: 100%;
   max-width: 600px;
   min-width: 360px;
-  margin: 0 auto;
+  /* bottom navigation height 56px */
+  margin: 0 auto 76px auto;
   /* box-sizing: border-box; */
   /* overflow-x: hidden; */
 }
