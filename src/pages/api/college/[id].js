@@ -15,9 +15,9 @@ export async function getCollegeDetailData() {
   return collegeData;
 }
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
   const eventId = req.query.id;
-  const collegeData = getCollegeDetailData();
+  const collegeData = await getCollegeDetailData();
   if (req.method === "GET") {
     res.status(200).json({ college: collegeData });
   }
