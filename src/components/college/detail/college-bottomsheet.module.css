@@ -14,9 +14,10 @@
 .englishTitle {
   position: absolute;
   margin-left: 30px;
-  top: -58px;
+  top: -12px;
+  transform: translateY(-100%);
 
-  color: #000;
+  color: var(--secondary-2, #f2f1df);
   font-family: Pretendard;
   font-size: 32px;
   font-style: normal;
