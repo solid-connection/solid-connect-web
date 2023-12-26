@@ -1,0 +1,30 @@
+.topNav {
+  position: fixed;
+  top: 0px;
+
+  display: flex;
+  justify-content: space-between;
+
+  width: 100%;
+  max-width: 600px;
+  height: 56px;
+
+  background: #fff;
+}
+
+.icon {
+  margin: 16px 20px 16px 20px;
+  cursor: pointer;
+}
+
+.title {
+  margin: 16px 0 14px 0;
+
+  color: var(--Dark-Primary-Contrast, rgba(0, 0, 0, 0.87));
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 160%; /* 25.6px */
+}

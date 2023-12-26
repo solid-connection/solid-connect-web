@@ -1,5 +1,7 @@
+import TopNavigation from "./top-navigation";
 import BottomNavigation from "./bottom-navigation";
 import classes from "./layout.module.css";
+import TopDetailNavigation from "./top-detail-navigation";
 
 function Layout(props) {
   return (

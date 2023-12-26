@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import CollegeList from "../../components/college/college-list";
 import CollegeSearch from "@/components/college/college-search";
 import CollegeFilter from "@/components/college/college-filter";
+import TopNavigation from "@/components/layout/top-navigation";
 
 export default function CollegePage(props) {
   const router = useRouter();
@@ -39,6 +40,7 @@ export default function CollegePage(props) {
 
   return (
     <Fragment>
+      <TopNavigation />
       <CollegeSearch countries={countries} onSearch={findCollegeHandler} />
       <CollegeFilter />
       <CollegeList colleges={filteredColleges} />
