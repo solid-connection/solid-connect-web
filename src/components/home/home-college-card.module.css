@@ -1,0 +1,25 @@
+.card {
+  position: relative;
+  width: 153px;
+  /* height: 120px; */
+}
+
+.image {
+  width: 153px;
+  height: 120px;
+}
+
+.name {
+  position: absolute;
+  left: 10px;
+  bottom: 9px;
+
+  color: var(--secondary-2, #f2f1df);
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 160%; /* 22.4px */
+  letter-spacing: 0.15px;
+}

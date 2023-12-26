@@ -1,0 +1,31 @@
+.wrapper {
+  margin: 24px 0 0 20px;
+}
+
+.h1 {
+  color: #000;
+  font-family: Pretendard;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.title {
+  margin-bottom: 10px;
+
+  color: #000;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.tm20 {
+  margin-top: 20px;
+}
+
+.tm24 {
+  margin-top: 24px;
+}
