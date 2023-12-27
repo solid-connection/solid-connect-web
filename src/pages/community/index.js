@@ -1,14 +1,16 @@
 import React from "react";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 
-import styles from "./college-map.module.css";
+import styles from "./index.module.css";
 
 const containerStyle = {
   width: "100%",
   height: "204px",
 };
 
-function CollegeMap({ latitude, longitude }) {
+export default function CommunityPage() {
+  const latitude = "37.4275";
+  const longitude = "-122.1697";
   const GOOGLE_MAP_API_KEY = process.env.GOOGLE_MAP_API_KEY;
   const location = {
     lat: parseFloat(latitude),
@@ -16,10 +18,11 @@ function CollegeMap({ latitude, longitude }) {
   };
 
   return (
-    <div className={styles.wrapper}>
+    <div>
       <div>
         embeded map
         <iframe
+          className={styles.map}
           loading="lazy"
           allowfullscreen
           referrerpolicy="no-referrer-when-downgrade"
@@ -36,17 +39,12 @@ function CollegeMap({ latitude, longitude }) {
           alt="map"
         />
       </div>
+      dynamic map
       <LoadScript googleMapsApiKey={GOOGLE_MAP_API_KEY}>
         <GoogleMap mapContainerStyle={containerStyle} center={location} zoom={15}>
           <Marker position={location} />
         </GoogleMap>
       </LoadScript>
-      <div>
-        lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos voluptatum. Quisquam, quos voluptatum. Quisquam, quos voluptatum. Quisquam, quos voluptatum. Quisquam, quos voluptatum. Quisquam, quos voluptatum. Quisquam, quos voluptatum.
-        Quisquam, quos voluptatum. Quisquam, quos voluptatum. Quisquam, quos voluptatum. Quisquam, quos voluptatum. Quisquam, quos voluptatum. Quisquam, quos voluptatum. Quisquam, quos voluptatum. Quisquam, quos voluptatum. Quisquam, quos
-      </div>
     </div>
   );
 }
-
-export default CollegeMap;
