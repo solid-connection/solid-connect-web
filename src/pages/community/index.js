@@ -9,6 +9,7 @@ const containerStyle = {
 };
 
 export default function CommunityPage() {
+  const name = "Stanford University";
   const latitude = "37.4275";
   const longitude = "-122.1697";
   const GOOGLE_MAP_API_KEY = process.env.GOOGLE_MAP_API_KEY;
@@ -17,18 +18,13 @@ export default function CommunityPage() {
     lng: parseFloat(longitude),
   };
 
+  const mapSrc = `https://www.google.com/maps/embed/v1/place?key=${GOOGLE_MAP_API_KEY}&zoom=13&q=${name}`;
+
   return (
     <div>
       <div>
         embeded map
-        <iframe
-          className={styles.map}
-          loading="lazy"
-          allowfullscreen
-          referrerpolicy="no-referrer-when-downgrade"
-          src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA2dItMv0WEk0AKg4DgQipyuk8oR-DZgIg
-    &q=Space+Needle,Seattle+WA"
-        ></iframe>
+        <iframe className={styles.map} loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade" src={mapSrc}></iframe>
       </div>
       <div>
         static map
