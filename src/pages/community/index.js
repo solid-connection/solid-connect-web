@@ -24,7 +24,7 @@ export default function CommunityPage() {
     <div>
       <div>
         embeded map
-        <iframe className={styles.map} loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade" src={mapSrc}></iframe>
+        <iframe className={styles.map} loading="lazy" allowFullScreen referrerPolicy="no-referrer-when-downgrade" src={mapSrc}></iframe>
       </div>
       <div>
         static map
