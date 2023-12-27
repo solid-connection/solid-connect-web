@@ -17,34 +17,11 @@ function CollegeMap({ latitude, longitude }) {
 
   return (
     <div className={styles.wrapper}>
-      <div>
-        embeded map
-        <iframe
-          loading="lazy"
-          allowfullscreen
-          referrerpolicy="no-referrer-when-downgrade"
-          src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA2dItMv0WEk0AKg4DgQipyuk8oR-DZgIg
-    &q=Space+Needle,Seattle+WA"
-        ></iframe>
-      </div>
-      <div>
-        static map
-        <img
-          src={`https://maps.googleapis.com/maps/api/staticmap?center=${latitude},${longitude}&zoom=13&size=600x300&maptype=roadmap
-&markers=color:red%7Clabel:C%7C${latitude},${longitude}
-&key=${GOOGLE_MAP_API_KEY}`}
-          alt="map"
-        />
-      </div>
       <LoadScript googleMapsApiKey={GOOGLE_MAP_API_KEY}>
         <GoogleMap mapContainerStyle={containerStyle} center={location} zoom={15}>
           <Marker position={location} />
         </GoogleMap>
       </LoadScript>
-      <div>
-        lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos voluptatum. Quisquam, quos voluptatum. Quisquam, quos voluptatum. Quisquam, quos voluptatum. Quisquam, quos voluptatum. Quisquam, quos voluptatum. Quisquam, quos voluptatum.
-        Quisquam, quos voluptatum. Quisquam, quos voluptatum. Quisquam, quos voluptatum. Quisquam, quos voluptatum. Quisquam, quos voluptatum. Quisquam, quos voluptatum. Quisquam, quos voluptatum. Quisquam, quos voluptatum. Quisquam, quos
-      </div>
     </div>
   );
 }
