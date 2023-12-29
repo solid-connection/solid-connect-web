@@ -4,6 +4,7 @@ import Link from "next/link";
 import HomeCollegeCards from "./home-college-cards";
 import styles from "./home.module.css";
 import CheveronRightFilled from "../ui/icon/ChevronRightFilled";
+import MentoCard from "./mento-card";
 
 export default function Home(props) {
   const colleges = [
@@ -14,6 +15,15 @@ export default function Home(props) {
     { uuid: 5, name: "워터루 대학교", image: "/images/catolic.png" },
     { uuid: 6, name: "웨스턴 대학교", image: "/images/catolic.png" },
   ];
+
+  const testMentoData = {
+    mentoId: 1,
+    image: "/images/rabbit.png",
+    name: "김솔커",
+    country: "스웨덴",
+    university: "보라스 대학교",
+    period: "2024년 1학기 ~ 2024년 2학기",
+  };
 
   return (
     <div className={styles.wrapper}>
@@ -38,6 +48,7 @@ export default function Home(props) {
 
       <div className={styles.tm24}>
         <div className={styles.title}>활발하게 활동중인 멘토</div>
+        <MentoCard {...testMentoData} />
       </div>
 
       <div className={styles.tm24}>
