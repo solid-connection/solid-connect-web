@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import classes from "./college-card.module.css";
 
-import CheveronRightFilled from "../ui/ChevronRightFilled";
+import CheveronRightFilled from "../ui/icon/ChevronRightFilled";
 
 function CollegeCard(props) {
   const { uuid, name, country, region, requirements } = props;
@@ -21,7 +21,7 @@ function CollegeCard(props) {
           <p className={classes.requirements}>{requirements}</p> {/* 토플 점수 표시 */}
         </div>
         <div className={classes.rightArrow}>
-          <CheveronRightFilled />
+          <CheveronRightFilled color="black" opacity="0.54" />
         </div>
       </div>
     </Link>
