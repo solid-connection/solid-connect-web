@@ -1,10 +1,9 @@
 import styles from "./college-bottomsheet.module.css";
 
-import CollegeMap from "./college-map";
 import CheckCircleFilled from "@/components/ui/icon/CheckCircleFilled";
 import CheckCircleOutlined from "@/components/ui/icon/CheckCircleOutlined";
 import CollegeReviews from "./college-reviews";
-import { Fragment } from "react";
+import GoogleEmbedMap from "@/components/map/google-embed-map";
 
 function CollegeBottomSheet(props) {
   const { id, name, englishName, country, region, url, requirements } = props;
@@ -34,8 +33,12 @@ function CollegeBottomSheet(props) {
           <div className={styles.infoKey}>기숙사 제공 여부</div>
         </div>
       </div>
+
       <div className={styles.subject}>위치</div>
-      <CollegeMap latitude="37.4275" longitude="-122.1697" />
+      <div className={styles.mapWrapper}>
+        <GoogleEmbedMap width="100% - 40px" height="204" className={styles.map} name="Stanford University" />
+      </div>
+
       <div className={styles.subject}>파견 후기</div>
       <CollegeReviews />
     </div>
