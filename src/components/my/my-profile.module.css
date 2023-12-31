@@ -1,0 +1,85 @@
+.profile {
+  padding-top: 48px;
+
+  height: 190px;
+  display: flex;
+  flex-direction: row;
+}
+
+.imageWrapper {
+  margin-left: 20px;
+}
+
+.image {
+  width: 85px;
+  height: 85px;
+  border-radius: 100%;
+}
+
+.info {
+  margin-left: 45px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.name {
+  color: #000;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Abhaya Libre ExtraBold, sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+}
+
+.subInfo {
+  margin-top: 4px;
+
+  display: flex;
+}
+
+.role {
+  color: #717171;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.date {
+  margin-left: 17px;
+  color: #717171;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.college {
+  margin-top: 11px;
+
+  color: #717171;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Pretendard;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.email {
+  margin-top: 8px;
+
+  color: #717171;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Pretendard;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
