@@ -25,16 +25,27 @@ export default function MyStatus(props) {
     <div className={styles.myStatus}>
       <MyProfile {...data} />
 
-      <div className={styles.myStatusBottom}>
+      <div className={styles.scrap}>
         <div className={styles.favoriteBox}>
           <div className={styles.favoriteTitle}>
-            관심 지역
+            스크랩
             <span className={styles.favoriteIcon}>
               <EditFilled />
             </span>
           </div>
-          <div className={styles.favoriteContent}>미선택</div>
+          <div className={styles.favoriteContent}>2개</div>
         </div>
+
+        <div className={styles.favoriteBox}>
+          <div className={styles.favoriteTitle}>
+            관심 멘토
+            <span className={styles.favoriteIcon}>
+              <EditFilled />
+            </span>
+          </div>
+          <div className={styles.favoriteContent}>3명</div>
+        </div>
+
         <div className={styles.favoriteBox}>
           <div className={styles.favoriteTitle}>
             위시학교
