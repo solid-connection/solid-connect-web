@@ -1,12 +1,21 @@
 import { useState, useEffect } from "react";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
-import ScoreSheet from "@/components/score/score-sheet";
 import Tab from "@/components/ui/tab";
 import ScoreSheets from "@/components/score/score-sheets";
 import ButtonTab from "@/components/ui/button-tab";
+import ScoreSearchBar from "@/components/score/score-search-bar";
 
 export default function ScorePage() {
+  const [searchActive, setSearchActive] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const [tempText, setTempText] = useState("하와이 대학교");
+  function handleSearch(event) {
+    event.preventDefault();
+    console.log(searchText);
+    setTempText(searchText);
+  }
+
   const [preference, setPreference] = useState(1);
   const tabChoice = {
     1: "1순위",
@@ -24,7 +33,29 @@ export default function ScorePage() {
 
   const scoreSheets = [
     {
+      key: 1,
       college: "하와이 대학교",
+      scores: [
+        {
+          key: 1,
+          score: 4.5,
+          count: preference,
+        },
+        {
+          key: 2,
+          score: 4.3,
+          count: 880,
+        },
+        {
+          key: 3,
+          score: 4.2,
+          count: 880,
+        },
+      ],
+    },
+    {
+      key: 2,
+      college: tempText,
       scores: [
         {
           key: 1,
@@ -44,26 +75,7 @@ export default function ScorePage() {
       ],
     },
     {
-      college: "하와이 대학교",
-      scores: [
-        {
-          key: 1,
-          score: 4.5,
-          count: 880,
-        },
-        {
-          key: 2,
-          score: 4.3,
-          count: 880,
-        },
-        {
-          key: 3,
-          score: 4.2,
-          count: 880,
-        },
-      ],
-    },
-    {
+      key: 3,
       college: "하와이 대학교",
       scores: [
         {
@@ -85,14 +97,21 @@ export default function ScorePage() {
     },
   ];
 
-  useEffect(() => {}, [preference]);
+  if (searchActive) {
+    return (
+      <>
+        <TopDetailNavigation title="점수 공유 현황" />
+        <ScoreSearchBar text={searchText} setText={setSearchText} handleSearch={handleSearch} />
+      </>
+    );
+  }
+
   return (
     <>
       <TopDetailNavigation title="점수 공유 현황" />
-      <div>검색 바</div>
+      <ScoreSearchBar text={searchText} setText={setSearchText} handleSearch={handleSearch} />
       <Tab choices={tabChoice} choice={preference} setChoice={setPreference} />
       <ButtonTab choices={filterChoice} choice={filter} setChoice={setFilter} />
-      {preference}
       <ScoreSheets sheets={scoreSheets} />
     </>
   );

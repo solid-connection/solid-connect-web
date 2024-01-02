@@ -31,7 +31,7 @@ export default function Home(props) {
 
       <div>해외 학교 알아보기</div>
 
-      <Link className={styles.banner} href="/college">
+      <Link className={styles.banner} href="/score">
         <div className={styles.bannerImageWrapper}>
           <Image className={styles.bannerImage} src="/images/check-grade.jpeg" alt="성적 공유시트 확인하기" width={335} height={54} />
         </div>

@@ -7,7 +7,7 @@ export default function ScoreSheets(props) {
   return (
     <div className={styles.container}>
       {sheets.map((scoreSheet) => (
-        <ScoreSheet {...scoreSheet} />
+        <ScoreSheet {...scoreSheet} key={scoreSheet.key} />
       ))}
     </div>
   );

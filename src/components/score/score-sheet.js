@@ -13,8 +13,8 @@ export default function ScoreSheet(props) {
         </tr>
       </thead>
       {scores.map((score) => (
-        <tbody>
-          <tr key={score.key}>
+        <tbody key={score.key}>
+          <tr>
             <td>{college}</td>
             <td>{score.score}</td>
             <td>{score.count}</td>
