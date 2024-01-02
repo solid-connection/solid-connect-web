@@ -1,16 +1,32 @@
+import { useState } from "react";
+
 import styles from "./college-bottomsheet.module.css";
 
 import CheckCircleFilled from "@/components/ui/icon/CheckCircleFilled";
 import CheckCircleOutlined from "@/components/ui/icon/CheckCircleOutlined";
 import CollegeReviews from "./college-reviews";
 import GoogleEmbedMap from "@/components/map/google-embed-map";
+import ScrollTab from "@/components/ui/scroll-tab";
 
 function CollegeBottomSheet(props) {
   const { id, name, englishName, country, region, url, requirements } = props;
+  const [page, setPage] = useState(1);
+  const pages = {
+    1: "학교정보",
+    2: "어학성적",
+    3: "지원전공",
+    4: "위치",
+    5: "파견후기",
+  };
   return (
     <div className={styles.bottomSheet}>
       <div className={styles.englishTitle}>{englishName}</div>
       <div className={styles.title}>{name}</div>
+
+      <div className={styles.tabWrapper}>
+        <ScrollTab choices={pages} choice={page} setChoice={setPage} />
+      </div>
+
       <div className={styles.infoList}>
         <div className={styles.info}>
           <CheckCircleFilled />

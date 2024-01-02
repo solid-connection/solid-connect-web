@@ -37,6 +37,10 @@
   line-height: normal;
 }
 
+.tabWrapper {
+  margin-top: 16px;
+}
+
 .infoList {
   margin-top: 18px;
   margin-left: 20px;
