@@ -5,6 +5,7 @@ import Tab from "@/components/ui/tab";
 import ScoreSheets from "@/components/score/score-sheets";
 import ButtonTab from "@/components/ui/button-tab";
 import ScoreSearchBar from "@/components/score/score-search-bar";
+import ScoreSearchField from "@/components/score/score-search-field";
 
 export default function ScorePage() {
   const [searchActive, setSearchActive] = useState(false);
@@ -12,9 +13,17 @@ export default function ScorePage() {
   const [tempText, setTempText] = useState("하와이 대학교");
   function handleSearch(event) {
     event.preventDefault();
+
+    // 임시
     console.log(searchText);
     setTempText(searchText);
+
+    setSearchActive(false);
   }
+  function handleSearchClick() {
+    setSearchActive(true);
+  }
+  const keyWords = ["하와이", "보라스", "릴카톨릭", "파리8", "낭트", "헐", "함부르크", "오스트라바"];
 
   const [preference, setPreference] = useState(1);
   const tabChoice = {
@@ -102,6 +111,7 @@ export default function ScorePage() {
       <>
         <TopDetailNavigation title="점수 공유 현황" />
         <ScoreSearchBar text={searchText} setText={setSearchText} handleSearch={handleSearch} />
+        <ScoreSearchField setText={setSearchText} keyWords={keyWords} />
       </>
     );
   }
@@ -109,7 +119,7 @@ export default function ScorePage() {
   return (
     <>
       <TopDetailNavigation title="점수 공유 현황" />
-      <ScoreSearchBar text={searchText} setText={setSearchText} handleSearch={handleSearch} />
+      <ScoreSearchBar onClick={handleSearchClick} text={searchText} setText={setSearchText} handleSearch={handleSearch} />
       <Tab choices={tabChoice} choice={preference} setChoice={setPreference} />
       <ButtonTab choices={filterChoice} choice={filter} setChoice={setFilter} />
       <ScoreSheets sheets={scoreSheets} />

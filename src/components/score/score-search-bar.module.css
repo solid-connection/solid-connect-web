@@ -27,4 +27,6 @@
 .searchButton {
   background-color: white;
   border: 0;
+  padding-right: 11px;
+  cursor: pointer;
 }
