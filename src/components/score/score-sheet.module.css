@@ -1,0 +1,50 @@
+.table tr {
+  height: 40px;
+  padding: 0 14px 0 14px;
+  border: 1px solid #f0f0f0;
+  white-space: nowrap;
+
+  display: flex;
+  align-items: center;
+  gap: 45px;
+}
+
+.table th {
+  background: #fafafa;
+}
+
+.table th {
+  color: #4d4d4d;
+  font-family: Pretendard;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.table tr > th:first-of-type {
+  color: #000;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.table td {
+  color: #4d4d4d;
+  font-family: Pretendard;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.table tr > td:first-of-type {
+  color: #000;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
