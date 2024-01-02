@@ -11,7 +11,8 @@ export default function ScorePage() {
   const [searchActive, setSearchActive] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [tempText, setTempText] = useState("하와이 대학교");
-  function handleSearch(event) {
+
+  function handleSearchBar(event) {
     event.preventDefault();
 
     // 임시
@@ -20,6 +21,16 @@ export default function ScorePage() {
 
     setSearchActive(false);
   }
+  function handleSearchField(keyWord) {
+    setSearchText(keyWord);
+
+    // 임시
+    console.log(keyWord);
+    setTempText(keyWord);
+
+    setSearchActive(false);
+  }
+
   function handleSearchClick() {
     setSearchActive(true);
   }
@@ -110,8 +121,8 @@ export default function ScorePage() {
     return (
       <>
         <TopDetailNavigation title="점수 공유 현황" />
-        <ScoreSearchBar text={searchText} setText={setSearchText} handleSearch={handleSearch} />
-        <ScoreSearchField setText={setSearchText} keyWords={keyWords} />
+        <ScoreSearchBar text={searchText} setText={setSearchText} handleSearch={handleSearchBar} />
+        <ScoreSearchField setText={setSearchText} keyWords={keyWords} handleSearch={handleSearchField} />
       </>
     );
   }
@@ -119,7 +130,7 @@ export default function ScorePage() {
   return (
     <>
       <TopDetailNavigation title="점수 공유 현황" />
-      <ScoreSearchBar onClick={handleSearchClick} text={searchText} setText={setSearchText} handleSearch={handleSearch} />
+      <ScoreSearchBar onClick={handleSearchClick} text={searchText} setText={setSearchText} handleSearch={handleSearchBar} />
       <Tab choices={tabChoice} choice={preference} setChoice={setPreference} />
       <ButtonTab choices={filterChoice} choice={filter} setChoice={setFilter} />
       <ScoreSheets sheets={scoreSheets} />

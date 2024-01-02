@@ -1,10 +1,10 @@
 import styles from "./score-search-field.module.css";
 
 export default function ScoreSearchField(props) {
-  const { setText, keyWords } = props;
+  const { setText, keyWords, handleSearch } = props;
 
   const handleKeywordClick = (keyWord) => {
-    setText(keyWord); // Update the text state with the clicked keyword
+    handleSearch(keyWord);
   };
 
   return (
