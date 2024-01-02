@@ -12,16 +12,16 @@ export default function ScoreSheet(props) {
           <th>우선순위</th>
         </tr>
       </thead>
-      {scores.map((score) => (
-        <tbody key={score.key}>
-          <tr>
+      <tbody>
+        {scores.map((score) => (
+          <tr key={score.key}>
             <td>{college}</td>
             <td>{score.score}</td>
             <td>{score.count}</td>
             <td>우선순위</td>
           </tr>
-        </tbody>
-      ))}
+        ))}
+      </tbody>
     </table>
   );
 }
