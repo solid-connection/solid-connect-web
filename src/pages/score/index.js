@@ -4,7 +4,7 @@ import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import ScoreSheet from "@/components/score/score-sheet";
 import Tab from "@/components/ui/tab";
 import ScoreSheets from "@/components/score/score-sheets";
-import ButtonTab from "@/components/ui/\bbutton-tab";
+import ButtonTab from "@/components/ui/button-tab";
 
 export default function ScorePage() {
   const [preference, setPreference] = useState(1);
