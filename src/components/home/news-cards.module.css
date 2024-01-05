@@ -1,0 +1,5 @@
+.container {
+  overflow-x: auto;
+  display: flex;
+  gap: 8px;
+}

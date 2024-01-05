@@ -1,18 +1,21 @@
 import Image from "next/image";
+import Head from "next/head";
 
+import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import CollegeDetail from "../../components/college/detail/college-detail";
 import CollegeBottomSheet from "../../components/college/detail/college-bottomsheet";
-import { Fragment } from "react";
 import { getCollegeDetailData } from "../api/college/[id]";
-import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 
 export default function CollegeDetailPage(props) {
   return (
-    <Fragment>
+    <>
+      <Head>
+        <title>{props.name}</title>
+      </Head>
       <TopDetailNavigation title={props.name} />
       <CollegeDetail image={props.image} name={props.name} />
       <CollegeBottomSheet {...props} />
-    </Fragment>
+    </>
   );
 }
 

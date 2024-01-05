@@ -5,6 +5,8 @@ import HomeCollegeCards from "./home-college-cards";
 import styles from "./home.module.css";
 import CheveronRightFilled from "../ui/icon/ChevronRightFilled";
 import MentoCard from "./mento-card";
+import NewsCards from "./news-cards";
+import HomeSearch from "./home-search";
 
 export default function Home(props) {
   const colleges = [
@@ -14,6 +16,11 @@ export default function Home(props) {
     { uuid: 4, name: "퀸즈 대학교", image: "/images/catolic.png" },
     { uuid: 5, name: "워터루 대학교", image: "/images/catolic.png" },
     { uuid: 6, name: "웨스턴 대학교", image: "/images/catolic.png" },
+  ];
+
+  const newsList = [
+    { uuid: 1, image: "", title: "2024년도 교환학생을 다녀오며,," },
+    { uuid: 2, image: "", title: "독일의 최고 여행지, 드레스덴을 " },
   ];
 
   const testMentoData = {
@@ -29,7 +36,7 @@ export default function Home(props) {
     <div className={styles.wrapper}>
       <div className={styles.h1}>교환학생의 첫 걸음,</div>
 
-      <div>해외 학교 알아보기</div>
+      <HomeSearch />
 
       <Link className={styles.banner} href="/score">
         <div className={styles.bannerImageWrapper}>
@@ -53,6 +60,7 @@ export default function Home(props) {
 
       <div className={styles.tm24}>
         <div className={styles.title}>솔커 소식지</div>
+        <NewsCards newsList={newsList} />
       </div>
     </div>
   );

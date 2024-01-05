@@ -11,7 +11,7 @@ export default function HomePage() {
   return (
     <div>
       <Head>
-        <title>Home Page</title>
+        <title>솔리드 커넥션</title>
       </Head>
       <TopNavigation />
       <Home />

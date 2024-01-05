@@ -1,0 +1,23 @@
+.card {
+  display: flex;
+  flex-direction: column;
+}
+
+.image {
+  width: 180px;
+  height: 120px;
+}
+
+.title {
+  margin-top: 6px;
+
+  overflow: hidden;
+  color: #000;
+  text-overflow: ellipsis;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  white-space: nowrap;
+}
