@@ -20,7 +20,6 @@ export default function ButtonTab(props) {
         <div
           key={key}
           style={{
-            ...style,
             backgroundColor: isActive ? color.activeBtn : color.deactiveBtn,
             color: isActive ? color.activeBtnFont : color.deactiveBtnFont,
           }}
@@ -34,7 +33,7 @@ export default function ButtonTab(props) {
   }
 
   return (
-    <div className={styles.tabContainer} style={{ backgroundColor: color.background }}>
+    <div className={styles.tabContainer} style={{ ...style, backgroundColor: color.background }}>
       {renderTabButtons()}
     </div>
   );

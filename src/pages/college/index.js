@@ -33,7 +33,7 @@ export default function CollegePage(props) {
     <>
       <TopNavigation />
       <CollegeSearch searchHandler={findCollegeHandler} text={searchText} setText={setSearchText} />
-      <ButtonTab choices={filters} choice={filter} setChoice={setFilter} color={{ deactiveBtn: "#D9D9D9" }} style={{ marginTop: "14px" }} />
+      <ButtonTab choices={filters} choice={filter} setChoice={setFilter} color={{ deactiveBtn: "#D9D9D9" }} style={{ marginTop: "14px", marginLeft: "18px" }} />
       <CollegeList colleges={filteredColleges} />
     </>
   );

@@ -1,0 +1,36 @@
+.searchContainer {
+  margin-top: 10px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.searchContainer > div {
+  height: 50px;
+
+  display: flex;
+  align-items: center;
+}
+
+.search {
+}
+
+.searchButton {
+  height: 44px;
+  width: 100%;
+  background-color: var(--primary-1, #6f90d1);
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+
+  color: #fff;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
