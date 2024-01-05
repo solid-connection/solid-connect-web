@@ -2,7 +2,7 @@ import styles from "./college-list.module.css";
 
 import CollegeCard from "./college-card";
 
-function CollegeList(props) {
+export default function CollegeList(props) {
   const { colleges } = props;
   return (
     <div className={styles.container}>
@@ -12,5 +12,3 @@ function CollegeList(props) {
     </div>
   );
 }
-
-export default CollegeList;

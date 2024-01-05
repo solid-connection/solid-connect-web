@@ -121,8 +121,8 @@ export default function ScorePage() {
     return (
       <>
         <TopDetailNavigation title="점수 공유 현황" />
-        <ScoreSearchBar text={searchText} setText={setSearchText} handleSearch={handleSearchBar} />
-        <ScoreSearchField setText={setSearchText} keyWords={keyWords} handleSearch={handleSearchField} />
+        <ScoreSearchBar text={searchText} setText={setSearchText} searchHandler={handleSearchBar} />
+        <ScoreSearchField setText={setSearchText} keyWords={keyWords} searchHandler={handleSearchField} />
       </>
     );
   }
@@ -130,9 +130,9 @@ export default function ScorePage() {
   return (
     <>
       <TopDetailNavigation title="점수 공유 현황" />
-      <ScoreSearchBar onClick={handleSearchClick} text={searchText} setText={setSearchText} handleSearch={handleSearchBar} />
+      <ScoreSearchBar onClick={handleSearchClick} text={searchText} setText={setSearchText} searchHandler={handleSearchBar} />
       <Tab choices={tabChoice} choice={preference} setChoice={setPreference} />
-      <ButtonTab choices={filterChoice} choice={filter} setChoice={setFilter} />
+      <ButtonTab choices={filterChoice} choice={filter} setChoice={setFilter} color={{ activeBtn: "#6f90d1", deactiveBtn: "#fff", activeBtnFont: "#fff", deactiveBtnFont: "#000", background: "fafafa" }} style={{ margin: "10px 0 10px 0 " }} />
       <ScoreSheets sheets={scoreSheets} />
     </>
   );

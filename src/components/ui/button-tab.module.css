@@ -5,8 +5,6 @@
   flex-direction: row;
   gap: 8px;
 
-  background: #fafafa;
-
   font-feature-settings: "clig" off, "liga" off;
   font-family: Pretendard;
   font-size: 14px;
@@ -19,28 +17,10 @@
 }
 
 .tabButton {
-  margin: 10px 0 10px 0;
-
   display: flex;
   padding: 5px 12px;
   justify-content: center;
   align-items: center;
 
   border-radius: 100px;
-  background: #fff;
-
-  color: #000;
-}
-.tabButtonActive {
-  margin: 10px 0 10px 0;
-
-  display: flex;
-  padding: 5px 12px;
-  justify-content: center;
-  align-items: center;
-
-  border-radius: 100px;
-  background: var(--primary-1, #6f90d1);
-
-  color: #fff;
 }

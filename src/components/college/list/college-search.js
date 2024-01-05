@@ -1,8 +1,10 @@
-import SearchFilled from "../ui/icon/SearchFilled";
-import styles from "./score-search-bar.module.css";
+import { useState } from "react";
 
-export default function ScoreSearchBar(props) {
-  const { onClick, text, setText, searchHandler } = props;
+import styles from "./college-search.module.css";
+import SearchFilled from "@/components/ui/icon/SearchFilled";
+
+export default function CollegeSearch(props) {
+  const { onClick, searchHandler, text, setText } = props;
 
   return (
     <>

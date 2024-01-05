@@ -1,9 +1,9 @@
-import classes from "./college-filter.module.css";
+import styles from "./college-filter-old.module.css";
 
 function CollegeFilter() {
   return (
-    <div className={classes.wrapper}>
-      <select className={classes.select}>
+    <div className={styles.wrapper}>
+      <select className={styles.select}>
         <option value="all">필터</option>
         <option value="">필터2</option>
         <option value="">필터3</option>
