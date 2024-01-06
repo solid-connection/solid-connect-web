@@ -35,7 +35,7 @@ export default function CollegeBottomSheet(props) {
           }
         });
       },
-      { threshold: 1, rootMargin: "-40% 0px -40% 0px" }
+      { threshold: 0.3, rootMargin: "-103px 0px -60% 0px" }
     );
 
     sectionRefs.forEach((ref) => {
