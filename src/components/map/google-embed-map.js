@@ -14,5 +14,5 @@ export default function GoogleEmbedMap(props) {
   } else {
     return <div>지도를 불러올 수 없습니다.</div>;
   }
-  return <iframe className={props.className} width={width} height={height} loading="lazy" allowFullScreen referrerPolicy="no-referrer-when-downgrade" src={mapSrc} />;
+  return <iframe style={props.style} width={width} height={height} loading="lazy" allowFullScreen referrerPolicy="no-referrer-when-downgrade" src={mapSrc} />;
 }

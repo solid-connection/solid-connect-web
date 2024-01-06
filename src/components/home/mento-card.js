@@ -14,7 +14,7 @@ export default function MentoCard(props) {
         <Image className={styles.image} src={image} alt={name} width={100} height={100} />
       </div>
       <div className={styles.contentWrapper}>
-        <div classname={styles.content}>
+        <div className={styles.content}>
           <div className={styles.contentName}>
             <b>멘토</b> {name}
           </div>

@@ -1,5 +1,4 @@
 .tabContainer {
-  width: calc(100% - 18px);
   display: flex;
   flex-direction: row;
 

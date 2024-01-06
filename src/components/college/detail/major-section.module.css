@@ -1,0 +1,38 @@
+.section {
+  margin: 10px 20px 0 20px;
+}
+
+.section p {
+  margin-top: 8px;
+
+  color: #000;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%; /* 21px */
+}
+
+.title {
+  display: block;
+  margin-top: 24px; /* 임시 */
+
+  color: #000;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.content {
+  display: block;
+  margin-top: 10px;
+
+  color: #000;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%; /* 21px */
+}
