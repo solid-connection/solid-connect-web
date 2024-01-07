@@ -9,6 +9,7 @@ import GoogleEmbedMap from "@/components/map/google-embed-map";
 import ScrollTab from "@/components/ui/scroll-tab";
 import LanguageSection from "./language-section";
 import MajorSection from "./major-section";
+import InfoSection from "./info-secition";
 
 export default function CollegeBottomSheet(props) {
   const { id, name, englishName, country, region, url, requirements } = props;
@@ -66,48 +67,32 @@ export default function CollegeBottomSheet(props) {
 
         <ScrollTab choices={pages} choice={activeTab} setChoice={handleTabClick} style={{ marginTop: "16px", position: "sticky", top: "56px" }} />
 
+        {/* 학교정보 */}
         <div className={styles.scrollOffset} ref={sectionRefs[0]}>
-          <div className={styles.infoList}>
-            <div className={styles.info}>
-              <CheckCircleFilled />
-              <div className={styles.infoKey}>
-                {country} {region}
-              </div>
-            </div>
-            <div className={styles.info}>
-              <CheckCircleOutlined />
-              <div className={styles.infoKey}>어학점수</div>
-              <div className={styles.infoValue}>토익 800 토플 100 아이엘츠 6.5 기타 어학</div>
-            </div>
-            <div className={styles.info}>
-              <CheckCircleOutlined />
-              <div className={styles.infoKey}>세부영역</div>
-              <div className={styles.infoValue}>아이엘츠 영역별 점수 5.5 이상</div>
-            </div>
-            <div className={styles.info}>
-              <CheckCircleOutlined />
-              <div className={styles.infoKey}>기숙사 제공 여부</div>
-            </div>
-          </div>
+          <InfoSection country={country} region={region} />
         </div>
 
+        {/* 어학성적 */}
         <div className={styles.scrollOffset} ref={sectionRefs[1]}>
           {/* <div className={styles.subject}>어학 성적</div> */}
           <LanguageSection />
         </div>
 
+        {/* 지원전공 */}
         <div className={styles.scrollOffset} ref={sectionRefs[2]}>
           {/* <div className={styles.subject}>지원 전공</div> */}
           <MajorSection />
         </div>
 
+        {/* 위치 */}
         <div className={styles.scrollOffset} ref={sectionRefs[3]}>
           <div className={styles.subject}>위치</div>
           <div className={styles.mapWrapper}>
-            <GoogleEmbedMap width="100% - 40px" height="204" style={{ border: 0 }} name="Stanford University" />
+            <GoogleEmbedMap width="100% - 40px" height="204" style={{ border: 0 }} name={englishName} />
           </div>
         </div>
 
+        {/* 파견후기 */}
         <div className={styles.scrollOffset} ref={sectionRefs[4]}>
           <div className={styles.subject}>파견 후기</div>
           <CollegeReviews />

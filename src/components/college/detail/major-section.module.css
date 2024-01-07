@@ -2,15 +2,38 @@
   margin: 10px 20px 0 20px;
 }
 
-.section p {
-  margin-top: 8px;
+/* info */
+.infoList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.info {
+  display: flex;
+  flex-direction: row;
+}
+
+.key {
+  margin-left: 22px;
+
+  width: 116px;
 
   color: #000;
   font-family: Pretendard;
   font-size: 14px;
   font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.value {
+  color: #000;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
   font-weight: 400;
-  line-height: 150%; /* 21px */
+  line-height: normal;
 }
 
 .title {
