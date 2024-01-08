@@ -6,6 +6,8 @@
   max-width: 600px;
   height: 56px;
 
+  z-index: 100;
+
   background-color: var(--primary-1, #6f90d1);
 
   /* Elevation/2 */
