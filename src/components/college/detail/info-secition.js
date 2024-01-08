@@ -3,7 +3,7 @@ import CheckCircleFilled from "@/components/ui/icon/CheckCircleFilled";
 import CheckCircleOutlined from "@/components/ui/icon/CheckCircleOutlined";
 
 export default function InfoSection(props) {
-  const { country, region } = props;
+  const { country, region, homepageUrl } = props;
   return (
     <div className={styles.infoList}>
       <div className={styles.info}>
@@ -14,8 +14,8 @@ export default function InfoSection(props) {
       </div>
       <div className={styles.info}>
         <CheckCircleOutlined />
-        <div className={styles.key}>어학점수</div>
-        <div className={styles.value}>토익 800 토플 100 아이엘츠 6.5 기타 어학</div>
+        <div className={styles.key}>홈페이지</div>
+        <div className={styles.value}>{homepageUrl}</div>
       </div>
       <div className={styles.info}>
         <CheckCircleOutlined />

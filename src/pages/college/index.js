@@ -5,6 +5,7 @@ import CollegeList from "../../components/college/list/college-list";
 import CollegeSearch from "@/components/college/list/college-search";
 import TopNavigation from "@/components/layout/top-navigation";
 import ButtonTab from "@/components/ui/button-tab";
+import { getCollegeListData } from "../api/college";
 
 export default function CollegePage(props) {
   const router = useRouter();
@@ -39,29 +40,17 @@ export default function CollegePage(props) {
   );
 }
 
-export function getServerSideProps(context) {
+export async function getServerSideProps(context) {
   const { query } = context;
   const { country, region, text } = query;
-  const colleges = getCollegeList(country, region, text);
-
-  const countries = [
-    { id: 1, name: "Canada", regions: ["Ontario", "Quebec", "British Columbia"] },
-    { id: 2, name: "United States", regions: ["New York", "California", "Texas"] },
-  ];
+  const colleges = await getCollegeList(country, region, text);
 
   return {
-    props: { colleges: colleges, countries: countries },
+    props: { colleges: colleges },
   };
 }
 
 function getCollegeList(country, region, text) {
-  let colleges = [
-    { uuid: 1, name: "보라스 대학교", country: "스웨덴", region: "예톄보리", requirements: [{ TOEIC: 775 }, { TOEFL: 90 }, { IELTS: 6.5 }], capacity: 3 },
-    { uuid: 2, name: "보라스 대학교", country: "스웨덴", region: "예톄보리", requirements: [{ TOEIC: 775 }, { TOEFL: 90 }], capacity: 5 },
-    { uuid: 2, name: "보라스 대학교", country: "스웨덴", region: "예톄보리", requirements: [{ TOEIC: 775 }], capacity: 5 },
-  ];
-  if (text) {
-    colleges.push({ uuid: 3, name: "보라스 대학교", country: "스웨덴", region: "예톄보리", requirements: "토익 775 토플 90" });
-  }
+  const colleges = getCollegeListData();
   return colleges;
 }

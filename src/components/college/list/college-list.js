@@ -6,8 +6,8 @@ export default function CollegeList(props) {
   const { colleges } = props;
   return (
     <div className={styles.container}>
-      {colleges.map((univ) => (
-        <CollegeCard key={univ.uuid} {...univ} />
+      {colleges.map((college) => (
+        <CollegeCard key={college.id} {...college} />
       ))}
     </div>
   );

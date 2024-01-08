@@ -1,13 +1,17 @@
 import styles from "./language-section.module.css";
 
 export default function LanguageSection(props) {
+  const { languageRequirements } = props;
   return (
     <>
       <div className={styles.bar}>
-        <div>TOEIC 870</div>
-        <div>ILETS 6.5</div>
-        <div>ILETS 6.5</div>
-        <div>TOEFLE ITP 550</div>
+        {languageRequirements.ibt && <div>TOEFL IBT {languageRequirements.ibt}</div>}
+        {languageRequirements.itp && <div>TOEFL ITP {languageRequirements.itp}</div>}
+        {languageRequirements.toeic && <div>TOEIC {languageRequirements.toeic}</div>}
+        {languageRequirements.ielts && <div>IELTS {languageRequirements.ielts}</div>}
+        {languageRequirements.hsk && <div>신HSK {languageRequirements.hsk}</div>}
+        {languageRequirements.jlpt && <div>JLPT {languageRequirements.jlpt}</div>}
+        {languageRequirements.etc && <div>{languageRequirements.etc}</div>}
       </div>
       <div className={styles.section}>
         <div className={styles.title} style={{ marginTop: "16px" }}>

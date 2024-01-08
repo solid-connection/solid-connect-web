@@ -12,7 +12,7 @@ import MajorSection from "./major-section";
 import InfoSection from "./info-secition";
 
 export default function CollegeBottomSheet(props) {
-  const { id, name, englishName, country, region, url, requirements } = props;
+  const { id, name, englishName, country, region, homepageUrl, image, studentCapacity, tuitionFeeType, gpaRequirement, semesterRequirement, languageRequirements } = props;
 
   const pages = {
     1: "학교정보",
@@ -69,13 +69,13 @@ export default function CollegeBottomSheet(props) {
 
         {/* 학교정보 */}
         <div className={styles.scrollOffset} ref={sectionRefs[0]}>
-          <InfoSection country={country} region={region} />
+          <InfoSection country={country} region={region} homepageUrl={homepageUrl} />
         </div>
 
         {/* 어학성적 */}
         <div className={styles.scrollOffset} ref={sectionRefs[1]}>
           {/* <div className={styles.subject}>어학 성적</div> */}
-          <LanguageSection />
+          <LanguageSection languageRequirements={languageRequirements} />
         </div>
 
         {/* 지원전공 */}

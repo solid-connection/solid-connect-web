@@ -5,10 +5,10 @@ import styles from "./college-card.module.css";
 import CheveronRightFilled from "../../ui/icon/ChevronRightFilled";
 
 export default function CollegeCard(props) {
-  const { uuid, name, country, region, requirements, capacity } = props;
+  const { id, name, country, region, languageRequirements, studentCapacity } = props;
 
   return (
-    <Link className={styles.link} href={`/college/${uuid}`}>
+    <Link className={styles.link} href={`/college/${id}`}>
       <div className={styles.card}>
         <div className={styles.flex}>
           <div className={styles.centerAlign}>
@@ -20,18 +20,14 @@ export default function CollegeCard(props) {
               <span className={styles.country}>
                 {country} | {region}
               </span>
-              <span className={styles.capacity}>모집 {capacity}명</span>
+              <span className={styles.capacity}>모집 {studentCapacity}명</span>
             </div>
             <div className={styles.requirements}>
-              {requirements.map((requirement) => {
-                const key = Object.keys(requirement)[0];
-                const value = requirement[key];
-                return (
-                  <span className={styles.requirement}>
-                    {key} {value}
-                  </span>
-                );
-              })}
+              {Object.entries(languageRequirements).map(([key, value]) => (
+                <span className={styles.requirement}>
+                  {key.toUpperCase()}: {value}
+                </span>
+              ))}
             </div>
           </div>
         </div>
