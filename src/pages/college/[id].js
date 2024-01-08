@@ -7,7 +7,6 @@ import CollegeBottomSheet from "../../components/college/detail/college-bottomsh
 import { getCollegeDetailData } from "../api/college/[id]";
 
 export default function CollegeDetailPage(props) {
-  console.log("props", props);
   return (
     <>
       <Head>
@@ -25,7 +24,6 @@ export async function getServerSideProps(context) {
   const { id } = params;
 
   const college = await getCollegeDetailData(id);
-  console.log(college);
 
   return {
     props: {

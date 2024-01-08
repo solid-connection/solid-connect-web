@@ -10,9 +10,8 @@
   border-radius: 6px;
   border: 1px solid #eaeaea;
 
+  overflow: hidden;
   display: flex;
-  /* align-items: center; */
-  justify-content: space-between;
 }
 
 .flex {
@@ -51,6 +50,7 @@
 
 .name {
   margin-top: 18px;
+  /* overflow: hidden; */
 
   color: #000;
   font-feature-settings: "clig" off, "liga" off;
@@ -100,10 +100,13 @@
   font-weight: 600;
   line-height: 150%; /* 18px */
   letter-spacing: 0.15px;
+  white-space: nowrap;
 }
 
 .rightArrowIcon {
-  margin-right: 9.77px;
+  position: absolute;
+  top: 38px;
+  right: 9.77px;
 
   width: 24px;
   height: 24px;

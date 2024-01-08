@@ -1,5 +1,4 @@
 import styles from "./college-list.module.css";
-
 import CollegeCard from "./college-card";
 
 export default function CollegeList(props) {
