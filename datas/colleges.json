@@ -10,7 +10,12 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2.5",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "61", "itp": "500", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "61",
+      "itp": "500",
+      "ielts": "5.5"
+    },
+    "formatName": "university_of_guam"
   },
   {
     "id": 2,
@@ -23,7 +28,12 @@
     "tuitionFeeType": "해외대학등록금납부형",
     "gpaRequirement": "2.5",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "61", "itp": "500", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "61",
+      "itp": "500",
+      "ielts": "5.5"
+    },
+    "formatName": "university_of_guam"
   },
   {
     "id": 3,
@@ -36,7 +46,13 @@
     "tuitionFeeType": "해외대학등록금납부형",
     "gpaRequirement": "2.5",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "61", "itp": "500", "toeic": "650", "ielts": "6" }
+    "languageRequirements": {
+      "ibt": "61",
+      "itp": "500",
+      "toeic": "650",
+      "ielts": "6"
+    },
+    "formatName": "university_of_nevada_las_vegas"
   },
   {
     "id": 4,
@@ -49,7 +65,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "3",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "80", "itp": "550", "toeic": "800", "ielts": "6.5" }
+    "languageRequirements": {
+      "ibt": "80",
+      "itp": "550",
+      "toeic": "800",
+      "ielts": "6.5"
+    },
+    "formatName": "university_of_nevada_las_vegas"
   },
   {
     "id": 5,
@@ -62,7 +84,12 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2.5",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "61", "itp": "530", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "61",
+      "itp": "530",
+      "ielts": "5.5"
+    },
+    "formatName": "university_of_nebraska_at_kearney"
   },
   {
     "id": 6,
@@ -75,7 +102,12 @@
     "tuitionFeeType": "해외대학등록금납부형",
     "gpaRequirement": "2.5",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "61", "itp": "530", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "61",
+      "itp": "530",
+      "ielts": "5.5"
+    },
+    "formatName": "university_of_nebraska_at_kearney"
   },
   {
     "id": 7,
@@ -88,7 +120,11 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2.75",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "79", "ielts": "6.5" }
+    "languageRequirements": {
+      "ibt": "79",
+      "ielts": "6.5"
+    },
+    "formatName": "north_park_university"
   },
   {
     "id": 8,
@@ -101,7 +137,11 @@
     "tuitionFeeType": "해외대학등록금납부형",
     "gpaRequirement": "2.75",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "79", "ielts": "6.5" }
+    "languageRequirements": {
+      "ibt": "79",
+      "ielts": "6.5"
+    },
+    "formatName": "north_park_university"
   },
   {
     "id": 9,
@@ -114,7 +154,11 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "3",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "79", "ielts": "6" }
+    "languageRequirements": {
+      "ibt": "79",
+      "ielts": "6"
+    },
+    "formatName": "suny_esf"
   },
   {
     "id": 10,
@@ -127,7 +171,11 @@
     "tuitionFeeType": "해외대학등록금납부형",
     "gpaRequirement": "3",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "79", "ielts": "6" }
+    "languageRequirements": {
+      "ibt": "79",
+      "ielts": "6"
+    },
+    "formatName": "suny_esf"
   },
   {
     "id": 11,
@@ -140,7 +188,12 @@
     "tuitionFeeType": "해외대학등록금납부형",
     "gpaRequirement": "2.75",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "80", "toeic": "850", "ielts": "6.5" }
+    "languageRequirements": {
+      "ibt": "80",
+      "toeic": "850",
+      "ielts": "6.5"
+    },
+    "formatName": "stony_brook_university"
   },
   {
     "id": 12,
@@ -153,7 +206,11 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2.5",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "69", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "69",
+      "ielts": "5.5"
+    },
+    "formatName": "new_jersey_city_univeristy"
   },
   {
     "id": 13,
@@ -166,7 +223,11 @@
     "tuitionFeeType": "해외대학등록금납부형",
     "gpaRequirement": "2.5",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "69", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "69",
+      "ielts": "5.5"
+    },
+    "formatName": "new_jersey_city_univeristy"
   },
   {
     "id": 14,
@@ -179,7 +240,11 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "61", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "61",
+      "ielts": "5.5"
+    },
+    "formatName": "arkansas_state_university"
   },
   {
     "id": 15,
@@ -192,7 +257,11 @@
     "tuitionFeeType": "해외대학등록금납부형",
     "gpaRequirement": "2",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "61", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "61",
+      "ielts": "5.5"
+    },
+    "formatName": "arkansas_state_university"
   },
   {
     "id": 16,
@@ -205,7 +274,11 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2.5",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "69", "ielts": "6" }
+    "languageRequirements": {
+      "ibt": "69",
+      "ielts": "6"
+    },
+    "formatName": "angelo_state_university"
   },
   {
     "id": 17,
@@ -218,7 +291,13 @@
     "tuitionFeeType": "해외대학등록금납부형",
     "gpaRequirement": "2.5",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "69", "itp": "550", "toeic": "800", "ielts": "6" }
+    "languageRequirements": {
+      "ibt": "69",
+      "itp": "550",
+      "toeic": "800",
+      "ielts": "6"
+    },
+    "formatName": "angelo_state_university"
   },
   {
     "id": 18,
@@ -231,7 +310,11 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "3",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "75", "ielts": "6" }
+    "languageRequirements": {
+      "ibt": "75",
+      "ielts": "6"
+    },
+    "formatName": "the_university_of_alabama_in_huntsville"
   },
   {
     "id": 19,
@@ -244,7 +327,11 @@
     "tuitionFeeType": "해외대학등록금납부형",
     "gpaRequirement": "3",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "75", "ielts": "6" }
+    "languageRequirements": {
+      "ibt": "75",
+      "ielts": "6"
+    },
+    "formatName": "the_university_of_alabama_in_huntsville"
   },
   {
     "id": 20,
@@ -257,7 +344,11 @@
     "tuitionFeeType": "해외대학등록금납부형",
     "gpaRequirement": "3.25",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "80", "ielts": "6.5" }
+    "languageRequirements": {
+      "ibt": "80",
+      "ielts": "6.5"
+    },
+    "formatName": "illinois_institute_of_technology"
   },
   {
     "id": 21,
@@ -270,7 +361,11 @@
     "tuitionFeeType": "해외대학등록금납부형",
     "gpaRequirement": "3.25",
     "semesterRequirement": "4",
-    "languageRequirements": { "ibt": "90", "ielts": "6.5" }
+    "languageRequirements": {
+      "ibt": "90",
+      "ielts": "6.5"
+    },
+    "formatName": "illinois_institute_of_technology"
   },
   {
     "id": 22,
@@ -283,12 +378,16 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "3",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "80", "ielts": "6.5" }
+    "languageRequirements": {
+      "ibt": "80",
+      "ielts": "6.5"
+    },
+    "formatName": "taylor_university"
   },
   {
     "id": 23,
     "name": "템플대학(혼합형)",
-    "englishName": "toeicle University",
+    "englishName": "Temple University",
     "region": "미주권",
     "country": "미국",
     "homepageUrl": "http://globalprograms.toeicle.edu/",
@@ -296,7 +395,12 @@
     "tuitionFeeType": "혼합형",
     "gpaRequirement": "3",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "79", "itp": "550", "ielts": "6" }
+    "languageRequirements": {
+      "ibt": "79",
+      "itp": "550",
+      "ielts": "6"
+    },
+    "formatName": "temple_university"
   },
   {
     "id": 24,
@@ -309,7 +413,11 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2.5",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "61", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "61",
+      "ielts": "5.5"
+    },
+    "formatName": "troy_university"
   },
   {
     "id": 25,
@@ -322,7 +430,11 @@
     "tuitionFeeType": "해외대학등록금납부형",
     "gpaRequirement": "2.5",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "61", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "61",
+      "ielts": "5.5"
+    },
+    "formatName": "troy_university"
   },
   {
     "id": 26,
@@ -335,7 +447,12 @@
     "tuitionFeeType": "해외대학등록금납부형",
     "gpaRequirement": "2.5",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "68", "itp": "520", "ielts": "6" }
+    "languageRequirements": {
+      "ibt": "68",
+      "itp": "520",
+      "ielts": "6"
+    },
+    "formatName": "university_of_hawaii_at_manoa"
   },
   {
     "id": 27,
@@ -348,7 +465,12 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "72", "itp": "550", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "72",
+      "itp": "550",
+      "ielts": "5.5"
+    },
+    "formatName": "pontificia_universidade_catolica_de_minas_gerais"
   },
   {
     "id": 28,
@@ -361,7 +483,12 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "72", "itp": "550", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "72",
+      "itp": "550",
+      "ielts": "5.5"
+    },
+    "formatName": "university_of_fortaleza"
   },
   {
     "id": 29,
@@ -374,7 +501,11 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2.5",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "83", "ielts": "6.5" }
+    "languageRequirements": {
+      "ibt": "83",
+      "ielts": "6.5"
+    },
+    "formatName": "university_of_regina"
   },
   {
     "id": 30,
@@ -387,7 +518,11 @@
     "tuitionFeeType": "해외대학등록금납부형",
     "gpaRequirement": "2.5",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "83", "ielts": "6.5" }
+    "languageRequirements": {
+      "ibt": "83",
+      "ielts": "6.5"
+    },
+    "formatName": "university_of_regina"
   },
   {
     "id": 31,
@@ -400,7 +535,11 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2.5",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "79", "ielts": "6.5" }
+    "languageRequirements": {
+      "ibt": "79",
+      "ielts": "6.5"
+    },
+    "formatName": "memorial_university_of_newfoundland_st_johns"
   },
   {
     "id": 32,
@@ -413,7 +552,11 @@
     "tuitionFeeType": "해외대학등록금납부형",
     "gpaRequirement": "2.5",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "79", "ielts": "6.5" }
+    "languageRequirements": {
+      "ibt": "79",
+      "ielts": "6.5"
+    },
+    "formatName": "memorial_university_of_newfoundland_st_johns"
   },
   {
     "id": 33,
@@ -426,7 +569,13 @@
     "tuitionFeeType": "해외대학등록금납부형",
     "gpaRequirement": "2.5",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "40", "itp": "440", "toeic": "500", "ielts": "4.5" }
+    "languageRequirements": {
+      "ibt": "40",
+      "itp": "440",
+      "toeic": "500",
+      "ielts": "4.5"
+    },
+    "formatName": "memorial_university_of_newfoundland_grenfell_campus"
   },
   {
     "id": 34,
@@ -439,7 +588,11 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "60", "ielts": "6" }
+    "languageRequirements": {
+      "ibt": "60",
+      "ielts": "6"
+    },
+    "formatName": "rmit_university"
   },
   {
     "id": 35,
@@ -452,7 +605,10 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "4",
     "semesterRequirement": "2",
-    "languageRequirements": { "ielts": "6" }
+    "languageRequirements": {
+      "ielts": "6"
+    },
+    "formatName": "university_of_southern_queensland"
   },
   {
     "id": 36,
@@ -465,7 +621,10 @@
     "tuitionFeeType": "해외대학등록금납부형",
     "gpaRequirement": "4",
     "semesterRequirement": "2",
-    "languageRequirements": { "ielts": "6" }
+    "languageRequirements": {
+      "ielts": "6"
+    },
+    "formatName": "university_of_southern_queensland"
   },
   {
     "id": 37,
@@ -478,7 +637,11 @@
     "tuitionFeeType": "해외대학등록금납부형",
     "gpaRequirement": "3",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "85", "ielts": "6.5" }
+    "languageRequirements": {
+      "ibt": "85",
+      "ielts": "6.5"
+    },
+    "formatName": "university_of_sydney"
   },
   {
     "id": 38,
@@ -491,7 +654,11 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2.75",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "68", "ielts": "6" }
+    "languageRequirements": {
+      "ibt": "68",
+      "ielts": "6"
+    },
+    "formatName": "curtin_university"
   },
   {
     "id": 39,
@@ -504,7 +671,11 @@
     "tuitionFeeType": "해외대학등록금납부형",
     "gpaRequirement": "2.75",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "68", "ielts": "6" }
+    "languageRequirements": {
+      "ibt": "68",
+      "ielts": "6"
+    },
+    "formatName": "curtin_university"
   },
   {
     "id": 40,
@@ -517,7 +688,11 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "80", "ielts": "6" }
+    "languageRequirements": {
+      "ibt": "80",
+      "ielts": "6"
+    },
+    "formatName": "university_of_groningen"
   },
   {
     "id": 41,
@@ -530,7 +705,12 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "3",
-    "languageRequirements": { "ibt": "80", "toeic": "870", "ielts": "6" }
+    "languageRequirements": {
+      "ibt": "80",
+      "toeic": "870",
+      "ielts": "6"
+    },
+    "formatName": "saxion_university_of_applied_sciences"
   },
   {
     "id": 42,
@@ -543,7 +723,11 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "80", "ielts": "6" }
+    "languageRequirements": {
+      "ibt": "80",
+      "ielts": "6"
+    },
+    "formatName": "fontys_university_of_applied_sciences"
   },
   {
     "id": 43,
@@ -556,7 +740,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "72", "itp": "543", "toeic": "785", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "72",
+      "itp": "543",
+      "toeic": "785",
+      "ielts": "5.5"
+    },
+    "formatName": "bi_norwegian_business_school"
   },
   {
     "id": 44,
@@ -569,7 +759,11 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "4",
-    "languageRequirements": { "ibt": "88", "ielts": "6.5" }
+    "languageRequirements": {
+      "ibt": "88",
+      "ielts": "6.5"
+    },
+    "formatName": "university_of_southern_denmark"
   },
   {
     "id": 45,
@@ -582,7 +776,11 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "88", "ielts": "6.5" }
+    "languageRequirements": {
+      "ibt": "88",
+      "ielts": "6.5"
+    },
+    "formatName": "it_university_of_copenhagen"
   },
   {
     "id": 46,
@@ -595,7 +793,12 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "72", "toeic": "785(S/W 제출)", "ielts": "6" }
+    "languageRequirements": {
+      "ibt": "72",
+      "toeic": "785(S/W 제출)",
+      "ielts": "6"
+    },
+    "formatName": "neu-ulm_university_of_applied_sciences"
   },
   {
     "id": 47,
@@ -608,7 +811,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "72", "itp": "550", "toeic": "785", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "72",
+      "itp": "550",
+      "toeic": "785",
+      "ielts": "5.5"
+    },
+    "formatName": "deggendorf_university_of_applied_sciences"
   },
   {
     "id": 48,
@@ -621,7 +830,12 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "70", "toeic": "785\n(S/W제출)", "ielts": "6" }
+    "languageRequirements": {
+      "ibt": "70",
+      "toeic": "785\n(S/W제출)",
+      "ielts": "6"
+    },
+    "formatName": "rwu_ravensburg_weingarten\n_university_of_applied_sciences"
   },
   {
     "id": 49,
@@ -634,7 +848,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "72", "itp": "550", "toeic": "785", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "72",
+      "itp": "550",
+      "toeic": "785",
+      "ielts": "5.5"
+    },
+    "formatName": "reutlingen_university"
   },
   {
     "id": 50,
@@ -647,7 +867,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "72", "itp": "550", "toeic": "785", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "72",
+      "itp": "550",
+      "toeic": "785",
+      "ielts": "5.5"
+    },
+    "formatName": "ludwigshafen_university_of_business_and_society"
   },
   {
     "id": 51,
@@ -660,7 +886,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2.5",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "79", "itp": "550", "toeic": "765", "ielts": "6" }
+    "languageRequirements": {
+      "ibt": "79",
+      "itp": "550",
+      "toeic": "765",
+      "ielts": "6"
+    },
+    "formatName": "baden-wuerttemberg_cooperative_state_univ(dhbw)"
   },
   {
     "id": 52,
@@ -673,7 +905,12 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "72", "itp": "550", "toeic": "785", "toeic": "5.5" }
+    "languageRequirements": {
+      "ibt": "72",
+      "itp": "550",
+      "toeic": "5.5"
+    },
+    "formatName": "freie_universitat_berlin"
   },
   {
     "id": 53,
@@ -686,7 +923,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2.5",
     "semesterRequirement": "4",
-    "languageRequirements": { "ibt": "72", "itp": "550", "toeic": "785", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "72",
+      "itp": "550",
+      "toeic": "785",
+      "ielts": "5.5"
+    },
+    "formatName": "technical_university_of_applied_sciences_wurzburg-schweinfurt"
   },
   {
     "id": 54,
@@ -699,7 +942,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "72", "itp": "550", "toeic": "785", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "72",
+      "itp": "550",
+      "toeic": "785",
+      "ielts": "5.5"
+    },
+    "formatName": "hochschule_schmalkalden_university_of_applied_sciences"
   },
   {
     "id": 55,
@@ -712,7 +961,11 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "80", "ielts": "6" }
+    "languageRequirements": {
+      "ibt": "80",
+      "ielts": "6"
+    },
+    "formatName": "stuttgart_university_of_applied_sciences"
   },
   {
     "id": 56,
@@ -725,7 +978,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "70", "itp": "500", "toeic": "780", "ielts": "5" }
+    "languageRequirements": {
+      "ibt": "70",
+      "itp": "500",
+      "toeic": "780",
+      "ielts": "5"
+    },
+    "formatName": "university_of_applied_sciences_aschaffenburg"
   },
   {
     "id": 57,
@@ -738,7 +997,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "72", "itp": "550", "toeic": "785", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "72",
+      "itp": "550",
+      "toeic": "785",
+      "ielts": "5.5"
+    },
+    "formatName": "augsburg_university_of_applied_sciences"
   },
   {
     "id": 58,
@@ -751,7 +1016,11 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "3",
-    "languageRequirements": { "toeic": "650", "ielts": "5.5" }
+    "languageRequirements": {
+      "toeic": "650",
+      "ielts": "5.5"
+    },
+    "formatName": "albstadt-sigmaringen_university_of_applied_science"
   },
   {
     "id": 59,
@@ -764,7 +1033,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "72", "itp": "550", "toeic": "785", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "72",
+      "itp": "550",
+      "toeic": "785",
+      "ielts": "5.5"
+    },
+    "formatName": "university_of_erlangen_nuremberg"
   },
   {
     "id": 60,
@@ -777,7 +1052,12 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "3",
     "semesterRequirement": "4",
-    "languageRequirements": { "ibt": "80", "itp": "500", "toeic": "785", "toeic": "5" }
+    "languageRequirements": {
+      "ibt": "80",
+      "itp": "500",
+      "toeic": "5"
+    },
+    "formatName": "otto_von_guericke_university_of_magdeburg"
   },
   {
     "id": 61,
@@ -790,7 +1070,12 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "42", "toeic": "550(S/W 제출)", "ielts": "4" }
+    "languageRequirements": {
+      "ibt": "42",
+      "toeic": "550(S/W 제출)",
+      "ielts": "4"
+    },
+    "formatName": "carl_von_ossietzky_university_of_oldenburg"
   },
   {
     "id": 62,
@@ -803,7 +1088,12 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "90", "itp": "543", "ielts": "6.5" }
+    "languageRequirements": {
+      "ibt": "90",
+      "itp": "543",
+      "ielts": "6.5"
+    },
+    "formatName": "zepplin_university"
   },
   {
     "id": 63,
@@ -816,7 +1106,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "72", "itp": "550", "toeic": "785", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "72",
+      "itp": "550",
+      "toeic": "785",
+      "ielts": "5.5"
+    },
+    "formatName": "chemnitz_university_of_technology"
   },
   {
     "id": 64,
@@ -829,7 +1125,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "72", "itp": "550", "toeic": "785", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "72",
+      "itp": "550",
+      "toeic": "785",
+      "ielts": "5.5"
+    },
+    "formatName": "karlsruhe_university_of_applied_sciences"
   },
   {
     "id": 65,
@@ -842,7 +1144,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "3",
-    "languageRequirements": { "ibt": "72", "itp": "550", "toeic": "785", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "72",
+      "itp": "550",
+      "toeic": "785",
+      "ielts": "5.5"
+    },
+    "formatName": "heilbronn_university_of_applied_sciences"
   },
   {
     "id": 66,
@@ -855,7 +1163,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "72", "itp": "543", "toeic": "785", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "72",
+      "itp": "543",
+      "toeic": "785",
+      "ielts": "5.5"
+    },
+    "formatName": "malmo_university"
   },
   {
     "id": 67,
@@ -868,7 +1182,12 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "4",
-    "languageRequirements": { "ibt": "90", "toeic": "775", "ielts": "6.5" }
+    "languageRequirements": {
+      "ibt": "90",
+      "toeic": "775",
+      "ielts": "6.5"
+    },
+    "formatName": "university_college_of_boras"
   },
   {
     "id": 68,
@@ -881,7 +1200,11 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2.5",
     "semesterRequirement": "3",
-    "languageRequirements": { "ibt": "83", "toeic": "785\n(S/W제출)", "toeic": "5.5" }
+    "languageRequirements": {
+      "ibt": "83",
+      "toeic": "5.5"
+    },
+    "formatName": "zurich_university_of_applied_sciences"
   },
   {
     "id": 69,
@@ -894,7 +1217,11 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2.5",
     "semesterRequirement": "3",
-    "languageRequirements": { "ibt": "80", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "80",
+      "ielts": "5.5"
+    },
+    "formatName": "universidad_de_navarra"
   },
   {
     "id": 70,
@@ -907,7 +1234,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2.7",
     "semesterRequirement": "3",
-    "languageRequirements": { "ibt": "72", "itp": "560", "toeic": "800", "ielts": "5" }
+    "languageRequirements": {
+      "ibt": "72",
+      "itp": "560",
+      "toeic": "800",
+      "ielts": "5"
+    },
+    "formatName": "universidad_carlos_iii_de_madrid"
   },
   {
     "id": 71,
@@ -920,7 +1253,12 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2.5",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "75", "toeic": "800", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "75",
+      "toeic": "800",
+      "ielts": "5.5"
+    },
+    "formatName": "university_of_lleida"
   },
   {
     "id": 72,
@@ -933,7 +1271,11 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "3.5",
     "semesterRequirement": "4",
-    "languageRequirements": { "ibt": "82", "ielts": "6.5" }
+    "languageRequirements": {
+      "ibt": "82",
+      "ielts": "6.5"
+    },
+    "formatName": "university_of_hull"
   },
   {
     "id": 73,
@@ -946,7 +1288,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2.5",
     "semesterRequirement": "3",
-    "languageRequirements": { "ibt": "72", "itp": "530", "toeic": "770", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "72",
+      "itp": "530",
+      "toeic": "770",
+      "ielts": "5.5"
+    },
+    "formatName": "university_of_graz"
   },
   {
     "id": 74,
@@ -959,7 +1307,12 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2.5",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "72", "toeic": "785\n(S/W제출필수)", "ielts": "6" }
+    "languageRequirements": {
+      "ibt": "72",
+      "toeic": "785\n(S/W제출필수)",
+      "ielts": "6"
+    },
+    "formatName": "graz_university_of_technology"
   },
   {
     "id": 75,
@@ -972,7 +1325,12 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "3",
-    "languageRequirements": { "ibt": "80", "toeic": "800", "ielts": "6" }
+    "languageRequirements": {
+      "ibt": "80",
+      "toeic": "800",
+      "ielts": "6"
+    },
+    "formatName": "catholic_private_university_linz"
   },
   {
     "id": 76,
@@ -985,7 +1343,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2.5",
     "semesterRequirement": "3",
-    "languageRequirements": { "ibt": "72", "itp": "560", "toeic": "800", "ielts": "6" }
+    "languageRequirements": {
+      "ibt": "72",
+      "itp": "560",
+      "toeic": "800",
+      "ielts": "6"
+    },
+    "formatName": "university_of_applied_sciences_technikum_wien"
   },
   {
     "id": 77,
@@ -998,7 +1362,11 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2.5",
     "semesterRequirement": "5",
-    "languageRequirements": { "ibt": "84", "ielts": "5" }
+    "languageRequirements": {
+      "ibt": "84",
+      "ielts": "5"
+    },
+    "formatName": "polytechnic_university_of_milan"
   },
   {
     "id": 78,
@@ -1011,7 +1379,12 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2.5",
     "semesterRequirement": "3",
-    "languageRequirements": { "ibt": "77", "toeic": "820", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "77",
+      "toeic": "820",
+      "ielts": "5.5"
+    },
+    "formatName": "university_of_bergamo"
   },
   {
     "id": 79,
@@ -1024,7 +1397,12 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "3",
-    "languageRequirements": { "ibt": "73", "toeic": "790", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "73",
+      "toeic": "790",
+      "ielts": "5.5"
+    },
+    "formatName": "university_of_caposcari"
   },
   {
     "id": 80,
@@ -1037,7 +1415,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2",
     "semesterRequirement": "3",
-    "languageRequirements": { "ibt": "67", "itp": "515", "toeic": "650", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "67",
+      "itp": "515",
+      "toeic": "650",
+      "ielts": "5.5"
+    },
+    "formatName": "university_of_ostrava"
   },
   {
     "id": 81,
@@ -1050,7 +1434,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "84", "itp": "565", "toeic": "800", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "84",
+      "itp": "565",
+      "toeic": "800",
+      "ielts": "5.5"
+    },
+    "formatName": "czech_university_of_life_sciences_prague"
   },
   {
     "id": 82,
@@ -1063,7 +1453,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2.5",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "78", "itp": "550", "toeic": "800", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "78",
+      "itp": "550",
+      "toeic": "800",
+      "ielts": "5.5"
+    },
+    "formatName": "czech_technical_university_in_prague"
   },
   {
     "id": 83,
@@ -1076,7 +1472,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "3",
-    "languageRequirements": { "ibt": "75", "itp": "540", "toeic": "785", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "75",
+      "itp": "540",
+      "toeic": "785",
+      "ielts": "5.5"
+    },
+    "formatName": "instituto_superior_tecnico-universidade_de_lisboa"
   },
   {
     "id": 84,
@@ -1089,7 +1491,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2.5",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "80", "itp": "550", "toeic": "800", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "80",
+      "itp": "550",
+      "toeic": "800",
+      "ielts": "5.5"
+    },
+    "formatName": "catholic_university_of_portugal"
   },
   {
     "id": 85,
@@ -1102,7 +1510,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2",
     "semesterRequirement": "4",
-    "languageRequirements": { "ibt": "72", "itp": "530", "toeic": "600", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "72",
+      "itp": "530",
+      "toeic": "600",
+      "ielts": "5.5"
+    },
+    "formatName": "ebs_paris"
   },
   {
     "id": 86,
@@ -1115,7 +1529,12 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "4",
-    "languageRequirements": { "ibt": "80", "toeic": "750", "ielts": "6" }
+    "languageRequirements": {
+      "ibt": "80",
+      "toeic": "750",
+      "ielts": "6"
+    },
+    "formatName": "epita"
   },
   {
     "id": 87,
@@ -1128,7 +1547,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "65", "itp": "543", "toeic": "600", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "65",
+      "itp": "543",
+      "toeic": "600",
+      "ielts": "5.5"
+    },
+    "formatName": "epitech(lechole_de_lexpertise_informatique)"
   },
   {
     "id": 88,
@@ -1141,7 +1566,12 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2.5",
     "semesterRequirement": "6",
-    "languageRequirements": { "ibt": "72", "itp": "543", "toeic": "785" }
+    "languageRequirements": {
+      "ibt": "72",
+      "itp": "543",
+      "toeic": "785"
+    },
+    "formatName": "esce_international_business_school"
   },
   {
     "id": 89,
@@ -1154,7 +1584,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "79", "itp": "550", "toeic": "800", "ielts": "5" }
+    "languageRequirements": {
+      "ibt": "79",
+      "itp": "550",
+      "toeic": "800",
+      "ielts": "5"
+    },
+    "formatName": "ecole_superieure_des_sciences_commerciales_danger"
   },
   {
     "id": 90,
@@ -1167,7 +1603,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "4",
-    "languageRequirements": { "ibt": "65", "itp": "500", "toeic": "700", "ielts": "4.5" }
+    "languageRequirements": {
+      "ibt": "65",
+      "itp": "500",
+      "toeic": "700",
+      "ielts": "4.5"
+    },
+    "formatName": "ipsa"
   },
   {
     "id": 91,
@@ -1180,7 +1622,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "4",
-    "languageRequirements": { "ibt": "79", "itp": "543", "toeic": "785", "ielts": "6.5" }
+    "languageRequirements": {
+      "ibt": "79",
+      "itp": "543",
+      "toeic": "785",
+      "ielts": "6.5"
+    },
+    "formatName": "isep"
   },
   {
     "id": 92,
@@ -1193,7 +1641,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "79", "itp": "550", "toeic": "785", "ielts": "6" }
+    "languageRequirements": {
+      "ibt": "79",
+      "itp": "550",
+      "toeic": "785",
+      "ielts": "6"
+    },
+    "formatName": "kedge_business_school"
   },
   {
     "id": 93,
@@ -1206,7 +1660,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "72", "itp": "543", "toeic": "785", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "72",
+      "itp": "543",
+      "toeic": "785",
+      "ielts": "5.5"
+    },
+    "formatName": "neoma_business_school"
   },
   {
     "id": 94,
@@ -1219,7 +1679,12 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2.5",
     "semesterRequirement": "6",
-    "languageRequirements": { "ibt": "72", "itp": "543", "toeic": "785" }
+    "languageRequirements": {
+      "ibt": "72",
+      "itp": "543",
+      "toeic": "785"
+    },
+    "formatName": "heip"
   },
   {
     "id": 95,
@@ -1232,7 +1697,12 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "60ECTS 이상 이수해야 함",
-    "languageRequirements": { "ibt": "72", "toeic": "750", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "72",
+      "toeic": "750",
+      "ielts": "5.5"
+    },
+    "formatName": "em_normandie_business_school"
   },
   {
     "id": 96,
@@ -1245,7 +1715,10 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "70" }
+    "languageRequirements": {
+      "ibt": "70"
+    },
+    "formatName": "la_rochelle_business_school"
   },
   {
     "id": 97,
@@ -1258,7 +1731,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "120ECTS 이상 이수해야 함\n(비고란 참조)",
-    "languageRequirements": { "ibt": "72", "itp": "543", "toeic": "785", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "72",
+      "itp": "543",
+      "toeic": "785",
+      "ielts": "5.5"
+    },
+    "formatName": "esc_rennes_school_of_business"
   },
   {
     "id": 98,
@@ -1271,7 +1750,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "72", "itp": "543", "toeic": "785", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "72",
+      "itp": "543",
+      "toeic": "785",
+      "ielts": "5.5"
+    },
+    "formatName": "university_of_le_havre"
   },
   {
     "id": 99,
@@ -1284,7 +1769,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2.75",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "72", "itp": "543", "toeic": "785", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "72",
+      "itp": "543",
+      "toeic": "785",
+      "ielts": "5.5"
+    },
+    "formatName": "lille_catholic_university"
   },
   {
     "id": 100,
@@ -1297,7 +1788,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "70", "itp": "540", "toeic": "780", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "70",
+      "itp": "540",
+      "toeic": "780",
+      "ielts": "5.5"
+    },
+    "formatName": "lille_catholic_university"
   },
   {
     "id": 101,
@@ -1310,7 +1807,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "3",
-    "languageRequirements": { "ibt": "72", "itp": "543", "toeic": "785", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "72",
+      "itp": "543",
+      "toeic": "785",
+      "ielts": "5.5"
+    },
+    "formatName": "universite_montpellier_1"
   },
   {
     "id": 102,
@@ -1323,7 +1826,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "72", "itp": "543", "toeic": "785", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "72",
+      "itp": "543",
+      "toeic": "785",
+      "ielts": "5.5"
+    },
+    "formatName": "ecole_darchitecture_paris_val_de_seine"
   },
   {
     "id": 103,
@@ -1336,7 +1845,12 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "4",
-    "languageRequirements": { "ibt": "80", "toeic": "750", "ielts": "6" }
+    "languageRequirements": {
+      "ibt": "80",
+      "toeic": "750",
+      "ielts": "6"
+    },
+    "formatName": "burgundy_school_of_business"
   },
   {
     "id": 104,
@@ -1349,7 +1863,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "3",
-    "languageRequirements": { "ibt": "72", "itp": "543", "toeic": "785", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "72",
+      "itp": "543",
+      "toeic": "785",
+      "ielts": "5.5"
+    },
+    "formatName": "audencia_business_school"
   },
   {
     "id": 105,
@@ -1362,7 +1882,12 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "3",
-    "languageRequirements": { "ibt": "80", "toeic": "1020", "ielts": "6.5" }
+    "languageRequirements": {
+      "ibt": "80",
+      "toeic": "1020",
+      "ielts": "6.5"
+    },
+    "formatName": "universite_jean_moulin_lyon_3"
   },
   {
     "id": 106,
@@ -1375,7 +1900,11 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "79", "toeic": "6" }
+    "languageRequirements": {
+      "ibt": "79",
+      "toeic": "6"
+    },
+    "formatName": "toulouse_business_school"
   },
   {
     "id": 107,
@@ -1388,7 +1917,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "72", "itp": "543", "toeic": "785", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "72",
+      "itp": "543",
+      "toeic": "785",
+      "ielts": "5.5"
+    },
+    "formatName": "sciences_po_toulouse"
   },
   {
     "id": 108,
@@ -1401,7 +1936,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "3",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "72", "itp": "543", "toeic": "785", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "72",
+      "itp": "543",
+      "toeic": "785",
+      "ielts": "5.5"
+    },
+    "formatName": "university_of_paris_8"
   },
   {
     "id": 109,
@@ -1414,7 +1955,11 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "72", "ielts": "6" }
+    "languageRequirements": {
+      "ibt": "72",
+      "ielts": "6"
+    },
+    "formatName": "lahti_university_of_applied_sciences"
   },
   {
     "id": 110,
@@ -1427,7 +1972,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "4",
-    "languageRequirements": { "ibt": "80", "itp": "460", "toeic": "785", "ielts": "6" }
+    "languageRequirements": {
+      "ibt": "80",
+      "itp": "460",
+      "toeic": "785",
+      "ielts": "6"
+    },
+    "formatName": "lappeenranta_university_of_technology"
   },
   {
     "id": 111,
@@ -1440,7 +1991,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "3",
-    "languageRequirements": { "ibt": "72", "itp": "543", "toeic": "785", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "72",
+      "itp": "543",
+      "toeic": "785",
+      "ielts": "5.5"
+    },
+    "formatName": "turku_university_of_applied_sciences"
   },
   {
     "id": 112,
@@ -1453,7 +2010,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "42", "itp": "460", "toeic": "550", "ielts": "4" }
+    "languageRequirements": {
+      "ibt": "42",
+      "itp": "460",
+      "toeic": "550",
+      "ielts": "4"
+    },
+    "formatName": "universite_de_technologie_de_troyes"
   },
   {
     "id": 113,
@@ -1466,7 +2029,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "3",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "80", "itp": "550", "toeic": "750", "ielts": "6" }
+    "languageRequirements": {
+      "ibt": "80",
+      "itp": "550",
+      "toeic": "750",
+      "ielts": "6"
+    },
+    "formatName": "universiti_brunei_darussalam"
   },
   {
     "id": 114,
@@ -1479,7 +2048,11 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "93", "ielts": "7" }
+    "languageRequirements": {
+      "ibt": "93",
+      "ielts": "7"
+    },
+    "formatName": "singapore_management_university"
   },
   {
     "id": 115,
@@ -1492,7 +2065,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "72", "itp": "543", "toeic": "605", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "72",
+      "itp": "543",
+      "toeic": "605",
+      "ielts": "5.5"
+    },
+    "formatName": "ada_university"
   },
   {
     "id": 116,
@@ -1505,7 +2084,12 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2.75",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "79", "itp": "550", "ielts": "6" }
+    "languageRequirements": {
+      "ibt": "79",
+      "itp": "550",
+      "ielts": "6"
+    },
+    "formatName": "binus_university"
   },
   {
     "id": 117,
@@ -1518,7 +2102,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "72", "toeic": "700", "ielts": "5.5", "jlpt": "N2" }
+    "languageRequirements": {
+      "ibt": "72",
+      "toeic": "700",
+      "ielts": "5.5",
+      "jlpt": "N2"
+    },
+    "formatName": "kanazawa_university"
   },
   {
     "id": 118,
@@ -1531,7 +2121,10 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "jlpt": "N4" }
+    "languageRequirements": {
+      "jlpt": "N4"
+    },
+    "formatName": "gakushuin_university"
   },
   {
     "id": 119,
@@ -1544,7 +2137,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2.5",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "61", "itp": "500", "ielts": "6", "jlpt": "N2" }
+    "languageRequirements": {
+      "ibt": "61",
+      "itp": "500",
+      "ielts": "6",
+      "jlpt": "N2"
+    },
+    "formatName": "kindai_university"
   },
   {
     "id": 120,
@@ -1557,7 +2156,10 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "jlpt": "N2" }
+    "languageRequirements": {
+      "jlpt": "N2"
+    },
+    "formatName": "niigata_university"
   },
   {
     "id": 121,
@@ -1570,20 +2172,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2.5",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "72", "toeic": "1530", "ielts": "5.5", "jlpt": "N3" }
-  },
-  {
-    "id": 122,
-    "name": "도요대학",
-    "englishName": "Toyo University",
-    "region": "아시아권",
-    "country": "일본",
-    "homepageUrl": "https://www.toyo.ac.jp/en/international-exchange/prospective/Exchange-Program/",
-    "studentCapacity": 3.0,
-    "tuitionFeeType": "본교등록금납부형",
-    "gpaRequirement": "2.5",
-    "semesterRequirement": "4",
-    "languageRequirements": { "jlpt": "N2" }
+    "languageRequirements": {
+      "ibt": "72",
+      "toeic": "1530",
+      "ielts": "5.5",
+      "jlpt": "N3"
+    },
+    "formatName": "toyo_university"
   },
   {
     "id": 123,
@@ -1596,7 +2191,10 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "jlpt": "N4" }
+    "languageRequirements": {
+      "jlpt": "N4"
+    },
+    "formatName": "dokkyo_university"
   },
   {
     "id": 124,
@@ -1609,7 +2207,8 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": {}
+    "languageRequirements": {},
+    "formatName": "meiji_university"
   },
   {
     "id": 125,
@@ -1622,7 +2221,10 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2.3",
     "semesterRequirement": "2",
-    "languageRequirements": { "jlpt": "N2" }
+    "languageRequirements": {
+      "jlpt": "N2"
+    },
+    "formatName": "baika_womens_university"
   },
   {
     "id": 126,
@@ -1635,7 +2237,10 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "jlpt": "N2" }
+    "languageRequirements": {
+      "jlpt": "N2"
+    },
+    "formatName": "bunkyo_gakuin_university"
   },
   {
     "id": 127,
@@ -1648,7 +2253,8 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": {}
+    "languageRequirements": {},
+    "formatName": "yamaguchi_university"
   },
   {
     "id": 128,
@@ -1661,7 +2267,8 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": {}
+    "languageRequirements": {},
+    "formatName": "osaka_gakuin_university"
   },
   {
     "id": 129,
@@ -1674,7 +2281,10 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "jlpt": "N2" }
+    "languageRequirements": {
+      "jlpt": "N2"
+    },
+    "formatName": "otsuma_womens_university"
   },
   {
     "id": 130,
@@ -1687,7 +2297,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "3",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "80", "toeic": "730", "ielts": "6.5", "jlpt": "N1" }
+    "languageRequirements": {
+      "ibt": "80",
+      "toeic": "730",
+      "ielts": "6.5",
+      "jlpt": "N1"
+    },
+    "formatName": "waseda_university"
   },
   {
     "id": 131,
@@ -1700,7 +2316,10 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2.5",
     "semesterRequirement": "2",
-    "languageRequirements": { "jlpt": "N2" }
+    "languageRequirements": {
+      "jlpt": "N2"
+    },
+    "formatName": "chuo_university"
   },
   {
     "id": 132,
@@ -1713,7 +2332,8 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": {}
+    "languageRequirements": {},
+    "formatName": "chiba_university"
   },
   {
     "id": 133,
@@ -1726,7 +2346,10 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2.75",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "80" }
+    "languageRequirements": {
+      "ibt": "80"
+    },
+    "formatName": "ankara_university"
   },
   {
     "id": 134,
@@ -1739,7 +2362,10 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "80" }
+    "languageRequirements": {
+      "ibt": "80"
+    },
+    "formatName": "ozyegin_university"
   },
   {
     "id": 135,
@@ -1752,7 +2378,10 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2.5",
     "semesterRequirement": "2",
-    "languageRequirements": { "ielts": "6" }
+    "languageRequirements": {
+      "ielts": "6"
+    },
+    "formatName": "shue_yan_university"
   },
   {
     "id": 136,
@@ -1765,7 +2394,11 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "79", "ielts": "6.5" }
+    "languageRequirements": {
+      "ibt": "79",
+      "ielts": "6.5"
+    },
+    "formatName": "city_univ_hong_kong"
   },
   {
     "id": 137,
@@ -1778,7 +2411,12 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2.75",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "80", "toeic": "700", "ielts": "6" }
+    "languageRequirements": {
+      "ibt": "80",
+      "toeic": "700",
+      "ielts": "6"
+    },
+    "formatName": "national_chengchi_university"
   },
   {
     "id": 138,
@@ -1791,7 +2429,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "72", "itp": "543", "toeic": "785", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "72",
+      "itp": "543",
+      "toeic": "785",
+      "ielts": "5.5"
+    },
+    "formatName": "national_sun_yat-sen_university"
   },
   {
     "id": 139,
@@ -1804,7 +2448,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "70",
     "semesterRequirement": "4",
-    "languageRequirements": { "ibt": "80", "itp": "550", "toeic": "750", "ielts": "6" }
+    "languageRequirements": {
+      "ibt": "80",
+      "itp": "550",
+      "toeic": "750",
+      "ielts": "6"
+    },
+    "formatName": "national_central_university"
   },
   {
     "id": 140,
@@ -1817,7 +2467,13 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "72", "itp": "543", "toeic": "785", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "72",
+      "itp": "543",
+      "toeic": "785",
+      "ielts": "5.5"
+    },
+    "formatName": "university_of_taipei"
   },
   {
     "id": 141,
@@ -1830,7 +2486,10 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2.8",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "59" }
+    "languageRequirements": {
+      "ibt": "59"
+    },
+    "formatName": "jiangnan_university"
   },
   {
     "id": 142,
@@ -1843,7 +2502,11 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "79", "ielts": "6" }
+    "languageRequirements": {
+      "ibt": "79",
+      "ielts": "6"
+    },
+    "formatName": "jilin_university"
   },
   {
     "id": 143,
@@ -1856,7 +2519,8 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "75",
     "semesterRequirement": "2",
-    "languageRequirements": {}
+    "languageRequirements": {},
+    "formatName": "nanjing_normal_university"
   },
   {
     "id": 144,
@@ -1869,7 +2533,11 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "80", "ielts": "6" }
+    "languageRequirements": {
+      "ibt": "80",
+      "ielts": "6"
+    },
+    "formatName": "donghua_university"
   },
   {
     "id": 145,
@@ -1882,7 +2550,8 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2.3\n70",
     "semesterRequirement": "2",
-    "languageRequirements": {}
+    "languageRequirements": {},
+    "formatName": "shandong_university_weihai"
   },
   {
     "id": 146,
@@ -1895,7 +2564,8 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2.5",
     "semesterRequirement": "2",
-    "languageRequirements": {}
+    "languageRequirements": {},
+    "formatName": "yantai_university"
   },
   {
     "id": 147,
@@ -1908,7 +2578,11 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2.5",
     "semesterRequirement": "2",
-    "languageRequirements": { "ibt": "80", "ielts": "5.5" }
+    "languageRequirements": {
+      "ibt": "80",
+      "ielts": "5.5"
+    },
+    "formatName": "zhejiang_normal_university"
   },
   {
     "id": 148,
@@ -1921,7 +2595,8 @@
     "tuitionFeeType": "본교등록금납부형",
     "gpaRequirement": "2.5",
     "semesterRequirement": "2",
-    "languageRequirements": {}
+    "languageRequirements": {},
+    "formatName": "minzu_university_of_china"
   },
   {
     "id": 149,
@@ -1934,6 +2609,7 @@
     "tuitionFeeType": "해외대학등록금납부형",
     "gpaRequirement": null,
     "semesterRequirement": null,
-    "languageRequirements": {}
+    "languageRequirements": {},
+    "formatName": "saf_program"
   }
 ]

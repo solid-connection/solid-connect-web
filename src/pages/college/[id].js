@@ -13,7 +13,7 @@ export default function CollegeDetailPage(props) {
         <title>{props.name}</title>
       </Head>
       <TopDetailNavigation title={props.name} />
-      <CollegeDetail image={props.image} name={props.name} />
+      <CollegeDetail image={`https://solid-connection.s3.ap-northeast-2.amazonaws.com/original/${props.formatName}/1.png`} name={props.name} />
       <CollegeBottomSheet {...props} />
     </>
   );
