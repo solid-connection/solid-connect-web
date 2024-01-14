@@ -16,6 +16,12 @@
   src: url("/fonts/Pretendard-SemiBold.ttf") format("truetype");
 }
 
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 700;
+  src: url("/fonts/Pretendard-Bold.ttf") format("truetype");
+}
+
 body {
   margin: 0;
 }
