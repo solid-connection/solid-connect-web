@@ -8,7 +8,6 @@ export default function HomeSearch(props) {
   const filters = ["유럽권", "미주권", "아시아권"];
   return (
     <div style={{ marginRight: "20px" }}>
-      <div>해외 학교를 검색하세요 ~</div>
       <ButtonTab choices={filters} choice={filter} setChoice={setFilter} color={{ deactiveBtn: "#D9D9D9" }} style={{ marginTop: "14px" }} />
 
       <div className={styles.searchContainer}>

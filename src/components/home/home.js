@@ -7,9 +7,9 @@ import CheveronRightFilled from "../ui/icon/ChevronRightFilled";
 import MentoCard from "./mento-card";
 import NewsCards from "./news-cards";
 import HomeSearch from "./home-search";
+import SearchFilled from "../ui/icon/SearchFilled";
 
 export default function Home(props) {
-  const { setIsSearch } = props; // TopNavigation 변경용
   const { recommendedColleges } = props;
   // 99, 67, 80
 
@@ -30,6 +30,13 @@ export default function Home(props) {
   return (
     <div className={styles.wrapper}>
       <div className={styles.h1}>교환학생의 첫 걸음,</div>
+
+      <Link href="/search" style={{ display: "block", marginTop: "16px" }}>
+        <div className={styles.searchButton}>
+          <div>해외 학교를 검색하세요.</div>
+          <SearchFilled color="#6F90D1" opacity="1" />
+        </div>
+      </Link>
 
       <HomeSearch />
 

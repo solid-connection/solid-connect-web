@@ -1,6 +1,9 @@
 .wrapper {
   margin: 24px 0 0 20px;
 }
+.wrapper a {
+  text-decoration: none;
+}
 
 .h1 {
   color: #000;
@@ -9,6 +12,27 @@
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+}
+
+.searchButton {
+  margin: 0 20px 0 20px;
+  padding: 6px 0 6px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+
+  border-radius: 100px;
+  border: 1px solid var(--primary-1, #6f90d1);
+
+  color: var(--primary-1, #6f90d1);
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 24px; /* 171.429% */
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
 }
 
 .title {
