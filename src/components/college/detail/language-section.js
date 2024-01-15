@@ -4,15 +4,6 @@ export default function LanguageSection(props) {
   const { languageRequirements } = props;
   return (
     <>
-      <div className={styles.bar}>
-        {languageRequirements.ibt && <div>TOEFL IBT {languageRequirements.ibt}</div>}
-        {languageRequirements.itp && <div>TOEFL ITP {languageRequirements.itp}</div>}
-        {languageRequirements.toeic && <div>TOEIC {languageRequirements.toeic}</div>}
-        {languageRequirements.ielts && <div>IELTS {languageRequirements.ielts}</div>}
-        {languageRequirements.hsk && <div>신HSK {languageRequirements.hsk}</div>}
-        {languageRequirements.jlpt && <div>JLPT {languageRequirements.jlpt}</div>}
-        {languageRequirements.etc && <div>{languageRequirements.etc}</div>}
-      </div>
       <div className={styles.section}>
         <div className={styles.title} style={{ marginTop: "16px" }}>
           어학 세부요건

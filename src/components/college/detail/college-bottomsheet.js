@@ -73,19 +73,28 @@ export default function CollegeBottomSheet(props) {
         </div>
 
         {/* 어학성적 */}
-        <div className={styles.scrollOffset} ref={sectionRefs[1]}>
+        <div className={styles.bar}>
+          {languageRequirements.ibt && <div>TOEFL IBT {languageRequirements.ibt}</div>}
+          {languageRequirements.itp && <div>TOEFL ITP {languageRequirements.itp}</div>}
+          {languageRequirements.toeic && <div>TOEIC {languageRequirements.toeic}</div>}
+          {languageRequirements.ielts && <div>IELTS {languageRequirements.ielts}</div>}
+          {languageRequirements.hsk && <div>신HSK {languageRequirements.hsk}</div>}
+          {languageRequirements.jlpt && <div>JLPT {languageRequirements.jlpt}</div>}
+          {languageRequirements.etc && <div>{languageRequirements.etc}</div>}
+        </div>
+        <div className={styles.scrollOffsetWithBar} ref={sectionRefs[1]}>
           {/* <div className={styles.subject}>어학 성적</div> */}
           <LanguageSection languageRequirements={languageRequirements} />
         </div>
 
         {/* 지원전공 */}
-        <div className={styles.scrollOffset} ref={sectionRefs[2]}>
+        <div className={styles.scrollOffsetWithBar} ref={sectionRefs[2]}>
           {/* <div className={styles.subject}>지원 전공</div> */}
           <MajorSection />
         </div>
 
         {/* 위치 */}
-        <div className={styles.scrollOffset} ref={sectionRefs[3]}>
+        <div className={styles.scrollOffsetWithBar} ref={sectionRefs[3]}>
           <div className={styles.subject}>위치</div>
           <div className={styles.mapWrapper}>
             <GoogleEmbedMap width="100% - 40px" height="204" style={{ border: 0 }} name={englishName} />
@@ -93,7 +102,7 @@ export default function CollegeBottomSheet(props) {
         </div>
 
         {/* 파견후기 */}
-        <div className={styles.scrollOffset} ref={sectionRefs[4]}>
+        <div className={styles.scrollOffsetWithBar} ref={sectionRefs[4]}>
           <div className={styles.subject}>파견 후기</div>
           <CollegeReviews />
         </div>

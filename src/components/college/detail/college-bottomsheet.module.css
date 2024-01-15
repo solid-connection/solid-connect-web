@@ -44,11 +44,40 @@
   line-height: normal;
 }
 
+.bar {
+  margin-top: 20px; /* 임시 */
+  position: sticky;
+  top: 103px;
+
+  width: calc(100% - 20px);
+  height: 52px;
+  padding-left: 20px;
+  background: #d9d9d9;
+  overflow-x: auto;
+  white-space: nowrap;
+
+  display: flex;
+  gap: 10px;
+  align-items: center;
+
+  color: #000;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
 /* 섹션 */
 .scrollOffset {
   /* 네비게이션 + 탭 = 56 + 47 = 103*/
   padding-top: 103px;
   margin-top: -103px;
+}
+.scrollOffsetWithBar {
+  /* 네비게이션 + 탭 + 바 = 56 + 47 + 52 = 155 */
+  padding-top: 155px;
+  margin-top: -155px;
 }
 
 .subject {
