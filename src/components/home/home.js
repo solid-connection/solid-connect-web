@@ -9,14 +9,9 @@ import NewsCards from "./news-cards";
 import HomeSearch from "./home-search";
 
 export default function Home(props) {
-  const colleges = [
-    { uuid: 1, name: "릴카톨릭 대학교", image: "/images/catolic.png" },
-    { uuid: 2, name: "보라스대학교", image: "/images/catolic.png" },
-    { uuid: 3, name: "토론토 대학교", image: "/images/catolic.png" },
-    { uuid: 4, name: "퀸즈 대학교", image: "/images/catolic.png" },
-    { uuid: 5, name: "워터루 대학교", image: "/images/catolic.png" },
-    { uuid: 6, name: "웨스턴 대학교", image: "/images/catolic.png" },
-  ];
+  const { setIsSearch } = props; // TopNavigation 변경용
+  const { recommendedColleges } = props;
+  // 99, 67, 80
 
   const newsList = [
     { uuid: 1, image: "", title: "2024년도 교환학생을 다녀오며,," },
@@ -48,17 +43,17 @@ export default function Home(props) {
         </div>
       </Link>
 
-      <div className={styles.tm20}>
+      <div style={{ marginTop: "20px" }}>
         <div className={styles.title}>추천하는 파견학교</div>
-        <HomeCollegeCards colleges={colleges} />
+        <HomeCollegeCards colleges={recommendedColleges} />
       </div>
 
-      <div className={styles.tm24}>
+      <div style={{ marginTop: "24px" }}>
         <div className={styles.title}>활발하게 활동중인 멘토</div>
         <MentoCard {...testMentoData} />
       </div>
 
-      <div className={styles.tm24}>
+      <div style={{ marginTop: "24px" }}>
         <div className={styles.title}>솔커 소식지</div>
         <NewsCards newsList={newsList} />
       </div>

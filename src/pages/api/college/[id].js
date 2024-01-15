@@ -6,7 +6,7 @@ export async function getCollegeDetailData(collegeId) {
   const fileData = fs.readFileSync(filePath);
   const collegeData = JSON.parse(fileData);
 
-  return collegeData.find((college) => college.id.toString() === collegeId);
+  return collegeData.find((college) => college.id.toString() === collegeId.toString());
 }
 
 export default async function handler(req, res) {

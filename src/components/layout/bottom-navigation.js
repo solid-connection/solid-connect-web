@@ -52,10 +52,7 @@ export default function BottomNavigation() {
     <nav className={styles.bottom_nav}>
       {navs.map((nav, index) => (
         <Link key={index} href={nav.route} className={styles.nav_item}>
-          {/* <div> */}
-          {/* <FavoriteFilled color={nav.isActive ? "#1976D2" : "black"} /> */}
           {nav.icon}
-          {/* </div> */}
           <span className={nav.isActive ? styles.nav_text_active : styles.nav_text}>{nav.text}</span>
         </Link>
       ))}

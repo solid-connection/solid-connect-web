@@ -26,12 +26,11 @@ export default function HomeCollegeCards(props) {
       }
     };
   }, []);
-
   return (
     <div ref={containerRef} className={styles.container}>
       <div className={styles.items}>
         {colleges.map((college) => (
-          <HomeCollegeCard key={college.uuid} uuid={college.uuid} image={college.image} name={college.name} />
+          <HomeCollegeCard key={college.id} id={college.id} image={`https://solid-connection.s3.ap-northeast-2.amazonaws.com/original/${college.formatName}/1.png`} name={college.name} />
         ))}
       </div>
     </div>
