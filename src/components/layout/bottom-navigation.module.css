@@ -19,10 +19,10 @@
   text-decoration-line: none;
 }
 
-.nav_icon {
+/* .nav_icon {
   width: 24px;
   height: 24px;
-}
+} */
 
 .nav_text {
   color: var(--Light-Text-Secondary, rgba(0, 0, 0, 0.6));
