@@ -12,13 +12,13 @@ export default function CollegePage(props) {
   const { colleges, countries } = props;
 
   const [searchText, setSearchText] = useState(router.query.query || "");
-  const filters = { 1: "유럽권", 2: "미주권", 3: "아시아권", 4: "중국권" };
-  const [filter, setFilter] = useState(0);
+  const filters = ["유럽권", "미주권", "아시아권", "중국권"];
+  const [filter, setFilter] = useState("");
   const [filteredColleges, setFilteredColleges] = useState(colleges);
 
   useEffect(() => {
     const filtered = colleges.filter((college) => {
-      const matchesRegion = filter ? college.region === filters[filter] : true;
+      const matchesRegion = filter ? college.region === filter : true;
       const matchesSearchText = searchText ? college.name.toLowerCase().includes(searchText.toLowerCase()) : true;
       return matchesRegion && matchesSearchText;
     });

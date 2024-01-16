@@ -14,15 +14,9 @@ import InfoSection from "./info-secition";
 export default function CollegeBottomSheet(props) {
   const { id, name, englishName, country, region, homepageUrl, image, studentCapacity, tuitionFeeType, gpaRequirement, semesterRequirement, languageRequirements } = props;
 
-  const pages = {
-    1: "학교정보",
-    2: "어학성적",
-    3: "지원전공",
-    4: "위치",
-    5: "파견후기",
-  };
+  const pages = ["학교정보", "어학성적", "지원전공", "위치", "파견후기"];
+  const [activeTab, setActiveTab] = useState("학교정보");
 
-  const [activeTab, setActiveTab] = useState(1);
   const sectionRefs = [useRef(null), useRef(null), useRef(null), useRef(null), useRef(null)];
 
   useEffect(() => {
@@ -32,7 +26,7 @@ export default function CollegeBottomSheet(props) {
           if (entry.isIntersecting) {
             // 현재 보이는 섹션에 따라 activeTab을 업데이트
             const index = sectionRefs.findIndex((ref) => ref.current === entry.target);
-            setActiveTab(index + 1);
+            setActiveTab(pages[index]);
           }
         });
       },
@@ -53,9 +47,9 @@ export default function CollegeBottomSheet(props) {
       });
   }, []);
 
-  const handleTabClick = (tabNumber) => {
-    setActiveTab(tabNumber);
-    sectionRefs[tabNumber - 1].current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  const handleTabClick = (tab) => {
+    setActiveTab(tab);
+    sectionRefs[pages.findIndex((t) => t === tab)].current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   return (

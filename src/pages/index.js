@@ -25,7 +25,6 @@ export default function HomePage(props) {
 export async function getServerSideProps(context) {
   const recommendedCollegeIds = [99, 67, 80, 8, 130, 5];
   const recommendedColleges = await Promise.all(recommendedCollegeIds.map((id) => getCollegeDetailData(id)));
-  console.log(recommendedColleges);
   return {
     props: { recommendedColleges: recommendedColleges },
   };

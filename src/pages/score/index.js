@@ -36,20 +36,11 @@ export default function ScorePage() {
   }
   const keyWords = ["하와이", "보라스", "릴카톨릭", "파리8", "낭트", "헐", "함부르크", "오스트라바"];
 
-  const [preference, setPreference] = useState(1);
-  const tabChoice = {
-    1: "1순위",
-    2: "2순위",
-  };
+  const [preference, setPreference] = useState("1순위");
+  const tabChoice = ["1순위", "2순위"];
 
-  const [filter, setFilter] = useState(1);
-  const filterChoice = {
-    1: "유럽권",
-    2: "미주권",
-    3: "아시아권",
-    4: "학점높은 순",
-    5: "어학성적 높은 순",
-  };
+  const [filter, setFilter] = useState("");
+  const filterChoice = ["유럽권", "미주권", "아시아권", "학점높은 순", "어학성적 높은 순"];
 
   const scoreSheets = [
     {

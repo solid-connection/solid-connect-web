@@ -13,28 +13,24 @@ export default function ButtonTab(props) {
   };
   const color = { ...defaultColor, ...props.color };
 
-  function renderTabButtons() {
-    return Object.entries(choices).map(([key, value]) => {
-      const isActive = parseInt(choice) === parseInt(key);
-      return (
-        <div
-          key={key}
-          style={{
-            backgroundColor: isActive ? color.activeBtn : color.deactiveBtn,
-            color: isActive ? color.activeBtnFont : color.deactiveBtnFont,
-          }}
-          className={styles.tabButton}
-          onClick={() => setChoice(parseInt(key))}
-        >
-          <div>{value}</div>
-        </div>
-      );
-    });
-  }
-
   return (
     <div className={styles.tabContainer} style={{ ...style, backgroundColor: color.background }}>
-      {renderTabButtons()}
+      {choices.map((c) => {
+        const isActive = c === choice;
+        return (
+          <div
+            key={c}
+            style={{
+              backgroundColor: isActive ? color.activeBtn : color.deactiveBtn,
+              color: isActive ? color.activeBtnFont : color.deactiveBtnFont,
+            }}
+            className={styles.tabButton}
+            onClick={() => setChoice(c)}
+          >
+            <div>{c}</div>
+          </div>
+        );
+      })}
     </div>
   );
 }

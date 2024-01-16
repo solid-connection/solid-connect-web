@@ -11,7 +11,6 @@ import SearchFilled from "../ui/icon/SearchFilled";
 
 export default function Home(props) {
   const { recommendedColleges } = props;
-  // 99, 67, 80
 
   const newsList = [
     { uuid: 1, image: "", title: "2024년도 교환학생을 다녀오며,," },
@@ -31,7 +30,7 @@ export default function Home(props) {
     <div className={styles.wrapper}>
       <div className={styles.h1}>교환학생의 첫 걸음,</div>
 
-      <Link href="/search" style={{ display: "block", marginTop: "16px" }}>
+      <Link href="/search" style={{ display: "block", marginTop: "16px", marginRight: "20px" }}>
         <div className={styles.searchButton}>
           <div>해외 학교를 검색하세요.</div>
           <SearchFilled color="#6F90D1" opacity="1" />
