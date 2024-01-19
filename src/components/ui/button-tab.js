@@ -1,7 +1,6 @@
 import styles from "./button-tab.module.css";
 
 export default function ButtonTab(props) {
-  // 선택지
   const { choices, choice, setChoice, style } = props;
   // 디자인 색상
   const defaultColor = {
@@ -12,6 +11,15 @@ export default function ButtonTab(props) {
     background: "white",
   };
   const color = { ...defaultColor, ...props.color };
+
+  const handleButtonClick = (c) => {
+    // 이미 선택된 버튼을 다시 클릭할 경우 선택 취소
+    if (c === choice) {
+      setChoice(null);
+    } else {
+      setChoice(c);
+    }
+  };
 
   return (
     <div className={styles.tabContainer} style={{ ...style, backgroundColor: color.background }}>
@@ -25,7 +33,7 @@ export default function ButtonTab(props) {
               color: isActive ? color.activeBtnFont : color.deactiveBtnFont,
             }}
             className={styles.tabButton}
-            onClick={() => setChoice(c)}
+            onClick={() => handleButtonClick(c)}
           >
             <div>{c}</div>
           </div>
