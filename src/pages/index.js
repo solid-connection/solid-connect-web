@@ -3,10 +3,7 @@ import Head from "next/head";
 import TopNavigation from "@/components/layout/top-navigation";
 import Home from "@/components/home/home";
 
-import { Inter } from "next/font/google";
 import { getCollegeDetailData } from "./api/college/[id]";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export default function HomePage(props) {
   const { recommendedColleges } = props;

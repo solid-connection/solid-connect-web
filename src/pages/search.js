@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
-import CollegeSearchBar from "@/components/home/search/college-search-bar";
-import CollegeSearchField from "@/components/home/search/college-search-field";
+import CollegeSearchBar from "@/components/search/college-search-bar";
+import CollegeSearchField from "@/components/search/college-search-field";
 
 export default function HomeSearchPage() {
   const router = useRouter();

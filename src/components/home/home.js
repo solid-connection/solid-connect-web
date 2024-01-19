@@ -6,7 +6,7 @@ import styles from "./home.module.css";
 import CheveronRightFilled from "../ui/icon/ChevronRightFilled";
 import MentoCard from "./mento-card";
 import NewsCards from "./news-cards";
-import HomeSearch from "./home-search";
+import HomeSearch from "./search/home-search";
 import SearchFilled from "../ui/icon/SearchFilled";
 
 export default function Home(props) {

@@ -1,0 +1,57 @@
+.box {
+  position: relative;
+  height: 50px;
+  border-bottom: 1px solid #e3e3e3;
+  background: #fff;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.input {
+  width: 100%;
+  margin-left: 70px;
+
+  border: 0;
+  outline: 0;
+
+  color: #a2a2a2;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.icon {
+  margin-left: 22px;
+  margin-right: 22px;
+  width: 21px;
+  height: 21px;
+}
+
+.suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-left: 70px;
+  width: calc(100% - 70px);
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.suggestion {
+  padding: 12px 10px; /* 패딩 조정으로 항목 사이 간격 증가 */
+  cursor: pointer;
+  font-family: Pretendard;
+  transition: background-color 0.3s;
+}
+
+.suggestion:hover {
+  background-color: #f2f2f2;
+}

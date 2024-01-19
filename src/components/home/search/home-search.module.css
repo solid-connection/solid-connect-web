@@ -1,18 +1,8 @@
-.searchContainer {
+.searchInputs {
   margin-top: 10px;
 
   display: flex;
   flex-direction: column;
-}
-
-.searchContainer > div {
-  height: 50px;
-
-  display: flex;
-  align-items: center;
-}
-
-.testButtons {
 }
 
 .searchButton {
@@ -33,4 +23,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.searchContainer {
+  filter: drop-shadow(0px 4px 45px rgba(0, 0, 0, 0.15));
 }

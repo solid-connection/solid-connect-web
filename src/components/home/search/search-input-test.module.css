@@ -1,0 +1,49 @@
+.box {
+  height: 50px;
+  border-bottom: 1px solid #e3e3e3;
+  background: #fff;
+
+  display: flex;
+  justify-content: space-between;
+  /* align-items: center; */
+}
+
+.box_left {
+  display: flex;
+  align-items: center;
+}
+.box_right {
+  display: flex;
+  align-items: center;
+}
+.icon {
+  margin-left: 22px;
+  width: 21px;
+  height: 21px;
+}
+
+.main {
+  margin-left: 28px;
+
+  color: #000;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.input {
+  width: 49px;
+  margin-right: 24px;
+
+  border: 0;
+  outline: 0;
+
+  color: #000;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
