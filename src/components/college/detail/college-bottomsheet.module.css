@@ -18,7 +18,7 @@
   }
 }
 
-.englishTitle {
+.englishName {
   position: absolute;
   margin-left: 30px;
   top: -12px;
@@ -32,7 +32,7 @@
   line-height: normal;
 }
 
-.title {
+.name {
   padding-top: 24px;
   margin-left: 20px;
 
@@ -91,9 +91,23 @@
   line-height: normal;
 }
 
-.mapWrapper {
-  margin: 0 20px 0 20px;
+.title {
+  margin: 24px 0 0 20px;
+
+  color: #000;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
 }
-.map {
-  border: 0;
+
+.content {
+  margin: 10px 0 0 20px;
+  color: #000;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%; /* 21px */
 }
