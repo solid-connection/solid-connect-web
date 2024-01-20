@@ -37,8 +37,8 @@ export default function MyStatus(props) {
     <div className={styles.myStatus}>
       <MyProfile {...data} />
 
-      <div className={styles.scrap}>
-        <div className={styles.favoriteBox}>
+      <div className={styles.favoriteContainer}>
+        <Link href="/my/scrap/" className={styles.favoriteBox}>
           <div className={styles.favoriteTitle}>
             스크랩
             <span className={styles.favoriteIcon}>
@@ -46,7 +46,7 @@ export default function MyStatus(props) {
             </span>
           </div>
           <div className={styles.favoriteContent}>2개</div>
-        </div>
+        </Link>
 
         <div className={styles.favoriteBox}>
           <div className={styles.favoriteTitle}>
@@ -73,7 +73,7 @@ export default function MyStatus(props) {
         <Link href="/" className={styles.item}>
           <div className={styles.itemText}>개인정보</div>
         </Link>
-        <Link href="/" className={styles.item}>
+        <Link href="/my/activity/" className={styles.item}>
           <div className={styles.itemText}>활동내역</div>
         </Link>
         <Link href="/" className={styles.item}>

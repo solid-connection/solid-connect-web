@@ -1,0 +1,19 @@
+.title {
+  margin-top: 20px;
+
+  color: #000;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: "Abhaya Libre ExtraBold", sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+}
+
+.container {
+  margin-top: 10px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}

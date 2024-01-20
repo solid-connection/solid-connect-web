@@ -3,7 +3,7 @@ import styles from "./search-input-interest.module.css";
 import ExpendMoreFilled from "@/components/ui/icon/ExpendMoreFilled";
 
 export default function SearchInputInterest(props) {
-  const [inputValue, setInputValue] = useState("");
+  const { id, value, setValue } = props;
   const [suggestions, setSuggestions] = useState([]);
   const suggestionsRef = useRef(null);
 
@@ -39,18 +39,18 @@ export default function SearchInputInterest(props) {
 
   const handleInputChange = (event) => {
     const value = event.target.value;
-    setInputValue(value);
+    setValue(value);
     const filteredSuggestions = countries.filter((country) => country.toLowerCase().includes(value.toLowerCase())).slice(0, 5);
     setSuggestions(filteredSuggestions);
   };
 
   const handleSuggestionClick = (suggestion) => {
-    setInputValue(suggestion);
+    setValue(suggestion);
     setSuggestions([]);
   };
 
   const handleFocus = () => {
-    setSuggestions(inputValue ? countries.filter((country) => country.toLowerCase().includes(inputValue.toLowerCase())).slice(0, 5) : []); // 필터링된 결과에서 최대 5개까지만 가져옵니다.
+    setSuggestions(value ? countries.filter((country) => country.toLowerCase().includes(value.toLowerCase())).slice(0, 5) : []); // 필터링된 결과에서 최대 5개까지만 가져옵니다.
   };
 
   const handleBlur = (event) => {
@@ -65,7 +65,7 @@ export default function SearchInputInterest(props) {
 
   return (
     <div className={styles.box}>
-      <input className={styles.input} placeholder="관심1" maxLength="50" value={inputValue} onChange={handleInputChange} onFocus={handleFocus} onBlur={handleBlur} />
+      <input className={styles.input} placeholder={`관심${id}`} maxLength="50" value={value} onChange={handleInputChange} onFocus={handleFocus} onBlur={handleBlur} />
       <div className={styles.icon}>
         <ExpendMoreFilled />
       </div>

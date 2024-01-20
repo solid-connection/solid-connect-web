@@ -6,6 +6,7 @@ import ScoreSheets from "@/components/score/score-sheets";
 import ButtonTab from "@/components/ui/button-tab";
 import ScoreSearchBar from "@/components/score/score-search-bar";
 import ScoreSearchField from "@/components/score/score-search-field";
+import ScoreUniversityRecommend from "@/components/score/score-university-recommend";
 
 export default function ScorePage() {
   const [searchActive, setSearchActive] = useState(false);
@@ -143,6 +144,7 @@ export default function ScorePage() {
       <Tab choices={tabChoice} choice={preference} setChoice={setPreference} />
       <ButtonTab choices={filterChoice} choice={filter} setChoice={setFilter} color={{ activeBtn: "#6f90d1", deactiveBtn: "#fff", activeBtnFont: "#fff", deactiveBtnFont: "#000", background: "#fafafa" }} style={{ padding: "10px 0 10px 18px" }} />
       <ScoreSheets sheets={scoreSheets} />
+      {/* <ScoreUniversityRecommend text={tempText} /> */}
     </>
   );
 }

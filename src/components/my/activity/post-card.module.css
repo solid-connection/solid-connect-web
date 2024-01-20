@@ -1,0 +1,60 @@
+.box {
+  margin-right: 20px;
+  padding-right: 16px;
+  height: 114px;
+
+  border-radius: 6px;
+  border: 1px solid #eaeaea;
+  background: #fff;
+
+  display: flex;
+  flex-direction: column;
+
+  text-decoration: none;
+}
+
+.meta {
+  margin: 10px 0 0 12px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+
+  overflow: hidden;
+  color: #7c7c7c;
+  font-feature-settings: "clig" off, "liga" off;
+  text-overflow: ellipsis;
+  font-family: Pretendard;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%; /* 18px */
+}
+
+.title {
+  margin: 8px 0 0 16px;
+
+  color: #000;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.content {
+  margin: 6px 0 0 16px;
+
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  color: #7c7c7c;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 150%; /* 21px */
+  height: 42px; /* 2줄로 자르기 위해 */
+}

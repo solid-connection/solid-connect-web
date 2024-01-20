@@ -11,7 +11,7 @@ export default function CollegePage(props) {
   const router = useRouter();
   const { colleges, countries } = props;
 
-  const [searchText, setSearchText] = useState(router.query.query || "");
+  const [searchText, setSearchText] = useState(router.query.keyword || "");
   const filters = ["유럽권", "미주권", "아시아권", "중국권"];
   const [filter, setFilter] = useState("");
   const [filteredColleges, setFilteredColleges] = useState(colleges);
