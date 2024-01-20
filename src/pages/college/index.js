@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
-import CollegeList from "../../components/college/list/college-list";
+import CollegeCards from "../../components/college/list/college-cards";
 import CollegeSearch from "@/components/college/list/college-search";
 import TopNavigation from "@/components/layout/top-navigation";
 import ButtonTab from "@/components/ui/button-tab";
@@ -46,7 +46,7 @@ export default function CollegePage(props) {
       <TopNavigation />
       <CollegeSearch searchHandler={findCollegeHandler} text={searchText} setText={setSearchText} />
       <ButtonTab choices={filters} choice={filter} setChoice={setFilter} color={{ deactiveBtn: "#D9D9D9" }} style={{ marginTop: "14px", marginLeft: "18px" }} />
-      <CollegeList colleges={filteredColleges} />
+      <CollegeCards colleges={filteredColleges} />
     </>
   );
 }

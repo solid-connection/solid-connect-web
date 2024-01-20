@@ -1,7 +1,7 @@
-import styles from "./college-list.module.css";
+import styles from "./college-cards.module.css";
 import CollegeCard from "./college-card";
 
-export default function CollegeList(props) {
+export default function CollegeCards(props) {
   const { colleges } = props;
   return (
     <div className={styles.container}>

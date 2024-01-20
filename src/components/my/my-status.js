@@ -76,7 +76,7 @@ export default function MyStatus(props) {
         <Link href="/my/activity/" className={styles.item}>
           <div className={styles.itemText}>활동내역</div>
         </Link>
-        <Link href="/" className={styles.item}>
+        <Link href="/my/favorite/" className={styles.item}>
           <div className={styles.itemText}>즐거찾기</div>
         </Link>
         <Link href="/" className={styles.item}>
