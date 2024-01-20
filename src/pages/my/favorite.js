@@ -46,6 +46,7 @@ export default function MyScrapPage() {
       formatName: "lille_catholic_university",
     },
   ];
+
   const titleStyle = {
     margin: "20px 0 10px 20px",
     fontFamily: "Abhaya Libre ExtraBold",

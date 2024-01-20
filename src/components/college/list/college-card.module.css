@@ -1,7 +1,3 @@
-.link {
-  text-decoration-line: none;
-}
-
 .card {
   position: relative;
   margin: 0 20px 0 20px;
@@ -12,6 +8,8 @@
 
   overflow: hidden;
   display: flex;
+
+  text-decoration-line: none;
 }
 
 .flex {
