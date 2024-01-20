@@ -70,17 +70,11 @@ export default function MyStatus(props) {
       </div>
 
       <div className={styles.category}>
-        <Link href="/" className={styles.item}>
-          <div className={styles.itemText}>개인정보</div>
-        </Link>
         <Link href="/my/activity/" className={styles.item}>
           <div className={styles.itemText}>활동내역</div>
         </Link>
         <Link href="/my/favorite/" className={styles.item}>
           <div className={styles.itemText}>즐거찾기</div>
-        </Link>
-        <Link href="/" className={styles.item}>
-          <div className={styles.itemText}>탭2</div>
         </Link>
         <button className={styles.item} onClick={toggleLogout}>
           <div className={styles.itemText}>로그아웃</div>
