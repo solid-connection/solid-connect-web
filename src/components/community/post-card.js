@@ -8,7 +8,7 @@ import FavoriteOutlined from "../ui/icon/FavoriteOutlined";
 export default function PostCard(props) {
   const { id, title, content, category, date, favoriteCount, commentCount, image } = props;
   return (
-    <Link href="/community/1" className={styles.a}>
+    <Link href="/community/post/1" className={styles.a}>
       <div className={styles.card}>
         <div className={styles.textZone}>
           <div className={styles.meta}>

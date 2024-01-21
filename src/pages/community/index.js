@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Head from "next/head";
 
 import PostCards from "@/components/community/post-cards";
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
@@ -40,6 +41,9 @@ export default function CommunityPage() {
 
   return (
     <>
+      <Head>
+        <title>커뮤니티</title>
+      </Head>
       <TopDetailNavigation title="커뮤니티" />
       <div>
         <div style={communityTitleStyle}>프랑스</div>
