@@ -1,0 +1,43 @@
+.commentBox {
+  height: 49px;
+  width: 100%;
+
+  display: flex;
+
+  position: fixed;
+  bottom: 56px;
+}
+.commentInput {
+  width: 100%;
+  background-color: #fff;
+  border-top: 1px solid #ececec;
+  border-bottom: 1px solid #ececec;
+}
+.commentInput input {
+  padding: 14px 20px 14px 20px;
+  width: 100%;
+
+  border: none;
+  outline: none;
+
+  overflow: hidden;
+  color: #808080;
+  font-feature-settings: "clig" off, "liga" off;
+  text-overflow: ellipsis;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%; /* 21px */
+}
+
+.commentSubmit {
+  width: 65px;
+  background: var(--primary-1, #6f96d1);
+
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

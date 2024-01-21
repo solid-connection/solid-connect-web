@@ -4,6 +4,9 @@ import { getPostDetail } from "@/pages/api/post/[id]";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import Post from "@/components/community/post/post";
+import Comments from "@/components/community/post/comments";
+import CommentWrite from "@/components/community/post/comment-write";
+
 export default function PostPage(props) {
   const { id, title, createdAt, category, content, images, favoriteCount, author, comments } = props;
   return (
@@ -12,8 +15,11 @@ export default function PostPage(props) {
         <title>{props.title}</title>
       </Head>
       <TopDetailNavigation title={props.category} />
-      <Post {...props} />
-      {/* <Comments /> */}
+      <div style={{ backgroundColor: "#FAFAFA", minHeight: "100vh" }}>
+        <Post {...props} />
+        <Comments comments={comments} />
+        <CommentWrite />
+      </div>
     </>
   );
 }
