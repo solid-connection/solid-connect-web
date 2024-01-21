@@ -1,7 +1,8 @@
-import PostCard from "@/components/community/post-card";
+import { useState } from "react";
+
 import PostCards from "@/components/community/post-cards";
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
-import React, { useRef } from "react";
+import ButtonTab from "@/components/ui/button-tab";
 
 export default function CommunityPage() {
   const posts = [
@@ -24,9 +25,27 @@ export default function CommunityPage() {
       content: "안녕하세요 유저가 작성한 글의 내용 일부가 여기에 보입니다. 몇글자가 들어가는지는 모르겠지만 더 들어간다면ㅊ녕하세요 유저가 작성한 글의 내용 일부가 여기에 보입니다. 몇글자가 들어가는지는 모르겠지만 더 들어간다면ㅊ ",
     },
   ];
+  const categories = ["전체", "입학준비", "무료양도", "거래", "동행", "자유"];
+  const [category, setCategory] = useState("전체");
+
+  const communityTitleStyle = {
+    margin: "20px 0 14px 20px",
+    color: "#000",
+    fontFamily: "Pretendard",
+    fontSize: "22px",
+    fontStyle: "normal",
+    fontWeight: "600",
+    lineHeight: "150%", // 33px;
+  };
+
   return (
-    <div>
-      <PostCards posts={posts} />
-    </div>
+    <>
+      <TopDetailNavigation title="커뮤니티" />
+      <div>
+        <div style={communityTitleStyle}>프랑스</div>
+        <ButtonTab choices={categories} choice={category} setChoice={setCategory} color={{ background: "#FAFAFA" }} style={{ padding: "10px 0 10px 18px" }} />
+        <PostCards posts={posts} />
+      </div>
+    </>
   );
 }
