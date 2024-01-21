@@ -4,6 +4,7 @@ import Head from "next/head";
 import PostCards from "@/components/community/post-cards";
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import ButtonTab from "@/components/ui/button-tab";
+import PostWriteButton from "@/components/community/post-write-button";
 
 export default function CommunityPage() {
   const posts = [
@@ -49,6 +50,7 @@ export default function CommunityPage() {
         <div style={communityTitleStyle}>프랑스</div>
         <ButtonTab choices={categories} choice={category} setChoice={setCategory} color={{ background: "#FAFAFA" }} style={{ padding: "10px 0 10px 18px" }} />
         <PostCards posts={posts} />
+        <PostWriteButton onClick={() => {}} />
       </div>
     </>
   );
