@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 import styles from "./college-card.module.css";
 import CheveronRightFilled from "../../ui/icon/ChevronRightFilled";
@@ -8,7 +9,7 @@ export default function CollegeCard(props) {
   return (
     <Link className={styles.card} href={`/college/${id}`}>
       <div className={styles.centerAlign}>
-        <img className={styles.image} src={`https://solid-connection.s3.ap-northeast-2.amazonaws.com/original/${formatName}/logo.png`} width={100} height={100} />
+        <Image className={styles.image} src={`https://solid-connection.s3.ap-northeast-2.amazonaws.com/original/${formatName}/logo.png`} width={100} height={100} />
       </div>
 
       <div className={styles.info}>

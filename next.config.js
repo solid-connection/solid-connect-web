@@ -6,6 +6,9 @@ const nextConfig = {
     KAKAO_CLIENT_ID: "b929e0134696bee489e7d9b9691161ba",
     KAKAO_CLIENT_SECRET: "9vuL2tIB5fSeYbjX6dEbFJFJTLjKndxJ",
   },
+  images: {
+    domains: ["solid-connection.s3.ap-northeast-2.amazonaws.com"],
+  },
 };
 
 module.exports = nextConfig;

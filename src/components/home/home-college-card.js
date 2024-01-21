@@ -7,7 +7,7 @@ export default function HomeCollegeCard(props) {
   return (
     <Link href={`/college/${props.id}`}>
       <div className={styles.card}>
-        <img className={styles.image} src={props.image} width={153} height={120} />
+        <Image className={styles.image} src={props.image} width={153} height={120} />
         <div className={styles.name}>{props.name}</div>
       </div>
     </Link>
