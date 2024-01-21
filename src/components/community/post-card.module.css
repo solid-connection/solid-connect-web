@@ -1,0 +1,103 @@
+.a {
+  text-decoration-line: none;
+}
+
+.card {
+  padding: 16px 19px 16px 20px;
+  border-bottom: solid 1px #ececec;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.textZone {
+  display: flex;
+  flex-direction: column;
+}
+
+.meta {
+  display: flex;
+}
+.category {
+  overflow: hidden;
+  color: #7c7c7c;
+  font-feature-settings: "clig" off, "liga" off;
+  text-overflow: ellipsis;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 150%; /* 21px */
+}
+.date {
+  margin-left: 10px;
+  overflow: hidden;
+  color: #7c7c7c;
+  font-feature-settings: "clig" off, "liga" off;
+  text-overflow: ellipsis;
+  font-family: Pretendard;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%; /* 18px */
+}
+
+.title {
+  margin-top: 8px;
+  color: #000;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.content {
+  margin-top: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #7c7c7c;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 150%; /* 21px */
+  height: 42px; /* 2줄로 자르기 위해 */
+}
+
+.icons {
+  margin-top: 4px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.icons > div {
+  display: flex;
+  gap: 1px;
+  align-items: center;
+}
+.icons span {
+  overflow: hidden;
+  color: #595959;
+  font-feature-settings: "clig" off, "liga" off;
+  text-overflow: ellipsis;
+  font-family: Pretendard;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%; /* 18px */
+}
+
+.imageZone {
+  margin-top: 11px;
+  margin-left: 15px;
+  width: 82px;
+  height: 82px;
+  user-select: none;
+}
+.imageZone > img {
+  object-fit: cover;
+  border-radius: 6px;
+}
