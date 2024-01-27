@@ -49,9 +49,9 @@
   position: sticky;
   top: 103px;
 
-  width: calc(100% - 20px);
+  width: calc(100% - 40px);
   height: 52px;
-  padding-left: 20px;
+  padding: 0 20px 0 20px;
   background: #d9d9d9;
   overflow-x: auto;
   white-space: nowrap;
@@ -71,17 +71,27 @@
 /* 섹션 */
 .scrollOffset {
   /* 네비게이션 + 탭 = 56 + 47 = 103*/
-  padding-top: 103px;
+  /* 추가 20 */
+  padding-top: 123px;
   margin-top: -103px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 }
 .scrollOffsetWithBar {
   /* 네비게이션 + 탭 + 바 = 56 + 47 + 52 = 155 */
-  padding-top: 155px;
+  /* 추가 20 */
+  padding-top: 175px;
   margin-top: -155px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 }
 
 .title {
-  margin: 24px 0 0 20px;
+  margin: 0 0 0 20px;
 
   color: #000;
   font-family: Pretendard;
