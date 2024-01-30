@@ -9,7 +9,7 @@ export default function CollegeCard(props) {
   return (
     <Link className={styles.card} href={`/college/${id}`}>
       <div className={styles.centerAlign}>
-        <Image className={styles.image} src={`https://solid-connection.s3.ap-northeast-2.amazonaws.com/original/${formatName}/logo.png`} width={100} height={100} />
+        <Image className={styles.image} src={`https://solid-connection.s3.ap-northeast-2.amazonaws.com/original/${formatName}/logo.png`} width={100} height={100} alt={name || "이미지 없음"} />
       </div>
 
       <div className={styles.info}>

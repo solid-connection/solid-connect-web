@@ -4,13 +4,10 @@ import PostCard from "./post-card";
 export default function PostCards(props) {
   const { title, posts } = props;
   return (
-    <div style={{ marginLeft: "20px" }}>
-      <div className={styles.title}>{title}</div>
-      <div className={styles.container}>
-        {posts.map((post) => (
-          <PostCard key={post.id} {...post} />
-        ))}
-      </div>
+    <div className={styles.container} style={{ margin: "20px 0 0 20px" }}>
+      {posts.map((post) => (
+        <PostCard key={post.id} {...post} />
+      ))}
     </div>
   );
 }

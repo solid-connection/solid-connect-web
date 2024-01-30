@@ -1,0 +1,35 @@
+.form {
+  margin-top: 10px;
+}
+
+.title {
+  height: 50px;
+  border-bottom: 1px solid #ececec;
+}
+.title input {
+  width: 100%;
+  padding: 10px 20px 10px 20px;
+
+  border: none;
+  outline: none;
+
+  color: rgba(124, 124, 124, 0.87);
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Pretendard;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 160%; /* 28.8px */
+}
+
+.content textarea {
+  padding: 16px 20px 0 20px;
+
+  color: rgba(124, 124, 124, 0.87);
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 160%; /* 25.6px */
+}

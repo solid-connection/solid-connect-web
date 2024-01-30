@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useRouter } from "next/router";
 import Head from "next/head";
 
 import PostCards from "@/components/community/post-cards";
@@ -40,6 +41,11 @@ export default function CommunityPage() {
     lineHeight: "150%", // 33px;
   };
 
+  const router = useRouter();
+  const postWriteHandler = () => {
+    router.push("/community/post/create");
+  };
+
   return (
     <>
       <Head>
@@ -50,7 +56,7 @@ export default function CommunityPage() {
         <div style={communityTitleStyle}>프랑스</div>
         <ButtonTab choices={categories} choice={category} setChoice={setCategory} color={{ background: "#FAFAFA" }} style={{ padding: "10px 0 10px 18px" }} />
         <PostCards posts={posts} />
-        <PostWriteButton onClick={() => {}} />
+        <PostWriteButton onClick={postWriteHandler} />
       </div>
     </>
   );

@@ -1,7 +1,28 @@
+import { useState } from "react";
+
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
+import ScrollTab from "@/components/ui/scroll-tab";
 import CollegeCards from "@/components/college/list/college-cards";
+import PostCards from "@/components/my/activity/post-cards";
 
 export default function MyScrapPage() {
+  const posts = [
+    {
+      id: 1,
+      title: "보라스 대학교에 관한 정보",
+      content:
+        "안녕하세요 유저가 작성한 글의 내용 일부가 여기에 보입니다. 몇글자가 들어가는지는 모르겠지만 더 들어간다면ㅊ안녕하세요 유저가 작성한 글의 내용 일부가 여기에 보입니다. 몇글자가 들어가는지는 모르겠지만 더 들어간다면ㅊ안녕하세요 유저가 작성한 글의 내용 일부가 여기에 보입니다. 몇글자가 들어가는지는 모르겠지만 더 들어간다면ㅊ ",
+      createdAt: "2024. 1. 1.",
+      college: "보라스 대학교",
+    },
+    {
+      id: 2,
+      title: "보라스 대학교에 관한 정보",
+      content: "2 ",
+      createdAt: "2024. 1. 1.",
+      college: "보라스 대학교",
+    },
+  ];
   const colleges = [
     {
       id: 97,
@@ -47,20 +68,25 @@ export default function MyScrapPage() {
     },
   ];
 
-  const titleStyle = {
-    margin: "20px 0 10px 20px",
-    fontFamily: "Abhaya Libre ExtraBold",
-    fontSize: "18px",
-    fontStyle: "normal",
-    fontWeight: "800",
-    lineHeight: "normal",
-  };
+  const tabs = ["스크랩 한 글", "멘토", "위시학교"];
+  const [tab, setTab] = useState(tabs[0]);
 
   return (
     <>
       <TopDetailNavigation title="즐거찾기" />
-      <div style={titleStyle}>위시학교</div>
-      <CollegeCards colleges={colleges} />
+      <ScrollTab choices={tabs} choice={tab} setChoice={setTab} />
+      {(() => {
+        switch (tab) {
+          case tabs[0]:
+            return <PostCards posts={posts} />;
+          case tabs[1]:
+            return <></>;
+          case tabs[2]:
+            return <CollegeCards colleges={colleges} style={{ marginTop: "20px" }} />;
+          default:
+            return null; // 기본값으로 null 반환을 추가하는 것이 좋습니다.
+        }
+      })()}
     </>
   );
 }
