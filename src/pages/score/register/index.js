@@ -9,9 +9,8 @@ import FormLanguage from "@/components/score/register/form-language";
 
 export default function ScoreRegisterPage() {
   const [progress, setProgress] = useState(50);
-  const 
 
-  const currentForm = <FormLanguage  />;
+  const currentForm = <FormLanguage />;
   return (
     <>
       <Head>
