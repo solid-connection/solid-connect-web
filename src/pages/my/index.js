@@ -1,8 +1,9 @@
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
+
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import MyStatus from "@/components/my/my-status";
-import { Fragment, useEffect } from "react";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
 
 export default function MyPage() {
   // const { data: session, status } = useSession();
@@ -22,9 +23,12 @@ export default function MyPage() {
 
   // 로그인 상태일 때만 마이페이지 내용 표시
   return (
-    <Fragment>
+    <>
+      <Head>
+        <title>마이페이지</title>
+      </Head>
       <TopDetailNavigation title="마이페이지" />
       <MyStatus />
-    </Fragment>
+    </>
   );
 }

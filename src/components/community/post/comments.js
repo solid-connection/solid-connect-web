@@ -5,7 +5,7 @@ export default function Comments(props) {
   return (
     <div>
       {comments.map((comment) => (
-        <div className={styles.comment}>
+        <div className={styles.comment} key={comment.id}>
           <div className={styles.commentAuthor}>
             <div className={styles.commentAuthorProfileImage}>{comment.author.profileImage && <Image src={comment.author.profileImage} width={40} height={40} />}</div>
             <div className={styles.commentAuthorName}>{comment.author.name}</div>

@@ -25,6 +25,7 @@ export default function Home(props) {
     university: "보라스 대학교",
     period: "2024년 1학기 ~ 2024년 2학기",
   };
+  const scoreRegistered = false;
 
   return (
     <div className={styles.wrapper}>
@@ -39,12 +40,34 @@ export default function Home(props) {
 
       <HomeSearch />
 
+      {scoreRegistered ? (
+        <Link className={styles.banner} href="/my">
+          <div className={styles.bannerImageWrapper}>
+            <Image className={styles.bannerImage} src="/images/check-grade.jpeg" alt="학교 지원하기" width={335} height={54} />
+          </div>
+          <div className={styles.bannerTextWrapper}>
+            <div className={styles.bannerText}>학교 지원하기</div>
+            <CheveronRightFilled color="#F2F1DF" className={styles.bannerIcon} />
+          </div>
+        </Link>
+      ) : (
+        <Link className={styles.banner} href="/score/register">
+          <div className={styles.bannerImageWrapper}>
+            <Image className={styles.bannerImage} src="/images/check-grade.jpeg" alt="나의 성적 입력하기" width={335} height={54} />
+          </div>
+          <div className={styles.bannerTextWrapper}>
+            <div className={styles.bannerText}>나의 성적 입력하기</div>
+            <CheveronRightFilled color="#F2F1DF" className={styles.bannerIcon} />
+          </div>
+        </Link>
+      )}
+
       <Link className={styles.banner} href="/score">
         <div className={styles.bannerImageWrapper}>
-          <Image className={styles.bannerImage} src="/images/check-grade.jpeg" alt="성적 공유시트 확인하기" width={335} height={54} />
+          <Image className={styles.bannerImage} src="/images/check-grade.jpeg" alt="지원자 현황 확인하기" width={335} height={54} />
         </div>
         <div className={styles.bannerTextWrapper}>
-          <div className={styles.bannerText}>성적 공유시트 확인하기</div>
+          <div className={styles.bannerText}>지원자 현황 확인하기</div>
           <CheveronRightFilled color="#F2F1DF" className={styles.bannerIcon} />
         </div>
       </Link>

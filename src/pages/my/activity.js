@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Head from "next/head";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import PostCards from "@/components/my/activity/post-cards";
@@ -43,6 +44,9 @@ export default function MyActivityPage() {
   const [choice, setChoice] = useState(choices[0]);
   return (
     <>
+      <Head>
+        <title>활동내역</title>
+      </Head>
       <TopDetailNavigation title="활동내역" />
       <ScrollTab choices={choices} choice={choice} setChoice={setChoice} />
       <PostCards posts={choice === choices[0] ? posts : commentPosts} />

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Head from "next/head";
 import { useRouter } from "next/router";
 
 import CollegeCards from "../../components/college/list/college-cards";
@@ -43,6 +44,9 @@ export default function CollegePage(props) {
 
   return (
     <>
+      <Head>
+        <title>솔리드 커넥션</title>
+      </Head>
       <TopNavigation />
       <CollegeSearch searchHandler={findCollegeHandler} text={searchText} setText={setSearchText} />
       <ButtonTab choices={filters} choice={filter} setChoice={setFilter} color={{ deactiveBtn: "#D9D9D9" }} style={{ marginTop: "14px", marginLeft: "18px" }} />

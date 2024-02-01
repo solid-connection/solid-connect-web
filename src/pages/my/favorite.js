@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Head from "next/head";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import ScrollTab from "@/components/ui/scroll-tab";
@@ -73,6 +74,9 @@ export default function MyScrapPage() {
 
   return (
     <>
+      <Head>
+        <title>즐거찾기</title>
+      </Head>
       <TopDetailNavigation title="즐거찾기" />
       <ScrollTab choices={tabs} choice={tab} setChoice={setTab} />
       {(() => {

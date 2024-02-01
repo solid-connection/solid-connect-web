@@ -1,20 +1,27 @@
 import { useState } from "react";
+import Head from "next/head";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import ProgressBar from "@/components/score/register/progress-bar";
 import Button from "@/components/score/register/button";
 
+import FormLanguage from "@/components/score/register/form-language";
+
 export default function ScoreRegisterPage() {
   const [progress, setProgress] = useState(50);
+  const 
 
-  const currentForm = <div>아아</div>;
+  const currentForm = <FormLanguage  />;
   return (
     <>
+      <Head>
+        <title>성적 입력하기</title>
+      </Head>
       <TopDetailNavigation title="성적 입력하기" />
       <div>
-        <ProgressBar style={{ margin: "11px 20px 0 20px" }} progress={progress} description="본 과정 완료 후, 지원자 현황을 확인 할 수 있습니다. " />
+        <ProgressBar style={{ margin: "11px 20px 0 20px" }} progress={progress} />
         {currentForm}
-        <Button text="다음" style={{ margin: "0 20px 0 20px" }} />
+        <Button text="다음" style={{ position: "fixed", width: "calc(100% - 40px)", maxWidth: "560px", margin: "0 0 0 20px", bottom: "86px" }} />
       </div>
     </>
   );

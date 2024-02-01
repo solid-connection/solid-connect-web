@@ -6,7 +6,7 @@ export default function PostCard(props) {
   const { id, title, content, createdAt, college } = props;
 
   return (
-    <Link href={`/post/${id}`} className={styles.box}>
+    <Link href={`/community/post/${id}`} className={styles.box}>
       <div className={styles.meta}>
         <div>{createdAt}</div>
         <div>{college}</div>
