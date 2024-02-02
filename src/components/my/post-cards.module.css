@@ -1,25 +1,30 @@
+/* post-cards */
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* post-card */
 .box {
-  margin-right: 20px;
   padding-right: 16px;
   height: 114px;
-
-  border-radius: 6px;
   border: 1px solid #eaeaea;
-  background: #fff;
+  border-radius: 6px;
+  text-decoration-line: none;
 
   display: flex;
   flex-direction: column;
-
-  text-decoration-line: none;
 }
 
 .meta {
   margin: 10px 0 0 12px;
+
   display: flex;
   flex-direction: row;
   gap: 20px;
-
-  overflow: hidden;
+}
+.meta > div {
   color: #7c7c7c;
   font-feature-settings: "clig" off, "liga" off;
   text-overflow: ellipsis;

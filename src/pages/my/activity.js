@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Head from "next/head";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
-import PostCards from "@/components/my/activity/post-cards";
+import PostCards from "@/components/my/post-cards";
 import ScrollTab from "@/components/ui/scroll-tab";
 
 export default function MyActivityPage() {

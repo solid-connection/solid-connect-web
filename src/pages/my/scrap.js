@@ -1,5 +1,5 @@
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
-import PostCards from "@/components/my/activity/post-cards";
+import PostCards from "@/components/my/post-cards";
 
 export default function MyScrapPage() {
   const posts = [

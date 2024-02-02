@@ -4,7 +4,7 @@ import Head from "next/head";
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import ScrollTab from "@/components/ui/scroll-tab";
 import CollegeCards from "@/components/college/list/college-cards";
-import PostCards from "@/components/my/activity/post-cards";
+import PostCards from "@/components/my/post-cards";
 
 export default function MyScrapPage() {
   const posts = [
