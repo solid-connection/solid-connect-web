@@ -48,15 +48,16 @@ export default function HomeSearch(props) {
     <div style={{ marginRight: "20px" }}>
       <ButtonTab choices={regions} choice={region} setChoice={setRegion} color={{ deactiveBtn: "#f0f0f0", deactiveBtnFont: "#A2A2A2" }} style={{ marginTop: "14px" }} />
       {region !== "" && <SearchTestTab tests={tests} test={test} setTest={setTest} />}
-      <div className={styles.searchInputs}>
-        <SearchInputTest test={test} />
-        <SearchInputCountry />
-        <SearchInputInterest id={1} value={country1} setValue={setCountry1} />
-        {country1 && <SearchInputInterest id={2} value={country2} setValue={setCountry2} />}
-        {country2 && <SearchInputInterest id={3} value={country3} setValue={setCountry3} />}
-
-        <button className={styles.searchButton}>학교 검색</button>
-      </div>
+      {test && (
+        <div className={styles.searchInputs}>
+          <SearchInputTest test={test} />
+          <SearchInputCountry />
+          <SearchInputInterest id={1} value={country1} setValue={setCountry1} />
+          {country1 && <SearchInputInterest id={2} value={country2} setValue={setCountry2} />}
+          {country2 && <SearchInputInterest id={3} value={country3} setValue={setCountry3} />}
+          <button className={styles.searchButton}>학교 검색</button>
+        </div>
+      )}
 
       <div className={styles.searchContainer}></div>
     </div>
