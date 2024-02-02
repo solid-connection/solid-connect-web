@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import styles from "./college-bottomsheet.module.css";
 import CollegeReviews from "./college-reviews";
 import ScrollTab from "@/components/ui/scroll-tab";
-import GoogleEmbedMap from "@/components/map/google-embed-map";
+import GoogleEmbedMap from "@/components/ui/map/google-embed-map";
 
 export default function CollegeBottomSheet(props) {
   const { id, name, englishName, country, region, homepageUrl, image, studentCapacity, tuitionFeeType, gpaRequirement, semesterRequirement, languageRequirements } = props;
