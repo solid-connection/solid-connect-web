@@ -1,5 +1,7 @@
-import EditFilled from "../ui/icon/EditFilled";
+import Link from "next/link";
+
 import styles from "./my-profile.module.css";
+import EditFilled from "../ui/icon/EditFilled";
 
 export default function MyProfile(props) {
   const { image, name, role, date, college, email } = props;
@@ -9,9 +11,11 @@ export default function MyProfile(props) {
         <img src={image} alt="프로필 이미지" />
       </div>
       <div className={styles.info}>
-        <div className={styles.name} onClick={() => {}}>
+        <div className={styles.name}>
           <div>{name}</div>
-          <EditFilled />
+          <Link href="/my/modify">
+            <EditFilled />
+          </Link>
         </div>
         <div className={styles.subInfo}>
           <div className={styles.role}>{role}</div>

@@ -22,7 +22,6 @@
 .name {
   display: flex;
   gap: 6px;
-  cursor: pointer;
 }
 .name div {
   color: #000;
