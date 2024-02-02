@@ -1,0 +1,26 @@
+.menu {
+  display: flex;
+  flex-direction: column;
+}
+
+.item {
+  height: 61px;
+  border: 0;
+  background-color: white;
+  text-decoration: none;
+  cursor: pointer;
+
+  padding-left: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.item div {
+  color: #000;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}

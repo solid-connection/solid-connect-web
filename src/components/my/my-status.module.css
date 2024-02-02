@@ -1,40 +1,24 @@
-.favoriteContainer {
-  height: 95px;
+.container {
+  height: 125px;
   border-top: 1px solid #d2d2d2;
   border-bottom: 1px solid #d2d2d2;
+  background: rgba(196, 221, 255, 0.2);
   display: flex;
 }
 
-.favoriteBox {
+.container > a {
   width: 50%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 14px;
 
   text-decoration: none;
 }
 
-.favoriteTitle {
-  position: relative;
+.subject {
   color: #7e7e7e;
-  font-feature-settings: "clig" off, "liga" off;
-  font-family: Pretendard;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-}
-
-.favoriteIcon {
-  position: absolute;
-  margin-left: 5px;
-}
-
-.favoriteContent {
-  margin-top: 16px;
-
-  color: #000;
   font-feature-settings: "clig" off, "liga" off;
   font-family: Pretendard;
   font-size: 16px;
@@ -43,30 +27,12 @@
   line-height: normal;
 }
 
-.category {
-  display: flex;
-  flex-direction: column;
-}
-
-.item {
-  height: 48px;
-  display: flex;
-  border: 0;
-  background-color: white;
-
-  align-items: center;
-  padding-left: 20px;
-  text-decoration: none;
-
-  cursor: pointer;
-}
-
-.itemText {
+.content {
   color: #000;
   font-feature-settings: "clig" off, "liga" off;
   font-family: Pretendard;
-  font-size: 12px;
+  font-size: 16px;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 600;
   line-height: normal;
 }
