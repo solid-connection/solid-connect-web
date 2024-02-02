@@ -17,7 +17,7 @@ export default function ScorePage() {
     event.preventDefault();
 
     // 임시
-    console.log(searchText);
+    // console.log(searchText);
     setTempText(searchText);
 
     setSearchActive(false);
@@ -26,7 +26,7 @@ export default function ScorePage() {
     setSearchText(keyWord);
 
     // 임시
-    console.log(keyWord);
+    // console.log(keyWord);
     setTempText(keyWord);
 
     setSearchActive(false);

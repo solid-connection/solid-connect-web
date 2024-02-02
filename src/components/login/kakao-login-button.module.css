@@ -1,0 +1,7 @@
+.image {
+  margin: 0 20px 0 20px;
+  width: calc(100% - 40px);
+  max-width: 600px;
+  height: auto;
+  cursor: pointer;
+}

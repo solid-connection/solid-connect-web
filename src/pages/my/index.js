@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useSession } from "next-auth/react";
+// import { useSession } from "next-auth/react";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import MyStatus from "@/components/my/my-status";
