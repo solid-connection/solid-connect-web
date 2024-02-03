@@ -1,8 +1,7 @@
 import React, { useRef, useEffect } from "react";
-import CollegeReviewCard from "./college-review-card";
 import styles from "./college-reviews.module.css";
 
-export default function CollegeReviews() {
+export default function CollegeReviews(props) {
   const containerRef = useRef(null);
 
   const handleWheel = (e) => {
@@ -26,7 +25,7 @@ export default function CollegeReviews() {
   }, []);
 
   return (
-    <div ref={containerRef} className={styles.container}>
+    <div ref={containerRef} className={styles.container} style={props.style}>
       <div className={styles.items}>
         <CollegeReviewCard />
         <CollegeReviewCard />
@@ -39,4 +38,8 @@ export default function CollegeReviews() {
       </div>
     </div>
   );
+}
+
+export function CollegeReviewCard(props) {
+  return <div className={styles.card}></div>;
 }

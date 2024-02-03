@@ -7,3 +7,11 @@
   display: flex;
   gap: 8px;
 }
+
+.card {
+  width: 132px;
+  min-width: 132px;
+  height: 188px;
+
+  background-color: #d9d9d9;
+}

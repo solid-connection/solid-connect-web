@@ -1,6 +1,5 @@
 .bottomSheet {
   position: relative;
-
   background-color: white;
   border-radius: 30px 30px 0px 0px;
 }
@@ -24,7 +23,7 @@
   top: -12px;
   transform: translateY(-100%);
 
-  color: var(--secondary-2, #f2f1df);
+  color: #fff;
   font-family: Pretendard;
   font-size: 32px;
   font-style: normal;
@@ -45,14 +44,14 @@
 }
 
 .bar {
-  margin-top: 20px; /* 임시 */
+  margin-top: 42px; /* 임시 */
   position: sticky;
   top: 103px;
 
   width: calc(100% - 40px);
   height: 52px;
   padding: 0 20px 0 20px;
-  background: #d9d9d9;
+  background: var(--primary-1, #6f90d1);
   overflow-x: auto;
   white-space: nowrap;
 
@@ -60,7 +59,7 @@
   gap: 10px;
   align-items: center;
 
-  color: #000;
+  color: #fff;
   font-family: Pretendard;
   font-size: 16px;
   font-style: normal;
@@ -71,8 +70,8 @@
 /* 섹션 */
 .scrollOffset {
   /* 네비게이션 + 탭 = 56 + 47 = 103*/
-  /* 추가 20 */
-  padding-top: 123px;
+  /* 추가 42 */
+  padding-top: 145px;
   margin-top: -103px;
 
   display: flex;
@@ -81,8 +80,8 @@
 }
 .scrollOffsetWithBar {
   /* 네비게이션 + 탭 + 바 = 56 + 47 + 52 = 155 */
-  /* 추가 20 */
-  padding-top: 175px;
+  /* 추가 21 */
+  padding-top: 176px;
   margin-top: -155px;
 
   display: flex;
@@ -91,8 +90,7 @@
 }
 
 .title {
-  margin: 0 0 0 20px;
-
+  margin-left: 20px;
   color: #000;
   font-family: Pretendard;
   font-size: 16px;

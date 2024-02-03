@@ -20,15 +20,5 @@
   padding: 14px 20px;
   justify-content: center;
   align-items: center;
-
   border-bottom: 2px solid var(--secondary-2, #f2f1df);
-}
-.tabButtonActive {
-  display: flex;
-  padding: 14px 20px;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-
-  border-bottom: 2px solid var(--primary-1, #6f90d1);
 }

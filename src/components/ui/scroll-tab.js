@@ -1,12 +1,12 @@
 import styles from "./scroll-tab.module.css";
 
 export default function ScrollTab(props) {
-  const { style, choices, choice, setChoice } = props;
+  const { choices, choice, setChoice, borderColor } = props;
 
   return (
-    <div style={style} className={styles.tabContainer}>
+    <div style={props.style} className={styles.tabContainer}>
       {choices.map((c) => (
-        <div key={c} className={choice === c ? styles.tabButtonActive : styles.tabButton} onClick={() => setChoice(c)}>
+        <div key={c} className={styles.tabButton} style={choice === c ? { borderColor: borderColor || "var(--primary-1, #6f90d1)" } : {}} onClick={() => setChoice(c)}>
           <div>{c}</div>
         </div>
       ))}
