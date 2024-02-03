@@ -83,9 +83,10 @@
   flex-direction: column;
   gap: 36px;
 }
-.list > div {
+.item {
   display: flex;
   gap: 40px;
+  align-items: center;
 }
 .item .key {
   flex-basis: 83px;
@@ -103,11 +104,4 @@
   font-style: normal;
   font-weight: 500;
   line-height: 150%; /* 24px */
-}
-.item .valueFile {
-  flex-grow: 1;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-right: 23px;
 }
