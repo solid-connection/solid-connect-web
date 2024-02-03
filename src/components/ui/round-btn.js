@@ -13,6 +13,7 @@ export default function RoundBtn(props) {
     fontStyle: "normal",
     fontWeight: 500,
     lineHeight: "160%",
+    cursor: "pointer",
   };
 
   return (

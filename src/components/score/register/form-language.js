@@ -5,7 +5,7 @@ import RoundBtn from "@/components/ui/round-btn";
 import BlockBtn from "@/components/ui/block-btn";
 
 export default function FormLanguage(props) {
-  const { setProgress } = props;
+  const { setProgress, setCurrentStage } = props;
 
   const fileInputRef = useRef(null);
   const languageTypeRef = useRef(null);
@@ -33,20 +33,19 @@ export default function FormLanguage(props) {
       alert("점수를 입력해주세요.");
       return;
     }
-    if (!certNameRef.current.value) {
-      alert("증명서 이름을 입력해주세요.");
-      return;
-    }
+    // if (!certName.value) {
+    //   alert("증명서를 첨부해주세요.");
+    //   return;
+    // }
     if (fileInputRef.current.files.length === 0) {
-      alert("파일을 첨부해주세요.");
+      alert("증명서를 첨부해주세요.");
       return;
     }
     const file = fileInputRef.current.files[0];
     // 이제 file과 다른 입력값을 함께 처리할 수 있습니다.
     // 예: FormData를 사용하여 서버에 업로드
 
-    // 모든 검사가 통과되면 다음 단계로 진행
-    // 예: setProgress(...)
+    setCurrentStage(2);
   };
 
   return (
@@ -76,7 +75,7 @@ export default function FormLanguage(props) {
         <input type="text" id="score" ref={scoreRef} />
       </div>
       <div className={styles.input}>
-        <label htmlFor="certName">증명서 이름</label>
+        <label htmlFor="certName">증명서 첨부</label>
         <input type="text" id="certName" value={certName} readOnly /> {/* 읽기 전용 속성 추가 */}
       </div>
       <div className={styles.btns}>

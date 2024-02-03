@@ -3,7 +3,6 @@ import Head from "next/head";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import ProgressBar from "@/components/score/register/progress-bar";
-import Button from "@/components/ui/block-btn";
 
 import FormLanguage from "@/components/score/register/form-language";
 import FormScore from "@/components/score/register/form-score";
@@ -17,9 +16,9 @@ export default function ScoreRegisterPage() {
   function renderCurrentForm() {
     switch (currentStage) {
       case 1:
-        return <FormLanguage setProgress={setProgress} />;
+        return <FormLanguage setProgress={setProgress} setCurrentStage={setCurrentStage} />;
       case 2:
-        return <FormScore setProgress={setProgress} />;
+        return <FormScore setProgress={setProgress} setCurrentStage={setCurrentStage} />;
       case 3:
         return <FormFinal setProgress={setProgress} />;
       default:
