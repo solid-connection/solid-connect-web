@@ -21,11 +21,16 @@ export default function CollegeCard(props) {
           <span className={styles.capacity}>모집 {studentCapacity}명</span>
         </div>
         <div className={styles.requirements}>
-          {Object.entries(languageRequirements).map(([key, value]) => (
-            <span key={key} className={styles.requirement}>
-              {key.toUpperCase()}: {value}
-            </span>
-          ))}
+          {Object.entries(languageRequirements)
+            .map(([key, value]) => {
+              if (key === "detail") return null;
+              return (
+                <span key={key} className={styles.requirement}>
+                  {key.toUpperCase()}: {value}
+                </span>
+              );
+            })
+            .slice(0, 3)}
         </div>
       </div>
 

@@ -8,7 +8,7 @@ import GoogleEmbedMap from "@/components/ui/map/google-embed-map";
 export default function CollegeBottomSheet(props) {
   const { id, name, englishName, formatName, region, country, homepageUrl, image } = props;
   const { studentCapacity, tuitionFeeType, semesterAvailableForDispatch } = props;
-  const { languageRequirements, gpaRequirement, semesterRequirement, majorRelatedRequirement } = props;
+  const { languageRequirements, gpaRequirement, gpaRequirementCriteria, semesterRequirement, majorRelatedRequirement } = props;
   const { dormitoryInfo, englishLectures, note } = props;
 
   const pages = ["학교정보", "어학성적", "지원전공", "위치", "파견후기"];
@@ -101,7 +101,7 @@ export default function CollegeBottomSheet(props) {
         </div>
 
         {/* 지원전공 */}
-        <div className={styles.scrollOffsetWithBar} ref={sectionRefs[2]}>
+        <div className={styles.scrollOffset} ref={sectionRefs[2]}>
           <div className={styles.item}>
             <div className={styles.title}>선발 인원</div>
             <div className={styles.content}>{studentCapacity}명</div>
@@ -120,7 +120,7 @@ export default function CollegeBottomSheet(props) {
           </div>
           <div className={styles.item}>
             <div className={styles.title}>최저성적 / 기준 성적</div>
-            <div className={styles.content}>{gpaRequirement ? `${gpaRequirement} / 4.5` : "없음"}</div>
+            <div className={styles.content}>{gpaRequirement ? `${gpaRequirement} / ${gpaRequirementCriteria}` : "없음"}</div>
           </div>
           <div className={styles.item}>
             <div className={styles.title}>전공 상세</div>
