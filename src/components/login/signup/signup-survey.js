@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useRouter } from "next/router";
+
 import Survey1 from "./survey-1";
 import Survey2 from "./survey-2";
 import Survey3 from "./survey-3";
@@ -12,6 +14,8 @@ export default function SignupSurvey(props) {
   const [countries, setCountries] = useState([]);
   // 3. 준비 단계: "CONSIDERING" | "PREPARING_FOR_DEPARTURE" | "STUDYING_ABROAD"
   const [preparation, setPreparation] = useState("CONSIDERING");
+
+  const router = useRouter();
 
   async function submitSurvey() {
     const response = await fetch("/api/auth/kakao-register", {

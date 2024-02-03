@@ -1,9 +1,13 @@
-import { signIn } from "next-auth/react";
+// import { signIn } from "next-auth/react";
+import { useRouter } from "next/router";
 
 export default function LoginPage() {
+  const router = useRouter();
+  router.push("/login/kakao");
+
   return (
     <div>
-      <button onClick={() => signIn("kakao")}>카카오로 로그인</button>
+      <h1>로그인</h1>
     </div>
   );
 }

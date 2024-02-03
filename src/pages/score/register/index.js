@@ -3,14 +3,29 @@ import Head from "next/head";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import ProgressBar from "@/components/score/register/progress-bar";
-import Button from "@/components/score/register/button";
+import Button from "@/components/ui/block-btn";
 
 import FormLanguage from "@/components/score/register/form-language";
+import FormScore from "@/components/score/register/form-score";
+import FormFinal from "@/components/score/register/form-final";
 
 export default function ScoreRegisterPage() {
-  const [progress, setProgress] = useState(50);
+  const [progress, setProgress] = useState(0);
+  const [currentStage, setCurrentStage] = useState(1);
 
   const currentForm = <FormLanguage />;
+  function renderCurrentForm() {
+    switch (currentStage) {
+      case 1:
+        return <FormLanguage setProgress={setProgress} />;
+      case 2:
+        return <FormScore setProgress={setProgress} />;
+      case 3:
+        return <FormFinal setProgress={setProgress} />;
+      default:
+        return <div>Survey Completed!</div>;
+    }
+  }
   return (
     <>
       <Head>
@@ -19,8 +34,7 @@ export default function ScoreRegisterPage() {
       <TopDetailNavigation title="성적 입력하기" />
       <div>
         <ProgressBar style={{ margin: "11px 20px 0 20px" }} progress={progress} />
-        {currentForm}
-        <Button text="다음" style={{ position: "fixed", width: "calc(100% - 40px)", maxWidth: "560px", margin: "0 0 0 20px", bottom: "86px" }} />
+        {renderCurrentForm()}
       </div>
     </>
   );

@@ -7,7 +7,6 @@ import EditTwo from "./icon/EditTwo";
 import Home from "./icon/Home";
 import WhatsNew from "./icon/WhatsNew";
 import Human from "./icon/Human";
-import FavoriteFilled from "../ui/FavoriteFilled";
 
 export default function BottomNavigation() {
   const router = useRouter();

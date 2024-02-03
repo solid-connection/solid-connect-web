@@ -2,10 +2,7 @@
   margin: 48px 0 0 20px;
 }
 
-.description {
-}
-
-.description h1 {
+.desc h1 {
   margin: 0;
   color: #000;
   font-family: Pretendard;
@@ -14,7 +11,7 @@
   font-weight: 700;
   line-height: 150%; /* 33px */
 }
-.description p {
+.desc p {
   margin: 4px 0px 0px 0px;
   color: #4d4d4d;
   font-family: Pretendard;
@@ -25,7 +22,11 @@
 }
 
 .input {
-  margin-top: 16px;
+  margin: 16px 20px 0 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 .input label {
   display: block;
@@ -37,8 +38,6 @@
   line-height: 150%; /* 27px */
 }
 .input input {
-  margin-top: 8px;
-  width: calc(100% - 40px);
   height: 46px;
   padding: 3px 0 3px 10px;
   box-sizing: border-box;
@@ -46,14 +45,19 @@
   border-radius: 7px;
   border: 1px solid #d9d9d9;
   outline: none;
+
+  color: #1d1d1d;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
 }
 .input input:focus {
   border-radius: 7px;
   border: 2.4px solid var(--primary-1, #6f90d1);
 }
 .input select {
-  margin-top: 8px;
-  width: calc(100% - 40px);
   height: 46px;
   padding: 3px 0 3px 10px;
   box-sizing: border-box;
@@ -61,4 +65,10 @@
 
   border-radius: 7px;
   border: 1px solid #d9d9d9;
+}
+
+.btns {
+  margin-top: 12px;
+  display: flex;
+  gap: 10px;
 }

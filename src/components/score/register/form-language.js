@@ -1,10 +1,57 @@
-import styles from "./form.module.css";
+import { useState, useRef } from "react";
 
-export default function FormLanguage() {
-  // 첫번째 어학성적 폼
+import styles from "./form.module.css";
+import RoundBtn from "@/components/ui/round-btn";
+import BlockBtn from "@/components/ui/block-btn";
+
+export default function FormLanguage(props) {
+  const { setProgress } = props;
+
+  const fileInputRef = useRef(null);
+  const languageTypeRef = useRef(null);
+  const scoreRef = useRef(null);
+  const [certName, setCertName] = useState("");
+
+  const handleButtonClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleFileChange = () => {
+    const file = fileInputRef.current.files[0];
+    if (file) {
+      setCertName(file.name); // 파일을 선택하면 파일명을 상태로 설정합니다.
+    }
+  };
+
+  const handleSubmit = () => {
+    // 입력 필드 유효성 검사
+    if (!languageTypeRef.current.value) {
+      alert("어학 종류를 선택해주세요.");
+      return;
+    }
+    if (!scoreRef.current.value) {
+      alert("점수를 입력해주세요.");
+      return;
+    }
+    if (!certNameRef.current.value) {
+      alert("증명서 이름을 입력해주세요.");
+      return;
+    }
+    if (fileInputRef.current.files.length === 0) {
+      alert("파일을 첨부해주세요.");
+      return;
+    }
+    const file = fileInputRef.current.files[0];
+    // 이제 file과 다른 입력값을 함께 처리할 수 있습니다.
+    // 예: FormData를 사용하여 서버에 업로드
+
+    // 모든 검사가 통과되면 다음 단계로 진행
+    // 예: setProgress(...)
+  };
+
   return (
-    <div className={styles.form}>
-      <div className={styles.description}>
+    <div className={styles.form} style={{ marginBottom: "100px" }}>
+      <div className={styles.desc}>
         <h1>어학 성적 입력</h1>
         <p>
           공적 증명서만 인정됩니다.
@@ -14,7 +61,8 @@ export default function FormLanguage() {
       </div>
       <div className={styles.input} style={{ marginTop: "41px" }}>
         <label htmlFor="type">어학 종류</label>
-        <select id="type">
+        <select id="type" ref={languageTypeRef}>
+          <option value="">선택...</option>
           <option value="toeic">TOEIC</option>
           <option value="toefl">TOEFL</option>
           <option value="ielts">IELTS</option>
@@ -25,12 +73,22 @@ export default function FormLanguage() {
       </div>
       <div className={styles.input}>
         <label htmlFor="score">점수</label>
-        <input type="text" id="score" />
+        <input type="text" id="score" ref={scoreRef} />
       </div>
       <div className={styles.input}>
-        <label htmlFor="cert">증명서 첨부</label>
-        <input type="file" id="cert" />
+        <label htmlFor="certName">증명서 이름</label>
+        <input type="text" id="certName" value={certName} readOnly /> {/* 읽기 전용 속성 추가 */}
       </div>
+      <div className={styles.btns}>
+        <input type="file" ref={fileInputRef} onChange={handleFileChange} style={{ display: "none" }} />
+        <RoundBtn onClick={handleButtonClick}>파일 첨부하기</RoundBtn>
+        <RoundBtn onClick={() => {}} backgroundColor="var(--secondary-1, #C4DDFF)" textColor="#484848">
+          증명서 예시
+        </RoundBtn>
+      </div>
+      <BlockBtn style={{ position: "fixed", width: "calc(100% - 40px)", maxWidth: "560px", bottom: "86px" }} onClick={handleSubmit}>
+        다음
+      </BlockBtn>
     </div>
   );
 }

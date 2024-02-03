@@ -43,8 +43,8 @@ export default function KakaoLoginCallbackPage() {
       }
 
       // 새로운 회원일 시
-      console.log("토큰 받기 성공", kakaoOauthToken);
       setkakaoOauthToken(data.data.kakaoOauthToken);
+      console.log("토큰 받기 성공", kakaoOauthToken);
       // 토큰과 함께 회원가입 페이지로 이동
       // router.push(
       //   {
