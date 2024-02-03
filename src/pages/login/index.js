@@ -2,8 +2,8 @@
 import { useRouter } from "next/router";
 
 export default function LoginPage() {
-  const router = useRouter();
-  router.push("/login/kakao");
+  // const router = useRouter();
+  // router.push("/login/kakao");
 
   return (
     <div>
