@@ -5,13 +5,10 @@ import RoundBtn from "@/components/ui/round-btn";
 import BlockBtn from "@/components/ui/block-btn";
 
 export default function FormScore(props) {
-  const { setProgress, setCurrentStage } = props;
+  const { setProgress, toNextStage } = props;
+  const { setScoreType, setScore, setScoreCert, scoreType, score, scoreCert } = props;
 
   const fileInputRef = useRef(null);
-  const scoreTypeRef = useRef(null);
-  const scoreRef = useRef(null);
-  const [certName, setCertName] = useState("");
-
   const handleButtonClick = () => {
     fileInputRef.current.click();
   };
@@ -19,29 +16,25 @@ export default function FormScore(props) {
   const handleFileChange = () => {
     const file = fileInputRef.current.files[0];
     if (file) {
-      setCertName(file.name); // 파일을 선택하면 파일명을 상태로 설정합니다.
+      setScoreCert(file);
     }
   };
 
   const handleSubmit = () => {
     // 입력 필드 유효성 검사
-    if (!scoreRef.current.value) {
+    if (!score) {
       alert("점수를 입력해주세요.");
       return;
     }
-    if (fileInputRef.current.files.length === 0) {
+    if (!scoreCert) {
       alert("증명서를 첨부해주세요.");
       return;
     }
-    const file = fileInputRef.current.files[0];
-    // 이제 file과 다른 입력값을 함께 처리할 수 있습니다.
-    // 예: FormData를 사용하여 서버에 업로드
-
-    setCurrentStage(3);
+    toNextStage();
   };
 
   return (
-    <div className={styles.form} style={{ marginBottom: "100px" }}>
+    <div className={styles.form} style={{ marginBottom: "150px" }}>
       <div className={styles.desc}>
         <h1>대학교 성적 입력</h1>
         <p>
@@ -51,19 +44,20 @@ export default function FormScore(props) {
         </p>
       </div>
       <div className={styles.input} style={{ marginTop: "41px" }}>
-        <label htmlFor="type">어학 종류</label>
-        <select id="type" ref={scoreTypeRef}>
+        <label htmlFor="type">학점 기준</label>
+        <select id="type" value={scoreType} onChange={(e) => setScoreType(e.target.value)}>
+          <option value="">선택...</option>
           <option value="4.5">4.5</option>
           <option value="4.3">4.3</option>
         </select>
       </div>
       <div className={styles.input}>
         <label htmlFor="score">점수</label>
-        <input type="text" id="score" ref={scoreRef} />
+        <input type="text" id="score" value={score} onChange={(e) => setScore(e.target.value)} />
       </div>
       <div className={styles.input}>
         <label htmlFor="certName">증명서 첨부</label>
-        <input type="text" id="certName" value={certName} readOnly /> {/* 읽기 전용 속성 추가 */}
+        <input type="text" id="certName" value={scoreCert.name || "증명서를 업로드 해주세요"} readOnly />
       </div>
       <div className={styles.btns}>
         <input type="file" ref={fileInputRef} onChange={handleFileChange} style={{ display: "none" }} />

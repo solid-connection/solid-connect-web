@@ -4,15 +4,16 @@ import MenuFilled from "../ui/icon/MenuFilled";
 import styles from "./top-detail-navigation.module.css";
 
 export default function TopDetailNavigation(props) {
+  const { handleBack } = props;
   const router = useRouter();
 
-  const handleBack = () => {
+  const routeBack = () => {
     router.back(); // 라우터의 back 함수를 사용하여 이전 페이지로 이동
   };
 
   return (
     <div className={styles.topNav}>
-      <div className={styles.icon} onClick={handleBack}>
+      <div className={styles.icon} onClick={handleBack || routeBack}>
         <ArrowBackFilled />
       </div>
       <div className={styles.title}>{props.title}</div>

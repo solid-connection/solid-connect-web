@@ -5,51 +5,40 @@ import RoundBtn from "@/components/ui/round-btn";
 import BlockBtn from "@/components/ui/block-btn";
 
 export default function FormLanguage(props) {
-  const { setProgress, setCurrentStage } = props;
+  const { setProgress, toNextStage } = props;
+  const { setLanguageType, setLanguageScore, setLanguageCert, languageType, languageScore, languageCert } = props;
 
   const fileInputRef = useRef(null);
-  const languageTypeRef = useRef(null);
-  const scoreRef = useRef(null);
-  const [certName, setCertName] = useState("");
-
   const handleButtonClick = () => {
     fileInputRef.current.click();
   };
 
-  const handleFileChange = () => {
-    const file = fileInputRef.current.files[0];
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
     if (file) {
-      setCertName(file.name); // 파일을 선택하면 파일명을 상태로 설정합니다.
+      setLanguageCert(file);
     }
   };
 
   const handleSubmit = () => {
     // 입력 필드 유효성 검사
-    if (!languageTypeRef.current.value) {
+    if (!languageType) {
       alert("어학 종류를 선택해주세요.");
       return;
     }
-    if (!scoreRef.current.value) {
+    if (!languageScore) {
       alert("점수를 입력해주세요.");
       return;
     }
-    // if (!certName.value) {
-    //   alert("증명서를 첨부해주세요.");
-    //   return;
-    // }
-    if (fileInputRef.current.files.length === 0) {
+    if (!languageCert) {
       alert("증명서를 첨부해주세요.");
       return;
     }
-    const file = fileInputRef.current.files[0];
-    // 이제 file과 다른 입력값을 함께 처리할 수 있습니다.
-    // 예: FormData를 사용하여 서버에 업로드
-
-    setCurrentStage(2);
+    toNextStage();
   };
 
   return (
-    <div className={styles.form} style={{ marginBottom: "100px" }}>
+    <div className={styles.form} style={{ marginBottom: "150px" }}>
       <div className={styles.desc}>
         <h1>어학 성적 입력</h1>
         <p>
@@ -60,7 +49,7 @@ export default function FormLanguage(props) {
       </div>
       <div className={styles.input} style={{ marginTop: "41px" }}>
         <label htmlFor="type">어학 종류</label>
-        <select id="type" ref={languageTypeRef}>
+        <select id="type" value={languageType} onChange={(e) => setLanguageType(e.target.value)}>
           <option value="">선택...</option>
           <option value="toeic">TOEIC</option>
           <option value="toefl">TOEFL</option>
@@ -72,11 +61,11 @@ export default function FormLanguage(props) {
       </div>
       <div className={styles.input}>
         <label htmlFor="score">점수</label>
-        <input type="text" id="score" ref={scoreRef} />
+        <input type="text" id="score" value={languageScore} onChange={(e) => setLanguageScore(e.target.value)} />
       </div>
       <div className={styles.input}>
         <label htmlFor="certName">증명서 첨부</label>
-        <input type="text" id="certName" value={certName} readOnly /> {/* 읽기 전용 속성 추가 */}
+        <input type="text" id="certName" value={languageCert.name || "증명서를 업로드 해주세요"} readOnly />
       </div>
       <div className={styles.btns}>
         <input type="file" ref={fileInputRef} onChange={handleFileChange} style={{ display: "none" }} />
