@@ -3,7 +3,7 @@ export default async function handler(req, res) {
     const { kakaoOauthToken, interestedRegions, interestedCountries, preparationStatus, nickname, profileImageUrl, gender, birth } = req.body;
 
     try {
-      const backendResponse = await fetch("http://api.solid-connect.net/auth/sign-up", {
+      const backendResponse = await fetch(`${process.env.API_SERVER_URL}/auth/sign-up`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

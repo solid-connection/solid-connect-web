@@ -11,7 +11,6 @@ export default async function handler(req, res) {
       const docSnap = await keywordRef.get();
 
       if (docSnap.exists) {
-        // console.log("exists");
         await keywordRef.update({
           count: admin.firestore.FieldValue.increment(1),
           lastSearched: new Date(),
