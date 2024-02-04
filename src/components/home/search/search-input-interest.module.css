@@ -51,6 +51,9 @@
   font-family: Pretendard;
   transition: background-color 0.3s;
 }
+.suggestion.active {
+  background-color: #f2f2f2; /* 활성 항목의 배경색 변경 예시 */
+}
 
 .suggestion:hover {
   background-color: #f2f2f2;
