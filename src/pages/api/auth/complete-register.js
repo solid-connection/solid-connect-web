@@ -4,22 +4,33 @@ export default async function handler(req, res) {
   if (req.method === "POST") {
     const { kakaoOauthToken, interestedRegions, interestedCountries, preparationStatus, nickname, profileImageUrl, gender, birth } = req.body;
 
+    const regionsCovertDict = {
+      america: "미주권",
+      asia: "아시아권",
+      europe: "유럽권",
+      china: "중국권",
+    };
+    const body = {
+      kakaoOauthToken: kakaoOauthToken,
+      interestedRegions: [regionsCovertDict[interestedRegions]],
+      interestedCountries: interestedCountries,
+      preparationStatus: preparationStatus,
+      // nickname: nickname,
+      nickname: "test",
+      profileImageUrl: profileImageUrl,
+      // gender: gender,
+      gender: "MALE",
+      // birth: birth,
+      birth: "1992-01-01",
+    };
+    console.log(body);
     try {
       const backendResponse = await fetch(`${process.env.API_SERVER_URL}/auth/sign-up`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          kakaoOauthToken: kakaoOauthToken,
-          interestedRegions: interestedRegions,
-          interestedCountries: interestedCountries,
-          preparationStatus: preparationStatus,
-          nickname: nickname,
-          profileImageUrl: profileImageUrl,
-          gender: gender,
-          birth: birth,
-        }),
+        body: JSON.stringify(body),
       });
       console.log(backendResponse);
 

@@ -15,8 +15,8 @@ export default function KakaoLoginCallbackPage() {
     console.log("useEffect 실행됨");
 
     if (code) {
-      console.log(code);
-      // sendCodeToBackend(code);
+      // console.log(code);
+      sendCodeToBackend(code);
     }
   }, []);
 
@@ -43,7 +43,7 @@ export default function KakaoLoginCallbackPage() {
 
       if (data.registered) {
         // 기존 회원일 시
-        // router.push("/");
+        router.push("/");
       } else {
         // 새로운 회원일 시
         setkakaoOauthToken(data.data.kakaoOauthToken);

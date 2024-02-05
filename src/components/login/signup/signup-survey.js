@@ -46,8 +46,6 @@ export default function SignupSurvey(props) {
 
     if (data.success) {
       console.log("가입성공");
-      localStorage.setItem("accessToken", data.data.accessToken);
-      localStorage.setItem("refreshToken", data.data.refreshToken);
       router.push("/");
     }
   }
