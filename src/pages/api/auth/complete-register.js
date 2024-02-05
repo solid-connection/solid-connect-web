@@ -1,3 +1,5 @@
+export async function completeRegister(kakaoOauthToken, interestedRegions, interestedCountries, preparationStatus, nickname, profileImageUrl) {}
+
 export default async function handler(req, res) {
   if (req.method === "POST") {
     const { kakaoOauthToken, interestedRegions, interestedCountries, preparationStatus, nickname, profileImageUrl, gender, birth } = req.body;

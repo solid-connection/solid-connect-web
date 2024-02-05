@@ -6,7 +6,20 @@ import Modal from "../ui/modal";
 
 export default function MyMenu() {
   const handleLogout = () => {
-    // signOut();
+    fetch("/api/auth/logout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          window.location.href = "/";
+        }
+      })
+      .catch((error) => {
+        console.error("로그아웃 실패", error);
+      });
   };
 
   const [showLogout, setShowLogout] = useState(false);

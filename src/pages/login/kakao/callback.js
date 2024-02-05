@@ -36,9 +36,7 @@ export default function KakaoLoginCallbackPage() {
       }
 
       // 기존 회원일 시
-      if (data.data.registered) {
-        localStorage.setItem("accessToken", data.data.accessToken);
-        localStorage.setItem("refreshToken", data.data.refreshToken);
+      if (data.registered) {
         router.push("/");
       }
 
