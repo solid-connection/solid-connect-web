@@ -18,8 +18,8 @@ export default async function handler(req, res) {
       });
 
       if (!backendResponse.ok) {
-        // console.log(backendResponse.status, backendResponse.statusText);
-        // console.log(backendResponse);
+        console.log(backendResponse.status, backendResponse.statusText);
+        console.log(backendResponse);
         // 백엔드 응답 오류를 클라이언트에 전달
         return res.status(backendResponse.status).json({
           message: "Error sending code to backend",

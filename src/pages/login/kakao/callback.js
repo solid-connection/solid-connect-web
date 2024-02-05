@@ -11,8 +11,8 @@ export default function KakaoLoginCallbackPage() {
     const code = new URL(window.location.href).searchParams.get("code");
 
     if (code) {
-      // console.log(code);
-      sendCodeToBackend(code);
+      console.log(code);
+      // sendCodeToBackend(code);
     }
   }, [router.query.code]);
 
@@ -41,8 +41,10 @@ export default function KakaoLoginCallbackPage() {
       }
 
       // 새로운 회원일 시
-      setkakaoOauthToken(data.data.kakaoOauthToken);
-      console.log("토큰 받기 성공", kakaoOauthToken);
+      if (!data.registered) {
+        setkakaoOauthToken(data.data.kakaoOauthToken);
+        console.log("가입 토큰 받기 성공", kakaoOauthToken);
+      }
       // 토큰과 함께 회원가입 페이지로 이동
       // router.push(
       //   {
