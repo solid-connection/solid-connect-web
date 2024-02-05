@@ -43,7 +43,7 @@ export default function KakaoLoginCallbackPage() {
 
       if (data.registered) {
         // 기존 회원일 시
-        router.push("/");
+        // router.push("/");
       } else {
         // 새로운 회원일 시
         setkakaoOauthToken(data.data.kakaoOauthToken);
