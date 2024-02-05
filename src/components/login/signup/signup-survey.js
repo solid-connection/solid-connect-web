@@ -6,7 +6,7 @@ import Survey2 from "./survey-2";
 import Survey3 from "./survey-3";
 
 export default function SignupSurvey(props) {
-  const { kakaoOauthToken } = props;
+  const { kakaoOauthToken, kakaoNickname, kakaoEmail, kakaoProfileImageUrl } = props;
   const [stage, setStage] = useState(1);
   // 1. region: 미주권, 아시아권, 유럽권, 중국권
   const [region, setRegion] = useState("");
@@ -14,6 +14,8 @@ export default function SignupSurvey(props) {
   const [countries, setCountries] = useState([]);
   // 3. 준비 단계: "CONSIDERING" | "PREPARING_FOR_DEPARTURE" | "STUDYING_ABROAD"
   const [preparation, setPreparation] = useState("CONSIDERING");
+  const [nickname, setNickname] = useState(kakaoNickname);
+  const [profileImageUrl, setProfileImageUrl] = useState(kakaoProfileImageUrl);
 
   const router = useRouter();
 
@@ -25,10 +27,10 @@ export default function SignupSurvey(props) {
       },
       body: JSON.stringify({
         kakaoOauthToken: kakaoOauthToken,
-        interestedRegions: ["아시아권", "유럽권"],
-        interestedCountries: ["싱가포르", "오스트리아"],
-        preparationStatus: "CONSIDERING",
-        nickname: "닉네임1",
+        interestedRegions: [region],
+        interestedCountries: countries,
+        preparationStatus: preparation,
+        nickname: nickname,
         profileImageUrl: "http://k.kakaocdn.net/dn/Vu7Ns/btszpzg5KD6/ChzJDcvSxWeZ93VX2AelD0/img_640x640.jpg",
       }),
     });
@@ -57,7 +59,7 @@ export default function SignupSurvey(props) {
       case 2:
         return <Survey2 setStage={setStage} countries={countries} setCountries={setCountries} region={region} />;
       case 3:
-        return <Survey3 submitSurvey={submitSurvey} preparation={preparation} setPreparation={setPreparation} />;
+        return <Survey3 submitSurvey={submitSurvey} preparation={preparation} setPreparation={setPreparation} nickname={nickname} setNickname={setNickname} profileImageUrl={profileImageUrl} setProfileImageUrl={setProfileImageUrl} />;
       default:
         return <div>Survey Completed!</div>;
     }

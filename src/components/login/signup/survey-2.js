@@ -23,7 +23,7 @@ export default function Survey2(props) {
             key={country}
             className={styles.country}
             onClick={() => {
-              if (country in countries) {
+              if (countries.includes(country)) {
                 setCountries(countries.filter((c) => c !== country));
               } else {
                 setCountries([...countries, country]);

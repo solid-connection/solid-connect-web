@@ -6,6 +6,9 @@ import Head from "next/head";
 export default function KakaoLoginCallbackPage() {
   const router = useRouter();
   const [kakaoOauthToken, setkakaoOauthToken] = useState("");
+  const [kakaoNickname, setkakaoNickname] = useState("");
+  const [kakaoEmail, setkakaoEmail] = useState("");
+  const [kakaoProfileImageUrl, setkakaoProfileImageUrl] = useState("");
 
   useEffect(() => {
     const code = new URL(window.location.href).searchParams.get("code");
@@ -40,11 +43,14 @@ export default function KakaoLoginCallbackPage() {
 
       if (data.registered) {
         // 기존 회원일 시
-        router.push("/");
+        // router.push("/");
       } else {
         // 새로운 회원일 시
         setkakaoOauthToken(data.data.kakaoOauthToken);
         console.log("가입 토큰 받기 성공1", data.data.kakaoOauthToken);
+        setkakaoNickname(data.data.nickname);
+        setkakaoEmail(data.data.email);
+        setkakaoProfileImageUrl(data.data.profileImageUrl);
       }
       // 토큰과 함께 회원가입 페이지로 이동
       // router.push(
@@ -64,7 +70,7 @@ export default function KakaoLoginCallbackPage() {
 
   return (
     <>
-      {!kakaoOauthToken ? (
+      {kakaoOauthToken ? (
         <>
           <Head>
             <title>카카오 로그인 처리 중...</title>
@@ -78,7 +84,7 @@ export default function KakaoLoginCallbackPage() {
           <Head>
             <title>회원가입</title>
           </Head>
-          <SignupSurvey kakaoOauthToken={kakaoOauthToken} />
+          <SignupSurvey kakaoOauthToken={kakaoOauthToken} kakaoNickname={kakaoNickname} kakaoEmail={kakaoEmail} kakaoProfileImageUrl={kakaoProfileImageUrl} />
         </>
       )}
     </>

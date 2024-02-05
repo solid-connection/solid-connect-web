@@ -17,18 +17,23 @@
   line-height: 150%; /* 18px */
 }
 
-.regions {
+.regionContainer {
   margin: 35px 20px 0 20px;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 159px 159px;
   column-gap: 11px;
-  row-gap: 11px;
+  row-gap: 40px;
 }
-.regions .imgWrapper {
+.region {
   position: relative;
+  padding-bottom: 100%;
+  cursor: pointer;
 }
-.regions .imgWrapper::after {
+.region .imgWrapper {
+  width: 100%;
+  height: 100%;
+}
+.region .imgWrapper::after {
   content: "";
   position: absolute;
   top: 0;
@@ -40,20 +45,24 @@
   /* background: linear-gradient(0deg, lightgray 0%, lightgray 100%); */
   background-color: rgba(211, 211, 211, 0.25); /* 반투명한 검은색 오버레이 */
 }
-.regions img {
-  /* width: 100%;
-  height: 100%; */
+.region img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
 }
-.regions div {
+.region .name {
+  position: absolute;
+  padding-top: 100%;
+  width: 100%;
+  text-align: center;
+
   color: #8a8a8a;
   font-family: Pretendard;
   font-size: 16px;
   font-style: normal;
   font-weight: 600;
   line-height: 150%; /* 24px */
-  text-align: center;
-  cursor: pointer;
 }
 
 .countries {
@@ -102,4 +111,85 @@
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+}
+
+/* survey3 */
+.survey3 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile {
+  margin-top: 106px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.profile > .profileImage {
+  width: 137px;
+  height: 137px;
+  border-radius: 100%;
+}
+.profile > .nickname {
+  margin-top: 16px;
+  color: #000;
+  font-family: Pretendard;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 150%; /* 30px */
+}
+.profile > .info {
+  margin-top: 8px;
+  display: flex;
+  gap: 12px;
+  color: #858585;
+  font-family: Pretendard;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 150%; /* 27px */
+}
+
+.choiceZone {
+  margin-top: 55px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.choiceZone > .choiceDesc {
+  color: #000;
+  font-family: Pretendard;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 150%; /* 30px */
+}
+.choices {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(196, 221, 255, 0.6);
+  color: rgba(9, 31, 91, 0.7);
+  font-weight: 500;
+}
+.choices > div {
+  width: 284px;
+  height: 47px;
+  padding: 12px 0 12px 0;
+  box-sizing: border-box;
+  text-align: center;
+
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  line-height: 150%; /* 24px */
+  cursor: pointer;
+}
+.selectedChoice {
+  border: 1px solid var(--primary-1, #6f90d1);
+  background: white;
+  color: var(--primary-2, #091f5b);
+  font-weight: 600;
 }

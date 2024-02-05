@@ -12,13 +12,13 @@ export default async function handler(req, res) {
         },
         body: JSON.stringify({
           kakaoOauthToken: kakaoOauthToken,
-          interestedRegions: ["아시아권", "유럽권"],
-          interestedCountries: ["싱가포르", "오스트리아"],
-          preparationStatus: "CONSIDERING",
-          nickname: "닉네임2",
-          profileImageUrl: "http://k.kakaocdn.net/dn/Vu7Ns/btszpzg5KD6/ChzJDcvSxWeZ93VX2AelD0/img_640x640.jpg",
-          gender: "FEMALE",
-          birth: "2001-03-29",
+          interestedRegions: interestedRegions,
+          interestedCountries: interestedCountries,
+          preparationStatus: preparationStatus,
+          nickname: nickname,
+          profileImageUrl: profileImageUrl,
+          gender: gender,
+          birth: birth,
         }),
       });
       console.log(backendResponse);
