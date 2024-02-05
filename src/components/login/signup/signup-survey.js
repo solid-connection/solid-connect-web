@@ -18,7 +18,7 @@ export default function SignupSurvey(props) {
   const router = useRouter();
 
   async function submitSurvey() {
-    const response = await fetch("/api/auth/kakao-register", {
+    const response = await fetch("/api/auth/complete-register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -39,7 +39,7 @@ export default function SignupSurvey(props) {
 
     const data = await response.json();
     if (!data.success) {
-      throw new Error("가입중 뭔가 오류 발생 닉네임 중복등");
+      throw new Error("가입중 오류 발생, 닉네임 중복등");
     }
 
     if (data.success) {

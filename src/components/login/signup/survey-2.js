@@ -20,6 +20,7 @@ export default function Survey2(props) {
       <div className={styles.countries}>
         {countryList[region].map((country) => (
           <div
+            key={country}
             className={styles.country}
             onClick={() => {
               if (country in countries) {
@@ -30,7 +31,7 @@ export default function Survey2(props) {
             }}
           >
             {countries.includes(country) ? <div>체크</div> : <CheckBoxOutlineBlankOutlined />}
-            <div key={country}>{country}</div>
+            <div>{country}</div>
           </div>
         ))}
       </div>

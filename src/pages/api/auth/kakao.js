@@ -9,6 +9,7 @@ export default async function handler(req, res) {
     const { code } = req.body;
 
     try {
+      console.log(`${process.env.API_SERVER_URL}/auth/kakao`);
       const backendResponse = await fetch(`${process.env.API_SERVER_URL}/auth/kakao`, {
         method: "POST",
         headers: {
@@ -16,10 +17,10 @@ export default async function handler(req, res) {
         },
         body: JSON.stringify({ code: code }),
       });
+      // console.log("----------------");
+      // console.log(backendResponse);
 
       if (!backendResponse.ok) {
-        console.log(backendResponse.status, backendResponse.statusText);
-        console.log(backendResponse);
         // 백엔드 응답 오류를 클라이언트에 전달
         return res.status(backendResponse.status).json({
           message: "Error sending code to backend",

@@ -9,14 +9,16 @@ export default function KakaoLoginCallbackPage() {
 
   useEffect(() => {
     const code = new URL(window.location.href).searchParams.get("code");
+    console.log("useEffect 실행됨");
 
     if (code) {
-      console.log(code);
-      // sendCodeToBackend(code);
+      // console.log(code);
+      sendCodeToBackend(code);
     }
-  }, [router.query.code]);
+  }, []);
 
   const sendCodeToBackend = async (code) => {
+    console.log("sendCodeToBackend 실행됨");
     try {
       const response = await fetch("/api/auth/kakao", {
         method: "POST",
@@ -31,19 +33,18 @@ export default function KakaoLoginCallbackPage() {
       }
 
       const data = await response.json();
+      console.log("data", data);
       if (!data.success) {
         throw new Error("Error sending code to backend");
       }
 
-      // 기존 회원일 시
       if (data.registered) {
+        // 기존 회원일 시
         router.push("/");
-      }
-
-      // 새로운 회원일 시
-      if (!data.registered) {
+      } else {
+        // 새로운 회원일 시
         setkakaoOauthToken(data.data.kakaoOauthToken);
-        console.log("가입 토큰 받기 성공", kakaoOauthToken);
+        console.log("가입 토큰 받기 성공1", data.data.kakaoOauthToken);
       }
       // 토큰과 함께 회원가입 페이지로 이동
       // router.push(

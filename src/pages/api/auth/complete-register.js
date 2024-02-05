@@ -23,8 +23,6 @@ export default async function handler(req, res) {
       });
 
       if (!backendResponse.ok) {
-        // console.log(backendResponse.status, backendResponse.statusText);
-        // console.log(backendResponse);
         // 백엔드 응답 오류를 클라이언트에 전달
         return res.status(backendResponse.status).json({
           message: "Error sending code to backend",
@@ -32,8 +30,16 @@ export default async function handler(req, res) {
       }
 
       // 백엔드에서 받은 데이터를 클라이언트에 전달
-      const data = await backendResponse.json();
-      return res.status(200).json(data);
+      const jsonReponse = await backendResponse.json();
+      if (!jsonReponse.success) {
+        throw new Error("api 서버에서 회원가입 실패");
+      }
+      const data = json.data;
+
+      // 쿠키에 토큰 저장
+      const { accessToken, refreshToken } = data;
+      res.setHeader("Set-Cookie", [`accessToken=${accessToken}; Path=/; SameSite=Strict`, `refreshToken=${refreshToken}; Path=/; HttpOnly; SameSite=Strict`]);
+      return res.status(200).json({ success: true, registered: true });
     } catch (error) {
       // 네트워크 오류 처리
       return res.status(500).json({ message: error.message });
