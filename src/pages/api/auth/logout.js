@@ -40,8 +40,7 @@ export default async function handler(req, res) {
     const logoutResponse = await logout(token);
     if (logoutResponse.success) {
       // 로그아웃 성공 시, accessToken, refreshToken 쿠키 삭제
-      res.setHeader("Set-Cookie", "accessToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; httpOnly; secure");
-      res.setHeader("Set-Cookie", "refreshToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; httpOnly; secure");
+      res.setHeader("Set-Cookie", ["accessToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; secure", "refreshToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; httpOnly; secure"]);
       res.status(200).json({ success: true, message: "로그아웃 성공" });
     } else {
       // 로그아웃 프로세스에서 문제 발생

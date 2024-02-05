@@ -12,8 +12,8 @@ export default function KakaoLoginCallbackPage() {
     console.log("useEffect 실행됨");
 
     if (code) {
-      console.log(code);
-      // sendCodeToBackend(code);
+      // console.log(code);
+      sendCodeToBackend(code);
     }
   }, []);
 

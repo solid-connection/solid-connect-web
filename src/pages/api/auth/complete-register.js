@@ -15,12 +15,13 @@ export default async function handler(req, res) {
           interestedRegions: ["아시아권", "유럽권"],
           interestedCountries: ["싱가포르", "오스트리아"],
           preparationStatus: "CONSIDERING",
-          nickname: "닉네임1",
+          nickname: "닉네임2",
           profileImageUrl: "http://k.kakaocdn.net/dn/Vu7Ns/btszpzg5KD6/ChzJDcvSxWeZ93VX2AelD0/img_640x640.jpg",
           gender: "FEMALE",
           birth: "2001-03-29",
         }),
       });
+      console.log(backendResponse);
 
       if (!backendResponse.ok) {
         // 백엔드 응답 오류를 클라이언트에 전달
@@ -34,7 +35,7 @@ export default async function handler(req, res) {
       if (!jsonReponse.success) {
         throw new Error("api 서버에서 회원가입 실패");
       }
-      const data = json.data;
+      const data = jsonReponse.data;
 
       // 쿠키에 토큰 저장
       const { accessToken, refreshToken } = data;

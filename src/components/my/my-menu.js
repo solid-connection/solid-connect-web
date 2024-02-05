@@ -43,7 +43,7 @@ export default function MyMenu() {
       <button onClick={toggleLogout} className={styles.item}>
         <div>로그아웃</div>
       </button>
-      <Modal show={showLogout} handleCancel={toggleLogout} title="로그아웃" content="로그아웃 하시겠습니까?" />
+      <Modal show={showLogout} handleCancel={toggleLogout} handleConfirm={handleLogout} title="로그아웃" content="로그아웃 하시겠습니까?" />
       <button className={styles.item} onClick={toggleWithdraw}>
         <div>탈퇴하기</div>
       </button>
