@@ -25,19 +25,6 @@ export default function PostPage(props) {
 }
 
 export async function getServerSideProps(context) {
-  const { params } = context;
-  const { postId } = params;
-
-  const postData = await getPostDetail(postId);
-
-  return {
-    props: {
-      ...postData,
-    },
-  };
-}
-
-export async function getServerSideProps(context) {
   // 요청에서 쿠키를 추출합니다.
   const { req } = context;
   const token = req.cookies["accessToken"];
@@ -54,4 +41,15 @@ export async function getServerSideProps(context) {
       },
     };
   }
+
+  const { params } = context;
+  const { postId } = params;
+
+  const postData = await getPostDetail(postId);
+
+  return {
+    props: {
+      ...postData,
+    },
+  };
 }
