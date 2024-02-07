@@ -1,7 +1,7 @@
 export default function GoogleEmbedMap(props) {
   // name이 있으면 name으로 검색, 없으면 좌표로 검색
   const { width, height, name, latitude, longitude, zoom } = props;
-  const API_KEY = process.env.GOOGLE_MAP_API_KEY;
+  const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY;
 
   let mapSrc = `https://www.google.com/maps/embed/v1/`;
   if (name) {
