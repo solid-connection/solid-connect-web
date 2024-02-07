@@ -1,34 +1,16 @@
-// import { signIn } from "next-auth/react";
-import { useRouter } from "next/router";
+import ImageCarousel from "@/components/login/image-carousel";
+import KakaoLoginButton from "@/components/login/kakao-login-button";
 
-export default function LoginPage() {
+export default function KakaoLoginPage() {
+  function kakaoLogin() {
+    window.Kakao.Auth.authorize({
+      redirectUri: `${process.env.NEXT_PUBLIC_WEB_URL}/login/kakao/callback`,
+    });
+  }
   return (
     <div>
-      <h1>로그인 페이지</h1>
+      <ImageCarousel />
+      <KakaoLoginButton onClick={kakaoLogin} />
     </div>
   );
-}
-
-export async function getServerSideProps(context) {
-  // const { req } = context;
-  // const token = req.cookies["accessToken"];
-  return {
-    redirect: {
-      destination: "/login/kakao",
-      permanent: false,
-    },
-  };
-
-  if (token) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {},
-  };
 }
