@@ -30,7 +30,7 @@ export default function HomeCollegeCards(props) {
     <div ref={containerRef} className={styles.container}>
       <div className={styles.items}>
         {colleges.map((college) => (
-          <HomeCollegeCard key={college.id} id={college.id} image={`https://solid-connection.s3.ap-northeast-2.amazonaws.com/original/${college.formatName}/1.png`} name={college.name} />
+          <HomeCollegeCard key={college.id} id={college.id} image={college.backgroundImageUrl} name={college.koreanName || "대학명"} />
         ))}
       </div>
     </div>
