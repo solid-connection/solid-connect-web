@@ -1,20 +1,20 @@
-import Image from "next/image";
 import Head from "next/head";
 
-import TopDetailNavigation from "@/components/layout/top-detail-navigation";
-import CollegeDetail from "../../components/college/detail/college-detail";
-import CollegeBottomSheet from "../../components/college/detail/college-bottomsheet";
 import { getCollegeDetailData } from "../api/college/[id]";
+import TopDetailNavigation from "@/components/layout/top-detail-navigation";
+import CollegeDetail from "@/components/college/detail/college-detail";
+import CollegeBottomSheet from "@/components/college/detail/college-bottomsheet";
 
 export default function CollegeDetailPage(props) {
+  const { collegeData } = props;
   return (
     <>
       <Head>
-        <title>{props.name}</title>
+        <title>{collegeData.koreanName || "대학명"}</title>
       </Head>
-      <TopDetailNavigation title={props.name} />
-      <CollegeDetail image={`https://solid-connection.s3.ap-northeast-2.amazonaws.com/original/${props.formatName}/1.png`} name={props.name} />
-      <CollegeBottomSheet {...props} />
+      <TopDetailNavigation title={collegeData.koreanName || "대학명"} />
+      <CollegeDetail image={collegeData.backgroundImageUrl || `https://solid-connection.s3.ap-northeast-2.amazonaws.com/original/${collegeData.formatName}/1.png`} name={collegeData.koreanName || "대학명"} />
+      <CollegeBottomSheet {...collegeData} />
     </>
   );
 }
@@ -27,7 +27,7 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-      ...college,
+      collegeData: college,
     },
   };
 }

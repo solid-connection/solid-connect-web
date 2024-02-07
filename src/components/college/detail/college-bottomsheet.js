@@ -6,10 +6,10 @@ import ScrollTab from "@/components/ui/scroll-tab";
 import GoogleEmbedMap from "@/components/ui/map/google-embed-map";
 
 export default function CollegeBottomSheet(props) {
-  const { id, name, englishName, formatName, region, country, homepageUrl, image } = props;
+  const { id, term, koreanName, englishName, formatName, region, country, homepageUrl, logoImageUrl, backgroundImageUrl, detailsForLocal } = props;
   const { studentCapacity, tuitionFeeType, semesterAvailableForDispatch } = props;
-  const { languageRequirements, gpaRequirement, gpaRequirementCriteria, semesterRequirement, majorRelatedRequirement } = props;
-  const { dormitoryInfo, englishLectures, note } = props;
+  const { languageRequirements, detailsForLanguage, gpaRequirement, gpaRequirementCriteria, semesterRequirement } = props;
+  const { detailsForApply, detailsForMajor, detailsForAccommodation, accommodationUrl, detailsForEnglishCourse, englishCourseUrl, details } = props;
 
   const pages = ["학교정보", "어학성적", "지원전공", "위치", "파견후기"];
   const [activeTab, setActiveTab] = useState("학교정보");
@@ -52,8 +52,8 @@ export default function CollegeBottomSheet(props) {
     <>
       <div className={styles.blank}></div>
       <div className={styles.bottomSheet}>
-        <div className={styles.englishName}>{englishName}</div>
-        <div className={styles.name}>{name}</div>
+        <div className={styles.englishName}>{englishName || "대학명"}</div>
+        <div className={styles.name}>{koreanName || "대학명"}</div>
 
         <ScrollTab choices={pages} choice={activeTab} setChoice={handleTabClick} style={{ marginTop: "16px", position: "sticky", top: "56px" }} borderColor="var(--primary-2, #091F5B)" />
 
@@ -69,7 +69,19 @@ export default function CollegeBottomSheet(props) {
           </div>
           <div className={styles.item}>
             <div className={styles.title}>기숙사</div>
-            <div className={styles.content}>{dormitoryInfo || "기숙사 정보 없음"}</div>
+
+            <div className={styles.content}>
+              {" "}
+              {accommodationUrl && (
+                <>
+                  <a href={accommodationUrl} target="_blank" rel="noreferrer" className={styles.content}>
+                    {accommodationUrl}
+                  </a>
+                  <br />
+                </>
+              )}
+              {detailsForAccommodation || "기숙사 추가 정보 없음"}
+            </div>
           </div>
           <div className={styles.item}>
             <div className={styles.title}>파견 대학 위치</div>
@@ -79,24 +91,22 @@ export default function CollegeBottomSheet(props) {
           </div>
           <div className={styles.item}>
             <div className={styles.title}>지역정보</div>
-            <div className={styles.content}>{"지역정보 없음" || "지역정보 없음"}</div>
+            <div className={styles.content}>{detailsForLocal || "지역정보 없음"}</div>
           </div>
         </div>
 
         {/* 어학성적 */}
         <div className={styles.bar}>
-          {languageRequirements.ibt && <div>TOEFL IBT {languageRequirements.ibt}</div>}
-          {languageRequirements.itp && <div>TOEFL ITP {languageRequirements.itp}</div>}
-          {languageRequirements.toeic && <div>TOEIC {languageRequirements.toeic}</div>}
-          {languageRequirements.ielts && <div>IELTS {languageRequirements.ielts}</div>}
-          {languageRequirements.hsk && <div>신HSK {languageRequirements.hsk}</div>}
-          {languageRequirements.jlpt && <div>JLPT {languageRequirements.jlpt}</div>}
-          {languageRequirements.etc && <div>{languageRequirements.etc}</div>}
+          {languageRequirements.map((language, index) => (
+            <div key={index}>
+              {language.languageTestType.replace(/_/g, " ")} {language.minScore}
+            </div>
+          ))}
         </div>
         <div className={styles.scrollOffsetWithBar} ref={sectionRefs[1]}>
           <div className={styles.item}>
             <div className={styles.title}>어학 세부요건</div>
-            <div className={styles.content}>{languageRequirements.detail || "어학 세부요건 없음"}</div>
+            <div className={styles.content}>{detailsForLanguage || "어학 세부요건 없음"}</div>
           </div>
         </div>
 
@@ -104,11 +114,11 @@ export default function CollegeBottomSheet(props) {
         <div className={styles.scrollOffset} ref={sectionRefs[2]}>
           <div className={styles.item}>
             <div className={styles.title}>선발 인원</div>
-            <div className={styles.content}>{studentCapacity}명</div>
+            <div className={styles.content}>{studentCapacity || "?"}명</div>
           </div>
           <div className={styles.item}>
             <div className={styles.title}>등록금 납부 유형</div>
-            <div className={styles.content}>{tuitionFeeType}</div>
+            <div className={styles.content}>{tuitionFeeType || "등록금 납부 유형 정보 없음"}</div>
           </div>
           <div className={styles.item}>
             <div className={styles.title}>파견가능학기</div>
@@ -116,7 +126,7 @@ export default function CollegeBottomSheet(props) {
           </div>
           <div className={styles.item}>
             <div className={styles.title}>최저이수학기</div>
-            <div className={styles.content}>{semesterRequirement}</div>
+            <div className={styles.content}>{semesterRequirement || "최저이수학기 정보 없음"}</div>
           </div>
           <div className={styles.item}>
             <div className={styles.title}>최저성적 / 기준 성적</div>
@@ -124,16 +134,27 @@ export default function CollegeBottomSheet(props) {
           </div>
           <div className={styles.item}>
             <div className={styles.title}>전공 상세</div>
-            <div className={styles.content}>{majorRelatedRequirement || "전공 상세 정보 없음"}</div>
+            <div className={styles.content}>{detailsForMajor || "전공 상세 정보 없음"}</div>
           </div>
 
           <div className={styles.item}>
             <div className={styles.title}>영어강의 리스트</div>
-            <div className={styles.content}>{englishLectures || "영어강의 정보 없음"}</div>
+
+            <div className={styles.content}>
+              {englishCourseUrl && (
+                <>
+                  <a href={englishCourseUrl} target="_blank" rel="noreferrer" className={styles.content}>
+                    {englishCourseUrl}
+                  </a>
+                  <br />
+                </>
+              )}
+              {detailsForEnglishCourse || "영어강의 추가 정보 없음"}
+            </div>
           </div>
           <div className={styles.item}>
             <div className={styles.title}>비고</div>
-            <div className={styles.content}>{note || "비고 없음"}</div>
+            <div className={styles.content}>{details || "비고 없음"}</div>
           </div>
         </div>
 
