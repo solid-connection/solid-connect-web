@@ -71,7 +71,6 @@ export default function CollegeBottomSheet(props) {
             <div className={styles.title}>기숙사</div>
 
             <div className={styles.content}>
-              {" "}
               {accommodationUrl && (
                 <>
                   <a href={accommodationUrl} target="_blank" rel="noreferrer" className={styles.content}>
@@ -80,7 +79,11 @@ export default function CollegeBottomSheet(props) {
                   <br />
                 </>
               )}
-              {detailsForAccommodation || "기숙사 추가 정보 없음"}
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: detailsForAccommodation || "기숙사 추가 정보 없음",
+                }}
+              />
             </div>
           </div>
           <div className={styles.item}>
@@ -91,7 +94,9 @@ export default function CollegeBottomSheet(props) {
           </div>
           <div className={styles.item}>
             <div className={styles.title}>지역정보</div>
-            <div className={styles.content}>{detailsForLocal || "지역정보 없음"}</div>
+            <div className={styles.content}>
+              <div dangerouslySetInnerHTML={{ __html: detailsForLocal || "지역정보 없음" }} />
+            </div>
           </div>
         </div>
 
@@ -106,7 +111,9 @@ export default function CollegeBottomSheet(props) {
         <div className={styles.scrollOffsetWithBar} ref={sectionRefs[1]}>
           <div className={styles.item}>
             <div className={styles.title}>어학 세부요건</div>
-            <div className={styles.content}>{detailsForLanguage || "어학 세부요건 없음"}</div>
+            <div className={styles.content}>
+              <div dangerouslySetInnerHTML={{ __html: detailsForLanguage || "어학 세부요건 없음" }} />
+            </div>
           </div>
         </div>
 
@@ -134,7 +141,9 @@ export default function CollegeBottomSheet(props) {
           </div>
           <div className={styles.item}>
             <div className={styles.title}>전공 상세</div>
-            <div className={styles.content}>{detailsForMajor || "전공 상세 정보 없음"}</div>
+            <div className={styles.content}>
+              <div dangerouslySetInnerHTML={{ __html: detailsForMajor || "전공 상세 정보 없음" }} />
+            </div>
           </div>
 
           <div className={styles.item}>
@@ -149,12 +158,14 @@ export default function CollegeBottomSheet(props) {
                   <br />
                 </>
               )}
-              {detailsForEnglishCourse || "영어강의 추가 정보 없음"}
+              <div dangerouslySetInnerHTML={{ __html: detailsForEnglishCourse || "영어강의 추가 정보 없음" }} />
             </div>
           </div>
           <div className={styles.item}>
             <div className={styles.title}>비고</div>
-            <div className={styles.content}>{details || "비고 없음"}</div>
+            <div className={styles.content}>
+              <div dangerouslySetInnerHTML={{ __html: details || "비고 없음" }} />
+            </div>
           </div>
         </div>
 
