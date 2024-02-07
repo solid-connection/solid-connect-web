@@ -1,0 +1,10 @@
+.onboardingImages {
+  /* display: flex; */
+  /* max-width: 600px; */
+}
+
+.onboardingImages img {
+  width: 100%;
+  height: 439px;
+  object-fit: cover;
+}
