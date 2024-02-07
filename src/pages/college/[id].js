@@ -19,7 +19,20 @@ export default function CollegeDetailPage(props) {
   );
 }
 
-export async function getServerSideProps(context) {
+// export async function getServerSideProps(context) {
+//   const { params } = context;
+//   const { id } = params;
+
+//   const college = await getCollegeDetailData(id);
+
+//   return {
+//     props: {
+//       collegeData: college,
+//     },
+//   };
+// }
+
+export async function getStaticProps(context) {
   const { params } = context;
   const { id } = params;
 
@@ -29,5 +42,13 @@ export async function getServerSideProps(context) {
     props: {
       collegeData: college,
     },
+    revalidate: 600,
+  };
+}
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: "blocking",
   };
 }
