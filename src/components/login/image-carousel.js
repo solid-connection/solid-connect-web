@@ -14,18 +14,46 @@ export default function ImageCarousel() {
   };
 
   return (
-    <Slider {...settings}>
-      <div>
-        <img src="/images/onboarding-1.jpeg" alt="onboarding-1" />
+    <Slider {...settings} className={styles.onboardingImages}>
+      <div className={styles.item}>
+        <div className={styles.imageWrapper}>
+          <img src="/images/onboarding-1.jpeg" alt="onboarding-1" />
+        </div>
+        <div className={styles.text}>
+          교환학생 맞춤 컨설팅부터
+          <br />
+          해외에서 친구 찾기까지!
+        </div>
       </div>
-      <div>
-        <img src="/images/onboarding-2.jpeg" alt="onboarding-2" />
+      <div className={styles.item}>
+        <div className={styles.imageWrapper}>
+          <img src="/images/onboarding-2.jpeg" alt="onboarding-2" />
+        </div>
+        <div className={styles.text}>
+          어떤 대학교를 갈 지
+          <br />
+          결정하지 못했다면,
+        </div>
       </div>
-      <div>
-        <img src="/images/onboarding-3.jpeg" alt="onboarding-3" />
+      <div className={styles.item}>
+        <div className={styles.imageWrapper}>
+          <img src="/images/onboarding-3.jpeg" alt="onboarding-3" />
+        </div>
+        <div className={styles.text}>
+          파견교에 대한
+          <br />
+          생생한 정보는 멘토에게
+        </div>
       </div>
-      <div>
-        <img src="/images/onboarding-4.jpeg" alt="onboarding-4" />
+      <div className={styles.item}>
+        <div className={styles.imageWrapper}>
+          <img src="/images/onboarding-4.jpeg" alt="onboarding-4" />
+        </div>
+        <div className={styles.text}>
+          커뮤니티를 통해
+          <br />
+          유학생 친구 만나기!
+        </div>
       </div>
     </Slider>
   );

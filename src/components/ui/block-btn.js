@@ -7,6 +7,7 @@ export default function BlockBtn(props) {
     height: "50px",
     border: "none",
     borderRadius: "6px",
+    cursor: "pointer",
 
     fontFamily: "Pretendard",
     fontSize: "16px",
