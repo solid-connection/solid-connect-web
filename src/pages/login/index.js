@@ -1,10 +1,18 @@
 import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { useLayout } from "@/context/LayoutContext";
 
 import ImageCarousel from "@/components/login/image-carousel";
 import KakaoLoginButton from "@/components/login/kakao-login-button";
 import BlockBtn from "@/components/ui/block-btn";
 
 export default function KakaoLoginPage() {
+  const { setHideBottomNavigation } = useLayout();
+  useEffect(() => {
+    setHideBottomNavigation(true);
+    return () => setHideBottomNavigation(false); // 컴포넌트가 언마운트 될 때 다시 보이게 설정
+  }, []);
+
   const router = useRouter();
   function kakaoLogin() {
     window.Kakao.Auth.authorize({
@@ -14,6 +22,7 @@ export default function KakaoLoginPage() {
   return (
     <div>
       <ImageCarousel />
+
       <div style={{ marginTop: "40px" }}>
         <KakaoLoginButton onClick={kakaoLogin} />
         <BlockBtn

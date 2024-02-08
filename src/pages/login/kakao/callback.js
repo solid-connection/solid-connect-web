@@ -1,9 +1,17 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import SignupSurvey from "@/components/login/signup/signup-survey";
 import Head from "next/head";
+import { useLayout } from "@/context/LayoutContext";
+
+import SignupSurvey from "@/components/login/signup/signup-survey";
 
 export default function KakaoLoginCallbackPage() {
+  const { setHideBottomNavigation } = useLayout();
+  useEffect(() => {
+    setHideBottomNavigation(true);
+    return () => setHideBottomNavigation(false); // 컴포넌트가 언마운트 될 때 다시 보이게 설정
+  }, []);
+
   const router = useRouter();
   const [kakaoOauthToken, setkakaoOauthToken] = useState("");
   const [kakaoNickname, setkakaoNickname] = useState("");
@@ -21,7 +29,6 @@ export default function KakaoLoginCallbackPage() {
   }, []);
 
   const sendCodeToBackend = async (code) => {
-    console.log("sendCodeToBackend 실행됨");
     try {
       const response = await fetch("/api/auth/kakao", {
         method: "POST",

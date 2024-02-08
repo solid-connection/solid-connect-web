@@ -7,6 +7,10 @@ import Survey3 from "./survey-3";
 
 export default function SignupSurvey(props) {
   const { kakaoOauthToken, kakaoNickname, kakaoEmail, kakaoProfileImageUrl } = props;
+  // const kakaoOauthToken = "tokentoken";
+  // const kakaoNickname = "닉네임1";
+  // const kakaoProfileImageUrl = "http://k.kakaocdn.net/dn/Vu7Ns/btszpzg5KD6/ChzJDcvSxWeZ93VX2AelD0/img_640x640.jpg";
+  // const kakaoEmail = "aa@aa.com";
   const [stage, setStage] = useState(1);
   // 1. region: 미주권, 아시아권, 유럽권, 중국권
   const [region, setRegion] = useState("");
@@ -63,5 +67,5 @@ export default function SignupSurvey(props) {
     }
   };
 
-  return <div>{renderCurrentSurvey()}</div>;
+  return <>{renderCurrentSurvey()}</>;
 }

@@ -1,4 +1,5 @@
 import Slider from "react-slick";
+import Image from "next/image";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -7,6 +8,7 @@ import styles from "./image-carousel.module.css";
 export default function ImageCarousel() {
   const settings = {
     dots: true,
+    arrows: false,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
@@ -17,7 +19,7 @@ export default function ImageCarousel() {
     <Slider {...settings} className={styles.onboardingImages}>
       <div className={styles.item}>
         <div className={styles.imageWrapper}>
-          <img src="/images/onboarding-1.jpeg" alt="onboarding-1" />
+          <Image src="/images/onboarding-1.jpeg" alt="onboarding-1" width={600} height={600} />
         </div>
         <div className={styles.text}>
           교환학생 맞춤 컨설팅부터
@@ -27,7 +29,7 @@ export default function ImageCarousel() {
       </div>
       <div className={styles.item}>
         <div className={styles.imageWrapper}>
-          <img src="/images/onboarding-2.jpeg" alt="onboarding-2" />
+          <Image src="/images/onboarding-2.jpeg" alt="onboarding-2" width={600} height={600} />
         </div>
         <div className={styles.text}>
           어떤 대학교를 갈 지
@@ -37,7 +39,7 @@ export default function ImageCarousel() {
       </div>
       <div className={styles.item}>
         <div className={styles.imageWrapper}>
-          <img src="/images/onboarding-3.jpeg" alt="onboarding-3" />
+          <Image src="/images/onboarding-3.jpeg" alt="onboarding-3" width={600} height={600} />
         </div>
         <div className={styles.text}>
           파견교에 대한
@@ -47,7 +49,7 @@ export default function ImageCarousel() {
       </div>
       <div className={styles.item}>
         <div className={styles.imageWrapper}>
-          <img src="/images/onboarding-4.jpeg" alt="onboarding-4" />
+          <Image src="/images/onboarding-4.jpeg" alt="onboarding-4" width={600} height={600} />
         </div>
         <div className={styles.text}>
           커뮤니티를 통해

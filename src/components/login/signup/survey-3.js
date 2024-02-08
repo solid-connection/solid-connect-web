@@ -1,10 +1,11 @@
 import styles from "./survey.module.css";
+import BlockBtn from "@/components/ui/block-btn";
 
 export default function Survey3(props) {
   const { setStage, preparation, setPreparation, submitSurvey, nickname, setNickname, profileImageUrl, setProfileImageUrl } = props;
 
   return (
-    <>
+    <div className={styles.screen}>
       <div className={styles.survey3}>
         <div className={styles.profile}>
           <img src={profileImageUrl} className={styles.profileImage}></img>
@@ -44,14 +45,9 @@ export default function Survey3(props) {
           </div>
         </div>
       </div>
-      <button
-        className={styles.btn}
-        onClick={() => {
-          submitSurvey();
-        }}
-      >
-        <div>다음으로</div>
-      </button>
-    </>
+      <div style={{ margin: "0 30px 24px 30px" }}>
+        <BlockBtn onClick={submitSurvey}>다음으로</BlockBtn>
+      </div>
+    </div>
   );
 }

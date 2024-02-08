@@ -1,5 +1,6 @@
-import CheckBoxOutlineBlankOutlined from "@/components/ui/icon/CheckBoxOutlineBlankOutlined";
 import styles from "./survey.module.css";
+import CheckBoxOutlineBlankOutlined from "@/components/ui/icon/CheckBoxOutlineBlankOutlined";
+import BlockBtn from "@/components/ui/block-btn";
 
 export default function Survey2(props) {
   const { setStage, region, countries, setCountries } = props;
@@ -10,41 +11,44 @@ export default function Survey2(props) {
     china: ["중국", "대만"],
   };
   return (
-    <div>
-      <div className={styles.desc}>
-        Q2
-        <br />
-        어느지역에 관심이 있으신가요?
+    <div className={styles.screen}>
+      <div style={{ marginTop: "60px" }}>
+        <div className={styles.desc}>
+          Q2
+          <br />
+          관심있는 국가가 있으신가요?
+        </div>
+        <div className={styles.subDesc}>(중복 선택 가능)</div>
+        <div className={styles.countries}>
+          {countryList[region].map((country) => (
+            <div
+              key={country}
+              className={styles.country}
+              onClick={() => {
+                if (countries.includes(country)) {
+                  setCountries(countries.filter((c) => c !== country));
+                } else {
+                  setCountries([...countries, country]);
+                }
+              }}
+            >
+              {countries.includes(country) ? <div>체크</div> : <CheckBoxOutlineBlankOutlined />}
+              <div>{country}</div>
+            </div>
+          ))}
+        </div>
       </div>
-      <div className={styles.subDesc}>(중복 선택 가능)</div>
-      <div className={styles.countries}>
-        {countryList[region].map((country) => (
-          <div
-            key={country}
-            className={styles.country}
-            onClick={() => {
-              if (countries.includes(country)) {
-                setCountries(countries.filter((c) => c !== country));
-              } else {
-                setCountries([...countries, country]);
-              }
-            }}
-          >
-            {countries.includes(country) ? <div>체크</div> : <CheckBoxOutlineBlankOutlined />}
-            <div>{country}</div>
-          </div>
-        ))}
+      <div style={{ margin: "0 30px 24px 30px" }}>
+        <BlockBtn
+          onClick={() => {
+            if (region) {
+              setStage(3);
+            }
+          }}
+        >
+          다음으로
+        </BlockBtn>
       </div>
-      <button
-        className={styles.btn}
-        onClick={() => {
-          if (countries.length > 0) {
-            setStage(3);
-          }
-        }}
-      >
-        <div>다음으로</div>
-      </button>
     </div>
   );
 }
