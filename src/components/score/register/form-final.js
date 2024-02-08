@@ -54,45 +54,45 @@ export default function FormFinal(props) {
     toNextStage();
   }
   return (
-    <div className={styles.form} style={{ marginBottom: "100px" }}>
-      <div className={styles.desc}>
-        <h1>최종 제출 확인</h1>
+    <div className={styles.formWrapper}>
+      <div className={styles.form} style={{ marginTop: "40px" }}>
+        <h1 className={styles.h1Bold}>최종 제출 확인</h1>
         <p>제출 완료 후 성적 을 변경 하실 수 없습니다.</p>
-      </div>
-      <div className={styles.list}>
-        <div className={styles.item}>
-          <div className={styles.key}>어학점수</div>
-          <div className={styles.value}>
-            <span>{languageType}</span>
-            <span style={{ marginLeft: "33px" }}>{languageScore}</span>
+        <div className={styles.list}>
+          <div className={styles.item}>
+            <div className={styles.key}>어학점수</div>
+            <div className={styles.value}>
+              <span>{languageType}</span>
+              <span style={{ marginLeft: "33px" }}>{languageScore}</span>
+            </div>
+          </div>
+          <div className={styles.item}>
+            <div className={styles.key}>대학교 성적</div>
+            <div className={styles.value}>
+              {score} /{scoreType}
+            </div>
+          </div>
+          <div className={styles.item}>
+            <div className={styles.key}>어학 증명서</div>
+            <div className={styles.value}>첨부 완료</div>
+            <RoundBtn style={{ marginLeft: "7px" }} onClick={handleLanguageCertButtonClick}>
+              <input type="file" ref={languageCertInputRef} onChange={handleLanguageCertChange} style={{ display: "none" }} />
+              파일 변경하기
+            </RoundBtn>
+          </div>
+          <div className={styles.item}>
+            <div className={styles.key}>성적 증명서</div>
+            <div className={styles.value}>첨부 완료</div>
+            <RoundBtn style={{ marginLeft: "7px" }} onClick={handleScoreCertButtonClick}>
+              <input type="file" ref={scoreCertInputRef} onChange={handleScoreCertChange} style={{ display: "none" }} />
+              파일 변경하기
+            </RoundBtn>
           </div>
         </div>
-        <div className={styles.item}>
-          <div className={styles.key}>대학교 성적</div>
-          <div className={styles.value}>
-            {score} /{scoreType}
-          </div>
-        </div>
-        <div className={styles.item}>
-          <div className={styles.key}>어학 증명서</div>
-          <div className={styles.value}>첨부 완료</div>
-          <RoundBtn style={{ marginLeft: "7px" }} onClick={handleLanguageCertButtonClick}>
-            <input type="file" ref={languageCertInputRef} onChange={handleLanguageCertChange} style={{ display: "none" }} />
-            파일 변경하기
-          </RoundBtn>
-        </div>
-        <div className={styles.item}>
-          <div className={styles.key}>성적 증명서</div>
-          <div className={styles.value}>첨부 완료</div>
-          <RoundBtn style={{ marginLeft: "7px" }} onClick={handleScoreCertButtonClick}>
-            <input type="file" ref={scoreCertInputRef} onChange={handleScoreCertChange} style={{ display: "none" }} />
-            파일 변경하기
-          </RoundBtn>
-        </div>
       </div>
-      <BlockBtn style={{ position: "fixed", width: "calc(100% - 40px)", maxWidth: "560px", bottom: "86px" }} onClick={handleSubmit}>
-        제출하기
-      </BlockBtn>
+      <div className={styles.blockBtns}>
+        <BlockBtn onClick={handleSubmit}>제출하기</BlockBtn>
+      </div>
     </div>
   );
 }

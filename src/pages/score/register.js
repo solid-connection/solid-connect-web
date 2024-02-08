@@ -23,8 +23,14 @@ export default function ScoreRegisterPage() {
     if (currentStage === 1) {
       return;
     }
-    setCurrentStage(currentStage - 1);
-    // setProgress(progress - 50);
+    if (currentStage === 2) {
+      setCurrentStage(currentStage - 1);
+      setProgress(0);
+    }
+    if (currentStage === 3) {
+      setCurrentStage(currentStage - 1);
+      setProgress(50);
+    }
   }
 
   function renderCurrentForm() {
@@ -35,6 +41,7 @@ export default function ScoreRegisterPage() {
             setProgress={setProgress}
             toNextStage={() => {
               setCurrentStage(2);
+              setProgress(50);
             }}
             setLanguageType={setLanguageType}
             setLanguageScore={setLanguageScore}
@@ -50,6 +57,7 @@ export default function ScoreRegisterPage() {
             setProgress={setProgress}
             toNextStage={() => {
               setCurrentStage(3);
+              setProgress(95);
             }}
             setScoreType={setScoreType}
             setScore={setScore}
@@ -84,7 +92,7 @@ export default function ScoreRegisterPage() {
         <title>성적 입력하기</title>
       </Head>
       <TopDetailNavigation title="성적 입력하기" handleBack={handleBack} />
-      <div>
+      <div style={{ height: "calc(100vh - 112px)", display: "flex", flexDirection: "column" }}>
         <ProgressBar style={{ margin: "11px 20px 0 20px" }} progress={progress} />
         {renderCurrentForm()}
       </div>
