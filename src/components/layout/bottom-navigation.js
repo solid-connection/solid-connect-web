@@ -21,24 +21,24 @@ export default function BottomNavigation() {
       isActive: router.pathname.startsWith("/college"),
       icon: <DegreeHat color={router.pathname.startsWith("/college") ? "#6F96D1" : "#707070"} />,
     },
-    {
-      route: "/community",
-      text: "커뮤니티",
-      isActive: router.pathname.startsWith("/community"),
-      icon: <EditTwo color={router.pathname.startsWith("/community") ? "#6F96D1" : "#707070"} />,
-    },
+    // {
+    //   route: "/community",
+    //   text: "커뮤니티",
+    //   isActive: router.pathname.startsWith("/community"),
+    //   icon: <EditTwo color={router.pathname.startsWith("/community") ? "#6F96D1" : "#707070"} />,
+    // },
     {
       route: "/",
       text: "홈",
       isActive: !isSpecificRouteActive,
       icon: <Home color={!(router.pathname.startsWith("/college") || router.pathname.startsWith("/community") || router.pathname.startsWith("/mento") || router.pathname.startsWith("/my")) ? "#6F96D1" : "#707070"} />,
     },
-    {
-      route: "/mento",
-      text: "멘토",
-      isActive: router.pathname.startsWith("/mento"),
-      icon: <WhatsNew color={router.pathname.startsWith("/mento") ? "#6F96D1" : "#707070"} />,
-    },
+    // {
+    //   route: "/mento",
+    //   text: "멘토",
+    //   isActive: router.pathname.startsWith("/mento"),
+    //   icon: <WhatsNew color={router.pathname.startsWith("/mento") ? "#6F96D1" : "#707070"} />,
+    // },
     {
       route: "/my",
       text: "마이",
