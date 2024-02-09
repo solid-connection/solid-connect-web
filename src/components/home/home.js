@@ -76,11 +76,11 @@ export default function Home(props) {
         <div className={styles.title}>추천하는 파견학교</div>
         <HomeCollegeCards colleges={recommendedColleges} />
       </div>
-
+      {/* 
       <div style={{ marginTop: "24px" }}>
         <div className={styles.title}>활발하게 활동중인 멘토</div>
         <MentoCard {...testMentoData} />
-      </div>
+      </div> */}
 
       <div style={{ marginTop: "24px" }}>
         <div className={styles.title}>솔커 소식지</div>
