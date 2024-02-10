@@ -30,7 +30,7 @@ export default function HomeCollegeCards(props) {
     <div ref={containerRef} className={styles.container}>
       <div className={styles.items}>
         {colleges.map((college) => (
-          <HomeCollegeCard key={college.id} id={college.id} image={college.backgroundImageUrl} name={college.koreanName || "대학명"} />
+          <HomeCollegeCard key={college.id} id={college.id} image={college.backgroundImgUrl} name={college.koreanName || "대학명"} />
         ))}
       </div>
     </div>
