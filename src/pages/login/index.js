@@ -22,14 +22,13 @@ export default function KakaoLoginPage() {
   return (
     <div>
       <ImageCarousel />
-
       <div style={{ marginTop: "40px" }}>
         <KakaoLoginButton onClick={kakaoLogin} />
         <BlockBtn
           onClick={() => {
             router.push("/");
           }}
-          style={{ margin: "8px 20px 0 20px", width: "calc(100% - 40px)" }}
+          style={{ margin: "8px 20px 0 20px", width: "calc(100% - 40px)", height: "calc((100vw - 40px) * 0.15)", minHeight: "48px", maxHeight: "84px" }}
         >
           비회원으로 둘러보기
         </BlockBtn>
