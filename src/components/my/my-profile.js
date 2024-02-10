@@ -23,7 +23,7 @@ export default function MyProfile(props) {
         </div>
         <div className={styles.subInfo}>
           <div className={styles.role}>{role in roleDisplay ? roleDisplay[role] : "역할"}</div>
-          <div className={styles.date}>{birth.replace(/-/g, ".") || "0000.00.00"}</div>
+          <div className={styles.date}>{birth ? birth.replace(/-/g, ".") : "0000.00.00"}</div>
         </div>
         <div style={{ marginTop: "12px" }} className={styles.smText}>
           {"inha university" || "inha university"}
