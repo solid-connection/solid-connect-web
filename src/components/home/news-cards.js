@@ -14,9 +14,11 @@ export default function NewsCards(props) {
 
 export function NewsCard(props) {
   return (
-    <a href={props.url} className={styles.card}>
-      <img className={styles.image} src={props.imageUrl} alt={props.title} />
-      <div className={styles.title}>{props.title}</div>
+    <a target="_blank" href={props.url}>
+      <div className={styles.card}>
+        <img className={styles.image} src={props.imageUrl} alt={props.title} />
+        <div className={styles.title}>{props.title}</div>
+      </div>
     </a>
   );
 }
