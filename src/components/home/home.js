@@ -10,7 +10,7 @@ import CheveronRightFilled from "../ui/icon/ChevronRightFilled";
 import SearchFilled from "../ui/icon/SearchFilled";
 
 export default function Home(props) {
-  const { recommendedColleges } = props;
+  const { recommendedColleges, newsList } = props;
 
   const testMentoData = {
     mentoId: 1,
@@ -21,10 +21,6 @@ export default function Home(props) {
     period: "2024년 1학기 ~ 2024년 2학기",
   };
 
-  const newsList = [
-    { uuid: 1, image: "", title: "2024년도 교환학생을 다녀오며,," },
-    { uuid: 2, image: "", title: "독일의 최고 여행지, 드레스덴을 " },
-  ];
   const scoreRegistered = false;
 
   return (
