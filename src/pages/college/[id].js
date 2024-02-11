@@ -13,7 +13,7 @@ export default function CollegeDetailPage(props) {
         <title>{collegeData.koreanName || "대학명"}</title>
       </Head>
       <TopDetailNavigation title={collegeData.koreanName || "대학명"} />
-      <CollegeDetail image={collegeData.backgroundImageUrl || `https://solid-connection.s3.ap-northeast-2.amazonaws.com/original/${collegeData.formatName}/1.png`} name={collegeData.koreanName || "대학명"} />
+      <CollegeDetail imageUrl={collegeData.backgroundImageUrl && `https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/${collegeData.formatName}/1.webp`} name={collegeData.koreanName || "대학명"} />
       <CollegeBottomSheet {...collegeData} />
     </>
   );
