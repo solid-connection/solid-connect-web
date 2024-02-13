@@ -44,7 +44,7 @@ export default async function handler(req, res) {
         return res.status(200).json({ success: true, registered: true });
       } else {
         // 새로운 회원일 시
-        return res.status(200).json({ success: true, registered: false, data: { kakaoOauthToken: data.kakaoOauthToken } });
+        return res.status(200).json({ success: true, registered: false, data: { kakaoOauthToken: data.kakaoOauthToken, nickname: data.nickname, email: data.email, profileImageUrl: data.profileImageUrl } });
       }
     } catch (error) {
       // 네트워크 오류 처리
