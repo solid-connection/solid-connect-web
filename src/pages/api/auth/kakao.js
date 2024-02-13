@@ -9,7 +9,6 @@ export default async function handler(req, res) {
     const { code } = req.body;
 
     try {
-      console.log(`${process.env.API_SERVER_URL}/auth/kakao`);
       const backendResponse = await fetch(`${process.env.API_SERVER_URL}/auth/kakao`, {
         method: "POST",
         headers: {
@@ -38,6 +37,10 @@ export default async function handler(req, res) {
         // 기존 회원일 시
         const { accessToken, refreshToken } = data;
         res.setHeader("Set-Cookie", [`accessToken=${accessToken}; Path=/; SameSite=Strict`, `refreshToken=${refreshToken}; Path=/; HttpOnly; SameSite=Strict`]);
+        res.setHeader("Set-Cookie", [
+          `accessToken=${accessToken}; Path=/; SameSite=Strict; Max-Age=3600`, // 1시간 만료
+          `refreshToken=${refreshToken}; Path=/; HttpOnly; SameSite=Strict; Max-Age=604800`, // 7일 만료
+        ]);
         return res.status(200).json({ success: true, registered: true });
       } else {
         // 새로운 회원일 시
