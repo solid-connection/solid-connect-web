@@ -37,8 +37,8 @@ export default async function handler(req, res) {
         // 기존 회원일 시
         const { accessToken, refreshToken } = data;
         res.setHeader("Set-Cookie", [
-          `accessToken=${accessToken}; Domain=.solid-connect.net Path=/; Secure; SameSite=Strict; Max-Age=3600`, // 1시간 만료
-          `refreshToken=${refreshToken}; Domain=.solid-connect.net Path=/; Secure; HttpOnly; SameSite=Strict; Max-Age=604800`, // 7일 만료
+          `accessToken=${accessToken}; Domain=.solid-connect.net; Path=/; Secure; SameSite=Strict; Max-Age=3600`, // 1시간 만료
+          `refreshToken=${refreshToken}; Domain=.solid-connect.net; Path=/; Secure; HttpOnly; SameSite=Strict; Max-Age=604800`, // 7일 만료
         ]);
         return res.status(200).json({ success: true, registered: true });
       } else {
