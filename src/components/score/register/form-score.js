@@ -30,6 +30,18 @@ export default function FormScore(props) {
       alert("증명서를 첨부해주세요.");
       return;
     }
+    // 점수 유효성 검사
+    if (scoreType === "4.5") {
+      if (!(score >= 0 && score <= 4.5)) {
+        alert("학점은 0 ~ 4.5 사이여야 합니다.");
+        return;
+      }
+    } else if (scoreType === "4.3") {
+      if (!(score >= 0 && score <= 4.3)) {
+        alert("학점은 0 ~ 4.3 사이여야 합니다.");
+        return;
+      }
+    }
     toNextStage();
   };
 
