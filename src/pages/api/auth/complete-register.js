@@ -10,18 +10,20 @@ export default async function handler(req, res) {
       europe: "유럽권",
       china: "중국권",
     };
+    const genderConvertDict = {
+      남성: "MALE",
+      여성: "FEMALE",
+      비공개: "PREFER_NOT_TO_SAY",
+    };
     const body = {
       kakaoOauthToken: kakaoOauthToken,
       interestedRegions: [regionsCovertDict[interestedRegions]],
       interestedCountries: interestedCountries,
       preparationStatus: preparationStatus,
-      // nickname: nickname,
-      nickname: "test",
+      nickname: nickname,
       profileImageUrl: profileImageUrl,
-      // gender: gender,
-      gender: "MALE",
-      // birth: birth,
-      birth: "1992-01-01",
+      gender: genderConvertDict[gender],
+      birth: birth,
     };
     console.log(body);
     try {

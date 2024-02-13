@@ -20,6 +20,8 @@ export default function SignupSurvey(props) {
   const [preparation, setPreparation] = useState("CONSIDERING");
   const [nickname, setNickname] = useState(kakaoNickname);
   const [profileImageUrl, setProfileImageUrl] = useState(kakaoProfileImageUrl);
+  const [gender, setGender] = useState("비공개");
+  const [birth, setBirth] = useState("2000-01-01");
 
   const router = useRouter();
 
@@ -35,7 +37,9 @@ export default function SignupSurvey(props) {
         interestedCountries: countries,
         preparationStatus: preparation,
         nickname: nickname,
-        profileImageUrl: "http://k.kakaocdn.net/dn/Vu7Ns/btszpzg5KD6/ChzJDcvSxWeZ93VX2AelD0/img_640x640.jpg",
+        profileImageUrl: kakaoProfileImageUrl,
+        gender: gender,
+        birth: birth,
       }),
     });
 
@@ -61,7 +65,21 @@ export default function SignupSurvey(props) {
       case 2:
         return <Survey2 setStage={setStage} countries={countries} setCountries={setCountries} region={region} />;
       case 3:
-        return <Survey3 submitSurvey={submitSurvey} preparation={preparation} setPreparation={setPreparation} nickname={nickname} setNickname={setNickname} profileImageUrl={profileImageUrl} setProfileImageUrl={setProfileImageUrl} />;
+        return (
+          <Survey3
+            submitSurvey={submitSurvey}
+            preparation={preparation}
+            setPreparation={setPreparation}
+            nickname={nickname}
+            setNickname={setNickname}
+            profileImageUrl={profileImageUrl}
+            setProfileImageUrl={setProfileImageUrl}
+            gender={gender}
+            setGender={setGender}
+            birth={birth}
+            setBirth={setBirth}
+          />
+        );
       default:
         return <div>Survey Completed!</div>;
     }
