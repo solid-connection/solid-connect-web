@@ -52,7 +52,10 @@ export default async function handler(req, res) {
 
       // 쿠키에 토큰 저장
       const { accessToken, refreshToken } = data;
-      res.setHeader("Set-Cookie", [`accessToken=${accessToken}; Domain=.solid-connect.net; Path=/; Secure; SameSite=Strict`, `refreshToken=${refreshToken}; Domain=.solid-connect.net; Path=/; Secure; HttpOnly; SameSite=Strict`]);
+      res.setHeader("Set-Cookie", [
+        `accessToken=${accessToken}; Domain=.solid-connect.net Path=/; Secure; SameSite=Strict; Max-Age=3600`, // 1시간 만료
+        `refreshToken=${refreshToken}; Domain=.solid-connect.net Path=/; Secure; HttpOnly; SameSite=Strict; Max-Age=604800`, // 7일 만료
+      ]);
       return res.status(200).json({ success: true, registered: true });
     } catch (error) {
       // 네트워크 오류 처리
