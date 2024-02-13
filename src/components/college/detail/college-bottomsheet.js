@@ -102,11 +102,21 @@ export default function CollegeBottomSheet(props) {
 
         {/* 어학성적 */}
         <div className={styles.bar}>
-          {languageRequirements.map((language, index) => (
-            <div key={index}>
-              {language.languageTestType.replace(/_/g, " ")} {language.minScore}
-            </div>
-          ))}
+          {languageRequirements.map((language, index) => {
+            let minScore;
+            if (language.languageTestType === "TOEFL_IBT") {
+              minScore = Math.trunc(language.minScore);
+            } else if (language.languageTestType === "TOEFL_ITP") {
+              minScore = Math.trunc(language.minScore);
+            } else {
+              minScore = language.minScore;
+            }
+            return (
+              <div key={index}>
+                {language.languageTestType.replace(/_/g, " ")} {minScore}
+              </div>
+            );
+          })}
         </div>
         <div className={styles.scrollOffsetWithBar} ref={sectionRefs[1]}>
           <div className={styles.item}>
