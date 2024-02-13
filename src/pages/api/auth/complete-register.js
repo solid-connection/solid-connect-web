@@ -52,7 +52,7 @@ export default async function handler(req, res) {
 
       // 쿠키에 토큰 저장
       const { accessToken, refreshToken } = data;
-      res.setHeader("Set-Cookie", [`accessToken=${accessToken}; Path=/; SameSite=Strict`, `refreshToken=${refreshToken}; Path=/; HttpOnly; SameSite=Strict`]);
+      res.setHeader("Set-Cookie", [`accessToken=${accessToken}; Domain=.solid-connect.net; Path=/; Secure; SameSite=Strict`, `refreshToken=${refreshToken}; Domain=.solid-connect.net; Path=/; Secure; HttpOnly; SameSite=Strict`]);
       return res.status(200).json({ success: true, registered: true });
     } catch (error) {
       // 네트워크 오류 처리
