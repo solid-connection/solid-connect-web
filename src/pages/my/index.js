@@ -2,6 +2,8 @@ import Head from "next/head";
 
 // import { getUserData } from "@/pages/api/user";
 import { getMyData } from "@/pages/api/my";
+// import { apiClient } from "@/lib/axios";
+import axios from "axios";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import MyStatus from "@/components/my/my-status";
@@ -25,26 +27,65 @@ export default function MyPage(props) {
 }
 
 export async function getServerSideProps(context) {
-  // 요청에서 쿠키를 추출합니다.
-  const { req } = context;
-  const accessToken = req.cookies["accessToken"];
+  const apiClient = axios.create({
+    baseURL: process.env.NEXT_PUBLIC_API_SERVER_URL,
+  });
+  const { req, res } = context;
+  try {
+    let accessToken = req.cookies["accessToken"];
 
-  // 토큰 유효성 검사 로직 (예제 코드)
-  const isLogin = accessToken ? true : false; // 실제로는 토큰의 유효성을 검증하는 로직이 필요합니다.
+    let response = await apiClient.get("/my-page", {
+      headers: { Authorization: `Bearer ${accessToken}`, withCredentials: true },
+    });
+    // console.log(response.data);
 
-  if (!isLogin) {
-    // 비로그인 상태일 경우 로그인 페이지로 리다이렉트
-    return {
-      redirect: {
-        destination: "/login",
-        permanent: false,
-      },
-    };
+    return { props: { myData: response.data.data } };
+  } catch (error) {
+    // accessToken이 만료되거나 유효하지 않은 경우
+    if (error.response && error.response.status === 403) {
+      // Access token이 만료되었을 경우
+      // 401 안뜨는듯?
+      try {
+        // Refresh token을 사용하여 새로운 Access token을 요청하는 로직
+        const refreshToken = req.cookies["refreshToken"];
+        const refreshResponse = await apiClient.post(
+          "/auth/reissue",
+          {},
+          {
+            headers: {
+              Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyaXBsYWMwMzE0QG5hdmVyLmNvbSIsImlhdCI6MTcwNzc4NDMxMywiZXhwIjoxNzA4Mzg5MTEzfQ.1H25zTZr6OqotcHzhh6yclY_SDXeXMw_g_68O4VVVbHv13hq7-5_wSBY2pEtimJaKglyvA61BuK6ZH3UYNO_Yg`,
+              withCredentials: true,
+            },
+          }
+        );
+        const newAccessToken = refreshResponse.data.data.accessToken;
+
+        // 새로운 Access token으로 다시 요청을 시도
+        const response = await apiClient.get("/my-page", {
+          headers: { Authorization: `Bearer ${newAccessToken}`, withCredentials: true },
+        });
+
+        res.setHeader("Set-Cookie", `accessToken=${newAccessToken}; Path=/; Max-Age=3600`);
+
+        return { props: { myData: response.data.data } };
+      } catch (refreshError) {
+        console.error(refreshError);
+        // Refresh token도 만료되었거나 유효하지 않은 경우 로그인 페이지로 리다이렉트
+        return {
+          redirect: {
+            destination: "/login",
+            permanent: false,
+          },
+        };
+      }
+    } else {
+      console.error(error);
+      return {
+        redirect: {
+          destination: "/login",
+          permanent: false,
+        },
+      };
+    }
   }
-
-  const myData = await getMyData(accessToken);
-
-  return {
-    props: { myData: myData },
-  };
 }
