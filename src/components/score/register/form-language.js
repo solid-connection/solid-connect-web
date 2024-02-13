@@ -34,6 +34,40 @@ export default function FormLanguage(props) {
       alert("증명서를 첨부해주세요.");
       return;
     }
+
+    // 어학 성적별 유효성 검사
+    if (languageType === "toeic") {
+      if (!(languageScore >= 10 && languageScore <= 990)) {
+        alert("TOEIC 점수는 10 ~ 990 사이여야 합니다.");
+        return;
+      }
+    } else if (languageType === "ibt") {
+      if (!(languageScore >= 0 && languageScore <= 120)) {
+        alert("TOEFL IBT 점수는 0 ~ 120 사이여야 합니다.");
+        return;
+      }
+    } else if (languageType === "itp") {
+      if (!(languageScore >= 0 && languageScore <= 677)) {
+        alert("TOEFL ITP 점수는 0 ~ 677 사이여야 합니다.");
+        return;
+      }
+    } else if (languageType === "ielts") {
+      if (!(languageScore >= 0 && languageScore <= 9)) {
+        alert("IELTS 점수는 0 ~ 9 사이여야 합니다.");
+        return;
+      }
+      if (languageScore % 0.5 !== 0) {
+        alert("IELTS 점수는 0.5 단위로 입력해주세요.");
+        return;
+      }
+    } else if (languageType === "jlpt") {
+      const jptlAvailable = ["N1", "N2", "N3", "N4", "N5", "n1", "n2", "n3", "n4", "n5", "1", "2", "3", "4", "5"];
+      if (!jptlAvailable.includes(languageScore)) {
+        alert("JLPT 등급은 N1 ~ N5 사이여야 합니다.");
+        return;
+      }
+    }
+
     toNextStage();
   };
 
@@ -53,10 +87,10 @@ export default function FormLanguage(props) {
           <select id="type" value={languageType} onChange={(e) => setLanguageType(e.target.value)}>
             <option value="">선택...</option>
             <option value="toeic">TOEIC</option>
-            <option value="toefl">TOEFL</option>
+            <option value="ibt">TOEFL IBT</option>
+            <option value="itp">TOEFL ITP</option>
             <option value="ielts">IELTS</option>
-            <option value="teps">TEPS</option>
-            <option value="opic">OPIC</option>
+            <option value="jlpt">JLPT</option>
             <option value="others">기타</option>
           </select>
         </div>
