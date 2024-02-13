@@ -12,7 +12,7 @@ export async function getUserData(accessToken) {
   };
 
   try {
-    const response = await fetch(`${process.env.API_SERVER_URL}/my-page`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/my-page`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${accessToken}`, // 토큰을 Authorization 헤더에 포함

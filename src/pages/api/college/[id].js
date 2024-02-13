@@ -1,6 +1,6 @@
 export async function getCollegeDetailData(collegeId) {
   try {
-    const backendResponse = await fetch(`${process.env.API_SERVER_URL}/university/detail/${collegeId}`, {
+    const backendResponse = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/university/detail/${collegeId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

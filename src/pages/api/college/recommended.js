@@ -1,6 +1,6 @@
 export async function getRecommendedCollegesData(accessToken = "") {
   try {
-    const backendResponse = await fetch(`${process.env.API_SERVER_URL}/home`, {
+    const backendResponse = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/home`, {
       method: "GET",
       headers: {
         Authorization: accessToken ? `Bearer ${accessToken}` : "",

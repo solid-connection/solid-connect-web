@@ -1,6 +1,6 @@
 export async function logout(accessToken) {
   try {
-    const response = await fetch(`${process.env.API_SERVER_URL}/auth/sign-out`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/auth/sign-out`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${accessToken}`,

@@ -27,7 +27,7 @@ export default async function handler(req, res) {
     };
     console.log(body);
     try {
-      const backendResponse = await fetch(`${process.env.API_SERVER_URL}/auth/sign-up`, {
+      const backendResponse = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/auth/sign-up`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

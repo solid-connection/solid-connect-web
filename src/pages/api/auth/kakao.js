@@ -9,7 +9,7 @@ export default async function handler(req, res) {
     const { code } = req.body;
 
     try {
-      const backendResponse = await fetch(`${process.env.API_SERVER_URL}/auth/kakao`, {
+      const backendResponse = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/auth/kakao`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

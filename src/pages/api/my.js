@@ -1,6 +1,6 @@
 export async function getMyData(accessToken) {
   try {
-    const backendResponse = await fetch(`${process.env.API_SERVER_URL}/my-page`, {
+    const backendResponse = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/my-page`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${accessToken}`,
