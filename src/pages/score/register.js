@@ -1,5 +1,7 @@
 import { useState, useRef } from "react";
+import { useRouter } from "next/router";
 import Head from "next/head";
+import createApiClient from "@/lib/clientApiClient";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import ProgressBar from "@/components/score/register/progress-bar";
@@ -9,6 +11,9 @@ import FormScore from "@/components/score/register/form-score";
 import FormFinal from "@/components/score/register/form-final";
 
 export default function ScoreRegisterPage() {
+  const router = useRouter();
+  const apiClient = createApiClient();
+
   const [progress, setProgress] = useState(0);
   const [currentStage, setCurrentStage] = useState(1);
 
@@ -30,6 +35,53 @@ export default function ScoreRegisterPage() {
     if (currentStage === 3) {
       setCurrentStage(currentStage - 1);
       setProgress(50);
+    }
+  }
+
+  function submitForm() {
+    // 서버로 데이터 전송
+    try {
+      async function postData() {
+        const languageCertRes = await apiClient.post(
+          "/img/language-test",
+          {
+            img: languageCert,
+          },
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        const languageFileUrl = languageCertRes.data.data.imageUrl;
+
+        const scoreCertRes = await apiClient.post(
+          "/img/gpa",
+          {
+            img: scoreCert,
+          },
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        const scoreFileUrl = scoreCertRes.data.data.imageUrl;
+
+        const res = await apiClient.post("/application/score", {
+          languageTestType: languageType,
+          languageTestScore: languageScore,
+          languageTestReportUrl: languageFileUrl,
+          gpaCriteria: parseFloat(scoreType),
+          gpa: parseFloat(score),
+          gpaReportUrl: scoreFileUrl,
+        });
+        console.log(res);
+      }
+      postData();
+      router.push("/score/college-register");
+    } catch (error) {
+      console.error(error);
     }
   }
 
@@ -71,7 +123,9 @@ export default function ScoreRegisterPage() {
         return (
           <FormFinal
             setProgress={setProgress}
-            toNextStage={() => {}}
+            toNextStage={() => {
+              submitForm();
+            }}
             languageType={languageType}
             languageScore={languageScore}
             languageCert={languageCert}

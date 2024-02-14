@@ -11,7 +11,7 @@ export default function FormCollegeFinal(props) {
       <div className={styles.formCenter} style={{ marginTop: "160px" }}>
         <Image src="/images/survey-complete-icon.png" width={120} height={120} alt="지원 완료" />
         <h1 className={styles.h1Semibold}>지원 완료 !</h1>
-        <p>성적 인증이 완료 후,</p>
+        <p>48시간 이내에 성적 인증이 완료됩니다.</p>
       </div>
       <div className={styles.blockBtns}>
         <BlockBtn onClick={() => router.push("/score")}>성적 공유 현황 확인하기</BlockBtn>
