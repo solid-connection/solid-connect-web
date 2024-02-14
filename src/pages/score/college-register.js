@@ -2,7 +2,7 @@ import { useState } from "react";
 import Head from "next/head";
 import fs from "fs";
 import path from "path";
-import apiClient from "@/lib/clientApiClient";
+import createApiClient from "@/lib/clientApiClient";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import ProgressBar from "@/components/score/register/progress-bar";
@@ -10,6 +10,7 @@ import FormCollege from "@/components/score/register/form-college";
 import FormCollegeFinal from "@/components/score/register/form-college-final";
 
 export default function CollegeRegisterPage(props) {
+  const apiClient = createApiClient();
   const { collegesKeyName } = props;
   const [progress, setProgress] = useState(0);
   const [currentStage, setCurrentStage] = useState(1);
