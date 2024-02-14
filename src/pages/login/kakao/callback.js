@@ -1,6 +1,6 @@
+import Head from "next/head";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import Head from "next/head";
 import { useLayout } from "@/context/LayoutContext";
 
 import SignupSurvey from "@/components/login/signup/signup-survey";
@@ -20,10 +20,8 @@ export default function KakaoLoginCallbackPage() {
 
   useEffect(() => {
     const code = new URL(window.location.href).searchParams.get("code");
-    console.log("useEffect 실행됨");
 
     if (code) {
-      // console.log(code);
       sendCodeToBackend(code);
     }
   }, []);
