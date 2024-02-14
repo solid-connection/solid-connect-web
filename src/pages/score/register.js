@@ -67,9 +67,15 @@ export default function ScoreRegisterPage() {
           }
         );
         const scoreFileUrl = scoreCertRes.data.data.imageUrl;
-
+        const languageTypeConvert = {
+          toeic: "TOEIC",
+          ibt: "TOEFL_IBT",
+          itp: "TOEFL_ITP",
+          ielts: "IELTS",
+          jlpt: "JLPT",
+        };
         const res = await apiClient.post("/application/score", {
-          languageTestType: languageType,
+          languageTestType: languageTypeConvert[languageType],
           languageTestScore: languageScore,
           languageTestReportUrl: languageFileUrl,
           gpaCriteria: parseFloat(scoreType),
