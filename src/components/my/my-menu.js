@@ -10,18 +10,16 @@ import Modal from "../ui/modal";
 export default function MyMenu() {
   const router = useRouter();
   const apiClient = createApiClient();
-  const handleLogout = () => {
-    async function logout() {
-      try {
-        await apiClient.post("/auth/sign-out");
-        Cookie.remove("accessToken");
-        Cookie.remove("refreshToken");
-        router.push("/");
-      } catch (error) {
-        console.error("로그아웃 실패", error);
-      }
+  const handleLogout = async () => {
+    try {
+      await apiClient.post("/auth/sign-out");
+      Cookie.remove("accessToken");
+      Cookie.remove("refreshToken");
+      // API 호출과 쿠키 제거 작업이 모두 완료된 후에 페이지 이동이 실행됩니다.
+      router.push("/");
+    } catch (error) {
+      console.error("로그아웃 실패", error);
     }
-    logout();
   };
 
   const [showLogout, setShowLogout] = useState(false);
