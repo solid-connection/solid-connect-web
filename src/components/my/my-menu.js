@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import createApiClient from "@/lib/clientApiClient";
 import Cookie from "js-cookie";
@@ -7,6 +8,7 @@ import styles from "./my-menu.module.css";
 import Modal from "../ui/modal";
 
 export default function MyMenu() {
+  const router = useRouter();
   const apiClient = createApiClient();
   const handleLogout = () => {
     async function logout() {
@@ -14,7 +16,7 @@ export default function MyMenu() {
         await apiClient.post("/auth/sign-out");
         Cookie.remove("accessToken");
         Cookie.remove("refreshToken");
-        window.location.href = "/";
+        router.push("/");
       } catch (error) {
         console.error("로그아웃 실패", error);
       }
