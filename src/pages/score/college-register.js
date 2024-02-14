@@ -31,8 +31,8 @@ export default function CollegeRegisterPage(props) {
     try {
       async function postData() {
         const res = await apiClient.post("/application/university", {
-          firstChoiceUniversityId: firstCollege,
-          secondChoiceUniversityId: secondCollege,
+          firstChoiceUniversityId: parseInt(firstCollege),
+          secondChoiceUniversityId: parseInt(secondCollege),
         });
       }
       postData();
