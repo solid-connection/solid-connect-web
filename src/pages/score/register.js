@@ -73,6 +73,7 @@ export default function ScoreRegisterPage() {
           itp: "TOEFL_ITP",
           ielts: "IELTS",
           jlpt: "JLPT",
+          others: "DUOLINGO",
         };
         const res = await apiClient.post("/application/score", {
           languageTestType: languageTypeConvert[languageType],
@@ -83,9 +84,9 @@ export default function ScoreRegisterPage() {
           gpaReportUrl: scoreFileUrl,
         });
         console.log(res);
+        router.push("/score/college-register");
       }
       postData();
-      router.push("/score/college-register");
     } catch (error) {
       console.error(error);
     }
