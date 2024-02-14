@@ -23,7 +23,7 @@ export default function createApiClient() {
             {
               headers: {
                 Authorization: `Bearer ${refreshToken}`,
-                withCredentials: true,
+                // withCredentials: true,
               },
             }
           );
@@ -33,7 +33,7 @@ export default function createApiClient() {
           config.headers = {
             ...config.headers,
             Authorization: `Bearer ${accessToken}`,
-            withCredentials: true,
+            // withCredentials: true,
           };
         } catch (error) {
           console.error("access token 발급중 오류", error);
@@ -44,7 +44,7 @@ export default function createApiClient() {
         config.headers = {
           ...config.headers,
           Authorization: `Bearer ${accessToken}`,
-          withCredentials: true,
+          // withCredentials: true,
         };
       }
       return config;
@@ -70,7 +70,7 @@ export default function createApiClient() {
             {
               headers: {
                 Authorization: `Bearer ${refreshToken}`,
-                withCredentials: true,
+                // withCredentials: true,
               },
             }
           );
