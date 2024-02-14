@@ -11,7 +11,12 @@ export default function createApiClient() {
   // Request interceptor for API calls
   apiClient.interceptors.request.use(
     async (config) => {
-      let accessToken = Cookies.get("accessToken");
+      let accessToken;
+      if (config.headers.Authorization) {
+        accessToken = config.headers.Authorization.split(" ")[1];
+      } else {
+        accessToken = Cookies.get("accessToken");
+      }
       const refreshToken = Cookies.get("refreshToken");
 
       if (!accessToken && refreshToken) {
