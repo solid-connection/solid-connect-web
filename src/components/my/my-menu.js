@@ -1,25 +1,25 @@
 import { useState } from "react";
 import Link from "next/link";
+import createApiClient from "@/lib/clientApiClient";
+import Cookie from "js-cookie";
 
 import styles from "./my-menu.module.css";
 import Modal from "../ui/modal";
 
 export default function MyMenu() {
+  const apiClient = createApiClient();
   const handleLogout = () => {
-    fetch("/api/auth/logout", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        if (res.status === 200) {
-          window.location.href = "/";
-        }
-      })
-      .catch((error) => {
+    async function logout() {
+      try {
+        await apiClient.post("/auth/sign-out");
+        Cookie.remove("accessToken");
+        Cookie.remove("refreshToken");
+        window.location.href = "/";
+      } catch (error) {
         console.error("로그아웃 실패", error);
-      });
+      }
+    }
+    logout();
   };
 
   const [showLogout, setShowLogout] = useState(false);
