@@ -19,31 +19,26 @@ export default function CollegeDetailPage(props) {
   );
 }
 
-// export async function getServerSideProps(context) {
-//   const { params } = context;
-//   const { id } = params;
-
-//   const college = await getCollegeDetailData(id);
-
-//   return {
-//     props: {
-//       collegeData: college,
-//     },
-//   };
-// }
-
 export async function getStaticProps(context) {
   const { params } = context;
   const { id } = params;
-
-  const college = await getCollegeDetailData(id);
-
-  return {
-    props: {
-      collegeData: college,
-    },
-    revalidate: 600,
-  };
+  try {
+    const response = await getCollegeDetailData(id);
+    console.log(response);
+    if (!response.success) {
+      throw new Error(response);
+    }
+    return {
+      props: {
+        collegeData: response.data,
+      },
+      revalidate: 600,
+    };
+  } catch (e) {
+    return {
+      notFound: true,
+    };
+  }
 }
 
 export async function getStaticPaths() {

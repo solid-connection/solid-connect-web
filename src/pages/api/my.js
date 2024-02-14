@@ -30,8 +30,8 @@ export async function getMyData(accessToken) {
 
 export default async function handler(req, res) {
   const id = req.query.id;
-  const collegeData = await getCollegeDetailData(id);
+  // const collegeData = await getCollegeDetailData(id);
   if (req.method === "GET") {
-    res.status(200).json(collegeData);
+    // res.status(200).json(collegeData);
   }
 }

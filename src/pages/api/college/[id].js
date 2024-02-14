@@ -6,6 +6,7 @@ export async function getCollegeDetailData(collegeId) {
         "Content-Type": "application/json",
       },
     });
+    return backendResponse.json();
     // 오류 처리
     if (!backendResponse.ok) {
       const errorData = await backendResponse.json();
@@ -21,13 +22,6 @@ export async function getCollegeDetailData(collegeId) {
     console.error(error);
     return { error: error.message };
   }
-
-  // 과거 파일에서 가져오기 코드(추후 삭제)
-  // const filePath = path.join(process.cwd(), "datas/colleges.json");
-  // const fileData = fs.readFileSync(filePath);
-  // const collegeData = JSON.parse(fileData);
-
-  // return collegeData.find((college) => college.id.toString() === collegeId.toString());
 }
 
 export default async function handler(req, res) {
