@@ -25,7 +25,7 @@ export default function MyModify(props) {
         </div>
         <div className={styles.form}>
           <div>생년월일</div>
-          <div>{birth.replace(/-/g, ". ")}</div>
+          <div>{birth ? birth.replace(/-/g, ". ") : "0000. 00. 00"}</div>
         </div>
         <div className={styles.form}>
           <div>출신학교</div>
@@ -33,7 +33,7 @@ export default function MyModify(props) {
         </div>
         <div className={styles.form}>
           <div>파견학교</div>
-          <div>{exchangeCollege}</div>
+          <div>{exchangeCollege || "미상"}</div>
         </div>
       </div>
     </div>
