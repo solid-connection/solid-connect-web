@@ -74,7 +74,7 @@ export default function FormLanguage(props) {
   return (
     <div className={styles.formWrapper}>
       <div className={styles.form}>
-        <h1 className={styles.h1Bold} style={{ marginTop: "48px" }}>
+        <h1 className={styles.h1Bold} style={{ marginTop: "36px" }}>
           어학 성적 입력
         </h1>
         <p>

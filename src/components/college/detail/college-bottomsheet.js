@@ -192,7 +192,7 @@ export default function CollegeBottomSheet(props) {
         {/* 파견후기 */}
         <div className={styles.scrollOffset} ref={sectionRefs[4]}>
           <div className={styles.item}>
-            <div className={styles.title}>멘토의 생생한 후기</div>
+            <div className={styles.title}>생생한 후기</div>
             <CollegeReviews style={{ marginTop: "10px" }} />
           </div>
         </div>

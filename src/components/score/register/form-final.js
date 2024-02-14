@@ -53,16 +53,24 @@ export default function FormFinal(props) {
     }
     toNextStage();
   }
+  const languageTypeConvert = {
+    toeic: "토익",
+    ibt: "토플 IBT",
+    itp: "토플 ITP",
+    ielts: "IELTS",
+    jlpt: "JLPT",
+    others: "기타",
+  };
   return (
     <div className={styles.formWrapper}>
-      <div className={styles.form} style={{ marginTop: "40px" }}>
+      <div className={styles.form} style={{ marginTop: "28px" }}>
         <h1 className={styles.h1Bold}>최종 제출 확인</h1>
         <p>제출 완료 후 성적 을 변경 하실 수 없습니다.</p>
         <div className={styles.list}>
           <div className={styles.item}>
             <div className={styles.key}>어학점수</div>
             <div className={styles.value}>
-              <span>{languageType}</span>
+              <span>{languageTypeConvert[languageType]}</span>
               <span style={{ marginLeft: "33px" }}>{languageScore}</span>
             </div>
           </div>

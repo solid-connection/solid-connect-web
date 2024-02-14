@@ -48,7 +48,7 @@ export default function FormScore(props) {
   return (
     <div className={styles.formWrapper}>
       <div className={styles.form}>
-        <h1 className={styles.h1Bold} style={{ marginTop: "48px" }}>
+        <h1 className={styles.h1Bold} style={{ marginTop: "36px" }}>
           대학교 성적 입력
         </h1>
         <p>
