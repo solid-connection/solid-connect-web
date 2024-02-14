@@ -45,7 +45,7 @@ export default function ScoreRegisterPage() {
         const languageCertRes = await apiClient.post(
           "/img/language-test",
           {
-            img: languageCert,
+            imageFile: languageCert,
           },
           {
             headers: {
@@ -58,7 +58,7 @@ export default function ScoreRegisterPage() {
         const scoreCertRes = await apiClient.post(
           "/img/gpa",
           {
-            img: scoreCert,
+            imageFile: scoreCert,
           },
           {
             headers: {
