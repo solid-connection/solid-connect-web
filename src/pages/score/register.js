@@ -75,14 +75,14 @@ export default function ScoreRegisterPage() {
           jlpt: "JLPT",
           others: "DUOLINGO",
         };
-        console.log({
-          languageTestType: languageTypeConvert[languageType],
-          languageTestScore: languageScore,
-          languageTestReportUrl: languageFileUrl,
-          gpaCriteria: parseFloat(scoreType),
-          gpa: parseFloat(score),
-          gpaReportUrl: scoreFileUrl,
-        });
+        // console.log({
+        //   languageTestType: languageTypeConvert[languageType],
+        //   languageTestScore: languageScore,
+        //   languageTestReportUrl: languageFileUrl,
+        //   gpaCriteria: parseFloat(scoreType),
+        //   gpa: parseFloat(score),
+        //   gpaReportUrl: scoreFileUrl,
+        // });
         const res = await apiClient.post("/application/score", {
           languageTestType: languageTypeConvert[languageType],
           languageTestScore: languageScore,
@@ -91,7 +91,7 @@ export default function ScoreRegisterPage() {
           gpa: parseFloat(score),
           gpaReportUrl: scoreFileUrl,
         });
-        console.log(res);
+        // console.log(res);
         router.push("/score/college-register");
       }
       postData();
