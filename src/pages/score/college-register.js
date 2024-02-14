@@ -1,12 +1,16 @@
 import { useState } from "react";
 import Head from "next/head";
+import fs from "fs";
+import path from "path";
+import apiClient from "@/lib/clientApiClient";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import ProgressBar from "@/components/score/register/progress-bar";
 import FormCollege from "@/components/score/register/form-college";
 import FormCollegeFinal from "@/components/score/register/form-college-final";
 
-export default function CollegeRegisterPage() {
+export default function CollegeRegisterPage(props) {
+  const { collegesKeyName } = props;
   const [progress, setProgress] = useState(0);
   const [currentStage, setCurrentStage] = useState(1);
 
@@ -22,6 +26,21 @@ export default function CollegeRegisterPage() {
     return;
   }
 
+  function submitForm() {
+    // 서버로 데이터 전송
+    try {
+      async function postData() {
+        const res = await apiClient.post("/application/university", {
+          firstChoiceUniversityId: firstCollege,
+          secondChoiceUniversityId: secondCollege,
+        });
+      }
+      postData();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   function renderCurrentForm() {
     switch (currentStage) {
       case 1:
@@ -32,6 +51,7 @@ export default function CollegeRegisterPage() {
               setProgress(50);
             }}
             text="1지망"
+            collegesKeyName={collegesKeyName}
             college={firstCollege}
             setCollege={setFirstCollege}
           />
@@ -40,11 +60,13 @@ export default function CollegeRegisterPage() {
         return (
           <FormCollege
             toNextStage={() => {
+              submitForm();
               setCurrentStage(3);
               setProgress(100);
               // 학교정보 api 전송
             }}
             text="2지망"
+            collegesKeyName={collegesKeyName}
             college={secondCollege}
             setCollege={setSecondCollege}
           />
@@ -72,10 +94,10 @@ export default function CollegeRegisterPage() {
 export async function getServerSideProps(context) {
   // 요청에서 쿠키를 추출합니다.
   const { req } = context;
-  const accessToken = req.cookies["accessToken"];
+  const refreshToken = req.cookies["refreshToken"];
 
   // 토큰 유효성 검사 로직 (예제 코드)
-  const isLogin = accessToken ? true : false;
+  const isLogin = refreshToken ? true : false;
 
   if (!isLogin) {
     // 비로그인 상태일 경우 로그인 페이지로 리다이렉트
@@ -87,7 +109,11 @@ export async function getServerSideProps(context) {
     };
   }
 
+  const filePath = path.join(process.cwd(), "datas/24-2-key-name.json");
+  const fileData = fs.readFileSync(filePath);
+  const collegesKeyName = JSON.parse(fileData);
+
   return {
-    props: {},
+    props: { collegesKeyName: collegesKeyName },
   };
 }
