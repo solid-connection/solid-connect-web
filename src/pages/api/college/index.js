@@ -2,7 +2,7 @@ import path from "path";
 import fs from "fs";
 
 export async function getCollegeListData() {
-  const filePath = path.join(process.cwd(), "datas/colleges.json");
+  const filePath = path.join(process.cwd(), "datas/24-2colleges.json");
   const fileData = fs.readFileSync(filePath);
   const collegeData = JSON.parse(fileData);
 
