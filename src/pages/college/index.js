@@ -20,7 +20,7 @@ export default function CollegePage(props) {
   useEffect(() => {
     const filtered = colleges.filter((college) => {
       const matchesRegion = filter ? college.region === filter : true;
-      const matchesSearchText = searchText ? college.name.toLowerCase().includes(searchText.toLowerCase()) : true;
+      const matchesSearchText = searchText ? college.koreanName.toLowerCase().includes(searchText.toLowerCase()) || college.country.includes(searchText.toLowerCase()) : true;
       return matchesRegion && matchesSearchText;
     });
 
@@ -66,7 +66,8 @@ export async function getServerSideProps(context) {
 }
 
 async function getCollegeList(region, text) {
-  const colleges = await getCollegeListData();
+  const response = await getCollegeListData();
+  const colleges = response.data;
   const filteredColleges = colleges.filter((college) => {
     const matchesRegion = region ? college.region === region : true;
     const matchesSearchText = text ? college.name.toLowerCase().includes(text.toLowerCase()) : true;

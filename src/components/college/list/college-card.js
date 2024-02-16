@@ -5,15 +5,15 @@ import styles from "./college-card.module.css";
 import CheveronRightFilled from "../../ui/icon/ChevronRightFilled";
 
 export default function CollegeCard(props) {
-  const { id, name, country, region, languageRequirements, studentCapacity, formatName } = props;
+  const { id, koreanName, region, country, logoImageUrl, studentCapacity, languageRequirements } = props;
   return (
     <Link className={styles.card} href={`/college/${id}`}>
       <div className={styles.centerAlign}>
-        <Image className={styles.image} src={`https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/${formatName}/logo.webp`} width={100} height={100} alt={name || "이미지 없음"} />
+        <Image className={styles.image} src={logoImageUrl} width={100} height={100} alt={koreanName || "이미지 없음"} />
       </div>
 
       <div className={styles.info}>
-        <span className={styles.name}>{name}</span>
+        <span className={styles.name}>{koreanName}</span>
         <div className={styles.spaceBetween}>
           <span className={styles.country}>
             {country} | {region}
@@ -21,12 +21,11 @@ export default function CollegeCard(props) {
           <span className={styles.capacity}>모집 {studentCapacity}명</span>
         </div>
         <div className={styles.requirements}>
-          {Object.entries(languageRequirements)
-            .map(([key, value]) => {
-              if (key === "detail") return null;
+          {languageRequirements
+            .map((requirement, index) => {
               return (
-                <span key={key} className={styles.requirement}>
-                  {key.toUpperCase()}: {value}
+                <span key={index} className={styles.requirement}>
+                  {requirement.languageTestType.replace(/_/g, " ")}: {requirement.minScore}
                 </span>
               );
             })
