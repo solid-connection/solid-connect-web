@@ -1,20 +1,30 @@
 [
   {
     "id": 1,
-    "name": "괌대학(A형)",
+    "koreanName": "괌대학(A형)",
     "englishName": "University of Guam",
     "formatName": "university_of_guam",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/university_of_guam/logo.webp",
     "region": "미주권",
     "country": "미국",
     "homepageUrl": "https://www.uog.edu/admissions/international-students",
     "studentCapacity": 1,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "ibt": "61",
-      "itp": "500",
-      "ielts": "5.5"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "61.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "500.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "gpaRequirement": "2.5",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "2",
@@ -24,20 +34,30 @@
   },
   {
     "id": 2,
-    "name": "괌대학(B형)",
+    "koreanName": "괌대학(B형)",
     "englishName": "University of Guam",
     "formatName": "university_of_guam",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/university_of_guam/logo.webp",
     "region": "미주권",
     "country": "미국",
     "homepageUrl": "https://www.uog.edu/admissions/international-students",
     "studentCapacity": 2,
     "tuitionFeeType": "해외대학등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "ibt": "61",
-      "itp": "500",
-      "ielts": "5.5"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "61.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "500.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "gpaRequirement": "2.5",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "2",
@@ -48,22 +68,34 @@
   },
   {
     "id": 3,
-    "name": "네바다주립대학 라스베이거스(B형)",
+    "koreanName": "네바다주립대학 라스베이거스(B형)",
     "englishName": "University of Nevada, Las Vegas",
     "formatName": "university_of_nevada_las_vegas",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/university_of_nevada_las_vegas/logo.webp",
     "region": "미주권",
     "country": "미국",
     "homepageUrl": "https://www.unlv.edu/engineering/eip",
     "studentCapacity": 5,
     "tuitionFeeType": "해외대학등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "ibt": "61",
-      "itp": "500",
-      "toeic": "650",
-      "ielts": "6",
-      "detail": "영어 점수는 다음의 세부영역 점수를 각각 만족해야 함\n  - IELTS : 모든 영역에서 5.5 이상"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "61.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "500.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "650.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.0"
+      }
+    ],
     "gpaRequirement": "2.5",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "2",
@@ -74,22 +106,34 @@
   },
   {
     "id": 4,
-    "name": "네바다주립대학 라스베이거스(어학연수)",
+    "koreanName": "네바다주립대학 라스베이거스(어학연수)",
     "englishName": "University of Nevada, Las Vegas",
     "formatName": "university_of_nevada_las_vegas",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/university_of_nevada_las_vegas/logo.webp",
     "region": "미주권",
     "country": "미국",
     "homepageUrl": "https://www.unlv.edu/engineering/eip",
     "studentCapacity": 1,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "80",
-      "itp": "550",
-      "toeic": "800",
-      "ielts": "6.5",
-      "detail": "영어 점수는 다음의 세부영역 점수를 각각 만족해야 함\n  - IELTS : 모든 영역에서 6.5 이상"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "80.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "550.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "800.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.5"
+      }
+    ],
     "gpaRequirement": "3",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "2",
@@ -100,20 +144,30 @@
   },
   {
     "id": 5,
-    "name": "네브라스카 주립대학(A형)",
+    "koreanName": "네브라스카 주립대학(A형)",
     "englishName": "University of Nebraska, Kearney",
     "formatName": "university_of_nebraska_at_kearney",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/university_of_nebraska_at_kearney/logo.webp",
     "region": "미주권",
     "country": "미국",
     "homepageUrl": "University of Nebraska at Kearney (unk.edu)",
     "studentCapacity": 5,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "61",
-      "itp": "530",
-      "ielts": "5.5"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "61.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "530.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "gpaRequirement": "2.5",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "2",
@@ -124,20 +178,30 @@
   },
   {
     "id": 6,
-    "name": "네브라스카 주립대학(B형)",
+    "koreanName": "네브라스카 주립대학(B형)",
     "englishName": "University of Nebraska at Kearney",
     "formatName": "university_of_nebraska_at_kearney",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/university_of_nebraska_at_kearney/logo.webp",
     "region": "미주권",
     "country": "미국",
     "homepageUrl": "University of Nebraska at Kearney (unk.edu)",
     "studentCapacity": 5,
     "tuitionFeeType": "해외대학등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "ibt": "61",
-      "itp": "530",
-      "ielts": "5.5"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "61.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "530.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "gpaRequirement": "2.5",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "2",
@@ -148,20 +212,26 @@
   },
   {
     "id": 7,
-    "name": "노스파크대학(A형)",
+    "koreanName": "노스파크대학(A형)",
     "englishName": "North Park University",
     "formatName": "north_park_university",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/north_park_university/logo.webp",
     "region": "미주권",
     "country": "미국",
     "homepageUrl": "https://www.northpark.edu/admissions-aid/undergraduate-admissions/international-students/international-exchange-or-study-abroad-students/",
     "studentCapacity": 4,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "79",
-      "ielts": "6.5",
-      "detail": "영어 점수는 다음의 세부영역 점수를 각각 만족해야 함\n  - TOEFL iBT : 모든 영역에서 15점 이상\n  - IELTS : 모든 영역에서 5.5 이상"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "79.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.5"
+      }
+    ],
     "gpaRequirement": "2.75",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "2",
@@ -172,20 +242,26 @@
   },
   {
     "id": 8,
-    "name": "노스파크대학(B형)",
+    "koreanName": "노스파크대학(B형)",
     "englishName": "North Park University",
     "formatName": "north_park_university",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/north_park_university/logo.webp",
     "region": "미주권",
     "country": "미국",
     "homepageUrl": "https://www.northpark.edu/admissions-aid/undergraduate-admissions/international-students/international-exchange-or-study-abroad-students/",
     "studentCapacity": 5,
     "tuitionFeeType": "해외대학등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "ibt": "79",
-      "ielts": "6.5",
-      "detail": "영어 점수는 다음의 세부영역 점수를 각각 만족해야 함\n  - TOEFL iBT : 모든 영역에서 15점 이상\n  - IELTS : 모든 영역에서 5.5 이상"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "79.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.5"
+      }
+    ],
     "gpaRequirement": "2.75",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "2",
@@ -196,20 +272,26 @@
   },
   {
     "id": 9,
-    "name": "뉴욕주립대 환경과학임학대학(A형)",
+    "koreanName": "뉴욕주립대 환경과학임학대학(A형)",
     "englishName": "SUNY College of Environmental Science and Forestry",
     "formatName": "suny_esf",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/suny_esf/logo.webp",
     "region": "미주권",
     "country": "미국",
     "homepageUrl": "https://www.esf.edu/international/",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "79",
-      "ielts": "6",
-      "detail": "영어 점수는 다음의 세부영역 점수를 각각 만족해야함\n  - IELTS: 쓰기 영역에서 5.0 이상"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "79.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.0"
+      }
+    ],
     "gpaRequirement": "3",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "2",
@@ -220,20 +302,26 @@
   },
   {
     "id": 10,
-    "name": "뉴욕주립대 환경과학임학대학(B형)",
+    "koreanName": "뉴욕주립대 환경과학임학대학(B형)",
     "englishName": "SUNY College of Environmental Science and Forestry",
     "formatName": "suny_esf",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/suny_esf/logo.webp",
     "region": "미주권",
     "country": "미국",
     "homepageUrl": "https://www.esf.edu/international/",
     "studentCapacity": 5,
     "tuitionFeeType": "해외대학등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "ibt": "79",
-      "ielts": "6",
-      "detail": "영어 점수는 다음의 세부영역 점수를 각각 만족해야함\n  - IELTS: 쓰기 영역에서 5.0 이상"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "79.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.0"
+      }
+    ],
     "gpaRequirement": "3",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "2",
@@ -244,20 +332,30 @@
   },
   {
     "id": 11,
-    "name": "뉴욕주립대학 스토니브룩(B형)",
+    "koreanName": "뉴욕주립대학 스토니브룩(B형)",
     "englishName": "Stony Brook University",
     "formatName": "stony_brook_university",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/stony_brook_university/logo.webp",
     "region": "미주권",
     "country": "미국",
     "homepageUrl": "https://www.stonybrook.edu/",
     "studentCapacity": 5,
     "tuitionFeeType": "해외대학등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "ibt": "80",
-      "toeic": "850",
-      "ielts": "6.5"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "80.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "850.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.5"
+      }
+    ],
     "gpaRequirement": "2.8",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "2",
@@ -268,19 +366,26 @@
   },
   {
     "id": 12,
-    "name": "뉴저지시티대학(A형)",
+    "koreanName": "뉴저지시티대학(A형)",
     "englishName": "New Jersey City University",
     "formatName": "new_jersey_city_univeristy",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/new_jersey_city_univeristy/logo.webp",
     "region": "미주권",
     "country": "미국",
     "homepageUrl": "https://www.njcu.edu/admissions-aid/international-students",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "69",
-      "ielts": "5.5"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "69.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "gpaRequirement": "2.5",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "2",
@@ -290,19 +395,26 @@
   },
   {
     "id": 13,
-    "name": "뉴저지시티대학(B형)",
+    "koreanName": "뉴저지시티대학(B형)",
     "englishName": "New Jersey City University",
     "formatName": "new_jersey_city_univeristy",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/new_jersey_city_univeristy/logo.webp",
     "region": "미주권",
     "country": "미국",
     "homepageUrl": "https://www.njcu.edu/admissions-aid/international-students",
     "studentCapacity": 5,
     "tuitionFeeType": "해외대학등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "ibt": "69",
-      "ielts": "5.5"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "69.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "gpaRequirement": "2.5",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "2",
@@ -313,19 +425,26 @@
   },
   {
     "id": 16,
-    "name": "안젤로주립대학(A형)",
+    "koreanName": "안젤로주립대학(A형)",
     "englishName": "Angelo State University",
     "formatName": "angelo_state_university",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/angelo_state_university/logo.webp",
     "region": "미주권",
     "country": "미국",
     "homepageUrl": "https://www.angelo.edu/",
     "studentCapacity": 1,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "69",
-      "ielts": "6"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "69.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.0"
+      }
+    ],
     "gpaRequirement": "2.5",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "2",
@@ -336,21 +455,34 @@
   },
   {
     "id": 17,
-    "name": "안젤로주립대학(B형)",
+    "koreanName": "안젤로주립대학(B형)",
     "englishName": "Angelo State University",
     "formatName": "angelo_state_university",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/angelo_state_university/logo.webp",
     "region": "미주권",
     "country": "미국",
     "homepageUrl": "https://www.angelo.edu/",
     "studentCapacity": 5,
     "tuitionFeeType": "해외대학등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "ibt": "69",
-      "itp": "550",
-      "toeic": "800",
-      "ielts": "6"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "69.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "550.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "800.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.0"
+      }
+    ],
     "gpaRequirement": "2.5",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "2",
@@ -361,20 +493,26 @@
   },
   {
     "id": 20,
-    "name": "일리노이공과대학(교환학생 과정)",
+    "koreanName": "일리노이공과대학(교환학생 과정)",
     "englishName": "Illinois Institute of Technology",
     "formatName": "illinois_institute_of_technology",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/illinois_institute_of_technology/logo.webp",
     "region": "미주권",
     "country": "미국",
     "homepageUrl": "https://www.iit.edu/admissions-aid/undergraduate-admission/international-undergraduate-students/how-apply-international-undergraduate-students/international-visiting-and-exchange-students",
     "studentCapacity": 5,
     "tuitionFeeType": "해외대학등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "ibt": "80",
-      "ielts": "6.5",
-      "detail": "영어 점수는 다음의 세부영역 점수를 각각 만족해야 함\n  - TOEFL IBT: 모든 영역에서 20점 이상\n  - IELTS : 모든 영역에서 6.0 이상"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "80.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.5"
+      }
+    ],
     "gpaRequirement": "3.4",
     "gpaRequirementCriteria": "4.5",
     "semesterRequirement": "2",
@@ -385,20 +523,26 @@
   },
   {
     "id": 21,
-    "name": "일리노이공과대학(복수학위 과정)",
+    "koreanName": "일리노이공과대학(복수학위 과정)",
     "englishName": "Illinois Institute of Technology",
     "formatName": "illinois_institute_of_technology",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/illinois_institute_of_technology/logo.webp",
     "region": "미주권",
     "country": "미국",
     "homepageUrl": "https://www.iit.edu/admissions-aid/undergraduate-admission/international-undergraduate-students/how-apply-international-undergraduate-students/international-transfer-students",
     "studentCapacity": 5,
     "tuitionFeeType": "해외대학등록금납부형",
     "semesterAvailableForDispatch": "4개학기",
-    "languageRequirements": {
-      "ibt": "80",
-      "ielts": "6.5",
-      "detail": "영어 점수는 다음의 세부영역 점수를 각각 만족해야 함\n  - TOEFL IBT: 모든 영역에서 20점 이상\n  - IELTS : 모든 영역에서 6.0 이상"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "80.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.5"
+      }
+    ],
     "gpaRequirement": "3.4",
     "gpaRequirementCriteria": "4.5",
     "semesterRequirement": "4",
@@ -409,19 +553,26 @@
   },
   {
     "id": 22,
-    "name": "테일러대학",
+    "koreanName": "테일러대학",
     "englishName": "Taylor University",
     "formatName": "taylor_university",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/taylor_university/logo.webp",
     "region": "미주권",
     "country": "미국",
     "homepageUrl": "https://www.taylor.edu/",
     "studentCapacity": 1,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "ibt": "80",
-      "ielts": "6.5"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "80.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.5"
+      }
+    ],
     "gpaRequirement": "3",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "2",
@@ -431,22 +582,34 @@
   },
   {
     "id": 23,
-    "name": "템플대학(혼합형)",
+    "koreanName": "템플대학(혼합형)",
     "englishName": "Temple University",
     "formatName": "temple_university",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/temple_university/logo.webp",
     "region": "미주권",
     "country": "미국",
     "homepageUrl": "http://globalprograms.temple.edu/",
     "studentCapacity": 5,
     "tuitionFeeType": "혼합형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "ibt": "79",
-      "itp": "550",
-      "toeic": "780",
-      "ielts": "6",
-      "detail": "영어 점수는 다음의 세부영역 점수를 각각 만족해야 함 \n  - TOEIC : 모든 영역에서 390점 이상\n- 최저 기준 어학 점수가 넘더라도, 선발대학에서 특정 섹션의 어학실력이 부족하다고 판단될 경우 파견 시 별도로 대학부설 어학코스(ielp) 수강이 필요할 수 있음 (수업료 외 별도 비용 발생, https://tcalc.temple.edu/)"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "79.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "550.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "780.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.0"
+      }
+    ],
     "gpaRequirement": "3",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "2",
@@ -457,19 +620,26 @@
   },
   {
     "id": 24,
-    "name": "트로이주립대학(A형)",
+    "koreanName": "트로이주립대학(A형)",
     "englishName": "Troy University",
     "formatName": "troy_university",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/troy_university/logo.webp",
     "region": "미주권",
     "country": "미국",
     "homepageUrl": "https://www.troy.edu/international/index.html",
     "studentCapacity": 4,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "61",
-      "ielts": "5.5"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "61.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "gpaRequirement": "2.5",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "2",
@@ -479,19 +649,26 @@
   },
   {
     "id": 25,
-    "name": "트로이주립대학(B형)",
+    "koreanName": "트로이주립대학(B형)",
     "englishName": "Troy University",
     "formatName": "troy_university",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/troy_university/logo.webp",
     "region": "미주권",
     "country": "미국",
     "homepageUrl": "https://www.troy.edu/international/index.html",
     "studentCapacity": 5,
     "tuitionFeeType": "해외대학등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "ibt": "61",
-      "ielts": "5.5"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "61.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "gpaRequirement": "2.5",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "2",
@@ -502,21 +679,30 @@
   },
   {
     "id": 26,
-    "name": "하와이대학(B형)",
+    "koreanName": "하와이대학(B형)",
     "englishName": "University of Hawaii at Manoa",
     "formatName": "university_of_hawaii_at_manoa",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/university_of_hawaii_at_manoa/logo.webp",
     "region": "미주권",
     "country": "미국",
     "homepageUrl": "Mānoa International Exchange – Come to Mānoa, See the World! (hawaii.edu)",
     "studentCapacity": 5,
     "tuitionFeeType": "해외대학등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "ibt": "68",
-      "itp": "520",
-      "ielts": "6",
-      "detail": "- 토플 IBT(100), 토플 ITP(600), IELTS(7.0) 미만시 파견 후 별도의 영어시험을 응시해야하며, 결과에 따라 1~3개의 어학 수업을 수강하게 될 수 있음"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "68.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "520.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.0"
+      }
+    ],
     "gpaRequirement": "2.5",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "2",
@@ -527,21 +713,34 @@
   },
   {
     "id": 27,
-    "name": "카톨릭 대학 미나스제라이스",
+    "koreanName": "카톨릭 대학 미나스제라이스",
     "englishName": "Pontificia Universidade Catolica de Minas Gerais",
     "formatName": "pontificia_universidade_catolica_de_minas_gerais",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/pontificia_universidade_catolica_de_minas_gerais/logo.webp",
     "region": "미주권",
     "country": "브라질",
     "homepageUrl": "https://www.pucminas.br/",
     "studentCapacity": 5,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "ibt": "72",
-      "itp": "550",
-      "toeic": "785",
-      "ielts": "5.5"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "72.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "550.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "785.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "semesterRequirement": "2",
     "majorRelatedRequirement": "- 타전공 지원 및 수강 가능",
     "dormitoryInfo": "https://portal.pucminas.br/ari/index_padrao.php?pagina=2308",
@@ -550,20 +749,26 @@
   },
   {
     "id": 29,
-    "name": "리자이나대학(A형)",
+    "koreanName": "리자이나대학(A형)",
     "englishName": "University of Regina",
     "formatName": "university_of_regina",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/university_of_regina/logo.webp",
     "region": "미주권",
     "country": "캐나다",
     "homepageUrl": "https://www.uregina.ca/international/",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "83",
-      "ielts": "6.5",
-      "detail": "영어 점수는 다음의 세부영역 점수를 각각 만족해야함\n  - TOEFL iBT : 모든 영역에서 20점 이상\n  - IELTS : 모든 영역에서 6.0 이상"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "83.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.5"
+      }
+    ],
     "gpaRequirement": "2.5",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "2",
@@ -573,20 +778,26 @@
   },
   {
     "id": 30,
-    "name": "리자이나대학(B형)",
+    "koreanName": "리자이나대학(B형)",
     "englishName": "University of Regina",
     "formatName": "university_of_regina",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/university_of_regina/logo.webp",
     "region": "미주권",
     "country": "캐나다",
     "homepageUrl": "https://www.uregina.ca/international/",
     "studentCapacity": 5,
     "tuitionFeeType": "해외대학등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "ibt": "83",
-      "ielts": "6.5",
-      "detail": "영어 점수는 다음의 세부영역 점수를 각각 만족해야함\n  - TOEFL iBT : 모든 영역에서 20점 이상\n  - IELTS : 모든 영역에서 6.0 이상"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "83.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.5"
+      }
+    ],
     "gpaRequirement": "2.5",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "2",
@@ -597,20 +808,26 @@
   },
   {
     "id": 31,
-    "name": "메모리얼 대학 세인트존스(A형)",
+    "koreanName": "메모리얼 대학 세인트존스(A형)",
     "englishName": "Memorial University of Newfoundland St. John's",
     "formatName": "memorial_university_of_newfoundland_st_johns",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/memorial_university_of_newfoundland_st_johns/logo.webp",
     "region": "미주권",
     "country": "캐나다",
     "homepageUrl": "https://mun.ca/goabroad/visiting-students-inbound/",
     "studentCapacity": 3,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "79",
-      "ielts": "6.5",
-      "detail": "영어 점수는 다음의 세부영역 점수를 각각 만족해야함\n  - TOEFL iBT : 읽기/쓰기 20점, 듣기/말하기 17점 이상\n  - IELTS : 모든 영역에서 6.0 이상"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "79.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.5"
+      }
+    ],
     "gpaRequirement": "2.5",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "2",
@@ -620,20 +837,26 @@
   },
   {
     "id": 32,
-    "name": "메모리얼 대학 세인트존스(B형)",
+    "koreanName": "메모리얼 대학 세인트존스(B형)",
     "englishName": "Memorial University of Newfoundland St. John's",
     "formatName": "memorial_university_of_newfoundland_st_johns",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/memorial_university_of_newfoundland_st_johns/logo.webp",
     "region": "미주권",
     "country": "캐나다",
     "homepageUrl": "https://mun.ca/goabroad/visiting-students-inbound/",
     "studentCapacity": 5,
     "tuitionFeeType": "해외대학등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "ibt": "79",
-      "ielts": "6.5",
-      "detail": "영어 점수는 다음의 세부영역 점수를 각각 만족해야함\n  - TOEFL iBT : 읽기/쓰기 20점, 듣기/말하기 17점 이상\n  - IELTS : 모든 영역에서 6.0 이상"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "79.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.5"
+      }
+    ],
     "gpaRequirement": "2.5",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "2",
@@ -644,22 +867,34 @@
   },
   {
     "id": 33,
-    "name": "메모리얼대학 그랜펠(어학연수)",
+    "koreanName": "메모리얼대학 그랜펠(어학연수)",
     "englishName": "Memorial University of Newfoundland, Grenfell Camp",
     "formatName": "memorial_university_of_newfoundland_grenfell_campus",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/memorial_university_of_newfoundland_grenfell_campus/logo.webp",
     "region": "미주권",
     "country": "캐나다",
     "homepageUrl": "www.grenfell.mun.ca/esl",
     "studentCapacity": 3,
     "tuitionFeeType": "해외대학등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "40",
-      "itp": "440",
-      "toeic": "500",
-      "ielts": "4.5",
-      "detail": "※ 가장 기초 과정(IEP-G)의 최소 지원 요건이며 레벨과 지원과정에 따라 지원자격이 상이하므로 fact sheet 참조 바람\n- 학부과정 수강 가능한 IEBP-G 지원 시 다음의 세부영역 점수를 만족해야함\n - IELTS : 모든 영역에서 5.0 이상, 쓰기 5.5 이상\n - TOEFL iBT : 쓰기 16점 이상"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "40.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "440.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "500.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "4.5"
+      }
+    ],
     "gpaRequirement": "2.5",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "2",
@@ -669,19 +904,26 @@
   },
   {
     "id": 34,
-    "name": "RMIT멜버른공과대학(A형)",
+    "koreanName": "RMIT멜버른공과대학(A형)",
     "englishName": "RMIT University",
     "formatName": "rmit_university",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/rmit_university/logo.webp",
     "region": "미주권",
     "country": "호주",
     "homepageUrl": "https://www.rmit.edu.au/study-with-us/international-students/programs-for-international-students/study-abroad-and-exchange/student-exchange",
     "studentCapacity": 3,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "60",
-      "ielts": "6"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "60.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.0"
+      }
+    ],
     "gpaRequirement": "2",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "2",
@@ -691,20 +933,26 @@
   },
   {
     "id": 35,
-    "name": "서던퀸스랜드대학(A형)",
+    "koreanName": "서던퀸스랜드대학(A형)",
     "englishName": "University of Southern Queensland",
     "formatName": "university_of_southern_queensland",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/university_of_southern_queensland/logo.webp",
     "region": "미주권",
     "country": "호주",
     "homepageUrl": "https://www.unisq.edu.au/international/partnerships/study-abroad-exchange",
     "studentCapacity": 1,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "80",
-      "ielts": "6",
-      "detail": "영어 점수는 다음의 세부영역 점수를 각각 만족해야 함\n  - IELTS: 모든 영역에서 5.5 이상\n  - TOEFL: 모든 영역에서 19점 이상"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "80.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.0"
+      }
+    ],
     "gpaRequirement": "2.5",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "2",
@@ -715,20 +963,26 @@
   },
   {
     "id": 36,
-    "name": "서던퀸스랜드대학(B형)",
+    "koreanName": "서던퀸스랜드대학(B형)",
     "englishName": "University of Southern Queensland",
     "formatName": "university_of_southern_queensland",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/university_of_southern_queensland/logo.webp",
     "region": "미주권",
     "country": "호주",
     "homepageUrl": "https://www.unisq.edu.au/international/partnerships/study-abroad-exchange",
     "studentCapacity": 5,
     "tuitionFeeType": "해외대학등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "80",
-      "ielts": "6",
-      "detail": "영어 점수는 다음의 세부영역 점수를 각각 만족해야 함\n  - IELTS: 모든 영역에서 5.5 이상\n  - TOEFL: 모든 영역에서 19점 이상"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "80.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.0"
+      }
+    ],
     "gpaRequirement": "2.5",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "2",
@@ -739,20 +993,26 @@
   },
   {
     "id": 38,
-    "name": "커틴대학(A형)",
+    "koreanName": "커틴대학(A형)",
     "englishName": "Curtin University",
     "formatName": "curtin_university",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/curtin_university/logo.webp",
     "region": "미주권",
     "country": "호주",
     "homepageUrl": "https://www.curtin.edu.au/study/learning-experience/global-study/global-inbound/",
     "studentCapacity": 3,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "68",
-      "ielts": "6",
-      "detail": "영어 점수는 다음의 세부영역 점수를 각각 만족해야함\n  - IELTS: 모든 영역에서 6.0 이상\n  - TOEFL IBT: 읽기 13점, 쓰기 21점, 듣기 13점, 말하기 18점 이상"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "68.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.0"
+      }
+    ],
     "gpaRequirement": "3",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "2",
@@ -762,20 +1022,26 @@
   },
   {
     "id": 39,
-    "name": "커틴대학(B형)",
+    "koreanName": "커틴대학(B형)",
     "englishName": "Curtin University",
     "formatName": "curtin_university",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/curtin_university/logo.webp",
     "region": "미주권",
     "country": "호주",
     "homepageUrl": "https://www.curtin.edu.au/study/learning-experience/global-study/global-inbound/",
     "studentCapacity": 5,
     "tuitionFeeType": "해외대학등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "ibt": "68",
-      "ielts": "6",
-      "detail": "영어 점수는 다음의 세부영역 점수를 각각 만족해야함\n  - IELTS: 모든 영역에서 6.0 이상\n  - TOEFL IBT: 읽기 13점, 쓰기 21점, 듣기 13점, 말하기 19점 이상"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "68.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.0"
+      }
+    ],
     "gpaRequirement": "3",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "2",
@@ -786,20 +1052,26 @@
   },
   {
     "id": 40,
-    "name": "그로닝겐 대학교",
+    "koreanName": "그로닝겐 대학교",
     "englishName": "University of Groningen",
     "formatName": "university_of_groningen",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/university_of_groningen/logo.webp",
     "region": "유럽권",
     "country": "네덜란드",
     "homepageUrl": "https://www.rug.nl/feb/education/exchange",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개 학기",
-    "languageRequirements": {
-      "ibt": "80",
-      "ielts": "6",
-      "detail": "- 어학성적 유효기간 내 인정(2년 이내 발급본)\n- 세부내용 링크 참조 : https://www.rug.nl/feb/education/exchange/incoming/before/english-proficiency"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "80.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.0"
+      }
+    ],
     "semesterRequirement": "2",
     "majorRelatedRequirement": "- 주전공 혹은 제2전공(혹은 연계전공)과 유관 학과로 지원 필요\n - 교환학생 전용 교과목만 수강 가능\n- 학기당 수강학점 : 최대 40 ECTS credits",
     "dormitoryInfo": "- 기본 미제공(unguaranteed)\n- 숙소 정보 및 개별 신청 : https://www.rug.nl/education/exchange/study-in-groningen/?lang=en",
@@ -808,21 +1080,30 @@
   },
   {
     "id": 41,
-    "name": "삭시온대학교",
+    "koreanName": "삭시온대학교",
     "englishName": "Saxion University of Applied Sciences",
     "formatName": "saxion_university_of_applied_sciences",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/saxion_university_of_applied_sciences/logo.webp",
     "region": "유럽권",
     "country": "네덜란드",
     "homepageUrl": "https://www.saxion.edu/programmes?page=1&searchQuery=&facet_Education+type=exchange",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개 또는 2개 학기",
-    "languageRequirements": {
-      "ibt": "72",
-      "toeic": "785",
-      "ielts": "5.5",
-      "detail": "- 어학성적 유효기간 내 인정"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "72.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "785.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "majorRelatedRequirement": "- 주전공 혹은 제2전공(혹은 연계전공)과 일치하는 학과로 지원 권고\n- 전공별 지원 자격 상이(관련 사이트 통하여 전공별 지원 자격 확인 필요)\n- 학기당 수강학점 기준 : 30 ECTS credits",
     "dormitoryInfo": "- 기본 미제공(unguaranteed)\n- 숙소 정보 및 개별 신청 : https://www.saxion.edu/studying-in-the-netherlands/practical-matters/accommodation/housing-via-saxion",
     "englishLectures": "https://www.saxion.edu/programmes?page=1&searchQuery=&facet_Education+type=exchange",
@@ -830,21 +1111,30 @@
   },
   {
     "id": 42,
-    "name": "폰티스대학",
+    "koreanName": "폰티스대학",
     "englishName": "Fontys University of Applied Sciences",
     "formatName": "fontys_university_of_applied_sciences",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/fontys_university_of_applied_sciences/logo.webp",
     "region": "유럽권",
     "country": "네덜란드",
     "homepageUrl": "https://fontys.edu/Short-term-programmes/Exchange-programmes.htm",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개 학기",
-    "languageRequirements": {
-      "ibt": "72",
-      "toeic": "670",
-      "ielts": "6",
-      "detail": "- 어학성적 유효기간 내 인정"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "72.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "670.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.0"
+      }
+    ],
     "semesterRequirement": "2",
     "majorRelatedRequirement": "- 주전공 혹은 제2전공(혹은 연계전공)과 유관 학과로 지원 필요\n - 정보통신공학 계열(Information and Communication Technology) 과목만 수강 가능\n- 학기당 수강학점 : 최대 30 ECTS credits",
     "dormitoryInfo": "- 대학 기숙사 신청 가능하나 신청 경쟁률 높으며, 선착순 배정\n- 관련 정보 : https://www.fontys.nl/en/Fresh-at-Fontys-Bachelors/Eindhoven/Fresh-at-Information-and-Communication-Technology-ICT/Nieuwe-pagina-2157/Preparing-your-stay-in-the-Netherlands-12.htm",
@@ -853,21 +1143,30 @@
   },
   {
     "id": 43,
-    "name": "노르웨이 경영대학",
+    "koreanName": "노르웨이 경영대학",
     "englishName": "BI Norwegian Business School",
     "formatName": "bi_norwegian_business_school",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/bi_norwegian_business_school/logo.webp",
     "region": "유럽권",
     "country": "노르웨이",
     "homepageUrl": "www.bi.edu/exchange",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개 또는 2개 학기",
-    "languageRequirements": {
-      "ibt": "72",
-      "toeic": "785",
-      "ielts": "5.5",
-      "detail": "- 어학성적 유효기간 내 인정"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "72.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "785.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "semesterRequirement": "2",
     "majorRelatedRequirement": "- 주전공 혹은 제2전공(혹은 연계전공)과 일치하는 학과로 지원 필요\n- Business 계열 과목 이수 가능\n- 학기당 수강학점 : 최대 30 ECTS credits",
     "dormitoryInfo": "- 숙소 제공 보장(Guaranteed)\n- 관련 정보 : www.bi.edu/housing",
@@ -876,20 +1175,26 @@
   },
   {
     "id": 44,
-    "name": "서던덴마크대학교",
+    "koreanName": "서던덴마크대학교",
     "englishName": "University of Southern Denmark",
     "formatName": "university_of_southern_denmark",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/university_of_southern_denmark/logo.webp",
     "region": "유럽권",
     "country": "덴마크",
     "homepageUrl": "https://www.sdu.dk/da",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개 또는 2개 학기",
-    "languageRequirements": {
-      "ibt": "88",
-      "ielts": "6.5",
-      "detail": "- 어학성적 : 기재된 성적은 교환 프로그램 참여를 위한 어학 능력 정도를 의미, 제출 필수 아님.\n제출 시 선발에 플러스 요인으로 작용할 수 있음.\n\n- Language Requirement Form :  제출 필수(인하대 국제교류담당자 서명 포함)\n ※ fact sheet  참조 : www.sdu.dk/sduinternational"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "88.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.5"
+      }
+    ],
     "semesterRequirement": "2",
     "majorRelatedRequirement": "- '주전공 혹은 제2전공(혹은 연계전공)과 일치하는 학과로 지원 권고)\n- 수강과목들은 2개 학부 이내에서 수강할 것을 강력히 권장\n- 기초 선수과목 적용 교과목들은 본교 사전 이수 필요\n- 학기당 수강학점\n · 기본(최소) 30 ECTS credits\n · 최대 35 ECTS credits : 기본 30ECTS에 덴마크어 학습 강좌(5ECTS)만 추가 가능",
     "dormitoryInfo": "- 기한 내 신청 시 숙소 제공 보장(Guaranteed)/Off-campus Housing\n\n- 관련 정보 : https://www.sdu.dk/en/uddannelse/information_for_international_students/accommodation",
@@ -898,20 +1203,26 @@
   },
   {
     "id": 45,
-    "name": "코펜하겐 IT대학",
+    "koreanName": "코펜하겐 IT대학",
     "englishName": "IT University of Copenhagen",
     "formatName": "it_university_of_copenhagen",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/it_university_of_copenhagen/logo.webp",
     "region": "유럽권",
     "country": "덴마크",
     "homepageUrl": "https://en.itu.dk/programmes/exchange-students/become-an-exchange-student-at-itu",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개 또는 2개 학기",
-    "languageRequirements": {
-      "ibt": "88",
-      "ielts": "6.5",
-      "detail": "- 어학성적 유효기간 내 인정\n- 기타 인정 어학성적 : Cambridge Certificate of Advanced English (CAE) or Cambridge Certificate of Proficiency in English (CPE) : PASSED"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "88.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.5"
+      }
+    ],
     "majorRelatedRequirement": "- 주전공 혹은 제2전공(혹은 연계전공)과 일치하는 학과로 지원 권고\n- 합격 후 과목 수강은 여러 전공 분야 걸쳐 수강신청 가능\n- 학기당 수강학점 : 최소 15, 최대 30 ECTS credits",
     "dormitoryInfo": "- 숙소 제공 보장(Guaranteed)/Off-campus Housing\n- 관련 정보 : https://en.itu.dk/Programmes/Student-Life/Practical-information-for-international-students",
     "englishLectures": "https://en.itu.dk/Programmes/Exchange-students/Become-an-exchange-student-at-ITU",
@@ -919,21 +1230,30 @@
   },
   {
     "id": 46,
-    "name": "노이울름 대학",
+    "koreanName": "노이울름 대학",
     "englishName": "Neu-Ulm University of Applied Sciences",
     "formatName": "neu-ulm_university_of_applied_sciences",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/neu-ulm_university_of_applied_sciences/logo.webp",
     "region": "유럽권",
     "country": "독일",
     "homepageUrl": "https://www.hnu.de/en/international/international-exchange-students",
     "studentCapacity": 5,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "72",
-      "toeic": "785\n(S/W 제출)",
-      "ielts": "6",
-      "detail": "영어 점수는 다음의 세부영역 점수를 각각 만족해야 함\n  - TOEFL IBT: 읽기 18점; 듣기 17점, 말하기 20점, 쓰기 17점\n  - TOEIC: 읽기 385점, 듣기 400점, 말하기 160점, 쓰기 150점"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "72.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "785"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.0"
+      }
+    ],
     "semesterRequirement": "2",
     "majorRelatedRequirement": "- 타전공 지원 및 수강 가능",
     "dormitoryInfo": "https://www.hnu.de/fileadmin/user_upload/5_Internationales/International_Incomings/Bewerbung/Housing_Broschure.pdf",
@@ -941,22 +1261,34 @@
   },
   {
     "id": 47,
-    "name": "데겐도르프대학",
+    "koreanName": "데겐도르프대학",
     "englishName": "Deggendorf University of Applied Sciences",
     "formatName": "deggendorf_university_of_applied_sciences",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/deggendorf_university_of_applied_sciences/logo.webp",
     "region": "유럽권",
     "country": "독일",
     "homepageUrl": "https://www.th-deg.de/exchange-students",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "ibt": "72",
-      "itp": "550",
-      "toeic": "785",
-      "ielts": "5.5",
-      "detail": "독일어 공인성적으로 지원할 경우, B1 레벨에 준하는 성적을 보유하여야 함"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "72.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "550.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "785.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "semesterRequirement": "2",
     "majorRelatedRequirement": "- 파견대학에 지원하는 전공과 본교 전공이 일치해야함 (복수전공, 부전공 가능)\n- 일반적으로 Business, Computer Sciences, Engineering, Tourism Field에서 영어강의를 교환학생에게 제공함",
     "dormitoryInfo": "https://www.th-deg.de/en/study-with-us/accommodation",
@@ -965,21 +1297,30 @@
   },
   {
     "id": 48,
-    "name": "라벤스부르크 바인가르텐 응용과학대학교",
+    "koreanName": "라벤스부르크 바인가르텐 응용과학대학교",
     "englishName": "Ravensburg Weingarten University of Applied Sciences",
     "formatName": "rwu_ravensburg_weingarten_university_of_applied_sciences",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/rwu_ravensburg_weingarten_university_of_applied_sciences/logo.webp",
     "region": "유럽권",
     "country": "독일",
     "homepageUrl": "https://www.rwu.de/en/international/exchange-students/application",
     "studentCapacity": 3,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "ibt": "70",
-      "toeic": "785",
-      "ielts": "6",
-      "detail": "영어 점수는 다음의 세부영역 점수를 각각 만족해야 함\n - TOEIC: 읽기 385점 이상, 듣기 400점 이상\n- 독일어 공인성적으로 지원할 경우, B2 레벨에 준하는 성적을 보유하여야 함"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "70.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "785.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.0"
+      }
+    ],
     "semesterRequirement": "2",
     "majorRelatedRequirement": "- 타전공 지원 및 수강 가능",
     "dormitoryInfo": "https://www.rwu.de/en/international/exchange-students/application",
@@ -987,22 +1328,34 @@
   },
   {
     "id": 49,
-    "name": "로이틀링겐대학",
+    "koreanName": "로이틀링겐대학",
     "englishName": "Reutlingen University",
     "formatName": "reutlingen_university",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/reutlingen_university/logo.webp",
     "region": "유럽권",
     "country": "독일",
     "homepageUrl": "https://www.reutlingen-university.de/en/international/from-abroad",
     "studentCapacity": 6,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "72",
-      "itp": "550",
-      "toeic": "785",
-      "ielts": "5.5",
-      "detail": "- 독일어 공인성적으로 지원할 경우, B2 레벨에 준하는 성적을 보유하여야 함\n- 경영학(독일어 강의) 수강요건: 독일어 B2 이상의 증빙필요"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "72.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "550.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "785.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "semesterRequirement": "2",
     "majorRelatedRequirement": "- 파견대학에 지원하는 전공과 본교 전공이 일치해야함(복수전공, 부전공 가능)",
     "dormitoryInfo": "https://www.reutlingen-university.de/en/studies/student-life/student-accommodation",
@@ -1010,21 +1363,34 @@
   },
   {
     "id": 50,
-    "name": "루트비히스하펜 경영사회대학교",
+    "koreanName": "루트비히스하펜 경영사회대학교",
     "englishName": "Ludwigshafen University of Business and Society",
     "formatName": "ludwigshafen_university_of_business_and_society",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/ludwigshafen_university_of_business_and_society/logo.webp",
     "region": "유럽권",
     "country": "독일",
     "homepageUrl": "https://www.hwg-lu.de/international/exchange-students-from-partner-institutions",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "ibt": "72",
-      "itp": "550",
-      "toeic": "785",
-      "ielts": "5.5"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "72.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "550.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "785.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "semesterRequirement": "2",
     "majorRelatedRequirement": "- 타전공 지원 및 수강 가능\n- 경영학(독일어 강의) 수강요건: 독일어 B2 이상의 증빙 필요",
     "dormitoryInfo": "https://www.hwg-lu.de/international/exchange-students-from-partner-institutions/before-mobility/housing",
@@ -1033,22 +1399,34 @@
   },
   {
     "id": 51,
-    "name": "바덴뷔르템베르크 산학협력대학",
+    "koreanName": "바덴뷔르템베르크 산학협력대학",
     "englishName": "Baden-Wuerttemberg cooperative state univ.(DHBW)",
     "formatName": "baden-wuerttemberg_cooperative_state_univ(dhbw)",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/baden-wuerttemberg_cooperative_state_univ(dhbw)/logo.webp",
     "region": "유럽권",
     "country": "독일",
     "homepageUrl": "https://www.dhbw-stuttgart.de/studium/internationales/international-students/exchange-students/",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "79",
-      "itp": "550",
-      "toeic": "765",
-      "ielts": "6",
-      "detail": "영어 점수는 다음의 세부영역 점수를 각각 만족해야 함\n  - TOEFL iBT: 읽기 13점, 쓰기 21점, 듣기 13점, 말하기 18점 이상\n- 독일어 공인성적으로 지원할 경우, B2 레벨에 준하는 성적을 보유하여야 함"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "79.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "550.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "765.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.0"
+      }
+    ],
     "gpaRequirement": "2.5",
     "gpaRequirementCriteria": "5",
     "semesterRequirement": "2",
@@ -1059,22 +1437,34 @@
   },
   {
     "id": 52,
-    "name": "베를린자유대학교",
+    "koreanName": "베를린자유대학교",
     "englishName": "Freie Universitat Berlin",
     "formatName": "freie_universitat_berlin",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/freie_universitat_berlin/logo.webp",
     "region": "유럽권",
     "country": "독일",
     "homepageUrl": "https://www.fu-berlin.de/en/studium/international/studium_ausland/direkt/index.html",
     "studentCapacity": 3,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "72",
-      "itp": "550",
-      "toeic": "785",
-      "ielts": "5.5",
-      "detail": "- Department of Humanities, Social Science, Business Administration and Economics 수강요건: 독일어 공인성적 B2 레벨 이상의 증빙 필수\n- Department of Natural Science 수강요건: 독일어 공인성적 B1 레벨 이상 증빙 필수\n- John F Kennedy Institute for North American Studies 수강요건: 영어 공인성적 C1 레벨 이상의 증빙 필수"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "72.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "550.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "785.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "semesterRequirement": "2",
     "majorRelatedRequirement": "- 파견대학에 지원하는 전공과 본교 전공이 일치해야함(복수전공, 부전공 가능)\n- 지원 불가능 전공: Pharmacy, Human Medicine and Veterinary Medicine\n- Biochemistry, Bioinformatics and Biology, Law 지원 제한적 (학과 사전승인 필요)\n- Business Administration, Economics 학과 수업 대부분이 독일어로 진행, 독일어 가능자 지원 권장",
     "dormitoryInfo": "http://www.fu-berlin.de/en/sites/unterbringung",
@@ -1083,21 +1473,30 @@
   },
   {
     "id": 53,
-    "name": "뷔르츠부르크-슈바인푸르트 대학",
+    "koreanName": "뷔르츠부르크-슈바인푸르트 대학",
     "englishName": "University of Applied Sciences Wurzburg-Schweinfurt",
     "formatName": "technical_university_of_applied_sciences_wurzburg-schweinfurt",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/technical_university_of_applied_sciences_wurzburg-schweinfurt/logo.webp",
     "region": "유럽권",
     "country": "독일",
     "homepageUrl": "https://international.thws.de/en/thws-international/ways-to-thws/incoming-exchange-students/",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "72",
-      "toeic": "785",
-      "ielts": "5.5",
-      "detail": "- 독일어 공인성적으로 지원할 경우, B2 레벨에 준하는 성적을 보유하여야 함"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "72.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "785.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "gpaRequirement": "2.5",
     "gpaRequirementCriteria": "5",
     "semesterRequirement": "2",
@@ -1108,21 +1507,34 @@
   },
   {
     "id": 54,
-    "name": "슈말칼덴 응용과학대학",
+    "koreanName": "슈말칼덴 응용과학대학",
     "englishName": "Hochschule Schmalkalden University of Applied Sciences",
     "formatName": "hochschule_schmalkalden_university_of_applied_sciences",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/hochschule_schmalkalden_university_of_applied_sciences/logo.webp",
     "region": "유럽권",
     "country": "독일",
     "homepageUrl": "https://www.hs-schmalkalden.de/en/international/incoming-students",
     "studentCapacity": 5,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "ibt": "72",
-      "itp": "550",
-      "toeic": "785",
-      "ielts": "5.5"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "72.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "550.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "785.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "semesterRequirement": "2",
     "majorRelatedRequirement": "- 타전공 지원 및 수강 가능\n- 아래 링크에 안내된 강의 내에서 자유롭게 수강 가능 (https://www.hs-schmalkalden.de/en/international/incoming-students/courses-for-incomings/exchange-students)",
     "dormitoryInfo": "https://www.stw-thueringen.de/en/housing/",
@@ -1131,20 +1543,26 @@
   },
   {
     "id": 55,
-    "name": "슈투트가르트 공과대학",
+    "koreanName": "슈투트가르트 공과대학",
     "englishName": "Stuttgart University of Applied Sciences",
     "formatName": "stuttgart_university_of_applied_sciences",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/stuttgart_university_of_applied_sciences/logo.webp",
     "region": "유럽권",
     "country": "독일",
     "homepageUrl": "https://www.hft-stuttgart.com/international/incoming-students/information-application",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "80",
-      "ielts": "6",
-      "detail": "영어 점수는 다음의 세부영역 점수를 각각 만족해야 함\n  - IELTS: 모든 영역에서 6.0 이상"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "80.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.0"
+      }
+    ],
     "semesterRequirement": "2",
     "majorRelatedRequirement": "- 타전공 지원 및 수강 가능\n- 지원 제한 전공: International Project Management, Smart City Solution\n- Civil Engineering, Surveying, Mathematics : 독일어 B1 이상 가능자 지원 권장\n- Architecture, Interior Architecture and General Management : 독일어 A1 이상 가능자 지원 권장, 독일어 수업 수강 필수\n- 주로 Architecture, Interior Architecture, Business Management, General Management, Business School에서 영어 강의 제공",
     "dormitoryInfo": "https://www.hft-stuttgart.com/international/incoming-students/services#c15978",
@@ -1153,21 +1571,34 @@
   },
   {
     "id": 56,
-    "name": "아샤펜부르크 대학",
+    "koreanName": "아샤펜부르크 대학",
     "englishName": "University of Applied Sciences Aschaffenburg",
     "formatName": "university_of_applied_sciences_aschaffenburg",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/university_of_applied_sciences_aschaffenburg/logo.webp",
     "region": "유럽권",
     "country": "독일",
     "homepageUrl": "https://www.th-ab.de/en/education/exchange-students",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "ibt": "72",
-      "itp": "550",
-      "toeic": "785",
-      "ielts": "5.5"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "72.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "550.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "785.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "semesterRequirement": "2",
     "majorRelatedRequirement": "- 타전공 지원 및 수강 가능\n- 지원 불가 전공 : Health, Midwifery, Extra-occupational courses",
     "dormitoryInfo": "https://www.studentenwerk-wuerzburg.de/en/aschaffenburg/student-residences.html",
@@ -1175,21 +1606,34 @@
   },
   {
     "id": 57,
-    "name": "아우크스부르크대학",
+    "koreanName": "아우크스부르크대학",
     "englishName": "Augsburg University of Applied Sciences",
     "formatName": "augsburg_university_of_applied_sciences",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/augsburg_university_of_applied_sciences/logo.webp",
     "region": "유럽권",
     "country": "독일",
     "homepageUrl": "https://www.tha.de/en/International/Exchange-Students.html",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "72",
-      "itp": "550",
-      "toeic": "785",
-      "ielts": "5.5"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "72.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "550.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "785.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "semesterRequirement": "2",
     "majorRelatedRequirement": "- 파견대학에 지원하는 전공과 본교 전공이 일치해야함 (복수전공, 부전공 가능)",
     "dormitoryInfo": "https://www.hs-augsburg.de/Binaries/Binary49994/EN-Guideline-for-finding-accomondation.pdf",
@@ -1197,20 +1641,26 @@
   },
   {
     "id": 58,
-    "name": "알브슈타트 지그마링엔 대학",
+    "koreanName": "알브슈타트 지그마링엔 대학",
     "englishName": "Albstadt-Sigmaringen University of Applied Science",
     "formatName": "albstadt-sigmaringen_university_of_applied_science",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/albstadt-sigmaringen_university_of_applied_science/logo.webp",
     "region": "유럽권",
     "country": "독일",
     "homepageUrl": "https://www.hs-albsig.de/hochschule/organisation/international-office/information-in-english/",
     "studentCapacity": 4,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "toeic": "650",
-      "ielts": "5.5",
-      "detail": "- 독일어 공인성적으로 지원할 경우, B1 레벨에 준하는 성적을 보유하여야 함\n- 영어스피킹 중급 이상 학생 지원 권장"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "650.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "gpaRequirement": "2",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "3",
@@ -1221,20 +1671,30 @@
   },
   {
     "id": 59,
-    "name": "에어랑엔 뉘른베르크 대학",
+    "koreanName": "에어랑엔 뉘른베르크 대학",
     "englishName": "Friedrich-Alexander University Erlangen Nurenberg",
     "formatName": "university_of_erlangen_nuremberg",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/university_of_erlangen_nuremberg/logo.webp",
     "region": "유럽권",
     "country": "독일",
     "homepageUrl": "https://www.fau.eu/education/international/from-abroad/semester-abroad-at-fau/",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "72",
-      "toeic": "785",
-      "ielts": "5.5"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "72.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "785.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "semesterRequirement": "2",
     "majorRelatedRequirement": "- 파견대학에 지원하는 전공과 본교 전공이 일치해야함\n- 지원 불가능 전공: Human medicine, Dentistry, Pharmacy, Law, Psychology and Practical Sports",
     "dormitoryInfo": "https://www.fau.eu/education/student-life/accommodation-2/",
@@ -1243,22 +1703,34 @@
   },
   {
     "id": 60,
-    "name": "오토폰귀릭케마그데부르그 대학",
+    "koreanName": "오토폰귀릭케마그데부르그 대학",
     "englishName": "Otto von Guericke University of Magdeburg",
     "formatName": "otto_von_guericke_university_of_magdeburg",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/otto_von_guericke_university_of_magdeburg/logo.webp",
     "region": "유럽권",
     "country": "독일",
     "homepageUrl": "https://www.ovgu.de/en/International/Incoming+_+Ways+to+the+University/International+Students/Exchange+Programmes.html",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "ibt": "72",
-      "itp": "550",
-      "toeic": "785",
-      "ielts": "5.5",
-      "detail": "- 독일어 공인성적으로 지원할 경우, B2 레벨에 준하는 성적을 보유하여야 함"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "72.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "550.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "785.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "gpaRequirement": "3",
     "gpaRequirementCriteria": "5",
     "semesterRequirement": "4",
@@ -1269,21 +1741,30 @@
   },
   {
     "id": 61,
-    "name": "올덴부르크 대학",
+    "koreanName": "올덴부르크 대학",
     "englishName": "Carl von Ossietzky University of Oldenburg",
     "formatName": "carl_von_ossietzky_university_of_oldenburg",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/carl_von_ossietzky_university_of_oldenburg/logo.webp",
     "region": "유럽권",
     "country": "독일",
     "homepageUrl": "uol.de/exchange-studies",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "42",
-      "toeic": "550\n(S/W 제출)",
-      "ielts": "4",
-      "detail": "영어 점수는 다음의 세부영역 점수를 각각 만족해야 함\n  - TOEIC S/W : 말하기 120점 이상, 쓰기 120점 이상\n - 독일어 공인성적으로 지원할 경우, B1 레벨에 준하는 성적을 보유하여야 함"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "42.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "550"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "4.0"
+      }
+    ],
     "semesterRequirement": "2",
     "majorRelatedRequirement": "- 타전공 지원 및 수강 가능\n- 학과에 지원 전제조건이 있을 경우 충족해야 함\n- 지원 불가 전공: Medicine, Programmes offered by the Centre for Lifelong Learning",
     "dormitoryInfo": "https://www.studentenwerk-oldenburg.de/en/international-students/accomodation-in-oldenburg.html",
@@ -1292,20 +1773,26 @@
   },
   {
     "id": 62,
-    "name": "제플린대학",
+    "koreanName": "제플린대학",
     "englishName": "Zeppelin University",
     "formatName": "zepplin_university",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/zepplin_university/logo.webp",
     "region": "유럽권",
     "country": "독일",
     "homepageUrl": "https://www.zeppelin-university.com/studying-lifelong-learning/study/international-office/incomings/study.php",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "90",
-      "ielts": "6.5",
-      "detail": "독일어 공인성적으로 지원할 경우, B2 레벨에 준하는 성적을 보유하여야 함"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "90.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.5"
+      }
+    ],
     "semesterRequirement": "2",
     "majorRelatedRequirement": "- 타전공 지원 및 수강 가능",
     "dormitoryInfo": "https://www.zeppelin-university.com/info-wAssets/universitaet/dokumente/international-office/housing.pdf",
@@ -1314,21 +1801,34 @@
   },
   {
     "id": 63,
-    "name": "쳄니츠 공과대학",
+    "koreanName": "쳄니츠 공과대학",
     "englishName": "Chemnitz University of Technology",
     "formatName": "chemnitz_university_of_technology",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/chemnitz_university_of_technology/logo.webp",
     "region": "유럽권",
     "country": "독일",
     "homepageUrl": "https://www.tu-chemnitz.de/international/incoming/erasmus/index.php.en",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "ibt": "72",
-      "itp": "550",
-      "toeic": "785",
-      "ielts": "5.5"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "72.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "550.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "785.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "semesterRequirement": "2",
     "majorRelatedRequirement": "- 타전공 지원 및 수강 가능\n- 지원 제한 전공 : Psychology",
     "dormitoryInfo": "https://www.swcz.de/en/student-housing/our-halls-of-residence/",
@@ -1336,21 +1836,34 @@
   },
   {
     "id": 64,
-    "name": "칼스루에 대학",
+    "koreanName": "칼스루에 대학",
     "englishName": "Karlsruhe University of Applied Sciences",
     "formatName": "karlsruhe_university_of_applied_sciences",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/karlsruhe_university_of_applied_sciences/logo.webp",
     "region": "유럽권",
     "country": "독일",
     "homepageUrl": "https://www.h-ka.de/en/exchange-students",
     "studentCapacity": 3,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "72",
-      "itp": "550",
-      "toeic": "785",
-      "ielts": "5.5"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "72.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "550.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "785.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "semesterRequirement": "2",
     "majorRelatedRequirement": "- 타전공 지원 및 수강 가능",
     "dormitoryInfo": "https://www.h-ka.de/en/accommodation",
@@ -1359,21 +1872,34 @@
   },
   {
     "id": 65,
-    "name": "하일브론 과학대학교",
+    "koreanName": "하일브론 과학대학교",
     "englishName": "Heilbronn University of Applied Sciences",
     "formatName": "heilbronn_university_of_applied_sciences",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/heilbronn_university_of_applied_sciences/logo.webp",
     "region": "유럽권",
     "country": "독일",
     "homepageUrl": "https://www.hs-heilbronn.de/en/incoming-exchange-students",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "72",
-      "itp": "550",
-      "toeic": "785",
-      "ielts": "5.5"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "72.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "550.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "785.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "semesterRequirement": "3",
     "majorRelatedRequirement": "- 타전공 지원 및 수강 가능\n- Campus Schwäbisch Hall 내 강의 수강 가능하며, Campus Künzelsau에서도 일부 수강 가능",
     "dormitoryInfo": "https://www.hs-heilbronn.de/accommodation",
@@ -1381,20 +1907,30 @@
   },
   {
     "id": 66,
-    "name": "말뫼대학",
+    "koreanName": "말뫼대학",
     "englishName": "Malmo University",
     "formatName": "malmo_university",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/malmo_university/logo.webp",
     "region": "유럽권",
     "country": "스웨덴",
     "homepageUrl": "https://student.mau.se/en/go-international/exchange-studies/",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개 또는 2개 학기",
-    "languageRequirements": {
-      "ibt": "72",
-      "toeic": "785",
-      "ielts": "5.5"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "72.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "785.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "majorRelatedRequirement": "- 주전공 혹은 제2전공(혹은 연계전공)과 일치하는 학과로 지원 권고(자격 요건 Admission requirement 확인 필요)\n- 합격 후 과목 수강은 여러 전공 분야 걸쳐 수강신청 가능\n- 학기당 수강학점 : 30 ECTS credits 이수 필요(residency permit에 연동되는 기준)\n- 우측 열 영어강의 리스트 상의 과목 중 일부는 교환학생 수강 가능여부 변동 가능. 노미네이션 완료 후 말뫼 대학에서 최종 과목 리스트 송부 예정",
     "dormitoryInfo": "- 기본 미제공(unguaranteed)\n- 숙소 정보 및 개별 신청 : https://mau.se/en/education/housing/",
     "englishLectures": "https://mau.se/en/study-education/?r.PagingNumber=1&r.Languages=en&r.OccassionTerm=20232&r.OccassionTerm=20241&r.Query=&r.TypesSelected=67498&r.Sort=alphabetically",
@@ -1402,21 +1938,30 @@
   },
   {
     "id": 67,
-    "name": "보라스 대학교",
+    "koreanName": "보라스 대학교",
     "englishName": "University College of Boras",
     "formatName": "university_college_of_boras",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/university_college_of_boras/logo.webp",
     "region": "유럽권",
     "country": "스웨덴",
     "homepageUrl": "https://www.hb.se/en/international-student/exchange-students/",
     "studentCapacity": 3,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개 또는 2개 학기",
-    "languageRequirements": {
-      "ibt": "90",
-      "toeic": "775",
-      "ielts": "6.5",
-      "detail": "- 어학성적 유효기간 내 인정"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "90.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "775.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.5"
+      }
+    ],
     "semesterRequirement": "4",
     "majorRelatedRequirement": "- 주전공 혹은 제2전공(혹은 연계전공)과 일치하는 학과로 지원 권고\n - 합격 후 과목 수강은 여러 전공 분야 걸쳐 수강신청 가능\n - Fashion Design or Textile Design 전공 과목 수강 불허\n - 학기당 수강학점 : 30 ECTS credits 이수 필요(residency permit에 연동되는 기준)",
     "dormitoryInfo": "- 기본 미제공(unguaranteed)\n- 숙소 정보 및 개별 신청 : www.hb.se/en/accommodation",
@@ -1424,42 +1969,60 @@
   },
   {
     "id": 70,
-    "name": "마드리드카를로스3세 대학교",
+    "koreanName": "마드리드카를로스3세 대학교",
     "englishName": "Universidad Carlos III de Madrid",
     "formatName": "universidad_carlos_iii_de_madrid",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/universidad_carlos_iii_de_madrid/logo.webp",
     "region": "유럽권",
     "country": "스페인",
     "homepageUrl": "https://www.uc3m.es/studies/international-exchange-students-in-UC3M-/bachelor-degrees",
     "studentCapacity": 3,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개 또는 2개 학기",
-    "languageRequirements": {
-      "ibt": "72",
-      "toeic": "785",
-      "ielts": "5.5",
-      "detail": "- 어학성적 유효기간 내 인정"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "72.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "785.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "majorRelatedRequirement": "- 주전공 혹은 제2전공(혹은 연계전공)과 일치하는 학과로 지원 권고\n- 합격 후 과목 수강은 여러 전공 분야 걸쳐 수강신청 가능\n- 학기당 수강학점 : 최소 12 ECTS credits",
     "dormitoryInfo": "- 대학 기숙사 신청 가능하나 신청 경쟁률 높으며, 선착순 배정, 대학 내 기숙사 외 다른 숙소 옵션 선택 가능\n- 관련 정보 : https://www.uc3m.es/studies/international-exchage-students-in-uc3m/bachelor-degrees/Accommodation",
     "englishLectures": "https://drive.google.com/drive/u/0/folders/1dunMXMlHMogaL-Oral-nXrKI2hcs_upI"
   },
   {
     "id": 73,
-    "name": "그라츠 대학",
+    "koreanName": "그라츠 대학",
     "englishName": "University of Graz",
     "formatName": "university_of_graz",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/university_of_graz/logo.webp",
     "region": "유럽권",
     "country": "오스트리아",
     "homepageUrl": "https://orientation.uni-graz.at/de/",
     "studentCapacity": 3,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개 또는 2개 학기",
-    "languageRequirements": {
-      "ibt": "72",
-      "toeic": "785",
-      "ielts": "5.5",
-      "detail": "- 독일어 진행 수업/영어 진행 수업을 들을지에 따라 최소 독일어 B2 수준, 영어 B2 수준의 어학 실력 권고\n- 어학성적 유효기간 내 인정"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "72.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "785.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "semesterRequirement": "2",
     "majorRelatedRequirement": "- 주전공 혹은 제2전공(혹은 연계전공과) 유관 학과로 지원 필요\n ※ 'Translation/Interpretation/Transcultural communication with German'(전공명)으로의 지원자는 확인 가능한 인하대 관련 교과과정 이수 내역 제출 필요\n\n- 교과목 수강 관련\n · 학부 교환학생 : 여러 전공에 걸쳐 수강 가능\n · 석/박사 교환학생 : 본인 소속 전공에 한정하여 전공 지원 가능\n- 학기당 수강학점 : 최소 24, 최대 30 ECTS credits 이수 권장(실제 이수 기준은 소속 대학(인하대) 기준을 따름.)",
     "dormitoryInfo": "- 숙소 제공 미보장(unguaranteed) - 이용 숙소가 대학 소유가 아님.\n- 도시 내 이용 가능한 다양한 숙소들이 있으며, 안내된 사이트를 통하여 ASAP 개별적으로 예약 진행 필요\n- 숙소 신청 및 예약 사이트 : https://orientation.uni-graz.at/de/planning-the-arrival/accommodation/",
@@ -1468,21 +2031,30 @@
   },
   {
     "id": 74,
-    "name": "그라츠공과대학",
+    "koreanName": "그라츠공과대학",
     "englishName": "Graz University of Technology",
     "formatName": "graz_university_of_technology",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/graz_university_of_technology/logo.webp",
     "region": "유럽권",
     "country": "오스트리아",
     "homepageUrl": "https://www.tugraz.at/fileadmin/user_upload/tugrazInternal/Studium/International_studieren_und_lehren/Mobilitaetsprogramme/OverSEAs_Factsheet.pdf",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개 또는 2개 학기",
-    "languageRequirements": {
-      "ibt": "75",
-      "toeic": "L/R\n785\n그리고\nS/W\n310",
-      "ielts": "6",
-      "detail": "- 어학성적 유효기간 내 인정(2년 이내 발급본)\n- TOEIC으로 어학성적 제출 시, 기본 L&R(듣기, 읽기) 최소 785점, S&W(말하기, 쓰기) 최소 310점 모두 제출 필요"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "75.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "L/R"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.0"
+      }
+    ],
     "majorRelatedRequirement": "- 주전공 혹은 제2전공(혹은 연계전공과) 유관 학과로 지원 권고\n- 합격 후 과목 수강은 여러 전공 분야 걸쳐 수강신청 가능\n- 학기당 수강학점 : 최소 16 ECTS credits",
     "dormitoryInfo": "https://www.tugraz.at/en/studying-and-teaching/studying-internationally/incoming-students-exchange-at-tu-graz/your-stay-at-tu-graz/preparation#c75033",
     "englishLectures": "https://www.tugraz.at/en/studying-and-teaching/studying-internationally/incoming-students-exchange-at-tu-graz/studying-at-tu-graz#c74829",
@@ -1490,21 +2062,30 @@
   },
   {
     "id": 76,
-    "name": "빈 공과대학교",
+    "koreanName": "빈 공과대학교",
     "englishName": "University of Applied Sciences Technikum Wien",
     "formatName": "university_of_applied_sciences_technikum_wien",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/university_of_applied_sciences_technikum_wien/logo.webp",
     "region": "유럽권",
     "country": "오스트리아",
     "homepageUrl": "https://www.technikum-wien.at/international/studierendenmobilitaet-2/",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개 학기",
-    "languageRequirements": {
-      "ibt": "70",
-      "toeic": "700",
-      "ielts": "6",
-      "detail": "- 유효기간 경과한 어학성적도 인정"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "70.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "700.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.0"
+      }
+    ],
     "semesterRequirement": "3",
     "majorRelatedRequirement": "- 주전공 혹은 제2전공(혹은 연계전공과) 유관 학과로 지원 권고\n- 합격 후 과목 수강은 여러 전공 분야 걸쳐 수강신청 가능\n- 학기당 수강학점 : 최소 15, 최대 30 ECTS credits",
     "dormitoryInfo": "- 대학 자체 기숙사 없음",
@@ -1513,16 +2094,17 @@
   },
   {
     "id": 77,
-    "name": "밀라노공과대학",
+    "koreanName": "밀라노공과대학",
     "englishName": "Polytechnic University of Milan",
     "formatName": "polytechnic_university_of_milan",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/polytechnic_university_of_milan/logo.webp",
     "region": "유럽권",
     "country": "이탈리아",
     "homepageUrl": "https://www.polimi.it/en/exchange-students-incoming",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개 학기",
-    "languageRequirements": {},
+    "languageRequirements": [],
     "semesterRequirement": "2",
     "majorRelatedRequirement": "- 공학 계열 내 유사 전공으로 지원 가능\n - 공학 계열 학생만 지원 가능\n - Architecture and Design 학과 과목 수강신청 불가\n - 학기당 수강학점 : 최대 40 ECTS credits\n - 관련 사이트 : https://www.polimi.it/en/exchange-students-incoming/after-acceptance/exchange-programmes/before-arrival",
     "dormitoryInfo": "- 기본 미제공(unguaranteed)\n- 숙소 정보 및 개별 신청 : https://www.residenze.polimi.it/en",
@@ -1530,21 +2112,30 @@
   },
   {
     "id": 78,
-    "name": "베르가모 대학",
+    "koreanName": "베르가모 대학",
     "englishName": "University of Bergamo",
     "formatName": "university_of_bergamo",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/university_of_bergamo/logo.webp",
     "region": "유럽권",
     "country": "이탈리아",
     "homepageUrl": "https://en.unibg.it/international/students-exchange",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개 또는 2개 학기",
-    "languageRequirements": {
-      "ibt": "42",
-      "toeic": "550",
-      "ielts": "4",
-      "detail": "- 어학성적 유효기간 내 인정(2년 이내 발급본)\n- CEFR English B1에 상응하는 어학성적\n- 또는 CEFR Italian A1"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "42.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "550.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "4.0"
+      }
+    ],
     "semesterRequirement": "2",
     "majorRelatedRequirement": "- 주전공 혹은 제2전공(혹은 연계전공)과 일치하는 학과로 지원 권고\n - 합격 후 과목 수강은 여러 전공 분야 걸쳐 수강신청 가능\n - 학기당 수강학점 : 최소 12 ECTS credits",
     "dormitoryInfo": "- 숙소 정보 및 개별 신청 :\n https://en.unibg.it/life-at-unibg/services/accommodations\n- Single Room : € 350유로/월 수준\n- Shared Double : € 290/월 수준",
@@ -1553,22 +2144,34 @@
   },
   {
     "id": 79,
-    "name": "카포스카리대학교",
+    "koreanName": "카포스카리대학교",
     "englishName": "Ca' Foscari University of Venice",
     "formatName": "university_of_caposcari",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/university_of_caposcari/logo.webp",
     "region": "유럽권",
     "country": "이탈리아",
     "homepageUrl": "https://www.unive.it/pag/fileadmin/user_upload/ateneo/internazionale/documenti/destinazione_cafoscari/Guidelines_Course_Catalogue_23-24.pdf",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개 또는 2개 학기",
-    "languageRequirements": {
-      "ibt": "72",
-      "itp": "543",
-      "toeic": "785",
-      "ielts": "5.5",
-      "detail": "https://www.unive.it/pag/40609/"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "72.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "543.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "785.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "majorRelatedRequirement": "- 주전공 혹은 제2전공(혹은 연계전공)과 일치하는 학과로 지원 권고\n - 합격 후 과목 수강은 여러 전공 분야 걸쳐 수강신청 가능\n- 학기당 수강학점 : 최소 3 ECTS credits",
     "dormitoryInfo": "- 기본 미제공(unguaranteed)\n- 숙소 정보 및 개별 신청 : https://www.unive.it/pag/19768/\n- 숙소 관련 지원 : Ca’ Foscari University Housing Office",
     "englishLectures": "https://www.unive.it/data/9639/",
@@ -1576,21 +2179,30 @@
   },
   {
     "id": 80,
-    "name": "오스트라바 대학",
+    "koreanName": "오스트라바 대학",
     "englishName": "University of Ostrava",
     "formatName": "university_of_ostrava",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/university_of_ostrava/logo.webp",
     "region": "유럽권",
     "country": "체코",
     "homepageUrl": "https://www.osu.eu",
     "studentCapacity": 3,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개 또는 2개 학기",
-    "languageRequirements": {
-      "ibt": "65",
-      "toeic": "605",
-      "ielts": "5.5",
-      "detail": "- 유효기간 경과한 어학성적도 인정\n- 기타 CEFR English B2+ level에 상응하는 어학성적 또한 인정"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "65.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "605.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "gpaRequirement": "2.5",
     "gpaRequirementCriteria": "4",
     "majorRelatedRequirement": "- 주전공 혹은 제2전공(혹은 연계전공)과 일치하는 학과로 지원 권고\n ※ Faculty of Fine Arts and Music으로 교환학생 지원 시 전공 일치 필요\n ※ Faculty of Medicine : 교환 학생 지원 불가\n- 합격 후 과목 수강은 여러 전공 분야 걸쳐 수강신청 가능\n- 학기당 최소 수강학점 : 20 ECTS credits\n ※ 일반적 학기당 수강 학점 : 30 ECTS credits\n- 수강 학점의 최소 55%는 1개 전공 내에서 수강해야 함.",
@@ -1600,21 +2212,34 @@
   },
   {
     "id": 81,
-    "name": "체코 생명과학대학",
+    "koreanName": "체코 생명과학대학",
     "englishName": "Czech University of Life Sciences Prague",
     "formatName": "czech_university_of_life_sciences_prague",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/czech_university_of_life_sciences_prague/logo.webp",
     "region": "유럽권",
     "country": "체코",
     "homepageUrl": "https://www.czu.cz/en/",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개 또는 2개 학기",
-    "languageRequirements": {
-      "ibt": "72",
-      "itp": "543",
-      "toeic": "785",
-      "ielts": "5.5"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "72.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "543.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "785.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "semesterRequirement": "3",
     "majorRelatedRequirement": "- 주전공 혹은 제2전공(혹은 연계전공)과 일치하는 학과로 지원 필요\n- 합격 후 과목 수강은 여러 전공 분야 걸쳐 수강신청 가능(우측 영어강의리스트 참고 필요)\n- 학기당 최소 수강학점 : 최소 5, 최대 30 ECTS credits",
     "dormitoryInfo": "- 기숙사 제공 가능\n- 숙소 정보 : https://www.kam.czu.cz/en\n- 기숙사 이용 비용 : 월 약 7,500 CZK",
@@ -1622,22 +2247,34 @@
   },
   {
     "id": 82,
-    "name": "체코 프라하 공과대학",
+    "koreanName": "체코 프라하 공과대학",
     "englishName": "Czech Technical University in Prague",
     "formatName": "czech_technical_university_in_prague",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/czech_technical_university_in_prague/logo.webp",
     "region": "유럽권",
     "country": "체코",
     "homepageUrl": "https://international.cvut.cz/students/incoming-students/erasmus-and-exchange/",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개 또는 2개 학기",
-    "languageRequirements": {
-      "ibt": "72",
-      "itp": "543",
-      "toeic": "785",
-      "ielts": "5.5",
-      "detail": "어학성적 유효기간 내 인정"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "72.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "543.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "785.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "gpaRequirement": "1.5",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "1",
@@ -1648,21 +2285,30 @@
   },
   {
     "id": 83,
-    "name": "리스본대학 공과대학",
+    "koreanName": "리스본대학 공과대학",
     "englishName": "INSTITUTO SUPERIOR TECNICO-Universidade de Lisboa",
     "formatName": "instituto_superior_tecnico-universidade_de_lisboa",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/instituto_superior_tecnico-universidade_de_lisboa/logo.webp",
     "region": "유럽권",
     "country": "포르투갈",
     "homepageUrl": "https://aai.tecnico.ulisboa.pt/en/nucleo-de-mobilidade-e-cooperacao-internacional/do-mundo-para-o-tecnico/candidaturas-in/",
     "studentCapacity": 3,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개 또는 2개 학기",
-    "languageRequirements": {
-      "ibt": "72",
-      "toeic": "785",
-      "ielts": "5.5",
-      "detail": "- 어학성적 유효기간 내 인정"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "72.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "785.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "semesterRequirement": "5",
     "majorRelatedRequirement": "- 주전공 혹은 제2전공(혹은 연계전공)과 일치하는 학과로 지원 권고\n- 합격 후 과목 수강은 여러 전공 분야 걸쳐 수강신청 가능\n- 학기당 수강학점 : 최대 42 ECTS credits\n- 기타 세부사항 Factsheet 참조",
     "dormitoryInfo": "- 대학 기숙사 신청 가능하나 신청 경쟁률 높으며, 선착순 배정\n- 관련 정보 : https://aai.tecnico.ulisboa.pt/en/area-de-assuntos-internacionais/alojamento/",
@@ -1670,21 +2316,34 @@
   },
   {
     "id": 86,
-    "name": "EPITA",
+    "koreanName": "EPITA",
     "englishName": "EPITA",
     "formatName": "epita",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/epita/logo.webp",
     "region": "유럽권",
     "country": "프랑스",
     "homepageUrl": "https://www.epita.fr/en/",
     "studentCapacity": 7,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "ibt": "80",
-      "itp": "550",
-      "toeic": "750",
-      "ielts": "6"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "80.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "550.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "750.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.0"
+      }
+    ],
     "semesterRequirement": "2",
     "majorRelatedRequirement": "- 소속전공과 지원전공이 일치하여야 하고 컴퓨터공학 전공 학생만 지원할 수 있음\n- 교차 수강 불가\n- 학기당 최소 12ECTS, 최대 30ECTS 수강",
     "dormitoryInfo": "- 미제공",
@@ -1692,20 +2351,30 @@
   },
   {
     "id": 88,
-    "name": "ESCE 국제경영대학",
+    "koreanName": "ESCE 국제경영대학",
     "englishName": "ESCE School of Managment",
     "formatName": "esce_international_business_school",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/esce_international_business_school/logo.webp",
     "region": "유럽권",
     "country": "프랑스",
     "homepageUrl": "https://www.esce.fr/en/",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "72",
-      "itp": "543",
-      "toeic": "785"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "72.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "543.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "785.0"
+      }
+    ],
     "gpaRequirement": "2.5",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "4",
@@ -1715,41 +2384,64 @@
   },
   {
     "id": 90,
-    "name": "IPSA",
+    "koreanName": "IPSA",
     "englishName": "IPSA",
     "formatName": "ipsa",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/ipsa/logo.webp",
     "region": "유럽권",
     "country": "프랑스",
     "homepageUrl": "https://www.ipsa.fr/en/studies/studying-at-ipsa/",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "75",
-      "toeic": "750",
-      "ielts": "5"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "75.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "750.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.0"
+      }
+    ],
     "semesterRequirement": "4",
     "majorRelatedRequirement": "- 소속전공과 지원전공이 일치하여야 하고 기계공학, 전기공학, 전자공학 전공 학생만 지원할 수 있음\n- 교차수강 불가능\n- 최대 30ECTS 수강",
     "dormitoryInfo": "- 미제공"
   },
   {
     "id": 91,
-    "name": "ISEP",
+    "koreanName": "ISEP",
     "englishName": "ISEP",
     "formatName": "isep",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/isep/logo.webp",
     "region": "유럽권",
     "country": "프랑스",
     "homepageUrl": "https://en.isep.fr/studying-at-isep/exchange-students/",
     "studentCapacity": 3,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "ibt": "80",
-      "itp": "550",
-      "toeic": "785",
-      "ielts": "6"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "80.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "550.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "785.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.0"
+      }
+    ],
     "gpaRequirement": "2.5",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "3",
@@ -1759,21 +2451,34 @@
   },
   {
     "id": 92,
-    "name": "KEDGE경영대학",
+    "koreanName": "KEDGE경영대학",
     "englishName": "KEDGE Business School",
     "formatName": "kedge_business_school",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/kedge_business_school/logo.webp",
     "region": "유럽권",
     "country": "프랑스",
     "homepageUrl": "https://student.kedge.edu/exchange-programmes",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "79",
-      "itp": "550",
-      "toeic": "785",
-      "ielts": "6"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "79.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "550.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "785.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.0"
+      }
+    ],
     "semesterRequirement": "2",
     "majorRelatedRequirement": "- 지원가능전공: 경영학계열\n- 학기당 최소 15ECTS, 최대 35ECTS 수강해야 함\n(Program에 따라 상이함)",
     "dormitoryInfo": "- 미제공",
@@ -1781,19 +2486,26 @@
   },
   {
     "id": 93,
-    "name": "NEOMA경영대학",
+    "koreanName": "NEOMA경영대학",
     "englishName": "NEOMA Business School",
     "formatName": "neoma_business_school",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/neoma_business_school/logo.webp",
     "region": "유럽권",
     "country": "프랑스",
     "homepageUrl": "https://neoma-bs.com/welcome-to-neoma/",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "85",
-      "ielts": "6"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "85.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.0"
+      }
+    ],
     "semesterRequirement": "2",
     "majorRelatedRequirement": "- 소속전공과 지원전공이 일치하여야 함\n-지원가능전공 : 경영학(본교에서 경영학 관련 기초 과목을 이수한 사람만 지원 가능)\n-교차 수강 불가\n- 학기당 최소 20ECTS, 최대 30ECTS 수강",
     "dormitoryInfo": "- 기숙사는 미제공. 교외 숙소를 학생 스스로 구해야 함\n- 교외숙소 비용은 한달에 대략 250~600€로 다양함\n- https://neoma-bs.com/welcome-to-neoma/steps/step-3-housing/",
@@ -1801,22 +2513,34 @@
   },
   {
     "id": 94,
-    "name": "국제정치대학",
+    "koreanName": "국제정치대학",
     "englishName": "HEIP",
     "formatName": "heip",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/heip/logo.webp",
     "region": "유럽권",
     "country": "프랑스",
     "homepageUrl": "https://www.heip.fr/en/admissions/programs-1/?_gl=1*17eiyy7*_up*MQ..&gclid=Cj0KCQiAy9msBhD0ARIsANbk0A_ummrq0RIcauhEX_Lq087RLSpkOeSGqYxdnSCgr3BJdhyn1X3Jxt4aAmrlEALw_wcB",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "80",
-      "itp": "550",
-      "toeic": "750",
-      "ielts": "6",
-      "detail": "-IBT minimum score: Reading 13, Writing 21, Listening 13, Speaking 18"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "80.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "550.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "750.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.0"
+      }
+    ],
     "gpaRequirement": "2.5",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "4",
@@ -1826,21 +2550,30 @@
   },
   {
     "id": 95,
-    "name": "노르망디경영대학",
+    "koreanName": "노르망디경영대학",
     "englishName": "EM Normandie",
     "formatName": "em_normandie_business_school",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/em_normandie_business_school/logo.webp",
     "region": "유럽권",
     "country": "프랑스",
     "homepageUrl": "https://www.em-normandie.com/",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "72\n83",
-      "toeic": "750\n790",
-      "ielts": "5.5\n6.0",
-      "detail": "*  학년에 따라 영어 성적이 상의하니 유의할 것\n- 2-3학년: IBT 72/ TOEIC 750/ IELTS 5.5 \n- 4학년:  IBT 83/ TOEIC 790/ IELTS 6.0"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "72"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "750"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "semesterRequirement": "3",
     "majorRelatedRequirement": "- 소속전공과 지원전공이 일치하여야 하고 경영학 전공 학생만 지원할 수 있음\n-지원 전, 경영학 중 어떤 세부 전공이 지원 불가한지는 지원 예정 학생이 수강 제공 과목 문서를 국제교류팀으로 문의 후 스스로 파악한 후 지원할 것\n- 교차수강 불가능\n- 최소 15ECTS, 최대 30ECTS까지 수강",
     "dormitoryInfo": "- 미제공",
@@ -1848,21 +2581,34 @@
   },
   {
     "id": 96,
-    "name": "라로쉘경영대학",
+    "koreanName": "라로쉘경영대학",
     "englishName": "La Rochelle Business School",
     "formatName": "la_rochelle_business_school",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/la_rochelle_business_school/logo.webp",
     "region": "유럽권",
     "country": "프랑스",
     "homepageUrl": "https://www.excelia-group.com/student-services/international-students/exchange-students",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "72",
-      "itp": "543",
-      "toeic": "785",
-      "ielts": "5.5"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "72.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "543.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "785.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "semesterRequirement": "2",
     "majorRelatedRequirement": "- 소속전공과 지원전공이 일치하여야 함\n- 교차수강 불가능\n- 최대 30ECTS 수강",
     "dormitoryInfo": "- 미제공",
@@ -1870,21 +2616,34 @@
   },
   {
     "id": 99,
-    "name": "릴 가톨릭 대학",
+    "koreanName": "릴 가톨릭 대학",
     "englishName": "Lille Catholic University",
     "formatName": "lille_catholic_university",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/lille_catholic_university/logo.webp",
     "region": "유럽권",
     "country": "프랑스",
     "homepageUrl": "https://www.univ-catholille.fr/en/taxonomy/term/971",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "72",
-      "itp": "543",
-      "toeic": "785",
-      "ielts": "5.5"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "72.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "543.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "785.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "gpaRequirement": "2.75",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "2",
@@ -1894,21 +2653,34 @@
   },
   {
     "id": 101,
-    "name": "몽펠리에 대학교",
+    "koreanName": "몽펠리에 대학교",
     "englishName": "Universite Montpellier 1",
     "formatName": "universite_montpellier_1",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/universite_montpellier_1/logo.webp",
     "region": "유럽권",
     "country": "프랑스",
     "homepageUrl": "https://iae.umontpellier.fr/en/institut/exchange-students",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "72",
-      "itp": "543",
-      "toeic": "785",
-      "ielts": "5.5"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "72.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "543.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "785.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "semesterRequirement": "2",
     "majorRelatedRequirement": "- 지원가능전공: IAE School of Management \n- 소속전공과 지원전공이 일치하여야 함\n- 교차수강 불가능\n- 최대 36ECTS 수강",
     "dormitoryInfo": "- 제한된 기숙사 여석\n- 1200EUR/1학기\n- https://iae.umontpellier.fr/en/institut/exchange-students",
@@ -1916,22 +2688,34 @@
   },
   {
     "id": 102,
-    "name": "발드센느대학",
+    "koreanName": "발드센느대학",
     "englishName": "Ecole d'Architecture, Paris Val de Seine",
     "formatName": "ecole_darchitecture_paris_val_de_seine",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/ecole_darchitecture_paris_val_de_seine/logo.webp",
     "region": "유럽권",
     "country": "프랑스",
     "homepageUrl": "https://www.paris-valdeseine.archi.fr/accueil.html",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "72",
-      "itp": "543",
-      "toeic": "785",
-      "ielts": "5.5",
-      "detail": "- 프랑스어 성적 제출이 필수는 아니나 대부분의 과목이 프랑스어로 진행되므로 프랑스어를 사전에 공부할 것을 권고함"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "72.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "543.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "785.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "semesterRequirement": "2",
     "majorRelatedRequirement": "- 지원가능전공: 건축학부 재학생에 함함\n- 발드센느대학에서 제공하는 건축학 수업은 이 대학의 석사레벨 (4-5학년) 학생들에게 제공하는 수업 레벨임을 참고할것\n- 소속전공과 지원전공이 일치하여야 함\n-교차수강불가\n- 학기당 최대 30ECTS 수강",
     "dormitoryInfo": "- 미제공",
@@ -1939,20 +2723,30 @@
   },
   {
     "id": 103,
-    "name": "부르군디 경영대학",
+    "koreanName": "부르군디 경영대학",
     "englishName": "Burgundy School of Business",
     "formatName": "burgundy_school_of_business",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/burgundy_school_of_business/logo.webp",
     "region": "유럽권",
     "country": "프랑스",
     "homepageUrl": "https://international.bsb-education.com/etudier-a-bsb-2/?lang=en#tab-iamlookingforanexchangeprogramme",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "80",
-      "toeic": "785",
-      "ielts": "6.5"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "80.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "785.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.5"
+      }
+    ],
     "semesterRequirement": "4",
     "majorRelatedRequirement": "-소속전공과 지원전공이 일치하여야 함\n-서로 다른 프로그램, 언어, 학과 교차 수강 불가능",
     "dormitoryInfo": "- 미제공",
@@ -1960,21 +2754,30 @@
   },
   {
     "id": 105,
-    "name": "장물랭리옹3세대학교",
+    "koreanName": "장물랭리옹3세대학교",
     "englishName": "Universite Jean Moulin Lyon 3",
     "formatName": "universite_jean_moulin_lyon_3",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/universite_jean_moulin_lyon_3/logo.webp",
     "region": "유럽권",
     "country": "프랑스",
     "homepageUrl": "https://www.univ-lyon3.fr/exchange-students-1",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "80",
-      "itp": "560",
-      "ielts": "6.5",
-      "detail": "- 영어점수는 아래 각 세부점수를 만족해야 함\n  - TOEFL IBT: 모든 영역 20점 이상 \n  - TOEFL ITP: 모든 영역 50점 이상\n  - IELTS: 모든 영역에서 6 이상"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "80.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "560.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.5"
+      }
+    ],
     "semesterRequirement": "3",
     "majorRelatedRequirement": "- 소속전공과 지원전공이 일치하여야 함\n- 교차수강 불가능\n- 모든 교환학생은 해당 대학에서 교환학생시  최소 8 ECTS학점(프랑스어 5 ECTS학점, 프랑스문화 3ECTS학점) 이상 이수가 필수임\n-2nd year of master law, International MBA 지원 불가 및 수강 불가",
     "dormitoryInfo": "- 미제공",
@@ -1982,19 +2785,26 @@
   },
   {
     "id": 106,
-    "name": "툴루즈 경영대학",
+    "koreanName": "툴루즈 경영대학",
     "englishName": "Toulouse Business School",
     "formatName": "toulouse_business_school",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/toulouse_business_school/logo.webp",
     "region": "유럽권",
     "country": "프랑스",
     "homepageUrl": "https://www.tbs-education.com/about-tbs/international/incoming-exchange-students/",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "79",
-      "ielts": "6"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "79.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.0"
+      }
+    ],
     "gpaRequirement": "2.5",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "4",
@@ -2004,21 +2814,34 @@
   },
   {
     "id": 107,
-    "name": "툴루즈정치대학",
+    "koreanName": "툴루즈정치대학",
     "englishName": "Sciences Po Toulouse",
     "formatName": "sciences_po_toulouse",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/sciences_po_toulouse/logo.webp",
     "region": "유럽권",
     "country": "프랑스",
     "homepageUrl": "https://www.sciencespo-toulouse.fr/en/international-students",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "72",
-      "itp": "543",
-      "toeic": "785",
-      "ielts": "5.5"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "72.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "543.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "785.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "semesterRequirement": "2",
     "majorRelatedRequirement": "- 소속전공과 지원전공이 일치하여야 함\n- 교차수강 불가능\n-학기당 최소 5ECTS,최대 40ECTS 수강",
     "dormitoryInfo": "- 미제공",
@@ -2026,42 +2849,60 @@
   },
   {
     "id": 108,
-    "name": "파리8대학교",
+    "koreanName": "파리8대학교",
     "englishName": "University of Paris 8",
     "formatName": "university_of_paris_8",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/university_of_paris_8/logo.webp",
     "region": "유럽권",
     "country": "프랑스",
     "homepageUrl": "https://www.univ-paris8.fr/",
     "studentCapacity": 1,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "72",
-      "itp": "543",
-      "toeic": "785",
-      "ielts": "5.5",
-      "detail": "-DELF B2 성적을 소유하고 있는 학생이 지원하기를 강력히 추천함"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "72.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "543.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "785.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "semesterRequirement": "2",
     "majorRelatedRequirement": "- 교차 수강 가능\n- 학기당 최소 5ECTS, 최대 30ECTS 수강 가능",
     "dormitoryInfo": "- 기숙사 있으나 제한적이며 선착순 배정\n- 1600-1800EUR/학기당\n- https://www.univ-paris8.fr/Residences-etudiantes-du-CROUS"
   },
   {
     "id": 109,
-    "name": "LAB대학",
+    "koreanName": "LAB대학",
     "englishName": "LAB University of Applied Sciences",
     "formatName": "lahti_university_of_applied_sciences",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/lahti_university_of_applied_sciences/logo.webp",
     "region": "유럽권",
     "country": "핀란드",
     "homepageUrl": "https://lab.fi/en/exchange-student-guide student Guide",
     "studentCapacity": 3,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개 또는 2개 학기",
-    "languageRequirements": {
-      "ibt": "72",
-      "ielts": "6",
-      "detail": "- 어학성적 유효기간 내 인정"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "72.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.0"
+      }
+    ],
     "majorRelatedRequirement": "- 주전공 혹은 제2전공(혹은 연계전공)과 일치하는 학과로 지원 필요\n- 지원전공 내 과목 수강 권고. 타 전공 분야 수강 가능(수강 자격 충족 시)\n- 학기당 수강학점 : 30 ECTS credits 이수 권고",
     "dormitoryInfo": "- 교환학생 합격자는 아래 링크를 통해 개별 이용 신청 :\n https://www.fhv.at/en/fh/study-international/exchange-students-incomings/living-in-vorarlberg/accommodation-for-guest-students",
     "englishLectures": "https://lab.fi/en/exchange-student-guide/studies",
@@ -2069,22 +2910,34 @@
   },
   {
     "id": 110,
-    "name": "라펜란타기술대학교",
+    "koreanName": "라펜란타기술대학교",
     "englishName": "Lappeenranta University of Technology",
     "formatName": "lappeenranta_university_of_technology",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/lappeenranta_university_of_technology/logo.webp",
     "region": "유럽권",
     "country": "핀란드",
     "homepageUrl": "https://www.lut.fi/en/studies/exchange-studies",
     "studentCapacity": 3,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개 학기",
-    "languageRequirements": {
-      "ibt": "80",
-      "itp": "543",
-      "toeic": "785",
-      "ielts": "6",
-      "detail": "- 유효기간 경과한 어학성적도 인정"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "80.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "543.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "785.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.0"
+      }
+    ],
     "semesterRequirement": "2",
     "majorRelatedRequirement": "- 소속전공과 지원전공이 일치해야 함.\n - 경영학, 공학 계열 학부생만 지원 가능\n - 합격 후 과목 수강은 교환학생 전용 강좌에 한하여 수강신청 가능\n- 학기당 수강학점 : 최소 20 ECTS credits",
     "dormitoryInfo": "- 기본 미제공\n- 교환학생의 경우 LOAS를 통해 숙소를 신청 가능\n- Lappeenranta Student Housing Foundation (LOAS) www.loas.fi/en",
@@ -2093,21 +2946,30 @@
   },
   {
     "id": 111,
-    "name": "투르크 응용과학대학교",
+    "koreanName": "투르크 응용과학대학교",
     "englishName": "Turku University of Applied Sciences",
     "formatName": "turku_university_of_applied_sciences",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/turku_university_of_applied_sciences/logo.webp",
     "region": "유럽권",
     "country": "핀란드",
     "homepageUrl": "https://www.tuas.fi/en/study-tuas/exchange-students/about/",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개 학기",
-    "languageRequirements": {
-      "ibt": "72",
-      "toeic": "785",
-      "ielts": "5.5",
-      "detail": "- 어학성적 유효기간 내 인정"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "72.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "785.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "semesterRequirement": "3",
     "majorRelatedRequirement": "- 주전공 혹은 제2전공(혹은 연계전공)과 일치하는 학과로 지원 필요\n- 신청한 전공 내에서 과목 수강 진행 필요\n- 학기당 수강학점 : 최소 15, 최대 30 ECTS credits",
     "dormitoryInfo": "- 교환학생 합격자는 아래 링크를 통해 개별 이용 신청 : \nhttps://www.tuas.fi/en/study-tuas/exchange-students/accommodation/",
@@ -2116,41 +2978,59 @@
   },
   {
     "id": 114,
-    "name": "싱가폴경영대학",
+    "koreanName": "싱가폴경영대학",
     "englishName": "Singapore Management University",
     "formatName": "singapore_management_university",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/singapore_management_university/logo.webp",
     "region": "아시아",
     "country": "싱가포르",
     "studentCapacity": 5,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "ibt": "93",
-      "ielts": "7",
-      "detail": "※영어어학성적 대신 Support letter 접수 가능\n※COVID-19의 상황을 고려해, TOEFL iBT® Special Home Edition 혹은 IELTS Indicator 성적 또한 제출 가능\n※지원 시점에서 2년간 유효한 영어성적 제출"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "93.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "7.0"
+      }
+    ],
     "dormitoryInfo": "SMU 할인이 적용된 방 옵션 리스트 제공",
     "englishLectures": "https://publiceservices.smu.edu.sg/psc/ps/EMPLOYEE/HRMS/c/SIS_CR.SIS_CLASS_SEARCH.GBL?&",
     "note": "※필수경비(학기당 약 SGD250)에 보험가입비 포함됨"
   },
   {
     "id": 115,
-    "name": "아다대학교",
+    "koreanName": "아다대학교",
     "englishName": "ADA University",
     "formatName": "ada_university",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/ada_university/logo.webp",
     "region": "아시아",
     "country": "아제르바이잔",
     "homepageUrl": "https://www.ada.edu.az/frq-content/plugins/policies_x1/entry/20230921162010_91046200.pdf",
     "studentCapacity": 3,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "",
-    "languageRequirements": {
-      "ibt": "72",
-      "itp": "543",
-      "toeic": "605",
-      "ielts": "5.5",
-      "detail": "※영어어학성적 대신 지도교수로부터 B2 이상의 영어성적을 가지고 있다는 Support letter 로도 대체 가능"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "72.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "543.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "605.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "gpaRequirement": "2",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "2",
@@ -2160,21 +3040,30 @@
   },
   {
     "id": 119,
-    "name": "긴다이대학",
+    "koreanName": "긴다이대학",
     "englishName": "Kindai University",
     "formatName": "kindai_university",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/kindai_university/logo.webp",
     "region": "아시아",
     "country": "일본",
     "homepageUrl": "https://docs.google.com/document/d/1-R-nnJ6zSsTPXNplJdrOE1LGrHJTOuv8/edit",
     "studentCapacity": 4,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "ibt": "(A코스시)\n61",
-      "ielts": "(A코스시)\n6",
-      "jlpt": "(B코스시)\nN1/N2",
-      "detail": "※유효기간 2년 이내의 영어성적 제출\n※A코스시, 영어성적이 없는 학생의 경우 추천서 필요 \n【Letter of Language Competence】\nhttps://docs.google.com/document/d/1nq4mYDT0WN9O1ylpA4WG-sJjU_9MHk-j/edit?usp=drive_link"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "(A코스시)"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "(A코스시)"
+      },
+      {
+        "languageTestType": "JLPT",
+        "minScore": "(B코스시)"
+      }
+    ],
     "gpaRequirement": "2.5",
     "gpaRequirementCriteria": "4",
     "majorRelatedRequirement": "A코스 : https://docs.google.com/spreadsheets/d/1jbW2kI1igRHPVvC3d9QoNNIdERbyXtLYqm_RJJ509_I/edit#gid=1999179472\n\nB코스 :\nhttps://docs.google.com/spreadsheets/d/1TAyAhi78Eufz9nbnR7a6_5xvteThT0zC0rBYono3fG4/edit#gid=1847514433",
@@ -2182,34 +3071,44 @@
   },
   {
     "id": 120,
-    "name": "니가타대학",
+    "koreanName": "니가타대학",
     "englishName": "Niigata University",
     "formatName": "niigata_university",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/niigata_university/logo.webp",
     "region": "아시아",
     "country": "일본",
     "homepageUrl": "https://www.niigata-u.ac.jp/en/study/exchange/",
     "studentCapacity": 5,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {},
+    "languageRequirements": [],
     "majorRelatedRequirement": "일반일본어강의 수강시 N1 혹은 N2 필요"
   },
   {
     "id": 121,
-    "name": "도요대학",
+    "koreanName": "도요대학",
     "englishName": "Toyo University",
     "formatName": "toyo_university",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/toyo_university/logo.webp",
     "region": "아시아",
     "country": "일본",
     "studentCapacity": 3,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "ibt": "72",
-      "ielts": "5.5",
-      "jlpt": "N3",
-      "detail": "TOEIC L&R + S&W = 1530"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "72.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      },
+      {
+        "languageTestType": "JLPT",
+        "minScore": "N3"
+      }
+    ],
     "gpaRequirement": "2.5",
     "gpaRequirementCriteria": "4",
     "dormitoryInfo": "https://www.toyo.ac.jp/contents/international-exchange/residence/index.php",
@@ -2217,37 +3116,39 @@
   },
   {
     "id": 123,
-    "name": "돗쿄대학",
+    "koreanName": "돗쿄대학",
     "englishName": "Dokkyo University",
     "formatName": "dokkyo_university",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/dokkyo_university/logo.webp",
     "region": "아시아",
     "country": "일본",
     "homepageUrl": "https://www.dokkyo.ac.jp/english/exchange/calendar/syllabus.html",
     "studentCapacity": 1,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "jlpt": "N5",
-      "detail": "가을학기 지원 자격: N5, 봄학기 지원 자격: N4"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "JLPT",
+        "minScore": "N5"
+      }
+    ],
     "dormitoryInfo": "※기숙사 없으나 학교측에서 off-campus 보증 \n※2023년 기준 매달 58,000~70,000엔\n'https://www.dokkyo.ac.jp/english/exchange/student/accommodation.html",
     "englishLectures": "영어강의 미제공",
     "note": "※2023학년 기준 보험가입 비용 한 학기: 5,400엔 / 1년 8,200엔 \n※3개월 이상 거주시 국민건강보험 가입 의무 (연간 1만엔)"
   },
   {
     "id": 124,
-    "name": "메이지대학",
+    "koreanName": "메이지대학",
     "englishName": "Meiji University",
     "formatName": "meiji_university",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/meiji_university/logo.webp",
     "region": "아시아",
     "country": "일본",
     "homepageUrl": "https://www.meiji.ac.jp/cip/english/admissions/exchange.html",
     "studentCapacity": 1,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개 학기",
-    "languageRequirements": {
-      "detail": "※JLPT 성적 소지자만 지원 가능\n※학부별로 요구 어학성적기준 상이, 관련페이지 참조\n※2021년 9월부터의 영어성적 제출"
-    },
+    "languageRequirements": [],
     "semesterRequirement": "6",
     "majorRelatedRequirement": "https://www.meiji.ac.jp/cip/english/admissions/co7mm90000000461-att/co7mm900000004d1.pdf",
     "dormitoryInfo": "https://www.meiji.ac.jp/cip/english/admissions/co7mm90000000461-att/co7mm900000004fa.pdf",
@@ -2255,17 +3156,21 @@
   },
   {
     "id": 125,
-    "name": "바이카여자대학",
+    "koreanName": "바이카여자대학",
     "englishName": "Baika Women's University",
     "formatName": "baika_womens_university",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/baika_womens_university/logo.webp",
     "region": "아시아",
     "country": "일본",
     "studentCapacity": 1,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "jlpt": "N2"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "JLPT",
+        "minScore": "N2"
+      }
+    ],
     "gpaRequirement": "2.3",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "2",
@@ -2275,29 +3180,29 @@
   },
   {
     "id": 127,
-    "name": "야마구치대학",
+    "koreanName": "야마구치대학",
     "englishName": "Yamaguchi University",
     "formatName": "yamaguchi_university",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/yamaguchi_university/logo.webp",
     "region": "아시아",
     "country": "일본",
     "studentCapacity": 10,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "detail": "※지원 학부/전공별로 자격요건 상이"
-    }
+    "languageRequirements": []
   },
   {
     "id": 128,
-    "name": "오사카가쿠인대학",
+    "koreanName": "오사카가쿠인대학",
     "englishName": "Osaka Gakuin University",
     "formatName": "osaka_gakuin_university",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/osaka_gakuin_university/logo.webp",
     "region": "아시아",
     "country": "일본",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {},
+    "languageRequirements": [],
     "semesterRequirement": "1",
     "dormitoryInfo": "※교환학생들에게 기숙사 미제공\nhttps://www.ogu.ac.jp/english/int_exchange/ie_program/housing.html",
     "englishLectures": "※대부분 일본어수업으로 진행\nhttps://www.ogu.ac.jp/english/int_exchange/ie_program/syllabi.html",
@@ -2305,18 +3210,21 @@
   },
   {
     "id": 129,
-    "name": "오츠마여자대학",
+    "koreanName": "오츠마여자대학",
     "englishName": "Otsuma Women's University",
     "formatName": "otsuma_womens_university",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/otsuma_womens_university/logo.webp",
     "region": "아시아",
     "country": "일본",
     "studentCapacity": 3,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "jlpt": "N1",
-      "detail": "※JLPT 성적 소지자만 지원 가능"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "JLPT",
+        "minScore": "N1"
+      }
+    ],
     "semesterRequirement": "2",
     "dormitoryInfo": "https://www.otsuma.ac.jp/campuslife/life_supports/dormitory/kaga/",
     "englishLectures": "영어강의 미제공",
@@ -2324,18 +3232,22 @@
   },
   {
     "id": 131,
-    "name": "추오대학",
+    "koreanName": "추오대학",
     "englishName": "Chuo University",
     "formatName": "chuo_university",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/chuo_university/logo.webp",
     "region": "아시아",
     "country": "일본",
     "homepageUrl": "https://www.chuo-u.ac.jp/english/admissions/exchange/semester-or-full-year/",
     "studentCapacity": 1,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "jlpt": "N2"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "JLPT",
+        "minScore": "N2"
+      }
+    ],
     "gpaRequirement": "2.5",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "2",
@@ -2346,19 +3258,22 @@
   },
   {
     "id": 133,
-    "name": "앙카라대학",
+    "koreanName": "앙카라대학",
     "englishName": "Ankara University",
     "formatName": "ankara_university",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/ankara_university/logo.webp",
     "region": "아시아",
     "country": "튀르키예",
     "homepageUrl": "http://bbs.ankara.edu.tr/default.aspx",
     "studentCapacity": 3,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "ibt": "80",
-      "detail": "※3년간 유효한 영어성적 제출"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "80.0"
+      }
+    ],
     "gpaRequirement": "3",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "2",
@@ -2366,18 +3281,21 @@
   },
   {
     "id": 134,
-    "name": "외즈예인대학교",
+    "koreanName": "외즈예인대학교",
     "englishName": "Ozyegin University",
     "formatName": "ozyegin_university",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/ozyegin_university/logo.webp",
     "region": "아시아",
     "country": "튀르키예",
     "studentCapacity": 3,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "ibt": "80",
-      "detail": "https://www.ozyegin.edu.tr/en/student-services/application-admission/language-proficiency-requirement"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "80.0"
+      }
+    ],
     "majorRelatedRequirement": "※학부 코디네이너의 허가 하에, 다른 학부 수업 수강 가능",
     "dormitoryInfo": "※교환학생의 경우 기숙사 보증금 불필요\nhttps://www.ozyegin.edu.tr/en/dormitories/overview\n'https://www.ozyegin.edu.tr/en/dormitories/housing-fees",
     "englishLectures": "https://www.ozyegin.edu.tr/en/curriculums",
@@ -2385,18 +3303,21 @@
   },
   {
     "id": 135,
-    "name": "수인대학교",
+    "koreanName": "수인대학교",
     "englishName": "Shue Yan University",
     "formatName": "shue_yan_university",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/shue_yan_university/logo.webp",
     "region": "아시아",
     "country": "홍콩",
     "studentCapacity": 3,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개 학기",
-    "languageRequirements": {
-      "ielts": "6.0\n(5.5 이하의 과목이 있으면 안됨)",
-      "detail": "※2년간 유효한 IELTS 성적 제출"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.0"
+      }
+    ],
     "gpaRequirement": "2.5",
     "gpaRequirementCriteria": "3",
     "semesterRequirement": "2",
@@ -2404,37 +3325,42 @@
   },
   {
     "id": 136,
-    "name": "홍콩시립대학",
+    "koreanName": "홍콩시립대학",
     "englishName": "City Univ Hong Kong",
     "formatName": "city_univ_hong_kong",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/city_univ_hong_kong/logo.webp",
     "region": "아시아",
     "country": "홍콩",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "ibt": "79",
-      "ielts": "6.5",
-      "detail": "※College of Science에 한해 지원 가능\n※지원일까지 유효한 영어성적 제출"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "79.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.5"
+      }
+    ],
     "semesterRequirement": "2",
     "dormitoryInfo": "※기숙사 할당량 제한 \nhttps://www.cityu.edu.hk/sro/",
     "englishLectures": "https://www.cityu.edu.hk/admo/admissions/exchange-students"
   },
   {
     "id": 138,
-    "name": "국립중산대학교",
+    "koreanName": "국립중산대학교",
     "englishName": "National Sun Yat-sen University",
     "formatName": "national_sun_yat-sen_university",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/national_sun_yat-sen_university/logo.webp",
     "region": "중국권",
     "country": "대만",
     "homepageUrl": "https://www.nsysu.edu.tw/?Lang=en",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "detail": "- 본교 중국어 어학시험에 응시하여야 함"
-    },
+    "languageRequirements": [],
     "semesterRequirement": "2",
     "majorRelatedRequirement": "- 소속전공과 지원전공이 일치할 것\n- 교차수강 가능\n- 교환학생 지원불가 전공: International Business Bachelor Program, Master of Business Administration Program in International Business, Global Human Resource Management MBA Program, Si-Wan College.",
     "dormitoryInfo": "-기숙사 보유, 홈페이지 하단부 확인\n(https://oia.nsysu.edu.tw/p/412-1308-20581.php?Lang=en)\n- 거의 기숙사는 보장되나, 확실히 보장된다고 말하기는 어려움. 지원시 기숙사 동시지원필요",
@@ -2443,18 +3369,17 @@
   },
   {
     "id": 139,
-    "name": "국립중앙대학교",
+    "koreanName": "국립중앙대학교",
     "englishName": "National Central University",
     "formatName": "national_central_university",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/national_central_university/logo.webp",
     "region": "중국권",
     "country": "대만",
     "homepageUrl": "https://www.ncu.edu.tw/tw/index.html",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "detail": "- 본교 중국어 어학시험에 응시하여야 함"
-    },
+    "languageRequirements": [],
     "gpaRequirement": "70\n(경영대 - 80)",
     "gpaRequirementCriteria": "100",
     "semesterRequirement": "2",
@@ -2465,19 +3390,26 @@
   },
   {
     "id": 145,
-    "name": "산동대학교(위해)",
+    "koreanName": "산동대학교(위해)",
     "englishName": "Shandong University at Weihai",
     "formatName": "shandong_university_weihai",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/shandong_university_weihai/logo.webp",
     "region": "중국권",
     "country": "중국",
     "homepageUrl": "https://ipo.wh.sdu.edu.cn/kristudy/lxxm1/jhsxm.htm",
     "studentCapacity": 3,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "ibt": "80 (영어과정)",
-      "ielts": "6.0(영어과정)"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "80 (영어과정)"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.0(영어과정)"
+      }
+    ],
     "gpaRequirement": "70\n(2.3)",
     "gpaRequirementCriteria": "100\n(4.0)",
     "semesterRequirement": "2 - 학부생\n1 - 대학원생",
@@ -2488,38 +3420,49 @@
   },
   {
     "id": 149,
-    "name": "SAF 프로그램",
+    "koreanName": "SAF 프로그램",
     "englishName": "SAF Program",
     "formatName": "saf_program",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/saf_program/logo.webp",
     "region": "기타",
     "country": "기타",
     "homepageUrl": "http://korea.studyabroadfoundation.org/",
     "studentCapacity": 10,
     "tuitionFeeType": "해외대학등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "detail": "- 어학요건이 대학별로 상이하므로 반드시 Program Guide 참고할 것"
-    },
+    "languageRequirements": [],
     "note": "- 지원 전 반드시 국제교류팀 담당자와 상담할 것"
   },
   {
     "id": 150,
-    "name": "템플대학(A형)",
+    "koreanName": "템플대학(A형)",
     "englishName": "Temple University",
     "formatName": "temple_university",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/temple_university/logo.webp",
     "region": "미주권",
     "country": "미국",
     "homepageUrl": "http://globalprograms.temple.edu/",
     "studentCapacity": 1,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "79",
-      "itp": "550",
-      "toeic": "780",
-      "ielts": "6",
-      "detail": "영어 점수는 다음의 세부영역 점수를 각각 만족해야 함 \n  - TOEIC : 모든 영역에서 390점 이상\n- 최저 기준 어학 점수가 넘더라도, 선발대학에서 특정 섹션의 어학실력이 부족하다고 판단될 경우 파견 시 별도로 대학부설 어학코스(ielp) 수강이 필요할 수 있음 (수업료 외 별도 비용 발생, https://tcalc.temple.edu/)"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "79.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "550.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "780.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.0"
+      }
+    ],
     "gpaRequirement": "3",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "2",
@@ -2530,21 +3473,30 @@
   },
   {
     "id": 151,
-    "name": "하와이대학(A형)",
+    "koreanName": "하와이대학(A형)",
     "englishName": "University of Hawaii at Manoa",
     "formatName": "university_of_hawaii_at_manoa",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/university_of_hawaii_at_manoa/logo.webp",
     "region": "미주권",
     "country": "미국",
     "homepageUrl": "Mānoa International Exchange – Come to Mānoa, See the World! (hawaii.edu)",
     "studentCapacity": 1,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "68",
-      "itp": "520",
-      "ielts": "6",
-      "detail": "- 토플 IBT(100), 토플 ITP(600), IELTS(7.0) 미만시 파견 후 별도의 영어시험을 응시해야하며, 결과에 따라 1~3개의 어학 수업을 수강하게 될 수 있음"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "68.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "520.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.0"
+      }
+    ],
     "gpaRequirement": "2.5",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "2",
@@ -2555,19 +3507,26 @@
   },
   {
     "id": 152,
-    "name": "노스캐롤라이나 윌밍턴대학(A형)",
+    "koreanName": "노스캐롤라이나 윌밍턴대학(A형)",
     "englishName": "University of North Carolina at Wilmington",
     "formatName": "university_of_north_carolina_at_wilmington",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/university_of_north_carolina_at_wilmington/logo.webp",
     "region": "미주권",
     "country": "미국",
     "homepageUrl": "https://uncw.edu/seahawk-life/support-success/international/students-scholars/prospective-students/visiting-international/",
     "studentCapacity": 3,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "71",
-      "ielts": "6"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "71.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.0"
+      }
+    ],
     "gpaRequirement": "2",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "2",
@@ -2578,19 +3537,26 @@
   },
   {
     "id": 153,
-    "name": "노스캐롤라이나 윌밍턴대학(B형)",
+    "koreanName": "노스캐롤라이나 윌밍턴대학(B형)",
     "englishName": "University of North Carolina at Wilmington",
     "formatName": "university_of_north_carolina_at_wilmington",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/university_of_north_carolina_at_wilmington/logo.webp",
     "region": "미주권",
     "country": "미국",
     "homepageUrl": "https://uncw.edu/seahawk-life/support-success/international/students-scholars/prospective-students/visiting-international/",
     "studentCapacity": 5,
     "tuitionFeeType": "해외대학등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "ibt": "71",
-      "ielts": "6"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "71.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.0"
+      }
+    ],
     "gpaRequirement": "2",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "2",
@@ -2601,21 +3567,34 @@
   },
   {
     "id": 154,
-    "name": "아헨응용과학대학",
+    "koreanName": "아헨응용과학대학",
     "englishName": "FH Aachen University of Applied Sciences",
     "formatName": "fh_aachen_university_of_applied_sciences",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/fh_aachen_university_of_applied_sciences/logo.webp",
     "region": "유럽권",
     "country": "독일",
     "homepageUrl": "https://www.fh-aachen.de/en/studies/applying/international-applicants/exchange-students",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "72",
-      "itp": "550",
-      "toeic": "785",
-      "ielts": "5.5"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "72.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "550.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "785.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "semesterRequirement": "2",
     "majorRelatedRequirement": "- 타전공 지원 및 수강 가능\n- Architecture, Civil Engineering 학과의 경우 독일어 B1 이상 증빙 필수",
     "dormitoryInfo": "https://www.fh-aachen.de/fachbereiche/wirtschaft/internationales/incoming-students/student-support-service/finding-accomodation",
@@ -2623,21 +3602,30 @@
   },
   {
     "id": 155,
-    "name": "포어아를베르크 응용과학대학교",
+    "koreanName": "포어아를베르크 응용과학대학교",
     "englishName": "Vorarlberg University of Applied Sciences",
     "formatName": "vorarlberg_university_of_applied_sciences",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/vorarlberg_university_of_applied_sciences/logo.webp",
     "region": "유럽권",
     "country": "오스트리아",
     "homepageUrl": "https://www.fhv.at/en/fh/study-international/exchange-students-incomings",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개 또는 2개 학기",
-    "languageRequirements": {
-      "ibt": "72",
-      "toeic": "785",
-      "ielts": "5.5",
-      "detail": "- 어학성적 유효기간 내 인정"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "72.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "785.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "semesterRequirement": "2",
     "majorRelatedRequirement": "- 주전공 혹은 제2전공(혹은 연계전공)과 유관 학과로 지원 필요\n- 신청한 전공 내에서 과목 수강 진행 필요\n- 학기당 수강학점 : 최소 18 ECTS credits",
     "dormitoryInfo": "- 교환학생 합격자는 아래 링크를 통해 개별 이용 신청 가능(선착순 배정)\n- https://www.fhv.at/en/fh/study-international/exchange-students-incomings/living-in-vorarlberg/accommodation-for-guest-students",
@@ -2646,20 +3634,29 @@
   },
   {
     "id": 156,
-    "name": "에어토보스로랑드대학",
+    "koreanName": "에어토보스로랑드대학",
     "englishName": "Eotvos Lorand University",
     "formatName": "eotvos_lorand_university",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/eotvos_lorand_university/logo.webp",
     "region": "유럽권",
     "country": "헝가리",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개 또는 2개 학기",
-    "languageRequirements": {
-      "ibt": "72",
-      "toeic": "785",
-      "ielts": "5.5",
-      "detail": "- 어학성적 유효기간 내 인정(2년 이내 발급본)\n- CEFR English B2에 상응하는 어학성적"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "72.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "785.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "semesterRequirement": "1",
     "majorRelatedRequirement": "- 주전공 혹은 제2전공(혹은 연계전공)과 일치하는 학과로 지원 필요\n- 신청한 전공 내에서 대부분 과목 수강 진행 권고 / 타전공 교과는 2개 내로 수강 허용\n - 학기당 수강학점 : 최소 10 ECTS credits",
     "dormitoryInfo": "- 주로 대학 기숙사 이용\n- 숙소 정보 및 개별 신청 : https://www.elte.hu/en/arrange-housing\n- 숙소 관련 지원 : Housing Office(housing@elte.hu)\n- 기숙사(2인실) 이용료 : 월 약 HUF 70,000",
@@ -2668,40 +3665,55 @@
   },
   {
     "id": 157,
-    "name": "리스본대학 경영학과",
+    "koreanName": "리스본대학 경영학과",
     "englishName": "Lisbon School of Economics & Management",
     "formatName": "lisbon_school_of_economics__management",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/lisbon_school_of_economics__management/logo.webp",
     "region": "유럽권",
     "country": "포르투갈",
     "homepageUrl": "https://www.iseg.ulisboa.pt/en/study/international/",
     "studentCapacity": 3,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개 또는 2개 학기",
-    "languageRequirements": {
-      "ibt": "90",
-      "ielts": "6.5",
-      "detail": "- 어학성적 유효기간 내 인정\n- 기타 유효 어학성적 종류\n · Duolingo English Test : 110 \n · Cambridge B2 First : 170"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "90.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.5"
+      }
+    ],
     "majorRelatedRequirement": "- 주전공 혹은 제2전공(혹은 연계전공)과 일치하는 학과로 지원 권고\n- 합격 후 과목 수강은 여러 전공 분야 걸쳐 수강신청 가능\n- 학부 학생은 대학원 과정 수업 수강 불가\n- 학기당 수강학점 : 최소 18 / 최대 36 ECTS credits",
     "dormitoryInfo": "- 기본 미제공(unguaranteed)\n- 숙소 정보 및 개별 신청 : https://www.iseg.ulisboa.pt/aquila/unidade/ERASMUS/incoming-mobility/useful-links/accommodation",
     "englishLectures": "https://www.iseg.ulisboa.pt/internacional/mobilidade-incoming/informacao-academica/"
   },
   {
     "id": 158,
-    "name": "빌니우스 게디미나스대학 공과대",
+    "koreanName": "빌니우스 게디미나스대학 공과대",
     "englishName": "Vilnius Gediminas Technical University",
     "formatName": "vilnius_gediminas_technical_university",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/vilnius_gediminas_technical_university/logo.webp",
     "region": "유럽권",
     "country": "리투아니아",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개 또는 2개 학기",
-    "languageRequirements": {
-      "ibt": "65",
-      "toeic": "605",
-      "ielts": "6",
-      "detail": "- 어학성적 유효기간 내 인정"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "65.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "605.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.0"
+      }
+    ],
     "semesterRequirement": "2",
     "majorRelatedRequirement": "- 주전공 혹은 제2전공(혹은 연계전공)과 일치하는 학과로 지원 필요\n- 합격 후 과목 수강은 여러 전공 분야 걸쳐 수강신청 가능\n- 학부-대학원 과목 교차 수강 가능\n- 학기당 수강학점 : 최소 20/최대 35 ECTS credits",
     "dormitoryInfo": "- 대학 기숙사 이용 신청 가능\n- 합격자에 한하여 신청 관련 정보 발송\n- 기숙사비 €200-240/월 수준\n- 관련 정보 : https://vilniustech.lt/for-international-students/for-exchange-students/studies/319312?#319322",
@@ -2710,79 +3722,113 @@
   },
   {
     "id": 159,
-    "name": "ECE Paris",
+    "koreanName": "ECE Paris",
     "englishName": "ECE Paris",
     "formatName": "ece_paris",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/ece_paris/logo.webp",
     "region": "유럽권",
     "country": "프랑스",
     "homepageUrl": "https://ecole.ece.fr/",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "83",
-      "itp": "550",
-      "toeic": "780",
-      "ielts": "3",
-      "detail": "-IBT minimum score: Reading 13, Writing 21, Listening 13, Speaking 18"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "83.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "550.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "780.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "3.0"
+      }
+    ],
     "semesterRequirement": "4",
     "majorRelatedRequirement": "-공학 및 과학 전공 학생만 지원 가능\n-현재 3, 4학년 학생만 지원 가능\n- 학기당 최소 5ECTS, 최대 30ECTS 수강\n-소속 전공과 지원 전공이 일치하여야 하고 다른 학년 및 전공 수업 교차수강 불가\n-공학 및 과학 계열  관련 기초 과목을 이수한 사람만 지원 가능\n-지원 전, 공학 및 과학 중 어떤 세부 전공이 지원 불가한지는 지원 예정 학생이 factsheet 문서를 국제교류팀으로 문의 후 스스로 파악한 후 지원할 것",
     "dormitoryInfo": "- 미제공\n- 한 학기에 소요되는 대략적일반주거비용은 1000~2500 USD"
   },
   {
     "id": 160,
-    "name": "EDC 파리 경영대학",
+    "koreanName": "EDC 파리 경영대학",
     "englishName": "EDC Paris Business School",
     "formatName": "edc_paris_business_school",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/edc_paris_business_school/logo.webp",
     "region": "유럽권",
     "country": "프랑스",
     "homepageUrl": "https://www.edcparis.edu/fr/",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개학기",
-    "languageRequirements": {
-      "ibt": "80",
-      "ielts": "6.5",
-      "detail": "-DELF B2: score 50/100 (minimum)"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "80.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.5"
+      }
+    ],
     "semesterRequirement": "2",
     "majorRelatedRequirement": "- 교차 수강 가능\n- 학기당 최소 5ECTS, 최대 30ECTS 수강 가능",
     "dormitoryInfo": "- 미제공"
   },
   {
     "id": 161,
-    "name": "인도네시아 국립대학",
+    "koreanName": "인도네시아 국립대학",
     "englishName": "University of Indonesia",
     "formatName": "university_of_indonesia",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/university_of_indonesia/logo.webp",
     "region": "아시아",
     "country": "인도네시아",
     "studentCapacity": 4,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개 학기",
-    "languageRequirements": {
-      "ibt": "80",
-      "itp": "550",
-      "ielts": "6.5",
-      "detail": "※2년간 유효한 영어성적 제출"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "80.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "550.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.5"
+      }
+    ],
     "semesterRequirement": "2",
     "majorRelatedRequirement": "※인하대에서의 전공과 같아야함"
   },
   {
     "id": 162,
-    "name": "랑싯대학",
+    "koreanName": "랑싯대학",
     "englishName": "Rangsit University",
     "formatName": "rangsit_university",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/rangsit_university/logo.webp",
     "region": "아시아",
     "country": "태국",
     "studentCapacity": 3,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "itp": "500",
-      "ielts": "5"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "500.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.0"
+      }
+    ],
     "gpaRequirement": "2.5",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "2",
@@ -2793,70 +3839,81 @@
   },
   {
     "id": 163,
-    "name": "매파루앙 대학",
+    "koreanName": "매파루앙 대학",
     "englishName": "Mae Fah Luang University",
     "formatName": "mae_fah_luang_university",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/mae_fah_luang_university/logo.webp",
     "region": "아시아",
     "country": "태국",
     "homepageUrl": "https://waruneekae.wixsite.com/website/inbound-students",
     "studentCapacity": 5,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {},
+    "languageRequirements": [],
     "semesterRequirement": "2",
     "dormitoryInfo": "On-Campus (4인실): 학기당 1,500-2,000 USD \nOff-Campus (1인실): 매달 150 USD"
   },
   {
     "id": 164,
-    "name": "페르가나폴리텍대학",
+    "koreanName": "페르가나폴리텍대학",
     "englishName": "Fergana Polytechnic Institute",
     "formatName": "fergana_polytechnic_institute",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/fergana_polytechnic_institute/logo.webp",
     "region": "아시아",
     "country": "우즈베키스탄",
     "homepageUrl": "www.ferpi.uz",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개 학기",
-    "languageRequirements": {
-      "ibt": "70",
-      "itp": "433",
-      "toeic": "B1수준에 상응",
-      "ielts": "5",
-      "detail": "※2년간 유효한 영어성적 제출"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "70.0"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "433.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "B1수준에 상응"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.0"
+      }
+    ],
     "dormitoryInfo": "※1년 이하 체류 학생들에게 기숙사 제공 가능\n※한 학기당 50-100 EUR"
   },
   {
     "id": 165,
-    "name": "베이켄트대학교",
+    "koreanName": "베이켄트대학교",
     "englishName": "Beykent University",
     "formatName": "beykent_university",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/beykent_university/logo.webp",
     "region": "아시아",
     "country": "튀르키예",
     "studentCapacity": 3,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "detail": "※B2 수준의 영어 혹은 튀르키예어 어학성적 요구\n※3년간 유효한 영어성적 제출"
-    },
+    "languageRequirements": [],
     "majorRelatedRequirement": "※English Language and Literature, Radio, TV and Cinema, Finance and Banking, Economics, Business Administration, Political Science and Public Administration, International Relations, International Trade and Finance, New Media, Computer Engineering, Industrial Engineering, Industrial Design, Interior Architecture, Civil Engineering, Mechanical Engineering, Architecture 수강 가능",
     "dormitoryInfo": "※기숙사 보유, 선착순 신청 \n※업데이트 된 비용문의 erasmus@beykent.edu.tr\n\nhttps://www.beykent.edu.tr/en/student/life-at-beykent/accommodation/ayaza%C4%9Fa-dormitories",
     "englishLectures": "https://obs.beykent.edu.tr/oibs/bologna/index.aspx?lang=en"
   },
   {
     "id": 166,
-    "name": "국립동화대학교",
+    "koreanName": "국립동화대학교",
     "englishName": "National DongHwa University",
     "formatName": "national_donghwa_university",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/national_donghwa_university/logo.webp",
     "region": "중국권",
     "country": "대만",
     "homepageUrl": "https://www.ndhu.edu.tw/",
     "studentCapacity": 4,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개 학기",
-    "languageRequirements": {
-      "detail": "- 본교 중국어 어학시험에 응시하여야 함"
-    },
+    "languageRequirements": [],
     "semesterRequirement": "2",
     "majorRelatedRequirement": "- 소속전공과 지원전공이 일치할 것\n- 교차수강 가능",
     "dormitoryInfo": "-기숙사 보유 (NTD 10,000/1학기)\n(https://rb005.ndhu.edu.tw/p/412-1005-19158.php)",
@@ -2865,20 +3922,26 @@
   },
   {
     "id": 167,
-    "name": "국립대만사범대학교",
+    "koreanName": "국립대만사범대학교",
     "englishName": "National Taiwan Normal University",
     "formatName": "national_taiwan_normal_university",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/national_taiwan_normal_university/logo.webp",
     "region": "중국권",
     "country": "대만",
     "homepageUrl": "https://en.ntnu.edu.tw/",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "ibt": "80",
-      "ielts": "6.5",
-      "detail": "- 2022.05 이후 발급된 성적\n- 본교 중국어 어학시험에 응시하여야 함"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "80.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.5"
+      }
+    ],
     "gpaRequirement": "3",
     "gpaRequirementCriteria": "4.3",
     "semesterRequirement": "2",
@@ -2889,18 +3952,17 @@
   },
   {
     "id": 168,
-    "name": "국립대만과학기술대학교",
+    "koreanName": "국립대만과학기술대학교",
     "englishName": "National Taiwan Univ. of Science and Technology",
     "formatName": "national_taiwan_univ_of_science_and_technology",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/national_taiwan_univ_of_science_and_technology/logo.webp",
     "region": "중국권",
     "country": "대만",
     "homepageUrl": "https://www.ntust.edu.tw/?Lang=en",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "detail": "- 특정 어학요건은 없으나, 모든 강의는 영어 혹은 중국어로 이루어짐으로 영어를 우수하게 하는 학생들만 지원 요망\n- 본교 중국어 어학시험에 응시하여야 함"
-    },
+    "languageRequirements": [],
     "gpaRequirement": "2.44",
     "gpaRequirementCriteria": "4.3",
     "semesterRequirement": "4",
@@ -2911,22 +3973,34 @@
   },
   {
     "id": 169,
-    "name": "국립가오슝과기대학교",
+    "koreanName": "국립가오슝과기대학교",
     "englishName": "National Kaohsiung University of Science and Technology",
     "formatName": "national_kaohsiung_university_of_science_and_technology",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/national_kaohsiung_university_of_science_and_technology/logo.webp",
     "region": "중국권",
     "country": "대만",
     "homepageUrl": "https://eng.nkust.edu.tw/",
     "studentCapacity": 3,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1년만 가능",
-    "languageRequirements": {
-      "ibt": "50(B1)-학부생\n72(B2)-대학원생",
-      "itp": "500(B1)-학부생\n543(B2)-대학원생",
-      "toeic": "600-학부생\n785-대학원생",
-      "ielts": "5.0-학부생\n5.5-대학원생",
-      "detail": "- 최소 2024년 말일까지 유효한 성적\n- 본교 중국어 어학시험에 응시하여야 함"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "50(B1)-학부생"
+      },
+      {
+        "languageTestType": "TOEFL_ITP",
+        "minScore": "500(B1)-학부생"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "600-학부생"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.0-학부생"
+      }
+    ],
     "gpaRequirement": "3",
     "gpaRequirementCriteria": "4.3",
     "semesterRequirement": "4 - 학부생\n1 - 대학원생",
@@ -2937,20 +4011,26 @@
   },
   {
     "id": 170,
-    "name": "대련이공대학교",
+    "koreanName": "대련이공대학교",
     "englishName": "Dalian University of Technology",
     "formatName": "dalian_university_of_technology",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/dalian_university_of_technology/logo.webp",
     "region": "중국권",
     "country": "중국",
     "homepageUrl": "https://en.dlut.edu.cn/",
     "studentCapacity": 3,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {
-      "ibt": "80",
-      "ielts": "5.5",
-      "detail": "- 중어과정의 경우\nScience, Engineering, Economics, Management (HSK4, 180)\nHumanities, Foreign languages (HSK5, 180)"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "80.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "5.5"
+      }
+    ],
     "gpaRequirement": "75",
     "gpaRequirementCriteria": "100",
     "semesterRequirement": "2 - 학부생\n1 - 대학원생",
@@ -2961,21 +4041,30 @@
   },
   {
     "id": 171,
-    "name": "북경외국어대학교 IBS",
+    "koreanName": "북경외국어대학교 IBS",
     "englishName": "Beijing Foreign Studies University, IBS",
     "formatName": "beijing_foreign_studies_university_ibs",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/beijing_foreign_studies_university_ibs/logo.webp",
     "region": "중국권",
     "country": "중국",
     "homepageUrl": "https://ibs.bfsu.edu.cn/en/",
     "studentCapacity": 3,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "1개 학기",
-    "languageRequirements": {
-      "ibt": "79",
-      "toeic": "750",
-      "ielts": "6",
-      "detail": "- 최소 2024년 12월까지 유효한 성적\n- 본교 중국어 어학시험에 응시하여야 함"
-    },
+    "languageRequirements": [
+      {
+        "languageTestType": "TOEFL_IBT",
+        "minScore": "79.0"
+      },
+      {
+        "languageTestType": "TOEIC",
+        "minScore": "750.0"
+      },
+      {
+        "languageTestType": "IELTS",
+        "minScore": "6.0"
+      }
+    ],
     "gpaRequirement": "2.8",
     "gpaRequirementCriteria": "4",
     "semesterRequirement": "2",
@@ -2986,16 +4075,17 @@
   },
   {
     "id": 172,
-    "name": "북경어언대학교",
+    "koreanName": "북경어언대학교",
     "englishName": "Beijing Language and Culture University",
     "formatName": "beijing_language_and_culture_university",
+    "logoImageUrl": "https://solid-connection.s3.ap-northeast-2.amazonaws.com/resize/beijing_language_and_culture_university/logo.webp",
     "region": "중국권",
     "country": "중국",
     "homepageUrl": "http://english.blcu.edu.cn/",
     "studentCapacity": 2,
     "tuitionFeeType": "본교등록금납부형",
     "semesterAvailableForDispatch": "무관",
-    "languageRequirements": {},
+    "languageRequirements": [],
     "semesterRequirement": "2",
     "majorRelatedRequirement": "- 중국어 어학과정 외 타 과정 수강 불가\n- 교환학생은 Chinese in College of Advanced Chinese Training에서 수강",
     "dormitoryInfo": "- 기숙사 보유(더블룸:80RMB/일, 싱글룸:150RMB/일)\n※ 지원간 기숙사 신청 미리 필요\n- 중국 입국 24시간 내에 입주신고 필요",
