@@ -7,6 +7,7 @@ import Layout from "@/components/layout/layout";
 
 // fonts
 import { Inter } from "next/font/google";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export default function App({ Component, pageProps }) {
@@ -31,7 +32,7 @@ export default function App({ Component, pageProps }) {
           <title>솔리드 커넥션</title>
         </Head>
         <Layout>
-          <Script src="https://developers.kakao.com/sdk/js/kakao.js" onLoad={kakaoInit}></Script>
+          <Script src="https://developers.kakao.com/sdk/js/kakao.js" onLoad={kakaoInit} />
           <Component {...pageProps} />
         </Layout>
       </>

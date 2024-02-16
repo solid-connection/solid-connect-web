@@ -152,10 +152,10 @@ export default function ScorePage() {
 export async function getServerSideProps(context) {
   // 요청에서 쿠키를 추출합니다.
   const { req } = context;
-  const accessToken = req.cookies["accessToken"];
+  const { accessToken } = req.cookies;
 
   // 토큰 유효성 검사 로직 (예제 코드)
-  const isLogin = accessToken ? true : false;
+  const isLogin = !!accessToken;
 
   if (!isLogin) {
     // 비로그인 상태일 경우 로그인 페이지로 리다이렉트

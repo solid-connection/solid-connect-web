@@ -30,10 +30,10 @@ export default function MyScrapPage() {
 export async function getServerSideProps(context) {
   // 요청에서 쿠키를 추출합니다.
   const { req } = context;
-  const token = req.cookies["accessToken"];
+  const token = req.cookies.accessToken;
 
   // 토큰 유효성 검사 로직 (예제 코드)
-  const isLogin = token ? true : false;
+  const isLogin = !!token;
 
   if (!isLogin) {
     // 비로그인 상태일 경우 로그인 페이지로 리다이렉트

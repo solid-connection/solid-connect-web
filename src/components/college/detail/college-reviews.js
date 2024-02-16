@@ -41,5 +41,5 @@ export default function CollegeReviews(props) {
 }
 
 export function CollegeReviewCard(props) {
-  return <div className={styles.card}></div>;
+  return <div className={styles.card} />;
 }

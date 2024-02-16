@@ -50,7 +50,7 @@ export default function CollegeBottomSheet(props) {
 
   return (
     <>
-      <div className={styles.blank}></div>
+      <div className={styles.blank} />
       <div className={styles.bottomSheet}>
         <div className={styles.englishName}>{englishName || "대학명"}</div>
         <div className={styles.name}>{koreanName || "대학명"}</div>

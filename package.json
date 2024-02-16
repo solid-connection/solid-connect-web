@@ -6,11 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "pages:build": "npx @cloudflare/next-on-pages",
-    "pages:deploy": "npm run pages:build && wrangler pages deploy .vercel/output/static",
-    "pages:watch": "npx @cloudflare/next-on-pages --watch",
-    "pages:dev": "npx wrangler pages dev .vercel/output/static --compatibility-date=2023-12-06 --compatibility-flag=nodejs_compat"
+    "lint": "next lint"
   },
   "dependencies": {
     "@react-google-maps/api": "^2.19.2",
@@ -26,7 +22,13 @@
     "slick-carousel": "^1.8.1"
   },
   "devDependencies": {
-    "@cloudflare/next-on-pages": "^1.8.2",
+    "eslint": "^8.56.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-jsx-a11y": "^6.8.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "vercel": "^32.7.2"
   }
 }

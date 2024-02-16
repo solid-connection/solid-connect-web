@@ -22,20 +22,18 @@ export default function CollegeRegisterPage(props) {
     if (currentStage === 2) {
       setCurrentStage(currentStage - 1);
       setProgress(0);
-      return;
     }
-    return;
   }
 
   function submitForm() {
+    async function postData() {
+      await apiClient.post("/application/university", {
+        firstChoiceUniversityId: parseInt(firstCollege),
+        secondChoiceUniversityId: parseInt(secondCollege),
+      });
+    }
     // 서버로 데이터 전송
     try {
-      async function postData() {
-        const res = await apiClient.post("/application/university", {
-          firstChoiceUniversityId: parseInt(firstCollege),
-          secondChoiceUniversityId: parseInt(secondCollege),
-        });
-      }
       postData();
     } catch (error) {
       console.error(error);
@@ -95,10 +93,10 @@ export default function CollegeRegisterPage(props) {
 export async function getServerSideProps(context) {
   // 요청에서 쿠키를 추출합니다.
   const { req } = context;
-  const refreshToken = req.cookies["refreshToken"];
+  const { refreshToken } = req.cookies;
 
   // 토큰 유효성 검사 로직 (예제 코드)
-  const isLogin = refreshToken ? true : false;
+  const isLogin = !!refreshToken;
 
   if (!isLogin) {
     // 비로그인 상태일 경우 로그인 페이지로 리다이렉트
@@ -115,6 +113,6 @@ export async function getServerSideProps(context) {
   const collegesKeyName = JSON.parse(fileData);
 
   return {
-    props: { collegesKeyName: collegesKeyName },
+    props: { collegesKeyName },
   };
 }

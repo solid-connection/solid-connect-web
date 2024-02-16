@@ -33,13 +33,11 @@ export function CollegeCard(props) {
         </div>
         <div className={styles.requirements}>
           {languageRequirements
-            .map((requirement, index) => {
-              return (
-                <span key={index} className={styles.requirement}>
-                  {requirement.languageTestType.replace(/_/g, " ")}: {requirement.minScore}
-                </span>
-              );
-            })
+            .map((requirement, index) => (
+              <span key={index} className={styles.requirement}>
+                {requirement.languageTestType.replace(/_/g, " ")}: {requirement.minScore}
+              </span>
+            ))
             .slice(0, 3)}
         </div>
       </div>

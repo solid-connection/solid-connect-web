@@ -55,16 +55,6 @@ export default function CollegePage(props) {
   );
 }
 
-export async function getServerSideProps(context) {
-  const { query } = context;
-  const { country, region, text } = query;
-  const colleges = await getCollegeList(region, text);
-
-  return {
-    props: { colleges: colleges },
-  };
-}
-
 async function getCollegeList(region, text) {
   const response = await getCollegeListData();
   const colleges = response.data;
@@ -74,4 +64,14 @@ async function getCollegeList(region, text) {
     return matchesRegion && matchesSearchText;
   });
   return filteredColleges;
+}
+
+export async function getServerSideProps(context) {
+  const { query } = context;
+  const { country, region, text } = query;
+  const colleges = await getCollegeList(region, text);
+
+  return {
+    props: { colleges },
+  };
 }

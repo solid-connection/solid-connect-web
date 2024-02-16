@@ -39,52 +39,52 @@ export default function ScoreRegisterPage() {
   }
 
   function submitForm() {
+    async function postData() {
+      const languageCertRes = await apiClient.post(
+        "/img/language-test",
+        {
+          imageFile: languageCert,
+        },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      const languageFileUrl = languageCertRes.data.data.imageUrl;
+
+      const scoreCertRes = await apiClient.post(
+        "/img/gpa",
+        {
+          imageFile: scoreCert,
+        },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      const scoreFileUrl = scoreCertRes.data.data.imageUrl;
+      const languageTypeConvert = {
+        toeic: "TOEIC",
+        ibt: "TOEFL_IBT",
+        itp: "TOEFL_ITP",
+        ielts: "IELTS",
+        jlpt: "JLPT",
+        others: "DUOLINGO",
+      };
+      await apiClient.post("/application/score", {
+        languageTestType: languageTypeConvert[languageType],
+        languageTestScore: languageScore,
+        languageTestReportUrl: languageFileUrl,
+        gpaCriteria: parseFloat(scoreType),
+        gpa: parseFloat(score),
+        gpaReportUrl: scoreFileUrl,
+      });
+      router.push("/score/college-register");
+    }
     // 서버로 데이터 전송
     try {
-      async function postData() {
-        const languageCertRes = await apiClient.post(
-          "/img/language-test",
-          {
-            imageFile: languageCert,
-          },
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
-        const languageFileUrl = languageCertRes.data.data.imageUrl;
-
-        const scoreCertRes = await apiClient.post(
-          "/img/gpa",
-          {
-            imageFile: scoreCert,
-          },
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
-        const scoreFileUrl = scoreCertRes.data.data.imageUrl;
-        const languageTypeConvert = {
-          toeic: "TOEIC",
-          ibt: "TOEFL_IBT",
-          itp: "TOEFL_ITP",
-          ielts: "IELTS",
-          jlpt: "JLPT",
-          others: "DUOLINGO",
-        };
-        const res = await apiClient.post("/application/score", {
-          languageTestType: languageTypeConvert[languageType],
-          languageTestScore: languageScore,
-          languageTestReportUrl: languageFileUrl,
-          gpaCriteria: parseFloat(scoreType),
-          gpa: parseFloat(score),
-          gpaReportUrl: scoreFileUrl,
-        });
-        router.push("/score/college-register");
-      }
       postData();
     } catch (error) {
       console.error(error);
@@ -163,10 +163,10 @@ export default function ScoreRegisterPage() {
 export async function getServerSideProps(context) {
   // 요청에서 쿠키를 추출합니다.
   const { req } = context;
-  const refreshToken = req.cookies["refreshToken"];
+  const { refreshToken } = req.cookies;
 
   // 토큰 유효성 검사 로직 (예제 코드)
-  const isLogin = refreshToken ? true : false;
+  const isLogin = !!refreshToken;
 
   if (!isLogin) {
     // 비로그인 상태일 경우 로그인 페이지로 리다이렉트

@@ -11,7 +11,7 @@ export default function MyModifyPage(props) {
   useEffect(() => {
     async function fetchData() {
       const res = await apiClient.get("/my-page");
-      const data = res.data.data;
+      const { data } = res.data;
       setMyData(data);
     }
     fetchData();
