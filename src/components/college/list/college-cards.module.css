@@ -1,5 +1,120 @@
+/* College Cards */
 .container {
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+/* College Card */
+.card {
+  position: relative;
+  margin: 0 20px 0 20px;
+  height: 99px;
+
+  border-radius: 6px;
+  border: 1px solid #eaeaea;
+
+  overflow: hidden;
+  display: flex;
+
+  text-decoration-line: none;
+}
+
+.flex {
+  display: flex;
+}
+
+.centerAlign {
+  display: flex;
+  align-items: center;
+}
+
+.spaceBetween {
+  display: flex;
+  justify-content: space-between;
+}
+
+.image {
+  margin-left: 11.72px;
+
+  width: 60px;
+  height: 60px;
+  border-radius: 60px;
+  object-fit: cover;
+  /* background-color: #d9d9d9; */
+  /* content: ""; */
+}
+
+/* info */
+.info {
+  margin-left: 15.63px;
+
+  display: flex;
+  flex-direction: column;
+
+  text-decoration-line: none;
+}
+
+.name {
+  margin-top: 18px;
+  /* overflow: hidden; */
+
+  color: #000;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.country {
+  margin-top: 6px;
+
+  color: #7c7c7c;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 150%; /* 21px */
+}
+
+.capacity {
+  margin-left: 10px; /* 임시 */
+  margin-top: 6px;
+
+  color: #7c7c7c;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Pretendard;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 150%; /* 18px */
+}
+
+.requirements {
+  display: flex;
+  gap: 15.63px;
+}
+
+.requirement {
+  color: #7c7c7c;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Pretendard, sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 150%; /* 18px */
+  letter-spacing: 0.15px;
+  white-space: nowrap;
+}
+
+.rightArrowIcon {
+  position: absolute;
+  top: 38px;
+  right: 9.77px;
+
+  width: 24px;
+  height: 24px;
 }
