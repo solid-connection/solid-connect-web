@@ -41,9 +41,9 @@ export default function ScoreRegisterPage() {
   function submitForm() {
     async function postData() {
       const languageCertRes = await apiClient.post(
-        "/img/language-test",
+        "/file/language-test",
         {
-          imageFile: languageCert,
+          file: languageCert,
         },
         {
           headers: {
@@ -54,9 +54,9 @@ export default function ScoreRegisterPage() {
       const languageFileUrl = languageCertRes.data.data.imageUrl;
 
       const scoreCertRes = await apiClient.post(
-        "/img/gpa",
+        "/file/gpa",
         {
-          imageFile: scoreCert,
+          file: scoreCert,
         },
         {
           headers: {

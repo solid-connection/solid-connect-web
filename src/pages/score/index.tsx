@@ -106,7 +106,6 @@ export async function getServerSideProps(context) {
     } else if (statusData.status === "SUBMITTED_APPROVED") {
       const scoreResponse = await serverApiClient.get("/application");
       const scoreData = scoreResponse.data.data;
-      console.log(scoreData);
       return {
         props: {
           status: "SUBMITTED_APPROVED",

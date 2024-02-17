@@ -10,7 +10,7 @@ export default function ScoreSheet(props) {
       <thead>
         <tr>
           <th>
-            {koreanName} ({applicants.length})
+            {koreanName} ({applicants.length}/{studentCapacity})
           </th>
           <th>
             <button

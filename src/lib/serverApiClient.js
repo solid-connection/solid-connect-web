@@ -26,7 +26,9 @@ export default function createApiClient(req, res) {
             {},
             {
               headers: {
+                ...config.headers,
                 Authorization: `Bearer ${refreshToken}`,
+                "Content-Type": "application/json",
                 withCredentials: true,
               },
             }
@@ -38,6 +40,7 @@ export default function createApiClient(req, res) {
           config.headers = {
             ...config.headers,
             Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
             withCredentials: true,
           };
         } catch (error) {
@@ -75,6 +78,7 @@ export default function createApiClient(req, res) {
             {
               headers: {
                 Authorization: `Bearer ${refreshToken}`,
+                "Content-Type": "application/json",
                 withCredentials: true,
               },
             }
