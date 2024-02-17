@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import createApiClient from "@/lib/serverApiClient";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import Tab from "@/components/ui/tab";
@@ -6,9 +7,28 @@ import ScoreSheets from "@/components/score/score-sheets";
 import ButtonTab from "@/components/ui/button-tab";
 import ScoreSearchBar from "@/components/score/score-search-bar";
 import ScoreSearchField from "@/components/score/score-search-field";
-import ScoreUniversityRecommend from "@/components/score/score-university-recommend";
 
-export default function ScorePage() {
+interface ScoreData {
+  firstChoice: Choice[];
+  secondChoice: Choice[];
+}
+
+interface Choice {
+  koreanName: string;
+  studentCapacity: number;
+  applicants: Applicant[];
+}
+
+interface Applicant {
+  nicknameForApply: string;
+  gpa: number;
+  testType: string;
+  testScore: string;
+  isMine: boolean;
+}
+
+export default function ScorePage({ status, scoreData }: { status: string; scoreData: ScoreData }) {
+  // 검색
   const [searchActive, setSearchActive] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [tempText, setTempText] = useState("하와이 대학교");
@@ -37,11 +57,14 @@ export default function ScorePage() {
   }
   const keyWords = ["하와이", "보라스", "릴카톨릭", "파리8", "낭트", "헐", "함부르크", "오스트라바"];
 
+  // 점수 데이터
   const [preference, setPreference] = useState("1순위");
   const tabChoice = ["1순위", "2순위"];
 
   const [filter, setFilter] = useState("");
   const filterChoice = ["유럽권", "미주권", "아시아권", "학점높은 순", "어학성적 높은 순"];
+
+  const [fileredScoreData, setFilteredScoreData] = useState<ScoreData>(scoreData);
 
   const scoreSheets = [
     {
@@ -143,7 +166,7 @@ export default function ScorePage() {
       <ScoreSearchBar onClick={handleSearchClick} text={searchText} setText={setSearchText} searchHandler={handleSearchBar} />
       <Tab choices={tabChoice} choice={preference} setChoice={setPreference} />
       <ButtonTab choices={filterChoice} choice={filter} setChoice={setFilter} color={{ activeBtn: "#6f90d1", deactiveBtn: "#fff", activeBtnFont: "#fff", deactiveBtnFont: "#000", background: "#fafafa" }} style={{ padding: "10px 0 10px 18px" }} />
-      <ScoreSheets sheets={scoreSheets} />
+      <ScoreSheets data={preference === "1순위" ? fileredScoreData.firstChoice : fileredScoreData.secondChoice} />
       {/* <ScoreUniversityRecommend text={tempText} /> */}
     </>
   );
@@ -151,23 +174,51 @@ export default function ScorePage() {
 
 export async function getServerSideProps(context) {
   // 요청에서 쿠키를 추출합니다.
-  const { req } = context;
-  const { accessToken } = req.cookies;
+  const { req, res } = context;
+  const serverApiClient = createApiClient(req, res);
 
-  // 토큰 유효성 검사 로직 (예제 코드)
-  const isLogin = !!accessToken;
-
-  if (!isLogin) {
-    // 비로그인 상태일 경우 로그인 페이지로 리다이렉트
+  try {
+    // 서버에서 데이터를 가져옵니다.
+    const statusResponse = await serverApiClient.get("/application/status");
+    const statusData = statusResponse.data.data;
+    if (statusData.status === "NOT_SUBMITTED") {
+      return {
+        props: {
+          status: "NOT_SUBMITTED",
+        },
+      };
+    } else if (statusData.status === "SUBMITTED_NOT_APPROVED") {
+      return {
+        props: {
+          status: "SUBMITTED_NOT_APPROVED",
+        },
+      };
+    } else if (statusData.status === "SUBMITTED_APPROVED") {
+      const scoreResponse = await serverApiClient.get("/application");
+      const scoreData = scoreResponse.data.data;
+      console.log(scoreData);
+      return {
+        props: {
+          status: "SUBMITTED_APPROVED",
+          scoreData: scoreData,
+        },
+      };
+    }
     return {
+      props: {
+        status: "NO_AUTHORIZATION",
+      },
+    };
+  } catch (error) {
+    // 에러가 발생하면 빈 props를 반환합니다.
+    return {
+      props: {
+        status: "NO_AUTHORIZATION",
+      },
       redirect: {
         destination: "/login",
         permanent: false,
       },
     };
   }
-
-  return {
-    props: {},
-  };
 }

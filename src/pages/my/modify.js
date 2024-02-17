@@ -5,7 +5,7 @@ import createApiClient from "@/lib/clientApiClient";
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import MyModify from "@/components/my/my-modify";
 
-export default function MyModifyPage(props) {
+export default function MyModifyPage() {
   const [myData, setMyData] = useState(null);
   const apiClient = createApiClient();
   useEffect(() => {
