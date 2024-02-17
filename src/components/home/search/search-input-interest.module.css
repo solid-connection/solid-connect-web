@@ -23,14 +23,6 @@
   font-weight: 500;
   line-height: normal;
 }
-
-.icon {
-  margin-left: 22px;
-  margin-right: 22px;
-  width: 21px;
-  height: 21px;
-}
-
 .suggestions {
   position: absolute;
   top: 100%;

@@ -95,9 +95,6 @@ export default function SearchInputInterest(props) {
         onBlur={handleBlur}
         onKeyDown={handleKeyDown} // 키보드 이벤트 핸들러 추가
       />
-      <div className={styles.icon}>
-        <ExpendMoreFilled />
-      </div>
       {suggestions.length > 0 && (
         <div className={styles.suggestions} ref={suggestionsRef} onMouseDown={handleSuggestionMouseDown}>
           {suggestions.map((suggestion, index) => (
