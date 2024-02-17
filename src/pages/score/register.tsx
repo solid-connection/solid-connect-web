@@ -14,10 +14,10 @@ export default function ScoreRegisterPage() {
   const router = useRouter();
   const apiClient = createApiClient();
 
-  const [progress, setProgress] = useState(0);
-  const [currentStage, setCurrentStage] = useState(1);
+  const [progress, setProgress] = useState<number>(0);
+  const [currentStage, setCurrentStage] = useState<number>(1);
 
-  const [languageType, setLanguageType] = useState("");
+  const [languageType, setLanguageType] = useState<string>("");
   const [languageScore, setLanguageScore] = useState("");
   const [languageCert, setLanguageCert] = useState("");
   const [scoreType, setScoreType] = useState("4.5");
@@ -129,9 +129,7 @@ export default function ScoreRegisterPage() {
         return (
           <FormFinal
             setProgress={setProgress}
-            toNextStage={() => {
-              submitForm();
-            }}
+            toNextStage={submitForm}
             languageType={languageType}
             languageScore={languageScore}
             languageCert={languageCert}

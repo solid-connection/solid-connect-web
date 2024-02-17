@@ -44,7 +44,7 @@ export default function createApiClient(req, res) {
             withCredentials: true,
           };
         } catch (error) {
-          console.error("access token 발급중 오류", error);
+          console.error("access token 발급중 오류\n", error);
           return Promise.reject(error);
         }
       } else if (accessToken) {
@@ -71,7 +71,7 @@ export default function createApiClient(req, res) {
       if ((error.response.status === 401 || error.response.status === 403) && !originalRequest._retry) {
         originalRequest._retry = true;
         try {
-          const refreshToken = req.cookies["refreshToken"]; // Ensure this is accessible or passed appropriately
+          const refreshToken = req.cookies["refreshToken"];
           const refreshResponse = await axios.post(
             `${process.env.NEXT_PUBLIC_API_SERVER_URL}/auth/reissue`,
             {},
@@ -91,11 +91,11 @@ export default function createApiClient(req, res) {
           originalRequest.headers["Authorization"] = "Bearer " + newAccessToken;
           return apiClient(originalRequest);
         } catch (refreshError) {
-          console.error("accessToken 무효로 재발급중 오류:", refreshError);
+          console.error("accessToken 무효로 재발급중 오류:\n", refreshError);
           return Promise.reject(refreshError); // Or handle a redirect to login
         }
       }
-      console.log("뭔가 오류:", error);
+      console.log("뭔가 오류:\n", error);
       return Promise.reject(error);
     }
   );

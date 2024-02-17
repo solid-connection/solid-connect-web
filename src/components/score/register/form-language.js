@@ -3,6 +3,7 @@ import { useRef } from "react";
 import styles from "./form.module.css";
 import RoundBtn from "@/components/ui/round-btn";
 import BlockBtn from "@/components/ui/block-btn";
+import Link from "next/link";
 
 export default function FormLanguage(props) {
   const { setProgress, toNextStage } = props;
@@ -105,9 +106,11 @@ export default function FormLanguage(props) {
         <div className={styles.btns}>
           <input type="file" ref={fileInputRef} onChange={handleFileChange} style={{ display: "none" }} />
           <RoundBtn onClick={handleButtonClick}>파일 첨부하기</RoundBtn>
-          <RoundBtn onClick={() => {}} backgroundColor="var(--secondary-1, #C4DDFF)" textColor="#484848">
-            증명서 예시
-          </RoundBtn>
+          <Link href="/score/lang-cert-example" target="_blank">
+            <RoundBtn backgroundColor="var(--secondary-1, #C4DDFF)" textColor="#484848">
+              증명서 예시
+            </RoundBtn>
+          </Link>
         </div>
       </div>
       <div className={styles.blockBtns}>

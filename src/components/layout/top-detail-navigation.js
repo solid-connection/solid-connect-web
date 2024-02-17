@@ -3,8 +3,7 @@ import ArrowBackFilled from "../ui/icon/ArrowBackFilled";
 import MenuFilled from "../ui/icon/MenuFilled";
 import styles from "./top-detail-navigation.module.css";
 
-export default function TopDetailNavigation(props) {
-  const { handleBack } = props;
+export default function TopDetailNavigation({ title, handleBack, onMore }) {
   const router = useRouter();
 
   const routeBack = () => {
@@ -16,8 +15,8 @@ export default function TopDetailNavigation(props) {
       <div className={styles.icon} onClick={handleBack || routeBack}>
         <ArrowBackFilled />
       </div>
-      <div className={styles.title}>{props.title}</div>
-      <div className={styles.icon} onClick={props.onMore}>
+      <div className={styles.title}>{title}</div>
+      <div className={styles.icon} onClick={onMore}>
         <MenuFilled />
       </div>
     </div>
