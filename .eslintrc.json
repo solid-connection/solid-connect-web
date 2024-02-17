@@ -1,4 +1,5 @@
 {
+  "ignoreDuringBuilds": true,
   "root": true,
   "env": {
     "browser": true,

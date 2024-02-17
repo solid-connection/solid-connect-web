@@ -66,89 +66,11 @@ export default function ScorePage({ status, scoreData }: { status: string; score
 
   const [fileredScoreData, setFilteredScoreData] = useState<ScoreData>(scoreData);
 
-  const scoreSheets = [
-    {
-      key: 1,
-      college: "하와이 대학교",
-      scores: [
-        {
-          key: 1,
-          name: "김솔커",
-          score: 4.5,
-          languageType: "토익",
-          languageScore: 800,
-        },
-        {
-          key: 2,
-          name: "김솔커123",
-          score: 4.3,
-          languageType: "토익",
-          languageScore: 800,
-        },
-        {
-          key: 3,
-          name: "김솔커12345",
-          score: 4.2,
-          languageType: "토익",
-          languageScore: 800,
-        },
-      ],
-    },
-    {
-      key: 2,
-      college: "보라스 대학교",
-      scores: [
-        {
-          key: 1,
-          name: "김솔커",
-          score: 4.5,
-          languageType: "토익",
-          languageScore: 800,
-        },
-        {
-          key: 2,
-          name: "김솔커",
-          score: 4.3,
-          languageType: "토익",
-          languageScore: 800,
-        },
-        {
-          key: 3,
-          name: "김솔커",
-          score: 4.2,
-          languageType: "토익",
-          languageScore: 800,
-        },
-      ],
-    },
-    {
-      key: 3,
-      college: "하와이 대학교",
-      scores: [
-        {
-          key: 1,
-          name: "김솔커",
-          score: 4.5,
-          languageType: "토익",
-          languageScore: 800,
-        },
-        {
-          key: 2,
-          name: "김솔커",
-          score: 4.3,
-          languageType: "토익",
-          languageScore: 800,
-        },
-        {
-          key: 3,
-          name: "김솔커",
-          score: 4.2,
-          languageType: "토익",
-          languageScore: 800,
-        },
-      ],
-    },
-  ];
+  if (status === "NOT_SUBMITTED") {
+    return <div>점수 공유 현황을 보려면 점수를 제출해주세요.</div>;
+  } else if (status === "SUBMITTED_NOT_APPROVED") {
+    return <div>점수 공유 현황을 보려면 점수가 승인되어야 합니다.</div>;
+  }
 
   if (searchActive) {
     return (
