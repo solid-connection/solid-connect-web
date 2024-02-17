@@ -21,6 +21,56 @@ export default function Home({ recommendedColleges, newsList, applyStatus }: { r
     period: "2024년 1학기 ~ 2024년 2학기",
   };
 
+  function getBanner() {
+    if (applyStatus === "NO_AUTHORIZATION") {
+      return (
+        <Link className={styles.banner} href="/score">
+          <div className={styles.bannerTextWrapper}>
+            <div className={styles.bannerText}>지원자 현황 확인하기</div>
+            <CheveronRightFilled color="#F2F1DF" className={styles.bannerIcon} />
+          </div>
+        </Link>
+      );
+    } else if (applyStatus === "NOT_SUBMITTED") {
+      return (
+        <Link className={styles.banner} href="/score/register">
+          <div className={styles.bannerTextWrapper}>
+            <div className={styles.bannerText}>나의 성적 입력하기</div>
+            <CheveronRightFilled color="#F2F1DF" className={styles.bannerIcon} />
+          </div>
+        </Link>
+      );
+    } else if (applyStatus === "SUBMITTED_PENDING") {
+      return (
+        <Link className={styles.banner} href="/score/register">
+          <div className={styles.bannerTextWrapper}>
+            <div className={styles.bannerText}>나의 성적 다시 입력하기</div>
+            <CheveronRightFilled color="#F2F1DF" className={styles.bannerIcon} />
+          </div>
+        </Link>
+      );
+    } else if (applyStatus === "SUBMITTED_REJECTED") {
+      // 추가 알림 필요함
+      return (
+        <Link className={styles.banner} href="/score/register">
+          <div className={styles.bannerTextWrapper}>
+            <div className={styles.bannerText}>나의 성적 다시 입력하기</div>
+            <CheveronRightFilled color="#F2F1DF" className={styles.bannerIcon} />
+          </div>
+        </Link>
+      );
+    } else if (applyStatus === "SUBMITTED_APPROVED") {
+      return (
+        <Link className={styles.banner} href="/score">
+          <div className={styles.bannerTextWrapper}>
+            <div className={styles.bannerText}>지원자 현황 확인하기</div>
+            <CheveronRightFilled color="#F2F1DF" className={styles.bannerIcon} />
+          </div>
+        </Link>
+      );
+    }
+  }
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.h1}>교환학생의 첫 걸음,</div>
@@ -34,28 +84,7 @@ export default function Home({ recommendedColleges, newsList, applyStatus }: { r
 
       <HomeSearch />
 
-      {applyStatus === "NOT_SUBMITTED" && (
-        <Link className={styles.banner} href="/score/register">
-          <div className={styles.bannerImageWrapper}>
-            <Image className={styles.bannerImage} src="/images/check-grade.jpeg" alt="나의 성적 입력하기" width={335} height={54} />
-          </div>
-          <div className={styles.bannerTextWrapper}>
-            <div className={styles.bannerText}>나의 성적 입력하기</div>
-            <CheveronRightFilled color="#F2F1DF" className={styles.bannerIcon} />
-          </div>
-        </Link>
-      )}
-      {(applyStatus === "SUBMITTED_APPROVED" || applyStatus === "NO_AUTHORIZATION") && (
-        <Link className={styles.banner} href="/score">
-          <div className={styles.bannerImageWrapper}>
-            <Image className={styles.bannerImage} src="/images/check-grade.jpeg" alt="지원자 현황 확인하기" width={335} height={54} />
-          </div>
-          <div className={styles.bannerTextWrapper}>
-            <div className={styles.bannerText}>지원자 현황 확인하기</div>
-            <CheveronRightFilled color="#F2F1DF" className={styles.bannerIcon} />
-          </div>
-        </Link>
-      )}
+      {getBanner()}
 
       <div style={{ marginTop: "20px" }}>
         <div className={styles.title}>추천하는 파견학교</div>
