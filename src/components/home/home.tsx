@@ -8,10 +8,10 @@ import NewsCards from "./news-cards";
 import HomeSearch from "./search/home-search";
 import CheveronRightFilled from "../ui/icon/ChevronRightFilled";
 import SearchFilled from "../ui/icon/SearchFilled";
+import { News, SimpleCollege } from "@/types/college";
+import { ApplyStatus } from "@/types/application";
 
-export default function Home(props) {
-  const { recommendedColleges, newsList } = props;
-
+export default function Home({ recommendedColleges, newsList, applyStatus }: { recommendedColleges: SimpleCollege[]; newsList: News[]; applyStatus: ApplyStatus }) {
   const testMentoData = {
     mentoId: 1,
     image: "/images/rabbit.png",
@@ -20,8 +20,6 @@ export default function Home(props) {
     university: "보라스 대학교",
     period: "2024년 1학기 ~ 2024년 2학기",
   };
-
-  const scoreRegistered = false;
 
   return (
     <div className={styles.wrapper}>
@@ -36,17 +34,7 @@ export default function Home(props) {
 
       <HomeSearch />
 
-      {scoreRegistered ? (
-        <Link className={styles.banner} href="/my">
-          <div className={styles.bannerImageWrapper}>
-            <Image className={styles.bannerImage} src="/images/check-grade.jpeg" alt="학교 지원하기" width={335} height={54} />
-          </div>
-          <div className={styles.bannerTextWrapper}>
-            <div className={styles.bannerText}>학교 지원하기</div>
-            <CheveronRightFilled color="#F2F1DF" className={styles.bannerIcon} />
-          </div>
-        </Link>
-      ) : (
+      {applyStatus === "NOT_SUBMITTED" && (
         <Link className={styles.banner} href="/score/register">
           <div className={styles.bannerImageWrapper}>
             <Image className={styles.bannerImage} src="/images/check-grade.jpeg" alt="나의 성적 입력하기" width={335} height={54} />
@@ -57,16 +45,17 @@ export default function Home(props) {
           </div>
         </Link>
       )}
-
-      <Link className={styles.banner} href="/score">
-        <div className={styles.bannerImageWrapper}>
-          <Image className={styles.bannerImage} src="/images/check-grade.jpeg" alt="지원자 현황 확인하기" width={335} height={54} />
-        </div>
-        <div className={styles.bannerTextWrapper}>
-          <div className={styles.bannerText}>지원자 현황 확인하기</div>
-          <CheveronRightFilled color="#F2F1DF" className={styles.bannerIcon} />
-        </div>
-      </Link>
+      {(applyStatus === "SUBMITTED_APPROVED" || applyStatus === "NO_AUTHORIZATION") && (
+        <Link className={styles.banner} href="/score">
+          <div className={styles.bannerImageWrapper}>
+            <Image className={styles.bannerImage} src="/images/check-grade.jpeg" alt="지원자 현황 확인하기" width={335} height={54} />
+          </div>
+          <div className={styles.bannerTextWrapper}>
+            <div className={styles.bannerText}>지원자 현황 확인하기</div>
+            <CheveronRightFilled color="#F2F1DF" className={styles.bannerIcon} />
+          </div>
+        </Link>
+      )}
 
       <div style={{ marginTop: "20px" }}>
         <div className={styles.title}>추천하는 파견학교</div>

@@ -29,26 +29,15 @@ interface Applicant {
 
 export default function ScorePage({ status, scoreData }: { status: string; scoreData: ScoreData }) {
   // 검색
-  const [searchActive, setSearchActive] = useState(false);
-  const [searchText, setSearchText] = useState("");
-  const [tempText, setTempText] = useState("하와이 대학교");
+  const [searchActive, setSearchActive] = useState<boolean>(false); // 검색 창 활성화 여부
+  const [searchText, setSearchText] = useState<string>(""); // 검색 키워드 텍스트
 
   function handleSearchBar(event) {
     event.preventDefault();
-
-    // 임시
-    // console.log(searchText);
-    setTempText(searchText);
-
     setSearchActive(false);
   }
   function handleSearchField(keyWord) {
     setSearchText(keyWord);
-
-    // 임시
-    // console.log(keyWord);
-    setTempText(keyWord);
-
     setSearchActive(false);
   }
 
@@ -58,11 +47,11 @@ export default function ScorePage({ status, scoreData }: { status: string; score
   const keyWords = ["하와이", "보라스", "릴카톨릭", "파리8", "낭트", "헐", "함부르크", "오스트라바"];
 
   // 점수 데이터
-  const [preference, setPreference] = useState("1순위");
-  const tabChoice = ["1순위", "2순위"];
+  const preferenceChoice: string[] = ["1순위", "2순위"];
+  const [preference, setPreference] = useState<string>("1순위");
 
-  const [filter, setFilter] = useState("");
-  const filterChoice = ["유럽권", "미주권", "아시아권", "학점높은 순", "어학성적 높은 순"];
+  const filterChoice: string[] = ["유럽권", "미주권", "아시아권", "학점높은 순", "어학성적 높은 순"];
+  const [filter, setFilter] = useState<string>("");
 
   const [fileredScoreData, setFilteredScoreData] = useState<ScoreData>(scoreData);
 
@@ -86,10 +75,9 @@ export default function ScorePage({ status, scoreData }: { status: string; score
     <>
       <TopDetailNavigation title="점수 공유 현황" />
       <ScoreSearchBar onClick={handleSearchClick} text={searchText} setText={setSearchText} searchHandler={handleSearchBar} />
-      <Tab choices={tabChoice} choice={preference} setChoice={setPreference} />
+      <Tab choices={preferenceChoice} choice={preference} setChoice={setPreference} />
       <ButtonTab choices={filterChoice} choice={filter} setChoice={setFilter} color={{ activeBtn: "#6f90d1", deactiveBtn: "#fff", activeBtnFont: "#fff", deactiveBtnFont: "#000", background: "#fafafa" }} style={{ padding: "10px 0 10px 18px" }} />
       <ScoreSheets data={preference === "1순위" ? fileredScoreData.firstChoice : fileredScoreData.secondChoice} />
-      {/* <ScoreUniversityRecommend text={tempText} /> */}
     </>
   );
 }
