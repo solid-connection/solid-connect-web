@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import createApiClient from "@/lib/serverApiClient";
+import { ScoreSheet } from "@/types/application";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import Tab from "@/components/ui/tab";
@@ -9,22 +10,8 @@ import ScoreSearchBar from "@/components/score/score-search-bar";
 import ScoreSearchField from "@/components/score/score-search-field";
 
 interface ScoreData {
-  firstChoice: Choice[];
-  secondChoice: Choice[];
-}
-
-interface Choice {
-  koreanName: string;
-  studentCapacity: number;
-  applicants: Applicant[];
-}
-
-interface Applicant {
-  nicknameForApply: string;
-  gpa: number;
-  testType: string;
-  testScore: string;
-  isMine: boolean;
+  firstChoice: ScoreSheet[];
+  secondChoice: ScoreSheet[];
 }
 
 export default function ScorePage({ status, scoreData }: { status: string; scoreData: ScoreData }) {
@@ -50,14 +37,38 @@ export default function ScorePage({ status, scoreData }: { status: string; score
   const preferenceChoice: string[] = ["1순위", "2순위"];
   const [preference, setPreference] = useState<string>("1순위");
 
-  const filterChoice: string[] = ["유럽권", "미주권", "아시아권", "학점높은 순", "어학성적 높은 순"];
+  // const filterChoice: string[] = ["유럽권", "미주권", "아시아권", "학점높은 순", "어학성적 높은 순"];
+  const filterChoice: string[] = ["유럽권", "미주권", "아시아권"];
   const [filter, setFilter] = useState<string>("");
+
+  useEffect(() => {
+    if (filter === "유럽권") {
+      setFilteredScoreData({
+        firstChoice: scoreData.firstChoice.filter((sheet) => sheet.region === "유럽권"),
+        secondChoice: scoreData.secondChoice.filter((sheet) => sheet.region === "유럽권"),
+      });
+    } else if (filter === "미주권") {
+      setFilteredScoreData({
+        firstChoice: scoreData.firstChoice.filter((sheet) => sheet.region === "미주권"),
+        secondChoice: scoreData.secondChoice.filter((sheet) => sheet.region === "미주권"),
+      });
+    } else if (filter === "아시아권") {
+      setFilteredScoreData({
+        firstChoice: scoreData.firstChoice.filter((sheet) => sheet.region === "아시아권"),
+        secondChoice: scoreData.secondChoice.filter((sheet) => sheet.region === "아시아권"),
+      });
+    } else {
+      setFilteredScoreData(scoreData);
+    }
+  }, [filter]);
 
   const [fileredScoreData, setFilteredScoreData] = useState<ScoreData>(scoreData);
 
   if (status === "NOT_SUBMITTED") {
     return <div>점수 공유 현황을 보려면 점수를 제출해주세요.</div>;
-  } else if (status === "SUBMITTED_NOT_APPROVED") {
+  } else if (status === "SUBMITTED_PENDING") {
+    return <div>점수 공유 현황을 보려면 점수가 승인되어야 합니다.</div>;
+  } else if (status === "SUBMITTED_REJECTED") {
     return <div>점수 공유 현황을 보려면 점수가 승인되어야 합니다.</div>;
   }
 
@@ -77,7 +88,7 @@ export default function ScorePage({ status, scoreData }: { status: string; score
       <ScoreSearchBar onClick={handleSearchClick} text={searchText} setText={setSearchText} searchHandler={handleSearchBar} />
       <Tab choices={preferenceChoice} choice={preference} setChoice={setPreference} />
       <ButtonTab choices={filterChoice} choice={filter} setChoice={setFilter} color={{ activeBtn: "#6f90d1", deactiveBtn: "#fff", activeBtnFont: "#fff", deactiveBtnFont: "#000", background: "#fafafa" }} style={{ padding: "10px 0 10px 18px" }} />
-      <ScoreSheets data={preference === "1순위" ? fileredScoreData.firstChoice : fileredScoreData.secondChoice} />
+      <ScoreSheets scoreSheets={preference === "1순위" ? fileredScoreData.firstChoice : fileredScoreData.secondChoice} />
     </>
   );
 }
@@ -97,10 +108,16 @@ export async function getServerSideProps(context) {
           status: "NOT_SUBMITTED",
         },
       };
-    } else if (statusData.status === "SUBMITTED_NOT_APPROVED") {
+    } else if (statusData.status === "SUBMITTED_PENDING") {
       return {
         props: {
-          status: "SUBMITTED_NOT_APPROVED",
+          status: "SUBMITTED_PENDING",
+        },
+      };
+    } else if (statusData.status === "SUBMITTED_REJECTED") {
+      return {
+        props: {
+          status: "SUBMITTED_REJECTED",
         },
       };
     } else if (statusData.status === "SUBMITTED_APPROVED") {
