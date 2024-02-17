@@ -9,7 +9,17 @@ export async function getCollegeListData() {
   //       "Content-Type": "application/json",
   //     },
   //   });
-  //   return backendResponse.json();
+  //   // 오류 처리
+  //   if (!backendResponse.ok) {
+  //     const errorData = await backendResponse.json();
+  //     throw new Error(errorData.message);
+  //   }
+  //   const data = await backendResponse.json();
+  //   if (!data.success) {
+  //     throw new Error(data.error);
+  //   }
+
+  //   return data;
   // } catch (error) {
   //   console.error(error);
   //   return { error: error.message };

@@ -2,7 +2,12 @@ import Image from "next/image";
 
 import styles from "./college-detail.module.css";
 
-export default function CollegeDetail(props) {
+interface CollegeDetailProps {
+  imageUrl: string;
+  name: string;
+}
+
+export default function CollegeDetail(props: CollegeDetailProps) {
   const { imageUrl, name } = props;
   return (
     <div className={styles.wrapper}>

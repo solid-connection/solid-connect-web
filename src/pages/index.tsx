@@ -1,14 +1,25 @@
 import Head from "next/head";
 import createApiClient from "@/lib/serverApiClient";
+import { getRecommendedCollegesData } from "./api/college/recommended";
+import { getNewsList } from "./api/news";
 
 import TopNavigation from "@/components/layout/top-navigation";
 import Home from "@/components/home/home";
 
-import { getRecommendedCollegesData } from "./api/college/recommended";
+interface college {
+  id: number;
+  koreanName: string;
+  backgroundImgUrl: string;
+}
 
-export default function HomePage(props) {
-  const { recommendedColleges, newsList } = props;
+interface news {
+  id: number;
+  title: string;
+  imageUrl: string;
+  url: string;
+}
 
+export default function HomePage({ recommendedColleges, newsList }: { recommendedColleges: college[]; newsList: news[] }) {
   return (
     <div>
       <Head>
@@ -22,17 +33,22 @@ export default function HomePage(props) {
 
 export async function getServerSideProps(context) {
   const { req, res } = context;
+
+  // 추천 대학
   let recommendedColleges = [];
   try {
     const apiClient = createApiClient(req, res);
     const reponse = await apiClient.get("/home");
     recommendedColleges = reponse.data.data.recommendedUniversities;
   } catch (error) {
-    const data = await getRecommendedCollegesData();
-    recommendedColleges = data.recommendedUniversities;
+    const reponse = await getRecommendedCollegesData();
+    recommendedColleges = reponse.data.data.recommendedUniversities;
   }
 
-  const newsList = [{ id: 1, imageUrl: "/images/news/1.jpeg", url: "https://blog.naver.com/yoon144950/223349958663", title: "교환학생 해외 대학 학점 인정은 어떻게 받아요?" }];
+  // 소식지
+  const newsListReponse = await getNewsList();
+  const newsList = newsListReponse.data;
+
   return {
     props: { recommendedColleges, newsList },
   };

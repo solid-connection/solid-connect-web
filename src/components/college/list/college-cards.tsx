@@ -4,10 +4,14 @@ import Image from "next/image";
 import styles from "./college-cards.module.css";
 import CheveronRightFilled from "../../ui/icon/ChevronRightFilled";
 
-export default function CollegeCards(props) {
-  const { colleges } = props;
+interface CollegeCardsProps {
+  colleges: College[];
+  style?: React.CSSProperties;
+}
+
+export default function CollegeCards({ colleges, style }: CollegeCardsProps) {
   return (
-    <div className={styles.container} style={props.style}>
+    <div className={styles.container} style={style}>
       {colleges.map((college) => (
         <CollegeCard key={college.id} {...college} />
       ))}
@@ -15,8 +19,22 @@ export default function CollegeCards(props) {
   );
 }
 
-export function CollegeCard(props) {
-  const { id, koreanName, region, country, logoImageUrl, studentCapacity, languageRequirements } = props;
+interface College {
+  id: string;
+  koreanName: string;
+  region: string;
+  country: string;
+  logoImageUrl: string;
+  studentCapacity: number;
+  languageRequirements: LanguageRequirement[];
+}
+
+interface LanguageRequirement {
+  languageTestType: string;
+  minScore: string;
+}
+
+export function CollegeCard({ id, koreanName, region, country, logoImageUrl, studentCapacity, languageRequirements }: College) {
   return (
     <Link className={styles.card} href={`/college/${id}`}>
       <div className={styles.centerAlign}>

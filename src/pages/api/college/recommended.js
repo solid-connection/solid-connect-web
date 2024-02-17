@@ -1,9 +1,8 @@
-export async function getRecommendedCollegesData(accessToken = "") {
+export async function getRecommendedCollegesData() {
   try {
     const backendResponse = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/home`, {
       method: "GET",
       headers: {
-        Authorization: accessToken ? `Bearer ${accessToken}` : "",
         "Content-Type": "application/json",
       },
     });
@@ -16,7 +15,8 @@ export async function getRecommendedCollegesData(accessToken = "") {
     if (!data.success) {
       throw new Error(data.error);
     }
-    return data.data;
+
+    return data;
   } catch (error) {
     console.error(error);
     return { error: error.message };
@@ -24,7 +24,7 @@ export async function getRecommendedCollegesData(accessToken = "") {
 }
 
 export default async function handler(req, res) {
-  const id = req.query.id;
+  const { id } = req.query;
   const collegesData = await getRecommendedCollegesData(id);
   if (req.method === "GET") {
     res.status(200).json(collegesData);

@@ -6,8 +6,7 @@ export async function getCollegeDetailData(collegeId) {
         "Content-Type": "application/json",
       },
     });
-    return backendResponse.json();
-    // 오류 처리
+
     if (!backendResponse.ok) {
       const errorData = await backendResponse.json();
       throw new Error(errorData.message);
@@ -17,7 +16,7 @@ export async function getCollegeDetailData(collegeId) {
       throw new Error(data.error);
     }
 
-    return data.data;
+    return data;
   } catch (error) {
     console.error(error);
     return { error: error.message };
@@ -25,7 +24,7 @@ export async function getCollegeDetailData(collegeId) {
 }
 
 export default async function handler(req, res) {
-  const id = req.query.id;
+  const { id } = req.query;
   const collegeData = await getCollegeDetailData(id);
   if (req.method === "GET") {
     res.status(200).json(collegeData);
