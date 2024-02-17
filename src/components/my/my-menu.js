@@ -34,11 +34,14 @@ export default function MyMenu() {
 
   return (
     <div className={styles.menu}>
-      <Link href="/my/activity/" className={styles.item}>
-        <div>활동내역</div>
-      </Link>
       <Link href="/my/favorite/" className={styles.item}>
-        <div>즐거찾기</div>
+        <div>위시학교</div>
+      </Link>
+      <Link href="/score/register/" className={styles.item}>
+        <div>공인어학/학점 변경하기</div>
+      </Link>
+      <Link href="/score/college-register/" className={styles.item}>
+        <div>지원학교 변경하기</div>
       </Link>
       <button onClick={toggleLogout} className={styles.item}>
         <div>로그아웃</div>

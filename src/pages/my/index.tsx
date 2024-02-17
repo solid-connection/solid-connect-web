@@ -16,7 +16,7 @@ export default function MyPage(props) {
       </Head>
       <TopDetailNavigation title="마이페이지" />
       <MyProfile {...myData} />
-      <MyStatus scrapCount={myData.likedPostCount || 0} mentoCount={myData.likedMentoCount || 0} wishCollegeCount={myData.likedUnivCount || 0} />
+      {/* <MyStatus scrapCount={myData.likedPostCount || 0} mentoCount={myData.likedMentoCount || 0} wishCollegeCount={myData.likedUnivCount || 0} /> */}
       <MyMenu />
     </>
   );

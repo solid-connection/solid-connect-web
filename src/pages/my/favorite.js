@@ -24,7 +24,7 @@ export default function MyScrapPage() {
     //   college: "보라스 대학교",
     // },
   ];
-  const colleges = [
+  const wishColleges = [
     // {
     //   id: 97,
     //   name: "렌 경영대학",
@@ -69,7 +69,8 @@ export default function MyScrapPage() {
     // },
   ];
 
-  const tabs = ["스크랩 한 글", "멘토", "위시학교"];
+  // const tabs = ["스크랩 한 글", "멘토", "위시학교"];
+  const tabs = ["위시학교"];
   const [tab, setTab] = useState(tabs[0]);
 
   return (
@@ -86,7 +87,7 @@ export default function MyScrapPage() {
           case tabs[1]:
             return <></>;
           case tabs[2]:
-            return <CollegeCards colleges={colleges} style={{ marginTop: "20px" }} />;
+            return <CollegeCards colleges={wishColleges} style={{ marginTop: "20px" }} />;
           default:
             return null; // 기본값으로 null 반환을 추가하는 것이 좋습니다.
         }
