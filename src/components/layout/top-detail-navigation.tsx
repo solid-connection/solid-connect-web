@@ -3,7 +3,12 @@ import ArrowBackFilled from "../ui/icon/ArrowBackFilled";
 import MenuFilled from "../ui/icon/MenuFilled";
 import styles from "./top-detail-navigation.module.css";
 
-export default function TopDetailNavigation({ title, handleBack }) {
+interface TopDetailNavigationProps {
+  title: string;
+  handleBack?: () => void;
+}
+
+export default function TopDetailNavigation({ title, handleBack }: TopDetailNavigationProps) {
   const router = useRouter();
 
   const routeBack = () => {
