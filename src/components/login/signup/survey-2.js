@@ -1,7 +1,7 @@
 import styles from "./survey.module.css";
 import CheckBoxOutlineBlankOutlined from "@/components/ui/icon/CheckBoxOutlineBlankOutlined";
 import BlockBtn from "@/components/ui/block-btn";
-import CheckFilled from "@/components/ui/icon/CheckFilled";
+import CheckBoxFilled from "../../ui/icon/CheckBoxFilled";
 
 export default function Survey2(props) {
   const { setStage, region, countries, setCountries } = props;
@@ -35,8 +35,7 @@ export default function Survey2(props) {
             >
               {countries.includes(country) ? (
                 <div style={{ position: "relative", width: "24px", height: "24px" }}>
-                  <CheckBoxOutlineBlankOutlined style={{ position: "absolute" }} />
-                  <CheckFilled style={{ position: "absolute", bottom: "3px", left: "3px" }} />
+                  <CheckBoxFilled />
                 </div>
               ) : (
                 <CheckBoxOutlineBlankOutlined />
