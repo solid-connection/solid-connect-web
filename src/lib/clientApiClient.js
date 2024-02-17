@@ -33,7 +33,7 @@ export default function createApiClient() {
             }
           );
           accessToken = refreshResponse.data.data.accessToken;
-          Cookies.set("accessToken", newAccessToken, { expires: 1, secure: true, sameSite: "strict" }); // 새 accessToken을 쿠키에 저장
+          Cookies.set("accessToken", accessToken, { expires: 1, secure: true, sameSite: "strict" }); // 새 accessToken을 쿠키에 저장
 
           config.headers = {
             ...config.headers,
