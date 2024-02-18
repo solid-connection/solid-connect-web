@@ -21,7 +21,7 @@ export default function createApiClient(req, res) {
       if (!accessToken && refreshToken) {
         // access token 없을 때 refresh token으로 재발급 시도
         try {
-          const refreshResponse = await axios.create().post(
+          const refreshResponse = await axios.post(
             `${process.env.NEXT_PUBLIC_API_SERVER_URL}/auth/reissue`,
             {},
             {

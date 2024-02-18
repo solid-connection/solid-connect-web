@@ -82,7 +82,7 @@ export default function ScoreRegisterPage() {
         jlpt: "JLPT",
         others: "DUOLINGO",
       };
-      await apiClient.post("/application/score", {
+      const res = await apiClient.post("/application/score", {
         languageTestType: languageTypeConvert[languageType],
         languageTestScore: languageScore,
         languageTestReportUrl: languageFileUrl,
@@ -90,8 +90,11 @@ export default function ScoreRegisterPage() {
         gpa: parseFloat(score),
         gpaReportUrl: scoreFileUrl,
       });
-
-      router.push("/score/college-register");
+      if (res.status === 200) {
+        router.push("/score/college-register");
+      } else {
+        alert("성적 입력에 실패했습니다. 다시 시도해주세요.");
+      }
     }
     // 서버로 데이터 전송
     try {
