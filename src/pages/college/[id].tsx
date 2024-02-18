@@ -15,7 +15,7 @@ export default function CollegeDetailPage({ collegeData }: { collegeData: Colleg
       </Head>
       <TopDetailNavigation title={collegeData.koreanName || "대학명"} />
       <CollegeDetail imageUrl={collegeData.backgroundImageUrl} name={collegeData.koreanName || "대학명"} />
-      <CollegeBottomSheet {...collegeData} />
+      <CollegeBottomSheet collegeId={collegeData.id} {...collegeData} />
     </>
   );
 }
