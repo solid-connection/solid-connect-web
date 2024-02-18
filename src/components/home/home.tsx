@@ -12,26 +12,17 @@ import { News, SimpleCollege } from "@/types/college";
 import { ApplyStatus } from "@/types/application";
 
 export default function Home({ recommendedColleges, newsList, applyStatus }: { recommendedColleges: SimpleCollege[]; newsList: News[]; applyStatus: ApplyStatus }) {
-  const testMentoData = {
-    mentoId: 1,
-    image: "/images/rabbit.png",
-    name: "김솔커",
-    country: "스웨덴",
-    university: "보라스 대학교",
-    period: "2024년 1학기 ~ 2024년 2학기",
-  };
+  // const testMentoData = {
+  //   mentoId: 1,
+  //   image: "/images/rabbit.png",
+  //   name: "김솔커",
+  //   country: "스웨덴",
+  //   university: "보라스 대학교",
+  //   period: "2024년 1학기 ~ 2024년 2학기",
+  // };
 
   function getBanner() {
-    if (applyStatus === "NO_AUTHORIZATION") {
-      return (
-        <Link className={styles.banner} href="/score">
-          <div className={styles.bannerTextWrapper}>
-            <div className={styles.bannerText}>지원자 현황 확인하기</div>
-            <CheveronRightFilled color="#F2F1DF" className={styles.bannerIcon} />
-          </div>
-        </Link>
-      );
-    } else if (applyStatus === "NOT_SUBMITTED") {
+    if (applyStatus === "NOT_SUBMITTED") {
       return (
         <Link className={styles.banner} href="/score/register">
           <div className={styles.bannerTextWrapper}>
@@ -60,6 +51,15 @@ export default function Home({ recommendedColleges, newsList, applyStatus }: { r
         </Link>
       );
     } else if (applyStatus === "SUBMITTED_APPROVED") {
+      return (
+        <Link className={styles.banner} href="/score">
+          <div className={styles.bannerTextWrapper}>
+            <div className={styles.bannerText}>지원자 현황 확인하기</div>
+            <CheveronRightFilled color="#F2F1DF" className={styles.bannerIcon} />
+          </div>
+        </Link>
+      );
+    } else {
       return (
         <Link className={styles.banner} href="/score">
           <div className={styles.bannerTextWrapper}>
