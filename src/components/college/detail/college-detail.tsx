@@ -3,12 +3,11 @@ import Image from "next/image";
 import styles from "./college-detail.module.css";
 
 interface CollegeDetailProps {
-  imageUrl: string;
   name: string;
+  imageUrl: string;
 }
 
-export default function CollegeDetail(props: CollegeDetailProps) {
-  const { imageUrl, name } = props;
+export default function CollegeDetail({ name, imageUrl }: CollegeDetailProps) {
   return (
     <div className={styles.wrapper}>
       <div className={styles.imageWrapper}>

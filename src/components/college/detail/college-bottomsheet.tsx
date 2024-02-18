@@ -1,19 +1,44 @@
+import { CollegePersonal } from "@/types/college";
 import { useState, useEffect, useRef } from "react";
+import createApiClient from "@/lib/clientApiClient";
 
 import styles from "./college-bottomsheet.module.css";
 import CollegeReviews from "./college-reviews";
 import ScrollTab from "@/components/ui/scroll-tab";
 import GoogleEmbedMap from "@/components/ui/map/google-embed-map";
+import BookmarkFilled from "@/components/ui/icon/BookmarkFilled";
+import BookmarkOutlined from "@/components/ui/icon/BookmarkOutlined";
 
-export default function CollegeBottomSheet(props) {
+type LikeResult = "LIKE_SUCCESS" | "LIKE_CANCELED";
+
+export default function CollegeBottomSheet(props: CollegePersonal) {
+  const apiClient = createApiClient();
   const { id, term, koreanName, englishName, formatName, region, country, homepageUrl, logoImageUrl, backgroundImageUrl, detailsForLocal } = props;
   const { studentCapacity, tuitionFeeType, semesterAvailableForDispatch } = props;
   const { languageRequirements, detailsForLanguage, gpaRequirement, gpaRequirementCriteria, semesterRequirement } = props;
   const { detailsForApply, detailsForMajor, detailsForAccommodation, accommodationUrl, detailsForEnglishCourse, englishCourseUrl, details } = props;
 
-  const pages = ["학교정보", "어학성적", "지원전공", "위치", "파견후기"];
-  const [activeTab, setActiveTab] = useState("학교정보");
+  const pages: string[] = ["학교정보", "어학성적", "지원전공", "위치", "파견후기"];
+  const [activeTab, setActiveTab] = useState<string>("학교정보");
   const sectionRefs = [useRef(null), useRef(null), useRef(null), useRef(null), useRef(null)];
+  const [isLiked, setIsLiked] = useState<boolean>(props.isLiked);
+
+  function toggleLike() {
+    async function postLike() {
+      try {
+        const res = await apiClient.post(`/university/${id}/like`);
+        const result: LikeResult = res.data.data.result;
+        if (result === "LIKE_SUCCESS") {
+          setIsLiked(true);
+        } else if (result === "LIKE_CANCELED") {
+          setIsLiked(false);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    postLike();
+  }
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -52,6 +77,9 @@ export default function CollegeBottomSheet(props) {
     <>
       <div className={styles.blank} />
       <div className={styles.bottomSheet}>
+        <div className={styles.like} onClick={toggleLike}>
+          {isLiked ? <BookmarkFilled /> : <BookmarkOutlined />}
+        </div>
         <div className={styles.englishName}>{englishName || "대학명"}</div>
         <div className={styles.name}>{koreanName || "대학명"}</div>
 

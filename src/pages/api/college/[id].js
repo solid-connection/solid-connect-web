@@ -9,17 +9,13 @@ export async function getCollegeDetailData(collegeId) {
 
     if (!backendResponse.ok) {
       const errorData = await backendResponse.json();
-      throw new Error(errorData.message);
-    }
-    const data = await backendResponse.json();
-    if (!data.success) {
-      throw new Error(data.error);
+      throw new Error(errorData.error.code + ": " + errorData.error.message);
     }
 
     return data;
   } catch (error) {
     console.error(error);
-    return { error: error.message };
+    return { success: false, error: error };
   }
 }
 

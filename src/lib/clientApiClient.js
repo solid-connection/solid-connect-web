@@ -28,6 +28,7 @@ export default function createApiClient() {
             {
               headers: {
                 Authorization: `Bearer ${refreshToken}`,
+                withCredentials: true,
                 // withCredentials: true,
               },
             }
