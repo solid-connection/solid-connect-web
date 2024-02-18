@@ -13,7 +13,7 @@ export default function CollegeRegisterPage({ collegesKeyName }) {
   const apiClient = createApiClient();
   const [progress, setProgress] = useState<number>(0);
   const [currentStage, setCurrentStage] = useState<number>(1);
-  const [description, setDescription] = useState<string>("2/2");
+  const [description, setDescription] = useState<string>("본 과정 완료 후, 지원자 현황을 확인 할 수 있습니다.");
 
   const [firstCollege, setFirstCollege] = useState<string>("");
   const [secondCollege, setSecondCollege] = useState<string>("");
@@ -100,7 +100,7 @@ export default function CollegeRegisterPage({ collegesKeyName }) {
       </Head>
       <TopDetailNavigation title="지원하기" handleBack={handleBack} />
       <div style={{ height: "calc(100vh - 112px)", display: "flex", flexDirection: "column" }}>
-        <ProgressBar style={{ padding: "11px 20px 0 20px" }} progress={progress} display="2/2" description="본 과정 완료 후, 지원자 현황을 확인 할 수 있습니다." />
+        <ProgressBar style={{ padding: "11px 20px 0 20px" }} progress={progress} display="2/2" description={description} />
         {renderCurrentForm()}
       </div>
     </>
