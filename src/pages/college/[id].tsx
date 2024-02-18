@@ -7,7 +7,7 @@ import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import CollegeDetail from "@/components/college/detail/college-detail";
 import CollegeBottomSheet from "@/components/college/detail/college-bottomsheet";
 
-export default function CollegeDetailPage({ collegeData }: { collegeData: CollegePersonal }) {
+export default function CollegeDetailPage({ collegeId, collegeData }: { collegeId: number; collegeData: CollegePersonal }) {
   return (
     <>
       <Head>
@@ -15,7 +15,7 @@ export default function CollegeDetailPage({ collegeData }: { collegeData: Colleg
       </Head>
       <TopDetailNavigation title={collegeData.koreanName || "대학명"} />
       <CollegeDetail imageUrl={collegeData.backgroundImageUrl} name={collegeData.koreanName || "대학명"} />
-      <CollegeBottomSheet collegeId={collegeData.id} {...collegeData} />
+      <CollegeBottomSheet collegeId={collegeId} {...collegeData} />
     </>
   );
 }
@@ -29,6 +29,7 @@ export async function getServerSideProps(context) {
     const collegeData = response.data.data;
     return {
       props: {
+        collegeId: id,
         collegeData,
       },
     };
@@ -44,6 +45,7 @@ export async function getServerSideProps(context) {
       const collegeData = response.data;
       return {
         props: {
+          collegeId: id,
           collegeData,
         },
       };
