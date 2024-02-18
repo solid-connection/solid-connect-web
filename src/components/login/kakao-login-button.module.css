@@ -5,3 +5,6 @@
   height: auto;
   cursor: pointer;
 }
+.image:active {
+  transform: scale(0.98); /* 클릭 시 이미지 축소 */
+}
