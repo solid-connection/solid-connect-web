@@ -21,9 +21,7 @@ export default function TopDetailNavigation({ title, handleBack }: TopDetailNavi
         <ArrowBackFilled />
       </div>
       <div className={styles.title}>{title}</div>
-      <div className={styles.icon}>
-        <MenuFilled />
-      </div>
+      <div className={styles.icon}></div>
     </div>
   );
 }
