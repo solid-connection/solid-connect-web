@@ -4,6 +4,8 @@ import { ScoreSheet } from "@/types/application";
 
 import styles from "./score-sheets.module.css";
 import ExpendMoreFilled from "../ui/icon/ExpendMoreFilled";
+import EditFilled from "../ui/icon/EditFilled";
+import Link from "next/link";
 
 export default function ScoreSheets({ scoreSheets }: { scoreSheets: ScoreSheet[] }) {
   return (
@@ -39,11 +41,17 @@ export function ScoreSheet({ koreanName, studentCapacity, region, country, appli
         <tbody>
           {applicants.map((applicant, index) => (
             <tr key={applicant.nicknameForApply}>
-              <td>{index + 1}</td>
               <td>{applicant.nicknameForApply}</td>
-              <td>{applicant.gpa}</td>
+              <td>{applicant.gpa.toFixed(2)}</td>
               <td>{LANGUAGE_TEST[applicant.testType]}</td>
               <td>{applicant.testScore}</td>
+              <td>
+                {applicant.mine && (
+                  <Link href={`/score/college-register`}>
+                    <EditFilled />
+                  </Link>
+                )}
+              </td>
             </tr>
           ))}
         </tbody>

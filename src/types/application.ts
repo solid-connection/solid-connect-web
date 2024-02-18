@@ -14,5 +14,5 @@ export interface Applicant {
   gpa: number;
   testType: string;
   testScore: string;
-  isMine: boolean;
+  mine: boolean;
 }

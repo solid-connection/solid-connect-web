@@ -62,8 +62,8 @@ export default function FormScore(props) {
       alert("파일 형식이 올바르지 않습니다. (jpg, jpeg, png, webp, pdf, doc, docx 만 가능)");
       return;
     }
-    if (scoreCert.size > 200000000) {
-      alert("파일 크기가 너무 큽니다. 200MB 이하의 파일만 업로드 가능합니다.");
+    if (scoreCert.size > 10000000) {
+      alert("파일 크기가 너무 큽니다. 10MB 이하의 파일만 업로드 가능합니다.");
       return;
     }
 

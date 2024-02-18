@@ -47,7 +47,7 @@
 
 .table tbody tr {
   height: 40px;
-  padding: 0 12px 0 32px;
+  padding: 0 12px 0 12px;
 
   display: flex;
   align-items: center;
@@ -67,8 +67,8 @@
   white-space: nowrap;
   overflow: hidden;
 }
-.table td:first-of-type {
-  flex: 0.2;
+.table td:nth-of-type(5) {
+  flex: 0 0 18px;
 }
 
 .table tbody > td:first-of-type {
