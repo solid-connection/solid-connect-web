@@ -58,7 +58,7 @@ export default function FormScore(props) {
       "application/msword", // 이건 doc를 위한 것입니다.
       "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // 이건 docx를 위한 것입니다.
     ];
-    if (!allowedFileTypes.includes(languageCert.type)) {
+    if (!allowedFileTypes.includes(scoreCert.type)) {
       alert("파일 형식이 올바르지 않습니다. (jpg, jpeg, png, webp, pdf, doc, docx 만 가능)");
       return;
     }
