@@ -127,7 +127,7 @@ export async function getServerSideProps(context) {
 
   const filePath = path.join(process.cwd(), "datas/24-2-key-name.json");
   const fileData = fs.readFileSync(filePath);
-  const collegesKeyName = JSON.parse(fileData);
+  const collegesKeyName = JSON.parse(fileData.toString());
 
   return {
     props: { collegesKeyName },
