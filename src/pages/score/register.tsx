@@ -59,7 +59,6 @@ export default function ScoreRegisterPage() {
           },
         }
       );
-      console.log(languageCertRes.data);
       const languageFileUrl = languageCertRes.data.data.fileUrl;
 
       const scoreCertRes = await apiClient.post(
@@ -73,7 +72,6 @@ export default function ScoreRegisterPage() {
           },
         }
       );
-      console.log(scoreCertRes.data);
       const scoreFileUrl = scoreCertRes.data.data.fileUrl;
 
       const languageTypeConvert = {
