@@ -1,3 +1,4 @@
+import { ListCollege } from "../../../types/college";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -5,7 +6,7 @@ import styles from "./college-cards.module.css";
 import CheveronRightFilled from "../../ui/icon/ChevronRightFilled";
 
 interface CollegeCardsProps {
-  colleges: College[];
+  colleges: ListCollege[];
   style?: React.CSSProperties;
 }
 
@@ -17,21 +18,6 @@ export default function CollegeCards({ colleges, style }: CollegeCardsProps) {
       ))}
     </div>
   );
-}
-
-interface College {
-  id: string;
-  koreanName: string;
-  region: string;
-  country: string;
-  logoImageUrl: string;
-  studentCapacity: number;
-  languageRequirements: LanguageRequirement[];
-}
-
-interface LanguageRequirement {
-  languageTestType: string;
-  minScore: string;
 }
 
 export function CollegeCard({ id, koreanName, region, country, logoImageUrl, studentCapacity, languageRequirements }: College) {

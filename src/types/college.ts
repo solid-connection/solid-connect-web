@@ -34,12 +34,22 @@ export interface CollegePersonal extends College {
   isLiked: boolean;
 }
 
+export interface ListCollege {
+  id: number;
+  koreanName: string;
+  region: string;
+  country: string;
+  logoImageUrl: string;
+  studentCapacity: number;
+  languageRequirements: LanguageRequirement[];
+}
+
 export interface LanguageRequirement {
   languageTestType: string; // 어학 시험 종류
   minScore: number; // 최소 점수
 }
 
-export interface SimpleCollege {
+export interface CardCollege {
   id: number;
   koreanName: string;
   backgroundImgUrl: string;

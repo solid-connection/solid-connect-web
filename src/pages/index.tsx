@@ -1,4 +1,4 @@
-import { News, SimpleCollege } from "@/types/college";
+import { News, CardCollege } from "@/types/college";
 import { ApplyStatus } from "@/types/application";
 import { useState, useEffect } from "react";
 import Head from "next/head";
@@ -10,7 +10,7 @@ import { getNewsList } from "./api/news";
 import TopNavigation from "@/components/layout/top-navigation";
 import Home from "@/components/home/home";
 
-export default function HomePage({ recommendedColleges, newsList }: { recommendedColleges: SimpleCollege[]; newsList: News[]; applyStatus: ApplyStatus }) {
+export default function HomePage({ recommendedColleges, newsList }: { recommendedColleges: CardCollege[]; newsList: News[]; applyStatus: ApplyStatus }) {
   const apiClient = createClientApiClient();
   const [applyStatus, setApplyStatus] = useState<ApplyStatus>("NO_AUTHORIZATION");
 

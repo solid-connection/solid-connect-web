@@ -8,10 +8,10 @@ import NewsCards from "./news-cards";
 import HomeSearch from "./search/home-search";
 import CheveronRightFilled from "../ui/icon/ChevronRightFilled";
 import SearchFilled from "../ui/icon/SearchFilled";
-import { News, SimpleCollege } from "@/types/college";
+import { News, CardCollege } from "@/types/college";
 import { ApplyStatus } from "@/types/application";
 
-export default function Home({ recommendedColleges, newsList, applyStatus }: { recommendedColleges: SimpleCollege[]; newsList: News[]; applyStatus: ApplyStatus }) {
+export default function Home({ recommendedColleges, newsList, applyStatus }: { recommendedColleges: CardCollege[]; newsList: News[]; applyStatus: ApplyStatus }) {
   // const testMentoData = {
   //   mentoId: 1,
   //   image: "/images/rabbit.png",

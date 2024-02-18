@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { ListCollege } from "@/types/college";
+import { useState, useEffect } from "react";
 import Head from "next/head";
+import createApiClient from "@/lib/clientApiClient";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import ScrollTab from "@/components/ui/scroll-tab";
@@ -7,6 +9,7 @@ import CollegeCards from "@/components/college/list/college-cards";
 import PostCards from "@/components/my/post-cards";
 
 export default function MyScrapPage() {
+  const apiClient = createApiClient();
   const posts = [
     // {
     //   id: 1,
@@ -24,50 +27,19 @@ export default function MyScrapPage() {
     //   college: "보라스 대학교",
     // },
   ];
-  const wishColleges = [
-    // {
-    //   id: 97,
-    //   name: "렌 경영대학",
-    //   englishName: "ESC Rennes School of Business",
-    //   region: "유럽권",
-    //   country: "프랑스",
-    //   homepageUrl: "https://www.rennes-sb.com/programmes/exchange-programme/",
-    //   studentCapacity: 2,
-    //   tuitionFeeType: "본교등록금납부형",
-    //   gpaRequirement: null,
-    //   semesterRequirement: "120ECTS 이상 이수해야 함\n(비고란 참조)",
-    //   languageRequirements: { ibt: "72", itp: "543", toeic: "785", ielts: "5.5" },
-    //   formatName: "esc_rennes_school_of_business",
-    // },
-    // {
-    //   id: 98,
-    //   name: "르아브르대학",
-    //   englishName: "University of Le Havre",
-    //   region: "유럽권",
-    //   country: "프랑스",
-    //   homepageUrl: "https://www.univ-lehavre.fr",
-    //   studentCapacity: 3,
-    //   tuitionFeeType: "본교등록금납부형",
-    //   gpaRequirement: null,
-    //   semesterRequirement: "2",
-    //   languageRequirements: { ibt: "72", itp: "543", toeic: "785", ielts: "5.5" },
-    //   formatName: "university_of_le_havre",
-    // },
-    // {
-    //   id: 99,
-    //   name: "릴 가톨릭 대학",
-    //   englishName: "Lille Catholic University",
-    //   region: "유럽권",
-    //   country: "프랑스",
-    //   homepageUrl: "http://www.univ-catholille.fr/",
-    //   studentCapacity: 5,
-    //   tuitionFeeType: "본교등록금납부형",
-    //   gpaRequirement: "2.75",
-    //   semesterRequirement: "2",
-    //   languageRequirements: { ibt: "72", itp: "543", toeic: "785", ielts: "5.5" },
-    //   formatName: "lille_catholic_university",
-    // },
-  ];
+  const [wishColleges, setWishColleges] = useState<ListCollege[]>([]);
+  useEffect(() => {
+    async function getWishColleges() {
+      try {
+        const response = await apiClient.get("/my-page/wish-university");
+        const data: ListCollege[] = response.data.data;
+        setWishColleges(data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    getWishColleges();
+  }, []);
 
   // const tabs = ["스크랩 한 글", "멘토", "위시학교"];
   const tabs = ["위시학교"];
