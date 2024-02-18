@@ -11,8 +11,13 @@ import BookmarkOutlined from "@/components/ui/icon/BookmarkOutlined";
 
 type LikeResult = "LIKE_SUCCESS" | "LIKE_CANCELED";
 
-export default function CollegeBottomSheet(props: CollegePersonal) {
+interface CollegeBottomSheetProps extends CollegePersonal {
+  collegeId: number;
+}
+
+export default function CollegeBottomSheet(props: CollegeBottomSheetProps) {
   const apiClient = createApiClient();
+  const { collegeId } = props;
   const { id, term, koreanName, englishName, formatName, region, country, homepageUrl, logoImageUrl, backgroundImageUrl, detailsForLocal } = props;
   const { studentCapacity, tuitionFeeType, semesterAvailableForDispatch } = props;
   const { languageRequirements, detailsForLanguage, gpaRequirement, gpaRequirementCriteria, semesterRequirement } = props;
@@ -26,7 +31,7 @@ export default function CollegeBottomSheet(props: CollegePersonal) {
   function toggleLike() {
     async function postLike() {
       try {
-        const res = await apiClient.post(`/university/${id}/like`);
+        const res = await apiClient.post(`/university/${collegeId}/like`);
         const result: LikeResult = res.data.data.result;
         if (result === "LIKE_SUCCESS") {
           setIsLiked(true);
