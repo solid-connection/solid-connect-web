@@ -59,7 +59,7 @@ export default function ScoreRegisterPage() {
           },
         }
       );
-      const languageFileUrl = languageCertRes.data.data.imageUrl;
+      const languageFileUrl = languageCertRes.data.data.fileUrl;
 
       const scoreCertRes = await apiClient.post(
         "/file/gpa",
@@ -72,7 +72,7 @@ export default function ScoreRegisterPage() {
           },
         }
       );
-      const scoreFileUrl = scoreCertRes.data.data.imageUrl;
+      const scoreFileUrl = scoreCertRes.data.data.fileUrl;
       const languageTypeConvert = {
         toeic: "TOEIC",
         ibt: "TOEFL_IBT",
