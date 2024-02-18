@@ -55,11 +55,11 @@ export default function MyScrapPage() {
       {(() => {
         switch (tab) {
           case tabs[0]:
-            return <PostCards posts={posts} />;
-          case tabs[1]:
-            return <></>;
-          case tabs[2]:
             return <CollegeCards colleges={wishColleges} style={{ marginTop: "20px" }} />;
+          // case tabs[1]:
+          // return <PostCards posts={posts} />;
+          // case tabs[2]:
+          // return <></>;
           default:
             return null; // 기본값으로 null 반환을 추가하는 것이 좋습니다.
         }
