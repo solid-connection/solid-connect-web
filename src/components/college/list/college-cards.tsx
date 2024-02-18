@@ -20,7 +20,7 @@ export default function CollegeCards({ colleges, style }: CollegeCardsProps) {
   );
 }
 
-export function CollegeCard({ id, koreanName, region, country, logoImageUrl, studentCapacity, languageRequirements }: College) {
+export function CollegeCard({ id, koreanName, region, country, logoImageUrl, studentCapacity, languageRequirements }: ListCollege) {
   return (
     <Link className={styles.card} href={`/college/${id}`}>
       <div className={styles.centerAlign}>
