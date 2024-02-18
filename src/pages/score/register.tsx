@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import createApiClient from "@/lib/clientApiClient";
@@ -16,6 +16,7 @@ export default function ScoreRegisterPage() {
 
   const [progress, setProgress] = useState<number>(0);
   const [currentStage, setCurrentStage] = useState<number>(1);
+  const [progressDisplay, setProgressDisplay] = useState<string>("0/2");
 
   const [languageType, setLanguageType] = useState<string>("");
   const [languageScore, setLanguageScore] = useState("");
@@ -37,6 +38,13 @@ export default function ScoreRegisterPage() {
       setProgress(50);
     }
   }
+  useEffect(() => {
+    if (currentStage === 1) {
+      setProgressDisplay("0/2");
+    } else {
+      setProgressDisplay("1/2");
+    }
+  }, [currentStage]);
 
   function submitForm() {
     async function postData() {
@@ -151,7 +159,7 @@ export default function ScoreRegisterPage() {
       </Head>
       <TopDetailNavigation title="성적 입력하기" handleBack={handleBack} />
       <div style={{ height: "calc(100vh - 112px)", display: "flex", flexDirection: "column" }}>
-        <ProgressBar style={{ margin: "11px 20px 0 20px" }} progress={progress} />
+        <ProgressBar style={{ margin: "11px 20px 0 20px" }} progress={progress} display={progressDisplay} />
         {renderCurrentForm()}
       </div>
     </>

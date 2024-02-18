@@ -69,6 +69,20 @@ export default function FormLanguage(props) {
       }
     }
 
+    // 파일 포맷 검사
+    const allowedFileTypes = [
+      "image/jpeg", // 이건 jpg와 jpeg 둘 다 커버합니다.
+      "image/png",
+      "image/webp",
+      "application/pdf",
+      "application/msword", // 이건 doc를 위한 것입니다.
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // 이건 docx를 위한 것입니다.
+    ];
+    if (!allowedFileTypes.includes(languageCert.type)) {
+      alert("파일 형식이 올바르지 않습니다. (jpg, jpeg, png, webp, pdf, doc, docx 만 가능)");
+      return;
+    }
+
     toNextStage();
   };
 

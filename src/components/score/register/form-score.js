@@ -6,7 +6,7 @@ import BlockBtn from "@/components/ui/block-btn";
 import Link from "next/link";
 
 export default function FormScore(props) {
-  const { setProgress, toNextStage } = props;
+  const { toNextStage } = props;
   const { setScoreType, setScore, setScoreCert, scoreType, score, scoreCert } = props;
 
   const fileInputRef = useRef(null);
@@ -27,10 +27,15 @@ export default function FormScore(props) {
       alert("점수를 입력해주세요.");
       return;
     }
+    if (!scoreType) {
+      alert("학점 기준을 선택해주세요.");
+      return;
+    }
     if (!scoreCert) {
       alert("증명서를 첨부해주세요.");
       return;
     }
+
     // 점수 유효성 검사
     if (scoreType === "4.5") {
       if (!(score >= 0 && score <= 4.5)) {
@@ -43,6 +48,21 @@ export default function FormScore(props) {
         return;
       }
     }
+
+    // 파일 포맷 검사
+    const allowedFileTypes = [
+      "image/jpeg", // 이건 jpg와 jpeg 둘 다 커버합니다.
+      "image/png",
+      "image/webp",
+      "application/pdf",
+      "application/msword", // 이건 doc를 위한 것입니다.
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // 이건 docx를 위한 것입니다.
+    ];
+    if (!allowedFileTypes.includes(languageCert.type)) {
+      alert("파일 형식이 올바르지 않습니다. (jpg, jpeg, png, webp, pdf, doc, docx 만 가능)");
+      return;
+    }
+
     toNextStage();
   };
 

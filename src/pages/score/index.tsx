@@ -38,7 +38,7 @@ export default function ScorePage({ status, scoreData }: { status: string; score
   const [preference, setPreference] = useState<string>("1순위");
 
   // const filterChoice: string[] = ["유럽권", "미주권", "아시아권", "학점높은 순", "어학성적 높은 순"];
-  const filterChoice: string[] = ["유럽권", "미주권", "아시아권"];
+  const filterChoice: string[] = ["유럽권", "미주권", "아시아권", "중국권"];
   const [filter, setFilter] = useState<string>("");
 
   useEffect(() => {
@@ -56,6 +56,11 @@ export default function ScorePage({ status, scoreData }: { status: string; score
       setFilteredScoreData({
         firstChoice: scoreData.firstChoice.filter((sheet) => sheet.region === "아시아권"),
         secondChoice: scoreData.secondChoice.filter((sheet) => sheet.region === "아시아권"),
+      });
+    } else if (filter === "중국권") {
+      setFilteredScoreData({
+        firstChoice: scoreData.firstChoice.filter((sheet) => sheet.region === "중국권"),
+        secondChoice: scoreData.secondChoice.filter((sheet) => sheet.region === "중국권"),
       });
     } else {
       setFilteredScoreData(scoreData);

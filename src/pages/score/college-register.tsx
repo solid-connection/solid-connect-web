@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Head from "next/head";
 import fs from "fs";
 import path from "path";
@@ -9,14 +9,31 @@ import ProgressBar from "@/components/score/register/progress-bar";
 import FormCollege from "@/components/score/register/form-college";
 import FormCollegeFinal from "@/components/score/register/form-college-final";
 
-export default function CollegeRegisterPage(props) {
+export default function CollegeRegisterPage({ collegesKeyName }) {
   const apiClient = createApiClient();
-  const { collegesKeyName } = props;
-  const [progress, setProgress] = useState(0);
-  const [currentStage, setCurrentStage] = useState(1);
+  const [progress, setProgress] = useState<number>(0);
+  const [currentStage, setCurrentStage] = useState<number>(1);
+  const [description, setDescription] = useState<string>("2/2");
 
-  const [firstCollege, setFirstCollege] = useState("");
-  const [secondCollege, setSecondCollege] = useState("");
+  const [firstCollege, setFirstCollege] = useState<string>("");
+  const [secondCollege, setSecondCollege] = useState<string>("");
+
+  useEffect(() => {
+    let updateCount = 0;
+    async function fetchData() {
+      try {
+        const res = await apiClient.get("/application/status");
+        const { data } = res.data;
+        updateCount = data.updateCount;
+      } catch (error) {
+        // console.error(error);
+      }
+      if (updateCount !== 0) {
+        setDescription(`파견학교 수정은 총 3회까지 가능합니다. ${updateCount - 1}/3`);
+      }
+    }
+    fetchData();
+  }, []);
 
   function handleBack() {
     if (currentStage === 2) {
@@ -83,7 +100,7 @@ export default function CollegeRegisterPage(props) {
       </Head>
       <TopDetailNavigation title="지원하기" handleBack={handleBack} />
       <div style={{ height: "calc(100vh - 112px)", display: "flex", flexDirection: "column" }}>
-        <ProgressBar style={{ padding: "11px 20px 0 20px" }} progress={progress} description="본 과정 완료 후, 지원자 현황을 확인 할 수 있습니다." />
+        <ProgressBar style={{ padding: "11px 20px 0 20px" }} progress={progress} display="2/2" description="본 과정 완료 후, 지원자 현황을 확인 할 수 있습니다." />
         {renderCurrentForm()}
       </div>
     </>
