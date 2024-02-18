@@ -12,6 +12,7 @@
 
 .image {
   height: 120px;
+  object-fit: cover;
 }
 
 .title {

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import styles from "./news-cards.module.css";
 
 export default function NewsCards(props) {
@@ -16,7 +17,7 @@ export function NewsCard(props) {
   return (
     <a target="_blank" href={props.url}>
       <div className={styles.card}>
-        <img className={styles.image} src={props.imageUrl} alt={props.title} />
+        <Image className={styles.image} src={props.imageUrl} alt={props.title} width={180} height={120} />
         <div className={styles.title}>{props.title}</div>
       </div>
     </a>
