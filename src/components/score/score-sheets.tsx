@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { LANGUAGE_TEST } from "../../constants/languateTest";
+import { LANGUAGE_TEST } from "@/types/application";
 import { ScoreSheet } from "@/types/application";
 
 import styles from "./score-sheets.module.css";
