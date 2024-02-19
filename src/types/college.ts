@@ -71,7 +71,7 @@ export interface College {
 }
 
 export interface CollegePersonal extends College {
-  isLiked: boolean;
+  liked: boolean;
 }
 
 export interface ListCollege {

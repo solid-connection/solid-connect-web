@@ -26,7 +26,7 @@ export default function CollegeBottomSheet(props: CollegeBottomSheetProps) {
   const pages: string[] = ["학교정보", "어학성적", "지원전공", "위치", "파견후기"];
   const [activeTab, setActiveTab] = useState<string>("학교정보");
   const sectionRefs = [useRef(null), useRef(null), useRef(null), useRef(null), useRef(null)];
-  const [isLiked, setIsLiked] = useState<boolean>(props.isLiked);
+  const [isLiked, setIsLiked] = useState<boolean>(props.liked);
 
   function toggleLike() {
     async function postLike() {
