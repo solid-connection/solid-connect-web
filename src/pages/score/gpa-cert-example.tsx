@@ -1,7 +1,9 @@
-import TopDetailNavigation from "@/components/layout/top-detail-navigation";
-import BlockBtn from "@/components/ui/block-btn";
 import Head from "next/head";
 import Image from "next/image";
+import Link from "next/link";
+
+import TopDetailNavigation from "@/components/layout/top-detail-navigation";
+import BlockBtn from "@/components/ui/block-btn";
 
 export default function GpaCertExamplePage() {
   const closeWiindow: () => void = () => {
@@ -31,6 +33,17 @@ export default function GpaCertExamplePage() {
     fontSize: "14px",
     lineHeight: "150%",
   };
+  const a = {
+    display: "block",
+    marginTop: "24px",
+    color: "#000",
+    fontFamily: "Pretendard",
+    fontSize: "14px",
+    fontStyle: "normal",
+    fontWeight: 500,
+    lineHeight: "150%",
+    textDecorationLine: "underline",
+  };
   return (
     <>
       <Head>
@@ -53,6 +66,25 @@ export default function GpaCertExamplePage() {
           <span style={h3}>3. PDF 다운로드</span>
           <Image style={{ marginTop: "10px" }} src="/images/gpa-cert-example-3.png" width={291} height={68} alt="성적 증명서 발급 방법" />
           <span style={h3}>4. 파일 첨부하기 버튼 {">"} 업로드 완료</span>
+          <span style={{ ...h1, ...{ marginTop: "48px" } }}>성적 증명서 발급 방법</span>
+          <Link style={a} href="https://portal.inha.ac.kr/" target="_blank">
+            인하대학교 포털시스템 (inha.ac.kr)
+          </Link>
+          <Link style={a} href="https://cert.inha.ac.kr/icerti/index_internet.jsp" target="_blank">
+            인하대학교 증명발급시스템[ICerti] (inha.ac.kr)
+          </Link>
+          <span
+            style={{
+              color: "#000",
+              fontFamily: "Pretendard",
+              fontSize: "12px",
+              fontStyle: "normal",
+              fontWeight: 400,
+              lineHeight: "150%",
+            }}
+          >
+            *포털 시스템뿐만 아니라 증명발급 시스템에서도 성적 증명서를 다운받을 수 있습니다.{" "}
+          </span>
         </div>
         <div style={{ margin: "60px 20px 0 20px" }}>
           <BlockBtn onClick={closeWiindow}>닫기</BlockBtn>

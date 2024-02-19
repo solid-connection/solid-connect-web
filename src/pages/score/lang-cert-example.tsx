@@ -9,7 +9,6 @@ export default function GpaCertExamplePage() {
   };
   const div = {
     padding: "33px 20px 27px 20px",
-    borderBottom: "1px solid #ECECEC",
     color: "#1E1E1E",
     fontFamily: "Pretendard",
     fontSize: "14px",
