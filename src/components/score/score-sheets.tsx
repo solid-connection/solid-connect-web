@@ -43,7 +43,7 @@ export function ScoreSheet({ koreanName, studentCapacity, region, country, appli
             <tr key={applicant.nicknameForApply}>
               <td>{applicant.nicknameForApply}</td>
               <td>{applicant.gpa.toFixed(2)}</td>
-              <td>{LANGUAGE_TEST[applicant.testType]}</td>
+              <td>{LANGUAGE_TEST[applicant.testType].toUpperCase()}</td>
               <td>{applicant.testScore}</td>
               <td>
                 {applicant.mine && (

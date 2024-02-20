@@ -29,7 +29,6 @@ export default function createApiClient(req, res) {
                 ...config.headers,
                 Authorization: `Bearer ${refreshToken}`,
                 "Content-Type": "application/json",
-                withCredentials: true,
               },
             }
           );
