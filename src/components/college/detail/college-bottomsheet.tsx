@@ -13,6 +13,7 @@ type LikeResult = "LIKE_SUCCESS" | "LIKE_CANCELED";
 
 interface CollegeBottomSheetProps extends CollegePersonal {
   collegeId: number;
+  convertedKoreanName: string;
 }
 
 export default function CollegeBottomSheet(props: CollegeBottomSheetProps) {
@@ -226,7 +227,7 @@ export default function CollegeBottomSheet(props: CollegeBottomSheetProps) {
         <div className={styles.scrollOffset} ref={sectionRefs[4]}>
           <div className={styles.item}>
             <div className={styles.title}>생생한 후기</div>
-            <CollegeReviews style={{ marginTop: "10px" }} />
+            {/* <CollegeReviews style={{ marginTop: "10px" }} /> */}
           </div>
         </div>
       </div>

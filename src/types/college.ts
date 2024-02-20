@@ -76,6 +76,7 @@ export interface CollegePersonal extends College {
 
 export interface ListCollege {
   id: number;
+  term: string;
   koreanName: string;
   region: string;
   country: string;

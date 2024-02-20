@@ -8,14 +8,15 @@ import CollegeDetail from "@/components/college/detail/college-detail";
 import CollegeBottomSheet from "@/components/college/detail/college-bottomsheet";
 
 export default function CollegeDetailPage({ collegeId, collegeData }: { collegeId: number; collegeData: CollegePersonal }) {
+  const convertedKoreanName = collegeData.term !== process.env.NEXT_PUBLIC_CURRENT_TERM ? `${collegeData.koreanName}(${collegeData.term})` : collegeData.koreanName;
   return (
     <>
       <Head>
-        <title>{collegeData.koreanName || "대학명"}</title>
+        <title>{convertedKoreanName || "대학명"}</title>
       </Head>
-      <TopDetailNavigation title={collegeData.koreanName || "대학명"} />
-      <CollegeDetail imageUrl={collegeData.backgroundImageUrl} name={collegeData.koreanName || "대학명"} />
-      <CollegeBottomSheet collegeId={collegeId} {...collegeData} />
+      <TopDetailNavigation title={convertedKoreanName || "대학명"} />
+      <CollegeDetail imageUrl={collegeData.backgroundImageUrl} name={convertedKoreanName || "대학명"} />
+      <CollegeBottomSheet collegeId={collegeId} {...collegeData} convertedKoreanName={convertedKoreanName} />
     </>
   );
 }
