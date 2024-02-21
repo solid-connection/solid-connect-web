@@ -20,15 +20,16 @@ export default function CollegeCards({ colleges, style }: CollegeCardsProps) {
   );
 }
 
-export function CollegeCard({ id, koreanName, region, country, logoImageUrl, studentCapacity, languageRequirements }: ListCollege) {
+export function CollegeCard({ id, term, koreanName, region, country, logoImageUrl, studentCapacity, languageRequirements }: ListCollege) {
+  const convertedKoreanName = term !== process.env.NEXT_PUBLIC_CURRENT_TERM ? `${koreanName}(${term})` : koreanName;
   return (
     <Link className={styles.card} href={`/college/${id}`}>
       <div className={styles.centerAlign}>
-        <Image className={styles.image} src={logoImageUrl} width={100} height={100} alt={koreanName || "이미지 없음"} />
+        <Image className={styles.image} src={logoImageUrl} width={100} height={100} alt={convertedKoreanName || "이미지 없음"} />
       </div>
 
       <div className={styles.info}>
-        <span className={styles.name}>{koreanName}</span>
+        <span className={styles.name}>{convertedKoreanName}</span>
         <div className={styles.spaceBetween}>
           <span className={styles.country}>
             {country} | {region}
