@@ -18,7 +18,7 @@ interface CollegeBottomSheetProps extends CollegePersonal {
 
 export default function CollegeBottomSheet(props: CollegeBottomSheetProps) {
   const apiClient = createApiClient();
-  const { collegeId } = props;
+  const { collegeId, convertedKoreanName } = props;
   const { id, term, koreanName, englishName, formatName, region, country, homepageUrl, logoImageUrl, backgroundImageUrl, detailsForLocal } = props;
   const { studentCapacity, tuitionFeeType, semesterAvailableForDispatch } = props;
   const { languageRequirements, detailsForLanguage, gpaRequirement, gpaRequirementCriteria, semesterRequirement } = props;
@@ -87,7 +87,7 @@ export default function CollegeBottomSheet(props: CollegeBottomSheetProps) {
           {isLiked ? <BookmarkFilled /> : <BookmarkOutlined />}
         </div>
         <div className={styles.englishName}>{englishName || "대학명"}</div>
-        <div className={styles.name}>{koreanName || "대학명"}</div>
+        <div className={styles.name}>{convertedKoreanName || "대학명"}</div>
 
         <ScrollTab choices={pages} choice={activeTab} setChoice={handleTabClick} style={{ marginTop: "16px", position: "sticky", top: "56px" }} borderColor="var(--primary-2, #091F5B)" />
 
