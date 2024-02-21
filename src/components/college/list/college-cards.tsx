@@ -1,4 +1,5 @@
 import { ListCollege } from "../../../types/college";
+import { SHORT_LANGUAGE_TEST } from "../../../types/application";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -37,13 +38,19 @@ export function CollegeCard({ id, term, koreanName, region, country, logoImageUr
           <span className={styles.capacity}>모집 {studentCapacity}명</span>
         </div>
         <div className={styles.requirements}>
-          {languageRequirements
-            .map((requirement, index) => (
+          {languageRequirements.slice(0, 3).map((requirement, index) => {
+            let testType: string = "";
+            if (SHORT_LANGUAGE_TEST.hasOwnProperty(requirement.languageTestType)) {
+              testType = SHORT_LANGUAGE_TEST[requirement.languageTestType];
+            } else {
+              testType = requirement.languageTestType.replace(/_/g, " ");
+            }
+            return (
               <span key={index} className={styles.requirement}>
-                {requirement.languageTestType.replace(/_/g, " ")}: {requirement.minScore}
+                {testType}: {requirement.minScore}
               </span>
-            ))
-            .slice(0, 3)}
+            );
+          })}
         </div>
       </div>
 

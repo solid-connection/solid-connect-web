@@ -7,6 +7,15 @@ export const LANGUAGE_TEST = {
   OTHER: "other",
 };
 
+export const SHORT_LANGUAGE_TEST = {
+  TOEIC: "TOEIC",
+  TOEFL_IBT: "IBT",
+  TOEFL_ITP: "ITP",
+  IELTS: "IELTS",
+  JLPT: "JLPT",
+  OTHER: "기타",
+};
+
 export type ApplyStatus = "NO_AUTHORIZATION" | "NOT_SUBMITTED" | "SUBMITTED_PENDING" | "SUBMITTED_REJECTED" | "SUBMITTED_APPROVED";
 
 // Score
