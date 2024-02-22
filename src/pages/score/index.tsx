@@ -17,10 +17,12 @@ interface ScoreData {
 export default function ScorePage({ status, scoreData }: { status: string; scoreData: ScoreData }) {
   if (status === "NOT_SUBMITTED") {
     return <div>점수 공유 현황을 보려면 점수를 제출해주세요.</div>;
+  } else if (status === "SCORE_SUBMITTED") {
+    return <div>점수 공유 현황을 보려면 지원 대학을 추가해야 합니다.</div>;
   } else if (status === "SUBMITTED_PENDING") {
     return <div>점수 공유 현황을 보려면 점수가 승인되어야 합니다.</div>;
   } else if (status === "SUBMITTED_REJECTED") {
-    return <div>점수 공유 현황을 보려면 점수가 승인되어야 합니다.</div>;
+    return <div>점수 인증이 거절되었습니다. 점수 공유 현황을 확인을 위해 다시 제출해 주세요.</div>;
   }
   console.log(scoreData);
 
@@ -108,31 +110,20 @@ export async function getServerSideProps(context) {
     // 서버에서 데이터를 가져옵니다.
     const statusResponse = await serverApiClient.get("/application/status");
     const statusData = statusResponse.data.data;
-    if (statusData.status === "NOT_SUBMITTED") {
-      return {
-        props: {
-          status: "NOT_SUBMITTED",
-        },
-      };
-    } else if (statusData.status === "SUBMITTED_PENDING") {
-      return {
-        props: {
-          status: "SUBMITTED_PENDING",
-        },
-      };
-    } else if (statusData.status === "SUBMITTED_REJECTED") {
-      return {
-        props: {
-          status: "SUBMITTED_REJECTED",
-        },
-      };
-    } else if (statusData.status === "SUBMITTED_APPROVED" || statusData.status === "SCORE_SUBMITTED") {
+    const notAllowdStatus = ["NOT_SUBMITTED", "SCORE_SUBMITTED", "SUBMITTED_PENDING", "SUBMITTED_REJECTED"];
+    if (statusData.status === "SUBMITTED_APPROVED") {
       const scoreResponse = await serverApiClient.get("/application");
       const scoreData = scoreResponse.data.data;
       return {
         props: {
           status: "SUBMITTED_APPROVED",
           scoreData: scoreData,
+        },
+      };
+    } else if (notAllowdStatus.includes(statusData.status)) {
+      return {
+        props: {
+          status: statusData.status,
         },
       };
     }

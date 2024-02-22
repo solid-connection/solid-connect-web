@@ -16,7 +16,7 @@ export const SHORT_LANGUAGE_TEST = {
   OTHER: "기타",
 };
 
-export type ApplyStatus = "NO_AUTHORIZATION" | "NOT_SUBMITTED" | "SUBMITTED_PENDING" | "SUBMITTED_REJECTED" | "SUBMITTED_APPROVED";
+export type ApplyStatus = "NO_AUTHORIZATION" | "NOT_SUBMITTED" | "SCORE_SUBMITTED" | "SUBMITTED_PENDING" | "SUBMITTED_REJECTED" | "SUBMITTED_APPROVED";
 
 // Score
 export interface ScoreSheet {
