@@ -31,6 +31,15 @@ export default function Home({ recommendedColleges, newsList, applyStatus }: { r
           </div>
         </Link>
       );
+    } else if (applyStatus === "SCORE_SUBMITTED") {
+      return (
+        <Link className={styles.banner} href="/score/college-register">
+          <div className={styles.bannerTextWrapper}>
+            <div className={styles.bannerText}>지원 대학 입력하기</div>
+            <CheveronRightFilled color="#F2F1DF" className={styles.bannerIcon} />
+          </div>
+        </Link>
+      );
     } else if (applyStatus === "SUBMITTED_PENDING") {
       return (
         <Link className={styles.banner} href="/score/register">
