@@ -15,6 +15,15 @@ interface ScoreData {
 }
 
 export default function ScorePage({ status, scoreData }: { status: string; scoreData: ScoreData }) {
+  if (status === "NOT_SUBMITTED") {
+    return <div>점수 공유 현황을 보려면 점수를 제출해주세요.</div>;
+  } else if (status === "SUBMITTED_PENDING") {
+    return <div>점수 공유 현황을 보려면 점수가 승인되어야 합니다.</div>;
+  } else if (status === "SUBMITTED_REJECTED") {
+    return <div>점수 공유 현황을 보려면 점수가 승인되어야 합니다.</div>;
+  }
+  console.log(scoreData);
+
   // 검색
   const [searchActive, setSearchActive] = useState<boolean>(false); // 검색 창 활성화 여부
   const [searchText, setSearchText] = useState<string>(""); // 검색 키워드 텍스트
@@ -67,15 +76,7 @@ export default function ScorePage({ status, scoreData }: { status: string; score
     }
   }, [filter]);
 
-  const [fileredScoreData, setFilteredScoreData] = useState<ScoreData>(scoreData);
-
-  if (status === "NOT_SUBMITTED") {
-    return <div>점수 공유 현황을 보려면 점수를 제출해주세요.</div>;
-  } else if (status === "SUBMITTED_PENDING") {
-    return <div>점수 공유 현황을 보려면 점수가 승인되어야 합니다.</div>;
-  } else if (status === "SUBMITTED_REJECTED") {
-    return <div>점수 공유 현황을 보려면 점수가 승인되어야 합니다.</div>;
-  }
+  const [filteredScoreData, setFilteredScoreData] = useState<ScoreData>(scoreData);
 
   if (searchActive) {
     return (
@@ -93,7 +94,7 @@ export default function ScorePage({ status, scoreData }: { status: string; score
       <ScoreSearchBar onClick={handleSearchClick} text={searchText} setText={setSearchText} searchHandler={handleSearchBar} />
       <Tab choices={preferenceChoice} choice={preference} setChoice={setPreference} />
       <ButtonTab choices={filterChoice} choice={filter} setChoice={setFilter} color={{ activeBtn: "#6f90d1", deactiveBtn: "#fff", activeBtnFont: "#fff", deactiveBtnFont: "#000", background: "#fafafa" }} style={{ padding: "10px 0 10px 18px" }} />
-      <ScoreSheets scoreSheets={preference === "1순위" ? fileredScoreData.firstChoice : fileredScoreData.secondChoice} />
+      <ScoreSheets scoreSheets={preference === "1순위" ? filteredScoreData.firstChoice : filteredScoreData.secondChoice} />
     </>
   );
 }
@@ -125,7 +126,7 @@ export async function getServerSideProps(context) {
           status: "SUBMITTED_REJECTED",
         },
       };
-    } else if (statusData.status === "SUBMITTED_APPROVED") {
+    } else if (statusData.status === "SUBMITTED_APPROVED" || statusData.status === "SCORE_SUBMITTED") {
       const scoreResponse = await serverApiClient.get("/application");
       const scoreData = scoreResponse.data.data;
       return {
