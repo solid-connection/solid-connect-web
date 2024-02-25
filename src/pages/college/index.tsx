@@ -9,10 +9,10 @@ import ButtonTab from "@/components/ui/button-tab";
 import { getCollegeListData } from "../api/college";
 
 export default function CollegePage(props) {
+  const { colleges, countries } = props;
   const router = useRouter();
   const keyword: string | string[] = router.query.keyword;
   const initialSearchText: string = Array.isArray(keyword) ? keyword[0] : keyword;
-  const { colleges, countries } = props;
 
   const [searchText, setSearchText] = useState<string>(initialSearchText || "");
   const filters = ["전체", "유럽권", "미주권", "아시아권", "중국권"];
