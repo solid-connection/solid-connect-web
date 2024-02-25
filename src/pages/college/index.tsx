@@ -21,7 +21,7 @@ export default function CollegePage(props) {
 
   useEffect(() => {
     const filtered = colleges.filter((college) => {
-      const matchesRegion = filter === "전체" || college.region === filter;
+      const matchesRegion = filter === "전체" || filter === null ? true : college.region === filter;
       const matchesSearchText = searchText ? college.koreanName.toLowerCase().includes(searchText.toLowerCase()) || college.country.includes(searchText.toLowerCase()) : true;
       return matchesRegion && matchesSearchText;
     });
