@@ -12,14 +12,14 @@ export default function CollegePage(props) {
   const router = useRouter();
   const { colleges, countries } = props;
 
-  const [searchText, setSearchText] = useState(router.query.keyword || "");
-  const filters = ["유럽권", "미주권", "아시아권", "중국권"];
-  const [filter, setFilter] = useState("");
+  const [searchText, setSearchText] = useState<string>(router.query.keyword[0] || "");
+  const filters = ["전체", "유럽권", "미주권", "아시아권", "중국권"];
+  const [filter, setFilter] = useState<string>("전체");
   const [filteredColleges, setFilteredColleges] = useState(colleges);
 
   useEffect(() => {
     const filtered = colleges.filter((college) => {
-      const matchesRegion = filter ? college.region === filter : true;
+      const matchesRegion = filter === "전체" || college.region === filter;
       const matchesSearchText = searchText ? college.koreanName.toLowerCase().includes(searchText.toLowerCase()) || college.country.includes(searchText.toLowerCase()) : true;
       return matchesRegion && matchesSearchText;
     });
