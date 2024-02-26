@@ -59,7 +59,7 @@ export default function createApiClient() {
         try {
           const refreshToken = Cookies.get("refreshToken");
           if (!refreshToken) {
-            document.location.href = "/login";
+            // document.location.href = "/login";
             return Promise.reject(error);
           }
           await refreshAccessToken(refreshToken);
@@ -68,7 +68,7 @@ export default function createApiClient() {
           originalRequest.headers["Authorization"] = "Bearer " + accessToken;
           return axios(originalRequest);
         } catch (refreshError) {
-          document.location.href = "/login";
+          // document.location.href = "/login";
         }
       }
       return Promise.reject(error);
