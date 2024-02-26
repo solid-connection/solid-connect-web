@@ -1,7 +1,6 @@
 import axios from "axios";
 
 export default function createApiClient(req, res) {
-  // Configure Axios with interceptors in a separate module or the same file
   const apiClient = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_SERVER_URL,
     withCredentials: true,
@@ -94,7 +93,7 @@ export default function createApiClient(req, res) {
           return Promise.reject(refreshError); // Or handle a redirect to login
         }
       }
-      console.log("뭔가 오류:\n", error);
+      // console.log("뭔가 오류:\n", error);
       return Promise.reject(error);
     }
   );

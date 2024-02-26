@@ -85,6 +85,12 @@ export interface ListCollege {
   languageRequirements: LanguageRequirement[];
 }
 
+export interface SimpleCollege {
+  id: number;
+  koreanName: string;
+  backgroundImgUrl: string;
+}
+
 export interface LanguageRequirement {
   languageTestType: string; // 어학 시험 종류
   minScore: number; // 최소 점수

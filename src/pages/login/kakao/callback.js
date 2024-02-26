@@ -78,11 +78,9 @@ export default function KakaoLoginCallbackPage() {
       {!kakaoOauthToken ? (
         <>
           <Head>
-            <title>카카오 로그인 처리 중...</title>
+            <title>카카오 로그인</title>
           </Head>
-          <div>
-            <h1>카카오 로그인 처리 중...</h1>
-          </div>
+          <div></div>
         </>
       ) : (
         <>
