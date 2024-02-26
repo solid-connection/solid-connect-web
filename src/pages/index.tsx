@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Head from "next/head";
 import createServerApiClient from "@/lib/serverApiClient";
 import createClientApiClient from "@/lib/clientApiClient";
+import Cookies from "js-cookie";
 
 import { getRecommendedCollegesData } from "./api/college/recommended";
 import { getNewsList } from "./api/news";
@@ -12,6 +13,7 @@ import TopNavigation from "@/components/layout/top-navigation";
 import Home from "@/components/home/home";
 
 export default function HomePage(props: { recommendedColleges: CardCollege[]; newsList: News[] }) {
+  const isLogin = Cookies.get("refreshToken") ? true : false;
   const apiClient = createClientApiClient();
   const [recommendedColleges, setRecommendedColleges] = useState<SimpleCollege[]>(props.recommendedColleges);
   const [applyStatus, setApplyStatus] = useState<ApplyStatus | null>(null);
@@ -43,8 +45,10 @@ export default function HomePage(props: { recommendedColleges: CardCollege[]; ne
         setApplyStatus("NO_AUTHORIZATION");
       }
     }
-    fetchRecommendedColleges();
-    fetchApplyStatus();
+    if (isLogin) {
+      fetchRecommendedColleges();
+      fetchApplyStatus();
+    }
   }, []);
 
   return (

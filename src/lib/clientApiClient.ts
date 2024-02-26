@@ -57,18 +57,18 @@ export default function createApiClient() {
       if ((error.response.status === 401 || error.response.status === 403) && !originalRequest._retry) {
         originalRequest._retry = true;
         try {
-          const refreshToken = Cookies.get("refreshToken");
+          const refreshToken: string = Cookies.get("refreshToken");
           if (!refreshToken) {
-            // document.location.href = "/login";
+            document.location.href = "/login";
             return Promise.reject(error);
           }
           await refreshAccessToken(refreshToken);
-          const accessToken = Cookies.get("accessToken");
+          const accessToken: string = Cookies.get("accessToken");
 
           originalRequest.headers["Authorization"] = "Bearer " + accessToken;
           return axios(originalRequest);
         } catch (refreshError) {
-          // document.location.href = "/login";
+          document.location.href = "/login";
         }
       }
       return Promise.reject(error);
