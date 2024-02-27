@@ -6,7 +6,8 @@ import Cookies from "js-cookie";
 
 import { getRecommendedCollegesData } from "./api/college/recommended";
 import { getNewsList } from "./api/news";
-import { News, CardCollege, SimpleCollege } from "@/types/college";
+import { CardCollege, SimpleCollege } from "@/types/college";
+import { News } from "@/types/news";
 import { ApplyStatus } from "@/types/application";
 
 import TopNavigation from "@/components/layout/top-navigation";

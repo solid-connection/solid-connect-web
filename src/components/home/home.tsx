@@ -8,7 +8,8 @@ import NewsCards from "./news-cards";
 import HomeSearch from "./search/home-search";
 import CheveronRightFilled from "../ui/icon/ChevronRightFilled";
 import SearchFilled from "../ui/icon/SearchFilled";
-import { News, CardCollege } from "@/types/college";
+import { CardCollege } from "@/types/college";
+import { News } from "@/types/news";
 import { ApplyStatus } from "@/types/application";
 
 export default function Home({ recommendedColleges, newsList, applyStatus }: { recommendedColleges: CardCollege[]; newsList: News[]; applyStatus: ApplyStatus }) {

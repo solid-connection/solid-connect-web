@@ -1,9 +1,4 @@
-interface News {
-  id: number;
-  title: string;
-  imageUrl: string;
-  url: string;
-}
+import { News } from "@/types/news";
 
 export async function getNewsList() {
   const newsList: News[] = [
