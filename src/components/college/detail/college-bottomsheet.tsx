@@ -1,6 +1,8 @@
-import { CollegePersonal } from "@/types/college";
 import { useState, useEffect, useRef } from "react";
 import createApiClient from "@/lib/clientApiClient";
+
+import { CollegePersonal } from "@/types/college";
+import { Review } from "@/types/review";
 
 import styles from "./college-bottomsheet.module.css";
 import CollegeReviews from "./college-reviews";
@@ -14,6 +16,7 @@ type LikeResult = "LIKE_SUCCESS" | "LIKE_CANCELED";
 interface CollegeBottomSheetProps extends CollegePersonal {
   collegeId: number;
   convertedKoreanName: string;
+  reviewList: Review[];
 }
 
 export default function CollegeBottomSheet(props: CollegeBottomSheetProps) {
@@ -136,21 +139,11 @@ export default function CollegeBottomSheet(props: CollegeBottomSheetProps) {
 
         {/* 어학성적 */}
         <div className={styles.bar}>
-          {languageRequirements.map((language, index) => {
-            let minScore;
-            if (language.languageTestType === "TOEFL_IBT") {
-              minScore = Math.trunc(language.minScore);
-            } else if (language.languageTestType === "TOEFL_ITP") {
-              minScore = Math.trunc(language.minScore);
-            } else {
-              minScore = language.minScore;
-            }
-            return (
-              <div key={index}>
-                {language.languageTestType.replace(/_/g, " ")} {minScore}
-              </div>
-            );
-          })}
+          {languageRequirements.map((language, index) => (
+            <div key={index}>
+              {language.languageTestType.replace(/_/g, " ")} {language.minScore}
+            </div>
+          ))}
         </div>
         <div className={styles.scrollOffsetWithBar} ref={sectionRefs[1]}>
           <div className={styles.item}>
@@ -227,7 +220,7 @@ export default function CollegeBottomSheet(props: CollegeBottomSheetProps) {
         <div className={styles.scrollOffset} ref={sectionRefs[4]}>
           <div className={styles.item}>
             <div className={styles.title}>생생한 후기</div>
-            {/* <CollegeReviews style={{ marginTop: "10px" }} /> */}
+            <CollegeReviews style={{ marginTop: "10px" }} reviewList={props.reviewList} />
           </div>
         </div>
       </div>

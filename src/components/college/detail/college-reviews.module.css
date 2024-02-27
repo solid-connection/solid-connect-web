@@ -1,17 +1,85 @@
+/* Review cards */
 .container {
-  margin-left: 20px;
-  overflow-x: auto;
-}
-
-.items {
   display: flex;
-  gap: 8px;
+  flex-direction: column;
+  gap: 24px;
 }
 
+/* Review card */
 .card {
-  width: 132px;
-  min-width: 132px;
-  height: 188px;
+  margin: 0 20px 0 20px;
+  padding: 14px 12px 20px 12px;
+  border-radius: 6px;
+  border: 1px solid #bbb;
+}
 
-  background-color: #d9d9d9;
+.firstRow {
+  display: flex;
+  justify-content: space-between;
+}
+.term {
+  color: #000;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 150%; /* 21px */
+}
+
+.fullStar {
+  color: gold; /* Full star color */
+}
+.halfStar::before {
+  content: "★";
+  color: gold; /* Half star color */
+  position: absolute;
+}
+.halfStar::after {
+  content: "☆";
+  color: gold; /* Half star color */
+  position: absolute;
+  width: 50%;
+  overflow: hidden; /* This will cover half of the star */
+}
+.emptyStar {
+  color: lightgray; /* Empty star color */
+}
+
+.content {
+  margin: 0 2px 0 2px;
+  color: #000;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%; /* 21px */
+}
+
+.infos {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.infos > div {
+  margin-left: 7px;
+  display: flex;
+}
+.infos > div > span:nth-of-type(1) {
+  flex-basis: 109px;
+  color: rgba(0, 0, 0, 0.87);
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 160%; /* 22.4px */
+}
+.infos > div > span:nth-of-type(2) {
+  color: rgba(44, 44, 44, 0.87);
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 160%; /* 22.4px */
 }
