@@ -93,7 +93,7 @@ export interface SimpleCollege {
 
 export interface LanguageRequirement {
   languageTestType: string; // 어학 시험 종류
-  minScore: number; // 최소 점수
+  minScore: string; // 최소 점수
 }
 
 export interface CardCollege {

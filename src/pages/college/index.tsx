@@ -1,6 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
+
+import { ListCollege } from "@/types/college";
 
 import CollegeCards from "../../components/college/list/college-cards";
 import CollegeSearch from "@/components/college/list/college-search";
@@ -8,40 +10,73 @@ import TopNavigation from "@/components/layout/top-navigation";
 import ButtonTab from "@/components/ui/button-tab";
 import { getCollegeListData } from "../api/college";
 
-export default function CollegePage(props) {
-  const { colleges, countries } = props;
+export default function CollegePage({ colleges }: { colleges: ListCollege[] }) {
   const router = useRouter();
-  const keyword: string | string[] = router.query.keyword;
-  const initialSearchText: string = Array.isArray(keyword) ? keyword[0] : keyword;
+  const queryRegion: string = Array.isArray(router.query.region) ? router.query.region[0] : router.query.region;
+  const querySearchTexts: string[] = Array.isArray(router.query.keyword) ? router.query.keyword : [router.query.keyword];
+  const queryTestScore: string = Array.isArray(router.query.testScore) ? router.query.testScore[0] : router.query.testScore;
+  let queryTest: string | null = Array.isArray(router.query.test) ? router.query.test[0] : router.query.test;
+  if (!["TOEIC", "TOEFL_IBT", "TOEFL_ITP", "IELTS", "JLPT"].includes(queryTest)) queryTest = null;
 
-  const [searchText, setSearchText] = useState<string>(initialSearchText || "");
-  const filters = ["전체", "유럽권", "미주권", "아시아권", "중국권"];
-  const [filter, setFilter] = useState<string>("전체");
+  const [searchTexts, setSearchTexts] = useState<string[]>(querySearchTexts[0] !== undefined ? querySearchTexts : [""]);
+  const searchTextRef = useRef<HTMLInputElement | null>(null);
+
+  const regions = ["전체", "유럽권", "미주권", "아시아권", "중국권"];
+  const [region, setRegion] = useState<string>(queryRegion || "전체");
+
   const [filteredColleges, setFilteredColleges] = useState(colleges);
 
+  // 필터링
   useEffect(() => {
     const filtered = colleges.filter((college) => {
-      const matchesRegion = filter === "전체" || filter === null ? true : college.region === filter;
-      const matchesSearchText = searchText ? college.koreanName.toLowerCase().includes(searchText.toLowerCase()) || college.country.includes(searchText.toLowerCase()) : true;
-      return matchesRegion && matchesSearchText;
+      // 지역 필터
+      const matchesRegion = region === "전체" || region === null ? true : college.region === region;
+      // 검색 필터
+      let matchesSearchText = true;
+      if (searchTexts && searchTexts.length) {
+        matchesSearchText = searchTexts.some((searchTerm) => college.koreanName.toLowerCase().includes(searchTerm.toLowerCase()) || college.country.includes(searchTerm.toLowerCase()));
+      }
+      // 성적 필터
+      let matchesTest: boolean = true;
+      if (queryTest) {
+        matchesTest = college.languageRequirements.some((req) => req.languageTestType === queryTest);
+        // if (queryTestScore) {
+        //   const testScore = queryTestScore.replace(/\D/g, "");
+        //   if (queryTest === "JLPT") {
+        //     matchesTest = college.languageRequirements.find((req) => req.languageTestType === queryTest && req.minScore <= testScore) ? true : false;
+        //   } else {
+        //     matchesTest = college.languageRequirements.find((req) => req.languageTestType === queryTest && req.minScore >= testScore) ? true : false;
+        //   }
+        // }
+      }
+      return matchesRegion && matchesSearchText && matchesTest;
     });
-
     setFilteredColleges(filtered);
-  }, [filter, searchText, colleges]);
+  }, [region, searchTexts]);
 
-  // useEffect(() => {
-  //   const { query } = router.query;
+  // 쿼리스트링 업데이트
+  useEffect(() => {
+    router.push(
+      {
+        pathname: router.pathname,
+        query: {
+          ...router.query,
+          region: region !== "전체" ? region : undefined,
+          keyword: searchTexts.filter((text) => text).join(",") || undefined,
+        },
+      },
+      undefined,
+      { shallow: true }
+    );
+  }, [region, searchTexts]);
 
-  //   setFilteredColleges(colleges);
-  // }, [router.query, colleges]);
-
-  function findCollegeHandler(event) {
+  function searchHandler(event) {
     event.preventDefault();
-    // let path = "/college";
-    // if (searchText) {
-    //   path += `?query=${searchText}`;
-    // }
-    // router.push(path);
+    const searchTerms: string[] = searchTextRef.current.value
+      .split(",")
+      .map((term) => term.trim())
+      .filter((term) => term !== "");
+    setSearchTexts(searchTerms);
   }
 
   return (
@@ -50,28 +85,17 @@ export default function CollegePage(props) {
         <title>솔리드 커넥션</title>
       </Head>
       <TopNavigation />
-      <CollegeSearch searchHandler={findCollegeHandler} text={searchText} setText={setSearchText} />
-      <ButtonTab choices={filters} choice={filter} setChoice={setFilter} color={{ deactiveBtn: "#D9D9D9" }} style={{ marginTop: "14px", marginLeft: "18px" }} />
+      <CollegeSearch searchHandler={searchHandler} textRef={searchTextRef} defaultValue={searchTexts.join(",")} />
+      <ButtonTab choices={regions} choice={region} setChoice={setRegion} color={{ deactiveBtn: "#D9D9D9" }} style={{ marginTop: "14px", marginLeft: "18px" }} />
       <CollegeCards colleges={filteredColleges} style={{ marginTop: "12px" }} />
     </>
   );
 }
 
-async function getCollegeList(region, text) {
-  const response = await getCollegeListData();
-  const colleges = response.data;
-  const filteredColleges = colleges.filter((college) => {
-    const matchesRegion = region ? college.region === region : true;
-    const matchesSearchText = text ? college.name.toLowerCase().includes(text.toLowerCase()) : true;
-    return matchesRegion && matchesSearchText;
-  });
-  return filteredColleges;
-}
-
 export async function getServerSideProps(context) {
   const { query } = context;
-  const { country, region, text } = query;
-  const colleges = await getCollegeList(region, text);
+  const res = await getCollegeListData();
+  const colleges = res.data;
 
   return {
     props: { colleges },

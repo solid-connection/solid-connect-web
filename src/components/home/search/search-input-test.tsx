@@ -2,7 +2,7 @@ import EditTwo from "../../layout/icon/EditTwo";
 import styles from "./search-input-test.module.css";
 
 export default function SearchInputTest(props) {
-  const { test } = props;
+  const { test, score, setScore } = props;
   return (
     <div className={styles.box}>
       <div className={styles.box_left}>
@@ -12,7 +12,7 @@ export default function SearchInputTest(props) {
         <div className={styles.main}>{test}</div>
       </div>
       <div className={styles.box_right}>
-        <input className={styles.input} placeholder="성적입력" maxLength="5" />
+        <input className={styles.input} placeholder="성적입력" value={score} onChange={(e) => setScore(e.target.value)} maxLength={5} />
       </div>
     </div>
   );
