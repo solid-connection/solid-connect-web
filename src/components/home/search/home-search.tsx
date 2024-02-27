@@ -7,7 +7,7 @@ import ButtonTab from "../../ui/button-tab";
 import SearchTestTab from "./search-test-tab";
 import SearchInputTest from "./search-input-test";
 import SearchInputInterest from "./search-input-interest";
-import World from "@/components/layout/icon/world";
+import World from "@/components/layout/icon/World";
 
 export default function HomeSearch(props) {
   const router = useRouter();
