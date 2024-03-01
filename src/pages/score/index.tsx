@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import createApiClient from "@/lib/serverApiClient";
 import { ScoreSheet } from "@/types/application";
 
@@ -15,6 +15,9 @@ interface ScoreData {
 }
 
 export default function ScorePage({ status, scoreData }: { status: string; scoreData: ScoreData }) {
+  scoreData.firstChoice.sort((a, b) => b.applicants.length - a.applicants.length);
+  scoreData.secondChoice.sort((a, b) => b.applicants.length - a.applicants.length);
+
   if (status === "NOT_SUBMITTED") {
     return <div>점수 공유 현황을 보려면 점수를 제출해주세요.</div>;
   } else if (status === "SCORE_SUBMITTED") {
@@ -27,21 +30,32 @@ export default function ScorePage({ status, scoreData }: { status: string; score
 
   // 검색
   const [searchActive, setSearchActive] = useState<boolean>(false); // 검색 창 활성화 여부
-  const [searchText, setSearchText] = useState<string>(""); // 검색 키워드 텍스트
+  // const [searchText, setSearchText] = useState<string>(""); // 검색 키워드 텍스트
+  const searchRef = useRef<HTMLInputElement>(null);
 
-  function handleSearchBar(event) {
+  function handleSearch(event) {
     event.preventDefault();
+    const keyWord = searchRef.current.value;
+    setFilter("");
+    setFilteredScoreData(
+      keyWord
+        ? {
+            firstChoice: scoreData.firstChoice.filter((sheet) => sheet.koreanName.includes(keyWord)),
+            secondChoice: scoreData.secondChoice.filter((sheet) => sheet.koreanName.includes(keyWord)),
+          }
+        : scoreData
+    );
     setSearchActive(false);
   }
+
   function handleSearchField(keyWord) {
-    setSearchText(keyWord);
-    setSearchActive(false);
+    searchRef.current.value = keyWord;
   }
 
   function handleSearchClick() {
     setSearchActive(true);
   }
-  const keyWords = ["하와이", "보라스", "릴카톨릭", "파리8", "낭트", "헐", "함부르크", "오스트라바"];
+  const hotKeyWords = ["RMIT", "오스트라바", "칼스루에", "그라츠", "추오", "프라하", "보라스", "빈", "메모리얼"];
 
   // 점수 데이터
   const preferenceChoice: string[] = ["1순위", "2순위"];
@@ -83,8 +97,8 @@ export default function ScorePage({ status, scoreData }: { status: string; score
     return (
       <>
         <TopDetailNavigation title="점수 공유 현황" />
-        <ScoreSearchBar text={searchText} setText={setSearchText} searchHandler={handleSearchBar} />
-        <ScoreSearchField setText={setSearchText} keyWords={keyWords} searchHandler={handleSearchField} />
+        <ScoreSearchBar textRef={searchRef} searchHandler={handleSearch} />
+        <ScoreSearchField searchRef={searchRef} keyWords={hotKeyWords} setKeyWord={handleSearchField} />
       </>
     );
   }
@@ -92,7 +106,7 @@ export default function ScorePage({ status, scoreData }: { status: string; score
   return (
     <>
       <TopDetailNavigation title="점수 공유 현황" />
-      <ScoreSearchBar onClick={handleSearchClick} text={searchText} setText={setSearchText} searchHandler={handleSearchBar} />
+      <ScoreSearchBar onClick={handleSearchClick} textRef={searchRef} searchHandler={handleSearch} />
       <Tab choices={preferenceChoice} choice={preference} setChoice={setPreference} />
       <ButtonTab choices={filterChoice} choice={filter} setChoice={setFilter} color={{ activeBtn: "#6f90d1", deactiveBtn: "#fff", activeBtnFont: "#fff", deactiveBtnFont: "#000", background: "#fafafa" }} style={{ padding: "10px 0 10px 18px" }} />
       <ScoreSheets scoreSheets={preference === "1순위" ? filteredScoreData.firstChoice : filteredScoreData.secondChoice} />
