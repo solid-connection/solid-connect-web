@@ -15,9 +15,6 @@ interface ScoreData {
 }
 
 export default function ScorePage({ status, scoreData }: { status: string; scoreData: ScoreData }) {
-  scoreData.firstChoice.sort((a, b) => b.applicants.length - a.applicants.length);
-  scoreData.secondChoice.sort((a, b) => b.applicants.length - a.applicants.length);
-
   if (status === "NOT_SUBMITTED") {
     return <div>점수 공유 현황을 보려면 점수를 제출해주세요.</div>;
   } else if (status === "SCORE_SUBMITTED") {
@@ -27,6 +24,9 @@ export default function ScorePage({ status, scoreData }: { status: string; score
   } else if (status === "SUBMITTED_REJECTED") {
     return <div>점수 인증이 거절되었습니다. 점수 공유 현황을 확인을 위해 다시 제출해 주세요.</div>;
   }
+
+  scoreData.firstChoice.sort((a, b) => b.applicants.length - a.applicants.length);
+  scoreData.secondChoice.sort((a, b) => b.applicants.length - a.applicants.length);
 
   // 검색
   const [searchActive, setSearchActive] = useState<boolean>(false); // 검색 창 활성화 여부
