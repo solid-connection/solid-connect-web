@@ -17,6 +17,8 @@ interface ScoreData {
 export default function ScorePage({ status, scoreData }: { status: string; scoreData: ScoreData }) {
   if (status === "NOT_SUBMITTED") {
     return <div>점수 공유 현황을 보려면 점수를 제출해주세요.</div>;
+  } else if (status === "COLLEGE_SUBMITTED") {
+    return <div>점수 공유 현황을 보려면 점수를 인증해야 합니다.</div>;
   } else if (status === "SCORE_SUBMITTED") {
     return <div>점수 공유 현황을 보려면 지원 대학을 추가해야 합니다.</div>;
   } else if (status === "SUBMITTED_PENDING") {

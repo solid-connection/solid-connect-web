@@ -25,6 +25,15 @@ export default function Home({ recommendedColleges, newsList, applyStatus }: { r
   function getBanner() {
     if (applyStatus === "NOT_SUBMITTED") {
       return (
+        <Link className={styles.banner} href="/score/college-register">
+          <div className={styles.bannerTextWrapper}>
+            <div className={styles.bannerText}>지원 대학 입력하기</div>
+            <CheveronRightFilled color="#F2F1DF" className={styles.bannerIcon} />
+          </div>
+        </Link>
+      );
+    } else if (applyStatus === "COLLEGE_SUBMITTED") {
+      return (
         <Link className={styles.banner} href="/score/register">
           <div className={styles.bannerTextWrapper}>
             <div className={styles.bannerText}>나의 성적 입력하기</div>

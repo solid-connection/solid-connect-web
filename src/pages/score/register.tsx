@@ -9,6 +9,7 @@ import ProgressBar from "@/components/score/register/progress-bar";
 import FormLanguage from "@/components/score/register/form-language";
 import FormScore from "@/components/score/register/form-score";
 import FormFinal from "@/components/score/register/form-final";
+import FormCollegeFinal from "@/components/score/register/form-college-final";
 
 export default function ScoreRegisterPage() {
   const router = useRouter();
@@ -48,52 +49,53 @@ export default function ScoreRegisterPage() {
 
   function submitForm() {
     async function postData() {
-      const languageCertRes = await apiClient.post(
-        "/file/language-test",
-        {
-          file: languageCert,
-        },
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
+      try {
+        const languageCertRes = await apiClient.post(
+          "/file/language-test",
+          {
+            file: languageCert,
           },
-        }
-      );
-      const languageFileUrl = languageCertRes.data.data.fileUrl;
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        const languageFileUrl = languageCertRes.data.data.fileUrl;
 
-      const scoreCertRes = await apiClient.post(
-        "/file/gpa",
-        {
-          file: scoreCert,
-        },
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
+        const scoreCertRes = await apiClient.post(
+          "/file/gpa",
+          {
+            file: scoreCert,
           },
-        }
-      );
-      const scoreFileUrl = scoreCertRes.data.data.fileUrl;
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        const scoreFileUrl = scoreCertRes.data.data.fileUrl;
 
-      const languageTypeConvert = {
-        toeic: "TOEIC",
-        ibt: "TOEFL_IBT",
-        itp: "TOEFL_ITP",
-        ielts: "IELTS",
-        jlpt: "JLPT",
-        others: "DUOLINGO",
-      };
-      const res = await apiClient.post("/application/score", {
-        languageTestType: languageTypeConvert[languageType],
-        languageTestScore: languageScore,
-        languageTestReportUrl: languageFileUrl,
-        gpaCriteria: parseFloat(scoreType),
-        gpa: parseFloat(score),
-        gpaReportUrl: scoreFileUrl,
-      });
-      if (res.status === 200) {
-        router.push("/score/college-register");
-      } else {
-        alert("성적 입력에 실패했습니다. 다시 시도해주세요.");
+        const languageTypeConvert = {
+          toeic: "TOEIC",
+          ibt: "TOEFL_IBT",
+          itp: "TOEFL_ITP",
+          ielts: "IELTS",
+          jlpt: "JLPT",
+          others: "DUOLINGO",
+        };
+        const res = await apiClient.post("/application/score", {
+          languageTestType: languageTypeConvert[languageType],
+          languageTestScore: languageScore,
+          languageTestReportUrl: languageFileUrl,
+          gpaCriteria: parseFloat(scoreType),
+          gpa: parseFloat(score),
+          gpaReportUrl: scoreFileUrl,
+        });
+        setCurrentStage(4);
+        setProgress(100);
+      } catch (error) {
+        alert(error.response.data.error.message);
       }
     }
     // 서버로 데이터 전송
@@ -153,6 +155,8 @@ export default function ScoreRegisterPage() {
             setScoreCert={setScoreCert}
           />
         );
+      case 4:
+        return <FormCollegeFinal />;
       default:
         return <div>Survey Completed!</div>;
     }

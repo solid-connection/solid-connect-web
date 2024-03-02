@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import Head from "next/head";
 import fs from "fs";
 import path from "path";
@@ -7,9 +8,9 @@ import createApiClient from "@/lib/clientApiClient";
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import ProgressBar from "@/components/score/register/progress-bar";
 import FormCollege from "@/components/score/register/form-college";
-import FormCollegeFinal from "@/components/score/register/form-college-final";
 
 export default function CollegeRegisterPage({ collegesKeyName }) {
+  const router = useRouter();
   const apiClient = createApiClient();
   const [progress, setProgress] = useState<number>(0);
   const [currentStage, setCurrentStage] = useState<number>(1);
@@ -44,17 +45,19 @@ export default function CollegeRegisterPage({ collegesKeyName }) {
 
   function submitForm() {
     async function postData() {
-      await apiClient.post("/application/university", {
-        firstChoiceUniversityId: parseInt(firstCollege),
-        secondChoiceUniversityId: parseInt(secondCollege),
-      });
+      try {
+        await apiClient.post("/application/university", {
+          firstChoiceUniversityId: parseInt(firstCollege),
+          secondChoiceUniversityId: parseInt(secondCollege),
+        });
+        router.push("/score/register");
+      } catch (error) {
+        // console.error(error);
+        alert(error.response.data.error.message);
+      }
     }
     // 서버로 데이터 전송
-    try {
-      postData();
-    } catch (error) {
-      console.error(error);
-    }
+    postData();
   }
 
   function renderCurrentForm() {
@@ -73,22 +76,7 @@ export default function CollegeRegisterPage({ collegesKeyName }) {
           />
         );
       case 2:
-        return (
-          <FormCollege
-            toNextStage={() => {
-              submitForm();
-              setCurrentStage(3);
-              setProgress(100);
-              // 학교정보 api 전송
-            }}
-            text="2지망"
-            collegesKeyName={collegesKeyName}
-            college={secondCollege}
-            setCollege={setSecondCollege}
-          />
-        );
-      case 3:
-        return <FormCollegeFinal />;
+        return <FormCollege toNextStage={submitForm} text="2지망" collegesKeyName={collegesKeyName} college={secondCollege} setCollege={setSecondCollege} />;
       default:
         return <div>Survey Completed!</div>;
     }
