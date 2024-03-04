@@ -1,0 +1,58 @@
+.form {
+  padding: 16px 20px 0 20px;
+}
+
+.elements {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.elements > div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.elements > div > span {
+  color: rgba(124, 124, 124, 0.87);
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 160%; /* 22.4px */
+}
+
+.btns {
+  display: flex;
+  gap: 10px;
+}
+.btns input[type="radio"]:checked + .btn {
+  color: #6f90d1;
+  background-color: rgba(196, 221, 255, 0.3);
+  border-color: #6f90d1;
+}
+.btn {
+  width: 105px;
+  height: 30px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: white;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+  cursor: pointer;
+
+  color: #8d8d8d;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+.btn-sm {
+  width: 53px;
+}

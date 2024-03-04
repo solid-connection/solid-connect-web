@@ -3,7 +3,7 @@ import Head from "next/head";
 import createApiClient from "@/lib/serverApiClient";
 
 import { Review } from "@/types/review";
-import { getCollegeDetailData } from "../api/college/[id]";
+import { getCollegeDetailData } from "../../api/college/[id]";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import CollegeDetail from "@/components/college/detail/college-detail";
