@@ -14,7 +14,7 @@ export async function refreshAccessToken(refreshToken: string): Promise<void> {
       }
     );
     const accessToken: string = refreshResponse.data.data.accessToken;
-    Cookies.set("accessToken", accessToken, { expires: 1, secure: true, sameSite: "strict" }); // 새 accessToken을 쿠키에 저장
+    Cookies.set("accessToken", accessToken, { expires: 1 / 24, secure: true, sameSite: "strict" }); // 새 accessToken을 쿠키에 저장
   } catch (error) {
     throw new Error("refresh token이 유효하지 않음");
   }

@@ -1,7 +1,10 @@
 import Head from "next/head";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useLayout } from "@/context/LayoutContext";
+import Cookies from "js-cookie";
+import { ACCESS_TOKEN_EXPIRE_TIME, REFRESH_TOKEN_EXPIRE_TIME, ACCESS_TOKEN_COOKIE_NAME, REFRESH_TOKEN_COOKIE_NAME } from "@/types/auth";
 
 import SignupSurvey from "@/components/login/signup/signup-survey";
 
@@ -19,7 +22,7 @@ export default function KakaoLoginCallbackPage() {
   const [kakaoProfileImageUrl, setkakaoProfileImageUrl] = useState("");
 
   useEffect(() => {
-    const code = new URL(window.location.href).searchParams.get("code");
+    const code = router.query.code;
 
     if (code) {
       sendCodeToBackend(code);
@@ -28,48 +31,26 @@ export default function KakaoLoginCallbackPage() {
 
   const sendCodeToBackend = async (code) => {
     try {
-      const response = await fetch("/api/auth/kakao", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ code }),
-      });
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/auth/kakao`, { code }, { withCredentials: true, headers: { "Content-Type": "application/json" } });
+      const data = await response.data;
 
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      const data = await response.json();
-      console.log("data", data);
-      if (!data.success) {
-        throw new Error("Error sending code to backend");
-      }
-
-      if (data.registered) {
+      if (data.data.registered) {
+        Cookies.set(ACCESS_TOKEN_COOKIE_NAME, data.data.accessToken, { expires: ACCESS_TOKEN_EXPIRE_TIME, secure: true, sameSite: "strict" });
+        Cookies.set(REFRESH_TOKEN_COOKIE_NAME, data.data.refreshToken, { expires: REFRESH_TOKEN_EXPIRE_TIME, secure: true, sameSite: "strict" });
         // 기존 회원일 시
         router.push("/");
       } else {
         // 새로운 회원일 시
         setkakaoOauthToken(data.data.kakaoOauthToken);
-        console.log("가입 토큰 받기 성공1", data.data.kakaoOauthToken);
         setkakaoNickname(data.data.nickname);
         setkakaoEmail(data.data.email);
         setkakaoProfileImageUrl(data.data.profileImageUrl);
       }
-      // 토큰과 함께 회원가입 페이지로 이동
-      // router.push(
-      //   {
-      //     pathname: `/login/signup?kakaoOauthToken=${kakaoOauthToken}`,
-      //   },
-      //   undefined,
-      //   { state: { kakaoOauthToken: kakaoOauthToken } }
-      // );
-
-      // 성공적으로 처리된 후의 로직 (예: 메인 페이지로 리디렉션)
-      // router.push("/"); // 로그인 처리 후 리디렉션
     } catch (error) {
-      console.error("Error sending code to backend", error);
+      console.error(error.toString());
+      let errorMessage = error.toString();
+      if (error.response.data.error.message) errorMessage += "\n" + error.response.data.error.message;
+      alert(errorMessage);
     }
   };
 
@@ -78,7 +59,7 @@ export default function KakaoLoginCallbackPage() {
       {!kakaoOauthToken ? (
         <>
           <Head>
-            <title>카카오 로그인</title>
+            <title>카카오 로그인 진행중</title>
           </Head>
           <div></div>
         </>

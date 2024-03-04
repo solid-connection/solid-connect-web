@@ -43,7 +43,7 @@ export default function Survey1(props) {
                 key={index}
                 className={styles.region}
                 onClick={() => {
-                  setRegion(regionItem.englishName);
+                  setRegion(regionItem.name);
                 }}
               >
                 <div className={region !== regionItem.englishName ? styles.imgWrapper : ""}>

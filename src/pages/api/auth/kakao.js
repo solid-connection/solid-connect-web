@@ -1,3 +1,4 @@
+// NOT USED ANYMORE
 export default async function handler(req, res) {
   // Authorization code를 받아서 백엔드로 전달, 백엔드에서 토큰을 받아옴
   if (req.method !== "POST") {

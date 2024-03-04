@@ -1,4 +1,5 @@
 export const REGIONS = ["아시아권", "미주권", "유럽권", "중국권"];
+export type Region = "아시아권" | "미주권" | "유럽권" | "중국권";
 
 export const COUNTRIES = [
   // 2024-2 기준
@@ -37,6 +38,7 @@ export const COUNTRIES = [
   "중국",
   "대만",
 ];
+export type Country = (typeof COUNTRIES)[number];
 
 export interface College {
   id: number;

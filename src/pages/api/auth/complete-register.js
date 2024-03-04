@@ -1,15 +1,10 @@
+// NOT USED ANYMORE
 export async function completeRegister(kakaoOauthToken, interestedRegions, interestedCountries, preparationStatus, nickname, profileImageUrl) {}
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
     const { kakaoOauthToken, interestedRegions, interestedCountries, preparationStatus, nickname, profileImageUrl, gender, birth } = req.body;
 
-    const regionsCovertDict = {
-      america: "미주권",
-      asia: "아시아권",
-      europe: "유럽권",
-      china: "중국권",
-    };
     const genderConvertDict = {
       남성: "MALE",
       여성: "FEMALE",
