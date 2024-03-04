@@ -15,7 +15,9 @@ interface ScoreData {
 }
 
 export default function ScorePage({ status, scoreData }: { status: string; scoreData: ScoreData }) {
-  if (status === "NOT_SUBMITTED") {
+  if (status === "NO_AUTHORIZATION") {
+    return <div>점수 공유 현황을 보려면 로그인이 필요합니다.</div>;
+  } else if (status === "NOT_SUBMITTED") {
     return <div>점수 공유 현황을 보려면 점수를 제출해주세요.</div>;
   } else if (status === "COLLEGE_SUBMITTED") {
     return <div>점수 공유 현황을 보려면 점수를 인증해야 합니다.</div>;
@@ -26,9 +28,6 @@ export default function ScorePage({ status, scoreData }: { status: string; score
   } else if (status === "SUBMITTED_REJECTED") {
     return <div>점수 인증이 거절되었습니다. 점수 공유 현황을 확인을 위해 다시 제출해 주세요.</div>;
   }
-
-  scoreData.firstChoice.sort((a, b) => b.applicants.length - a.applicants.length);
-  scoreData.secondChoice.sort((a, b) => b.applicants.length - a.applicants.length);
 
   // 검색
   const [searchActive, setSearchActive] = useState<boolean>(false); // 검색 창 활성화 여부
@@ -125,7 +124,7 @@ export async function getServerSideProps(context) {
     // 서버에서 데이터를 가져옵니다.
     const statusResponse = await serverApiClient.get("/application/status");
     const statusData = statusResponse.data.data;
-    const notAllowdStatus = ["NOT_SUBMITTED", "SCORE_SUBMITTED", "SUBMITTED_PENDING", "SUBMITTED_REJECTED"];
+    const notAllowdStatus = ["NOT_SUBMITTED", "SCORE_SUBMITTED", "COLLEGE_SUBMITTED", "SUBMITTED_PENDING", "SUBMITTED_REJECTED"];
     if (statusData.status === "SUBMITTED_APPROVED") {
       const scoreResponse = await serverApiClient.get("/application");
       const scoreData = scoreResponse.data.data;
