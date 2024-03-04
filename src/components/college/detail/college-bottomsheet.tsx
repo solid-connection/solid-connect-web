@@ -43,7 +43,6 @@ export default function CollegeBottomSheet(props: CollegeBottomSheetProps) {
           setIsLiked(false);
         }
       } catch (error) {
-        console.log(error);
         console.error(error.toString());
         let errorMessage = error.toString();
         const detailedErrorMessage = error?.response?.data?.error?.message ?? "";

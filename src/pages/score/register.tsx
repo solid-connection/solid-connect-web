@@ -95,7 +95,6 @@ export default function ScoreRegisterPage() {
         setCurrentStage(4);
         setProgress(100);
       } catch (error) {
-        console.log(error);
         console.error(error.toString());
         let errorMessage = error.toString();
         const detailedErrorMessage = error?.response?.data?.error?.message ?? "";

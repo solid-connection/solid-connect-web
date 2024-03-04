@@ -30,7 +30,6 @@ export default function CollegeRegisterPage({ collegesKeyName }) {
           setDescription(`파견학교 수정은 총 3회까지 가능합니다. ${updateCount - 1}/3`);
         }
       } catch (error) {
-        console.log(error);
         console.error(error.toString());
         let errorMessage = error.toString();
         const detailedErrorMessage = error?.response?.data?.error?.message ?? "";
@@ -57,7 +56,6 @@ export default function CollegeRegisterPage({ collegesKeyName }) {
         });
         router.push("/score/register");
       } catch (error) {
-        console.log(error);
         console.error(error.toString());
         let errorMessage = error.toString();
         const detailedErrorMessage = error?.response?.data?.error?.message ?? "";

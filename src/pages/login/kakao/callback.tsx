@@ -46,7 +46,6 @@ export default function KakaoLoginCallbackPage() {
         setkakaoProfileImageUrl(data.data.profileImageUrl);
       }
     } catch (error) {
-      console.log(error);
       console.error(error.toString());
       let errorMessage = error.toString();
       const detailedErrorMessage = error?.response?.data?.error?.message ?? "";
