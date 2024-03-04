@@ -29,6 +29,9 @@ export default function ScorePage({ status, scoreData }: { status: string; score
     return <div>점수 인증이 거절되었습니다. 점수 공유 현황을 확인을 위해 다시 제출해 주세요.</div>;
   }
 
+  scoreData.firstChoice.sort((a, b) => b.applicants.length - a.applicants.length);
+  scoreData.secondChoice.sort((a, b) => b.applicants.length - a.applicants.length);
+
   // 검색
   const [searchActive, setSearchActive] = useState<boolean>(false); // 검색 창 활성화 여부
   // const [searchText, setSearchText] = useState<string>(""); // 검색 키워드 텍스트
