@@ -46,7 +46,7 @@ export default function SignupSurvey(props) {
 
   async function submitSurvey() {
     try {
-      const response = await axios.post("/api/auth/complete-register", requestBody, {
+      const response = await axios.post("/api/auth/sign-up", requestBody, {
         headers: {
           withCredentials: true,
           "Content-Type": "application/json",
