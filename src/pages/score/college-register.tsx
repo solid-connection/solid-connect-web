@@ -26,11 +26,16 @@ export default function CollegeRegisterPage({ collegesKeyName }) {
         const res = await apiClient.get("/application/status");
         const { data } = res.data;
         updateCount = data.updateCount;
+        if (updateCount !== 0) {
+          setDescription(`파견학교 수정은 총 3회까지 가능합니다. ${updateCount - 1}/3`);
+        }
       } catch (error) {
-        // console.error(error);
-      }
-      if (updateCount !== 0) {
-        setDescription(`파견학교 수정은 총 3회까지 가능합니다. ${updateCount - 1}/3`);
+        console.log(error);
+        console.error(error.toString());
+        let errorMessage = error.toString();
+        const detailedErrorMessage = error?.response?.data?.error?.message ?? "";
+        if (detailedErrorMessage) errorMessage += "\n" + detailedErrorMessage;
+        alert(errorMessage);
       }
     }
     fetchData();
@@ -52,8 +57,12 @@ export default function CollegeRegisterPage({ collegesKeyName }) {
         });
         router.push("/score/register");
       } catch (error) {
-        // console.error(error);
-        alert(error.response.data.error.message);
+        console.log(error);
+        console.error(error.toString());
+        let errorMessage = error.toString();
+        const detailedErrorMessage = error?.response?.data?.error?.message ?? "";
+        if (detailedErrorMessage) errorMessage += "\n" + detailedErrorMessage;
+        alert(errorMessage);
       }
     }
     // 서버로 데이터 전송

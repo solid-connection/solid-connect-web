@@ -18,7 +18,12 @@ export default function MyMenu() {
       // API 호출과 쿠키 제거 작업이 모두 완료된 후에 페이지 이동이 실행됩니다.
       router.push("/");
     } catch (error) {
-      console.error("로그아웃 실패", error);
+      console.log(error);
+      console.error(error.toString());
+      let errorMessage = error.toString();
+      const detailedErrorMessage = error?.response?.data?.error?.message ?? "";
+      if (detailedErrorMessage) errorMessage += "\n" + detailedErrorMessage;
+      alert(errorMessage);
     }
   };
 

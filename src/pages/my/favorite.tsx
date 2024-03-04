@@ -35,7 +35,12 @@ export default function MyScrapPage() {
         const data: ListCollege[] = response.data.data;
         setWishColleges(data);
       } catch (error) {
-        console.error(error);
+        console.log(error);
+        console.error(error.toString());
+        let errorMessage = error.toString();
+        const detailedErrorMessage = error?.response?.data?.error?.message ?? "";
+        if (detailedErrorMessage) errorMessage += "\n" + detailedErrorMessage;
+        alert(errorMessage);
       }
     }
     getWishColleges();

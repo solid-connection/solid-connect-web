@@ -95,15 +95,16 @@ export default function ScoreRegisterPage() {
         setCurrentStage(4);
         setProgress(100);
       } catch (error) {
-        alert(error.response.data.error.message);
+        console.log(error);
+        console.error(error.toString());
+        let errorMessage = error.toString();
+        const detailedErrorMessage = error?.response?.data?.error?.message ?? "";
+        if (detailedErrorMessage) errorMessage += "\n" + detailedErrorMessage;
+        alert(errorMessage);
       }
     }
     // 서버로 데이터 전송
-    try {
-      postData();
-    } catch (error) {
-      console.error(error);
-    }
+    postData();
   }
 
   function renderCurrentForm() {
