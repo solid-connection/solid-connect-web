@@ -60,6 +60,7 @@ export default function SignupSurvey(props) {
         router.push("/");
       }
     } catch (error) {
+      console.log(error);
       console.error(error.toString());
       let errorMessage = error.toString();
       if (error.response.data.error.message) errorMessage += "\n" + error.response.data.error.message;
