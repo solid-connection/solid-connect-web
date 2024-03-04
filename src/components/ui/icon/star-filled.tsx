@@ -1,4 +1,14 @@
-export default function StarFilledIcon({ size = "20", leftColor = "#000000", rightColor = "#000000", leftOpacity = "1", rightOpacity = "1", onClick: any, style = {} }) {
+interface StarFilledIconProps {
+  size?: string;
+  leftColor?: string;
+  rightColor?: string;
+  leftOpacity?: string;
+  rightOpacity?: string;
+  onClick?: any;
+  style?: any;
+}
+
+export default function StarFilledIcon({ size = "20", leftColor = "#000000", rightColor = "#000000", leftOpacity = "1", rightOpacity = "1", onClick, style }: StarFilledIconProps) {
   const gradientId = `gradient-${Math.random().toString(16).slice(2)}`;
 
   return (
