@@ -8,22 +8,18 @@ export default function Survey1(props) {
 
   const regionList = [
     {
-      englishName: "america",
       name: "미주권",
       img: "/images/region_america.jpeg",
     },
     {
-      englishName: "asia",
       name: "아시아권",
       img: "/images/region_asia.jpeg",
     },
     {
-      englishName: "europe",
       name: "유럽권",
       img: "/images/region_europe.jpeg",
     },
     {
-      englishName: "china",
       name: "중국권",
       img: "/images/region_china.jpeg",
     },
@@ -46,10 +42,10 @@ export default function Survey1(props) {
                   setRegion(regionItem.name);
                 }}
               >
-                <div className={region !== regionItem.englishName ? styles.imgWrapper : ""}>
+                <div className={region !== regionItem.name ? styles.imgWrapper : ""}>
                   <Image src={regionItem.img} alt={regionItem.name} width={162} height={162} />
                 </div>
-                <div className={styles.name} style={region === regionItem.englishName ? { color: "var(--primary-2, #091F5B)" } : {}}>
+                <div className={styles.name} style={region === regionItem.name ? { color: "var(--primary-2, #091F5B)" } : {}}>
                   {regionItem.name}
                 </div>
               </div>
