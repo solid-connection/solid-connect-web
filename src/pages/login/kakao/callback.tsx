@@ -23,11 +23,10 @@ export default function KakaoLoginCallbackPage() {
 
   useEffect(() => {
     const code = router.query.code;
-
     if (code) {
       sendCodeToBackend(code);
     }
-  }, []);
+  }, [router.query.code]);
 
   const sendCodeToBackend = async (code) => {
     try {
