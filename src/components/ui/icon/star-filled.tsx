@@ -1,5 +1,5 @@
-export default function StarFilledIcon({ index, size = "20", leftColor = "#000000", rightColor = "#000000", leftOpacity = "1", rightOpacity = "1", onClick, style }) {
-  const gradientId = index;
+export default function StarFilledIcon({ size = "20", leftColor = "#000000", rightColor = "#000000", leftOpacity = "1", rightOpacity = "1", onClick = () => {}, style = {} }) {
+  const gradientId = `gradient-${Math.random().toString(16).slice(2)}`;
 
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 20 20" fill="none" onClick={onClick} style={style}>

@@ -20,7 +20,7 @@ export default function CollegeReviewForm() {
       <div className={styles.rating}>
         {[...Array(totalStars)].map((_, index) => {
           const filled = rating > index + 0.5 ? ["#6F90D1", "#6F90D1", "1", "1"] : rating > index ? ["#6F90D1", "#000000", "1", "0.54"] : ["#000000", "#000000", "0.54", "0.54"];
-          return <StarFilledIcon key={index} index={index} size="30" leftColor={filled[0]} rightColor={filled[1]} leftOpacity={filled[2]} rightOpacity={filled[3]} onClick={(event) => handleStarClick(index + 1, event)} style={{ cursor: "pointer" }} />;
+          return <StarFilledIcon key={index} size="30" leftColor={filled[0]} rightColor={filled[1]} leftOpacity={filled[2]} rightOpacity={filled[3]} onClick={(event) => handleStarClick(index + 1, event)} style={{ cursor: "pointer" }} />;
         })}
       </div>
 

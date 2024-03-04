@@ -1,8 +1,10 @@
-import React, { useRef, useEffect } from "react";
+import { useState } from "react";
 
 import { Review } from "@/types/review";
 
 import styles from "./college-reviews.module.css";
+import StarFilledIcon from "@/components/ui/icon/star-filled";
+import ExpendMoreFilled from "@/components/ui/icon/ExpendMoreFilled";
 
 export default function CollegeReviews({ style, reviewList }: { style?: React.CSSProperties; reviewList: Review[] }) {
   return (
@@ -15,32 +17,20 @@ export default function CollegeReviews({ style, reviewList }: { style?: React.CS
 }
 
 export function CollegeReviewCard({ term, rating, content, dispatchSemester, transportation, buddyProgram }: Review) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   const renderStars = () => {
-    const totalStars = 5;
+    const TOTAL_STARS = 5;
     let stars = [];
-    for (let i = 1; i <= totalStars; i++) {
+    for (let i = 1; i <= TOTAL_STARS; i++) {
       if (i <= rating) {
         // Full Star
-        stars.push(
-          <span key={i} className={styles.fullStar}>
-            ★
-          </span>
-        );
+        stars.push(<StarFilledIcon key={i} leftColor="#6F90D1" rightColor="#6F90D1" />);
       } else if (i - 0.5 === rating) {
         // Half Star
-        stars.push(
-          <span key={i} className={styles.halfStar}>
-            ★
-          </span>
-        );
+        stars.push(<StarFilledIcon key={i} leftColor="#6F90D1" rightOpacity="0.54" />);
       } else {
         // Empty Star
-        stars.push(
-          <span key={i} className={styles.emptyStar}>
-            ☆
-          </span>
-        );
+        stars.push(<StarFilledIcon key={i} leftOpacity="0.54" rightOpacity="0.54" />);
       }
     }
     return stars;
@@ -70,6 +60,9 @@ export function CollegeReviewCard({ term, rating, content, dispatchSemester, tra
             <span>{buddyProgram}</span>
           </div>
         </div>
+        <button className={styles.toggleButton} onClick={() => setOpen(false)}>
+          <ExpendMoreFilled style={{ transform: "rotate(180deg)" }} />
+        </button>
       </div>
     );
   } else {
@@ -79,6 +72,9 @@ export function CollegeReviewCard({ term, rating, content, dispatchSemester, tra
           <div className={styles.term}>{term}</div>
           <div className={styles.rating}>{renderStars()}</div>
         </div>
+        <button className={styles.toggleButton} onClick={() => setOpen(true)}>
+          <ExpendMoreFilled />
+        </button>
       </div>
     );
   }

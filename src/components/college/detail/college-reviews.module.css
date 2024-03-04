@@ -7,8 +7,9 @@
 
 /* Review card */
 .card {
+  position: relative;
   margin: 0 20px 0 20px;
-  padding: 14px 12px 20px 12px;
+  padding: 14px 12px 14px 12px;
   border-radius: 6px;
   border: 1px solid #bbb;
 }
@@ -82,4 +83,21 @@
   font-style: normal;
   font-weight: 500;
   line-height: 160%; /* 22.4px */
+}
+
+.toggleButton {
+  position: absolute;
+  bottom: -15px;
+  left: 48.5%;
+  width: 28px;
+  height: 28px;
+
+  background: white;
+  border: solid 1px #bbb;
+  border-radius: 100%;
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
