@@ -46,9 +46,11 @@ export default function KakaoLoginCallbackPage() {
         setkakaoProfileImageUrl(data.data.profileImageUrl);
       }
     } catch (error) {
+      console.log(error);
       console.error(error.toString());
       let errorMessage = error.toString();
-      if (error.response.data.error.message) errorMessage += "\n" + error.response.data.error.message;
+      const detailedErrorMessage = error?.response?.data?.error?.message ?? "";
+      if (detailedErrorMessage) errorMessage += "\n" + detailedErrorMessage;
       alert(errorMessage);
     }
   };

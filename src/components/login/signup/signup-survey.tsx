@@ -46,7 +46,7 @@ export default function SignupSurvey(props) {
 
   async function submitSurvey() {
     try {
-      const response = await axios.post("/api/auth/sign-up", requestBody, {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/auth/sign-up`, requestBody, {
         headers: {
           withCredentials: true,
           "Content-Type": "application/json",
@@ -60,10 +60,10 @@ export default function SignupSurvey(props) {
         router.push("/");
       }
     } catch (error) {
-      console.log(error);
       console.error(error.toString());
       let errorMessage = error.toString();
-      if (error.response.data.error.message) errorMessage += "\n" + error.response.data.error.message;
+      const detailedErrorMessage = error?.response?.data?.error?.message ?? "";
+      if (detailedErrorMessage) errorMessage += "\n" + detailedErrorMessage;
       alert(errorMessage);
     }
   }
