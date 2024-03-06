@@ -54,7 +54,7 @@ export default function Home({ recommendedColleges, newsList, applyStatus }: { r
       return (
         <Link className={styles.banner} href="/score/register">
           <div className={styles.bannerTextWrapper}>
-            <div className={styles.bannerText}>나의 성적 다시 입력하기</div>
+            <div className={styles.bannerText}>[승인 요청 중입니다]나의 성적 다시 입력하기</div>
             <CheveronRightFilled color="#F2F1DF" className={styles.bannerIcon} />
           </div>
         </Link>
