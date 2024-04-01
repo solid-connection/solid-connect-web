@@ -1,4 +1,5 @@
 import axios from "axios";
+import { refreshToken } from "firebase-admin/app";
 
 export default function createApiClient(req, res) {
   const apiClient = axios.create({
@@ -15,31 +16,25 @@ export default function createApiClient(req, res) {
       } else {
         accessToken = req.cookies["accessToken"]; // Ensure this is accessible or passed appropriately
       }
-      const refreshToken = req.cookies["refreshToken"];
-
-      if (!accessToken && refreshToken) {
+      if (!accessToken) {
         // access token 없을 때 refresh token으로 재발급 시도
         try {
-          const refreshResponse = await axios.post(
-            `${process.env.NEXT_PUBLIC_API_SERVER_URL}/auth/reissue`,
-            {},
-            {
-              headers: {
-                ...config.headers,
-                Authorization: `Bearer ${refreshToken}`,
-                "Content-Type": "application/json",
-              },
-            }
-          );
-          accessToken = refreshResponse.data.data.accessToken;
-          // res.setHeader("Set-Cookie", `accessToken=${accessToken}; Domain=.solid-connect.net; Path=/; Secure; SameSite=Strict; Max-Age=3600`);
+          const refreshToken = req.cookies["refreshToken"];
+          const response = await fetch(`${process.env.NEXT_PUBLIC_WEB_URL}/api/auth/token/refresh`, {
+            method: "POST",
+            headers: {
+              withCredentials: true,
+              Cookie: `refreshToken=${refreshToken}`,
+            },
+          });
+          const data = await response.json();
+          accessToken = data.accessToken;
           res.setHeader("Set-Cookie", `accessToken=${accessToken}; Path=/; SameSite=Strict; Max-Age=3600`);
 
           config.headers = {
             ...config.headers,
             Authorization: `Bearer ${accessToken}`,
             "Content-Type": "application/json",
-            withCredentials: true,
           };
         } catch (error) {
           console.error("access token 발급중 오류\n", error);
@@ -50,7 +45,6 @@ export default function createApiClient(req, res) {
         config.headers = {
           ...config.headers,
           Authorization: `Bearer ${accessToken}`,
-          withCredentials: true,
         };
       }
       return config;
@@ -70,30 +64,24 @@ export default function createApiClient(req, res) {
         originalRequest._retry = true;
         try {
           const refreshToken = req.cookies["refreshToken"];
-          const refreshResponse = await axios.post(
-            `${process.env.NEXT_PUBLIC_API_SERVER_URL}/auth/reissue`,
-            {},
-            {
-              headers: {
-                Authorization: `Bearer ${refreshToken}`,
-                "Content-Type": "application/json",
-                withCredentials: true,
-              },
-            }
-          );
-          const newAccessToken = refreshResponse.data.data.accessToken;
+          const response = await fetch(`${process.env.NEXT_PUBLIC_WEB_URL}/api/auth/token/refresh`, {
+            method: "POST",
+            headers: {
+              withCredentials: true,
+              Cookie: `refreshToken=${refreshToken}`,
+            },
+          });
+          const data = await response.json();
+          const accessToken = data.accessToken;
+          res.setHeader("Set-Cookie", `accessToken=${accessToken}; Path=/; SameSite=Strict; Max-Age=3600`);
 
-          // res.setHeader("Set-Cookie", `accessToken=${newAccessToken}; Domain=.solid-connect.net; Path=/; Secure; SameSite=Strict; Max-Age=3600`);
-          res.setHeader("Set-Cookie", `accessToken=${newAccessToken}; Path=/; SameSite=Strict; Max-Age=3600`);
-
-          originalRequest.headers["Authorization"] = "Bearer " + newAccessToken;
+          originalRequest.headers["Authorization"] = "Bearer " + accessToken;
           return apiClient(originalRequest);
         } catch (refreshError) {
           console.error("accessToken 무효로 재발급중 오류:\n", refreshError);
           return Promise.reject(refreshError); // Or handle a redirect to login
         }
       }
-      // console.log("뭔가 오류:\n", error);
       return Promise.reject(error);
     }
   );
