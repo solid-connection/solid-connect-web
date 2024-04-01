@@ -16,3 +16,22 @@ export interface RegisterRequest {
   gender: "MALE" | "FEMALE" | "PREFER_NOT_TO_SAY"; // 성별
   birth: string; // 생년월일 yyyy-mm-dd
 }
+
+export interface KakaoLoginResponse {
+  success: boolean;
+  data: {
+    registered: boolean;
+    // if registered is true
+    accessToken?: string;
+    refreshToken?: string;
+    // if registered is false
+    kakaoOauthToken?: string; // 가입 요청시 같이 보낼 임시 토큰
+    nickname?: string;
+    email?: string;
+    profileImageUrl?: string;
+  };
+  error?: {
+    code: number;
+    message: string;
+  };
+}
