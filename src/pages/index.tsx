@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import Head from "next/head";
-import createServerApiClient from "@/lib/serverApiClient";
-import createClientApiClient from "@/lib/clientApiClient";
+import apiClient from "@/lib/axiosClient";
 import Cookies from "js-cookie";
 
 import { getRecommendedCollegesData } from "./api/college/recommended";
@@ -15,7 +14,6 @@ import Home from "@/components/home/home";
 
 export default function HomePage(props: { recommendedColleges: CardCollege[]; newsList: News[] }) {
   const isLogin = Cookies.get("refreshToken") ? true : false;
-  const apiClient = createClientApiClient();
   const [recommendedColleges, setRecommendedColleges] = useState<SimpleCollege[]>(props.recommendedColleges);
   const [applyStatus, setApplyStatus] = useState<ApplyStatus | null>(null);
 
@@ -65,7 +63,6 @@ export default function HomePage(props: { recommendedColleges: CardCollege[]; ne
 
 export async function getServerSideProps(context) {
   const { req, res } = context;
-  const apiClient = createServerApiClient(req, res);
   const isLogin = req.cookies.refreshToken ? true : false;
 
   // 추천 대학

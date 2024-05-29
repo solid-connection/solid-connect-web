@@ -1,13 +1,12 @@
 import Head from "next/head";
 import { useState, useEffect } from "react";
-import createApiClient from "@/lib/clientApiClient";
+import apiClient from "@/lib/axiosClient";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import MyModify from "@/components/my/my-modify";
 
 export default function MyModifyPage() {
   const [myData, setMyData] = useState(null);
-  const apiClient = createApiClient();
   useEffect(() => {
     async function fetchData() {
       const res = await apiClient.get("/my-page");

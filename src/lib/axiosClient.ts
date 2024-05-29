@@ -21,23 +21,24 @@ export default instance;
 
 instance.interceptors.request.use(
   (config) => {
+    console.log("config: ", config);
     config.headers["Authorization"] = `Bearer ${token?.access}`;
-    console.log("Access Token: ", token?.access);
     return config;
   },
   (error) => {
+    console.error("Error request: ", error);
     return Promise.reject(error);
   }
 );
 
 instance.interceptors.response.use(
   (response) => {
-    console.log("Response: ", response);
+    console.log("response: ", response);
     return response;
   },
   async (error) => {
-    console.log("Error: ", error);
-    if (error?.response.status === 401 || error?.response.status === 403) {
+    console.error("Error: ", error);
+    if (error.response?.status === 401 || error.response?.status === 403) {
       try {
         const {
           data: {
@@ -51,16 +52,17 @@ instance.interceptors.response.use(
           error.config.headers = {};
         } else {
           error.config.headers["Authorization"] = convertToBearer(accessToken);
-          //sessionStorage에 새 토큰 저장
-          sessionStorage.setItem("accessToken", convertToBearer(accessToken));
+          localStorage.setItem("accessToken", accessToken);
           // 중단된 요청 새로운 토큰으로 재전송
           const originalResponse = error.config;
           return await axios.request(originalResponse);
         }
       } catch (err) {
-        Promise.reject(err);
+        console.error(err);
+        document.location.href = "/login"; // 로그인 페이지로 이동
       }
     } else {
+      console.log("error not auth: ", error);
       throw error;
     }
   }

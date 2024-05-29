@@ -1,13 +1,28 @@
 import Head from "next/head";
-import createApiClient from "@/lib/serverApiClient";
+import apiClient from "@/lib/axiosClient";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import MyStatus from "@/components/my/my-status";
 import MyProfile from "@/components/my/my-profile";
 import MyMenu from "@/components/my/my-menu";
+import { useEffect, useState } from "react";
 
-export default function MyPage(props) {
-  const { myData } = props;
+export default function MyPage() {
+  const [myData, setMyData] = useState(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await apiClient.get("/my-page"); // Interceptors handle the auth headers
+        console.log("my response: ", response);
+        setMyData(response.data.data);
+      } catch (err) {
+        console.error("my error", err);
+      }
+    }
+
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -20,22 +35,4 @@ export default function MyPage(props) {
       <MyMenu />
     </>
   );
-}
-
-export async function getServerSideProps(context) {
-  const { req, res } = context;
-  const apiClient = createApiClient(req, res);
-
-  try {
-    const response = await apiClient.get("/my-page"); // Interceptors handle the auth headers
-    return { props: { myData: response.data.data } };
-  } catch (error) {
-    console.error(error);
-    return {
-      redirect: {
-        destination: "/login",
-        permanent: false,
-      },
-    };
-  }
 }

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import createApiClient from "@/lib/clientApiClient";
+import apiClient from "@/lib/axiosClient";
 
 import { CollegePersonal } from "@/types/college";
 import { Review } from "@/types/review";
@@ -20,7 +20,6 @@ interface CollegeBottomSheetProps extends CollegePersonal {
 }
 
 export default function CollegeBottomSheet(props: CollegeBottomSheetProps) {
-  const apiClient = createApiClient();
   const { collegeId, convertedKoreanName } = props;
   const { id, term, koreanName, englishName, formatName, region, country, homepageUrl, logoImageUrl, backgroundImageUrl, detailsForLocal } = props;
   const { studentCapacity, tuitionFeeType, semesterAvailableForDispatch } = props;
