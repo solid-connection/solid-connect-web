@@ -53,8 +53,8 @@ export default function SignupSurvey(props) {
         },
       });
       const data = await response.data;
-      Cookies.set(ACCESS_TOKEN_COOKIE_NAME, data.data.accessToken, { expires: ACCESS_TOKEN_EXPIRE_TIME, secure: true, sameSite: "strict" });
-      Cookies.set(REFRESH_TOKEN_COOKIE_NAME, data.data.refreshToken, { expires: REFRESH_TOKEN_EXPIRE_TIME, secure: true, sameSite: "strict" });
+      window.localStorage.setItem("accessToken", data.data.accessToken);
+      window.localStorage.setItem("refreshToken", data.data.refreshToken);
       if (data.success) {
         alert("회원가입이 완료되었습니다.");
         router.push("/");

@@ -1,5 +1,4 @@
 import axios from "axios";
-import { refreshToken } from "firebase-admin/app";
 
 export default function createApiClient(req, res) {
   const apiClient = axios.create({
