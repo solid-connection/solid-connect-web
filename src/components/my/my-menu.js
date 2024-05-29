@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import createApiClient from "@/lib/clientApiClient";
+import apiClient from "@/lib/axiosClient";
 import Cookie from "js-cookie";
 
 import styles from "./my-menu.module.css";
@@ -9,12 +9,11 @@ import Modal from "../ui/modal";
 
 export default function MyMenu() {
   const router = useRouter();
-  const apiClient = createApiClient();
   const handleLogout = async () => {
     try {
       await apiClient.post("/auth/sign-out");
-      Cookie.remove("accessToken");
-      Cookie.remove("refreshToken");
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
       // API 호출과 쿠키 제거 작업이 모두 완료된 후에 페이지 이동이 실행됩니다.
       router.push("/");
     } catch (error) {

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useLayout } from "@/context/LayoutContext";
 import Cookies from "js-cookie";
-import { ACCESS_TOKEN_EXPIRE_TIME, REFRESH_TOKEN_EXPIRE_TIME, ACCESS_TOKEN_COOKIE_NAME, REFRESH_TOKEN_COOKIE_NAME } from "@/types/auth";
+import { ACCESS_TOKEN_EXPIRE_TIME, REFRESH_TOKEN_EXPIRE_TIME, ACCESS_TOKEN_COOKIE_NAME, REFRESH_TOKEN_COOKIE_NAME, KakaoLoginResponse } from "@/types/auth";
 
 import SignupSurvey from "@/components/login/signup/signup-survey";
 
@@ -31,12 +31,14 @@ export default function KakaoLoginCallbackPage() {
   const sendCodeToBackend = async (code) => {
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/auth/kakao`, { code }, { withCredentials: true, headers: { "Content-Type": "application/json" } });
-      const data = await response.data;
+      // const response2 = await axios.post(`/api/auth/kakao`, { code }, { withCredentials: true, headers: { "Content-Type": "application/json" } })
+      const data: KakaoLoginResponse = await response.data;
+      // console.log(data);
 
       if (data.data.registered) {
-        Cookies.set(ACCESS_TOKEN_COOKIE_NAME, data.data.accessToken, { expires: ACCESS_TOKEN_EXPIRE_TIME, secure: true, sameSite: "strict" });
-        Cookies.set(REFRESH_TOKEN_COOKIE_NAME, data.data.refreshToken, { expires: REFRESH_TOKEN_EXPIRE_TIME, secure: true, sameSite: "strict" });
         // 기존 회원일 시
+        window.localStorage.setItem("accessToken", data.data.accessToken);
+        window.localStorage.setItem("refreshToken", data.data.refreshToken);
         router.push("/");
       } else {
         // 새로운 회원일 시
