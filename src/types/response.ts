@@ -1,4 +1,6 @@
-export interface ApiResponse<T> {
-  success: boolean;
-  data: T;
+export interface ApiError {
+  code: string;
+  message: string;
 }
+
+export type ApiResponse<T> = { success: true; data: T } | { success: false; error: ApiError };
