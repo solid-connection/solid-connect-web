@@ -1,5 +1,4 @@
-import path from "path";
-import fs from "fs";
+// *** NOT USED ANYMORE ***
 
 export async function getCollegeListData() {
   try {

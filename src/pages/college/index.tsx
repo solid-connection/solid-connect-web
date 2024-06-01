@@ -9,6 +9,7 @@ import CollegeSearch from "@/components/college/list/college-search";
 import TopNavigation from "@/components/layout/top-navigation";
 import ButtonTab from "@/components/ui/button-tab";
 import { getCollegeListData } from "../api/college";
+import { getUniversityListDataApi } from "@/services/university";
 
 export default function CollegePage({ colleges }: { colleges: ListCollege[] }) {
   const router = useRouter();
@@ -92,12 +93,18 @@ export default function CollegePage({ colleges }: { colleges: ListCollege[] }) {
   );
 }
 
-export async function getServerSideProps(context) {
-  const { query } = context;
-  const res = await getCollegeListData();
-  const colleges = res.data;
+export async function getServerSideProps() {
+  try {
+    const res = await getUniversityListDataApi();
+    if (res.data.success == false) throw Error("대학 목록을 불러오는데 실패했습니다.");
 
-  return {
-    props: { colleges },
-  };
+    const universityList = res.data.data;
+    return {
+      props: { colleges: universityList },
+    };
+  } catch {
+    return {
+      props: { colleges: [] },
+    };
+  }
 }
