@@ -10,6 +10,7 @@ import FormLanguage from "@/components/score/register/form-language";
 import FormScore from "@/components/score/register/form-score";
 import FormFinal from "@/components/score/register/form-final";
 import FormCollegeFinal from "@/components/score/register/form-college-final";
+import { postApplicationScoreApi } from "@/services/application";
 
 export default function ScoreRegisterPage() {
   const router = useRouter();
@@ -83,22 +84,29 @@ export default function ScoreRegisterPage() {
           jlpt: "JLPT",
           others: "DUOLINGO",
         };
-        const res = await apiClient.post("/application/score", {
+        const applicationScore = {
           languageTestType: languageTypeConvert[languageType],
           languageTestScore: languageScore,
           languageTestReportUrl: languageFileUrl,
           gpaCriteria: parseFloat(scoreType),
           gpa: parseFloat(score),
           gpaReportUrl: scoreFileUrl,
-        });
+        };
+
+        await postApplicationScoreApi(applicationScore);
+
         setCurrentStage(4);
         setProgress(100);
       } catch (error) {
-        console.error(error.toString());
-        let errorMessage = error.toString();
-        const detailedErrorMessage = error?.response?.data?.error?.message ?? "";
-        if (detailedErrorMessage) errorMessage += "\n" + detailedErrorMessage;
-        alert(errorMessage);
+        if (error.response) {
+          console.error(error.response.data);
+          alert(error.response.data);
+        } else if (error.reqeust) {
+          console.error(error.request);
+        } else {
+          console.error(error.message);
+          alert(error.message);
+        }
       }
     }
     // 서버로 데이터 전송

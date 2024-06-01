@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import apiClient from "@/lib/axiosClient";
-import { ScoreSheet } from "@/types/application";
+import { FORBIDDEN_APPLY_STATUS, ScoreSheet } from "@/types/application";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import Tab from "@/components/ui/tab";
@@ -8,6 +8,7 @@ import ScoreSheets from "@/components/score/score-sheets";
 import ButtonTab from "@/components/ui/button-tab";
 import ScoreSearchBar from "@/components/score/score-search-bar";
 import ScoreSearchField from "@/components/score/score-search-field";
+import { getApplicationListApi, getMyApplicationStatusApi } from "@/services/application";
 
 interface ScoreData {
   firstChoice: ScoreSheet[];
@@ -32,22 +33,30 @@ export default function ScorePage() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const statusResponse = await apiClient.get("/application/status");
+        const statusResponse = await getMyApplicationStatusApi();
+        if (statusResponse.data.success === false) throw new Error(statusResponse.data.error.message);
+
         const statusData = statusResponse.data.data;
-        const notAllowdStatus = ["NOT_SUBMITTED", "SCORE_SUBMITTED", "COLLEGE_SUBMITTED", "SUBMITTED_PENDING", "SUBMITTED_REJECTED"];
+        setStatus(statusData.status);
 
         if (statusData.status === "SUBMITTED_APPROVED") {
-          const scoreResponse = await apiClient.get("/application");
+          const scoreResponse = await getApplicationListApi();
+          if (scoreResponse.data.success === false) throw new Error(scoreResponse.data.error.message);
+
           const scoreData = scoreResponse.data.data;
-          setStatus("SUBMITTED_APPROVED");
           setScoreData(scoreData);
           setFilteredScoreData(scoreData);
-        } else if (notAllowdStatus.includes(statusData.status)) {
-          setStatus(statusData.status);
         }
       } catch (err) {
-        console.error(err);
-        setStatus("NO_AUTHORIZATION");
+        if (err.response) {
+          console.error(err.response.data);
+          alert(err.response.data);
+        } else if (err.reqeust) {
+          console.error(err.request);
+        } else {
+          console.error(err.message);
+          alert(err.message);
+        }
       } finally {
         setLoading(false);
       }
@@ -147,45 +156,3 @@ export default function ScorePage() {
     </>
   );
 }
-
-// export async function getServerSideProps(context) {
-//   // 요청에서 쿠키를 추출합니다.
-//   try {
-//     // 서버에서 데이터를 가져옵니다.
-//     const statusResponse = await apiClient.get("/application/status");
-//     const statusData = statusResponse.data.data;
-//     const notAllowdStatus = ["NOT_SUBMITTED", "SCORE_SUBMITTED", "COLLEGE_SUBMITTED", "SUBMITTED_PENDING", "SUBMITTED_REJECTED"];
-//     if (statusData.status === "SUBMITTED_APPROVED") {
-//       const scoreResponse = await apiClient.get("/application");
-//       const scoreData = scoreResponse.data.data;
-//       return {
-//         props: {
-//           status: "SUBMITTED_APPROVED",
-//           scoreData: scoreData,
-//         },
-//       };
-//     } else if (notAllowdStatus.includes(statusData.status)) {
-//       return {
-//         props: {
-//           status: statusData.status,
-//         },
-//       };
-//     }
-//     return {
-//       props: {
-//         status: "NO_AUTHORIZATION",
-//       },
-//     };
-//   } catch (error) {
-//     // 에러가 발생하면 빈 props를 반환합니다.
-//     return {
-//       props: {
-//         status: "NO_AUTHORIZATION",
-//       },
-//       redirect: {
-//         destination: "/login",
-//         permanent: false,
-//       },
-//     };
-//   }
-// }

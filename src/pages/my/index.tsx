@@ -16,14 +16,15 @@ export default function MyPage() {
           if (res.data.success == false) throw new Error(res.data.error.message);
           setMyData(res.data.data);
         })
-        .catch((error) => {
-          if (error.response) {
-            console.error(error.response.data);
-            alert(error.response.data);
-          } else if (error.reqeust) {
-            console.error(error.request);
+        .catch((err) => {
+          if (err.response) {
+            console.error("Axios response error", err.response.data);
+            alert(err.response.data?.error?.message);
+          } else if (err.reqeust) {
+            console.error("Axios request error", err.request);
           } else {
-            console.error(error.message);
+            console.error("Error", err.message);
+            alert(err.message);
           }
         });
     };
