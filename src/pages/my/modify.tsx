@@ -1,26 +1,25 @@
 import Head from "next/head";
+import { useState, useEffect } from "react";
+
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
-import MyStatus from "@/components/my/my-status";
-import MyProfile from "@/components/my/my-profile";
-import MyMenu from "@/components/my/my-menu";
-import { useEffect, useState } from "react";
+import MyModify from "@/components/my/my-modify";
 import { getMyInfoApi } from "@/services/myInfo";
 
-export default function MyPage() {
+export default function MyModifyPage() {
   const [myData, setMyData] = useState(null);
 
   useEffect(() => {
     const fetchMyData = async () => {
       await getMyInfoApi()
         .then((res) => {
-          if (res.data.success == false) throw new Error(res.data.error.message);
+          if (res.data.success === false) throw new Error(res.data.error.message);
           setMyData(res.data.data);
         })
         .catch((error) => {
           if (error.response) {
             console.error(error.response.data);
             alert(error.response.data);
-          } else if (error.reqeust) {
+          } else if (error.request) {
             console.error(error.request);
           } else {
             console.error(error.message);
@@ -33,12 +32,10 @@ export default function MyPage() {
   return (
     <>
       <Head>
-        <title>마이페이지</title>
+        <title>프로필 수정</title>
       </Head>
-      <TopDetailNavigation title="마이페이지" />
-      <MyProfile {...myData} />
-      {/* <MyStatus scrapCount={myData.likedPostCount || 0} mentoCount={myData.likedMentoCount || 0} wishCollegeCount={myData.likedUnivCount || 0} /> */}
-      <MyMenu />
+      <TopDetailNavigation title="프로필 수정" />
+      <MyModify {...myData} />
     </>
   );
 }

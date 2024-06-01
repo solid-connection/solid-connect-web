@@ -1,7 +1,7 @@
 import apiClient from "@/lib/axiosClient";
-import { MyInfo, MyInfoSimple, MyWishUniversity } from "@/types/myInfo";
-import { ApiResponse } from "@/types/response";
 import { AxiosResponse } from "axios";
+import { ApiResponse } from "@/types/response";
+import { MyInfo, MyInfoSimple, MyWishUniversity } from "@/types/myInfo";
 
 export const getMyInfoApi = (): Promise<AxiosResponse<ApiResponse<MyInfo>>> => apiClient.get("/my-page");
 
