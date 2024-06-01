@@ -21,23 +21,19 @@ export default instance;
 
 instance.interceptors.request.use(
   (config) => {
-    console.log("config: ", config);
     config.headers["Authorization"] = `Bearer ${token?.access}`;
     return config;
   },
   (error) => {
-    console.error("Error request: ", error);
     return Promise.reject(error);
   }
 );
 
 instance.interceptors.response.use(
   (response) => {
-    console.log("response: ", response);
     return response;
   },
   async (error) => {
-    console.error("Error: ", error);
     if (error.response?.status === 401 || error.response?.status === 403) {
       try {
         const {
@@ -58,11 +54,9 @@ instance.interceptors.response.use(
           return await axios.request(originalResponse);
         }
       } catch (err) {
-        console.error(err);
         document.location.href = "/login"; // 로그인 페이지로 이동
       }
     } else {
-      console.log("error not auth: ", error);
       throw error;
     }
   }
