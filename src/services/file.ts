@@ -1,5 +1,5 @@
-import apiClient from "@/lib/axiosClient";
-import noAuthAxios from "@/lib/noAuthAxiosClient";
+import apiClient from "@/libs/axiosClient";
+import noAuthAxios from "@/libs/noAuthAxiosClient";
 import { AxiosResponse } from "axios";
 import { ApiResponse } from "@/types/response";
 import { FileResponse } from "@/types/file";

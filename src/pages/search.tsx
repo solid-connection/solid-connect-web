@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import CollegeSearchBar from "@/components/search/college-search-bar";
 import CollegeSearchField from "@/components/search/college-search-field";
-import { getPopularKeywords, saveSearchKeyword } from "@/lib/keywords";
+import { getPopularKeywords, saveSearchKeyword } from "@/libs/keywords";
 
 export default function HomeSearchPage() {
   const router = useRouter();

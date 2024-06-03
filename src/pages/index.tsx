@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Head from "next/head";
-import apiClient from "@/lib/axiosClient";
+import apiClient from "@/libs/axiosClient";
 
 import { getRecommendedCollegesData } from "./api/college/recommended";
 import { getNewsList } from "./api/news";
