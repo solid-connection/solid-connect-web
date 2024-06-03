@@ -1,15 +1,14 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
-import Cookies from "js-cookie";
 
 import { Region } from "@/types/college";
 import { RegisterRequest, PreparationStatus } from "@/types/auth";
-import { ACCESS_TOKEN_EXPIRE_TIME, REFRESH_TOKEN_EXPIRE_TIME, ACCESS_TOKEN_COOKIE_NAME, REFRESH_TOKEN_COOKIE_NAME } from "@/types/auth";
 
 import Survey1 from "./survey-1";
 import Survey2 from "./survey-2";
 import Survey3 from "./survey-3";
+import { signUpApi } from "@/services/auth";
 
 export default function SignupSurvey(props) {
   const { kakaoOauthToken, kakaoNickname, kakaoEmail, kakaoProfileImageUrl } = props;
@@ -33,7 +32,7 @@ export default function SignupSurvey(props) {
     비공개: "PREFER_NOT_TO_SAY",
   };
 
-  const requestBody: RegisterRequest = {
+  const registerRequest: RegisterRequest = {
     kakaoOauthToken: kakaoOauthToken,
     interestedRegions: [region],
     interestedCountries: countries,
@@ -45,27 +44,26 @@ export default function SignupSurvey(props) {
   };
 
   async function submitSurvey() {
-    try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/auth/sign-up`, requestBody, {
-        headers: {
-          withCredentials: true,
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await response.data;
-      window.localStorage.setItem("accessToken", data.data.accessToken);
-      window.localStorage.setItem("refreshToken", data.data.refreshToken);
-      if (data.success) {
+    await signUpApi(registerRequest)
+      .then((res) => {
+        if (res.data.success == false) throw new Error(res.data.error.message);
+        localStorage.setItem("accessToken", res.data.data.accessToken);
+        localStorage.setItem("refreshToken", res.data.data.refreshToken);
+
         alert("회원가입이 완료되었습니다.");
         router.push("/");
-      }
-    } catch (error) {
-      console.error(error.toString());
-      let errorMessage = error.toString();
-      const detailedErrorMessage = error?.response?.data?.error?.message ?? "";
-      if (detailedErrorMessage) errorMessage += "\n" + detailedErrorMessage;
-      alert(errorMessage);
-    }
+      })
+      .catch((err) => {
+        if (err.response) {
+          console.error("Axios response error", err.response.data);
+          alert(err.response.data?.error?.message);
+        } else if (err.reqeust) {
+          console.error("Axios request error", err.request);
+        } else {
+          console.error("Error", err.message);
+          alert(err.message);
+        }
+      });
   }
 
   const renderCurrentSurvey = () => {
