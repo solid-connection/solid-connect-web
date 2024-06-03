@@ -1,3 +1,4 @@
+// !!!!! NOT USED ANYMORE !!!!!
 import { KakaoLoginResponse } from "@/types/auth";
 import { NextApiRequest, NextApiResponse } from "next";
 

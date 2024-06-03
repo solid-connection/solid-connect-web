@@ -3,23 +3,23 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useLayout } from "@/context/LayoutContext";
-import Cookies from "js-cookie";
-import { ACCESS_TOKEN_EXPIRE_TIME, REFRESH_TOKEN_EXPIRE_TIME, ACCESS_TOKEN_COOKIE_NAME, REFRESH_TOKEN_COOKIE_NAME, KakaoLoginResponse } from "@/types/auth";
+import { KakaoLoginResponse } from "@/types/auth";
 
 import SignupSurvey from "@/components/login/signup/signup-survey";
+import { kakaoAuthApi } from "@/services/auth";
 
 export default function KakaoLoginCallbackPage() {
+  const router = useRouter();
+  const [kakaoOauthToken, setkakaoOauthToken] = useState<string>("");
+  const [kakaoNickname, setkakaoNickname] = useState<string>("");
+  const [kakaoEmail, setkakaoEmail] = useState<string>("");
+  const [kakaoProfileImageUrl, setkakaoProfileImageUrl] = useState<string>("");
+
   const { setHideBottomNavigation } = useLayout();
   useEffect(() => {
     setHideBottomNavigation(true);
     return () => setHideBottomNavigation(false); // 컴포넌트가 언마운트 될 때 다시 보이게 설정
   }, []);
-
-  const router = useRouter();
-  const [kakaoOauthToken, setkakaoOauthToken] = useState("");
-  const [kakaoNickname, setkakaoNickname] = useState("");
-  const [kakaoEmail, setkakaoEmail] = useState("");
-  const [kakaoProfileImageUrl, setkakaoProfileImageUrl] = useState("");
 
   useEffect(() => {
     const code = router.query.code;
@@ -29,31 +29,34 @@ export default function KakaoLoginCallbackPage() {
   }, [router.query.code]);
 
   const sendCodeToBackend = async (code) => {
-    try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/auth/kakao`, { code }, { withCredentials: true, headers: { "Content-Type": "application/json" } });
-      // const response2 = await axios.post(`/api/auth/kakao`, { code }, { withCredentials: true, headers: { "Content-Type": "application/json" } })
-      const data: KakaoLoginResponse = await response.data;
-      // console.log(data);
-
-      if (data.data.registered) {
-        // 기존 회원일 시
-        window.localStorage.setItem("accessToken", data.data.accessToken);
-        window.localStorage.setItem("refreshToken", data.data.refreshToken);
-        router.push("/");
-      } else {
-        // 새로운 회원일 시
-        setkakaoOauthToken(data.data.kakaoOauthToken);
-        setkakaoNickname(data.data.nickname);
-        setkakaoEmail(data.data.email);
-        setkakaoProfileImageUrl(data.data.profileImageUrl);
-      }
-    } catch (error) {
-      console.error(error.toString());
-      let errorMessage = error.toString();
-      const detailedErrorMessage = error?.response?.data?.error?.message ?? "";
-      if (detailedErrorMessage) errorMessage += "\n" + detailedErrorMessage;
-      alert(errorMessage);
-    }
+    await kakaoAuthApi(code)
+      .then((res) => {
+        if (res.data.success == false) throw new Error(res.data.error.message);
+        const data = res.data.data;
+        if (data.registered) {
+          // 기존 회원일 시
+          window.localStorage.setItem("accessToken", data.accessToken);
+          window.localStorage.setItem("refreshToken", data.refreshToken);
+          router.push("/");
+        } else if (data.registered == false) {
+          // 새로운 회원일 시
+          setkakaoOauthToken(data.kakaoOauthToken);
+          setkakaoNickname(data.nickname);
+          setkakaoEmail(data.email);
+          setkakaoProfileImageUrl(data.profileImageUrl);
+        }
+      })
+      .catch((err) => {
+        if (err.response) {
+          console.error("Axios response error", err.response.data);
+          alert(err.response.data?.error?.message);
+        } else if (err.reqeust) {
+          console.error("Axios request error", err.request);
+        } else {
+          console.error("Error", err.message);
+          alert(err.message);
+        }
+      });
   };
 
   return (

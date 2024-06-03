@@ -1,28 +1,33 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import apiClient from "@/lib/axiosClient";
-import Cookie from "js-cookie";
 
 import styles from "./my-menu.module.css";
 import Modal from "../ui/modal";
+import { signOutApi } from "@/services/auth";
 
 export default function MyMenu() {
   const router = useRouter();
+
   const handleLogout = async () => {
-    try {
-      await apiClient.post("/auth/sign-out");
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
-      // API 호출과 쿠키 제거 작업이 모두 완료된 후에 페이지 이동이 실행됩니다.
-      router.push("/");
-    } catch (error) {
-      console.error(error.toString());
-      let errorMessage = error.toString();
-      const detailedErrorMessage = error?.response?.data?.error?.message ?? "";
-      if (detailedErrorMessage) errorMessage += "\n" + detailedErrorMessage;
-      alert(errorMessage);
-    }
+    await signOutApi()
+      .then((res) => {})
+      .catch((err) => {
+        if (err.response) {
+          console.error("Axios response error", err.response.data);
+          alert(err.response.data?.error?.message);
+        } else if (err.reqeust) {
+          console.error("Axios request error", err.request);
+        } else {
+          console.error("Error", err.message);
+          alert(err.message);
+        }
+      })
+      .finally(() => {
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+        router.push("/"); // API 호출과 토큰 제거 작업이 모두 완료된 후에 페이지 이동
+      });
   };
 
   const [showLogout, setShowLogout] = useState(false);

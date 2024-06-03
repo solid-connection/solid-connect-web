@@ -11,9 +11,10 @@ import { ApplyStatus } from "@/types/application";
 
 import TopNavigation from "@/components/layout/top-navigation";
 import Home from "@/components/home/home";
+import { getMyApplicationStatusApi } from "@/services/application";
 
 export default function HomePage(props: { recommendedColleges: CardCollege[]; newsList: News[] }) {
-  const isLogin = Cookies.get("refreshToken") ? true : false;
+  const isLogin = false; // TODO: 로그인 여부 확인
   const [recommendedColleges, setRecommendedColleges] = useState<SimpleCollege[]>(props.recommendedColleges);
   const [applyStatus, setApplyStatus] = useState<ApplyStatus | null>(null);
 
@@ -34,16 +35,19 @@ export default function HomePage(props: { recommendedColleges: CardCollege[]; ne
         }
       }
     }
+
     async function fetchApplyStatus() {
-      try {
-        const response = await apiClient.get("/application/status");
-        const statusData = response.data.data;
-        setApplyStatus(statusData.status);
-      } catch (error) {
-        // 비로그인 상태
-        setApplyStatus("NO_AUTHORIZATION");
-      }
+      await getMyApplicationStatusApi()
+        .then((res) => {
+          if (res.data.success === false) throw new Error(res.data.error.message);
+          setApplyStatus(res.data.data.status);
+        })
+        .catch((err) => {
+          // 오류 발생 시 비로그인 상태
+          setApplyStatus("NO_AUTHORIZATION");
+        });
     }
+
     if (isLogin) {
       fetchRecommendedColleges();
       fetchApplyStatus();
@@ -79,17 +83,6 @@ export async function getServerSideProps(context) {
   // 소식지
   const newsListReponse = await getNewsList();
   const newsList = newsListReponse.data;
-
-  // 지원 상태
-  // let applyStatus: ApplyStatus = "NO_AUTHORIZATION";
-  // try {
-  //   const statusResponse = await apiClient.get("/application/status");
-  //   const statusData = statusResponse.data.data;
-  //   applyStatus = statusData.status;
-  // } catch (error) {
-  //   // 비로그인 상태
-  //   applyStatus = "NO_AUTHORIZATION";
-  // }
 
   return {
     props: { recommendedColleges, newsList },

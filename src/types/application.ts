@@ -7,6 +7,15 @@ export const LANGUAGE_TEST = {
   OTHER: "other",
 };
 
+export const LANGUAGE_TEST_CONVERSE = {
+  toeic: "TOEIC",
+  ibt: "TOEFL_IBT",
+  itp: "TOEFL_ITP",
+  ielts: "IELTS",
+  jlpt: "JLPT",
+  others: "DUOLINGO",
+};
+
 export const SHORT_LANGUAGE_TEST = {
   TOEIC: "TOEIC",
   TOEFL_IBT: "IBT",
@@ -25,6 +34,7 @@ export const LANGUAGE_TEST_INVERSE = {
 };
 
 export type ApplyStatus = "NO_AUTHORIZATION" | "NOT_SUBMITTED" | "SCORE_SUBMITTED" | "COLLEGE_SUBMITTED" | "SUBMITTED_PENDING" | "SUBMITTED_REJECTED" | "SUBMITTED_APPROVED";
+export const FORBIDDEN_APPLY_STATUS = ["NOT_SUBMITTED", "SCORE_SUBMITTED", "COLLEGE_SUBMITTED", "SUBMITTED_PENDING", "SUBMITTED_REJECTED"];
 
 // Score
 export interface ScoreSheet {
@@ -41,4 +51,28 @@ export interface Applicant {
   testType: string;
   testScore: string;
   mine: boolean;
+}
+
+export interface ApplicationScoreRequest {
+  languageTestType: "TOEFL_IBT" | "TOEFL_ITP" | "TOEIC" | "IELTS" | "NEW_HSK" | "JLPT" | "DUOLINGO" | "CEFR" | "DELF" | "TCF" | "TEF" | "DALF";
+  languageTestScore: string;
+  languageTestReportUrl: string;
+  gpa: number;
+  gpaCriteria: number;
+  gpaReportUrl: string;
+}
+
+export interface ApplicationUniversityRequest {
+  firstChoiceUniversityId: number;
+  secondChoiceUniversityId: number;
+}
+
+export interface ApplicationListResponse {
+  firstChoice: ScoreSheet[];
+  secondChoice: ScoreSheet[];
+}
+
+export interface ApplicationStatusResponse {
+  status: ApplyStatus;
+  updateCount: number;
 }

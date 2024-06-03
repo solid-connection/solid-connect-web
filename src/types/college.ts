@@ -103,3 +103,7 @@ export interface CardCollege {
   koreanName: string;
   backgroundImgUrl: string;
 }
+
+export interface UniversityFavoriteResponse {
+  result: "LIKE_SUCCESS" | "LIKE_CANCELED";
+}

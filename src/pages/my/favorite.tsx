@@ -1,12 +1,12 @@
 import { ListCollege } from "@/types/college";
 import { useState, useEffect } from "react";
 import Head from "next/head";
-import apiClient from "@/lib/axiosClient";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import ScrollTab from "@/components/ui/scroll-tab";
 import CollegeCards from "@/components/college/list/college-cards";
 import PostCards from "@/components/my/post-cards";
+import { getMyWishUniversityApi } from "@/services/myInfo";
 
 export default function MyScrapPage() {
   const posts = [
@@ -20,21 +20,27 @@ export default function MyScrapPage() {
     // },
   ];
   const [wishColleges, setWishColleges] = useState<ListCollege[]>([]);
+
   useEffect(() => {
-    async function getWishColleges() {
-      try {
-        const response = await apiClient.get("/my-page/wish-university");
-        const data: ListCollege[] = response.data.data;
-        setWishColleges(data);
-      } catch (error) {
-        console.error(error.toString());
-        let errorMessage = error.toString();
-        const detailedErrorMessage = error?.response?.data?.error?.message ?? "";
-        if (detailedErrorMessage) errorMessage += "\n" + detailedErrorMessage;
-        alert(errorMessage);
-      }
-    }
-    getWishColleges();
+    const fetchWishColleges = async () => {
+      await getMyWishUniversityApi()
+        .then((res) => {
+          if (res.data.success == false) throw new Error(res.data.error.message);
+          setWishColleges(res.data.data);
+        })
+        .catch((err) => {
+          if (err.response) {
+            console.error("Axios response error", err.response.data);
+            alert(err.response.data?.error?.message);
+          } else if (err.reqeust) {
+            console.error("Axios request error", err.request);
+          } else {
+            console.error("Error", err.message);
+            alert(err.message);
+          }
+        });
+    };
+    fetchWishColleges();
   }, []);
 
   // const tabs = ["스크랩 한 글", "멘토", "위시학교"];

@@ -8,6 +8,7 @@ import apiClient from "@/lib/axiosClient";
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import ProgressBar from "@/components/score/register/progress-bar";
 import FormCollege from "@/components/score/register/form-college";
+import { getMyApplicationStatusApi, postApplicationUniversityApi } from "@/services/application";
 
 export default function CollegeRegisterPage({ collegesKeyName }) {
   const router = useRouter();
@@ -20,23 +21,28 @@ export default function CollegeRegisterPage({ collegesKeyName }) {
 
   useEffect(() => {
     let updateCount = 0;
-    async function fetchData() {
-      try {
-        const res = await apiClient.get("/application/status");
-        const { data } = res.data;
-        updateCount = data.updateCount;
-        if (updateCount !== 0) {
-          setDescription(`파견학교 수정은 총 3회까지 가능합니다. ${updateCount - 1}/3`);
-        }
-      } catch (error) {
-        console.error(error.toString());
-        let errorMessage = error.toString();
-        const detailedErrorMessage = error?.response?.data?.error?.message ?? "";
-        if (detailedErrorMessage) errorMessage += "\n" + detailedErrorMessage;
-        alert(errorMessage);
-      }
+
+    async function checkUpdateCount() {
+      await getMyApplicationStatusApi()
+        .then((res) => {
+          if (res.data.success === false) throw new Error(res.data.error.message);
+          if (res.data.data.updateCount !== 0) {
+            setDescription(`파견학교 수정은 총 3회까지 가능합니다. ${updateCount - 1}/3`);
+          }
+        })
+        .catch((err) => {
+          if (err.response) {
+            console.error("Axios response error", err.response.data);
+            alert(err.response.data?.error?.message);
+          } else if (err.reqeust) {
+            console.error("Axios request error", err.request);
+          } else {
+            console.error("Error", err.message);
+            alert(err.message);
+          }
+        });
     }
-    fetchData();
+    checkUpdateCount();
   }, []);
 
   function handleBack() {
@@ -47,22 +53,29 @@ export default function CollegeRegisterPage({ collegesKeyName }) {
   }
 
   function submitForm() {
-    async function postData() {
-      try {
-        await apiClient.post("/application/university", {
-          firstChoiceUniversityId: parseInt(firstCollege),
-          secondChoiceUniversityId: parseInt(secondCollege),
+    const postData = async () => {
+      const applicationScore = {
+        firstChoiceUniversityId: parseInt(firstCollege),
+        secondChoiceUniversityId: parseInt(secondCollege),
+      };
+
+      await postApplicationUniversityApi(applicationScore)
+        .then((res) => {
+          if (res.data.success === false) throw new Error(res.data.error.message);
+          router.push("/score");
+        })
+        .catch((err) => {
+          if (err.response) {
+            console.error("Axios response error", err.response.data);
+            alert(err.response.data?.error?.message);
+          } else if (err.reqeust) {
+            console.error("Axios request error", err.request);
+          } else {
+            console.error("Error", err.message);
+            alert(err.message);
+          }
         });
-        router.push("/score/register");
-      } catch (error) {
-        console.error(error.toString());
-        let errorMessage = error.toString();
-        const detailedErrorMessage = error?.response?.data?.error?.message ?? "";
-        if (detailedErrorMessage) errorMessage += "\n" + detailedErrorMessage;
-        alert(errorMessage);
-      }
-    }
-    // 서버로 데이터 전송
+    };
     postData();
   }
 
