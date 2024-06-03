@@ -10,8 +10,7 @@ import { getPopularKeywords, saveSearchKeyword } from "@/lib/keywords";
 export default function HomeSearchPage() {
   const router = useRouter();
   const [searchText, setSearchText] = useState("");
-  // const keyWords = ["하와이", "보라스", "릴카톨릭", "파리8", "낭트", "헐", "함부르크", "오스트라바"];
-  const [keyWords, setKeyWords] = useState([]); // 상태 업데이트
+  const [keyWords, setKeyWords] = useState([]);
 
   useEffect(() => {
     async function loadPopularKeywords() {

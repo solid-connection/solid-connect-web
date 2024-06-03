@@ -1,5 +1,4 @@
 import db from "./firebase/firebaseAdmin";
-// import { increment } from "firebase-admin/firestore";
 import admin from "firebase-admin";
 
 export default async function handler(req, res) {
