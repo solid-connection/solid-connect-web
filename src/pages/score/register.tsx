@@ -1,7 +1,6 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import apiClient from "@/lib/axiosClient";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import ProgressBar from "@/components/score/register/progress-bar";
@@ -11,20 +10,20 @@ import FormScore from "@/components/score/register/form-score";
 import FormFinal from "@/components/score/register/form-final";
 import FormCollegeFinal from "@/components/score/register/form-college-final";
 import { postApplicationScoreApi } from "@/services/application";
+import { uploadGpaFileApi, uploadLanguageTestFileApi } from "@/services/file";
+import { LANGUAGE_TEST_CONVERSE } from "@/types/application";
 
 export default function ScoreRegisterPage() {
-  const router = useRouter();
-
   const [progress, setProgress] = useState<number>(0);
   const [currentStage, setCurrentStage] = useState<number>(1);
   const [progressDisplay, setProgressDisplay] = useState<string>("0/2");
 
   const [languageType, setLanguageType] = useState<string>("");
   const [languageScore, setLanguageScore] = useState("");
-  const [languageCert, setLanguageCert] = useState("");
+  const [languageCert, setLanguageCert] = useState<File>(null);
   const [scoreType, setScoreType] = useState("4.5");
   const [score, setScore] = useState("");
-  const [scoreCert, setScoreCert] = useState("");
+  const [scoreCert, setScoreCert] = useState<File>(null);
 
   function handleBack() {
     if (currentStage === 1) {
@@ -50,42 +49,22 @@ export default function ScoreRegisterPage() {
   function submitForm() {
     async function postData() {
       try {
-        const languageCertRes = await apiClient.post(
-          "/file/language-test",
-          {
-            file: languageCert,
-          },
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
+        // 어학성적 증명 파일 업로드
+        const languageCertRes = await uploadLanguageTestFileApi(languageCert);
+        if (languageCertRes.data.success === false) {
+          throw new Error(languageCertRes.data.error.message);
+        }
         const languageFileUrl = languageCertRes.data.data.fileUrl;
 
-        const scoreCertRes = await apiClient.post(
-          "/file/gpa",
-          {
-            file: scoreCert,
-          },
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
+        // 학점 증명 파일 업로드
+        const scoreCertRes = await uploadGpaFileApi(scoreCert);
+        if (scoreCertRes.data.success === false) {
+          throw new Error(scoreCertRes.data.error.message);
+        }
         const scoreFileUrl = scoreCertRes.data.data.fileUrl;
 
-        const languageTypeConvert = {
-          toeic: "TOEIC",
-          ibt: "TOEFL_IBT",
-          itp: "TOEFL_ITP",
-          ielts: "IELTS",
-          jlpt: "JLPT",
-          others: "DUOLINGO",
-        };
         const applicationScore = {
-          languageTestType: languageTypeConvert[languageType],
+          languageTestType: LANGUAGE_TEST_CONVERSE[languageType],
           languageTestScore: languageScore,
           languageTestReportUrl: languageFileUrl,
           gpaCriteria: parseFloat(scoreType),

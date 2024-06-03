@@ -7,6 +7,15 @@ export const LANGUAGE_TEST = {
   OTHER: "other",
 };
 
+export const LANGUAGE_TEST_CONVERSE = {
+  toeic: "TOEIC",
+  ibt: "TOEFL_IBT",
+  itp: "TOEFL_ITP",
+  ielts: "IELTS",
+  jlpt: "JLPT",
+  others: "DUOLINGO",
+};
+
 export const SHORT_LANGUAGE_TEST = {
   TOEIC: "TOEIC",
   TOEFL_IBT: "IBT",
