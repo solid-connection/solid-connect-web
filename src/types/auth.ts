@@ -6,6 +6,7 @@ export const ACCESS_TOKEN_COOKIE_NAME = "accessToken";
 export const REFRESH_TOKEN_COOKIE_NAME = "refreshToken";
 
 export type PreparationStatus = "CONSIDERING" | "PREPARING_FOR_DEPARTURE" | "STUDYING_ABROAD";
+
 export interface RegisterRequest {
   kakaoOauthToken: string; // 최초 접속 시 발급받는 토큰
   interestedRegions: Region[]; // 한글 지역명 e.g. 미주권
@@ -34,4 +35,23 @@ export interface KakaoLoginResponse {
     code: number;
     message: string;
   };
+}
+
+export interface RegisteredKakaoAuthReponse {
+  registered: true;
+  accessToken: string;
+  refreshToken: string;
+}
+
+export interface UnregisteredKakaoAuthReponse {
+  registered: false;
+  nickname: string;
+  email: string;
+  profileImageUrl: string;
+  kakaoOauthToken: string;
+}
+
+export interface KakaoSignUpResponse {
+  accessToken: string;
+  refreshToken: string;
 }
