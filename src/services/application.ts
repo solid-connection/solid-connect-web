@@ -1,4 +1,4 @@
-import apiClient from "@/libs/axiosClient";
+import apiClient from "@/utils/axiosClient";
 import { AxiosResponse } from "axios";
 import { ApiResponse } from "@/types/response";
 import { ApplicationListResponse, ApplicationScoreRequest, ApplicationStatusResponse, ApplicationUniversityRequest } from "@/types/application";

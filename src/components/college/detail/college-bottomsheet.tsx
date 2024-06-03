@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import apiClient from "@/libs/axiosClient";
+import apiClient from "@/utils/axiosClient";
 
 import { CollegePersonal } from "@/types/college";
 import { Review } from "@/types/review";

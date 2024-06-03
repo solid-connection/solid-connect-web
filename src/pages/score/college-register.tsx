@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import fs from "fs";
 import path from "path";
-import apiClient from "@/libs/axiosClient";
+import apiClient from "@/utils/axiosClient";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import ProgressBar from "@/components/score/register/progress-bar";
