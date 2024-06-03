@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
-// import { getPopularKeywords, saveSearchKeyword } from "@/lib/firebaseServices";
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import CollegeSearchBar from "@/components/search/college-search-bar";
 import CollegeSearchField from "@/components/search/college-search-field";
@@ -9,15 +8,14 @@ import { getPopularKeywords, saveSearchKeyword } from "@/lib/keywords";
 
 export default function HomeSearchPage() {
   const router = useRouter();
-  const [searchText, setSearchText] = useState("");
+  const [searchText, setSearchText] = useState<string>("");
   const [keyWords, setKeyWords] = useState([]);
 
   useEffect(() => {
-    async function loadPopularKeywords() {
+    const loadPopularKeywords = async () => {
       const popularKeywords = await getPopularKeywords();
       setKeyWords(popularKeywords);
-    }
-
+    };
     loadPopularKeywords();
   }, []);
 

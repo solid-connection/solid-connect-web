@@ -4,7 +4,7 @@ import apiClient from "@/lib/axiosClient";
 
 import { getRecommendedCollegesData } from "./api/college/recommended";
 import { getNewsList } from "./api/news";
-import { CardCollege, SimpleCollege } from "@/types/college";
+import { SimpleCollege } from "@/types/college";
 import { News } from "@/types/news";
 import { ApplyStatus } from "@/types/application";
 
@@ -12,13 +12,14 @@ import TopNavigation from "@/components/layout/top-navigation";
 import Home from "@/components/home/home";
 import { getMyApplicationStatusApi } from "@/services/application";
 
-export default function HomePage(props: { recommendedColleges: CardCollege[]; newsList: News[] }) {
+export default function HomePage(props: { newsList: News[] }) {
   let isLogin: boolean = false;
-  const [recommendedColleges, setRecommendedColleges] = useState<SimpleCollege[]>(props.recommendedColleges);
+  const [recommendedColleges, setRecommendedColleges] = useState<SimpleCollege[]>([]);
   const [applyStatus, setApplyStatus] = useState<ApplyStatus | null>(null);
 
   useEffect(() => {
     if (localStorage.getItem("refreshToken") !== null) isLogin = true;
+
     async function fetchRecommendedColleges() {
       try {
         const response = await apiClient.get("/home");
@@ -65,26 +66,12 @@ export default function HomePage(props: { recommendedColleges: CardCollege[]; ne
   );
 }
 
-export async function getServerSideProps(context) {
-  const { req, res } = context;
-  const isLogin = req.cookies.refreshToken ? true : false;
-
-  // 추천 대학
-  let recommendedColleges: SimpleCollege[] = [];
-  if (!isLogin) {
-    try {
-      const reponse = await getRecommendedCollegesData();
-      recommendedColleges = reponse.data.recommendedUniversities;
-    } catch (error) {
-      console.error("추천 파견학교를 불러오는데 실패했습니다");
-    }
-  }
-
+export async function getServerSideProps() {
   // 소식지
   const newsListReponse = await getNewsList();
   const newsList = newsListReponse.data;
 
   return {
-    props: { recommendedColleges, newsList },
+    props: { newsList },
   };
 }

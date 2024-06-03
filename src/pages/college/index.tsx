@@ -8,7 +8,6 @@ import CollegeCards from "../../components/college/list/college-cards";
 import CollegeSearch from "@/components/college/list/college-search";
 import TopNavigation from "@/components/layout/top-navigation";
 import ButtonTab from "@/components/ui/button-tab";
-import { getCollegeListData } from "../api/college";
 import { getUniversityListDataApi } from "@/services/university";
 
 export default function CollegePage({ colleges }: { colleges: ListCollege[] }) {
