@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import Head from "next/head";
 import apiClient from "@/lib/axiosClient";
-import Cookies from "js-cookie";
 
 import { getRecommendedCollegesData } from "./api/college/recommended";
 import { getNewsList } from "./api/news";
@@ -14,11 +13,12 @@ import Home from "@/components/home/home";
 import { getMyApplicationStatusApi } from "@/services/application";
 
 export default function HomePage(props: { recommendedColleges: CardCollege[]; newsList: News[] }) {
-  const isLogin = false; // TODO: 로그인 여부 확인
+  let isLogin: boolean = false;
   const [recommendedColleges, setRecommendedColleges] = useState<SimpleCollege[]>(props.recommendedColleges);
   const [applyStatus, setApplyStatus] = useState<ApplyStatus | null>(null);
 
   useEffect(() => {
+    if (localStorage.getItem("refreshToken") !== null) isLogin = true;
     async function fetchRecommendedColleges() {
       try {
         const response = await apiClient.get("/home");
