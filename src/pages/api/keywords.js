@@ -1,4 +1,4 @@
-import initializeFirebaseAdmin from "./firebase/firebaseAdmin";
+import initializeFirebaseAdmin from "../../libs/firebaseAdmin";
 import admin from "firebase-admin";
 
 export default async function handler(req, res) {
@@ -27,7 +27,6 @@ export default async function handler(req, res) {
     }
   } else if (req.method === "GET") {
     // 인기 검색어 조회
-
     try {
       const snapshot = await db.collection("keywords").orderBy("count", "desc").limit(10).get();
 
