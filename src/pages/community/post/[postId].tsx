@@ -1,7 +1,5 @@
 import Head from "next/head";
 
-import { getPostDetail } from "@/pages/api/post/[id]";
-
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import Post from "@/components/community/post/post";
 import Comments from "@/components/community/post/comments";
@@ -44,7 +42,7 @@ export async function getServerSideProps(context) {
   const { params } = context;
   const { postId } = params;
 
-  const postData = await getPostDetail(postId);
+  const postData = null;
 
   return {
     props: {
