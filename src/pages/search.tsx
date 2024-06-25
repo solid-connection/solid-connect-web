@@ -1,24 +1,21 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
-// import { getPopularKeywords, saveSearchKeyword } from "@/lib/firebaseServices";
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import CollegeSearchBar from "@/components/search/college-search-bar";
 import CollegeSearchField from "@/components/search/college-search-field";
-import { getPopularKeywords, saveSearchKeyword } from "@/lib/keywords";
+import { getPopularKeywords, saveSearchKeyword } from "@/libs/keywords";
 
 export default function HomeSearchPage() {
   const router = useRouter();
-  const [searchText, setSearchText] = useState("");
-  // const keyWords = ["하와이", "보라스", "릴카톨릭", "파리8", "낭트", "헐", "함부르크", "오스트라바"];
-  const [keyWords, setKeyWords] = useState([]); // 상태 업데이트
+  const [searchText, setSearchText] = useState<string>("");
+  const [keyWords, setKeyWords] = useState([]);
 
   useEffect(() => {
-    async function loadPopularKeywords() {
+    const loadPopularKeywords = async () => {
       const popularKeywords = await getPopularKeywords();
       setKeyWords(popularKeywords);
-    }
-
+    };
     loadPopularKeywords();
   }, []);
 

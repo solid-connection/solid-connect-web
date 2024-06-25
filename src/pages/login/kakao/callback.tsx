@@ -1,9 +1,7 @@
 import Head from "next/head";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useLayout } from "@/context/LayoutContext";
-import { KakaoLoginResponse } from "@/types/auth";
 
 import SignupSurvey from "@/components/login/signup/signup-survey";
 import { kakaoAuthApi } from "@/services/auth";

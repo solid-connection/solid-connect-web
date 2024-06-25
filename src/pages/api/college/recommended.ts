@@ -24,8 +24,7 @@ export async function getRecommendedCollegesData() {
 }
 
 export default async function handler(req, res) {
-  const { id } = req.query;
-  const collegesData = await getRecommendedCollegesData(id);
+  const collegesData = await getRecommendedCollegesData();
   if (req.method === "GET") {
     res.status(200).json(collegesData);
   }
