@@ -2,7 +2,6 @@ import { fetchAllNews } from "@/libs/firebaseNews";
 
 export async function getNewsList() {
   const newsList = await fetchAllNews();
-  console.log(newsList);
 
   return { data: newsList };
 }

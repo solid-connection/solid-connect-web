@@ -20,7 +20,6 @@ export default async function handler(req, res) {
       gender: genderConvertDict[gender],
       birth: birth,
     };
-    console.log(body);
     try {
       const backendResponse = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/auth/sign-up`, {
         method: "POST",
@@ -29,7 +28,6 @@ export default async function handler(req, res) {
         },
         body: JSON.stringify(body),
       });
-      console.log(backendResponse);
 
       if (!backendResponse.ok) {
         // 백엔드 응답 오류를 클라이언트에 전달

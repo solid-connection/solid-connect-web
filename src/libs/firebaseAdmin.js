@@ -1,4 +1,7 @@
 import admin from "firebase-admin";
+import { initializeApp } from "firebase-admin/app";
+
+// const app = initializeApp();
 
 let firestore = null;
 
