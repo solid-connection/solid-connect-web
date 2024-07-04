@@ -1,13 +1,17 @@
 import Head from "next/head";
 import Script from "next/script";
+import { RecoilRoot, useSetRecoilState } from "recoil";
 
 import "@/styles/globals.css";
 import { LayoutProvider } from "@/context/LayoutContext";
 import Layout from "@/components/layout/layout";
-import { RecoilRoot } from "recoil";
+import { accessTokenState, isLoggedInState } from "@/states/authState";
 
 // fonts
 import { Inter } from "next/font/google";
+import { useEffect } from "react";
+import { getAccessToken } from "@/utils/authUtils";
+import { AuthInitializer } from "@/components/AuthInitializer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -39,6 +43,7 @@ export default function App({ Component, pageProps }) {
             <link rel="icon" href="/icons/favicon_48.ico" />
             <title>솔리드 커넥션</title>
           </Head>
+          <AuthInitializer />
           <Layout>
             <Script src="https://developers.kakao.com/sdk/js/kakao.js" onLoad={kakaoInit} />
             <Component {...pageProps} />
