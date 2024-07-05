@@ -2,11 +2,13 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "@/hooks/useAuth";
 
-const useFetch = (url, method = "GET", body = null) => {
+type FetchResult<T> = [T | null, any, boolean];
+
+const useFetch = <T>(url, method = "GET", body = null): FetchResult<T> => {
   const { getAccessToken } = useAuth();
-  const [data, setData] = useState(null);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState<T | null>(null);
+  const [error, setError] = useState<any>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
   url = process.env.NEXT_PUBLIC_API_SERVER_URL + url;
   console.log("url", url);
