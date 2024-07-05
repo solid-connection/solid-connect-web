@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-import apiClient from "@/utils/axiosClient";
 import { FORBIDDEN_APPLY_STATUS, ScoreSheet } from "@/types/application";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
@@ -8,151 +7,124 @@ import ScoreSheets from "@/components/score/score-sheets";
 import ButtonTab from "@/components/ui/button-tab";
 import ScoreSearchBar from "@/components/score/score-search-bar";
 import ScoreSearchField from "@/components/score/score-search-field";
-import { getApplicationListApi, getMyApplicationStatusApi } from "@/services/application";
+import { useGetApplicationList, useGetMyApplicationStatus } from "@/services/application";
+import { REGIONS_KO } from "@/constants/university";
+import { RegionsKo } from "@/types/college";
 
 interface ScoreData {
   firstChoice: ScoreSheet[];
   secondChoice: ScoreSheet[];
 }
 
+const HOT_KEYWORDS = ["RMIT", "오스트라바", "칼스루에", "그라츠", "추오", "프라하", "보라스", "빈", "메모리얼"];
+
 export default function ScorePage() {
-  const [loading, setLoading] = useState<boolean>(true);
-  const [status, setStatus] = useState<string>("");
+  // const [loading, setLoading] = useState<boolean>(true);
+  // const [status, setStatus] = useState<string>("");
   // 검색
-  const [searchActive, setSearchActive] = useState<boolean>(false); // 검색 창 활성화 여부
+  const [searchScreenActive, setSearchScreenActive] = useState<boolean>(false); // 검색 창 활성화 여부
   const searchRef = useRef<HTMLInputElement>(null);
   // 점수 데이터
-  const [scoreData, setScoreData] = useState<ScoreData>({ firstChoice: [], secondChoice: [] });
-  const [filteredScoreData, setFilteredScoreData] = useState<ScoreData>(scoreData);
-  const preferenceChoice: string[] = ["1순위", "2순위"];
-  const [preference, setPreference] = useState<string>("1순위");
-  // const filterChoice: string[] = ["유럽권", "미주권", "아시아권", "학점높은 순", "어학성적 높은 순"];
-  const filterChoice: string[] = ["유럽권", "미주권", "아시아권", "중국권"];
-  const [filter, setFilter] = useState<string>("");
+  const [filteredScoreData, setFilteredScoreData] = useState<ScoreData>({ firstChoice: [], secondChoice: [] });
+  const PREFERENCE_CHOICE: string[] = ["1순위", "2순위"];
+  const [preference, setPreference] = useState<"1순위" | "2순위">("1순위");
+  const [regionFilter, setRegionFilter] = useState<RegionsKo | "">("");
+
+  const [status, statusError, statusLoading] = useGetMyApplicationStatus();
+
+  const [score, scoreError, scoreLoading] = useGetApplicationList();
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const statusResponse = await getMyApplicationStatusApi();
-        if (statusResponse.data.success === false) throw new Error(statusResponse.data.error.message);
-
-        const statusData = statusResponse.data.data;
-        setStatus(statusData.status);
-
-        if (statusData.status === "SUBMITTED_APPROVED") {
-          const scoreResponse = await getApplicationListApi();
-          if (scoreResponse.data.success === false) throw new Error(scoreResponse.data.error.message);
-
-          const scoreData = scoreResponse.data.data;
-          setScoreData(scoreData);
-          setFilteredScoreData(scoreData);
-        }
-      } catch (err) {
-        if (err.response) {
-          console.error(err.response.data);
-          alert(err.response.data);
-        } else if (err.reqeust) {
-          console.error(err.request);
-        } else {
-          console.error(err.message);
-          alert(err.message);
-        }
-      } finally {
-        setLoading(false);
-      }
+    if (scoreLoading) return;
+    if (regionFilter === "유럽권") {
+      setFilteredScoreData({
+        firstChoice: score.data.firstChoice.filter((sheet) => sheet.region === "유럽권"),
+        secondChoice: score.data.secondChoice.filter((sheet) => sheet.region === "유럽권"),
+      });
+    } else if (regionFilter === "미주권") {
+      setFilteredScoreData({
+        firstChoice: score.data.firstChoice.filter((sheet) => sheet.region === "미주권"),
+        secondChoice: score.data.secondChoice.filter((sheet) => sheet.region === "미주권"),
+      });
+    } else if (regionFilter === "아시아권") {
+      setFilteredScoreData({
+        firstChoice: score.data.firstChoice.filter((sheet) => sheet.region === "아시아권"),
+        secondChoice: score.data.secondChoice.filter((sheet) => sheet.region === "아시아권"),
+      });
+    } else if (regionFilter === "중국권") {
+      setFilteredScoreData({
+        firstChoice: score.data.firstChoice.filter((sheet) => sheet.region === "중국권"),
+        secondChoice: score.data.secondChoice.filter((sheet) => sheet.region === "중국권"),
+      });
+    } else {
+      setFilteredScoreData(score.data);
     }
-
-    fetchData();
-  }, []);
-
-  scoreData.firstChoice.sort((a, b) => b.applicants.length - a.applicants.length);
-  scoreData.secondChoice.sort((a, b) => b.applicants.length - a.applicants.length);
+  }, [regionFilter, scoreLoading]);
 
   function handleSearch(event) {
     event.preventDefault();
     const keyWord = searchRef.current.value;
-    setFilter("");
+    setRegionFilter("");
     setFilteredScoreData(
       keyWord
         ? {
-            firstChoice: scoreData.firstChoice.filter((sheet) => sheet.koreanName.includes(keyWord)),
-            secondChoice: scoreData.secondChoice.filter((sheet) => sheet.koreanName.includes(keyWord)),
+            firstChoice: score.data.firstChoice.filter((sheet) => sheet.koreanName.includes(keyWord)),
+            secondChoice: score.data.secondChoice.filter((sheet) => sheet.koreanName.includes(keyWord)),
           }
-        : scoreData
+        : score.data
     );
-    setSearchActive(false);
+    setSearchScreenActive(false);
   }
-
-  function handleSearchField(keyWord) {
+  const handleSearchField = (keyWord: string) => {
     searchRef.current.value = keyWord;
-  }
+  };
 
-  function handleSearchClick() {
-    setSearchActive(true);
-  }
-  const hotKeyWords = ["RMIT", "오스트라바", "칼스루에", "그라츠", "추오", "프라하", "보라스", "빈", "메모리얼"];
+  const handleSearchClick = () => {
+    setSearchScreenActive(true);
+  };
 
-  useEffect(() => {
-    if (filter === "유럽권") {
-      setFilteredScoreData({
-        firstChoice: scoreData.firstChoice.filter((sheet) => sheet.region === "유럽권"),
-        secondChoice: scoreData.secondChoice.filter((sheet) => sheet.region === "유럽권"),
-      });
-    } else if (filter === "미주권") {
-      setFilteredScoreData({
-        firstChoice: scoreData.firstChoice.filter((sheet) => sheet.region === "미주권"),
-        secondChoice: scoreData.secondChoice.filter((sheet) => sheet.region === "미주권"),
-      });
-    } else if (filter === "아시아권") {
-      setFilteredScoreData({
-        firstChoice: scoreData.firstChoice.filter((sheet) => sheet.region === "아시아권"),
-        secondChoice: scoreData.secondChoice.filter((sheet) => sheet.region === "아시아권"),
-      });
-    } else if (filter === "중국권") {
-      setFilteredScoreData({
-        firstChoice: scoreData.firstChoice.filter((sheet) => sheet.region === "중국권"),
-        secondChoice: scoreData.secondChoice.filter((sheet) => sheet.region === "중국권"),
-      });
-    } else {
-      setFilteredScoreData(scoreData);
-    }
-  }, [filter]);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (status === "NO_AUTHORIZATION") {
+  if (statusLoading) return <div>Loading...</div>;
+  if (status.data.status === "NO_AUTHORIZATION") {
     return <div>점수 공유 현황을 보려면 로그인이 필요합니다.</div>;
-  } else if (status === "NOT_SUBMITTED") {
+  } else if (status.data.status === "NOT_SUBMITTED") {
     return <div>점수 공유 현황을 보려면 점수를 제출해주세요.</div>;
-  } else if (status === "COLLEGE_SUBMITTED") {
+  } else if (status.data.status === "COLLEGE_SUBMITTED") {
     return <div>점수 공유 현황을 보려면 점수를 인증해야 합니다.</div>;
-  } else if (status === "SCORE_SUBMITTED") {
+  } else if (status.data.status === "SCORE_SUBMITTED") {
     return <div>점수 공유 현황을 보려면 지원 대학을 추가해야 합니다.</div>;
-  } else if (status === "SUBMITTED_PENDING") {
+  } else if (status.data.status === "SUBMITTED_PENDING") {
     return <div>점수 공유 현황을 보려면 점수가 승인되어야 합니다.</div>;
-  } else if (status === "SUBMITTED_REJECTED") {
+  } else if (status.data.status === "SUBMITTED_REJECTED") {
     return <div>점수 인증이 거절되었습니다. 점수 공유 현황을 확인을 위해 다시 제출해 주세요.</div>;
   }
 
-  if (searchActive) {
+  if (!scoreLoading) {
+    score.data.firstChoice.sort((a, b) => b.applicants.length - a.applicants.length);
+    score.data.secondChoice.sort((a, b) => b.applicants.length - a.applicants.length);
+  }
+
+  if (!searchScreenActive) {
     return (
       <>
         <TopDetailNavigation title="점수 공유 현황" />
-        <ScoreSearchBar textRef={searchRef} searchHandler={handleSearch} />
-        <ScoreSearchField searchRef={searchRef} keyWords={hotKeyWords} setKeyWord={handleSearchField} />
+        <ScoreSearchBar onClick={handleSearchClick} textRef={searchRef} searchHandler={handleSearch} />
+        <Tab choices={PREFERENCE_CHOICE} choice={preference} setChoice={setPreference} />
+        <ButtonTab
+          choices={REGIONS_KO}
+          choice={regionFilter}
+          setChoice={setRegionFilter}
+          color={{ activeBtn: "#6f90d1", deactiveBtn: "#fff", activeBtnFont: "#fff", deactiveBtnFont: "#000", background: "#fafafa" }}
+          style={{ padding: "10px 0 10px 18px" }}
+        />
+        <ScoreSheets scoreSheets={preference === "1순위" ? filteredScoreData.firstChoice : filteredScoreData.secondChoice} />
       </>
     );
   }
-
   return (
     <>
       <TopDetailNavigation title="점수 공유 현황" />
-      <ScoreSearchBar onClick={handleSearchClick} textRef={searchRef} searchHandler={handleSearch} />
-      <Tab choices={preferenceChoice} choice={preference} setChoice={setPreference} />
-      <ButtonTab choices={filterChoice} choice={filter} setChoice={setFilter} color={{ activeBtn: "#6f90d1", deactiveBtn: "#fff", activeBtnFont: "#fff", deactiveBtnFont: "#000", background: "#fafafa" }} style={{ padding: "10px 0 10px 18px" }} />
-      <ScoreSheets scoreSheets={preference === "1순위" ? filteredScoreData.firstChoice : filteredScoreData.secondChoice} />
+      <ScoreSearchBar textRef={searchRef} searchHandler={handleSearch} />
+      <ScoreSearchField searchRef={searchRef} keyWords={HOT_KEYWORDS} setKeyWord={handleSearchField} />
     </>
   );
 }

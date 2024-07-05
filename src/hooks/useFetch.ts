@@ -11,7 +11,6 @@ const useFetch = <T>(url, method = "GET", body = null): FetchResult<T> => {
   const [loading, setLoading] = useState<boolean>(true);
 
   url = process.env.NEXT_PUBLIC_API_SERVER_URL + url;
-  console.log("url", url);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,7 +49,7 @@ const useFetch = <T>(url, method = "GET", body = null): FetchResult<T> => {
     };
 
     fetchData();
-  }, []);
+  }, [url, method, body]);
 
   return [data, error, loading];
 };

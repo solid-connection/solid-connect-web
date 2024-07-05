@@ -107,3 +107,5 @@ export interface CardCollege {
 export interface UniversityFavoriteResponse {
   result: "LIKE_SUCCESS" | "LIKE_CANCELED";
 }
+
+export type RegionsKo = "유럽권" | "미주권" | "아시아권" | "중국권";
