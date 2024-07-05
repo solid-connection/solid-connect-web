@@ -1,8 +1,7 @@
-// components/AuthInitializer.tsx
 import { useEffect } from "react";
 import { useSetRecoilState } from "recoil";
 import { accessTokenState, isLoggedInState } from "@/states/authState";
-import { getAccessToken } from "@/utils/authUtils";
+import { refreshAccessToken } from "@/utils/authUtils";
 
 export function AuthInitializer() {
   const setAccessToken = useSetRecoilState(accessTokenState);
@@ -10,7 +9,7 @@ export function AuthInitializer() {
 
   useEffect(() => {
     const initializeAuth = async () => {
-      const newAccessToken = await getAccessToken();
+      const newAccessToken = await refreshAccessToken();
       if (newAccessToken) {
         setAccessToken(newAccessToken);
         setIsLoggedIn(true);
