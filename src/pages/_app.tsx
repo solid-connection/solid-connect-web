@@ -1,16 +1,13 @@
 import Head from "next/head";
 import Script from "next/script";
-import { RecoilRoot, useSetRecoilState } from "recoil";
+import { RecoilRoot } from "recoil";
 
 import "@/styles/globals.css";
 import { LayoutProvider } from "@/context/LayoutContext";
 import Layout from "@/components/layout/layout";
-import { accessTokenState, isLoggedInState } from "@/states/authState";
 
 // fonts
 import { Inter } from "next/font/google";
-import { useEffect } from "react";
-import { getAccessToken } from "@/utils/authUtils";
 import { AuthInitializer } from "@/components/AuthInitializer";
 
 const inter = Inter({ subsets: ["latin"] });
