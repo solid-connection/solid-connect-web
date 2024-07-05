@@ -35,7 +35,7 @@ export default function ScorePage() {
   const [score, scoreError, scoreLoading] = useGetApplicationList();
 
   useEffect(() => {
-    if (scoreLoading) return;
+    if (scoreLoading || score === null) return;
     if (regionFilter === "유럽권") {
       setFilteredScoreData({
         firstChoice: score.data.firstChoice.filter((sheet) => sheet.region === "유럽권"),
