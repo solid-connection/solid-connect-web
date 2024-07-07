@@ -55,3 +55,7 @@ export interface KakaoSignUpResponse {
   accessToken: string;
   refreshToken: string;
 }
+
+export interface ReissueAccessTokenResponse {
+  accessToken: string;
+}
