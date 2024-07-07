@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-import apiClient from "@/utils/axiosClient";
 import { FORBIDDEN_APPLY_STATUS, ScoreSheet } from "@/types/application";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";

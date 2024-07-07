@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import apiClient from "@/utils/axiosClient";
+import { axiosInstance } from "@/utils/axiosInstance";
 
 import { CollegePersonal } from "@/types/college";
 import { Review } from "@/types/review";
@@ -34,7 +34,7 @@ export default function CollegeBottomSheet(props: CollegeBottomSheetProps) {
   function toggleLike() {
     async function postLike() {
       try {
-        const res = await apiClient.post(`/university/${collegeId}/like`);
+        const res = await axiosInstance.post(`/university/${collegeId}/like`);
         const result: LikeResult = res.data.data.result;
         if (result === "LIKE_SUCCESS") {
           setIsLiked(true);

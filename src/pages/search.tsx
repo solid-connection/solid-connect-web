@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import CollegeSearchBar from "@/components/search/college-search-bar";
 import CollegeSearchField from "@/components/search/college-search-field";
-import { getPopularKeywordsApi, postSearchKeywordApi } from "@/services/keyword";
+import { getPopularKeywordsPublicApi, postSearchKeywordPublicApi } from "@/services/keyword";
 
 export default function HomeSearchPage() {
   const router = useRouter();
@@ -13,7 +13,7 @@ export default function HomeSearchPage() {
 
   useEffect(() => {
     const loadPopularKeywords = async () => {
-      const res = await getPopularKeywordsApi();
+      const res = await getPopularKeywordsPublicApi();
       const popularKeywords = res.data;
       setKeyWords(popularKeywords);
     };
@@ -22,7 +22,7 @@ export default function HomeSearchPage() {
 
   function searchHandler(e) {
     e.preventDefault();
-    postSearchKeywordApi(searchText)
+    postSearchKeywordPublicApi(searchText)
       .then(() => {
         router.push(`/college?keyword=${searchText}`);
       })

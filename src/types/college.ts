@@ -107,3 +107,7 @@ export interface CardCollege {
 export interface UniversityFavoriteResponse {
   result: "LIKE_SUCCESS" | "LIKE_CANCELED";
 }
+
+export interface RecommendedUniversitiesResponse {
+  recommendedUniversities: CardCollege[];
+}

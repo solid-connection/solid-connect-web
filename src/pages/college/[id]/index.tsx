@@ -6,7 +6,7 @@ import { Review } from "@/types/review";
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import CollegeDetail from "@/components/college/detail/college-detail";
 import CollegeBottomSheet from "@/components/college/detail/college-bottomsheet";
-import { getUniversityDetailDataApi } from "@/services/university";
+import { getUniversityDetailPublicApi } from "@/services/university";
 
 export default function CollegeDetailPage({ collegeId, collegeData, reviewList }: { collegeId: number; collegeData: CollegePersonal; reviewList: Review[] }) {
   const convertedKoreanName = collegeData.term !== process.env.NEXT_PUBLIC_CURRENT_TERM ? `${collegeData.koreanName}(${collegeData.term})` : collegeData.koreanName;
@@ -26,7 +26,7 @@ export async function getServerSideProps({ params }) {
   const { id }: { id: number } = params;
   const reviewList: Review[] = [];
   try {
-    const res = await getUniversityDetailDataApi(id);
+    const res = await getUniversityDetailPublicApi(id);
     if (res.data.success == false) throw Error("대학 정보를 불러오는데 실패했습니다.");
     return {
       props: {
