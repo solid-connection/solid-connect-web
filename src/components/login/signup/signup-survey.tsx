@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 
-import { Region } from "@/types/college";
+import { Region } from "@/types/university";
 import { RegisterRequest, PreparationStatus } from "@/types/auth";
 
 import Survey1 from "./survey-1";

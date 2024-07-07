@@ -1,46 +1,9 @@
 export const REGIONS = ["아시아권", "미주권", "유럽권", "중국권"];
 export type Region = "아시아권" | "미주권" | "유럽권" | "중국권";
 
-export const COUNTRIES = [
-  // 2024-2 기준
-  // 아시아권
-  "말레이시아",
-  "브루나이",
-  "싱가포르",
-  "아제르바이잔",
-  "인도네시아",
-  "일본",
-  "키르기스스탄",
-  "튀르키예",
-  "홍콩",
-  // 미주권
-  "미국",
-  "캐나다",
-  "호주",
-  "브라질",
-  // 유럽권
-  "네덜란드",
-  "노르웨이",
-  "덴마크",
-  "독일",
-  "리투아니아",
-  "리히텐슈타인",
-  "스웨덴",
-  "스위스",
-  "스페인",
-  "오스트리아",
-  "체코",
-  "포르투갈",
-  "폴란드",
-  "프랑스",
-  "핀란드",
-  // 중국권
-  "중국",
-  "대만",
-];
-export type Country = (typeof COUNTRIES)[number];
+export type Country = string;
 
-export interface College {
+export interface University {
   id: number;
   term: string; // 파견 연도와 학기 ex) "2022-1"
   koreanName: string;
@@ -72,11 +35,11 @@ export interface College {
   details: string; // 비고
 }
 
-export interface CollegePersonal extends College {
+export interface UniversityPersonal extends University {
   liked: boolean;
 }
 
-export interface ListCollege {
+export interface ListUniversity {
   id: number;
   term: string;
   koreanName: string;
@@ -87,7 +50,7 @@ export interface ListCollege {
   languageRequirements: LanguageRequirement[];
 }
 
-export interface SimpleCollege {
+export interface SimpleUniversity {
   id: number;
   koreanName: string;
   backgroundImgUrl: string;
@@ -98,16 +61,10 @@ export interface LanguageRequirement {
   minScore: string; // 최소 점수
 }
 
-export interface CardCollege {
-  id: number;
-  koreanName: string;
-  backgroundImgUrl: string;
-}
-
 export interface UniversityFavoriteResponse {
   result: "LIKE_SUCCESS" | "LIKE_CANCELED";
 }
 
 export interface RecommendedUniversitiesResponse {
-  recommendedUniversities: CardCollege[];
+  recommendedUniversities: SimpleUniversity[];
 }

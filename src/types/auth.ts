@@ -1,9 +1,4 @@
-import { Region, Country } from "./college";
-
-export const ACCESS_TOKEN_EXPIRE_TIME = 1 / 24;
-export const REFRESH_TOKEN_EXPIRE_TIME = 7;
-export const ACCESS_TOKEN_COOKIE_NAME = "accessToken";
-export const REFRESH_TOKEN_COOKIE_NAME = "refreshToken";
+import { Region, Country } from "./university";
 
 export type PreparationStatus = "CONSIDERING" | "PREPARING_FOR_DEPARTURE" | "STUDYING_ABROAD";
 
@@ -16,25 +11,6 @@ export interface RegisterRequest {
   profileImageUrl: string; // 프로필 이미지
   gender: "MALE" | "FEMALE" | "PREFER_NOT_TO_SAY"; // 성별
   birth: string; // 생년월일 yyyy-mm-dd
-}
-
-export interface KakaoLoginResponse {
-  success: boolean;
-  data: {
-    registered: boolean;
-    // if registered is true
-    accessToken?: string;
-    refreshToken?: string;
-    // if registered is false
-    kakaoOauthToken?: string; // 가입 요청시 같이 보낼 임시 토큰
-    nickname?: string;
-    email?: string;
-    profileImageUrl?: string;
-  };
-  error?: {
-    code: number;
-    message: string;
-  };
 }
 
 export interface RegisteredKakaoAuthReponse {

@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
-import { ListCollege } from "@/types/college";
+import { ListUniversity } from "@/types/university";
 
 import CollegeCards from "../../components/college/list/college-cards";
 import CollegeSearch from "@/components/college/list/college-search";
@@ -10,7 +10,7 @@ import TopNavigation from "@/components/layout/top-navigation";
 import ButtonTab from "@/components/ui/button-tab";
 import { getUniversityListPublicApi } from "@/services/university";
 
-export default function CollegePage({ colleges }: { colleges: ListCollege[] }) {
+export default function CollegePage({ colleges }: { colleges: ListUniversity[] }) {
   const router = useRouter();
   const queryRegion: string = Array.isArray(router.query.region) ? router.query.region[0] : router.query.region;
   const querySearchTexts: string[] = Array.isArray(router.query.keyword) ? router.query.keyword : [router.query.keyword];

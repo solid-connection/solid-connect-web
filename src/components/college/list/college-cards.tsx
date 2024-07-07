@@ -1,4 +1,4 @@
-import { ListCollege } from "../../../types/college";
+import { ListUniversity } from "@/types/university";
 import { SHORT_LANGUAGE_TEST } from "../../../types/application";
 import Link from "next/link";
 import Image from "next/image";
@@ -7,7 +7,7 @@ import styles from "./college-cards.module.css";
 import CheveronRightFilled from "../../ui/icon/ChevronRightFilled";
 
 interface CollegeCardsProps {
-  colleges: ListCollege[];
+  colleges: ListUniversity[];
   style?: React.CSSProperties;
 }
 
@@ -21,7 +21,7 @@ export default function CollegeCards({ colleges, style }: CollegeCardsProps) {
   );
 }
 
-export function CollegeCard({ id, term, koreanName, region, country, logoImageUrl, studentCapacity, languageRequirements }: ListCollege) {
+export function CollegeCard({ id, term, koreanName, region, country, logoImageUrl, studentCapacity, languageRequirements }: ListUniversity) {
   const convertedKoreanName = term !== process.env.NEXT_PUBLIC_CURRENT_TERM ? `${koreanName}(${term})` : koreanName;
   return (
     <Link className={styles.card} href={`/college/${id}`}>

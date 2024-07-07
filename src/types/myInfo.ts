@@ -1,4 +1,4 @@
-import { ListCollege } from "./college";
+import { ListUniversity } from "./university";
 
 export interface MyInfo {
   nickname: string;
@@ -16,4 +16,4 @@ export interface MyInfoSimple {
   profileImageUrl: string;
 }
 
-export type MyWishUniversity = ListCollege[];
+export type MyWishUniversity = ListUniversity[];

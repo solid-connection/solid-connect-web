@@ -1,4 +1,4 @@
-import { ListCollege } from "@/types/college";
+import { ListUniversity } from "@/types/university";
 import { useState, useEffect } from "react";
 import Head from "next/head";
 
@@ -19,7 +19,7 @@ export default function MyScrapPage() {
     //   college: "보라스 대학교",
     // },
   ];
-  const [wishColleges, setWishColleges] = useState<ListCollege[]>([]);
+  const [wishColleges, setWishColleges] = useState<ListUniversity[]>([]);
 
   useEffect(() => {
     const fetchWishColleges = async () => {
