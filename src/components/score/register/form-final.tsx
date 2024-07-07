@@ -5,7 +5,7 @@ import RoundBtn from "@/components/ui/round-btn";
 import BlockBtn from "@/components/ui/block-btn";
 
 export default function FormFinal(props) {
-  const { setProgress, toNextStage } = props;
+  const { toNextStage } = props;
   const { languageType, languageScore, languageCert, scoreType, score, scoreCert, setLanguageCert, setScoreCert } = props;
 
   const languageCertInputRef = useRef(null);

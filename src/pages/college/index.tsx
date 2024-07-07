@@ -2,13 +2,16 @@ import { useState, useEffect, useRef } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
-import { ListUniversity } from "@/types/university";
+import { ListUniversity, RegionKo } from "@/types/university";
 
 import CollegeCards from "../../components/college/list/college-cards";
 import CollegeSearch from "@/components/college/list/college-search";
 import TopNavigation from "@/components/layout/top-navigation";
 import ButtonTab from "@/components/ui/button-tab";
 import { getUniversityListPublicApi } from "@/services/university";
+import { REGIONS_KO } from "@/constants/university";
+
+const REGIONS = ["전체", ...REGIONS_KO];
 
 export default function CollegePage({ colleges }: { colleges: ListUniversity[] }) {
   const router = useRouter();
@@ -21,10 +24,9 @@ export default function CollegePage({ colleges }: { colleges: ListUniversity[] }
   const [searchTexts, setSearchTexts] = useState<string[]>(querySearchTexts[0] !== undefined ? querySearchTexts : [""]);
   const searchTextRef = useRef<HTMLInputElement | null>(null);
 
-  const regions = ["전체", "유럽권", "미주권", "아시아권", "중국권"];
-  const [region, setRegion] = useState<string>(queryRegion || "전체");
+  const [region, setRegion] = useState<RegionKo | "전체" | string>(queryRegion || "전체");
 
-  const [filteredColleges, setFilteredColleges] = useState(colleges);
+  const [filteredColleges, setFilteredColleges] = useState<ListUniversity[]>(colleges);
 
   // 필터링
   useEffect(() => {
@@ -86,7 +88,7 @@ export default function CollegePage({ colleges }: { colleges: ListUniversity[] }
       </Head>
       <TopNavigation />
       <CollegeSearch searchHandler={searchHandler} textRef={searchTextRef} defaultValue={searchTexts.join(",")} />
-      <ButtonTab choices={regions} choice={region} setChoice={setRegion} color={{ deactiveBtn: "#D9D9D9" }} style={{ marginTop: "14px", marginLeft: "18px" }} />
+      <ButtonTab choices={REGIONS} choice={region} setChoice={setRegion} color={{ deactiveBtn: "#D9D9D9" }} style={{ marginTop: "14px", marginLeft: "18px" }} />
       <CollegeCards colleges={filteredColleges} style={{ marginTop: "12px" }} />
     </>
   );
