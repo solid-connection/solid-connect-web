@@ -11,15 +11,13 @@ import { ApplyStatus } from "@/types/application";
 import TopNavigation from "@/components/layout/top-navigation";
 import Home from "@/components/home/home";
 import { getMyApplicationStatusApi } from "@/services/application";
+import { isAuthenticated } from "@/utils/authUtils";
 
 export default function HomePage(props: { newsList: News[] }) {
-  let isLogin: boolean = false;
   const [recommendedColleges, setRecommendedColleges] = useState<SimpleCollege[]>([]);
   const [applyStatus, setApplyStatus] = useState<ApplyStatus | null>(null);
 
   useEffect(() => {
-    if (localStorage.getItem("refreshToken") !== null) isLogin = true;
-
     async function fetchRecommendedColleges() {
       try {
         const response = await axiosInstance.get("/home");
@@ -49,10 +47,8 @@ export default function HomePage(props: { newsList: News[] }) {
         });
     }
 
-    if (isLogin) {
-      fetchRecommendedColleges();
-      fetchApplyStatus();
-    }
+    fetchRecommendedColleges();
+    if (isAuthenticated()) fetchApplyStatus();
   }, []);
 
   return (
