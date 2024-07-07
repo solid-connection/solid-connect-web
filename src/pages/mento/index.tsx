@@ -1,3 +1,3 @@
 export default function MentoPage() {
-  return <div>임시</div>;
+  return <div>멘토 페이지</div>;
 }
