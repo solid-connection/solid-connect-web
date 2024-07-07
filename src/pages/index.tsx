@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import Head from "next/head";
-import { axiosInstance } from "@/utils/axiosInstance";
 
-import { getRecommendedCollegesData } from "./api/college/recommended";
 import { getNewsList } from "./api/news";
 import { SimpleCollege } from "@/types/college";
 import { News } from "@/types/news";
@@ -12,6 +10,7 @@ import TopNavigation from "@/components/layout/top-navigation";
 import Home from "@/components/home/home";
 import { getMyApplicationStatusApi } from "@/services/application";
 import { isAuthenticated } from "@/utils/authUtils";
+import { getRecommendedUniversitiesApi } from "@/services/university";
 
 export default function HomePage(props: { newsList: News[] }) {
   const [recommendedColleges, setRecommendedColleges] = useState<SimpleCollege[]>([]);
@@ -20,18 +19,11 @@ export default function HomePage(props: { newsList: News[] }) {
   useEffect(() => {
     async function fetchRecommendedColleges() {
       try {
-        const response = await axiosInstance.get("/home");
-        const recommendedCollegesData = response.data.data.recommendedUniversities;
-        setRecommendedColleges(recommendedCollegesData);
+        const response = await getRecommendedUniversitiesApi();
+        if (response.data.success === false) throw new Error(response.data.error.message);
+        setRecommendedColleges(response.data.data.recommendedUniversities);
       } catch (error) {
-        console.error("개인 추천 파견학교를 불러오는데 실패했습니다");
-        try {
-          const response = await getRecommendedCollegesData();
-          const recommendedCollegesData = response.data.recommendedUniversities;
-          setRecommendedColleges(recommendedCollegesData);
-        } catch (error) {
-          console.error("추천 파견학교를 불러오는데 실패했습니다");
-        }
+        setRecommendedColleges([]);
       }
     }
 
