@@ -10,6 +10,7 @@ export const kakaoAuthApi = (code: string): Promise<AxiosResponse<ApiResponse<Re
 export const signUpApi = (signUpRequest: RegisterRequest): Promise<AxiosResponse<ApiResponse<KakaoSignUpResponse>>> => {
   return axiosInstance.post("/auth/sign-up", signUpRequest);
 };
+
 export const signOutApi = (): Promise<AxiosResponse<ApiResponse<null>>> => {
   return axiosInstance.post("/auth/sign-out");
 };
@@ -17,6 +18,7 @@ export const signOutApi = (): Promise<AxiosResponse<ApiResponse<null>>> => {
 export const deleteAccountApi = (): Promise<AxiosResponse<ApiResponse<null>>> => {
   return axiosInstance.patch("/auth/quit");
 };
+
 export const reissueAccessTokenPublicApi = (refreshToken: string): Promise<AxiosResponse<ApiResponse<ReissueAccessTokenResponse>>> => {
   return publicAxiosInstance.post("/auth/reissue", {}, { headers: { Authorization: `Bearer ${refreshToken}` } });
 };

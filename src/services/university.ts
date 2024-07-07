@@ -3,12 +3,13 @@ import { AxiosResponse } from "axios";
 import { ApiResponse } from "@/types/response";
 import { College, ListCollege, UniversityFavoriteResponse } from "@/types/college";
 
-export const getUniversityDetailDataApi = (universityInfoForApplyId: number): Promise<AxiosResponse<ApiResponse<College>>> => {
+export const getUniversityDetailPublicApi = (universityInfoForApplyId: number): Promise<AxiosResponse<ApiResponse<College>>> => {
+  // TODO: 인증 포함 API로 변경 필요
   return publicAxiosInstance.get(`/university/detail/${universityInfoForApplyId}`);
 };
 
-export const getUniversityListDataApi = (): Promise<AxiosResponse<ApiResponse<ListCollege[]>>> => {
-  return axiosInstance.get("/university/search");
+export const getUniversityListPublicApi = (): Promise<AxiosResponse<ApiResponse<ListCollege[]>>> => {
+  return publicAxiosInstance.get("/university/search");
 };
 
 export const postUniversityFavoriteApi = (universityInfoForApplyId: number): Promise<AxiosResponse<ApiResponse<UniversityFavoriteResponse>>> => {

@@ -8,7 +8,7 @@ import CollegeCards from "../../components/college/list/college-cards";
 import CollegeSearch from "@/components/college/list/college-search";
 import TopNavigation from "@/components/layout/top-navigation";
 import ButtonTab from "@/components/ui/button-tab";
-import { getUniversityListDataApi } from "@/services/university";
+import { getUniversityListPublicApi } from "@/services/university";
 
 export default function CollegePage({ colleges }: { colleges: ListCollege[] }) {
   const router = useRouter();
@@ -94,7 +94,7 @@ export default function CollegePage({ colleges }: { colleges: ListCollege[] }) {
 
 export async function getServerSideProps() {
   try {
-    const res = await getUniversityListDataApi();
+    const res = await getUniversityListPublicApi();
     if (res.data.success == false) throw Error("대학 목록을 불러오는데 실패했습니다.");
 
     const universityList = res.data.data;

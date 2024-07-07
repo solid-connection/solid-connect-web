@@ -3,7 +3,7 @@ import { AxiosResponse } from "axios";
 import { ApiResponse } from "@/types/response";
 import { FileResponse } from "@/types/file";
 
-export const uploadProfileImageFileUnauthorizedApi = (file: File): Promise<AxiosResponse<ApiResponse<FileResponse>>> => {
+export const uploadProfileImageFilePublicApi = (file: File): Promise<AxiosResponse<ApiResponse<FileResponse>>> => {
   return publicAxiosInstance.post("/file/profile/pre", { file: file }, { headers: { "Content-Type": "multipart/form-data" } });
 };
 
