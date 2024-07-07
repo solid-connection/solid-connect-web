@@ -6,7 +6,7 @@ import BlockBtn from "@/components/ui/block-btn";
 import Link from "next/link";
 
 export default function FormLanguage(props) {
-  const { setProgress, toNextStage } = props;
+  const { toNextStage } = props;
   const { setLanguageType, setLanguageScore, setLanguageCert, languageType, languageScore, languageCert } = props;
 
   const fileInputRef = useRef(null);

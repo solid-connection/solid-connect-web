@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
 import Head from "next/head";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
@@ -9,14 +8,12 @@ import FormLanguage from "@/components/score/register/form-language";
 import FormScore from "@/components/score/register/form-score";
 import FormFinal from "@/components/score/register/form-final";
 import FormCollegeFinal from "@/components/score/register/form-college-final";
-import { postApplicationScoreApi } from "@/services/application";
-import { uploadGpaFileApi, uploadLanguageTestFileApi } from "@/services/file";
+import { postApplicationScoreApi, usePostApplicationScore } from "@/services/application";
+import { uploadGpaFileApi, uploadLanguageTestFileApi, useUploadGpaFile, useUploadLanguageTestFile } from "@/services/file";
 import { LANGUAGE_TEST_CONVERSE } from "@/types/application";
 
 export default function ScoreRegisterPage() {
-  const [progress, setProgress] = useState<number>(0);
   const [currentStage, setCurrentStage] = useState<number>(1);
-  const [progressDisplay, setProgressDisplay] = useState<string>("0/2");
 
   const [languageType, setLanguageType] = useState<string>("");
   const [languageScore, setLanguageScore] = useState("");
@@ -25,43 +22,78 @@ export default function ScoreRegisterPage() {
   const [score, setScore] = useState("");
   const [scoreCert, setScoreCert] = useState<File>(null);
 
+  const getProgress = () => {
+    if (currentStage === 1) {
+      return 0;
+    }
+    if (currentStage === 2) {
+      return 50;
+    }
+    if (currentStage === 3) {
+      return 95;
+    }
+    if (currentStage === 4) {
+      return 100;
+    }
+  };
+
+  const getProgressDisplay = () => {
+    if (currentStage === 1) {
+      return "0/2";
+    }
+    if (currentStage === 2) {
+      return "1/2";
+    }
+    if (currentStage === 3) {
+      return "2/2";
+    }
+  };
+
   function handleBack() {
     if (currentStage === 1) {
       return;
     }
     if (currentStage === 2) {
       setCurrentStage(currentStage - 1);
-      setProgress(0);
     }
     if (currentStage === 3) {
       setCurrentStage(currentStage - 1);
-      setProgress(50);
     }
   }
-  useEffect(() => {
-    if (currentStage === 1) {
-      setProgressDisplay("0/2");
-    } else {
-      setProgressDisplay("1/2");
-    }
-  }, [currentStage]);
 
   function submitForm() {
     async function postData() {
-      try {
-        // 어학성적 증명 파일 업로드
-        const languageCertRes = await uploadLanguageTestFileApi(languageCert);
-        if (languageCertRes.data.success === false) {
-          throw new Error(languageCertRes.data.error.message);
-        }
-        const languageFileUrl = languageCertRes.data.data.fileUrl;
+      // 어학성적 증명 파일 업로드
+      const [languageData, languageError, languageLoading] = await useUploadLanguageTestFile(languageCert);
+      const languageFileUrl = languageData.data.fileUrl;
 
-        // 학점 증명 파일 업로드
-        const scoreCertRes = await uploadGpaFileApi(scoreCert);
-        if (scoreCertRes.data.success === false) {
-          throw new Error(scoreCertRes.data.error.message);
+      // 학점 증명 파일 업로드
+      const [scoreData, scoreError, scoreLoading] = await useUploadGpaFile(scoreCert);
+      const scoreFileUrl = scoreData.data.fileUrl;
+
+      if (!scoreLoading && !languageLoading) {
+        if (languageError) {
+          if (languageError.response) {
+            console.error("Axios response error", languageError.response.data);
+            alert(languageError.response.data?.error?.message);
+          } else if (languageError.reqeust) {
+            console.error("Axios request error", languageError.request);
+          } else {
+            console.error("Error", languageError.message);
+            alert(languageError.message);
+          }
         }
-        const scoreFileUrl = scoreCertRes.data.data.fileUrl;
+        if (scoreError) {
+          if (scoreError.response) {
+            console.error("Axios response error", scoreError.response.data);
+            alert(scoreError.response.data?.error?.message);
+          } else if (scoreError.reqeust) {
+            console.error("Axios request error", scoreError.request);
+          } else {
+            console.error("Error", scoreError.message);
+            alert(scoreError.message);
+          }
+        }
 
         const applicationScore = {
           languageTestType: LANGUAGE_TEST_CONVERSE[languageType],
@@ -72,20 +104,21 @@ export default function ScoreRegisterPage() {
           gpaReportUrl: scoreFileUrl,
         };
 
-        await postApplicationScoreApi(applicationScore);
+        const [data, error, loading] = await usePostApplicationScore(applicationScore);
+
+        if (error) {
+          if (error.response) {
+            console.error("Axios response error", error.response.data);
+            alert(error.response.data?.error?.message);
+          } else if (error.reqeust) {
+            console.error("Axios request error", error.request);
+          } else {
+            console.error("Error", error.message);
+            alert(error.message);
+          }
+        }
 
         setCurrentStage(4);
-        setProgress(100);
-      } catch (error) {
-        if (error.response) {
-          console.error(error.response.data);
-          alert(error.response.data);
-        } else if (error.reqeust) {
-          console.error(error.request);
-        } else {
-          console.error(error.message);
-          alert(error.message);
-        }
       }
     }
     // 서버로 데이터 전송
@@ -97,10 +130,8 @@ export default function ScoreRegisterPage() {
       case 1:
         return (
           <FormLanguage
-            setProgress={setProgress}
             toNextStage={() => {
               setCurrentStage(2);
-              setProgress(50);
             }}
             setLanguageType={setLanguageType}
             setLanguageScore={setLanguageScore}
@@ -113,10 +144,8 @@ export default function ScoreRegisterPage() {
       case 2:
         return (
           <FormScore
-            setProgress={setProgress}
             toNextStage={() => {
               setCurrentStage(3);
-              setProgress(95);
             }}
             setScoreType={setScoreType}
             setScore={setScore}
@@ -128,18 +157,7 @@ export default function ScoreRegisterPage() {
         );
       case 3:
         return (
-          <FormFinal
-            setProgress={setProgress}
-            toNextStage={submitForm}
-            languageType={languageType}
-            languageScore={languageScore}
-            languageCert={languageCert}
-            scoreType={scoreType}
-            score={score}
-            scoreCert={scoreCert}
-            setLanguageCert={setLanguageCert}
-            setScoreCert={setScoreCert}
-          />
+          <FormFinal toNextStage={submitForm} languageType={languageType} languageScore={languageScore} languageCert={languageCert} scoreType={scoreType} score={score} scoreCert={scoreCert} setLanguageCert={setLanguageCert} setScoreCert={setScoreCert} />
         );
       case 4:
         return <FormCollegeFinal />;
@@ -154,7 +172,7 @@ export default function ScoreRegisterPage() {
       </Head>
       <TopDetailNavigation title="성적 입력하기" handleBack={handleBack} />
       <div style={{ height: "calc(100vh - 112px)", display: "flex", flexDirection: "column" }}>
-        <ProgressBar style={{ margin: "11px 20px 0 20px" }} progress={progress} display={progressDisplay} />
+        <ProgressBar style={{ margin: "11px 20px 0 20px" }} progress={getProgress()} display={getProgressDisplay()} />
         {renderCurrentForm()}
       </div>
     </>
