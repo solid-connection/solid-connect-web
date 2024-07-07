@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 
-import { Region } from "@/types/university";
+import { RegionKo } from "@/types/university";
 import { RegisterRequest, PreparationStatus } from "@/types/auth";
 
 import Survey1 from "./survey-1";
@@ -13,7 +13,7 @@ export default function SignupSurvey(props) {
   const { kakaoOauthToken, kakaoNickname, kakaoEmail, kakaoProfileImageUrl } = props;
   const [stage, setStage] = useState(1);
   // 1. region: 미주권, 아시아권, 유럽권, 중국권
-  const [region, setRegion] = useState<Region | null>(null);
+  const [region, setRegion] = useState<RegionKo | null>(null);
   // 2. countries: 미국, 캐나다, 일본, 독일, 프랑스, 중국...
   const [countries, setCountries] = useState([]);
   // 3. 준비 단계: "CONSIDERING" | "PREPARING_FOR_DEPARTURE" | "STUDYING_ABROAD"
