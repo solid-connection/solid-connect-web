@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Head from "next/head";
-import apiClient from "@/utils/axiosClient";
+import { axiosInstance } from "@/utils/axiosInstance";
 
 import { getRecommendedCollegesData } from "./api/college/recommended";
 import { getNewsList } from "./api/news";
@@ -22,7 +22,7 @@ export default function HomePage(props: { newsList: News[] }) {
 
     async function fetchRecommendedColleges() {
       try {
-        const response = await apiClient.get("/home");
+        const response = await axiosInstance.get("/home");
         const recommendedCollegesData = response.data.data.recommendedUniversities;
         setRecommendedColleges(recommendedCollegesData);
       } catch (error) {

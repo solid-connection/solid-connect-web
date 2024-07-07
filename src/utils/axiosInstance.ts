@@ -9,7 +9,7 @@ const token = {
   refresh: typeof window === "undefined" && typeof global !== "undefined" ? null : localStorage.getItem("refreshToken"),
 };
 
-const instance: AxiosInstance = axios.create({
+export const axiosInstance: AxiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_SERVER_URL,
   withCredentials: true,
   headers: {
@@ -17,9 +17,7 @@ const instance: AxiosInstance = axios.create({
   },
 });
 
-export default instance;
-
-instance.interceptors.request.use(
+axiosInstance.interceptors.request.use(
   (config) => {
     config.headers["Authorization"] = `Bearer ${token?.access}`;
     return config;
@@ -29,7 +27,7 @@ instance.interceptors.request.use(
   }
 );
 
-instance.interceptors.response.use(
+axiosInstance.interceptors.response.use(
   (response) => {
     return response;
   },
@@ -61,3 +59,7 @@ instance.interceptors.response.use(
     }
   }
 );
+
+export const publicAxiosInstance: AxiosInstance = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_SERVER_URL,
+});
