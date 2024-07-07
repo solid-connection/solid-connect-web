@@ -1,19 +1,26 @@
-솔리드 커넥션 웹
+# 솔리드 커넥션 웹
+온보딩은 docs/ONBOARDING.md 참고
 
-React + Next.js
+## Stack
+- Next.js(Pages Router)
+- React
+- TypeScript
+- Axios
+- Firebase(Firestore)
 
 ## Commands
+- 개발 서버 실행
 ```bash
 npm run dev
 ```
 
-
 ## 파일 구조
-
 - public: 정적 파일
 - src
-    - /components: 컴포넌트 파일
-    - /context: 
+    - /components:
+    - /containers: 
+    - /hooks: 
+    - /states: 
     - /libs: 외부 라이브러리 사용 파일
     - /pages: Next.js 지정 page 파일
     - /services: API call 인터페이스
