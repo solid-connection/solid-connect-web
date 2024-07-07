@@ -1,4 +1,3 @@
-export const REGIONS = ["아시아권", "미주권", "유럽권", "중국권"];
 export type Region = "아시아권" | "미주권" | "유럽권" | "중국권";
 
 export type Country = string;

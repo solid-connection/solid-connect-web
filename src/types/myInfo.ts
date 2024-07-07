@@ -15,5 +15,3 @@ export interface MyInfoSimple {
   nickname: string;
   profileImageUrl: string;
 }
-
-export type MyWishUniversity = ListUniversity[];

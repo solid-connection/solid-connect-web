@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
 import Head from "next/head";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
@@ -11,7 +10,7 @@ import FormFinal from "@/components/score/register/form-final";
 import FormCollegeFinal from "@/components/score/register/form-college-final";
 import { postApplicationScoreApi } from "@/services/application";
 import { uploadGpaFileApi, uploadLanguageTestFileApi } from "@/services/file";
-import { LANGUAGE_TEST_CONVERSE } from "@/types/application";
+import { LANGUAGE_TEST_CONVERSE } from "@/constants/application";
 
 export default function ScoreRegisterPage() {
   const [progress, setProgress] = useState<number>(0);

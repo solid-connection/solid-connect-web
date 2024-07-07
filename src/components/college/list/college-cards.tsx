@@ -1,10 +1,10 @@
 import { ListUniversity } from "@/types/university";
-import { SHORT_LANGUAGE_TEST } from "../../../types/application";
 import Link from "next/link";
 import Image from "next/image";
 
 import styles from "./college-cards.module.css";
 import CheveronRightFilled from "../../ui/icon/ChevronRightFilled";
+import { shortenLanguageTestName } from "@/utils/universityUtils";
 
 interface CollegeCardsProps {
   colleges: ListUniversity[];
@@ -39,15 +39,9 @@ export function CollegeCard({ id, term, koreanName, region, country, logoImageUr
         </div>
         <div className={styles.requirements}>
           {languageRequirements.slice(0, 3).map((requirement, index) => {
-            let testType: string = "";
-            if (SHORT_LANGUAGE_TEST.hasOwnProperty(requirement.languageTestType)) {
-              testType = SHORT_LANGUAGE_TEST[requirement.languageTestType];
-            } else {
-              testType = requirement.languageTestType.replace(/_/g, " ");
-            }
             return (
               <span key={index} className={styles.requirement}>
-                {testType}: {requirement.minScore}
+                {shortenLanguageTestName(requirement.languageTestType)}: {requirement.minScore}
               </span>
             );
           })}
