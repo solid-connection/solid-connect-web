@@ -1,10 +1,10 @@
-import { Region, Country } from "./university";
+import { RegionKo, Country } from "./university";
 
 export type PreparationStatus = "CONSIDERING" | "PREPARING_FOR_DEPARTURE" | "STUDYING_ABROAD";
 
 export interface RegisterRequest {
   kakaoOauthToken: string; // 최초 접속 시 발급받는 토큰
-  interestedRegions: Region[]; // 한글 지역명 e.g. 미주권
+  interestedRegions: RegionKo[]; // 한글 지역명 e.g. 미주권
   interestedCountries: Country[]; // 한글 국가명 e.g. 영국
   preparationStatus: PreparationStatus; // 준비 단계
   nickname: string; // 닉네임
