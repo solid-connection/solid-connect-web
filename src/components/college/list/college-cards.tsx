@@ -1,13 +1,13 @@
-import { ListCollege } from "../../../types/college";
-import { SHORT_LANGUAGE_TEST } from "../../../types/application";
+import { ListUniversity } from "@/types/university";
 import Link from "next/link";
 import Image from "next/image";
 
 import styles from "./college-cards.module.css";
 import CheveronRightFilled from "../../ui/icon/ChevronRightFilled";
+import { shortenLanguageTestName } from "@/utils/universityUtils";
 
 interface CollegeCardsProps {
-  colleges: ListCollege[];
+  colleges: ListUniversity[];
   style?: React.CSSProperties;
 }
 
@@ -21,7 +21,7 @@ export default function CollegeCards({ colleges, style }: CollegeCardsProps) {
   );
 }
 
-export function CollegeCard({ id, term, koreanName, region, country, logoImageUrl, studentCapacity, languageRequirements }: ListCollege) {
+export function CollegeCard({ id, term, koreanName, region, country, logoImageUrl, studentCapacity, languageRequirements }: ListUniversity) {
   const convertedKoreanName = term !== process.env.NEXT_PUBLIC_CURRENT_TERM ? `${koreanName}(${term})` : koreanName;
   return (
     <Link className={styles.card} href={`/college/${id}`}>
@@ -39,15 +39,9 @@ export function CollegeCard({ id, term, koreanName, region, country, logoImageUr
         </div>
         <div className={styles.requirements}>
           {languageRequirements.slice(0, 3).map((requirement, index) => {
-            let testType: string = "";
-            if (SHORT_LANGUAGE_TEST.hasOwnProperty(requirement.languageTestType)) {
-              testType = SHORT_LANGUAGE_TEST[requirement.languageTestType];
-            } else {
-              testType = requirement.languageTestType.replace(/_/g, " ");
-            }
             return (
               <span key={index} className={styles.requirement}>
-                {testType}: {requirement.minScore}
+                {shortenLanguageTestName(requirement.languageTestType)}: {requirement.minScore}
               </span>
             );
           })}

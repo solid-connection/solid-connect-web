@@ -1,4 +1,4 @@
-import { CollegePersonal } from "@/types/college";
+import { UniversityPersonal } from "@/types/university";
 import Head from "next/head";
 
 import { Review } from "@/types/review";
@@ -8,7 +8,7 @@ import CollegeDetail from "@/components/college/detail/college-detail";
 import CollegeBottomSheet from "@/components/college/detail/college-bottomsheet";
 import { getUniversityDetailPublicApi } from "@/services/university";
 
-export default function CollegeDetailPage({ collegeId, collegeData, reviewList }: { collegeId: number; collegeData: CollegePersonal; reviewList: Review[] }) {
+export default function CollegeDetailPage({ collegeId, collegeData, reviewList }: { collegeId: number; collegeData: UniversityPersonal; reviewList: Review[] }) {
   const convertedKoreanName = collegeData.term !== process.env.NEXT_PUBLIC_CURRENT_TERM ? `${collegeData.koreanName}(${collegeData.term})` : collegeData.koreanName;
   return (
     <>

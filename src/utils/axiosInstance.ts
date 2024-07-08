@@ -50,7 +50,7 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   async (error) => {
-    if (error.response?.status === 401) {
+    if (error.response?.status === 401 || error.response?.status === 403) {
       try {
         const refreshToken = loadRefreshToken();
         if (refreshToken === null || isTokenExpired(refreshToken)) {

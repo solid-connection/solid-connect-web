@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { axiosInstance } from "@/utils/axiosInstance";
 
-import { CollegePersonal } from "@/types/college";
+import { UniversityPersonal } from "@/types/university";
 import { Review } from "@/types/review";
 
 import styles from "./college-bottomsheet.module.css";
@@ -13,7 +13,7 @@ import BookmarkOutlined from "@/components/ui/icon/BookmarkOutlined";
 
 type LikeResult = "LIKE_SUCCESS" | "LIKE_CANCELED";
 
-interface CollegeBottomSheetProps extends CollegePersonal {
+interface CollegeBottomSheetProps extends UniversityPersonal {
   collegeId: number;
   convertedKoreanName: string;
   reviewList: Review[];

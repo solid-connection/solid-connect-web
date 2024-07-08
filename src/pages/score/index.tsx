@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { FORBIDDEN_APPLY_STATUS, ScoreSheet } from "@/types/application";
+import { ScoreSheet } from "@/types/application";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import Tab from "@/components/ui/tab";
@@ -8,11 +8,15 @@ import ButtonTab from "@/components/ui/button-tab";
 import ScoreSearchBar from "@/components/score/score-search-bar";
 import ScoreSearchField from "@/components/score/score-search-field";
 import { getApplicationListApi, getMyApplicationStatusApi } from "@/services/application";
+import { REGIONS_KO } from "@/constants/university";
+import { RegionKo } from "@/types/university";
 
 interface ScoreData {
   firstChoice: ScoreSheet[];
   secondChoice: ScoreSheet[];
 }
+
+const PREFERENCE_CHOICE: string[] = ["1순위", "2순위"];
 
 export default function ScorePage() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -23,11 +27,8 @@ export default function ScorePage() {
   // 점수 데이터
   const [scoreData, setScoreData] = useState<ScoreData>({ firstChoice: [], secondChoice: [] });
   const [filteredScoreData, setFilteredScoreData] = useState<ScoreData>(scoreData);
-  const preferenceChoice: string[] = ["1순위", "2순위"];
-  const [preference, setPreference] = useState<string>("1순위");
-  // const filterChoice: string[] = ["유럽권", "미주권", "아시아권", "학점높은 순", "어학성적 높은 순"];
-  const filterChoice: string[] = ["유럽권", "미주권", "아시아권", "중국권"];
-  const [filter, setFilter] = useState<string>("");
+  const [preference, setPreference] = useState<"1순위" | "2순위">("1순위");
+  const [filter, setFilter] = useState<RegionKo | "">("");
 
   useEffect(() => {
     async function fetchData() {
@@ -149,8 +150,8 @@ export default function ScorePage() {
     <>
       <TopDetailNavigation title="점수 공유 현황" />
       <ScoreSearchBar onClick={handleSearchClick} textRef={searchRef} searchHandler={handleSearch} />
-      <Tab choices={preferenceChoice} choice={preference} setChoice={setPreference} />
-      <ButtonTab choices={filterChoice} choice={filter} setChoice={setFilter} color={{ activeBtn: "#6f90d1", deactiveBtn: "#fff", activeBtnFont: "#fff", deactiveBtnFont: "#000", background: "#fafafa" }} style={{ padding: "10px 0 10px 18px" }} />
+      <Tab choices={PREFERENCE_CHOICE} choice={preference} setChoice={setPreference} />
+      <ButtonTab choices={REGIONS_KO} choice={filter} setChoice={setFilter} color={{ activeBtn: "#6f90d1", deactiveBtn: "#fff", activeBtnFont: "#fff", deactiveBtnFont: "#000", background: "#fafafa" }} style={{ padding: "10px 0 10px 18px" }} />
       <ScoreSheets scoreSheets={preference === "1순위" ? filteredScoreData.firstChoice : filteredScoreData.secondChoice} />
     </>
   );

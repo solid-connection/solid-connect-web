@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
-import { LANGUAGE_TEST_INVERSE } from "@/types/application";
+import { LANGUAGE_TEST_INVERSE } from "@/constants/application";
 import styles from "./home-search.module.css";
 import ButtonTab from "../../ui/button-tab";
 import SearchTestTab from "./search-test-tab";
