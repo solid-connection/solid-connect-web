@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Script from "next/script";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 import "@/styles/globals.css";
 import { LayoutProvider } from "@/context/LayoutContext";
@@ -37,6 +38,7 @@ export default function App({ Component, pageProps }) {
           <link rel="icon" href="/icons/favicon_48.ico" />
           <title>솔리드 커넥션</title>
         </Head>
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID} />
         <Layout>
           <Script src="https://developers.kakao.com/sdk/js/kakao.js" onLoad={kakaoInit} />
           <Component {...pageProps} />
