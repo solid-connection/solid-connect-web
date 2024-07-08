@@ -31,7 +31,6 @@ axiosInstance.interceptors.request.use(
           }
         })
         .catch((err) => {
-          alert("로그인이 필요합니다");
           document.location.href = "/login";
           return null;
         });
@@ -56,7 +55,6 @@ axiosInstance.interceptors.response.use(
         if (refreshToken === null || isTokenExpired(refreshToken)) {
           removeAccessToken();
           removeRefreshToken();
-          alert("로그인이 필요합니다");
           document.location.href = "/login"; // 로그인 페이지로 이동
           return Promise.reject(error);
         }
@@ -77,7 +75,6 @@ axiosInstance.interceptors.response.use(
         // 중단된 요청 새로운 토큰으로 재전송
         return await axios.request(error.config);
       } catch (err) {
-        alert("로그인이 필요합니다");
         document.location.href = "/login"; // 로그인 페이지로 이동
       }
     } else {
