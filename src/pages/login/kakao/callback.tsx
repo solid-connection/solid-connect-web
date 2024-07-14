@@ -29,8 +29,7 @@ export default function KakaoLoginCallbackPage() {
   const sendCodeToBackend = async (code) => {
     await kakaoAuthApi(code)
       .then((res) => {
-        if (res.data.success == false) throw new Error(res.data.error.message);
-        const data = res.data.data;
+        const data = res.data;
         if (data.registered) {
           // 기존 회원일 시
           window.localStorage.setItem("accessToken", data.accessToken);

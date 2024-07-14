@@ -24,8 +24,7 @@ export default function CollegeRegisterPage({ collegesKeyName }) {
     async function checkUpdateCount() {
       await getMyApplicationStatusApi()
         .then((res) => {
-          if (res.data.success === false) throw new Error(res.data.error.message);
-          if (res.data.data.updateCount !== 0) {
+          if (res.data.updateCount !== 0) {
             setDescription(`파견학교 수정은 총 3회까지 가능합니다. ${updateCount - 1}/3`);
           }
         })
@@ -60,7 +59,6 @@ export default function CollegeRegisterPage({ collegesKeyName }) {
 
       await postApplicationUniversityApi(applicationScore)
         .then((res) => {
-          if (res.data.success === false) throw new Error(res.data.error.message);
           router.push("/score");
         })
         .catch((err) => {

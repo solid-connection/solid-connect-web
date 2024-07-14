@@ -65,17 +65,13 @@ export default function ScoreRegisterPage() {
       try {
         // 어학성적 증명 파일 업로드
         const languageCertRes = await uploadLanguageTestFileApi(languageCert);
-        if (languageCertRes.data.success === false) {
-          throw new Error(languageCertRes.data.error.message);
-        }
-        const languageFileUrl = languageCertRes.data.data.fileUrl;
+
+        const languageFileUrl = languageCertRes.data.fileUrl;
 
         // 학점 증명 파일 업로드
         const scoreCertRes = await uploadGpaFileApi(scoreCert);
-        if (scoreCertRes.data.success === false) {
-          throw new Error(scoreCertRes.data.error.message);
-        }
-        const scoreFileUrl = scoreCertRes.data.data.fileUrl;
+
+        const scoreFileUrl = scoreCertRes.data.fileUrl;
 
         const applicationScore = {
           languageTestType: LANGUAGE_TEST_CONVERSE[languageType],
