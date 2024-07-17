@@ -97,9 +97,8 @@ export default function CollegePage({ colleges }: { colleges: ListUniversity[] }
 export async function getServerSideProps() {
   try {
     const res = await getUniversityListPublicApi();
-    if (res.data.success == false) throw Error("대학 목록을 불러오는데 실패했습니다.");
 
-    const universityList = res.data.data;
+    const universityList = res.data;
     return {
       props: { colleges: universityList },
     };

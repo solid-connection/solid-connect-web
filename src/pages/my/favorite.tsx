@@ -25,8 +25,7 @@ export default function MyScrapPage() {
     const fetchWishColleges = async () => {
       await getMyWishUniversityApi()
         .then((res) => {
-          if (res.data.success == false) throw new Error(res.data.error.message);
-          setWishColleges(res.data.data);
+          setWishColleges(res.data);
         })
         .catch((err) => {
           if (err.response) {

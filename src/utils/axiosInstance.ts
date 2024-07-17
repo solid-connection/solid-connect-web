@@ -24,11 +24,7 @@ axiosInstance.interceptors.request.use(
       }
       accessToken = await reissueAccessTokenPublicApi(refreshToken)
         .then((res) => {
-          if (res.data.success) {
-            return res.data.data.accessToken;
-          } else {
-            throw new Error("토큰 재발급 실패");
-          }
+          return res.data.accessToken;
         })
         .catch((err) => {
           document.location.href = "/login";
@@ -59,11 +55,7 @@ axiosInstance.interceptors.response.use(
           return Promise.reject(error);
         }
         const newAccessToken = await reissueAccessTokenPublicApi(refreshToken).then((res) => {
-          if (res.data.success) {
-            return res.data.data.accessToken;
-          } else {
-            throw new Error("토큰 재발급 실패");
-          }
+          return res.data.accessToken;
         });
         saveAccessToken(newAccessToken);
 

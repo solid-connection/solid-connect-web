@@ -34,16 +34,14 @@ export default function ScorePage() {
     async function fetchData() {
       try {
         const statusResponse = await getMyApplicationStatusApi();
-        if (statusResponse.data.success === false) throw new Error(statusResponse.data.error.message);
 
-        const statusData = statusResponse.data.data;
+        const statusData = statusResponse.data;
         setStatus(statusData.status);
 
         if (statusData.status === "SUBMITTED_APPROVED") {
           const scoreResponse = await getApplicationListApi();
-          if (scoreResponse.data.success === false) throw new Error(scoreResponse.data.error.message);
 
-          const scoreData = scoreResponse.data.data;
+          const scoreData = scoreResponse.data;
           setScoreData(scoreData);
           setFilteredScoreData(scoreData);
         }

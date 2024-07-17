@@ -20,8 +20,7 @@ export default function HomePage(props: { newsList: News[] }) {
     async function fetchRecommendedColleges() {
       try {
         const response = await getRecommendedUniversitiesApi();
-        if (response.data.success === false) throw new Error(response.data.error.message);
-        setRecommendedColleges(response.data.data.recommendedUniversities);
+        setRecommendedColleges(response.data.recommendedUniversities);
       } catch (error) {
         setRecommendedColleges([]);
       }
@@ -30,8 +29,7 @@ export default function HomePage(props: { newsList: News[] }) {
     async function fetchApplyStatus() {
       await getMyApplicationStatusApi()
         .then((res) => {
-          if (res.data.success === false) throw new Error(res.data.error.message);
-          setApplyStatus(res.data.data.status);
+          setApplyStatus(res.data.status);
         })
         .catch((err) => {
           // 오류 발생 시 비로그인 상태
@@ -39,8 +37,10 @@ export default function HomePage(props: { newsList: News[] }) {
         });
     }
 
-    fetchRecommendedColleges();
-    if (isAuthenticated()) fetchApplyStatus();
+    if (isAuthenticated()) {
+      fetchRecommendedColleges();
+      fetchApplyStatus();
+    }
   }, []);
 
   return (

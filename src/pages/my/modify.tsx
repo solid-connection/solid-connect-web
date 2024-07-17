@@ -12,8 +12,7 @@ export default function MyModifyPage() {
     const fetchMyData = async () => {
       await getMyInfoApi()
         .then((res) => {
-          if (res.data.success === false) throw new Error(res.data.error.message);
-          setMyData(res.data.data);
+          setMyData(res.data);
         })
         .catch((err) => {
           if (err.response) {
