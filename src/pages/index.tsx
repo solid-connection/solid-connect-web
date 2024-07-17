@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Head from "next/head";
 
 import { getNewsList } from "./api/news";
-import { SimpleUniversity } from "@/types/university";
+import { ListUniversity } from "@/types/university";
 import { News } from "@/types/news";
 import { ApplyStatus } from "@/types/application";
 
@@ -13,7 +13,7 @@ import { isAuthenticated } from "@/utils/authUtils";
 import { getRecommendedUniversitiesApi } from "@/services/university";
 
 export default function HomePage(props: { newsList: News[] }) {
-  const [recommendedColleges, setRecommendedColleges] = useState<SimpleUniversity[]>([]);
+  const [recommendedColleges, setRecommendedColleges] = useState<ListUniversity[]>([]);
   const [applyStatus, setApplyStatus] = useState<ApplyStatus | null>(null);
 
   useEffect(() => {

@@ -46,7 +46,7 @@ export function ScoreSheet({ koreanName, studentCapacity, region, country, appli
               <td>{LANGUAGE_TEST[applicant.testType].toUpperCase()}</td>
               <td>{applicant.testScore}</td>
               <td>
-                {applicant.mine && (
+                {applicant.isMine && (
                   <Link href={`/score/college-register`}>
                     <EditFilled />
                   </Link>
