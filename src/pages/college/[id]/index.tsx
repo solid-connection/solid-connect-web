@@ -27,11 +27,10 @@ export async function getServerSideProps({ params }) {
   const reviewList: Review[] = [];
   try {
     const res = await getUniversityDetailPublicApi(id);
-    if (res.data.success == false) throw Error("대학 정보를 불러오는데 실패했습니다.");
     return {
       props: {
         collegeId: id,
-        collegeData: res.data.data,
+        collegeData: res.data,
         reviewList,
       },
     };

@@ -8,6 +8,7 @@ import Survey1 from "./survey-1";
 import Survey2 from "./survey-2";
 import Survey3 from "./survey-3";
 import { signUpApi } from "@/services/auth";
+import { saveAccessToken, saveRefreshToken } from "@/utils/localStorage";
 
 export default function SignupSurvey(props) {
   const { kakaoOauthToken, kakaoNickname, kakaoEmail, kakaoProfileImageUrl } = props;
@@ -45,9 +46,8 @@ export default function SignupSurvey(props) {
   async function submitSurvey() {
     await signUpApi(registerRequest)
       .then((res) => {
-        if (res.data.success == false) throw new Error(res.data.error.message);
-        localStorage.setItem("accessToken", res.data.data.accessToken);
-        localStorage.setItem("refreshToken", res.data.data.refreshToken);
+        saveAccessToken(res.data.accessToken);
+        saveRefreshToken(res.data.refreshToken);
 
         alert("회원가입이 완료되었습니다.");
         router.push("/");
