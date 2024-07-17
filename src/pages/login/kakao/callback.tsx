@@ -29,14 +29,13 @@ export default function KakaoLoginCallbackPage() {
   const sendCodeToBackend = async (code) => {
     await kakaoAuthApi(code)
       .then((res) => {
-        console.log(res.data);
         const data = res.data;
-        if (data.registered) {
+        if (data.isRegistered) {
           // 기존 회원일 시
           window.localStorage.setItem("accessToken", data.accessToken);
           window.localStorage.setItem("refreshToken", data.refreshToken);
           router.push("/");
-        } else if (data.registered == false) {
+        } else if (data.isRegistered == false) {
           // 새로운 회원일 시
           setkakaoOauthToken(data.kakaoOauthToken);
           setkakaoNickname(data.nickname);
