@@ -14,13 +14,13 @@ export interface RegisterRequest {
 }
 
 export interface RegisteredKakaoAuthReponse {
-  registered: true;
+  isRegistered: true;
   accessToken: string;
   refreshToken: string;
 }
 
 export interface UnregisteredKakaoAuthReponse {
-  registered: false;
+  isRegistered: false;
   nickname: string;
   email: string;
   profileImageUrl: string;
