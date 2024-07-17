@@ -49,12 +49,6 @@ export interface ListUniversity {
   languageRequirements: LanguageRequirement[];
 }
 
-export interface SimpleUniversity {
-  id: number;
-  koreanName: string;
-  backgroundImgUrl: string;
-}
-
 export interface LanguageRequirement {
   languageTestType: string; // 어학 시험 종류
   minScore: string; // 최소 점수
@@ -65,5 +59,5 @@ export interface UniversityFavoriteResponse {
 }
 
 export interface RecommendedUniversitiesResponse {
-  recommendedUniversities: SimpleUniversity[];
+  recommendedUniversities: ListUniversity[];
 }
