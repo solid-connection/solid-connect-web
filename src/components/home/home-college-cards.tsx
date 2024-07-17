@@ -3,10 +3,9 @@ import Link from "next/link";
 import Image from "next/image";
 
 import styles from "./home-college-cards.module.css";
+import { ListUniversity } from "@/types/university";
 
-export default function HomeCollegeCards(props) {
-  const { colleges } = props;
-
+export default function HomeCollegeCards({ colleges }: { colleges: ListUniversity[] }) {
   const containerRef = useRef(null);
 
   const handleWheel = (e) => {
@@ -32,7 +31,7 @@ export default function HomeCollegeCards(props) {
     <div ref={containerRef} className={styles.container}>
       <div className={styles.items}>
         {colleges.map((college) => (
-          <HomeCollegeCard key={college.id} id={college.id} image={college.backgroundImgUrl ? college.backgroundImgUrl : ""} name={college.koreanName || "대학명"} />
+          <HomeCollegeCard key={college.id} id={college.id} image={college.logoImageUrl ? college.logoImageUrl : ""} name={college.koreanName || "대학명"} />
         ))}
       </div>
     </div>
