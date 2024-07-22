@@ -15,7 +15,7 @@ export default function Post(props) {
         <div className={styles.title}>{title || "제목 없음"}</div>
         <div className={styles.content}>{content || "내용 없음"}</div>
         <div className={styles.images}>
-          {images && images.map((image) => <Image src={image} width={500} height={500} />)}
+          {images && images.map((image) => <Image src={image} width={500} height={500} alt="alt" />)}
         </div>
         <div className={styles.icons}>
           <div>
@@ -32,10 +32,10 @@ export default function Post(props) {
       <div className={styles.author}>
         <div className={styles.authorInfo}>
           <div className={styles.authorProfileImage}>
-            {author.profileImage && <Image src={author.profileImage} width={40} height={40} />}
+            {author?.profileImage && <Image src={author.profileImage} width={40} height={40} alt={"이후 수정 필요"} />}
           </div>
           <div className={styles.authorText}>
-            <div className={styles.authorName}>{author.name}</div>
+            <div className={styles.authorName}>{author?.name}</div>
             <div className={styles.createDate}>{createdAt}</div>
           </div>
         </div>

@@ -1,11 +1,23 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import Communication from "../ui/icon/Communication";
-import FavoriteOutlined from "../ui/icon/FavoriteOutlined";
-import styles from "./post-card.module.css";
+import Communication from "@/components/ui/icon/Communication";
+import FavoriteOutlined from "@/components/ui/icon/FavoriteOutlined";
 
-export default function PostCard(props) {
+import styles from "./post-cards.module.css";
+
+export default function PostCards(props) {
+  const { posts } = props;
+  return (
+    <div style={props.style}>
+      {posts.map((post) => (
+        <PostCard key={post.id} {...post} />
+      ))}
+    </div>
+  );
+}
+
+export function PostCard(props) {
   const { id, title, content, category, date, favoriteCount, commentCount, image } = props;
   return (
     <Link href="/community/post/1" className={styles.a}>

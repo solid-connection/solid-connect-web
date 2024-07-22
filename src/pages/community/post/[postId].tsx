@@ -1,9 +1,9 @@
 import Head from "next/head";
 
-import CommentWrite from "@/components/community/post/comment-write";
-import Comments from "@/components/community/post/comments";
-import Post from "@/components/community/post/post";
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
+import CommentWrite from "@/containers/community/post/comment-write";
+import Comments from "@/containers/community/post/comments";
+import Post from "@/containers/community/post/post";
 
 export default function PostPage(props) {
   const { id, title, createdAt, category, content, images, favoriteCount, author, comments } = props;

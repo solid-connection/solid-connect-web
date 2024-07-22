@@ -2,10 +2,10 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-import PostCards from "@/components/community/post-cards";
-import PostWriteButton from "@/components/community/post-write-button";
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import ButtonTab from "@/components/ui/button-tab";
+import PostCards from "@/containers/community/post-cards";
+import PostWriteButton from "@/containers/community/post-write-button";
 
 export default function CommunityPage() {
   const posts = [

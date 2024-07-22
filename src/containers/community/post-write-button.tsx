@@ -1,4 +1,5 @@
-import PencilWrite from "../ui/icon/PencilWrite";
+import PencilWrite from "@/components/ui/icon/PencilWrite";
+
 import styles from "./post-write-button.module.css";
 
 export default function PostWriteButton(props) {
