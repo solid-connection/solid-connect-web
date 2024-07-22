@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { postApplicationScoreApi } from "@/services/application";
 import { uploadGpaFileApi, uploadLanguageTestFileApi } from "@/services/file";

@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 
 import BlockBtn from "@/components/ui/block-btn";
 import RoundBtn from "@/components/ui/round-btn";

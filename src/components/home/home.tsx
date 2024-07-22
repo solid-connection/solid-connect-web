@@ -1,11 +1,9 @@
-import Image from "next/image";
 import Link from "next/link";
 
 import CheveronRightFilled from "../ui/icon/ChevronRightFilled";
 import SearchFilled from "../ui/icon/SearchFilled";
 import HomeCollegeCards from "./home-college-cards";
 import styles from "./home.module.css";
-import MentoCard from "./mento-card";
 import NewsCards from "./news-cards";
 import HomeSearch from "./search/home-search";
 
