@@ -56,9 +56,24 @@
   line-height: 150%; /* 21px */
 }
 
-.images {
-  margin-top: 12px;
+/* Image */
+.image {
+  padding-right: 20px;
+  width: 100%;
+  box-sizing: border-box;
+  height: auto;
+}
+
+.image-scroll-container {
+  width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch; /* iOS에서 부드러운 스크롤 */
+}
+
+.image-scroll-content {
   display: flex;
+  gap: 12px;
 }
 
 .icons {

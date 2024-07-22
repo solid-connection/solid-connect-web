@@ -6,7 +6,19 @@ import FavoriteOutlined from "@/components/ui/icon/FavoriteOutlined";
 import styles from "./post.module.css";
 
 export default function Post(props) {
-  const { category, title, createdAt, content, images, favoriteCount, author, comments } = props;
+  const { category, title, createdAt, content, favoriteCount, author, comments } = props;
+  const images = [
+    "https://solid-connection.s3.ap-northeast-2.amazonaws.com/original/university_of_guam/1.png",
+    "https://solid-connection.s3.ap-northeast-2.amazonaws.com/original/university_of_guam/1.png",
+    "https://solid-connection.s3.ap-northeast-2.amazonaws.com/original/university_of_guam/1.png",
+    "https://solid-connection.s3.ap-northeast-2.amazonaws.com/original/university_of_guam/1.png",
+    "https://solid-connection.s3.ap-northeast-2.amazonaws.com/original/university_of_guam/1.png",
+    "https://solid-connection.s3.ap-northeast-2.amazonaws.com/original/university_of_guam/1.png",
+    "https://solid-connection.s3.ap-northeast-2.amazonaws.com/original/university_of_guam/1.png",
+    "https://solid-connection.s3.ap-northeast-2.amazonaws.com/original/university_of_guam/1.png",
+    "https://solid-connection.s3.ap-northeast-2.amazonaws.com/original/university_of_guam/1.png",
+    "https://solid-connection.s3.ap-northeast-2.amazonaws.com/original/university_of_guam/1.png",
+  ];
 
   return (
     <>
@@ -14,9 +26,10 @@ export default function Post(props) {
         <div className={styles.category}>{category || "카테고리"}</div>
         <div className={styles.title}>{title || "제목 없음"}</div>
         <div className={styles.content}>{content || "내용 없음"}</div>
-        <div className={styles.images}>
-          {images && images.map((image) => <Image src={image} width={500} height={500} alt="alt" />)}
+        <div style={{ marginTop: "12px" }}>
+          <PostImage images={images} />
         </div>
+
         <div className={styles.icons}>
           <div>
             <FavoriteOutlined />
@@ -44,5 +57,23 @@ export default function Post(props) {
         </div>
       </div>
     </>
+  );
+}
+
+function PostImage({ images }) {
+  if (images.length === 0) {
+    return null;
+  }
+  if (images.length === 1) {
+    return <Image className={styles.image} src={images[0]} width={500} height={500} alt="alt" />;
+  }
+  return (
+    <div className={styles["image-scroll-container"]}>
+      <div className={styles["image-scroll-content"]}>
+        {images.map((image) => (
+          <Image src={image} width={197} height={197} alt="alt" />
+        ))}
+      </div>
+    </div>
   );
 }
