@@ -1,4 +1,11 @@
-export type ApplyStatus = "NO_AUTHORIZATION" | "NOT_SUBMITTED" | "SCORE_SUBMITTED" | "COLLEGE_SUBMITTED" | "SUBMITTED_PENDING" | "SUBMITTED_REJECTED" | "SUBMITTED_APPROVED";
+export type ApplyStatus =
+  | "NO_AUTHORIZATION"
+  | "NOT_SUBMITTED"
+  | "SCORE_SUBMITTED"
+  | "COLLEGE_SUBMITTED"
+  | "SUBMITTED_PENDING"
+  | "SUBMITTED_REJECTED"
+  | "SUBMITTED_APPROVED";
 
 // Score
 export interface ScoreSheet {
@@ -18,7 +25,19 @@ export interface Applicant {
 }
 
 export interface ApplicationScoreRequest {
-  languageTestType: "TOEFL_IBT" | "TOEFL_ITP" | "TOEIC" | "IELTS" | "NEW_HSK" | "JLPT" | "DUOLINGO" | "CEFR" | "DELF" | "TCF" | "TEF" | "DALF";
+  languageTestType:
+    | "TOEFL_IBT"
+    | "TOEFL_ITP"
+    | "TOEIC"
+    | "IELTS"
+    | "NEW_HSK"
+    | "JLPT"
+    | "DUOLINGO"
+    | "CEFR"
+    | "DELF"
+    | "TCF"
+    | "TEF"
+    | "DALF";
   languageTestScore: string;
   languageTestReportUrl: string;
   gpa: number;

@@ -1,4 +1,4 @@
-import { RegionKo, Country } from "./university";
+import { Country, RegionKo } from "./university";
 
 export type PreparationStatus = "CONSIDERING" | "PREPARING_FOR_DEPARTURE" | "STUDYING_ABROAD";
 

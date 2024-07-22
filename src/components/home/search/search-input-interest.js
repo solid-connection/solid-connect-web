@@ -1,5 +1,7 @@
-import React, { useState, useRef } from "react";
+import React, { useRef, useState } from "react";
+
 import styles from "./search-input-interest.module.css";
+
 import { COUNTRIES_KO } from "@/constants/university";
 
 export default function SearchInputInterest(props) {
@@ -11,7 +13,9 @@ export default function SearchInputInterest(props) {
   const handleInputChange = (event) => {
     const value = event.target.value;
     setValue(value);
-    const filteredSuggestions = COUNTRIES_KO.filter((country) => country.toLowerCase().includes(value.toLowerCase())).slice(0, 5);
+    const filteredSuggestions = COUNTRIES_KO.filter((country) =>
+      country.toLowerCase().includes(value.toLowerCase()),
+    ).slice(0, 5);
     setSuggestions(filteredSuggestions);
     setActiveSuggestionIndex(0); // 사용자가 타이핑을 시작하면 활성 추천 인덱스를 재설정합니다.
   };
@@ -23,7 +27,9 @@ export default function SearchInputInterest(props) {
   };
 
   const handleFocus = () => {
-    setSuggestions(value ? COUNTRIES_KO.filter((country) => country.toLowerCase().includes(value.toLowerCase())).slice(0, 5) : []);
+    setSuggestions(
+      value ? COUNTRIES_KO.filter((country) => country.toLowerCase().includes(value.toLowerCase())).slice(0, 5) : [],
+    );
     setActiveSuggestionIndex(0);
   };
 

@@ -20,7 +20,9 @@
   border-radius: 6px;
 
   color: rgba(124, 124, 124, 0.87);
-  font-feature-settings: "clig" off, "liga" off;
+  font-feature-settings:
+    "clig" off,
+    "liga" off;
   font-family: Pretendard;
   font-size: 14px;
   font-style: normal;
@@ -42,7 +44,9 @@
 
 .elements > div > span {
   color: rgba(124, 124, 124, 0.87);
-  font-feature-settings: "clig" off, "liga" off;
+  font-feature-settings:
+    "clig" off,
+    "liga" off;
   font-family: Pretendard;
   font-size: 14px;
   font-style: normal;

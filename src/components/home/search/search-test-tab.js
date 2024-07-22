@@ -17,7 +17,12 @@ export default function SearchTestTab(props) {
       {tests.map((t, index) => {
         const isActive = t === test;
         return (
-          <div key={index} className={styles.tab} style={{ backgroundColor: isActive ? "#C4DDFF" : "#E7E7E7" }} onClick={() => handleTabClick(t)}>
+          <div
+            key={index}
+            className={styles.tab}
+            style={{ backgroundColor: isActive ? "#C4DDFF" : "#E7E7E7" }}
+            onClick={() => handleTabClick(t)}
+          >
             {t}
           </div>
         );

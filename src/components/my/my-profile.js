@@ -1,7 +1,7 @@
 import Link from "next/link";
 
-import styles from "./my-profile.module.css";
 import EditFilled from "../ui/icon/EditFilled";
+import styles from "./my-profile.module.css";
 
 export default function MyProfile(props) {
   const { nickname, profileImageUrl, role, birth, email } = props;

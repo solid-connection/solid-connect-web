@@ -1,15 +1,17 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+
 import { axiosInstance } from "@/utils/axiosInstance";
 
-import { UniversityPersonal } from "@/types/university";
-import { Review } from "@/types/review";
+import BookmarkFilled from "@/components/ui/icon/BookmarkFilled";
+import BookmarkOutlined from "@/components/ui/icon/BookmarkOutlined";
+import GoogleEmbedMap from "@/components/ui/map/google-embed-map";
+import ScrollTab from "@/components/ui/scroll-tab";
 
 import styles from "./college-bottomsheet.module.css";
 import CollegeReviews from "./college-reviews";
-import ScrollTab from "@/components/ui/scroll-tab";
-import GoogleEmbedMap from "@/components/ui/map/google-embed-map";
-import BookmarkFilled from "@/components/ui/icon/BookmarkFilled";
-import BookmarkOutlined from "@/components/ui/icon/BookmarkOutlined";
+
+import { Review } from "@/types/review";
+import { UniversityPersonal } from "@/types/university";
 
 type LikeResult = "LIKE_SUCCESS" | "LIKE_CANCELED";
 
@@ -21,10 +23,31 @@ interface CollegeBottomSheetProps extends UniversityPersonal {
 
 export default function CollegeBottomSheet(props: CollegeBottomSheetProps) {
   const { collegeId, convertedKoreanName } = props;
-  const { id, term, koreanName, englishName, formatName, region, country, homepageUrl, logoImageUrl, backgroundImageUrl, detailsForLocal } = props;
+  const {
+    id,
+    term,
+    koreanName,
+    englishName,
+    formatName,
+    region,
+    country,
+    homepageUrl,
+    logoImageUrl,
+    backgroundImageUrl,
+    detailsForLocal,
+  } = props;
   const { studentCapacity, tuitionFeeType, semesterAvailableForDispatch } = props;
-  const { languageRequirements, detailsForLanguage, gpaRequirement, gpaRequirementCriteria, semesterRequirement } = props;
-  const { detailsForApply, detailsForMajor, detailsForAccommodation, accommodationUrl, detailsForEnglishCourse, englishCourseUrl, details } = props;
+  const { languageRequirements, detailsForLanguage, gpaRequirement, gpaRequirementCriteria, semesterRequirement } =
+    props;
+  const {
+    detailsForApply,
+    detailsForMajor,
+    detailsForAccommodation,
+    accommodationUrl,
+    detailsForEnglishCourse,
+    englishCourseUrl,
+    details,
+  } = props;
 
   const pages: string[] = ["학교정보", "어학성적", "지원전공", "위치", "파견후기"];
   const [activeTab, setActiveTab] = useState<string>("학교정보");
@@ -63,7 +86,7 @@ export default function CollegeBottomSheet(props: CollegeBottomSheetProps) {
           }
         });
       },
-      { threshold: 0.3, rootMargin: "-103px 0px -60% 0px" }
+      { threshold: 0.3, rootMargin: "-103px 0px -60% 0px" },
     );
 
     sectionRefs.forEach((ref) => {
@@ -95,7 +118,13 @@ export default function CollegeBottomSheet(props: CollegeBottomSheetProps) {
         <div className={styles.englishName}>{englishName || "대학명"}</div>
         <div className={styles.name}>{convertedKoreanName || "대학명"}</div>
 
-        <ScrollTab choices={pages} choice={activeTab} setChoice={handleTabClick} style={{ marginTop: "16px", position: "sticky", top: "56px" }} borderColor="var(--primary-2, #091F5B)" />
+        <ScrollTab
+          choices={pages}
+          choice={activeTab}
+          setChoice={handleTabClick}
+          style={{ marginTop: "16px", position: "sticky", top: "56px" }}
+          borderColor="var(--primary-2, #091F5B)"
+        />
 
         {/* 학교정보 */}
         <div className={styles.scrollOffset} style={{ paddingTop: "123px" }} ref={sectionRefs[0]}>
@@ -177,7 +206,9 @@ export default function CollegeBottomSheet(props: CollegeBottomSheetProps) {
           </div>
           <div className={styles.item}>
             <div className={styles.title}>최저성적 / 기준 성적</div>
-            <div className={styles.content}>{gpaRequirement ? `${gpaRequirement} / ${gpaRequirementCriteria}` : "없음"}</div>
+            <div className={styles.content}>
+              {gpaRequirement ? `${gpaRequirement} / ${gpaRequirementCriteria}` : "없음"}
+            </div>
           </div>
           <div className={styles.item}>
             <div className={styles.title}>전공 상세</div>

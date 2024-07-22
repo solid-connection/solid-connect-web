@@ -1,13 +1,13 @@
-import Head from "next/head";
-import Script from "next/script";
-import { GoogleAnalytics } from "@next/third-parties/google";
-
-import "@/styles/globals.css";
-import { LayoutProvider } from "@/context/LayoutContext";
-import Layout from "@/components/layout/layout";
-
 // fonts
 import { Inter } from "next/font/google";
+import Head from "next/head";
+import Script from "next/script";
+
+import Layout from "@/components/layout/layout";
+
+import { LayoutProvider } from "@/context/LayoutContext";
+import "@/styles/globals.css";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 const inter = Inter({ subsets: ["latin"] });
 

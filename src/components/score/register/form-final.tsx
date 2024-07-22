@@ -1,12 +1,14 @@
-import { useState, useRef } from "react";
+import { useRef } from "react";
+
+import BlockBtn from "@/components/ui/block-btn";
+import RoundBtn from "@/components/ui/round-btn";
 
 import styles from "./form.module.css";
-import RoundBtn from "@/components/ui/round-btn";
-import BlockBtn from "@/components/ui/block-btn";
 
 export default function FormFinal(props) {
   const { toNextStage } = props;
-  const { languageType, languageScore, languageCert, scoreType, score, scoreCert, setLanguageCert, setScoreCert } = props;
+  const { languageType, languageScore, languageCert, scoreType, score, scoreCert, setLanguageCert, setScoreCert } =
+    props;
 
   const languageCertInputRef = useRef(null);
   const scoreCertInputRef = useRef(null);
@@ -84,7 +86,12 @@ export default function FormFinal(props) {
             <div className={styles.key}>어학 증명서</div>
             <div className={styles.value}>첨부 완료</div>
             <RoundBtn style={{ marginLeft: "7px" }} onClick={handleLanguageCertButtonClick}>
-              <input type="file" ref={languageCertInputRef} onChange={handleLanguageCertChange} style={{ display: "none" }} />
+              <input
+                type="file"
+                ref={languageCertInputRef}
+                onChange={handleLanguageCertChange}
+                style={{ display: "none" }}
+              />
               파일 변경하기
             </RoundBtn>
           </div>

@@ -5,8 +5,8 @@ import styles from "./bottom-navigation.module.css";
 import DegreeHat from "./icon/DegreeHat";
 import EditTwo from "./icon/EditTwo";
 import Home from "./icon/Home";
-import WhatsNew from "./icon/WhatsNew";
 import Human from "./icon/Human";
+import WhatsNew from "./icon/WhatsNew";
 
 export default function BottomNavigation() {
   const router = useRouter();
@@ -31,7 +31,20 @@ export default function BottomNavigation() {
       route: "/",
       text: "홈",
       isActive: !isSpecificRouteActive,
-      icon: <Home color={!(router.pathname.startsWith("/college") || router.pathname.startsWith("/community") || router.pathname.startsWith("/mento") || router.pathname.startsWith("/my")) ? "#6F96D1" : "#707070"} />,
+      icon: (
+        <Home
+          color={
+            !(
+              router.pathname.startsWith("/college") ||
+              router.pathname.startsWith("/community") ||
+              router.pathname.startsWith("/mento") ||
+              router.pathname.startsWith("/my")
+            )
+              ? "#6F96D1"
+              : "#707070"
+          }
+        />
+      ),
     },
     // {
     //   route: "/mento",

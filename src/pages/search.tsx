@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+
+import { getPopularKeywordsPublicApi, postSearchKeywordPublicApi } from "@/services/keyword";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import CollegeSearchBar from "@/components/search/college-search-bar";
 import CollegeSearchField from "@/components/search/college-search-field";
-import { getPopularKeywordsPublicApi, postSearchKeywordPublicApi } from "@/services/keyword";
 
 export default function HomeSearchPage() {
   const router = useRouter();

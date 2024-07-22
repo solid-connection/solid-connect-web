@@ -1,9 +1,11 @@
 import Head from "next/head";
-import TopDetailNavigation from "@/components/layout/top-detail-navigation";
-import MyProfile from "@/components/my/my-profile";
-import MyMenu from "@/components/my/my-menu";
 import { useEffect, useState } from "react";
+
 import { getMyInfoApi } from "@/services/myInfo";
+
+import TopDetailNavigation from "@/components/layout/top-detail-navigation";
+import MyMenu from "@/components/my/my-menu";
+import MyProfile from "@/components/my/my-profile";
 
 export default function MyPage() {
   const [myData, setMyData] = useState(null);

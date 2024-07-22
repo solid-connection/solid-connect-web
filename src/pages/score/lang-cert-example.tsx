@@ -1,7 +1,8 @@
-import TopDetailNavigation from "@/components/layout/top-detail-navigation";
-import BlockBtn from "@/components/ui/block-btn";
 import Head from "next/head";
 import Image from "next/image";
+
+import TopDetailNavigation from "@/components/layout/top-detail-navigation";
+import BlockBtn from "@/components/ui/block-btn";
 
 export default function GpaCertExamplePage() {
   const closeWiindow: () => void = () => {

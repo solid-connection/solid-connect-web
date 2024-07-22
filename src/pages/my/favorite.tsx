@@ -1,12 +1,14 @@
-import { ListUniversity } from "@/types/university";
-import { useState, useEffect } from "react";
 import Head from "next/head";
+import { useEffect, useState } from "react";
 
-import TopDetailNavigation from "@/components/layout/top-detail-navigation";
-import ScrollTab from "@/components/ui/scroll-tab";
-import CollegeCards from "@/components/college/list/college-cards";
-import PostCards from "@/components/my/post-cards";
 import { getMyWishUniversityApi } from "@/services/myInfo";
+
+import CollegeCards from "@/components/college/list/college-cards";
+import TopDetailNavigation from "@/components/layout/top-detail-navigation";
+import PostCards from "@/components/my/post-cards";
+import ScrollTab from "@/components/ui/scroll-tab";
+
+import { ListUniversity } from "@/types/university";
 
 export default function MyScrapPage() {
   const posts = [

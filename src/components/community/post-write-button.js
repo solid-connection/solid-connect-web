@@ -1,5 +1,5 @@
-import styles from "./post-write-button.module.css";
 import PencilWrite from "../ui/icon/PencilWrite";
+import styles from "./post-write-button.module.css";
 
 export default function PostWriteButton(props) {
   const { onClick } = props;

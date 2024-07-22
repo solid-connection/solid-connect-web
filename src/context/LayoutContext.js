@@ -7,5 +7,9 @@ export const useLayout = () => useContext(LayoutContext);
 export const LayoutProvider = ({ children }) => {
   const [hideBottomNavigation, setHideBottomNavigation] = useState(false);
 
-  return <LayoutContext.Provider value={{ hideBottomNavigation, setHideBottomNavigation }}>{children}</LayoutContext.Provider>;
+  return (
+    <LayoutContext.Provider value={{ hideBottomNavigation, setHideBottomNavigation }}>
+      {children}
+    </LayoutContext.Provider>
+  );
 };

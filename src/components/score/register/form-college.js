@@ -1,5 +1,6 @@
-import styles from "./form.module.css";
 import BlockBtn from "@/components/ui/block-btn";
+
+import styles from "./form.module.css";
 
 export default function FromCollege(props) {
   const { toNextStage, college, setCollege, text, collegesKeyName } = props;

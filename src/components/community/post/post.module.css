@@ -15,7 +15,9 @@
   display: inline-flex;
 
   color: #fff;
-  font-feature-settings: "clig" off, "liga" off;
+  font-feature-settings:
+    "clig" off,
+    "liga" off;
   font-family: Pretendard;
   font-size: 14px;
   font-style: normal;
@@ -27,7 +29,9 @@
   margin-top: 16px;
 
   color: #000;
-  font-feature-settings: "clig" off, "liga" off;
+  font-feature-settings:
+    "clig" off,
+    "liga" off;
   font-family: Pretendard;
   font-size: 20px;
   font-style: normal;
@@ -41,7 +45,9 @@
 
   overflow: hidden;
   color: #1a1a1a;
-  font-feature-settings: "clig" off, "liga" off;
+  font-feature-settings:
+    "clig" off,
+    "liga" off;
   text-overflow: ellipsis;
   font-family: Pretendard;
   font-size: 14px;
@@ -69,7 +75,9 @@
 .icons span {
   overflow: hidden;
   color: #595959;
-  font-feature-settings: "clig" off, "liga" off;
+  font-feature-settings:
+    "clig" off,
+    "liga" off;
   text-overflow: ellipsis;
   font-family: Pretendard;
   font-size: 12px;
@@ -103,7 +111,9 @@
 .authorName {
   overflow: hidden;
   color: #000;
-  font-feature-settings: "clig" off, "liga" off;
+  font-feature-settings:
+    "clig" off,
+    "liga" off;
   text-overflow: ellipsis;
   font-family: Pretendard;
   font-size: 14px;
@@ -114,7 +124,9 @@
 .createDate {
   overflow: hidden;
   color: #7c7c7c;
-  font-feature-settings: "clig" off, "liga" off;
+  font-feature-settings:
+    "clig" off,
+    "liga" off;
   text-overflow: ellipsis;
   font-family: Pretendard;
   font-size: 12px;
@@ -136,7 +148,9 @@
   align-items: center;
 
   color: #a2a2a2;
-  font-feature-settings: "clig" off, "liga" off;
+  font-feature-settings:
+    "clig" off,
+    "liga" off;
   font-family: Pretendard;
   font-size: 13px;
   font-style: normal;

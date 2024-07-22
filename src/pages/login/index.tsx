@@ -1,10 +1,11 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { useLayout } from "@/context/LayoutContext";
 
 import ImageCarousel from "@/components/login/image-carousel";
 import KakaoLoginButton from "@/components/login/kakao-login-button";
 import BlockBtn from "@/components/ui/block-btn";
+
+import { useLayout } from "@/context/LayoutContext";
 
 export default function KakaoLoginPage() {
   const { setHideBottomNavigation } = useLayout();
@@ -28,7 +29,13 @@ export default function KakaoLoginPage() {
           onClick={() => {
             router.push("/");
           }}
-          style={{ margin: "8px 20px 0 20px", width: "calc(100% - 40px)", height: "calc((100vw - 40px) * 0.15)", minHeight: "48px", maxHeight: "84px" }}
+          style={{
+            margin: "8px 20px 0 20px",
+            width: "calc(100% - 40px)",
+            height: "calc((100vw - 40px) * 0.15)",
+            minHeight: "48px",
+            maxHeight: "84px",
+          }}
         >
           비회원으로 둘러보기
         </BlockBtn>

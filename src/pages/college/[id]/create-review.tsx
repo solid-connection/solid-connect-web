@@ -1,6 +1,7 @@
 import Head from "next/head";
-import TopDetailNavigation from "@/components/layout/top-detail-navigation";
+
 import CollegeReviewForm from "@/components/college/college-review-form";
+import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 
 export default function CollegeCreateReviewPage() {
   return (
