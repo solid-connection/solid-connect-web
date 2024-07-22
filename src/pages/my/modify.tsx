@@ -1,9 +1,10 @@
 import Head from "next/head";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+
+import { getMyInfoApi } from "@/services/myInfo";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import MyModify from "@/components/my/my-modify";
-import { getMyInfoApi } from "@/services/myInfo";
 
 export default function MyModifyPage() {
   const [myData, setMyData] = useState(null);

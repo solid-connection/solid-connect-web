@@ -12,7 +12,13 @@ export default function SearchInputTest(props) {
         <div className={styles.main}>{test}</div>
       </div>
       <div className={styles.box_right}>
-        <input className={styles.input} placeholder="성적입력" value={score} onChange={(e) => setScore(e.target.value)} maxLength={5} />
+        <input
+          className={styles.input}
+          placeholder="성적입력"
+          value={score}
+          onChange={(e) => setScore(e.target.value)}
+          maxLength={5}
+        />
       </div>
     </div>
   );

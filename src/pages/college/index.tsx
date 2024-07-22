@@ -1,23 +1,29 @@
-import { useState, useEffect, useRef } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { useEffect, useRef, useState } from "react";
 
-import { ListUniversity, RegionKo } from "@/types/university";
+import { getUniversityListPublicApi } from "@/services/university";
 
-import CollegeCards from "../../components/college/list/college-cards";
 import CollegeSearch from "@/components/college/list/college-search";
 import TopNavigation from "@/components/layout/top-navigation";
 import ButtonTab from "@/components/ui/button-tab";
-import { getUniversityListPublicApi } from "@/services/university";
+
+import CollegeCards from "../../components/college/list/college-cards";
+
 import { REGIONS_KO } from "@/constants/university";
+import { ListUniversity, RegionKo } from "@/types/university";
 
 const REGIONS = ["전체", ...REGIONS_KO];
 
 export default function CollegePage({ colleges }: { colleges: ListUniversity[] }) {
   const router = useRouter();
   const queryRegion: string = Array.isArray(router.query.region) ? router.query.region[0] : router.query.region;
-  const querySearchTexts: string[] = Array.isArray(router.query.keyword) ? router.query.keyword : [router.query.keyword];
-  const queryTestScore: string = Array.isArray(router.query.testScore) ? router.query.testScore[0] : router.query.testScore;
+  const querySearchTexts: string[] = Array.isArray(router.query.keyword)
+    ? router.query.keyword
+    : [router.query.keyword];
+  const queryTestScore: string = Array.isArray(router.query.testScore)
+    ? router.query.testScore[0]
+    : router.query.testScore;
   let queryTest: string | null = Array.isArray(router.query.test) ? router.query.test[0] : router.query.test;
   if (!["TOEIC", "TOEFL_IBT", "TOEFL_ITP", "IELTS", "JLPT"].includes(queryTest)) queryTest = null;
 
@@ -36,7 +42,11 @@ export default function CollegePage({ colleges }: { colleges: ListUniversity[] }
       // 검색 필터
       let matchesSearchText = true;
       if (searchTexts && searchTexts.length) {
-        matchesSearchText = searchTexts.some((searchTerm) => college.koreanName.toLowerCase().includes(searchTerm.toLowerCase()) || college.country.includes(searchTerm.toLowerCase()));
+        matchesSearchText = searchTexts.some(
+          (searchTerm) =>
+            college.koreanName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            college.country.includes(searchTerm.toLowerCase()),
+        );
       }
       // 성적 필터
       let matchesTest: boolean = true;
@@ -68,7 +78,7 @@ export default function CollegePage({ colleges }: { colleges: ListUniversity[] }
         },
       },
       undefined,
-      { shallow: true }
+      { shallow: true },
     );
   }, [region, searchTexts]);
 
@@ -88,7 +98,13 @@ export default function CollegePage({ colleges }: { colleges: ListUniversity[] }
       </Head>
       <TopNavigation />
       <CollegeSearch searchHandler={searchHandler} textRef={searchTextRef} defaultValue={searchTexts.join(",")} />
-      <ButtonTab choices={REGIONS} choice={region} setChoice={setRegion} color={{ deactiveBtn: "#D9D9D9" }} style={{ marginTop: "14px", marginLeft: "18px" }} />
+      <ButtonTab
+        choices={REGIONS}
+        choice={region}
+        setChoice={setRegion}
+        color={{ deactiveBtn: "#D9D9D9" }}
+        style={{ marginTop: "14px", marginLeft: "18px" }}
+      />
       <CollegeCards colleges={filteredColleges} style={{ marginTop: "12px" }} />
     </>
   );

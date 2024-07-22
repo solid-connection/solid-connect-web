@@ -1,10 +1,11 @@
 import { useState } from "react";
 
-import { Review } from "@/types/review";
+import ExpendMoreFilled from "@/components/ui/icon/ExpendMoreFilled";
+import StarFilledIcon from "@/components/ui/icon/star-filled";
 
 import styles from "./college-reviews.module.css";
-import StarFilledIcon from "@/components/ui/icon/star-filled";
-import ExpendMoreFilled from "@/components/ui/icon/ExpendMoreFilled";
+
+import { Review } from "@/types/review";
 
 export default function CollegeReviews({ style, reviewList }: { style?: React.CSSProperties; reviewList: Review[] }) {
   return (

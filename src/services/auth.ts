@@ -1,8 +1,18 @@
-import { axiosInstance, publicAxiosInstance } from "@/utils/axiosInstance";
 import { AxiosResponse } from "axios";
-import { KakaoSignUpResponse, RegisterRequest, RegisteredKakaoAuthReponse, ReissueAccessTokenResponse, UnregisteredKakaoAuthReponse } from "@/types/auth";
 
-export const kakaoAuthApi = (code: string): Promise<AxiosResponse<RegisteredKakaoAuthReponse | UnregisteredKakaoAuthReponse>> => {
+import { axiosInstance, publicAxiosInstance } from "@/utils/axiosInstance";
+
+import {
+  KakaoSignUpResponse,
+  RegisterRequest,
+  RegisteredKakaoAuthReponse,
+  ReissueAccessTokenResponse,
+  UnregisteredKakaoAuthReponse,
+} from "@/types/auth";
+
+export const kakaoAuthApi = (
+  code: string,
+): Promise<AxiosResponse<RegisteredKakaoAuthReponse | UnregisteredKakaoAuthReponse>> => {
   return publicAxiosInstance.post("/auth/kakao", { code: code });
 };
 
@@ -18,6 +28,8 @@ export const deleteAccountApi = (): Promise<AxiosResponse<null>> => {
   return axiosInstance.patch("/auth/quit");
 };
 
-export const reissueAccessTokenPublicApi = (refreshToken: string): Promise<AxiosResponse<ReissueAccessTokenResponse>> => {
+export const reissueAccessTokenPublicApi = (
+  refreshToken: string,
+): Promise<AxiosResponse<ReissueAccessTokenResponse>> => {
   return publicAxiosInstance.post("/auth/reissue", {}, { headers: { Authorization: `Bearer ${refreshToken}` } });
 };

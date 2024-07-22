@@ -1,6 +1,6 @@
 import { useLayout } from "../../context/LayoutContext";
-import styles from "./layout.module.css";
 import BottomNavigation from "./bottom-navigation";
+import styles from "./layout.module.css";
 
 export default function Layout(props) {
   const { hideBottomNavigation } = useLayout();

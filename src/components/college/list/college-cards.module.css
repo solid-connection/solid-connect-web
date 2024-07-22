@@ -60,7 +60,9 @@
   /* overflow: hidden; */
 
   color: #000;
-  font-feature-settings: "clig" off, "liga" off;
+  font-feature-settings:
+    "clig" off,
+    "liga" off;
   font-family: Pretendard;
   font-size: 16px;
   font-style: normal;
@@ -72,7 +74,9 @@
   margin-top: 6px;
 
   color: #7c7c7c;
-  font-feature-settings: "clig" off, "liga" off;
+  font-feature-settings:
+    "clig" off,
+    "liga" off;
   font-family: Pretendard;
   font-size: 14px;
   font-style: normal;
@@ -85,7 +89,9 @@
   margin-top: 6px;
 
   color: #7c7c7c;
-  font-feature-settings: "clig" off, "liga" off;
+  font-feature-settings:
+    "clig" off,
+    "liga" off;
   font-family: Pretendard;
   font-size: 12px;
   font-style: normal;
@@ -100,7 +106,9 @@
 
 .requirement {
   color: #7c7c7c;
-  font-feature-settings: "clig" off, "liga" off;
+  font-feature-settings:
+    "clig" off,
+    "liga" off;
   font-family: Pretendard, sans-serif;
   font-size: 12px;
   font-style: normal;

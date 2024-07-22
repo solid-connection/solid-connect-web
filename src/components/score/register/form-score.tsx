@@ -1,9 +1,10 @@
+import Link from "next/link";
 import { useRef } from "react";
 
-import styles from "./form.module.css";
-import RoundBtn from "@/components/ui/round-btn";
 import BlockBtn from "@/components/ui/block-btn";
-import Link from "next/link";
+import RoundBtn from "@/components/ui/round-btn";
+
+import styles from "./form.module.css";
 
 export default function FormScore(props) {
   const { toNextStage } = props;
@@ -95,7 +96,14 @@ export default function FormScore(props) {
         </div>
         <div className={styles.input}>
           <label htmlFor="certName">증명서 첨부</label>
-          <input style={{ userSelect: "none" }} type="text" id="certName" value={scoreCert?.name || "증명서를 업로드 해주세요"} readOnly onMouseDown={(e) => e.preventDefault()} />
+          <input
+            style={{ userSelect: "none" }}
+            type="text"
+            id="certName"
+            value={scoreCert?.name || "증명서를 업로드 해주세요"}
+            readOnly
+            onMouseDown={(e) => e.preventDefault()}
+          />
         </div>
         <div className={styles.btns}>
           <input type="file" ref={fileInputRef} onChange={handleFileChange} style={{ display: "none" }} />

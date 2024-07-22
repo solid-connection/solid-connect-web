@@ -1,10 +1,24 @@
-import { useState, useRef } from "react";
-import styles from "./survey.module.css";
-import EditFilled from "@/components/ui/icon/EditFilled";
+import { useRef, useState } from "react";
+
 import BlockBtn from "@/components/ui/block-btn";
+import EditFilled from "@/components/ui/icon/EditFilled";
+
+import styles from "./survey.module.css";
 
 export default function Survey3(props) {
-  const { preparation, setPreparation, submitSurvey, nickname, setNickname, profileImageUrl, setProfileImageUrl, gender, setGender, birth, setBirth } = props;
+  const {
+    preparation,
+    setPreparation,
+    submitSurvey,
+    nickname,
+    setNickname,
+    profileImageUrl,
+    setProfileImageUrl,
+    gender,
+    setGender,
+    birth,
+    setBirth,
+  } = props;
 
   // 닉네임
   const handleNicknameChange = () => {

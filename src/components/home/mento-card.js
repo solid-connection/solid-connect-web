@@ -1,8 +1,8 @@
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 
-import styles from "./mento-card.module.css";
 import CheveronRightFilled from "../ui/icon/ChevronRightFilled";
+import styles from "./mento-card.module.css";
 
 export default function MentoCard(props) {
   const { mentoId, image, name, country, university, period } = props;

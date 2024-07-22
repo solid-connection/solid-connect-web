@@ -1,5 +1,7 @@
-import { axiosInstance } from "@/utils/axiosInstance";
 import { AxiosResponse } from "axios";
+
+import { axiosInstance } from "@/utils/axiosInstance";
+
 import { MyInfo, MyInfoSimple } from "@/types/myInfo";
 import { ListUniversity } from "@/types/university";
 

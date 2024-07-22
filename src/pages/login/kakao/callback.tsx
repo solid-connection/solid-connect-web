@@ -1,10 +1,12 @@
 import Head from "next/head";
-import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useLayout } from "@/context/LayoutContext";
+import { useEffect, useState } from "react";
+
+import { kakaoAuthApi } from "@/services/auth";
 
 import SignupSurvey from "@/components/login/signup/signup-survey";
-import { kakaoAuthApi } from "@/services/auth";
+
+import { useLayout } from "@/context/LayoutContext";
 
 export default function KakaoLoginCallbackPage() {
   const router = useRouter();
@@ -70,7 +72,12 @@ export default function KakaoLoginCallbackPage() {
           <Head>
             <title>회원가입</title>
           </Head>
-          <SignupSurvey kakaoOauthToken={kakaoOauthToken} kakaoNickname={kakaoNickname} kakaoEmail={kakaoEmail} kakaoProfileImageUrl={kakaoProfileImageUrl} />
+          <SignupSurvey
+            kakaoOauthToken={kakaoOauthToken}
+            kakaoNickname={kakaoNickname}
+            kakaoEmail={kakaoEmail}
+            kakaoProfileImageUrl={kakaoProfileImageUrl}
+          />
         </>
       )}
     </>

@@ -35,7 +35,9 @@
 
 .contentName {
   color: #000;
-  font-feature-settings: "clig" off, "liga" off;
+  font-feature-settings:
+    "clig" off,
+    "liga" off;
   font-family: Pretendard;
   font-size: 16px;
   font-style: normal;
@@ -46,7 +48,9 @@
 
 .contentRegion {
   color: #7c7c7c;
-  font-feature-settings: "clig" off, "liga" off;
+  font-feature-settings:
+    "clig" off,
+    "liga" off;
   font-family: Pretendard;
   font-size: 13px;
   font-style: normal;
@@ -58,7 +62,9 @@
 .contentPeriod {
   color: #949494;
   text-align: right;
-  font-feature-settings: "clig" off, "liga" off;
+  font-feature-settings:
+    "clig" off,
+    "liga" off;
   font-family: Pretendard;
   font-size: 11px;
   font-style: normal;

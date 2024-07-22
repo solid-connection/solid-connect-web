@@ -37,7 +37,9 @@
   z-index: 10;
 
   color: white;
-  font-feature-settings: "clig" off, "liga" off;
+  font-feature-settings:
+    "clig" off,
+    "liga" off;
   font-family: Pretendard;
   font-size: 14px;
   font-style: normal;

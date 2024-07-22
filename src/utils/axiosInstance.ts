@@ -1,7 +1,15 @@
 import axios, { AxiosInstance } from "axios";
-import { loadAccessToken, loadRefreshToken, removeAccessToken, removeRefreshToken, saveAccessToken } from "./localStorage";
-import { isTokenExpired } from "./jwtUtils";
+
 import { reissueAccessTokenPublicApi } from "@/services/auth";
+
+import { isTokenExpired } from "./jwtUtils";
+import {
+  loadAccessToken,
+  loadRefreshToken,
+  removeAccessToken,
+  removeRefreshToken,
+  saveAccessToken,
+} from "./localStorage";
 
 const convertToBearer = (token: string) => {
   return `Bearer ${token}`;
@@ -37,7 +45,7 @@ axiosInstance.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 axiosInstance.interceptors.response.use(
@@ -72,7 +80,7 @@ axiosInstance.interceptors.response.use(
     } else {
       throw error;
     }
-  }
+  },
 );
 
 export const publicAxiosInstance: AxiosInstance = axios.create({

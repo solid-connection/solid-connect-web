@@ -1,5 +1,6 @@
-import initializeFirebaseAdmin from "./firebaseAdmin";
 import admin from "firebase-admin";
+
+import initializeFirebaseAdmin from "./firebaseAdmin";
 
 export async function fetchPopularKeywords(): Promise<string[]> {
   const db = await initializeFirebaseAdmin();

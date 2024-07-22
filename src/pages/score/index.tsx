@@ -1,14 +1,16 @@
-import { useState, useEffect, useRef } from "react";
-import { ScoreSheet } from "@/types/application";
+import { useEffect, useRef, useState } from "react";
+
+import { getApplicationListApi, getMyApplicationStatusApi } from "@/services/application";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
-import Tab from "@/components/ui/tab";
-import ScoreSheets from "@/components/score/score-sheets";
-import ButtonTab from "@/components/ui/button-tab";
 import ScoreSearchBar from "@/components/score/score-search-bar";
 import ScoreSearchField from "@/components/score/score-search-field";
-import { getApplicationListApi, getMyApplicationStatusApi } from "@/services/application";
+import ScoreSheets from "@/components/score/score-sheets";
+import ButtonTab from "@/components/ui/button-tab";
+import Tab from "@/components/ui/tab";
+
 import { REGIONS_KO } from "@/constants/university";
+import { ScoreSheet } from "@/types/application";
 import { RegionKo } from "@/types/university";
 
 interface ScoreData {
@@ -76,7 +78,7 @@ export default function ScorePage() {
             firstChoice: scoreData.firstChoice.filter((sheet) => sheet.koreanName.includes(keyWord)),
             secondChoice: scoreData.secondChoice.filter((sheet) => sheet.koreanName.includes(keyWord)),
           }
-        : scoreData
+        : scoreData,
     );
     setSearchActive(false);
   }
@@ -149,8 +151,22 @@ export default function ScorePage() {
       <TopDetailNavigation title="점수 공유 현황" />
       <ScoreSearchBar onClick={handleSearchClick} textRef={searchRef} searchHandler={handleSearch} />
       <Tab choices={PREFERENCE_CHOICE} choice={preference} setChoice={setPreference} />
-      <ButtonTab choices={REGIONS_KO} choice={filter} setChoice={setFilter} color={{ activeBtn: "#6f90d1", deactiveBtn: "#fff", activeBtnFont: "#fff", deactiveBtnFont: "#000", background: "#fafafa" }} style={{ padding: "10px 0 10px 18px" }} />
-      <ScoreSheets scoreSheets={preference === "1순위" ? filteredScoreData.firstChoice : filteredScoreData.secondChoice} />
+      <ButtonTab
+        choices={REGIONS_KO}
+        choice={filter}
+        setChoice={setFilter}
+        color={{
+          activeBtn: "#6f90d1",
+          deactiveBtn: "#fff",
+          activeBtnFont: "#fff",
+          deactiveBtnFont: "#000",
+          background: "#fafafa",
+        }}
+        style={{ padding: "10px 0 10px 18px" }}
+      />
+      <ScoreSheets
+        scoreSheets={preference === "1순위" ? filteredScoreData.firstChoice : filteredScoreData.secondChoice}
+      />
     </>
   );
 }

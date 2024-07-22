@@ -1,8 +1,9 @@
-import { useRouter } from "next/router";
 import Image from "next/image";
+import { useRouter } from "next/router";
+
+import BlockBtn from "@/components/ui/block-btn";
 
 import styles from "./form.module.css";
-import BlockBtn from "@/components/ui/block-btn";
 
 export default function FormCollegeFinal(props) {
   const router = useRouter();

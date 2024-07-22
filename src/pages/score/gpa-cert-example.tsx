@@ -60,11 +60,29 @@ export default function GpaCertExamplePage() {
         <div style={{ margin: "23px 20px 0 20px" }}>
           <span style={h1}>성적 증명서 발급 방법</span>
           <span style={h3}>1. 인하대 포털 {">"} 학사행정</span>
-          <Image style={{ marginTop: "10px" }} src="/images/gpa-cert-example-1.png" width={162} height={76} alt="성적 증명서 발급 방법" />
+          <Image
+            style={{ marginTop: "10px" }}
+            src="/images/gpa-cert-example-1.png"
+            width={162}
+            height={76}
+            alt="성적 증명서 발급 방법"
+          />
           <span style={h3}>2. 성적 {">"} 성적 및 석차 확인</span>
-          <Image style={{ marginTop: "10px" }} src="/images/gpa-cert-example-2.png" width={177} height={80} alt="성적 증명서 발급 방법" />
+          <Image
+            style={{ marginTop: "10px" }}
+            src="/images/gpa-cert-example-2.png"
+            width={177}
+            height={80}
+            alt="성적 증명서 발급 방법"
+          />
           <span style={h3}>3. PDF 다운로드</span>
-          <Image style={{ marginTop: "10px" }} src="/images/gpa-cert-example-3.png" width={291} height={68} alt="성적 증명서 발급 방법" />
+          <Image
+            style={{ marginTop: "10px" }}
+            src="/images/gpa-cert-example-3.png"
+            width={291}
+            height={68}
+            alt="성적 증명서 발급 방법"
+          />
           <span style={h3}>4. 파일 첨부하기 버튼 {">"} 업로드 완료</span>
           <span style={{ ...h1, ...{ marginTop: "48px" } }}>성적 증명서 발급 방법</span>
           <Link style={a} href="https://portal.inha.ac.kr/" target="_blank">

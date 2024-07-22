@@ -14,7 +14,9 @@
   outline: none;
 
   color: rgba(124, 124, 124, 0.87);
-  font-feature-settings: "clig" off, "liga" off;
+  font-feature-settings:
+    "clig" off,
+    "liga" off;
   font-family: Pretendard;
   font-size: 18px;
   font-style: normal;
@@ -39,7 +41,9 @@
   resize: none;
 
   color: rgba(124, 124, 124, 0.87);
-  font-feature-settings: "clig" off, "liga" off;
+  font-feature-settings:
+    "clig" off,
+    "liga" off;
   font-family: Pretendard;
   font-size: 16px;
   font-style: normal;
@@ -49,7 +53,9 @@
 .notice {
   padding: 10px 20px 0 20px;
   color: #8d8d8d;
-  font-feature-settings: "clig" off, "liga" off;
+  font-feature-settings:
+    "clig" off,
+    "liga" off;
   font-family: Inter;
   font-size: 12px;
   font-style: normal;

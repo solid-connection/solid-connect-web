@@ -1,9 +1,9 @@
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 
-import styles from "./post-card.module.css";
 import Communication from "../ui/icon/Communication";
 import FavoriteOutlined from "../ui/icon/FavoriteOutlined";
+import styles from "./post-card.module.css";
 
 export default function PostCard(props) {
   const { id, title, content, category, date, favoriteCount, commentCount, image } = props;
@@ -28,7 +28,9 @@ export default function PostCard(props) {
             </div>
           </div>
         </div>
-        <div className={styles.imageZone}>{image && <Image src={image} height={82} width={82} alt={title || "이미지 없음"} />}</div>
+        <div className={styles.imageZone}>
+          {image && <Image src={image} height={82} width={82} alt={title || "이미지 없음"} />}
+        </div>
       </div>
     </Link>
   );
