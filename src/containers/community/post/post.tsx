@@ -4,6 +4,7 @@ import { useState } from "react";
 import Communication from "@/components/ui/icon/Communication";
 import FavoriteOutlined from "@/components/ui/icon/FavoriteOutlined";
 
+import { IconCloseFilled } from "../../../../public/svgs";
 import styles from "./post.module.css";
 
 export default function Post(props) {
@@ -21,14 +22,14 @@ export default function Post(props) {
     "https://solid-connection.s3.ap-northeast-2.amazonaws.com/original/university_of_guam/1.png",
   ];
 
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(null);
 
-  const handleImageClick = (image) => {
-    setSelectedImage(image);
+  const handleImageClick = (index) => {
+    setSelectedImageIndex(index);
   };
 
   const closePopup = () => {
-    setSelectedImage(null);
+    setSelectedImageIndex(null);
   };
 
   return (
@@ -40,7 +41,13 @@ export default function Post(props) {
         <div style={{ marginTop: "12px" }}>
           <PostImage images={images} onImageClick={handleImageClick} />
         </div>
-        {selectedImage && <ImagePopup image={selectedImage} onClose={closePopup} />}
+        {selectedImageIndex !== null && (
+          <ImagePopup
+            image={images[selectedImageIndex]}
+            title={`${selectedImageIndex + 1}/${images.length}`}
+            onClose={closePopup}
+          />
+        )}
 
         <div className={styles.icons}>
           <div>
@@ -55,13 +62,13 @@ export default function Post(props) {
       </div>
 
       <div className={styles.author}>
-        <div className={styles.authorInfo}>
-          <div className={styles.authorProfileImage}>
+        <div className={styles.author__info}>
+          <div className={styles["author__profile-image-wrapper"]}>
             {author?.profileImage && <Image src={author.profileImage} width={40} height={40} alt={"이후 수정 필요"} />}
           </div>
-          <div className={styles.authorText}>
-            <div className={styles.authorName}>{author?.name}</div>
-            <div className={styles.createDate}>{createdAt}</div>
+          <div className={styles.author__textzone}>
+            <div className={styles.author__name}>{author?.name || "작성자"}</div>
+            <div className={styles["author__created-at"]}>{createdAt || "1970. 1. 1. 00:00"}</div>
           </div>
         </div>
         <div>
@@ -73,9 +80,6 @@ export default function Post(props) {
 }
 
 function PostImage({ images, onImageClick }) {
-  if (images.length === 0) {
-    return null;
-  }
   if (images.length === 1) {
     return (
       <Image
@@ -83,8 +87,8 @@ function PostImage({ images, onImageClick }) {
         src={images[0]}
         width={500}
         height={500}
-        alt="alt"
-        onClick={() => onImageClick(images[0])}
+        alt="image"
+        onClick={() => onImageClick(0)}
       />
     );
   }
@@ -92,23 +96,24 @@ function PostImage({ images, onImageClick }) {
     <div className={styles["image-scroll-container"]}>
       <div className={styles["image-scroll-content"]}>
         {images.map((image, index) => (
-          <Image key={index} src={image} width={197} height={197} alt="alt" onClick={() => onImageClick(image)} />
+          <Image key={index} src={image} width={197} height={197} alt="image" onClick={() => onImageClick(index)} />
         ))}
       </div>
     </div>
   );
 }
 
-function ImagePopup({ image, onClose }) {
+function ImagePopup({ image, title, onClose }) {
   return (
-    <div className={styles.fullscreenPopup}>
-      <div className={styles.popupHeader}>
-        <button className={styles.closeButton} onClick={onClose}>
-          X
+    <div className={styles["fullscreen-popup"]}>
+      <div className={styles.popup__header}>
+        <button className={styles["popup__close-button"]} onClick={onClose}>
+          <IconCloseFilled />
         </button>
-        <span className={styles.imageCounter}>1/1</span>
+        <span className={styles.popup__title}>{title}</span>
+        <div></div>
       </div>
-      <div className={styles.popupImageContainer}>
+      <div className={styles["popup__image-container"]}>
         <Image src={image} layout="fill" objectFit="contain" alt="Popup" />
       </div>
     </div>
