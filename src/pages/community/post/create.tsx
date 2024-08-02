@@ -1,7 +1,7 @@
 import Head from "next/head";
 
-import PostForm from "@/components/community/post-create/post-form";
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
+import PostForm from "@/containers/community/post-create/post-form";
 
 export default function PostCreatePage() {
   return (

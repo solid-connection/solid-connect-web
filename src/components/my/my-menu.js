@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import { signOutApi } from "@/services/auth";
 
-import Modal from "../ui/modal";
+import Modal from "../ui/text-modal";
 import styles from "./my-menu.module.css";
 
 export default function MyMenu() {

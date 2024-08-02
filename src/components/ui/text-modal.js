@@ -1,6 +1,6 @@
-import styles from "./modal.module.css";
+import styles from "./text-modal.module.css";
 
-export default function Modal(props) {
+export default function TextModal(props) {
   const { show, handleCancel, handleConfirm, title, content } = props;
 
   if (!show) return null;

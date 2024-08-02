@@ -1,18 +1,12 @@
 .post {
-  margin-left: 20px;
-  padding: 24px 0 12px 0;
-  /* display: flex;
-  flex-direction: column; */
-
-  border-bottom: 1px solid #ececec;
+  padding: 24px 0 12px 20px;
 }
 
 .category {
+  display: inline-flex;
   padding: 5px 12px;
   border-radius: 100px;
   background: var(--primary-1, #6f90d1);
-
-  display: inline-flex;
 
   color: #fff;
   font-feature-settings:
@@ -40,10 +34,10 @@
 }
 
 .content {
+  overflow: hidden;
   margin-top: 12px;
   margin-right: 20px;
 
-  overflow: hidden;
   color: #1a1a1a;
   font-feature-settings:
     "clig" off,
@@ -56,24 +50,40 @@
   line-height: 150%; /* 21px */
 }
 
-.images {
-  margin-top: 12px;
+/* Image */
+.image {
+  width: 100%;
+  height: auto;
+  padding-right: 20px;
+  box-sizing: border-box;
+}
+
+.image-scroll-container {
+  overflow-x: auto;
+  width: 100%;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch; /* iOS에서 부드러운 스크롤 */
+}
+
+.image-scroll-content {
   display: flex;
+  gap: 12px;
 }
 
 .icons {
-  margin-top: 20px;
   display: flex;
-  gap: 10px;
   align-items: center;
+  gap: 10px;
+  margin-top: 20px;
 }
 .icons > div {
   display: flex;
-  gap: 4px;
   align-items: center;
+  gap: 4px;
 }
 .icons span {
   overflow: hidden;
+
   color: #595959;
   font-feature-settings:
     "clig" off,
@@ -88,28 +98,34 @@
 
 /* author */
 .author {
-  height: 40px;
-  padding: 12px 20px 12px 20px;
-  border-bottom: 1px solid #ececec;
   display: flex;
   justify-content: space-between;
+  height: 40px;
+  border-top: 1px solid #ececec;
+  border-bottom: 1px solid #ececec;
+  padding: 12px 20px 12px 20px;
 }
-.authorInfo {
+
+.author__info {
   display: flex;
   gap: 10px;
 }
-.authorProfileImage {
+
+.author__profile-image-wrapper {
   width: 40px;
   height: 40px;
   border-radius: 20px;
   background: #d9d9d9;
 }
-.authorText {
+
+.author__textzone {
   display: flex;
   flex-direction: column;
 }
-.authorName {
+
+.author__name {
   overflow: hidden;
+
   color: #000;
   font-feature-settings:
     "clig" off,
@@ -121,8 +137,10 @@
   font-weight: 500;
   line-height: 150%; /* 21px */
 }
-.createDate {
+
+.author__created-at {
   overflow: hidden;
+
   color: #7c7c7c;
   font-feature-settings:
     "clig" off,
@@ -136,16 +154,16 @@
 }
 
 .author button {
-  margin-top: 5px;
+  display: inline-flex;
+  align-items: center;
   height: 31px;
+  margin-top: 5px;
   padding: 5px 12px;
   border: none;
   border-radius: 100px;
   background: #f0f0f0;
-  cursor: pointer;
 
-  display: inline-flex;
-  align-items: center;
+  cursor: pointer;
 
   color: #a2a2a2;
   font-feature-settings:
@@ -157,4 +175,55 @@
   font-weight: 500;
   line-height: 160%; /* 20.8px */
   letter-spacing: 0.15px;
+}
+
+/* ImagePopup */
+.fullscreen-popup {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+}
+
+.popup__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 56px;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.popup__close-button {
+  width: 24px;
+  height: 24px;
+  margin-left: 20px;
+  padding: 0 0 0 0;
+  border: none;
+  background: none;
+
+  cursor: pointer;
+}
+
+.popup__title {
+  margin-right: 24px;
+
+  color: rgba(255, 255, 255, 0.87);
+  font-feature-settings:
+    "liga" off,
+    "clig" off;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 160%; /* 25.6px */
+}
+
+.popup__image-container {
+  flex-grow: 1;
+  position: relative;
 }
