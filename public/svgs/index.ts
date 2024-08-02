@@ -1,3 +1,4 @@
 import IconCloseFilled from "./close-filled.svg";
+import IconObjectsAndTools from "./objects-and-tools.svg";
 
-export { IconCloseFilled };
+export { IconCloseFilled, IconObjectsAndTools };
