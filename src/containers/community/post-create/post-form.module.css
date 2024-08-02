@@ -4,6 +4,18 @@
 
 .title {
   border-bottom: 1px solid #ececec;
+  transition: height 0.2s ease;
+  position: relative;
+}
+
+.title::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: #ececec;
 }
 
 .title textarea {
@@ -14,6 +26,7 @@
   outline: none;
   resize: none; /* 사용자가 크기를 조절할 수 없게 함 */
   overflow: hidden; /* 스크롤바 제거 */
+  transition: height 0.2s ease;
 
   color: rgba(124, 124, 124, 0.87);
   font-feature-settings:
