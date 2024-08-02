@@ -1,26 +1,27 @@
-.commentBox {
-  height: 49px;
-  width: 100%;
-
+.comment-form {
   display: flex;
-
   position: fixed;
   bottom: 56px;
-}
-.commentInput {
   width: 100%;
-  background-color: #fff;
+  max-width: 600px;
+  min-width: 360px;
+  height: 49px;
+}
+
+.comment-input {
+  width: 100%;
   border-top: 1px solid #ececec;
   border-bottom: 1px solid #ececec;
+  background-color: #fff;
 }
-.commentInput input {
-  padding: 14px 20px 14px 20px;
-  width: 100%;
 
+.comment-input input {
+  overflow: hidden;
+  width: 100%;
+  padding: 14px 20px 14px 20px;
   border: none;
   outline: none;
 
-  overflow: hidden;
   color: #808080;
   font-feature-settings:
     "clig" off,
@@ -33,13 +34,12 @@
   line-height: 150%; /* 21px */
 }
 
-.commentSubmit {
+.comment-submit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 65px;
   background: var(--primary-1, #6f96d1);
 
   cursor: pointer;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
