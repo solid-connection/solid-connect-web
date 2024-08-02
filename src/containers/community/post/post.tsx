@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useState } from "react";
 
 import Communication from "@/components/ui/icon/Communication";
 import FavoriteOutlined from "@/components/ui/icon/FavoriteOutlined";
@@ -20,6 +21,16 @@ export default function Post(props) {
     "https://solid-connection.s3.ap-northeast-2.amazonaws.com/original/university_of_guam/1.png",
   ];
 
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const handleImageClick = (image) => {
+    setSelectedImage(image);
+  };
+
+  const closePopup = () => {
+    setSelectedImage(null);
+  };
+
   return (
     <>
       <div className={styles.post}>
@@ -27,8 +38,9 @@ export default function Post(props) {
         <div className={styles.title}>{title || "제목 없음"}</div>
         <div className={styles.content}>{content || "내용 없음"}</div>
         <div style={{ marginTop: "12px" }}>
-          <PostImage images={images} />
+          <PostImage images={images} onImageClick={handleImageClick} />
         </div>
+        {selectedImage && <ImagePopup image={selectedImage} onClose={closePopup} />}
 
         <div className={styles.icons}>
           <div>
@@ -60,19 +72,44 @@ export default function Post(props) {
   );
 }
 
-function PostImage({ images }) {
+function PostImage({ images, onImageClick }) {
   if (images.length === 0) {
     return null;
   }
   if (images.length === 1) {
-    return <Image className={styles.image} src={images[0]} width={500} height={500} alt="alt" />;
+    return (
+      <Image
+        className={styles.image}
+        src={images[0]}
+        width={500}
+        height={500}
+        alt="alt"
+        onClick={() => onImageClick(images[0])}
+      />
+    );
   }
   return (
     <div className={styles["image-scroll-container"]}>
       <div className={styles["image-scroll-content"]}>
-        {images.map((image) => (
-          <Image src={image} width={197} height={197} alt="alt" />
+        {images.map((image, index) => (
+          <Image key={index} src={image} width={197} height={197} alt="alt" onClick={() => onImageClick(image)} />
         ))}
+      </div>
+    </div>
+  );
+}
+
+function ImagePopup({ image, onClose }) {
+  return (
+    <div className={styles.fullscreenPopup}>
+      <div className={styles.popupHeader}>
+        <button className={styles.closeButton} onClick={onClose}>
+          X
+        </button>
+        <span className={styles.imageCounter}>1/1</span>
+      </div>
+      <div className={styles.popupImageContainer}>
+        <Image src={image} layout="fill" objectFit="contain" alt="Popup" />
       </div>
     </div>
   );
