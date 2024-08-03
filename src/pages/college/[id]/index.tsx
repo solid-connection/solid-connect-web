@@ -37,7 +37,33 @@ export default function CollegeDetailPage({ collegeId, collegeData, reviewList }
   );
 }
 
-export async function getServerSideProps({ params }) {
+// export async function getServerSideProps({ params }) {
+//   const { id }: { id: number } = params;
+//   const reviewList: Review[] = [];
+//   try {
+//     const res = await getUniversityDetailPublicApi(id);
+//     return {
+//       props: {
+//         collegeId: id,
+//         collegeData: res.data,
+//         reviewList,
+//       },
+//     };
+//   } catch {
+//     return {
+//       notFound: true,
+//     };
+//   }
+// }
+
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: "blocking",
+  };
+}
+
+export async function getStaticProps({ params }) {
   const { id }: { id: number } = params;
   const reviewList: Review[] = [];
   try {
@@ -48,6 +74,7 @@ export async function getServerSideProps({ params }) {
         collegeData: res.data,
         reviewList,
       },
+      revalidate: 60,
     };
   } catch {
     return {
