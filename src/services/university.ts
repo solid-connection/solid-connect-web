@@ -7,6 +7,7 @@ import {
   RecommendedUniversitiesResponse,
   University,
   UniversityFavoriteResponse,
+  UniversityFavoriteStatusResponse,
 } from "@/types/university";
 
 export const getUniversityDetailPublicApi = (universityInfoForApplyId: number): Promise<AxiosResponse<University>> => {
@@ -16,6 +17,12 @@ export const getUniversityDetailPublicApi = (universityInfoForApplyId: number): 
 
 export const getUniversityListPublicApi = (): Promise<AxiosResponse<ListUniversity[]>> => {
   return publicAxiosInstance.get("/university/search");
+};
+
+export const getUniversityFavoriteStatusApi = (
+  universityInfoForApplyId: number,
+): Promise<AxiosResponse<UniversityFavoriteStatusResponse>> => {
+  return axiosInstance.get(`/university/${universityInfoForApplyId}/like`);
 };
 
 export const postUniversityFavoriteApi = (

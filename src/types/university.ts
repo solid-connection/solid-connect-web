@@ -34,10 +34,6 @@ export interface University {
   details: string; // 비고
 }
 
-export interface UniversityPersonal extends University {
-  liked: boolean;
-}
-
 export interface ListUniversity {
   id: number;
   term: string;
@@ -52,6 +48,10 @@ export interface ListUniversity {
 export interface LanguageRequirement {
   languageTestType: string; // 어학 시험 종류
   minScore: string; // 최소 점수
+}
+
+export interface UniversityFavoriteStatusResponse {
+  isLike: boolean;
 }
 
 export interface UniversityFavoriteResponse {
