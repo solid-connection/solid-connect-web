@@ -6,8 +6,10 @@ import { getMyInfoApi } from "@/services/myInfo";
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import MyModify from "@/components/my/my-modify";
 
+import { MyInfo } from "@/types/myInfo";
+
 export default function MyModifyPage() {
-  const [myData, setMyData] = useState(null);
+  const [myData, setMyData] = useState<MyInfo>(null);
 
   useEffect(() => {
     const fetchMyData = async () => {
@@ -25,10 +27,15 @@ export default function MyModifyPage() {
             console.error("Error", err.message);
             alert(err.message);
           }
+          document.location.href = "/login"; // 로그인 페이지로 이동
         });
     };
     fetchMyData();
   }, []);
+
+  if (!myData) {
+    return <></>;
+  }
 
   return (
     <>

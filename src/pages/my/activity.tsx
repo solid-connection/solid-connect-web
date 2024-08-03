@@ -42,6 +42,8 @@ export default function MyActivityPage() {
   ];
   const choices = ["작성글", "작성 댓글"];
   const [choice, setChoice] = useState(choices[0]);
+
+  return <div>준비중입니다</div>;
   return (
     <>
       <Head>
