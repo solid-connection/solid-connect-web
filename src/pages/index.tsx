@@ -39,10 +39,10 @@ export default function HomePage(props: { newsList: News[] }) {
         });
     }
 
-    if (isAuthenticated()) {
-      fetchRecommendedColleges();
-      fetchApplyStatus();
-    }
+    // if (isAuthenticated()) {
+    fetchRecommendedColleges();
+    fetchApplyStatus();
+    // }
   }, []);
 
   return (

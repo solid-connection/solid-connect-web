@@ -18,18 +18,23 @@ export default function MyPage() {
         })
         .catch((err) => {
           if (err.response) {
-            console.error("Axios response error", err.response.data);
-            alert(err.response.data?.error?.message);
+            console.error("Axios response error", err.response);
+            alert(err.response.data?.message);
           } else if (err.reqeust) {
             console.error("Axios request error", err.request);
           } else {
             console.error("Error", err.message);
             alert(err.message);
           }
+          document.location.href = "/login"; // 로그인 페이지로 이동
         });
     };
     fetchMyData();
   }, []);
+
+  if (!myData) {
+    return <></>;
+  }
 
   return (
     <>

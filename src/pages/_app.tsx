@@ -1,4 +1,3 @@
-// fonts
 import { Inter } from "next/font/google";
 import Head from "next/head";
 import Script from "next/script";
@@ -41,7 +40,6 @@ export default function App({ Component, pageProps }) {
         <Layout>
           <Script src="https://developers.kakao.com/sdk/js/kakao.js" onLoad={kakaoInit} />
           <Component {...pageProps} />
-          {/* <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID} /> */}
           <GoogleAnalytics gaId="G-V1KLYZC1DS" />
         </Layout>
       </>

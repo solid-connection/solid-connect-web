@@ -40,6 +40,7 @@ export default function CollegeRegisterPage({ collegesKeyName }) {
             console.error("Error", err.message);
             alert(err.message);
           }
+          document.location.href = "/login"; // 로그인 페이지로 이동
         });
     }
     checkUpdateCount();
@@ -73,6 +74,7 @@ export default function CollegeRegisterPage({ collegesKeyName }) {
             console.error("Error", err.message);
             alert(err.message);
           }
+          document.location.href = "/login"; // 로그인 페이지로 이동
         });
     };
     postData();

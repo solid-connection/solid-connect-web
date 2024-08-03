@@ -21,7 +21,7 @@ export const getUniversityListPublicApi = (): Promise<AxiosResponse<ListUniversi
 export const postUniversityFavoriteApi = (
   universityInfoForApplyId: number,
 ): Promise<AxiosResponse<UniversityFavoriteResponse>> => {
-  return axiosInstance.post(`/university/favorite/${universityInfoForApplyId}`);
+  return axiosInstance.post(`/university/${universityInfoForApplyId}/like`);
 };
 
 export const getRecommendedUniversitiesApi = (): Promise<AxiosResponse<RecommendedUniversitiesResponse>> => {

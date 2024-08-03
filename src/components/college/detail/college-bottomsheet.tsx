@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
+import { postUniversityFavoriteApi } from "@/services/university";
 import { axiosInstance } from "@/utils/axiosInstance";
 
 import BookmarkFilled from "@/components/ui/icon/BookmarkFilled";
@@ -11,9 +12,7 @@ import styles from "./college-bottomsheet.module.css";
 import CollegeReviews from "./college-reviews";
 
 import { Review } from "@/types/review";
-import { UniversityPersonal } from "@/types/university";
-
-type LikeResult = "LIKE_SUCCESS" | "LIKE_CANCELED";
+import { UniversityFavoriteResponse, UniversityPersonal } from "@/types/university";
 
 interface CollegeBottomSheetProps extends UniversityPersonal {
   collegeId: number;
@@ -55,23 +54,29 @@ export default function CollegeBottomSheet(props: CollegeBottomSheetProps) {
   const [isLiked, setIsLiked] = useState<boolean>(props.liked);
 
   function toggleLike() {
-    async function postLike() {
-      try {
-        const res = await axiosInstance.post(`/university/${collegeId}/like`);
-        const result: LikeResult = res.data.data.result;
-        if (result === "LIKE_SUCCESS") {
-          setIsLiked(true);
-        } else if (result === "LIKE_CANCELED") {
-          setIsLiked(false);
-        }
-      } catch (error) {
-        console.error(error.toString());
-        let errorMessage = error.toString();
-        const detailedErrorMessage = error?.response?.data?.error?.message ?? "";
-        if (detailedErrorMessage) errorMessage += "\n" + detailedErrorMessage;
-        alert(errorMessage);
-      }
-    }
+    const postLike = async () => {
+      await postUniversityFavoriteApi(collegeId)
+        .then((res) => {
+          const result = res.data.result;
+          if (result === "LIKE_SUCCESS") {
+            setIsLiked(true);
+          } else if (result === "LIKE_CANCELED") {
+            setIsLiked(false);
+          }
+        })
+        .catch((err) => {
+          if (err.response) {
+            console.error("Axios response error", err.response);
+            alert(err.response.data?.message);
+          } else if (err.reqeust) {
+            console.error("Axios request error", err.request);
+          } else {
+            console.error("Error", err.message);
+            alert(err.message);
+          }
+          document.location.href = "/login"; // 로그인 페이지로 이동
+        });
+    };
     postLike();
   }
 

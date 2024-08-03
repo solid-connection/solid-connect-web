@@ -21,7 +21,7 @@ export default function MyScrapPage() {
     //   college: "보라스 대학교",
     // },
   ];
-  const [wishColleges, setWishColleges] = useState<ListUniversity[]>([]);
+  const [wishColleges, setWishColleges] = useState<ListUniversity[]>(null);
 
   useEffect(() => {
     const fetchWishColleges = async () => {
@@ -39,6 +39,7 @@ export default function MyScrapPage() {
             console.error("Error", err.message);
             alert(err.message);
           }
+          document.location.href = "/login"; // 로그인 페이지로 이동
         });
     };
     fetchWishColleges();
@@ -47,6 +48,10 @@ export default function MyScrapPage() {
   // const tabs = ["스크랩 한 글", "멘토", "위시학교"];
   const tabs = ["위시학교"];
   const [tab, setTab] = useState(tabs[0]);
+
+  if (!wishColleges) {
+    return <></>;
+  }
 
   return (
     <>
