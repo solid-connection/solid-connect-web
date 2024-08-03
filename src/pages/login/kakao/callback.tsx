@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 import { kakaoAuthApi } from "@/services/auth";
+import { saveAccessToken, saveRefreshToken } from "@/utils/localStorage";
 
 import SignupSurvey from "@/components/login/signup/signup-survey";
 
@@ -34,8 +35,8 @@ export default function KakaoLoginCallbackPage() {
         const data = res.data;
         if (data.isRegistered) {
           // 기존 회원일 시
-          window.localStorage.setItem("accessToken", data.accessToken);
-          window.localStorage.setItem("refreshToken", data.refreshToken);
+          saveAccessToken(data.accessToken);
+          saveRefreshToken(data.refreshToken);
           router.push("/");
         } else if (data.isRegistered == false) {
           // 새로운 회원일 시
