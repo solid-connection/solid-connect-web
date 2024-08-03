@@ -12,7 +12,9 @@
 }
 .role {
   color: #000;
-  font-feature-settings: "clig" off, "liga" off;
+  font-feature-settings:
+    "clig" off,
+    "liga" off;
   font-family: Pretendard;
   font-size: 20px;
   font-style: normal;
@@ -40,7 +42,9 @@
 .form > div:nth-of-type(1) {
   flex-basis: 56px;
   color: #000;
-  font-feature-settings: "clig" off, "liga" off;
+  font-feature-settings:
+    "clig" off,
+    "liga" off;
   font-family: Pretendard;
   font-size: 16px;
   font-style: normal;
@@ -52,7 +56,9 @@
   padding-bottom: 10px;
   border-bottom: 1px solid #d2d2d2;
   color: #000;
-  font-feature-settings: "clig" off, "liga" off;
+  font-feature-settings:
+    "clig" off,
+    "liga" off;
   font-family: Pretendard;
   font-size: 16px;
   font-style: normal;

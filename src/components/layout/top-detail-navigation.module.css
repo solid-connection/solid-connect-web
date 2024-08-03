@@ -23,7 +23,9 @@
   margin: 16px 0 14px 0;
 
   color: var(--Dark-Primary-Contrast, rgba(0, 0, 0, 0.87));
-  font-feature-settings: "clig" off, "liga" off;
+  font-feature-settings:
+    "clig" off,
+    "liga" off;
   font-family: Pretendard;
   font-size: 16px;
   font-style: normal;

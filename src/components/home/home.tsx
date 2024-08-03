@@ -1,18 +1,25 @@
-import Image from "next/image";
 import Link from "next/link";
 
-import styles from "./home.module.css";
-import HomeCollegeCards from "./home-college-cards";
-import MentoCard from "./mento-card";
-import NewsCards from "./news-cards";
-import HomeSearch from "./search/home-search";
 import CheveronRightFilled from "../ui/icon/ChevronRightFilled";
 import SearchFilled from "../ui/icon/SearchFilled";
-import { ListUniversity } from "@/types/university";
-import { News } from "@/types/news";
-import { ApplyStatus } from "@/types/application";
+import HomeCollegeCards from "./home-college-cards";
+import styles from "./home.module.css";
+import NewsCards from "./news-cards";
+import HomeSearch from "./search/home-search";
 
-export default function Home({ recommendedColleges, newsList, applyStatus }: { recommendedColleges: ListUniversity[]; newsList: News[]; applyStatus: ApplyStatus }) {
+import { ApplyStatus } from "@/types/application";
+import { News } from "@/types/news";
+import { ListUniversity } from "@/types/university";
+
+export default function Home({
+  recommendedColleges,
+  newsList,
+  applyStatus,
+}: {
+  recommendedColleges: ListUniversity[];
+  newsList: News[];
+  applyStatus: ApplyStatus;
+}) {
   // const testMentoData = {
   //   mentoId: 1,
   //   image: "/images/rabbit.png",

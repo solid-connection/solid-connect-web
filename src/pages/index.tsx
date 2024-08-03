@@ -1,16 +1,18 @@
-import { useState, useEffect } from "react";
 import Head from "next/head";
+import { useEffect, useState } from "react";
 
-import { getNewsList } from "./api/news";
-import { ListUniversity } from "@/types/university";
-import { News } from "@/types/news";
-import { ApplyStatus } from "@/types/application";
-
-import TopNavigation from "@/components/layout/top-navigation";
-import Home from "@/components/home/home";
 import { getMyApplicationStatusApi } from "@/services/application";
-import { isAuthenticated } from "@/utils/authUtils";
 import { getRecommendedUniversitiesApi } from "@/services/university";
+import { isAuthenticated } from "@/utils/authUtils";
+
+import Home from "@/components/home/home";
+import TopNavigation from "@/components/layout/top-navigation";
+
+import { ApplyStatus } from "@/types/application";
+import { News } from "@/types/news";
+import { ListUniversity } from "@/types/university";
+
+import { getNewsList } from "@/pages/api/news";
 
 export default function HomePage(props: { newsList: News[] }) {
   const [recommendedColleges, setRecommendedColleges] = useState<ListUniversity[]>([]);
@@ -37,10 +39,10 @@ export default function HomePage(props: { newsList: News[] }) {
         });
     }
 
-    if (isAuthenticated()) {
-      fetchRecommendedColleges();
-      fetchApplyStatus();
-    }
+    // if (isAuthenticated()) {
+    fetchRecommendedColleges();
+    fetchApplyStatus();
+    // }
   }, []);
 
   return (

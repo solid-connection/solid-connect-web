@@ -9,7 +9,12 @@ export default function EditTwo({ color = "#707070" }) {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <path d="M6.07129 10.5577V13.3889H8.91687L16.9602 5.34204L14.1194 2.5L6.07129 10.5577Z" stroke={color} strokeWidth="1.6" strokeLinejoin="round" />
+      <path
+        d="M6.07129 10.5577V13.3889H8.91687L16.9602 5.34204L14.1194 2.5L6.07129 10.5577Z"
+        stroke={color}
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }

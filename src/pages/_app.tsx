@@ -1,13 +1,12 @@
+import { Inter } from "next/font/google";
 import Head from "next/head";
 import Script from "next/script";
-import { GoogleAnalytics } from "@next/third-parties/google";
 
-import "@/styles/globals.css";
-import { LayoutProvider } from "@/context/LayoutContext";
 import Layout from "@/components/layout/layout";
 
-// fonts
-import { Inter } from "next/font/google";
+import { LayoutProvider } from "@/context/LayoutContext";
+import "@/styles/globals.css";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -41,7 +40,6 @@ export default function App({ Component, pageProps }) {
         <Layout>
           <Script src="https://developers.kakao.com/sdk/js/kakao.js" onLoad={kakaoInit} />
           <Component {...pageProps} />
-          {/* <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID} /> */}
           <GoogleAnalytics gaId="G-V1KLYZC1DS" />
         </Layout>
       </>

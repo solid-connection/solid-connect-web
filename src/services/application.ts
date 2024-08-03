@@ -1,12 +1,23 @@
-import { axiosInstance } from "@/utils/axiosInstance";
 import { AxiosResponse } from "axios";
-import { ApplicationListResponse, ApplicationScoreRequest, ApplicationStatusResponse, ApplicationUniversityRequest } from "@/types/application";
 
-export const postApplicationScoreApi = (applicationScoreRequest: ApplicationScoreRequest): Promise<AxiosResponse<null>> => {
+import { axiosInstance } from "@/utils/axiosInstance";
+
+import {
+  ApplicationListResponse,
+  ApplicationScoreRequest,
+  ApplicationStatusResponse,
+  ApplicationUniversityRequest,
+} from "@/types/application";
+
+export const postApplicationScoreApi = (
+  applicationScoreRequest: ApplicationScoreRequest,
+): Promise<AxiosResponse<null>> => {
   return axiosInstance.post("/application/score", applicationScoreRequest);
 };
 
-export const postApplicationUniversityApi = (applicationUniversityRequest: ApplicationUniversityRequest): Promise<AxiosResponse<null>> => {
+export const postApplicationUniversityApi = (
+  applicationUniversityRequest: ApplicationUniversityRequest,
+): Promise<AxiosResponse<null>> => {
   return axiosInstance.post("/application/university", applicationUniversityRequest);
 };
 

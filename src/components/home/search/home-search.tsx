@@ -1,13 +1,15 @@
-import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+
+import World from "@/components/layout/icon/World";
+
+import ButtonTab from "../../ui/button-tab";
+import styles from "./home-search.module.css";
+import SearchInputInterest from "./search-input-interest";
+import SearchInputTest from "./search-input-test";
+import SearchTestTab from "./search-test-tab";
 
 import { LANGUAGE_TEST_INVERSE } from "@/constants/application";
-import styles from "./home-search.module.css";
-import ButtonTab from "../../ui/button-tab";
-import SearchTestTab from "./search-test-tab";
-import SearchInputTest from "./search-input-test";
-import SearchInputInterest from "./search-input-interest";
-import World from "@/components/layout/icon/World";
 
 export default function HomeSearch(props) {
   const router = useRouter();
@@ -65,7 +67,13 @@ export default function HomeSearch(props) {
 
   return (
     <div style={{ marginRight: "20px" }}>
-      <ButtonTab choices={regions} choice={region} setChoice={setRegion} color={{ deactiveBtn: "#f0f0f0", deactiveBtnFont: "#A2A2A2" }} style={{ marginTop: "14px" }} />
+      <ButtonTab
+        choices={regions}
+        choice={region}
+        setChoice={setRegion}
+        color={{ deactiveBtn: "#f0f0f0", deactiveBtnFont: "#A2A2A2" }}
+        style={{ marginTop: "14px" }}
+      />
       {region !== "" && <SearchTestTab tests={testList} test={test} setTest={setTest} />}
       {test && (
         <div className={styles.searchInputs}>

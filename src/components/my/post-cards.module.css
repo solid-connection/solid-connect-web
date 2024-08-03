@@ -26,7 +26,9 @@
 }
 .meta > div {
   color: #7c7c7c;
-  font-feature-settings: "clig" off, "liga" off;
+  font-feature-settings:
+    "clig" off,
+    "liga" off;
   text-overflow: ellipsis;
   font-family: Pretendard;
   font-size: 12px;
@@ -39,7 +41,9 @@
   margin: 8px 0 0 16px;
 
   color: #000;
-  font-feature-settings: "clig" off, "liga" off;
+  font-feature-settings:
+    "clig" off,
+    "liga" off;
   font-family: Pretendard;
   font-size: 16px;
   font-style: normal;
@@ -55,7 +59,9 @@
   text-overflow: ellipsis;
 
   color: #7c7c7c;
-  font-feature-settings: "clig" off, "liga" off;
+  font-feature-settings:
+    "clig" off,
+    "liga" off;
   font-family: Pretendard;
   font-size: 14px;
   font-style: normal;

@@ -1,14 +1,15 @@
-import { useState } from "react";
 import { useRouter } from "next/router";
+import { useState } from "react";
 
-import { RegionKo } from "@/types/university";
-import { RegisterRequest, PreparationStatus } from "@/types/auth";
+import { signUpApi } from "@/services/auth";
+import { saveAccessToken, saveRefreshToken } from "@/utils/localStorage";
 
 import Survey1 from "./survey-1";
 import Survey2 from "./survey-2";
 import Survey3 from "./survey-3";
-import { signUpApi } from "@/services/auth";
-import { saveAccessToken, saveRefreshToken } from "@/utils/localStorage";
+
+import { PreparationStatus, RegisterRequest } from "@/types/auth";
+import { RegionKo } from "@/types/university";
 
 export default function SignupSurvey(props) {
   const { kakaoOauthToken, kakaoNickname, kakaoEmail, kakaoProfileImageUrl } = props;

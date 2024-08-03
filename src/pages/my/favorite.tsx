@@ -1,12 +1,14 @@
-import { ListUniversity } from "@/types/university";
-import { useState, useEffect } from "react";
 import Head from "next/head";
+import { useEffect, useState } from "react";
 
-import TopDetailNavigation from "@/components/layout/top-detail-navigation";
-import ScrollTab from "@/components/ui/scroll-tab";
-import CollegeCards from "@/components/college/list/college-cards";
-import PostCards from "@/components/my/post-cards";
 import { getMyWishUniversityApi } from "@/services/myInfo";
+
+import CollegeCards from "@/components/college/list/college-cards";
+import TopDetailNavigation from "@/components/layout/top-detail-navigation";
+import PostCards from "@/components/my/post-cards";
+import ScrollTab from "@/components/ui/scroll-tab";
+
+import { ListUniversity } from "@/types/university";
 
 export default function MyScrapPage() {
   const posts = [
@@ -19,7 +21,7 @@ export default function MyScrapPage() {
     //   college: "보라스 대학교",
     // },
   ];
-  const [wishColleges, setWishColleges] = useState<ListUniversity[]>([]);
+  const [wishColleges, setWishColleges] = useState<ListUniversity[]>(null);
 
   useEffect(() => {
     const fetchWishColleges = async () => {
@@ -37,6 +39,7 @@ export default function MyScrapPage() {
             console.error("Error", err.message);
             alert(err.message);
           }
+          document.location.href = "/login"; // 로그인 페이지로 이동
         });
     };
     fetchWishColleges();
@@ -45,6 +48,10 @@ export default function MyScrapPage() {
   // const tabs = ["스크랩 한 글", "멘토", "위시학교"];
   const tabs = ["위시학교"];
   const [tab, setTab] = useState(tabs[0]);
+
+  if (!wishColleges) {
+    return <></>;
+  }
 
   return (
     <>

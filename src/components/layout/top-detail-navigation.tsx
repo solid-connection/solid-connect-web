@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
+
 import ArrowBackFilled from "../ui/icon/ArrowBackFilled";
-import MenuFilled from "../ui/icon/MenuFilled";
 import styles from "./top-detail-navigation.module.css";
 
 interface TopDetailNavigationProps {

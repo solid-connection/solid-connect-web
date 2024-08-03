@@ -1,13 +1,15 @@
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import Head from "next/head";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+
 import fs from "fs";
 import path from "path";
 
-import TopDetailNavigation from "@/components/layout/top-detail-navigation";
-import ProgressBar from "@/components/score/register/progress-bar";
-import FormCollege from "@/components/score/register/form-college";
 import { getMyApplicationStatusApi, postApplicationUniversityApi } from "@/services/application";
+
+import TopDetailNavigation from "@/components/layout/top-detail-navigation";
+import FormCollege from "@/components/score/register/form-college";
+import ProgressBar from "@/components/score/register/progress-bar";
 
 export default function CollegeRegisterPage({ collegesKeyName }) {
   const router = useRouter();
@@ -38,6 +40,7 @@ export default function CollegeRegisterPage({ collegesKeyName }) {
             console.error("Error", err.message);
             alert(err.message);
           }
+          document.location.href = "/login"; // 로그인 페이지로 이동
         });
     }
     checkUpdateCount();
@@ -71,6 +74,7 @@ export default function CollegeRegisterPage({ collegesKeyName }) {
             console.error("Error", err.message);
             alert(err.message);
           }
+          document.location.href = "/login"; // 로그인 페이지로 이동
         });
     };
     postData();
@@ -92,7 +96,15 @@ export default function CollegeRegisterPage({ collegesKeyName }) {
           />
         );
       case 2:
-        return <FormCollege toNextStage={submitForm} text="2지망" collegesKeyName={collegesKeyName} college={secondCollege} setCollege={setSecondCollege} />;
+        return (
+          <FormCollege
+            toNextStage={submitForm}
+            text="2지망"
+            collegesKeyName={collegesKeyName}
+            college={secondCollege}
+            setCollege={setSecondCollege}
+          />
+        );
       default:
         return <div>Survey Completed!</div>;
     }
@@ -104,7 +116,12 @@ export default function CollegeRegisterPage({ collegesKeyName }) {
       </Head>
       <TopDetailNavigation title="지원하기" handleBack={handleBack} />
       <div style={{ height: "calc(100vh - 112px)", display: "flex", flexDirection: "column" }}>
-        <ProgressBar style={{ padding: "11px 20px 0 20px" }} progress={progress} display="2/2" description={description} />
+        <ProgressBar
+          style={{ padding: "11px 20px 0 20px" }}
+          progress={progress}
+          display="2/2"
+          description={description}
+        />
         {renderCurrentForm()}
       </div>
     </>

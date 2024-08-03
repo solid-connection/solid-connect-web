@@ -1,10 +1,13 @@
 import Head from "next/head";
-import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useLayout } from "@/context/LayoutContext";
+import { useEffect, useState } from "react";
+
+import { kakaoAuthApi } from "@/services/auth";
+import { saveAccessToken, saveRefreshToken } from "@/utils/localStorage";
 
 import SignupSurvey from "@/components/login/signup/signup-survey";
-import { kakaoAuthApi } from "@/services/auth";
+
+import { useLayout } from "@/context/LayoutContext";
 
 export default function KakaoLoginCallbackPage() {
   const router = useRouter();
@@ -32,8 +35,8 @@ export default function KakaoLoginCallbackPage() {
         const data = res.data;
         if (data.isRegistered) {
           // 기존 회원일 시
-          window.localStorage.setItem("accessToken", data.accessToken);
-          window.localStorage.setItem("refreshToken", data.refreshToken);
+          saveAccessToken(data.accessToken);
+          saveRefreshToken(data.refreshToken);
           router.push("/");
         } else if (data.isRegistered == false) {
           // 새로운 회원일 시
@@ -70,7 +73,12 @@ export default function KakaoLoginCallbackPage() {
           <Head>
             <title>회원가입</title>
           </Head>
-          <SignupSurvey kakaoOauthToken={kakaoOauthToken} kakaoNickname={kakaoNickname} kakaoEmail={kakaoEmail} kakaoProfileImageUrl={kakaoProfileImageUrl} />
+          <SignupSurvey
+            kakaoOauthToken={kakaoOauthToken}
+            kakaoNickname={kakaoNickname}
+            kakaoEmail={kakaoEmail}
+            kakaoProfileImageUrl={kakaoProfileImageUrl}
+          />
         </>
       )}
     </>

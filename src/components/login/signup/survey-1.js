@@ -1,7 +1,8 @@
 import Image from "next/image";
 
-import styles from "./survey.module.css";
 import BlockBtn from "@/components/ui/block-btn";
+
+import styles from "./survey.module.css";
 
 export default function Survey1(props) {
   const { setStage, region, setRegion } = props;
@@ -45,7 +46,10 @@ export default function Survey1(props) {
                 <div className={region !== regionItem.name ? styles.imgWrapper : ""}>
                   <Image src={regionItem.img} alt={regionItem.name} width={162} height={162} />
                 </div>
-                <div className={styles.name} style={region === regionItem.name ? { color: "var(--primary-2, #091F5B)" } : {}}>
+                <div
+                  className={styles.name}
+                  style={region === regionItem.name ? { color: "var(--primary-2, #091F5B)" } : {}}
+                >
                   {regionItem.name}
                 </div>
               </div>

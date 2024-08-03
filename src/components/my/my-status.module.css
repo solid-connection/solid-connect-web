@@ -19,7 +19,9 @@
 
 .subject {
   color: #7e7e7e;
-  font-feature-settings: "clig" off, "liga" off;
+  font-feature-settings:
+    "clig" off,
+    "liga" off;
   font-family: Pretendard;
   font-size: 16px;
   font-style: normal;
@@ -29,7 +31,9 @@
 
 .content {
   color: #000;
-  font-feature-settings: "clig" off, "liga" off;
+  font-feature-settings:
+    "clig" off,
+    "liga" off;
   font-family: Pretendard;
   font-size: 16px;
   font-style: normal;

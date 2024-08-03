@@ -1,15 +1,16 @@
-import { useState, useEffect } from "react";
 import Head from "next/head";
+import { useState } from "react";
 
-import TopDetailNavigation from "@/components/layout/top-detail-navigation";
-import ProgressBar from "@/components/score/register/progress-bar";
-
-import FormLanguage from "@/components/score/register/form-language";
-import FormScore from "@/components/score/register/form-score";
-import FormFinal from "@/components/score/register/form-final";
-import FormCollegeFinal from "@/components/score/register/form-college-final";
 import { postApplicationScoreApi } from "@/services/application";
 import { uploadGpaFileApi, uploadLanguageTestFileApi } from "@/services/file";
+
+import TopDetailNavigation from "@/components/layout/top-detail-navigation";
+import FormCollegeFinal from "@/components/score/register/form-college-final";
+import FormFinal from "@/components/score/register/form-final";
+import FormLanguage from "@/components/score/register/form-language";
+import FormScore from "@/components/score/register/form-score";
+import ProgressBar from "@/components/score/register/progress-bar";
+
 import { LANGUAGE_TEST_CONVERSE } from "@/constants/application";
 
 export default function ScoreRegisterPage() {
@@ -95,6 +96,7 @@ export default function ScoreRegisterPage() {
           console.error(error.message);
           alert(error.message);
         }
+        document.location.href = "/login"; // 로그인 페이지로 이동
       }
     }
     // 서버로 데이터 전송
@@ -133,7 +135,17 @@ export default function ScoreRegisterPage() {
         );
       case 3:
         return (
-          <FormFinal toNextStage={submitForm} languageType={languageType} languageScore={languageScore} languageCert={languageCert} scoreType={scoreType} score={score} scoreCert={scoreCert} setLanguageCert={setLanguageCert} setScoreCert={setScoreCert} />
+          <FormFinal
+            toNextStage={submitForm}
+            languageType={languageType}
+            languageScore={languageScore}
+            languageCert={languageCert}
+            scoreType={scoreType}
+            score={score}
+            scoreCert={scoreCert}
+            setLanguageCert={setLanguageCert}
+            setScoreCert={setScoreCert}
+          />
         );
       case 4:
         return <FormCollegeFinal />;
