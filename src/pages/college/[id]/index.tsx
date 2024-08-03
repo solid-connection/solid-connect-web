@@ -7,17 +7,15 @@ import CollegeDetail from "@/components/college/detail/college-detail";
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 
 import { Review } from "@/types/review";
-import { UniversityPersonal } from "@/types/university";
+import { University } from "@/types/university";
 
-export default function CollegeDetailPage({
-  collegeId,
-  collegeData,
-  reviewList,
-}: {
+type CollegeDetailPageProps = {
   collegeId: number;
-  collegeData: UniversityPersonal;
+  collegeData: University;
   reviewList: Review[];
-}) {
+};
+
+export default function CollegeDetailPage({ collegeId, collegeData, reviewList }: CollegeDetailPageProps) {
   const convertedKoreanName =
     collegeData.term !== process.env.NEXT_PUBLIC_CURRENT_TERM
       ? `${collegeData.koreanName}(${collegeData.term})`

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-import { postUniversityFavoriteApi } from "@/services/university";
+import { getUniversityFavoriteStatusApi, postUniversityFavoriteApi } from "@/services/university";
 import { axiosInstance } from "@/utils/axiosInstance";
 
 import BookmarkFilled from "@/components/ui/icon/BookmarkFilled";
@@ -12,9 +12,9 @@ import styles from "./college-bottomsheet.module.css";
 import CollegeReviews from "./college-reviews";
 
 import { Review } from "@/types/review";
-import { UniversityFavoriteResponse, UniversityPersonal } from "@/types/university";
+import { University, UniversityFavoriteResponse } from "@/types/university";
 
-interface CollegeBottomSheetProps extends UniversityPersonal {
+interface CollegeBottomSheetProps extends University {
   collegeId: number;
   convertedKoreanName: string;
   reviewList: Review[];
@@ -51,7 +51,20 @@ export default function CollegeBottomSheet(props: CollegeBottomSheetProps) {
   const pages: string[] = ["학교정보", "어학성적", "지원전공", "위치", "파견후기"];
   const [activeTab, setActiveTab] = useState<string>("학교정보");
   const sectionRefs = [useRef(null), useRef(null), useRef(null), useRef(null), useRef(null)];
-  const [isLiked, setIsLiked] = useState<boolean>(props.liked);
+  const [isLiked, setIsLiked] = useState<boolean>(false);
+
+  useEffect(() => {
+    const getFavoriteStatus = async () => {
+      await getUniversityFavoriteStatusApi(collegeId)
+        .then((res) => {
+          setIsLiked(res.data.isLike);
+        })
+        .catch((err) => {
+          // 비로그인시 무시
+        });
+    };
+    getFavoriteStatus();
+  }, []);
 
   function toggleLike() {
     const postLike = async () => {
