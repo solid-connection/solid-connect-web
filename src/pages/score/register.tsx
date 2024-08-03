@@ -96,6 +96,7 @@ export default function ScoreRegisterPage() {
           console.error(error.message);
           alert(error.message);
         }
+        document.location.href = "/login"; // 로그인 페이지로 이동
       }
     }
     // 서버로 데이터 전송
