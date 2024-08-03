@@ -54,14 +54,17 @@ axiosInstance.interceptors.response.use(
   },
   async (error) => {
     if (error.response?.status === 401 || error.response?.status === 403) {
+      const refreshToken = loadRefreshToken();
+
+      if (refreshToken === null || isTokenExpired(refreshToken)) {
+        removeAccessToken();
+        removeRefreshToken();
+        throw Error("로그인이 필요합니다");
+        // document.location.href = "/login"; // 로그인 페이지로 이동
+        return Promise.reject(error);
+      }
+
       try {
-        const refreshToken = loadRefreshToken();
-        if (refreshToken === null || isTokenExpired(refreshToken)) {
-          removeAccessToken();
-          removeRefreshToken();
-          document.location.href = "/login"; // 로그인 페이지로 이동
-          return Promise.reject(error);
-        }
         const newAccessToken = await reissueAccessTokenPublicApi(refreshToken).then((res) => {
           return res.data.accessToken;
         });
