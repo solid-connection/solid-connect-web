@@ -1,4 +1,4 @@
-export const COMMUNITIES = [
+export const COMMUNITY_BOARDS = [
   { code: "FREE", nameKo: "자유" },
   { code: "EUROPE", nameKo: "유럽권" },
   { code: "AMERICAS", nameKo: "미주권" },

@@ -8,7 +8,7 @@ import CommunityRegionSelector from "@/containers/community/community-region-sel
 import PostCards from "@/containers/community/post-cards";
 import PostWriteButton from "@/containers/community/post-write-button";
 
-import { COMMUNITIES, COMMUNITY_CATEGORIES } from "@/constants/commnunity";
+import { COMMUNITY_BOARDS, COMMUNITY_CATEGORIES } from "@/constants/commnunity";
 
 export default function CommunityPage() {
   const posts = [
@@ -81,7 +81,7 @@ export default function CommunityPage() {
         <CommunityRegionSelector
           curRegion={communityRegion}
           setCurRegion={setCommunityRegion}
-          regionChoices={COMMUNITIES}
+          regionChoices={COMMUNITY_BOARDS}
         />
         <ButtonTab
           choices={COMMUNITY_CATEGORIES}
