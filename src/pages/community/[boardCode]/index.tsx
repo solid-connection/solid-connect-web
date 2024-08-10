@@ -13,15 +13,16 @@ import PostWriteButton from "@/containers/community/post-write-button";
 import { COMMUNITY_BOARDS, COMMUNITY_CATEGORIES } from "@/constants/commnunity";
 import { ListPost } from "@/types/community";
 
-export default function CommunityPage({ boardCode }: { boardCode: string }) {
-  const [board, setBoard] = useState<string>(boardCode);
+export default function CommunityPage({ boardCode: initialBoardCode }: { boardCode: string }) {
+  const router = useRouter();
+  const boardCode = (router.query.boardCode as string) || initialBoardCode;
   const [boardDisplayName, setBoardDisplayName] = useState<string>("자유");
   const [category, setCategory] = useState<string>("전체");
   const [posts, setPosts] = useState<ListPost[]>([]);
 
   useEffect(() => {
     const fetchPosts = async () => {
-      await getPostListApi(board, category)
+      await getPostListApi(boardCode, category)
         .then((res) => {
           setPosts(res.data);
         })
@@ -39,10 +40,13 @@ export default function CommunityPage({ boardCode }: { boardCode: string }) {
         });
     };
     fetchPosts();
-    setBoardDisplayName(COMMUNITY_BOARDS.find((b) => b.code === board)?.nameKo);
-  }, [board, category]);
+    setBoardDisplayName(COMMUNITY_BOARDS.find((b) => b.code === boardCode)?.nameKo);
+  }, [boardCode, category]);
 
-  const router = useRouter();
+  const handleBoardChange = (newBoard: string) => {
+    router.push(`/community/${newBoard}`);
+  };
+
   const postWriteHandler = () => {
     router.push("/community/post/create");
   };
@@ -56,7 +60,7 @@ export default function CommunityPage({ boardCode }: { boardCode: string }) {
       <div>
         <CommunityRegionSelector
           curRegion={boardDisplayName}
-          setCurRegion={setBoard}
+          setCurRegion={handleBoardChange}
           regionChoices={COMMUNITY_BOARDS}
         />
         <ButtonTab
@@ -75,9 +79,5 @@ export default function CommunityPage({ boardCode }: { boardCode: string }) {
 
 export async function getServerSideProps({ params }) {
   const { boardCode }: { boardCode: string } = params;
-  return {
-    props: {
-      boardCode,
-    },
-  };
+  return { props: { boardCode } };
 }
