@@ -1,6 +1,8 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+import { getPostListApi } from "@/services/community";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import ButtonTab from "@/components/ui/button-tab";
@@ -9,62 +11,36 @@ import PostCards from "@/containers/community/post-cards";
 import PostWriteButton from "@/containers/community/post-write-button";
 
 import { COMMUNITY_BOARDS, COMMUNITY_CATEGORIES } from "@/constants/commnunity";
+import { ListPost } from "@/types/community";
 
 export default function CommunityPage() {
-  const posts = [
-    {
-      id: 1,
-      title: "보라스 대학교에 관한 정보",
-      content:
-        "안녕하세요 유저가 작성한 글의 내용 일부가 여기에 보입니다. 몇글자가 들어가는지는 모르겠지만 더 들어간다면ㅊ녕하세요 유저가 작성한 글의 내용 일부가 여기에 보입니다. 몇글자가 들어가는지는 모르겠지만 더 들어간다면ㅊ ",
-      category: "동행",
-      date: "2024. 1. 1.",
-      favoriteCount: 1,
-      commentCount: 1,
-      image: "https://solid-connection.s3.ap-northeast-2.amazonaws.com/original/university_of_guam/1.png",
-    },
-    {
-      id: 2,
-    },
-    {
-      id: 3,
-      title: "보라스 대학교에 관한 정보",
-      content:
-        "안녕하세요 유저가 작성한 글의 내용 일부가 여기에 보입니다. 몇글자가 들어가는지는 모르겠지만 더 들어간다면ㅊ녕하세요 유저가 작성한 글의 내용 일부가 여기에 보입니다. 몇글자가 들어가는지는 모르겠지만 더 들어간다면ㅊ ",
-    },
-    {
-      id: 4,
-      title: "보라스 대학교에 관한 정보",
-      content:
-        "안녕하세요 유저가 작성한 글의 내용 일부가 여기에 보입니다. 몇글자가 들어가는지는 모르겠지만 더 들어간다면ㅊ녕하세요 유저가 작성한 글의 내용 일부가 여기에 보입니다. 몇글자가 들어가는지는 모르겠지만 더 들어간다면ㅊ ",
-    },
-    {
-      id: 8,
-      title: "보라스 대학교에 관한 정보",
-      content:
-        "안녕하세요 유저가 작성한 글의 내용 일부가 여기에 보입니다. 몇글자가 들어가는지는 모르겠지만 더 들어간다면ㅊ녕하세요 유저가 작성한 글의 내용 일부가 여기에 보입니다. 몇글자가 들어가는지는 모르겠지만 더 들어간다면ㅊ ",
-    },
-    {
-      id: 5,
-      title: "보라스 대학교에 관한 정보",
-      content:
-        "안녕하세요 유저가 작성한 글의 내용 일부가 여기에 보입니다. 몇글자가 들어가는지는 모르겠지만 더 들어간다면ㅊ녕하세요 유저가 작성한 글의 내용 일부가 여기에 보입니다. 몇글자가 들어가는지는 모르겠지만 더 들어간다면ㅊ ",
-    },
-    {
-      id: 6,
-      title: "보라스 대학교에 관한 정보",
-      content:
-        "안녕하세요 유저가 작성한 글의 내용 일부가 여기에 보입니다. 몇글자가 들어가는지는 모르겠지만 더 들어간다면ㅊ녕하세요 유저가 작성한 글의 내용 일부가 여기에 보입니다. 몇글자가 들어가는지는 모르겠지만 더 들어간다면ㅊ ",
-    },
-    {
-      id: 7,
-      title: "보라스 대학교에 관한 정보",
-      content:
-        "안녕하세요 유저가 작성한 글의 내용 일부가 여기에 보입니다. 몇글자가 들어가는지는 모르겠지만 더 들어간다면ㅊ녕하세요 유저가 작성한 글의 내용 일부가 여기에 보입니다. 몇글자가 들어가는지는 모르겠지만 더 들어간다면ㅊ ",
-    },
-  ];
+  const [board, setBoard] = useState<string>("FREE");
+  const [boardDisplayName, setBoardDisplayName] = useState<string>("자유");
   const [category, setCategory] = useState<string>("전체");
-  const [communityRegion, setCommunityRegion] = useState<string>("유럽권");
+  const [posts, setPosts] = useState<ListPost[]>([]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      await getPostListApi(board, category)
+        .then((res) => {
+          setPosts(res.data);
+        })
+        .catch((err) => {
+          if (err.response) {
+            console.error("Axios response error", err.response);
+            alert(err.response.data?.message);
+          } else if (err.reqeust) {
+            console.error("Axios request error", err.request);
+          } else {
+            console.error("Error", err.message);
+            alert(err.message);
+          }
+          document.location.href = "/login"; // 로그인 페이지로 이동
+        });
+    };
+    fetchPosts();
+    setBoardDisplayName(COMMUNITY_BOARDS.find((b) => b.code === board)?.nameKo);
+  }, [board, category]);
 
   const router = useRouter();
   const postWriteHandler = () => {
@@ -79,8 +55,8 @@ export default function CommunityPage() {
       <TopDetailNavigation title="커뮤니티" />
       <div>
         <CommunityRegionSelector
-          curRegion={communityRegion}
-          setCurRegion={setCommunityRegion}
+          curRegion={boardDisplayName}
+          setCurRegion={setBoard}
           regionChoices={COMMUNITY_BOARDS}
         />
         <ButtonTab

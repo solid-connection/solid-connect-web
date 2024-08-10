@@ -30,7 +30,7 @@ export default function CommunityRegionSelector({ curRegion, setCurRegion, regio
                 className={styles.modal__element_wrapper}
                 key={region.code}
                 onClick={() => {
-                  setCurRegion(region.nameKo);
+                  setCurRegion(region.code);
                   toggleRegionSelectorModal();
                 }}
               >

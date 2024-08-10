@@ -19,7 +19,7 @@ export interface Post {
   commentCount: number;
   postCategory: string;
   isOwner: boolean;
-  createAt: string;
+  createdAt: string;
   updatedAt: string;
   postFindBoardResponse: Board;
   postFindSiteUserResponse: CommunityUser;
@@ -36,7 +36,7 @@ export interface ListPost {
   content: string;
   likeCount: number;
   commentCount: number;
-  createAt: string;
+  createdAt: string;
   updatedAt: string;
   url: string | null;
 }
