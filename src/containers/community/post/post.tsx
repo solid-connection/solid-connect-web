@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useState } from "react";
 
-import { convertISODateToDate, convertISODateToDateTime } from "@/utils/datetimeUtils";
+import { convertISODateToDateTime } from "@/utils/datetimeUtils";
 
 import Communication from "@/components/ui/icon/Communication";
 import FavoriteOutlined from "@/components/ui/icon/FavoriteOutlined";
@@ -9,7 +9,7 @@ import FavoriteOutlined from "@/components/ui/icon/FavoriteOutlined";
 import { IconCloseFilled } from "../../../../public/svgs";
 import styles from "./post.module.css";
 
-import { PostImage, Post as PostType } from "@/types/community";
+import { PostImage as PostImageType, Post as PostType } from "@/types/community";
 
 export default function Post({ post }: { post: PostType }) {
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
@@ -78,24 +78,35 @@ export default function Post({ post }: { post: PostType }) {
   );
 }
 
-function PostImage({ images, onImageClick }: { images: PostImage[]; onImageClick: (index: number) => void }) {
+function PostImage({ images, onImageClick }: { images: PostImageType[]; onImageClick: (index: number) => void }) {
   if (images.length === 1) {
     return (
-      <Image
-        className={styles.image}
-        src={images[0].url}
-        width={500}
-        height={500}
-        alt="image"
-        onClick={() => onImageClick(0)}
-      />
+      <div className={styles["single-image-container"]}>
+        <div className={styles["single-image-wrapper"]}>
+          <Image
+            className={styles["single-image"]}
+            src={images[0].url}
+            layout="fill"
+            objectFit="cover"
+            alt="image"
+            onClick={() => onImageClick(0)}
+          />
+        </div>
+      </div>
     );
   }
   return (
     <div className={styles["image-scroll-container"]}>
       <div className={styles["image-scroll-content"]}>
         {images.map((image) => (
-          <Image key={image.id} src={image.url} width={197} height={197} alt="image" onClick={() => onImageClick(image.id)} />
+          <Image
+            key={image.id}
+            src={image.url}
+            width={197}
+            height={197}
+            alt="image"
+            onClick={() => onImageClick(image.id)}
+          />
         ))}
       </div>
     </div>
