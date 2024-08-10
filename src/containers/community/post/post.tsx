@@ -1,27 +1,17 @@
 import Image from "next/image";
 import { useState } from "react";
 
+import { convertISODateToDate, convertISODateToDateTime } from "@/utils/datetimeUtils";
+
 import Communication from "@/components/ui/icon/Communication";
 import FavoriteOutlined from "@/components/ui/icon/FavoriteOutlined";
 
 import { IconCloseFilled } from "../../../../public/svgs";
 import styles from "./post.module.css";
 
-export default function Post(props) {
-  const { category, title, createdAt, content, favoriteCount, author, comments } = props;
-  const images = [
-    "https://solid-connection.s3.ap-northeast-2.amazonaws.com/original/university_of_guam/1.png",
-    "https://solid-connection.s3.ap-northeast-2.amazonaws.com/original/university_of_guam/1.png",
-    "https://solid-connection.s3.ap-northeast-2.amazonaws.com/original/university_of_guam/1.png",
-    "https://solid-connection.s3.ap-northeast-2.amazonaws.com/original/university_of_guam/1.png",
-    "https://solid-connection.s3.ap-northeast-2.amazonaws.com/original/university_of_guam/1.png",
-    "https://solid-connection.s3.ap-northeast-2.amazonaws.com/original/university_of_guam/1.png",
-    "https://solid-connection.s3.ap-northeast-2.amazonaws.com/original/university_of_guam/1.png",
-    "https://solid-connection.s3.ap-northeast-2.amazonaws.com/original/university_of_guam/1.png",
-    "https://solid-connection.s3.ap-northeast-2.amazonaws.com/original/university_of_guam/1.png",
-    "https://solid-connection.s3.ap-northeast-2.amazonaws.com/original/university_of_guam/1.png",
-  ];
+import { PostImage, Post as PostType } from "@/types/community";
 
+export default function Post({ post }: { post: PostType }) {
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
 
   const handleImageClick = (index) => {
@@ -35,16 +25,16 @@ export default function Post(props) {
   return (
     <>
       <div className={styles.post}>
-        <div className={styles.category}>{category || "카테고리"}</div>
-        <div className={styles.title}>{title || "제목 없음"}</div>
-        <div className={styles.content}>{content || "내용 없음"}</div>
+        <div className={styles.category}>{post.postCategory || "카테고리"}</div>
+        <div className={styles.title}>{post.title || "제목 없음"}</div>
+        <div className={styles.content}>{post.content || "내용 없음"}</div>
         <div style={{ marginTop: "12px" }}>
-          <PostImage images={images} onImageClick={handleImageClick} />
+          <PostImage images={post.postFindPostImageResponses} onImageClick={handleImageClick} />
         </div>
         {selectedImageIndex !== null && (
           <ImagePopup
-            image={images[selectedImageIndex]}
-            title={`${selectedImageIndex + 1}/${images.length}`}
+            image={post.postFindPostImageResponses[selectedImageIndex]}
+            title={`${selectedImageIndex + 1}/${post.postFindPostImageResponses.length}`}
             onClose={closePopup}
           />
         )}
@@ -52,11 +42,11 @@ export default function Post(props) {
         <div className={styles.icons}>
           <div>
             <FavoriteOutlined />
-            <span>{favoriteCount || 0}</span>
+            <span>{post.likeCount || 0}</span>
           </div>
           <div>
             <Communication />
-            <span>{comments ? comments.length : 0}</span>
+            <span>{post.commentCount || 0}</span>
           </div>
         </div>
       </div>
@@ -64,11 +54,20 @@ export default function Post(props) {
       <div className={styles.author}>
         <div className={styles.author__info}>
           <div className={styles["author__profile-image-wrapper"]}>
-            {author?.profileImage && <Image src={author.profileImage} width={40} height={40} alt={"이후 수정 필요"} />}
+            {post.postFindSiteUserResponse && (
+              <Image
+                src={post.postFindSiteUserResponse.profileImageUrl}
+                width={40}
+                height={40}
+                alt={post.postFindSiteUserResponse.nickname}
+              />
+            )}
           </div>
           <div className={styles.author__textzone}>
-            <div className={styles.author__name}>{author?.name || "작성자"}</div>
-            <div className={styles["author__created-at"]}>{createdAt || "1970. 1. 1. 00:00"}</div>
+            <div className={styles.author__name}>{post.postFindSiteUserResponse.nickname || "작성자"}</div>
+            <div className={styles["author__created-at"]}>
+              {convertISODateToDateTime(post.createdAt) || "1970. 1. 1. 00:00"}
+            </div>
           </div>
         </div>
         <div>
@@ -79,12 +78,12 @@ export default function Post(props) {
   );
 }
 
-function PostImage({ images, onImageClick }) {
+function PostImage({ images, onImageClick }: { images: PostImage[]; onImageClick: (index: number) => void }) {
   if (images.length === 1) {
     return (
       <Image
         className={styles.image}
-        src={images[0]}
+        src={images[0].url}
         width={500}
         height={500}
         alt="image"
@@ -95,8 +94,8 @@ function PostImage({ images, onImageClick }) {
   return (
     <div className={styles["image-scroll-container"]}>
       <div className={styles["image-scroll-content"]}>
-        {images.map((image, index) => (
-          <Image key={index} src={image} width={197} height={197} alt="image" onClick={() => onImageClick(index)} />
+        {images.map((image) => (
+          <Image key={image.id} src={image.url} width={197} height={197} alt="image" onClick={() => onImageClick(image.id)} />
         ))}
       </div>
     </div>

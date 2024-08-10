@@ -10,24 +10,24 @@ import styles from "./post-cards.module.css";
 
 import { ListPost } from "@/types/community";
 
-export default function PostCards({ posts }: { posts: ListPost[] }) {
+export default function PostCards({ posts, boardCode }: { posts: ListPost[]; boardCode: string }) {
   return (
     <div>
       {posts.map((post) => (
-        <PostCard key={post.id} post={post} />
+        <PostCard key={post.id} post={post} boardCode={boardCode} />
       ))}
     </div>
   );
 }
 
-export function PostCard({ post }: { post: ListPost }) {
+export function PostCard({ post, boardCode }: { post: ListPost; boardCode: string }) {
   return (
-    <Link href={`/community/post/${post.id}`} className={styles.a}>
+    <Link href={`/community/${boardCode}/${post.id}`} className={styles.a}>
       <div className={styles.card}>
         <div className={styles.textZone}>
           <div className={styles.meta}>
             <div className={styles.category}>{null || "일반"}</div>
-            <div className={styles.date}>{convertISODateToDate(post.createdAt) || "0000. 0. 0."}</div>
+            <div className={styles.date}>{convertISODateToDate(post.createdAt) || "1970. 1. 1."}</div>
           </div>
           <div className={styles.title}>{post.title || "제목 없음"}</div>
           <div className={styles.content}>{post.content || "내용 없음"}</div>

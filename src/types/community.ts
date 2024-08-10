@@ -1,6 +1,6 @@
 export interface Board {
   name: string;
-  postCount: number;
+  koreanName: string;
 }
 
 export interface CommunityUser {
@@ -24,10 +24,12 @@ export interface Post {
   postFindBoardResponse: Board;
   postFindSiteUserResponse: CommunityUser;
   // postFindCommentResponses: Comment[];
-  postFindPostImageResponses: {
-    id: number;
-    url: string;
-  }[];
+  postFindPostImageResponses: PostImage[];
+}
+
+export interface PostImage {
+  id: number;
+  url: string;
 }
 
 export interface ListPost {

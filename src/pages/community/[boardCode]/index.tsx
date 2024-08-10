@@ -13,8 +13,8 @@ import PostWriteButton from "@/containers/community/post-write-button";
 import { COMMUNITY_BOARDS, COMMUNITY_CATEGORIES } from "@/constants/commnunity";
 import { ListPost } from "@/types/community";
 
-export default function CommunityPage() {
-  const [board, setBoard] = useState<string>("FREE");
+export default function CommunityPage({ boardCode }: { boardCode: string }) {
+  const [board, setBoard] = useState<string>(boardCode);
   const [boardDisplayName, setBoardDisplayName] = useState<string>("자유");
   const [category, setCategory] = useState<string>("전체");
   const [posts, setPosts] = useState<ListPost[]>([]);
@@ -66,9 +66,18 @@ export default function CommunityPage() {
           color={{ background: "#FAFAFA" }}
           style={{ padding: "10px 0 10px 18px" }}
         />
-        <PostCards posts={posts} />
+        <PostCards posts={posts} boardCode={boardCode} />
         <PostWriteButton onClick={postWriteHandler} />
       </div>
     </>
   );
+}
+
+export async function getServerSideProps({ params }) {
+  const { boardCode }: { boardCode: string } = params;
+  return {
+    props: {
+      boardCode,
+    },
+  };
 }
