@@ -28,14 +28,14 @@ export default function CommunityRegionSelector({ curRegion, setCurRegion, regio
             {regionChoices.map((region) => (
               <div
                 className={styles.modal__element_wrapper}
-                key={region}
+                key={region.code}
                 onClick={() => {
-                  setCurRegion(region);
+                  setCurRegion(region.nameKo);
                   toggleRegionSelectorModal();
                 }}
               >
                 <CheckBoxOutlineBlankOutlined />
-                <div className={styles.modal__element}>{region}</div>
+                <div className={styles.modal__element}>{region.nameKo}</div>
               </div>
             ))}
           </div>
