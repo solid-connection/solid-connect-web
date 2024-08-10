@@ -29,3 +29,14 @@ export interface Post {
     url: string;
   }[];
 }
+
+export interface ListPost {
+  id: number;
+  title: string;
+  content: string;
+  likeCount: number;
+  commentCount: number;
+  createAt: string;
+  updatedAt: string;
+  url: string | null;
+}
