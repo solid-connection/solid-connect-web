@@ -42,3 +42,26 @@ export interface ListPost {
   updatedAt: string;
   url: string | null;
 }
+
+export interface PostCreateRequest {
+  postCreateRequest: {
+    postCategory: string;
+    title: string;
+    content: string;
+    isQuestion: boolean;
+  };
+  files: File[];
+}
+
+export interface PostUpdateRequest {
+  postUpdateRequest: {
+    postCategory: string;
+    title: string;
+    content: string;
+  };
+  files: File[];
+}
+
+export interface PostIdResponse {
+  id: number;
+}
