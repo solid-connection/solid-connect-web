@@ -1,4 +1,5 @@
+import IconClock from "./clock.svg";
 import IconCloseFilled from "./close-filled.svg";
 import IconObjectsAndTools from "./objects-and-tools.svg";
 
-export { IconCloseFilled, IconObjectsAndTools };
+export { IconClock, IconCloseFilled, IconObjectsAndTools };
