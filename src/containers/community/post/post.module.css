@@ -51,11 +51,14 @@
 }
 
 /* Image */
-.image {
-  width: 100%;
-  height: auto;
+.single-image-container {
   padding-right: 20px;
-  box-sizing: border-box;
+  margin-bottom: 12px;
+}
+
+.single-image-wrapper {
+  position: relative;
+  padding-top: 75%; /* 4:3 Aspect Ratio (3 / 4 = 0.75) */
 }
 
 .image-scroll-container {
@@ -116,6 +119,12 @@
   height: 40px;
   border-radius: 20px;
   background: #d9d9d9;
+}
+
+.author__profile-image-wrapper > img {
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
 }
 
 .author__textzone {

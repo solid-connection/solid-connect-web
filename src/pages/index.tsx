@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 
 import { getMyApplicationStatusApi } from "@/services/application";
 import { getRecommendedUniversitiesApi } from "@/services/university";
-import { isAuthenticated } from "@/utils/authUtils";
 
 import Home from "@/components/home/home";
 import TopNavigation from "@/components/layout/top-navigation";

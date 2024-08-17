@@ -15,7 +15,7 @@ export const isTokenExpired = (token: string): boolean => {
     // 토큰이 만료되었는지 확인
     return exp < currentTime;
   } catch (error) {
-    console.error("Failed to check token expiration:", error);
+    console.error("인증 토큰에 문제가 있습니다:", error);
     // 토큰이 잘못된 경우 만료된 것으로 간주
     return true;
   }

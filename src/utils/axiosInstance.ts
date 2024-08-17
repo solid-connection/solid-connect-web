@@ -30,17 +30,21 @@ axiosInstance.interceptors.request.use(
         removeRefreshToken();
         return config;
       }
-      accessToken = await reissueAccessTokenPublicApi(refreshToken)
+      await reissueAccessTokenPublicApi(refreshToken)
         .then((res) => {
-          return res.data.accessToken;
+          accessToken = res.data.accessToken;
+          saveAccessToken(accessToken);
         })
         .catch((err) => {
-          document.location.href = "/login";
-          return null;
+          removeAccessToken();
+          removeRefreshToken();
+          console.error("인증 토큰 갱신중 오류가 발생했습니다", err);
         });
-      saveAccessToken(accessToken);
     }
-    config.headers["Authorization"] = convertToBearer(accessToken);
+
+    if (accessToken !== null) {
+      config.headers["Authorization"] = convertToBearer(accessToken);
+    }
     return config;
   },
   (error) => {
@@ -60,8 +64,6 @@ axiosInstance.interceptors.response.use(
         removeAccessToken();
         removeRefreshToken();
         throw Error("로그인이 필요합니다");
-        // document.location.href = "/login"; // 로그인 페이지로 이동
-        return Promise.reject(error);
       }
 
       try {
@@ -78,7 +80,9 @@ axiosInstance.interceptors.response.use(
         // 중단된 요청 새로운 토큰으로 재전송
         return await axios.request(error.config);
       } catch (err) {
-        document.location.href = "/login"; // 로그인 페이지로 이동
+        removeAccessToken();
+        removeRefreshToken();
+        throw Error("로그인이 필요합니다");
       }
     } else {
       throw error;
