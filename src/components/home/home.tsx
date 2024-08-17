@@ -20,15 +20,6 @@ export default function Home({
   newsList: News[];
   applyStatus: ApplyStatus;
 }) {
-  // const testMentoData = {
-  //   mentoId: 1,
-  //   image: "/images/rabbit.png",
-  //   name: "김솔커",
-  //   country: "스웨덴",
-  //   university: "보라스 대학교",
-  //   period: "2024년 1학기 ~ 2024년 2학기",
-  // };
-
   function getBanner() {
     if (applyStatus === "NOT_SUBMITTED") {
       return (
