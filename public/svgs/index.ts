@@ -4,6 +4,7 @@ import IconCloseFilled from "./close-filled.svg";
 import IconObjectsAndTools from "./objects-and-tools.svg";
 import IconScoreBanner from "./score-banner.svg";
 import IconSearchBanner from "./search-banner.svg";
+import IconSpeaker from "./speaker.svg";
 import IconTablerSearch from "./tabler-search.svg";
 
 export {
@@ -13,5 +14,6 @@ export {
   IconObjectsAndTools,
   IconScoreBanner,
   IconSearchBanner,
+  IconSpeaker,
   IconTablerSearch,
 };

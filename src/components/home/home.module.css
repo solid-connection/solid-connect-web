@@ -26,6 +26,9 @@
 }
 
 .title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   margin-bottom: 10px;
 
   color: #44413d;
@@ -37,7 +40,7 @@
 }
 
 /* banner */
-.banner {
+/* .banner {
   position: relative;
   display: block;
   margin-top: 18px;
@@ -75,7 +78,7 @@
 
 .bannerIcon {
   margin-right: 14px;
-}
+} */
 
 /* CollegeSearch */
 .college-search {

@@ -2,7 +2,13 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-import { IconApplicantBanner, IconScoreBanner, IconSearchBanner, IconTablerSearch } from "../../../public/svgs";
+import {
+  IconApplicantBanner,
+  IconScoreBanner,
+  IconSearchBanner,
+  IconSpeaker,
+  IconTablerSearch,
+} from "../../../public/svgs";
 import CheveronRightFilled from "../ui/icon/ChevronRightFilled";
 import SearchFilled from "../ui/icon/SearchFilled";
 import HomeCollegeCards from "./home-college-cards";
@@ -145,7 +151,10 @@ export default function Home({ recommendedColleges, newsList, applyStatus }: Hom
       </div>
 
       <div style={{ marginTop: "24px" }}>
-        <div className={styles.title}>솔커에서 맛보는 소식</div>
+        <div className={styles.title}>
+          솔커에서 맛보는 소식
+          <IconSpeaker />
+        </div>
         <NewsCards newsList={newsList} />
       </div>
     </div>
