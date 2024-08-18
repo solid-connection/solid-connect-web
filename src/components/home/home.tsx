@@ -114,7 +114,7 @@ export default function Home({
       </div> */}
 
       <div style={{ marginTop: "24px" }}>
-        <div className={styles.title}>솔커 소식지</div>
+        <div className={styles.title}>솔커에서 맛보는 소식</div>
         <NewsCards newsList={newsList} />
       </div>
     </div>

@@ -19,7 +19,10 @@ export function NewsCard(props) {
     <a target="_blank" href={props.url}>
       <div className={styles.card}>
         <Image className={styles.image} src={props.imageUrl} alt={props.title} width={180} height={120} />
-        <div className={styles.title}>{props.title}</div>
+        <div className={styles.card__right}>
+          <div className={styles.title}>{props.title}</div>
+          <div className={styles.description}>{props.description}</div>
+        </div>
       </div>
     </a>
   );
