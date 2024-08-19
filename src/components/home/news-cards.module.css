@@ -11,8 +11,8 @@
 }
 
 .image {
-  width: 33%;
-  max-width: 170px;
+  flex-shrink: 0;
+  width: 170px;
   height: 90px;
   border-radius: 12px;
 
@@ -24,7 +24,6 @@
   flex-direction: column;
   gap: 2px;
 
-  width: 66%;
   margin-right: 20px;
 }
 
