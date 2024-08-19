@@ -15,31 +15,38 @@
   /* height: 120px; */
 }
 
-.imageWrapper {
+.image-wrapper {
   position: relative;
   width: 153px;
 }
-.imageWrapper::before {
-  content: "";
+
+.image-wrapper::before {
   position: absolute;
-  height: 120px;
   top: 0;
-  left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 44.27%, rgba(0, 0, 0, 0.4) 100%);
+  left: 0;
+  height: 120px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.35) 75%, rgba(0, 0, 0, 0.7) 100%);
+
+  content: "";
+}
+
+.image-wrapper > img {
+  border-radius: 8px;
 }
 
 .name {
   position: absolute;
-  left: 10px;
   bottom: 9px;
+  left: 10px;
   z-index: 10;
 
-  color: white;
+  color: #fff;
   font-feature-settings:
-    "clig" off,
-    "liga" off;
+    "liga" off,
+    "clig" off;
   font-family: Pretendard;
   font-size: 14px;
   font-style: normal;

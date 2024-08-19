@@ -28,6 +28,7 @@ export default function HomeCollegeCards({ colleges }: { colleges: ListUniversit
       }
     };
   }, []);
+
   return (
     <div ref={containerRef} className={styles.container}>
       <div className={styles.items}>
@@ -49,7 +50,7 @@ export function HomeCollegeCard(props) {
   return (
     <Link href={`/college/${id}`}>
       <div className={styles.card}>
-        <div className={styles.imageWrapper}>
+        <div className={styles["image-wrapper"]}>
           <Image src={image} width={153} height={120} alt={name || "대학 없음"} />
         </div>
         <div className={styles.name}>{name}</div>
