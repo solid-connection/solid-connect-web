@@ -11,6 +11,7 @@ export async function fetchAllNews(): Promise<News[]> {
       .map((doc) => ({
         id: Number(doc.id),
         title: doc.data()?.title ?? "",
+        description: doc.data()?.description ?? "",
         imageUrl: doc.data()?.imageUrl ?? "",
         url: doc.data()?.url ?? "",
       }))

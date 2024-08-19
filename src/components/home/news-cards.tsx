@@ -2,8 +2,10 @@ import Image from "next/image";
 
 import styles from "./news-cards.module.css";
 
+import { News } from "@/types/news";
+
 export default function NewsCards(props) {
-  const { newsList } = props;
+  const { newsList }: { newsList: News[] } = props;
 
   return (
     <div className={styles.container}>
