@@ -98,14 +98,14 @@ function PostImage({ images, onImageClick }: { images: PostImageType[]; onImageC
   return (
     <div className={styles["image-scroll-container"]}>
       <div className={styles["image-scroll-content"]}>
-        {images.map((image) => (
+        {images.map((image, index) => (
           <Image
             key={image.id}
             src={image.url}
             width={197}
             height={197}
             alt="image"
-            onClick={() => onImageClick(image.id)}
+            onClick={() => onImageClick(index)}
           />
         ))}
       </div>
@@ -113,7 +113,13 @@ function PostImage({ images, onImageClick }: { images: PostImageType[]; onImageC
   );
 }
 
-function ImagePopup({ image, title, onClose }) {
+type ImagePopupProps = {
+  image: PostImageType;
+  title: string;
+  onClose: () => void;
+};
+
+function ImagePopup({ image, title, onClose }: ImagePopupProps) {
   return (
     <div className={styles["fullscreen-popup"]}>
       <div className={styles.popup__header}>
@@ -124,7 +130,7 @@ function ImagePopup({ image, title, onClose }) {
         <div></div>
       </div>
       <div className={styles["popup__image-container"]}>
-        <Image src={image} layout="fill" objectFit="contain" alt="Popup" />
+        <Image src={image.url} layout="fill" objectFit="contain" alt="Popup" />
       </div>
     </div>
   );
