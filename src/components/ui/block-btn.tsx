@@ -3,8 +3,9 @@ export default function BlockBtn(props) {
   const style = {
     backgroundColor: backgroundColor || "var(--primary-1, #6F90D1)",
     color: textColor || "white",
+
     width: "100%",
-    height: "50px",
+    height: "44px",
     border: "none",
     borderRadius: "6px",
     cursor: "pointer",
@@ -12,7 +13,7 @@ export default function BlockBtn(props) {
     fontFamily: "Pretendard",
     fontSize: "16px",
     fontStyle: "normal",
-    fontWeight: 600,
+    fontWeight: 500,
     lineHeight: "normal",
   };
 
