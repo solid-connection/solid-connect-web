@@ -17,7 +17,7 @@ export const kakaoAuthApi = (
 };
 
 export const signUpApi = (signUpRequest: RegisterRequest): Promise<AxiosResponse<KakaoSignUpResponse>> => {
-  return axiosInstance.post("/auth/sign-up", signUpRequest);
+  return publicAxiosInstance.post("/auth/sign-up", signUpRequest);
 };
 
 export const signOutApi = (): Promise<AxiosResponse<null>> => {

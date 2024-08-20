@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 
-import BlockBtn from "@/components/ui/block-btn";
+import BlockToggleBtn from "@/components/ui/block-toggle-btn";
 
 import { IconPrepare1, IconPrepare2, IconPrepare3 } from "../../../../public/svgs";
 import styles from "./signup.module.css";
@@ -75,20 +75,19 @@ export default function SignupPrepareScreen({ preparation, setPreparation, setSt
         </div>
       </div>
 
-      <BlockBtn
-        color={!preparation && "#888"}
-        backgroundColor={!preparation && "#EDEDED"}
+      <BlockToggleBtn
         style={{
           position: "fixed",
           bottom: "50px",
-          width: "calc(100% - 40px)",
-          maxWidth: MAX_WIDTH - 40,
-          transition: "background-color 0.5s, color 0.5s",
+          width: "calc(100% - 60px)",
+          maxWidth: MAX_WIDTH - 60,
+          marginLeft: "10px",
         }}
         onClick={toNextStage}
+        isToggled={!!preparation}
       >
         다음으로
-      </BlockBtn>
+      </BlockToggleBtn>
     </div>
   );
 }
