@@ -23,8 +23,18 @@ export interface Post {
   updatedAt: string;
   postFindBoardResponse: Board;
   postFindSiteUserResponse: CommunityUser;
-  // postFindCommentResponses: Comment[];
+  postFindCommentResponses: Comment[];
   postFindPostImageResponses: PostImage[];
+}
+
+export interface Comment {
+  id: number;
+  parentId: number | null;
+  content: string;
+  isOwner: boolean;
+  createdAt: string;
+  updatedAt: string;
+  postFindSiteUserResponse: CommunityUser;
 }
 
 export interface PostImage {
