@@ -5,7 +5,7 @@ import styles from "./top-detail-navigation.module.css";
 
 interface TopDetailNavigationProps {
   title: string;
-  handleBack?: () => void;
+  handleBack?: any;
 }
 
 export default function TopDetailNavigation({ title, handleBack }: TopDetailNavigationProps) {
