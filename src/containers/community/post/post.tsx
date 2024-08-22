@@ -88,12 +88,12 @@ export default function Post({ post, boardCode, postId }: PostProps) {
       <div className={styles.author}>
         <div className={styles.author__info}>
           <div className={styles["author__profile-image-wrapper"]}>
-            {post.postFindSiteUserResponse && (
+            {post.postFindSiteUserResponse.profileImageUrl && (
               <Image
                 src={post.postFindSiteUserResponse.profileImageUrl}
                 width={40}
                 height={40}
-                alt={post.postFindSiteUserResponse.nickname}
+                alt="작성자 프로필 이미지"
               />
             )}
           </div>
