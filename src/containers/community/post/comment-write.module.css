@@ -39,6 +39,7 @@
   justify-content: center;
   align-items: center;
   width: 65px;
+  border: none;
   background: var(--primary-1, #6f96d1);
 
   cursor: pointer;

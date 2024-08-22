@@ -43,7 +43,7 @@ export default function MyModifyPage() {
         <title>프로필 수정</title>
       </Head>
       <TopDetailNavigation title="프로필 수정" />
-      <MyModify {...myData} />
+      <MyModify myInfo={myData} />
     </>
   );
 }

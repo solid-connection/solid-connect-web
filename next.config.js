@@ -3,7 +3,11 @@ const nextConfig = {
   // reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ["solid-connection.s3.ap-northeast-2.amazonaws.com"],
+    domains: [
+      "solid-connection.s3.ap-northeast-2.amazonaws.com",
+      "solid-connection-uploaded.s3.ap-northeast-2.amazonaws.com",
+      "k.kakaocdn.net",
+    ],
   },
   eslint: {
     // Warning: This allows production builds to successfully complete even if

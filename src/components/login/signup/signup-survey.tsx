@@ -1,95 +1,129 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import { signUpApi } from "@/services/auth";
+import { uploadProfileImageFilePublicApi } from "@/services/file";
+import { convertBirth } from "@/utils/datetimeUtils";
 import { saveAccessToken, saveRefreshToken } from "@/utils/localStorage";
 
-import Survey1 from "./survey-1";
-import Survey2 from "./survey-2";
-import Survey3 from "./survey-3";
+import SignupPrepareScreen from "./signup-prepare-screen";
+import SignupProfileScreen from "./signup-profile-screen";
+import SignupRegionScreen from "./signup-region-screen";
 
 import { PreparationStatus, RegisterRequest } from "@/types/auth";
 import { RegionKo } from "@/types/university";
 
 export default function SignupSurvey(props) {
   const { kakaoOauthToken, kakaoNickname, kakaoEmail, kakaoProfileImageUrl } = props;
-  const [stage, setStage] = useState(1);
-  // 1. region: 미주권, 아시아권, 유럽권, 중국권
-  const [region, setRegion] = useState<RegionKo | null>(null);
-  // 2. countries: 미국, 캐나다, 일본, 독일, 프랑스, 중국...
-  const [countries, setCountries] = useState([]);
-  // 3. 준비 단계: "CONSIDERING" | "PREPARING_FOR_DEPARTURE" | "STUDYING_ABROAD"
-  const [preparation, setPreparation] = useState<PreparationStatus>("CONSIDERING");
+  const [stage, setStage] = useState<number>(1);
+  const [region, setRegion] = useState<RegionKo | "아직 잘 모르겠어요" | null>(null);
+  const [countries, setCountries] = useState<[string] | []>([]);
+  const [preparation, setPreparation] = useState<PreparationStatus | null>(null);
+
   const [nickname, setNickname] = useState<string>(kakaoNickname);
-  const [profileImageUrl, setProfileImageUrl] = useState<string>(kakaoProfileImageUrl);
-  const [gender, setGender] = useState("비공개");
-  const [birth, setBirth] = useState<string>("2000-01-01");
+  const genderRef = useRef<HTMLSelectElement>(null);
+  const birthRef = useRef<HTMLInputElement>(null);
+  const [imageFile, setImageFile] = useState(null);
 
   const router = useRouter();
 
-  const genderConvertDict = {
-    남성: "MALE",
-    여성: "FEMALE",
-    비공개: "PREFER_NOT_TO_SAY",
+  const converGender = (value: string): "MALE" | "FEMALE" | "PREFER_NOT_TO_SAY" => {
+    if (value === "MALE" || value === "FEMALE" || value === "PREFER_NOT_TO_SAY") {
+      return value;
+    }
+    throw new Error("성별을 선택해주세요");
   };
 
-  const registerRequest: RegisterRequest = {
-    kakaoOauthToken: kakaoOauthToken,
-    interestedRegions: [region],
-    interestedCountries: countries,
-    preparationStatus: preparation,
-    nickname: nickname,
-    profileImageUrl: profileImageUrl,
-    gender: genderConvertDict[gender],
-    birth: birth,
+  const createRegisterRequest = (): RegisterRequest => {
+    const submitRegion: [RegionKo] | [] = region === "아직 잘 모르겠어요" ? [] : [region];
+
+    const birth = convertBirth(birthRef.current.value);
+    const gender = converGender(genderRef.current.value);
+
+    let imageUrl: string | null = null;
+    if (imageFile) {
+      uploadProfileImageFilePublicApi(imageFile)
+        .then((res) => {
+          imageUrl = res.data.fileUrl;
+        })
+        .catch((err) => {
+          console.error("Error", err.message);
+          alert(err.message);
+        });
+    } else if (kakaoProfileImageUrl) {
+      imageUrl = kakaoProfileImageUrl;
+    }
+
+    return {
+      kakaoOauthToken: kakaoOauthToken,
+      interestedRegions: submitRegion,
+      interestedCountries: countries,
+      preparationStatus: preparation,
+      nickname: nickname,
+      profileImageUrl: imageUrl,
+      gender: gender,
+      birth: birth,
+    };
   };
 
-  async function submitSurvey() {
-    await signUpApi(registerRequest)
-      .then((res) => {
+  async function submitRegisterRequest() {
+    try {
+      const registerRequest: RegisterRequest = createRegisterRequest();
+      await signUpApi(registerRequest).then((res) => {
         saveAccessToken(res.data.accessToken);
         saveRefreshToken(res.data.refreshToken);
 
         alert("회원가입이 완료되었습니다.");
         router.push("/");
-      })
-      .catch((err) => {
-        if (err.response) {
-          console.error("Axios response error", err.response.data);
-          alert(err.response.data?.error?.message);
-        } else if (err.reqeust) {
-          console.error("Axios request error", err.request);
-        } else {
-          console.error("Error", err.message);
-          alert(err.message);
-        }
       });
+    } catch (err) {
+      if (err.response) {
+        console.error("Axios response error", err.response.data);
+        alert(err.response.data?.error?.message);
+      } else if (err.reqeust) {
+        console.error("Axios request error", err.request);
+      } else {
+        console.error("Error", err.message);
+        alert(err.message);
+      }
+    }
   }
 
   const renderCurrentSurvey = () => {
     switch (stage) {
       case 1:
-        return <Survey1 setStage={setStage} region={region} setRegion={setRegion} />;
+        return <SignupPrepareScreen preparation={preparation} setPreparation={setPreparation} setStage={setStage} />;
       case 2:
-        return <Survey2 setStage={setStage} countries={countries} setCountries={setCountries} region={region} />;
+        return (
+          <SignupRegionScreen
+            curRegion={region}
+            setCurRegion={setRegion}
+            curCountries={countries}
+            setCurCountries={setCountries}
+            toNextStage={() => {
+              if (!region) {
+                alert("권역을 선택해주세요");
+                return;
+              }
+              setStage(3);
+            }}
+          />
+        );
       case 3:
         return (
-          <Survey3
-            submitSurvey={submitSurvey}
-            preparation={preparation}
-            setPreparation={setPreparation}
+          <SignupProfileScreen
+            toNextStage={submitRegisterRequest}
             nickname={nickname}
             setNickname={setNickname}
-            profileImageUrl={profileImageUrl}
-            setProfileImageUrl={setProfileImageUrl}
-            gender={gender}
-            setGender={setGender}
-            birth={birth}
-            setBirth={setBirth}
+            genderRef={genderRef}
+            birthRef={birthRef}
+            defaultProfileImageUrl={kakaoProfileImageUrl}
+            imageFile={imageFile}
+            setImageFile={setImageFile}
           />
         );
       default:
-        return <div>Survey Completed!</div>;
+        return <div>회원 가입이 완료되었습니다</div>;
     }
   };
 

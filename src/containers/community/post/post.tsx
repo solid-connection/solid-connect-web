@@ -1,28 +1,26 @@
 import Image from "next/image";
 import { useState } from "react";
 
-import Communication from "@/components/ui/icon/Communication";
-import FavoriteOutlined from "@/components/ui/icon/FavoriteOutlined";
+import { likePostApi, unlikePostApi } from "@/services/community";
+import { convertISODateToDateTime } from "@/utils/datetimeUtils";
 
-import { IconCloseFilled } from "../../../../public/svgs";
+import Communication from "@/components/ui/icon/Communication";
+
+import { IconCloseFilled, IconPostLikeFilled, IconPostLikeOutline } from "../../../../public/svgs";
 import styles from "./post.module.css";
 
-export default function Post(props) {
-  const { category, title, createdAt, content, favoriteCount, author, comments } = props;
-  const images = [
-    "https://solid-connection.s3.ap-northeast-2.amazonaws.com/original/university_of_guam/1.png",
-    "https://solid-connection.s3.ap-northeast-2.amazonaws.com/original/university_of_guam/1.png",
-    "https://solid-connection.s3.ap-northeast-2.amazonaws.com/original/university_of_guam/1.png",
-    "https://solid-connection.s3.ap-northeast-2.amazonaws.com/original/university_of_guam/1.png",
-    "https://solid-connection.s3.ap-northeast-2.amazonaws.com/original/university_of_guam/1.png",
-    "https://solid-connection.s3.ap-northeast-2.amazonaws.com/original/university_of_guam/1.png",
-    "https://solid-connection.s3.ap-northeast-2.amazonaws.com/original/university_of_guam/1.png",
-    "https://solid-connection.s3.ap-northeast-2.amazonaws.com/original/university_of_guam/1.png",
-    "https://solid-connection.s3.ap-northeast-2.amazonaws.com/original/university_of_guam/1.png",
-    "https://solid-connection.s3.ap-northeast-2.amazonaws.com/original/university_of_guam/1.png",
-  ];
+import { PostImage as PostImageType, Post as PostType } from "@/types/community";
 
+type PostProps = {
+  post: PostType;
+  boardCode: string;
+  postId: number;
+};
+
+export default function Post({ post, boardCode, postId }: PostProps) {
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
+  const [likeCount, setLikeCount] = useState<number>(post.likeCount);
+  const [isLiked, setIsLiked] = useState<boolean>(post.isLiked);
 
   const handleImageClick = (index) => {
     setSelectedImageIndex(index);
@@ -32,31 +30,57 @@ export default function Post(props) {
     setSelectedImageIndex(null);
   };
 
+  const toggleLike = async () => {
+    try {
+      if (isLiked) {
+        setLikeCount((prev) => prev - 1);
+        setIsLiked(false);
+        const res = await unlikePostApi(boardCode, postId);
+        setLikeCount(res.data.likeCount);
+        setIsLiked(res.data.isLiked);
+      } else {
+        setLikeCount((prev) => prev + 1);
+        setIsLiked(true);
+        const res = await likePostApi(boardCode, postId);
+        setLikeCount(res.data.likeCount);
+        setIsLiked(res.data.isLiked);
+      }
+    } catch (err) {
+      if (err.response) {
+        console.error("Axios response error", err.response);
+      } else if (err.reqeust) {
+        console.error("Axios request error", err.request);
+      } else {
+        console.error("Error", err.message);
+      }
+    }
+  };
+
   return (
     <>
       <div className={styles.post}>
-        <div className={styles.category}>{category || "카테고리"}</div>
-        <div className={styles.title}>{title || "제목 없음"}</div>
-        <div className={styles.content}>{content || "내용 없음"}</div>
+        <div className={styles.category}>{post.postCategory || "카테고리"}</div>
+        <div className={styles.title}>{post.title || "제목 없음"}</div>
+        <div className={styles.content}>{post.content || "내용 없음"}</div>
         <div style={{ marginTop: "12px" }}>
-          <PostImage images={images} onImageClick={handleImageClick} />
+          <PostImage images={post.postFindPostImageResponses} onImageClick={handleImageClick} />
         </div>
         {selectedImageIndex !== null && (
           <ImagePopup
-            image={images[selectedImageIndex]}
-            title={`${selectedImageIndex + 1}/${images.length}`}
+            image={post.postFindPostImageResponses[selectedImageIndex]}
+            title={`${selectedImageIndex + 1}/${post.postFindPostImageResponses.length}`}
             onClose={closePopup}
           />
         )}
 
         <div className={styles.icons}>
-          <div>
-            <FavoriteOutlined />
-            <span>{favoriteCount || 0}</span>
+          <div className={styles.like} onClick={toggleLike}>
+            {isLiked ? <IconPostLikeFilled /> : <IconPostLikeOutline />}
+            <span>{likeCount || 0}</span>
           </div>
           <div>
             <Communication />
-            <span>{comments ? comments.length : 0}</span>
+            <span>{post.commentCount || 0}</span>
           </div>
         </div>
       </div>
@@ -64,11 +88,20 @@ export default function Post(props) {
       <div className={styles.author}>
         <div className={styles.author__info}>
           <div className={styles["author__profile-image-wrapper"]}>
-            {author?.profileImage && <Image src={author.profileImage} width={40} height={40} alt={"이후 수정 필요"} />}
+            {post.postFindSiteUserResponse.profileImageUrl && (
+              <Image
+                src={post.postFindSiteUserResponse.profileImageUrl}
+                width={40}
+                height={40}
+                alt="작성자 프로필 이미지"
+              />
+            )}
           </div>
           <div className={styles.author__textzone}>
-            <div className={styles.author__name}>{author?.name || "작성자"}</div>
-            <div className={styles["author__created-at"]}>{createdAt || "1970. 1. 1. 00:00"}</div>
+            <div className={styles.author__name}>{post.postFindSiteUserResponse.nickname || "작성자"}</div>
+            <div className={styles["author__created-at"]}>
+              {convertISODateToDateTime(post.createdAt) || "1970. 1. 1. 00:00"}
+            </div>
           </div>
         </div>
         <div>
@@ -79,31 +112,48 @@ export default function Post(props) {
   );
 }
 
-function PostImage({ images, onImageClick }) {
+function PostImage({ images, onImageClick }: { images: PostImageType[]; onImageClick: (index: number) => void }) {
   if (images.length === 1) {
     return (
-      <Image
-        className={styles.image}
-        src={images[0]}
-        width={500}
-        height={500}
-        alt="image"
-        onClick={() => onImageClick(0)}
-      />
+      <div className={styles["single-image-container"]}>
+        <div className={styles["single-image-wrapper"]}>
+          <Image
+            className={styles["single-image"]}
+            src={images[0].url}
+            layout="fill"
+            objectFit="cover"
+            alt="image"
+            onClick={() => onImageClick(0)}
+          />
+        </div>
+      </div>
     );
   }
   return (
     <div className={styles["image-scroll-container"]}>
       <div className={styles["image-scroll-content"]}>
         {images.map((image, index) => (
-          <Image key={index} src={image} width={197} height={197} alt="image" onClick={() => onImageClick(index)} />
+          <Image
+            key={image.id}
+            src={image.url}
+            width={197}
+            height={197}
+            alt="image"
+            onClick={() => onImageClick(index)}
+          />
         ))}
       </div>
     </div>
   );
 }
 
-function ImagePopup({ image, title, onClose }) {
+type ImagePopupProps = {
+  image: PostImageType;
+  title: string;
+  onClose: () => void;
+};
+
+function ImagePopup({ image, title, onClose }: ImagePopupProps) {
   return (
     <div className={styles["fullscreen-popup"]}>
       <div className={styles.popup__header}>
@@ -114,7 +164,7 @@ function ImagePopup({ image, title, onClose }) {
         <div></div>
       </div>
       <div className={styles["popup__image-container"]}>
-        <Image src={image} layout="fill" objectFit="contain" alt="Popup" />
+        <Image src={image.url} layout="fill" objectFit="contain" alt="Popup" />
       </div>
     </div>
   );

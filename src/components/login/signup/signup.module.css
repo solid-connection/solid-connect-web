@@ -1,0 +1,266 @@
+.screen {
+  margin: -56px 20px -56px 20px;
+}
+
+.secondary-title {
+  margin-top: 20px;
+
+  color: #878787;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 150%; /* 24px */
+}
+
+.title {
+  margin-top: 20px;
+
+  color: #44413d;
+  font-family: Pretendard;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 140%; /* 33.6px */
+}
+
+/* SignupPrepareScreen */
+.prepare-screen {
+  margin-top: 54px;
+}
+
+.prepare-choices {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.prepare-choice {
+  display: flex;
+  align-items: center;
+  align-self: stretch;
+  gap: 36px;
+
+  height: 94px;
+  padding: 17px 0 17px 0;
+  border: none;
+  border-radius: 9px;
+  box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.1);
+  background: transparent;
+  background: #fff;
+}
+
+.prepare-choice--selected {
+  border: 2px solid var(--primary-1, #6f96d1);
+}
+
+.prepare-choice__icon {
+  display: flex;
+  flex-direction: row-reverse;
+  width: 90px;
+}
+
+.prepare-choice__right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.prepare-choice__description {
+  color: #878787;
+  font-family: Pretendard;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%; /* 18px */
+}
+
+.prepare-choice__name {
+  color: #44413d;
+  font-family: Pretendard;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 150%; /* 30px */
+}
+
+/* RegionPrepareScreen */
+/* RegionButtons */
+.region-choices {
+  margin-top: 54px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.region-button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  height: 82px;
+  border: none;
+  border-radius: 8px;
+  background: #f8f8f8;
+}
+
+.region-button--selected {
+  border: 2px solid var(--primary-1, #6f96d1);
+  background: #e6f0ff;
+}
+
+.region-button__icon {
+}
+
+.region-button__name {
+  color: #44413d;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 150%; /* 24px */
+}
+
+/* CountryButtons */
+.country-choices {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 18px;
+}
+
+.idk {
+  margin-top: 110px;
+  margin-bottom: 106px;
+
+  color: #a8a8a8;
+  text-align: center;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 150%; /* 24px */
+}
+
+.country-button {
+  height: 32px;
+  /* padding: 4px 16px; */
+  border: none;
+  border-radius: 4px;
+  background: var(--Gray-50, #f7f7f7);
+}
+
+.country-button:hover {
+  background: #dedede;
+}
+
+.country-button--selected {
+  background: #e6f0ff;
+}
+
+/* SignupProfileScreen */
+.profile-screen {
+  margin-top: 27px;
+}
+
+.profile-screen label {
+  display: block;
+  margin-bottom: 6px;
+
+  color: #323232;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%; /* 21px */
+  letter-spacing: -0.35px;
+  text-transform: uppercase;
+}
+
+.profile__image {
+  display: flex;
+  justify-content: center;
+}
+
+.image-wrapper {
+}
+
+.image-wrapper > img {
+  width: 120px;
+  height: 120px;
+  border-radius: 100%;
+}
+
+.profile__nickname {
+  margin-top: 23px;
+}
+
+.profile__nickname {
+  margin: 32px 10px 0 10px;
+}
+
+.profile__nickname > input {
+  width: 100%;
+  height: 50px;
+  padding: 0px 16px;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 8px;
+  background: #f7f7f7;
+
+  color: #a8a8a8;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%; /* 21px */
+  letter-spacing: -0.35px;
+  text-transform: uppercase;
+}
+
+.profile__birth {
+  margin: 32px 10px 0 10px;
+}
+
+.profile__birth > input {
+  width: 100%;
+  height: 50px;
+  padding: 0px 16px;
+  box-sizing: border-box;
+  border: 2px solid #c3dbff;
+  border-radius: 8px;
+  background: #fff;
+
+  color: #a8a8a8;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%; /* 21px */
+  letter-spacing: -0.35px;
+  text-transform: uppercase;
+}
+
+.profile__sex {
+  margin: 32px 10px 0 10px;
+}
+
+.profile__sex > select {
+  width: 100%;
+  height: 50px;
+  padding: 0px 16px;
+  box-sizing: border-box;
+  border: 2px solid #c3dbff;
+  border-radius: 8px;
+  background: #fff;
+
+  color: #a8a8a8;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%; /* 21px */
+  letter-spacing: -0.35px;
+  text-transform: uppercase;
+}

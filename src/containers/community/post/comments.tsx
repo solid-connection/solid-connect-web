@@ -1,23 +1,43 @@
 import Image from "next/image";
 
+import { convertISODateToDateTime } from "@/utils/datetimeUtils";
+
+import { IconSubComment } from "../../../../public/svgs";
 import styles from "./comments.module.css";
 
-export default function Comments(props) {
-  const { comments } = props;
+import { Comment } from "@/types/community";
+
+type CommentsProps = {
+  comments: Comment[];
+};
+
+export default function Comments({ comments }: CommentsProps) {
   return (
-    <div>
+    <div className={styles["comment-container"]}>
       {comments?.map((comment) => (
-        <div className={styles.comment} key={comment.id}>
-          <div className={styles.commentAuthor}>
-            <div className={styles.commentAuthorProfileImage}>
-              {comment.author.profileImage && (
-                <Image src={comment.author.profileImage} width={40} height={40} alt="alt" />
-              )}
+        <div
+          className={`${styles["comment-wrapper"]} ${comment.parentId !== null && styles["comment-wrapper--sub-comment"]}`}
+          key={comment.id}
+        >
+          {comment.parentId !== null && (
+            <div className={styles["comment__sub-comment-icon"]}>
+              <IconSubComment />
             </div>
-            <div className={styles.commentAuthorName}>{comment.author.name}</div>
+          )}
+          <div className={styles.comment}>
+            <div className={styles.comment__author}>
+              <div className={styles["comment__author-profile-image"]}>
+                {comment.postFindSiteUserResponse.profileImageUrl && (
+                  <Image src={comment.postFindSiteUserResponse.profileImageUrl} width={40} height={40} alt="alt" />
+                )}
+              </div>
+              <div className={styles["comment__author-name"]}>{comment.postFindSiteUserResponse.nickname}</div>
+            </div>
+            <div className={styles.comment__content}>{comment.content}</div>
+            <div className={styles["comment__created-at"]}>
+              {convertISODateToDateTime(comment.createdAt) || "1970. 1. 1. 00:00"}
+            </div>
           </div>
-          <div className={styles.commentContent}>{comment.content}</div>
-          <div className={styles.commentCreatedAt}>{comment.createdAt}</div>
         </div>
       ))}
     </div>

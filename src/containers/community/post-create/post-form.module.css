@@ -2,6 +2,25 @@
   margin-top: 10px;
 }
 
+.submit-button {
+  width: 49px;
+  padding: 5px 12px;
+  border: none;
+  border-radius: 100px;
+  background: var(--primary-1, #6f90d1);
+  cursor: pointer;
+
+  color: #fff;
+  font-feature-settings:
+    "liga" off,
+    "clig" off;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 160%; /* 22.4px */
+}
+
 .title {
   border-bottom: 1px solid #ececec;
   transition: height 0.2s ease;
