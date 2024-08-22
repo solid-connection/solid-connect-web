@@ -9,8 +9,6 @@ import CheckBoxOutlineBlankOutlined from "@/components/ui/icon/CheckBoxOutlineBl
 import navStyles from "../../../components/layout/top-detail-navigation.module.css";
 import styles from "./post-form.module.css";
 
-import { PostCreateRequest } from "@/types/community";
-
 export default function PostForm({ boardCode }: { boardCode: string }) {
   const textareaRef = useRef(null);
   const titleRef = useRef(null);

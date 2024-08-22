@@ -70,7 +70,7 @@ export default function CommunityPage({ boardCode: initialBoardCode }: { boardCo
           color={{ background: "#FAFAFA" }}
           style={{ padding: "10px 0 10px 18px" }}
         />
-        <PostCards posts={posts} boardCode={boardCode} />
+        <PostCards posts={posts.reverse()} boardCode={boardCode} />
         <PostWriteButton onClick={postWriteHandler} />
       </div>
     </>
