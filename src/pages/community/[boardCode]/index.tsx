@@ -48,7 +48,7 @@ export default function CommunityPage({ boardCode: initialBoardCode }: { boardCo
   };
 
   const postWriteHandler = () => {
-    router.push("/community/post/create");
+    router.push(`/community/${boardCode}/create`);
   };
 
   return (

@@ -20,10 +20,21 @@ export const getPostDetailApi = (boardCode: string, postId: number): Promise<Axi
 };
 
 export const createPostApi = (
-  boardCode: number,
+  boardCode: string,
   postCreateRequest: PostCreateRequest,
 ): Promise<AxiosResponse<PostIdResponse>> => {
-  return axiosInstance.post(`/communities/${boardCode}/posts`, postCreateRequest);
+  const convertedRequest: FormData = new FormData();
+  convertedRequest.append(
+    "postCreateRequest",
+    new Blob([JSON.stringify(postCreateRequest.postCreateRequest)], { type: "application/json" }),
+  );
+  postCreateRequest.files.forEach((file) => {
+    convertedRequest.append("files", file);
+  });
+
+  return axiosInstance.post(`/communities/${boardCode}/posts`, convertedRequest, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
 };
 
 export const updatePostApi = (

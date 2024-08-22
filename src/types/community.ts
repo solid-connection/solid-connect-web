@@ -50,7 +50,7 @@ export interface PostCreateRequest {
     content: string;
     isQuestion: boolean;
   };
-  files: File[];
+  files: Blob[];
 }
 
 export interface PostUpdateRequest {
