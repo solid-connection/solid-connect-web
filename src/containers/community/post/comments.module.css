@@ -1,4 +1,5 @@
 .comment-container {
+  min-height: 50vh;
   padding-bottom: 49px;
   background: #fafafa;
 }

@@ -1,18 +1,26 @@
 import Image from "next/image";
 import { useState } from "react";
 
+import { likePostApi, unlikePostApi } from "@/services/community";
 import { convertISODateToDateTime } from "@/utils/datetimeUtils";
 
 import Communication from "@/components/ui/icon/Communication";
-import FavoriteOutlined from "@/components/ui/icon/FavoriteOutlined";
 
-import { IconCloseFilled } from "../../../../public/svgs";
+import { IconCloseFilled, IconPostLikeFilled, IconPostLikeOutline } from "../../../../public/svgs";
 import styles from "./post.module.css";
 
 import { PostImage as PostImageType, Post as PostType } from "@/types/community";
 
-export default function Post({ post }: { post: PostType }) {
+type PostProps = {
+  post: PostType;
+  boardCode: string;
+  postId: number;
+};
+
+export default function Post({ post, boardCode, postId }: PostProps) {
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
+  const [likeCount, setLikeCount] = useState<number>(post.likeCount);
+  const [isLiked, setIsLiked] = useState<boolean>(post.isLiked);
 
   const handleImageClick = (index) => {
     setSelectedImageIndex(index);
@@ -20,6 +28,32 @@ export default function Post({ post }: { post: PostType }) {
 
   const closePopup = () => {
     setSelectedImageIndex(null);
+  };
+
+  const toggleLike = async () => {
+    try {
+      if (isLiked) {
+        setLikeCount((prev) => prev - 1);
+        setIsLiked(false);
+        const res = await unlikePostApi(boardCode, postId);
+        setLikeCount(res.data.likeCount);
+        setIsLiked(res.data.isLiked);
+      } else {
+        setLikeCount((prev) => prev + 1);
+        setIsLiked(true);
+        const res = await likePostApi(boardCode, postId);
+        setLikeCount(res.data.likeCount);
+        setIsLiked(res.data.isLiked);
+      }
+    } catch (err) {
+      if (err.response) {
+        console.error("Axios response error", err.response);
+      } else if (err.reqeust) {
+        console.error("Axios request error", err.request);
+      } else {
+        console.error("Error", err.message);
+      }
+    }
   };
 
   return (
@@ -40,9 +74,9 @@ export default function Post({ post }: { post: PostType }) {
         )}
 
         <div className={styles.icons}>
-          <div>
-            <FavoriteOutlined />
-            <span>{post.likeCount || 0}</span>
+          <div className={styles.like} onClick={toggleLike}>
+            {isLiked ? <IconPostLikeFilled /> : <IconPostLikeOutline />}
+            <span>{likeCount || 0}</span>
           </div>
           <div>
             <Communication />

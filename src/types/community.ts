@@ -19,6 +19,7 @@ export interface Post {
   commentCount: number;
   postCategory: string;
   isOwner: boolean;
+  isLiked: boolean;
   createdAt: string;
   updatedAt: string;
   postFindBoardResponse: Board;
@@ -83,4 +84,9 @@ export interface PostIdResponse {
 
 export interface CommentIdResponse {
   id: number;
+}
+
+export interface PostLikeResponse {
+  likeCount: number;
+  isLiked: boolean;
 }

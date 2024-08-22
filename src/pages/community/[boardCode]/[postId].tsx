@@ -54,8 +54,8 @@ export default function PostPage({ boardCode, postId }: { boardCode: string | an
           router.push(`/community/${boardCode}`);
         }}
       />
-      <div style={{ minHeight: "100vh" }}>
-        <Post post={post} />
+      <div>
+        <Post post={post} boardCode={boardCode} postId={postId} />
         <Comments comments={post.postFindCommentResponses} />
         <CommentWrite
           postId={postId}

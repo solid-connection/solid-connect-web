@@ -79,11 +79,17 @@
   gap: 10px;
   margin-top: 20px;
 }
+
+.like {
+  cursor: pointer;
+}
+
 .icons > div {
   display: flex;
   align-items: center;
   gap: 4px;
 }
+
 .icons span {
   overflow: hidden;
 

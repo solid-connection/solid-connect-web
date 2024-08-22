@@ -9,6 +9,7 @@ import {
   Post,
   PostCreateRequest,
   PostIdResponse,
+  PostLikeResponse,
   PostUpdateRequest,
 } from "@/types/community";
 
@@ -55,6 +56,14 @@ export const updatePostApi = (
 
 export const deletePostApi = (boardCode: string, postId: number): Promise<AxiosResponse<PostIdResponse>> => {
   return axiosInstance.delete(`/communities/${boardCode}/posts/${postId}`);
+};
+
+export const likePostApi = (boardCode, postId: number): Promise<AxiosResponse<PostLikeResponse>> => {
+  return axiosInstance.post(`/communities/${boardCode}/posts/${postId}/like`);
+};
+
+export const unlikePostApi = (boardCode, postId: number): Promise<AxiosResponse<PostLikeResponse>> => {
+  return axiosInstance.delete(`/communities/${boardCode}/posts/${postId}/like`);
 };
 
 export const createCommentApi = (

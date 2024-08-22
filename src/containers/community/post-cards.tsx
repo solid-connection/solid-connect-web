@@ -4,8 +4,8 @@ import Link from "next/link";
 import { convertISODateToDate } from "@/utils/datetimeUtils";
 
 import Communication from "@/components/ui/icon/Communication";
-import FavoriteOutlined from "@/components/ui/icon/FavoriteOutlined";
 
+import { IconPostLikeOutline } from "../../../public/svgs";
 import styles from "./post-cards.module.css";
 
 import { ListPost } from "@/types/community";
@@ -33,7 +33,7 @@ export function PostCard({ post, boardCode }: { post: ListPost; boardCode: strin
           <div className={styles.content}>{post.content || "내용 없음"}</div>
           <div className={styles.icons}>
             <div className={styles.favorite}>
-              <FavoriteOutlined />
+              <IconPostLikeOutline />
               <span>{post.likeCount || 0}</span>
             </div>
             <div className={styles.comment}>
