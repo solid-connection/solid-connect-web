@@ -19,12 +19,23 @@ export interface Post {
   commentCount: number;
   postCategory: string;
   isOwner: boolean;
+  isLiked: boolean;
   createdAt: string;
   updatedAt: string;
   postFindBoardResponse: Board;
   postFindSiteUserResponse: CommunityUser;
-  // postFindCommentResponses: Comment[];
+  postFindCommentResponses: Comment[];
   postFindPostImageResponses: PostImage[];
+}
+
+export interface Comment {
+  id: number;
+  parentId: number | null;
+  content: string;
+  isOwner: boolean;
+  createdAt: string;
+  updatedAt: string;
+  postFindSiteUserResponse: CommunityUser;
 }
 
 export interface PostImage {
@@ -50,7 +61,7 @@ export interface PostCreateRequest {
     content: string;
     isQuestion: boolean;
   };
-  files: File[];
+  files: Blob[];
 }
 
 export interface PostUpdateRequest {
@@ -62,6 +73,20 @@ export interface PostUpdateRequest {
   files: File[];
 }
 
+export interface CommentCreateRequest {
+  content: string;
+  parentId: number | null;
+}
+
 export interface PostIdResponse {
   id: number;
+}
+
+export interface CommentIdResponse {
+  id: number;
+}
+
+export interface PostLikeResponse {
+  likeCount: number;
+  isLiked: boolean;
 }

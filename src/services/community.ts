@@ -2,7 +2,16 @@ import { AxiosResponse } from "axios";
 
 import { axiosInstance, publicAxiosInstance } from "@/utils/axiosInstance";
 
-import { ListPost, Post, PostCreateRequest, PostIdResponse, PostUpdateRequest } from "@/types/community";
+import {
+  CommentCreateRequest,
+  CommentIdResponse,
+  ListPost,
+  Post,
+  PostCreateRequest,
+  PostIdResponse,
+  PostLikeResponse,
+  PostUpdateRequest,
+} from "@/types/community";
 
 export const getPostListApi = (
   boardCode: string,
@@ -20,10 +29,21 @@ export const getPostDetailApi = (boardCode: string, postId: number): Promise<Axi
 };
 
 export const createPostApi = (
-  boardCode: number,
+  boardCode: string,
   postCreateRequest: PostCreateRequest,
 ): Promise<AxiosResponse<PostIdResponse>> => {
-  return axiosInstance.post(`/communities/${boardCode}/posts`, postCreateRequest);
+  const convertedRequest: FormData = new FormData();
+  convertedRequest.append(
+    "postCreateRequest",
+    new Blob([JSON.stringify(postCreateRequest.postCreateRequest)], { type: "application/json" }),
+  );
+  postCreateRequest.files.forEach((file) => {
+    convertedRequest.append("files", file);
+  });
+
+  return axiosInstance.post(`/communities/${boardCode}/posts`, convertedRequest, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
 };
 
 export const updatePostApi = (
@@ -36,4 +56,19 @@ export const updatePostApi = (
 
 export const deletePostApi = (boardCode: string, postId: number): Promise<AxiosResponse<PostIdResponse>> => {
   return axiosInstance.delete(`/communities/${boardCode}/posts/${postId}`);
+};
+
+export const likePostApi = (boardCode, postId: number): Promise<AxiosResponse<PostLikeResponse>> => {
+  return axiosInstance.post(`/communities/${boardCode}/posts/${postId}/like`);
+};
+
+export const unlikePostApi = (boardCode, postId: number): Promise<AxiosResponse<PostLikeResponse>> => {
+  return axiosInstance.delete(`/communities/${boardCode}/posts/${postId}/like`);
+};
+
+export const createCommentApi = (
+  postId: number,
+  commentCreateRequest: CommentCreateRequest,
+): Promise<AxiosResponse<CommentIdResponse>> => {
+  return axiosInstance.post(`/posts/${postId}/comments`, commentCreateRequest);
 };

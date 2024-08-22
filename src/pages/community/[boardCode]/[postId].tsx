@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 import { getPostDetailApi } from "@/services/community";
@@ -11,6 +12,7 @@ import Post from "@/containers/community/post/post";
 import { Post as PostType } from "@/types/community";
 
 export default function PostPage({ boardCode, postId }: { boardCode: string | any; postId: number | any }) {
+  const router = useRouter();
   const [post, setPost] = useState<PostType | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -38,7 +40,7 @@ export default function PostPage({ boardCode, postId }: { boardCode: string | an
   }, []);
 
   if (isLoading) {
-    return <div>로딩중...</div>;
+    return <div></div>;
   }
 
   return (
@@ -46,11 +48,21 @@ export default function PostPage({ boardCode, postId }: { boardCode: string | an
       <Head>
         <title>{post.title}</title>
       </Head>
-      <TopDetailNavigation title={post.postFindBoardResponse.koreanName} />
-      <div style={{ minHeight: "100vh" }}>
-        <Post post={post} />
-        <Comments comments={[]} />
-        <CommentWrite />
+      <TopDetailNavigation
+        title={post.postFindBoardResponse.koreanName}
+        handleBack={() => {
+          router.push(`/community/${boardCode}`);
+        }}
+      />
+      <div>
+        <Post post={post} boardCode={boardCode} postId={postId} />
+        <Comments comments={post.postFindCommentResponses} />
+        <CommentWrite
+          postId={postId}
+          refresh={() => {
+            router.reload();
+          }}
+        />
       </div>
     </>
   );

@@ -4,7 +4,7 @@ export interface MyInfo {
   nickname: string;
   profileImageUrl: string;
   role: "MENTOR" | "MENTEE";
-  birth: `${number}-${number}-${number}`;
+  birth: string;
   likedPostCount: number;
   likedMentoCount: number;
   likedUniversityCount: number;

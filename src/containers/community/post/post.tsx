@@ -1,18 +1,26 @@
 import Image from "next/image";
 import { useState } from "react";
 
+import { likePostApi, unlikePostApi } from "@/services/community";
 import { convertISODateToDateTime } from "@/utils/datetimeUtils";
 
 import Communication from "@/components/ui/icon/Communication";
-import FavoriteOutlined from "@/components/ui/icon/FavoriteOutlined";
 
-import { IconCloseFilled } from "../../../../public/svgs";
+import { IconCloseFilled, IconPostLikeFilled, IconPostLikeOutline } from "../../../../public/svgs";
 import styles from "./post.module.css";
 
 import { PostImage as PostImageType, Post as PostType } from "@/types/community";
 
-export default function Post({ post }: { post: PostType }) {
+type PostProps = {
+  post: PostType;
+  boardCode: string;
+  postId: number;
+};
+
+export default function Post({ post, boardCode, postId }: PostProps) {
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
+  const [likeCount, setLikeCount] = useState<number>(post.likeCount);
+  const [isLiked, setIsLiked] = useState<boolean>(post.isLiked);
 
   const handleImageClick = (index) => {
     setSelectedImageIndex(index);
@@ -20,6 +28,32 @@ export default function Post({ post }: { post: PostType }) {
 
   const closePopup = () => {
     setSelectedImageIndex(null);
+  };
+
+  const toggleLike = async () => {
+    try {
+      if (isLiked) {
+        setLikeCount((prev) => prev - 1);
+        setIsLiked(false);
+        const res = await unlikePostApi(boardCode, postId);
+        setLikeCount(res.data.likeCount);
+        setIsLiked(res.data.isLiked);
+      } else {
+        setLikeCount((prev) => prev + 1);
+        setIsLiked(true);
+        const res = await likePostApi(boardCode, postId);
+        setLikeCount(res.data.likeCount);
+        setIsLiked(res.data.isLiked);
+      }
+    } catch (err) {
+      if (err.response) {
+        console.error("Axios response error", err.response);
+      } else if (err.reqeust) {
+        console.error("Axios request error", err.request);
+      } else {
+        console.error("Error", err.message);
+      }
+    }
   };
 
   return (
@@ -40,9 +74,9 @@ export default function Post({ post }: { post: PostType }) {
         )}
 
         <div className={styles.icons}>
-          <div>
-            <FavoriteOutlined />
-            <span>{post.likeCount || 0}</span>
+          <div className={styles.like} onClick={toggleLike}>
+            {isLiked ? <IconPostLikeFilled /> : <IconPostLikeOutline />}
+            <span>{likeCount || 0}</span>
           </div>
           <div>
             <Communication />
@@ -54,12 +88,12 @@ export default function Post({ post }: { post: PostType }) {
       <div className={styles.author}>
         <div className={styles.author__info}>
           <div className={styles["author__profile-image-wrapper"]}>
-            {post.postFindSiteUserResponse && (
+            {post.postFindSiteUserResponse.profileImageUrl && (
               <Image
                 src={post.postFindSiteUserResponse.profileImageUrl}
                 width={40}
                 height={40}
-                alt={post.postFindSiteUserResponse.nickname}
+                alt="작성자 프로필 이미지"
               />
             )}
           </div>
@@ -98,14 +132,14 @@ function PostImage({ images, onImageClick }: { images: PostImageType[]; onImageC
   return (
     <div className={styles["image-scroll-container"]}>
       <div className={styles["image-scroll-content"]}>
-        {images.map((image) => (
+        {images.map((image, index) => (
           <Image
             key={image.id}
             src={image.url}
             width={197}
             height={197}
             alt="image"
-            onClick={() => onImageClick(image.id)}
+            onClick={() => onImageClick(index)}
           />
         ))}
       </div>
@@ -113,7 +147,13 @@ function PostImage({ images, onImageClick }: { images: PostImageType[]; onImageC
   );
 }
 
-function ImagePopup({ image, title, onClose }) {
+type ImagePopupProps = {
+  image: PostImageType;
+  title: string;
+  onClose: () => void;
+};
+
+function ImagePopup({ image, title, onClose }: ImagePopupProps) {
   return (
     <div className={styles["fullscreen-popup"]}>
       <div className={styles.popup__header}>
@@ -124,7 +164,7 @@ function ImagePopup({ image, title, onClose }) {
         <div></div>
       </div>
       <div className={styles["popup__image-container"]}>
-        <Image src={image} layout="fill" objectFit="contain" alt="Popup" />
+        <Image src={image.url} layout="fill" objectFit="contain" alt="Popup" />
       </div>
     </div>
   );

@@ -24,7 +24,7 @@ export default function CommunityPage({ boardCode: initialBoardCode }: { boardCo
     const fetchPosts = async () => {
       await getPostListApi(boardCode, category)
         .then((res) => {
-          setPosts(res.data);
+          setPosts(res.data.reverse());
         })
         .catch((err) => {
           if (err.response) {
@@ -48,7 +48,7 @@ export default function CommunityPage({ boardCode: initialBoardCode }: { boardCo
   };
 
   const postWriteHandler = () => {
-    router.push("/community/post/create");
+    router.push(`/community/${boardCode}/create`);
   };
 
   return (

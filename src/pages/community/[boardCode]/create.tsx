@@ -1,18 +1,21 @@
 import Head from "next/head";
 
-import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import PostForm from "@/containers/community/post-create/post-form";
 
-export default function PostCreatePage() {
+export default function PostCreatePage({ boardCode }: { boardCode: string }) {
   return (
     <>
       <Head>
         <title>글쓰기</title>
       </Head>
-      <TopDetailNavigation title="글쓰기" />
       <div>
-        <PostForm />
+        <PostForm boardCode={boardCode} />
       </div>
     </>
   );
+}
+
+export async function getServerSideProps({ params }) {
+  const { boardCode }: { boardCode: string } = params;
+  return { props: { boardCode } };
 }
