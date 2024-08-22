@@ -72,6 +72,15 @@ export interface PostUpdateRequest {
   files: File[];
 }
 
+export interface CommentCreateRequest {
+  content: string;
+  parentId: number | null;
+}
+
 export interface PostIdResponse {
+  id: number;
+}
+
+export interface CommentIdResponse {
   id: number;
 }

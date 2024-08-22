@@ -2,7 +2,15 @@ import { AxiosResponse } from "axios";
 
 import { axiosInstance, publicAxiosInstance } from "@/utils/axiosInstance";
 
-import { ListPost, Post, PostCreateRequest, PostIdResponse, PostUpdateRequest } from "@/types/community";
+import {
+  CommentCreateRequest,
+  CommentIdResponse,
+  ListPost,
+  Post,
+  PostCreateRequest,
+  PostIdResponse,
+  PostUpdateRequest,
+} from "@/types/community";
 
 export const getPostListApi = (
   boardCode: string,
@@ -47,4 +55,11 @@ export const updatePostApi = (
 
 export const deletePostApi = (boardCode: string, postId: number): Promise<AxiosResponse<PostIdResponse>> => {
   return axiosInstance.delete(`/communities/${boardCode}/posts/${postId}`);
+};
+
+export const createCommentApi = (
+  postId: number,
+  commentCreateRequest: CommentCreateRequest,
+): Promise<AxiosResponse<CommentIdResponse>> => {
+  return axiosInstance.post(`/posts/${postId}/comments`, commentCreateRequest);
 };

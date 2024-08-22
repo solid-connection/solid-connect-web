@@ -57,7 +57,12 @@ export default function PostPage({ boardCode, postId }: { boardCode: string | an
       <div style={{ minHeight: "100vh" }}>
         <Post post={post} />
         <Comments comments={post.postFindCommentResponses} />
-        <CommentWrite />
+        <CommentWrite
+          postId={postId}
+          refresh={() => {
+            router.reload();
+          }}
+        />
       </div>
     </>
   );
