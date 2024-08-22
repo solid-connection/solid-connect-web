@@ -47,17 +47,29 @@ export default function PostForm({ boardCode }: { boardCode: string }) {
   };
 
   const submitPost = async () => {
-    const res = await createPostApi(boardCode, {
-      postCreateRequest: {
-        postCategory: isQuestion ? "질문" : "자유",
-        title: titleRef.current.querySelector("textarea").value,
-        content: contentRef.current.value,
-        isQuestion: isQuestion,
-      },
-      files: [],
-    });
-    const postId = res.data.id;
-    router.push(`/community/${boardCode}/${postId}`);
+    try {
+      const res = await createPostApi(boardCode, {
+        postCreateRequest: {
+          postCategory: isQuestion ? "질문" : "자유",
+          title: titleRef.current.querySelector("textarea").value,
+          content: contentRef.current.value,
+          isQuestion: isQuestion,
+        },
+        files: [],
+      });
+      const postId = res.data.id;
+      router.push(`/community/${boardCode}/${postId}`);
+    } catch (err) {
+      if (err.response) {
+        console.error("Axios response error", err.response);
+        alert(err.response.data?.message);
+      } else if (err.reqeust) {
+        console.error("Axios request error", err.request);
+      } else {
+        console.error("Error", err.message);
+        alert(err.message);
+      }
+    }
   };
 
   const notice =

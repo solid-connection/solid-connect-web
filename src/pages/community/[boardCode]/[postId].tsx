@@ -40,7 +40,7 @@ export default function PostPage({ boardCode, postId }: { boardCode: string | an
   }, []);
 
   if (isLoading) {
-    return <div>로딩중...</div>;
+    return <div></div>;
   }
 
   return (
