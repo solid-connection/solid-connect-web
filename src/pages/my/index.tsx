@@ -7,8 +7,10 @@ import TopDetailNavigation from "@/components/layout/top-detail-navigation";
 import MyMenu from "@/components/my/my-menu";
 import MyProfile from "@/components/my/my-profile";
 
+import { MyInfo } from "@/types/myInfo";
+
 export default function MyPage() {
-  const [myData, setMyData] = useState(null);
+  const [myData, setMyData] = useState<MyInfo>(null);
 
   useEffect(() => {
     const fetchMyData = async () => {
@@ -44,7 +46,7 @@ export default function MyPage() {
         <title>마이페이지</title>
       </Head>
       <TopDetailNavigation title="마이페이지" />
-      <MyProfile {...myData} />
+      <MyProfile myInfo={myData} />
       <MyMenu />
     </>
   );

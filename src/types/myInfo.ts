@@ -1,5 +1,3 @@
-import { ListUniversity } from "./university";
-
 export interface MyInfo {
   nickname: string;
   profileImageUrl: string;
