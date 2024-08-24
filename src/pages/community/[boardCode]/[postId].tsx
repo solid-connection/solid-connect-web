@@ -25,14 +25,16 @@ export default function PostPage({ boardCode, postId }: { boardCode: string | an
         .catch((err) => {
           if (err.response) {
             console.error("Axios response error", err.response);
-            alert(err.response.data?.message);
-          } else if (err.reqeust) {
-            console.error("Axios request error", err.request);
+            if (err.response.status === 401 || err.response.status === 403) {
+              alert("로그인이 필요합니다");
+              document.location.href = "/login";
+            } else {
+              alert(err.response.data?.message);
+            }
           } else {
             console.error("Error", err.message);
             alert(err.message);
           }
-          document.location.href = "/login";
         });
       setIsLoading(false);
     };
