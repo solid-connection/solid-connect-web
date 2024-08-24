@@ -48,11 +48,13 @@ export interface ApplicationScoreRequest {
 export interface ApplicationUniversityRequest {
   firstChoiceUniversityId: number;
   secondChoiceUniversityId: number;
+  thirdChoiceUniversityId: number;
 }
 
 export interface ApplicationListResponse {
   firstChoice: ScoreSheet[];
   secondChoice: ScoreSheet[];
+  thirdChoice: ScoreSheet[];
 }
 
 export interface ApplicationStatusResponse {
