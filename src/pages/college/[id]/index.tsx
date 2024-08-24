@@ -79,6 +79,7 @@ export async function getStaticProps({ params }) {
   } catch {
     return {
       notFound: true,
+      revalidate: 10,
     };
   }
 }

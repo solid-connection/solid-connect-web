@@ -137,6 +137,7 @@ export async function getStaticProps() {
   } catch {
     return {
       props: { colleges: [] },
+      revalidate: 10,
     };
   }
 }
