@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { IconNoProfileImage } from "../../../public/svgs";
 import EditFilled from "../ui/icon/EditFilled";
 import styles from "./my-profile.module.css";
 
@@ -16,8 +17,8 @@ export default function MyProfile({ myInfo }: MyProfileProps) {
   };
   return (
     <div className={styles.profile}>
-      <div className={styles.imageWrapper}>
-        <img src={myInfo.profileImageUrl} alt="프로필 이미지" />
+      <div className={styles["profile-image"]}>
+        {myInfo.profileImageUrl ? <img src={myInfo.profileImageUrl} alt="프로필 이미지" /> : <IconNoProfileImage />}
       </div>
       <div className={styles.info}>
         <div className={styles.name}>

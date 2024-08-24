@@ -5,10 +5,13 @@
   gap: 38px;
 }
 
-.imageWrapper {
+.profile-image {
+  width: 90px;
+  height: 90px;
   margin-left: 20px;
 }
-.imageWrapper img {
+
+.profile-image img {
   width: 90px;
   height: 90px;
   border-radius: 100%;
