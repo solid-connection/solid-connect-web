@@ -10,15 +10,10 @@ import ButtonTab from "@/components/ui/button-tab";
 import Tab from "@/components/ui/tab";
 
 import { REGIONS_KO } from "@/constants/university";
-import { ScoreSheet } from "@/types/application";
+import { ApplicationListResponse, ScoreSheet } from "@/types/application";
 import { RegionKo } from "@/types/university";
 
-interface ScoreData {
-  firstChoice: ScoreSheet[];
-  secondChoice: ScoreSheet[];
-}
-
-const PREFERENCE_CHOICE: string[] = ["1순위", "2순위"];
+const PREFERENCE_CHOICE: string[] = ["1순위", "2순위", "3순위"];
 
 export default function ScorePage() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -27,9 +22,13 @@ export default function ScorePage() {
   const [searchActive, setSearchActive] = useState<boolean>(false); // 검색 창 활성화 여부
   const searchRef = useRef<HTMLInputElement>(null);
   // 점수 데이터
-  const [scoreData, setScoreData] = useState<ScoreData>({ firstChoice: [], secondChoice: [] });
-  const [filteredScoreData, setFilteredScoreData] = useState<ScoreData>(scoreData);
-  const [preference, setPreference] = useState<"1순위" | "2순위">("1순위");
+  const [scoreData, setScoreData] = useState<ApplicationListResponse>({
+    firstChoice: [],
+    secondChoice: [],
+    thirdChoice: [],
+  });
+  const [filteredScoreData, setFilteredScoreData] = useState<ApplicationListResponse>(scoreData);
+  const [preference, setPreference] = useState<"1순위" | "2순위" | "3순위">("1순위");
   const [filter, setFilter] = useState<RegionKo | "">("");
 
   useEffect(() => {
@@ -44,6 +43,9 @@ export default function ScorePage() {
           const scoreResponse = await getApplicationListApi();
 
           const scoreData = scoreResponse.data;
+          scoreData.firstChoice.sort((a, b) => b.applicants.length - a.applicants.length);
+          scoreData.secondChoice.sort((a, b) => b.applicants.length - a.applicants.length);
+          scoreData.thirdChoice.sort((a, b) => b.applicants.length - a.applicants.length);
           setScoreData(scoreData);
           setFilteredScoreData(scoreData);
         }
@@ -67,9 +69,6 @@ export default function ScorePage() {
     fetchData();
   }, []);
 
-  scoreData.firstChoice.sort((a, b) => b.applicants.length - a.applicants.length);
-  scoreData.secondChoice.sort((a, b) => b.applicants.length - a.applicants.length);
-
   function handleSearch(event) {
     event.preventDefault();
     const keyWord = searchRef.current.value;
@@ -79,6 +78,7 @@ export default function ScorePage() {
         ? {
             firstChoice: scoreData.firstChoice.filter((sheet) => sheet.koreanName.includes(keyWord)),
             secondChoice: scoreData.secondChoice.filter((sheet) => sheet.koreanName.includes(keyWord)),
+            thirdChoice: scoreData.thirdChoice.filter((sheet) => sheet.koreanName.includes(keyWord)),
           }
         : scoreData,
     );
@@ -99,21 +99,25 @@ export default function ScorePage() {
       setFilteredScoreData({
         firstChoice: scoreData.firstChoice.filter((sheet) => sheet.region === "유럽권"),
         secondChoice: scoreData.secondChoice.filter((sheet) => sheet.region === "유럽권"),
+        thirdChoice: scoreData.thirdChoice.filter((sheet) => sheet.region === "유럽권"),
       });
     } else if (filter === "미주권") {
       setFilteredScoreData({
         firstChoice: scoreData.firstChoice.filter((sheet) => sheet.region === "미주권"),
         secondChoice: scoreData.secondChoice.filter((sheet) => sheet.region === "미주권"),
+        thirdChoice: scoreData.thirdChoice.filter((sheet) => sheet.region === "미주권"),
       });
     } else if (filter === "아시아권") {
       setFilteredScoreData({
         firstChoice: scoreData.firstChoice.filter((sheet) => sheet.region === "아시아권"),
         secondChoice: scoreData.secondChoice.filter((sheet) => sheet.region === "아시아권"),
+        thirdChoice: scoreData.thirdChoice.filter((sheet) => sheet.region === "아시아권"),
       });
     } else if (filter === "중국권") {
       setFilteredScoreData({
         firstChoice: scoreData.firstChoice.filter((sheet) => sheet.region === "중국권"),
         secondChoice: scoreData.secondChoice.filter((sheet) => sheet.region === "중국권"),
+        thirdChoice: scoreData.thirdChoice.filter((sheet) => sheet.region === "중국권"),
       });
     } else {
       setFilteredScoreData(scoreData);
@@ -167,7 +171,11 @@ export default function ScorePage() {
         style={{ padding: "10px 0 10px 18px" }}
       />
       <ScoreSheets
-        scoreSheets={preference === "1순위" ? filteredScoreData.firstChoice : filteredScoreData.secondChoice}
+        scoreSheets={
+          filteredScoreData[
+            preference === "1순위" ? "firstChoice" : preference === "2순위" ? "secondChoice" : "thirdChoice"
+          ]
+        }
       />
     </>
   );

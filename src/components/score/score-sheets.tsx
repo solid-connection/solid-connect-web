@@ -1,13 +1,14 @@
-import { useState } from "react";
-import { LANGUAGE_TEST } from "@/constants/application";
-import { ScoreSheet } from "@/types/application";
-
-import styles from "./score-sheets.module.css";
-import ExpendMoreFilled from "../ui/icon/ExpendMoreFilled";
-import EditFilled from "../ui/icon/EditFilled";
 import Link from "next/link";
+import { useState } from "react";
 
-export default function ScoreSheets({ scoreSheets }: { scoreSheets: ScoreSheet[] }) {
+import EditFilled from "../ui/icon/EditFilled";
+import ExpendMoreFilled from "../ui/icon/ExpendMoreFilled";
+import styles from "./score-sheets.module.css";
+
+import { LANGUAGE_TEST } from "@/constants/application";
+import { ScoreSheet as ScoreSheetType } from "@/types/application";
+
+export default function ScoreSheets({ scoreSheets }: { scoreSheets: ScoreSheetType[] }) {
   return (
     <div className={styles.container}>
       {scoreSheets.map((choice) => (
@@ -17,7 +18,7 @@ export default function ScoreSheets({ scoreSheets }: { scoreSheets: ScoreSheet[]
   );
 }
 
-export function ScoreSheet({ koreanName, studentCapacity, region, country, applicants }: ScoreSheet) {
+export function ScoreSheet({ koreanName, studentCapacity, region, country, applicants }: ScoreSheetType) {
   const [tableOpened, setTableOpened] = useState(false);
   return (
     <table className={styles.table}>
