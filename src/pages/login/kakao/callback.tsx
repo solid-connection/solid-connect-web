@@ -49,9 +49,7 @@ export default function KakaoLoginCallbackPage() {
       .catch((err) => {
         if (err.response) {
           console.error("Axios response error", err.response.data);
-          alert(err.response.data?.error?.message);
-        } else if (err.reqeust) {
-          console.error("Axios request error", err.request);
+          alert(err.response.data?.message);
         } else {
           console.error("Error", err.message);
           alert(err.message);
