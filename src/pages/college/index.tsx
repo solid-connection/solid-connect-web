@@ -110,21 +110,6 @@ export default function CollegePage({ colleges }: { colleges: ListUniversity[] }
   );
 }
 
-// export async function getServerSideProps() {
-//   try {
-//     const res = await getUniversityListPublicApi();
-
-//     const universityList = res.data;
-//     return {
-//       props: { colleges: universityList },
-//     };
-//   } catch {
-//     return {
-//       props: { colleges: [] },
-//     };
-//   }
-// }
-
 export async function getStaticProps() {
   try {
     const res = await getUniversityListPublicApi();
