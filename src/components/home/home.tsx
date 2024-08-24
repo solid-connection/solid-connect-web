@@ -9,12 +9,9 @@ import {
   IconSpeaker,
   IconTablerSearch,
 } from "../../../public/svgs";
-import CheveronRightFilled from "../ui/icon/ChevronRightFilled";
-import SearchFilled from "../ui/icon/SearchFilled";
 import HomeCollegeCards from "./home-college-cards";
 import styles from "./home.module.css";
 import NewsCards from "./news-cards";
-import HomeSearch from "./search/home-search";
 
 import { ApplyStatus } from "@/types/application";
 import { News } from "@/types/news";
@@ -27,87 +24,8 @@ type HomeProps = {
 };
 
 export default function Home({ recommendedColleges, newsList, applyStatus }: HomeProps) {
-  // function getBanner() {
-  //   if (applyStatus === "NOT_SUBMITTED") {
-  //     return (
-  //       <Link className={styles.banner} href="/score/college-register">
-  //         <div className={styles.bannerTextWrapper}>
-  //           <div className={styles.bannerText}>지원 대학 입력하기</div>
-  //           <CheveronRightFilled color="#F2F1DF" className={styles.bannerIcon} />
-  //         </div>
-  //       </Link>
-  //     );
-  //   } else if (applyStatus === "COLLEGE_SUBMITTED") {
-  //     return (
-  //       <Link className={styles.banner} href="/score/register">
-  //         <div className={styles.bannerTextWrapper}>
-  //           <div className={styles.bannerText}>나의 성적 입력하기</div>
-  //           <CheveronRightFilled color="#F2F1DF" className={styles.bannerIcon} />
-  //         </div>
-  //       </Link>
-  //     );
-  //   } else if (applyStatus === "SCORE_SUBMITTED") {
-  //     return (
-  //       <Link className={styles.banner} href="/score/college-register">
-  //         <div className={styles.bannerTextWrapper}>
-  //           <div className={styles.bannerText}>지원 대학 입력하기</div>
-  //           <CheveronRightFilled color="#F2F1DF" className={styles.bannerIcon} />
-  //         </div>
-  //       </Link>
-  //     );
-  //   } else if (applyStatus === "SUBMITTED_PENDING") {
-  //     return (
-  //       <Link className={styles.banner} href="/score/register">
-  //         <div className={styles.bannerTextWrapper}>
-  //           <div className={styles.bannerText}>[승인 요청 중입니다]나의 성적 다시 입력하기</div>
-  //           <CheveronRightFilled color="#F2F1DF" className={styles.bannerIcon} />
-  //         </div>
-  //       </Link>
-  //     );
-  //   } else if (applyStatus === "SUBMITTED_REJECTED") {
-  //     // 추가 알림 필요함
-  //     return (
-  //       <Link className={styles.banner} href="/score/register">
-  //         <div className={styles.bannerTextWrapper}>
-  //           <div className={styles.bannerText}>[제출 거부됨]나의 성적 다시 입력하기</div>
-  //           <CheveronRightFilled color="#F2F1DF" className={styles.bannerIcon} />
-  //         </div>
-  //       </Link>
-  //     );
-  //   } else if (applyStatus === "SUBMITTED_APPROVED") {
-  //     return (
-  //       <Link className={styles.banner} href="/score">
-  //         <div className={styles.bannerTextWrapper}>
-  //           <div className={styles.bannerText}>지원자 현황 확인하기</div>
-  //           <CheveronRightFilled color="#F2F1DF" className={styles.bannerIcon} />
-  //         </div>
-  //       </Link>
-  //     );
-  //   } else {
-  //     return (
-  //       <Link className={styles.banner} href="/score">
-  //         <div className={styles.bannerTextWrapper}>
-  //           <div className={styles.bannerText}>지원자 현황 확인하기</div>
-  //           <CheveronRightFilled color="#F2F1DF" className={styles.bannerIcon} />
-  //         </div>
-  //       </Link>
-  //     );
-  //   }
-  // }
-
   return (
     <div className={styles.home}>
-      {/* <Link href="/search" style={{ display: "block", marginTop: "16px", marginRight: "20px" }}>
-        <div className={styles.searchButton}>
-          <div>해외 학교를 검색하세요.</div>
-          <SearchFilled color="#6F90D1" opacity="1" />
-        </div>
-      </Link> */}
-
-      {/* <HomeSearch /> */}
-
-      {/* {getBanner()} */}
-
       <CollegeSearch />
 
       <Link href="/college" className={styles["search-banner"]}>

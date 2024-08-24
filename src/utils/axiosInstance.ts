@@ -63,7 +63,7 @@ axiosInstance.interceptors.response.use(
       if (refreshToken === null || isTokenExpired(refreshToken)) {
         removeAccessToken();
         removeRefreshToken();
-        throw Error("로그인이 필요합니다");
+        throw error;
       }
 
       try {

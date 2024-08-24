@@ -15,10 +15,12 @@ export default function MyMenu() {
       .then((res) => {})
       .catch((err) => {
         if (err.response) {
-          console.error("Axios response error", err.response.data);
-          alert(err.response.data?.error?.message);
-        } else if (err.reqeust) {
-          console.error("Axios request error", err.request);
+          console.error("Axios response error", err.response);
+          if (err.response.status === 401 || err.response.status === 403) {
+            document.location.href = "/login";
+          } else {
+            alert(err.response.data?.message);
+          }
         } else {
           console.error("Error", err.message);
           alert(err.message);

@@ -103,7 +103,7 @@
   border-radius: 8px;
   background: #f7f7f7;
 
-  color: #a8a8a8;
+  color: #000000;
   font-family: Pretendard;
   font-size: 14px;
   font-style: normal;
@@ -111,6 +111,10 @@
   line-height: 150%; /* 21px */
   letter-spacing: -0.35px;
   text-transform: uppercase;
+}
+
+.search-container > input::placeholder {
+  color: #a8a8a8; /* Placeholder text color */
 }
 
 .search-button {

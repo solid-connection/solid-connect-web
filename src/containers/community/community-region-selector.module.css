@@ -1,7 +1,7 @@
 .header {
-  padding: 20px 0 14px 20px;
   display: flex;
   gap: 4px;
+  padding: 20px 0 14px 20px;
 }
 
 .title {
@@ -21,16 +21,15 @@
 }
 
 .modal {
-  width: 265px;
-  height: 216px;
-  padding: 20px;
-
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 24px;
-
-  border-radius: 6px;
+  width: 265px;
+  height: 250px;
+  padding: 20px;
+  box-sizing: border-box;
+  border-radius: 8px;
   background: #fff;
 }
 

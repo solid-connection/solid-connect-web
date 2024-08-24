@@ -2,12 +2,20 @@ import BlockBtn from "@/components/ui/block-btn";
 
 import styles from "./form.module.css";
 
-export default function FromCollege(props) {
-  const { toNextStage, college, setCollege, text, collegesKeyName } = props;
+import { ListUniversity } from "@/types/university";
 
+type FormCollegeProps = {
+  toNextStage: () => void;
+  collegeId: number;
+  setCollegeId: (value: number) => void;
+  text: string;
+  universityList: ListUniversity[];
+};
+
+export default function FormCollege({ toNextStage, collegeId, setCollegeId, text, universityList }: FormCollegeProps) {
   const handleSubmit = () => {
     // 입력 필드 유효성 검사
-    if (!college) {
+    if (collegeId === null) {
       alert("대학을 선택해주세요.");
       return;
     }
@@ -23,18 +31,15 @@ export default function FromCollege(props) {
           선택하기
         </h1>
         <div className={styles.input}>
-          <label htmlFor="college">{text}</label>
-          <select id="college" value={college} onChange={(e) => setCollege(e.target.value)}>
+          <label>{text}</label>
+          <select value={collegeId || ""} onChange={(e) => setCollegeId(parseInt(e.target.value))}>
             <option value="">학교를 선택하세요.</option>
-            {Object.keys(collegesKeyName).map((key) => {
-              return (
-                <option key={key} value={key}>
-                  {collegesKeyName[key]}
-                </option>
-              );
-            })}
+            {universityList.map((university) => (
+              <option key={university.id} value={university.id}>
+                [{university.region} - {university.country}]{university.koreanName}
+              </option>
+            ))}
           </select>
-          {/* <input type="text" id="college" value={college} placeholder="학교를 입력하세요." onChange={(e) => setCollege(e.target.value)} /> */}
         </div>
       </div>
       <div className={styles.blockBtns}>

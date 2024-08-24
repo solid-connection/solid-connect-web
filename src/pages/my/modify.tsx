@@ -19,15 +19,17 @@ export default function MyModifyPage() {
         })
         .catch((err) => {
           if (err.response) {
-            console.error("Axios response error", err.response.data);
-            alert(err.response.data?.error?.message);
-          } else if (err.reqeust) {
-            console.error("Axios request error", err.request);
+            console.error("Axios response error", err.response);
+            if (err.response.status === 401 || err.response.status === 403) {
+              alert("로그인이 필요합니다");
+              document.location.href = "/login";
+            } else {
+              alert(err.response.data?.message);
+            }
           } else {
             console.error("Error", err.message);
             alert(err.message);
           }
-          document.location.href = "/login"; // 로그인 페이지로 이동
         });
     };
     fetchMyData();
