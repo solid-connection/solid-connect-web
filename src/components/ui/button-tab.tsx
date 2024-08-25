@@ -1,9 +1,11 @@
+import { Dispatch, SetStateAction } from "react";
+
 import styles from "./button-tab.module.css";
 
 type ButtonTabProps = {
   choices: string[];
   choice: string | null;
-  setChoice: (choice: string | null) => void;
+  setChoice: Dispatch<SetStateAction<string | null>>;
   style?: React.CSSProperties;
   color?: {
     activeBtn?: string;
