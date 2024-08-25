@@ -1,29 +1,29 @@
-.tabContainer {
+.tab-container {
   width: calc(100% - 18px);
   display: flex;
   flex-direction: row;
   gap: 8px;
 
-  font-feature-settings:
-    "clig" off,
-    "liga" off;
-  font-family: Pretendard;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 160%; /* 22.4px */
-
   white-space: nowrap;
   overflow-x: auto;
 }
 
-.tabButton {
+.tab-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 5px 12px;
   border-radius: 100px;
   cursor: pointer;
   user-select: none;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  font-feature-settings:
+    "liga" off,
+    "clig" off;
+  font-family: Pretendard;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 160%; /* 20.8px */
+  letter-spacing: 0.15px;
 }
