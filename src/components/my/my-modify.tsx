@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 
-import { updateMyProfileImage } from "@/services/myInfo";
+import { updateMyNicknameApi, updateMyProfileImage } from "@/services/myInfo";
 
 import { IconNoProfileImage, IconSignupProfileImage } from "../../../public/svgs";
 import BlockBtn from "../ui/block-btn";
@@ -40,9 +40,34 @@ export default function MyModify({ myInfo }: MyModifyProps) {
     }
   };
 
+  const updateNickname = async (newNickname: string) => {
+    try {
+      const res = await updateMyNicknameApi(newNickname);
+      alert("닉네임이 변경되었습니다");
+      router.reload();
+    } catch (err) {
+      if (err.response) {
+        console.error("Axios response error", err.response);
+        if (err.response.status === 401 || err.response.status === 403) {
+          alert("로그인이 필요합니다");
+          document.location.href = "/login";
+        } else {
+          alert(err.response.data?.message);
+        }
+      } else {
+        console.error("Error", err.message);
+        alert(err.message);
+      }
+    }
+  };
+
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
     updateProfileImage(file);
+  };
+
+  const handleNicknameChange = (event) => {
+    confirm("닉네임은 7일에 한번만 변경 가능합니다. 정말로 변경하시겠습니까?") && updateNickname(nickname);
   };
 
   const roleDisplay = {
@@ -103,7 +128,7 @@ export default function MyModify({ myInfo }: MyModifyProps) {
           maxWidth: MAX_WIDTH - 60,
           marginLeft: "30px",
         }}
-        onClick={() => {}}
+        onClick={handleNicknameChange}
       >
         수정하기
       </BlockBtn>
