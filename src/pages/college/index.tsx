@@ -102,7 +102,7 @@ export default function CollegePage({ colleges }: { colleges: ListUniversity[] }
         choices={REGIONS}
         choice={region}
         setChoice={setRegion}
-        color={{ deactiveBtn: "#D9D9D9" }}
+        color={{ deactiveBtn: "#F0F0F0", deactiveBtnFont: "#A2A2A2" }}
         style={{ marginTop: "14px", marginLeft: "18px" }}
       />
       <CollegeCards colleges={filteredColleges} style={{ marginTop: "12px" }} />

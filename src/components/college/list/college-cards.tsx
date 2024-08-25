@@ -8,10 +8,10 @@ import styles from "./college-cards.module.css";
 
 import { ListUniversity } from "@/types/university";
 
-interface CollegeCardsProps {
+type CollegeCardsProps = {
   colleges: ListUniversity[];
   style?: React.CSSProperties;
-}
+};
 
 export default function CollegeCards({ colleges, style }: CollegeCardsProps) {
   return (
@@ -36,19 +36,19 @@ export function CollegeCard({
   const convertedKoreanName = term !== process.env.NEXT_PUBLIC_CURRENT_TERM ? `${koreanName}(${term})` : koreanName;
   return (
     <Link className={styles.card} href={`/college/${id}`}>
-      <div className={styles.centerAlign}>
+      <div className={styles["image-wrapper"]}>
         <Image
           className={styles.image}
           src={logoImageUrl}
           width={100}
           height={100}
-          alt={convertedKoreanName || "이미지 없음"}
+          alt={convertedKoreanName || "대학 이미지"}
         />
       </div>
 
       <div className={styles.info}>
         <span className={styles.name}>{convertedKoreanName}</span>
-        <div className={styles.spaceBetween}>
+        <div className={styles["space-between"]}>
           <span className={styles.country}>
             {country} | {region}
           </span>
@@ -65,7 +65,7 @@ export function CollegeCard({
         </div>
       </div>
 
-      <div className={styles.rightArrowIcon}>
+      <div className={styles["right-arrow-icon"]}>
         <CheveronRightFilled color="black" opacity="0.54" />
       </div>
     </Link>

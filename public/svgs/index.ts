@@ -1,6 +1,7 @@
 import IconApplicantBanner from "./applicant-banner.svg";
 import IconClock from "./clock.svg";
 import IconCloseFilled from "./close-filled.svg";
+import IconNoProfileImage from "./no-profile-image.svg";
 import IconObjectsAndTools from "./objects-and-tools.svg";
 import IconPostLikeFilled from "./post-like-filled.svg";
 import IconPostLikeOutline from "./post-like-outline.svg";
@@ -22,6 +23,7 @@ export {
   IconApplicantBanner,
   IconClock,
   IconCloseFilled,
+  IconNoProfileImage,
   IconObjectsAndTools,
   IconPostLikeFilled,
   IconPostLikeOutline,

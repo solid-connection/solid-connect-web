@@ -1,5 +1,3 @@
-import { ListUniversity } from "./university";
-
 export interface MyInfo {
   nickname: string;
   profileImageUrl: string;
@@ -13,5 +11,13 @@ export interface MyInfo {
 export interface MyInfoSimple {
   // 내 정보 수정 페이지에서 사용
   nickname: string;
+  profileImageUrl: string;
+}
+
+export interface MyNickname {
+  nickname: string;
+}
+
+export interface MyProfileImage {
   profileImageUrl: string;
 }
