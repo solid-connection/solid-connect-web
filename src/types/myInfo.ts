@@ -13,3 +13,11 @@ export interface MyInfoSimple {
   nickname: string;
   profileImageUrl: string;
 }
+
+export interface MyNickname {
+  nickname: string;
+}
+
+export interface MyProfileImage {
+  profileImageUrl: string;
+}
