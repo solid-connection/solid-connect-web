@@ -3,46 +3,86 @@ import { useRef, useState } from "react";
 
 import { signUpApi } from "@/services/auth";
 import { uploadProfileImageFilePublicApi } from "@/services/file";
-import { convertBirth } from "@/utils/datetimeUtils";
 import { saveAccessToken, saveRefreshToken } from "@/utils/localStorage";
 
 import SignupPrepareScreen from "./signup-prepare-screen";
 import SignupProfileScreen from "./signup-profile-screen";
 import SignupRegionScreen from "./signup-region-screen";
 
-import { PreparationStatus, RegisterRequest } from "@/types/auth";
+import { Gender, GenderEnum, PreparationStatus, RegisterRequest } from "@/types/auth";
 import { RegionKo } from "@/types/university";
 
-export default function SignupSurvey(props) {
-  const { kakaoOauthToken, kakaoNickname, kakaoEmail, kakaoProfileImageUrl } = props;
-  const [stage, setStage] = useState<number>(1);
+type SignupSurveyProps = {
+  kakaoOauthToken: string;
+  kakaoNickname: string;
+  kakaoEmail: string;
+  kakaoProfileImageUrl: string;
+};
+
+const convertBirth = (value: string): string => {
+  // 20010101 방식의 생년월일을 "YYYY-MM-DD" 형식으로 변환
+  // 입력값이 8자리인지 확인
+  if (value.length !== 8) {
+    throw new Error("생년월일을 8자리로 입력해주세요.");
+  }
+
+  // 년, 월, 일을 분리
+  const year = value.substring(0, 4);
+  const month = value.substring(4, 6);
+  const day = value.substring(6, 8);
+
+  // "YYYY-MM-DD" 형식으로 변환
+  const formattedDate = `${year}-${month}-${day}`;
+
+  // 날짜 유효성 검증
+  const date = new Date(formattedDate);
+  const isValidDate =
+    date.getFullYear() === parseInt(year, 10) &&
+    date.getMonth() + 1 === parseInt(month, 10) &&
+    date.getDate() === parseInt(day, 10);
+
+  if (!isValidDate) {
+    throw new Error("유효한 날짜가 아닙니다.");
+  }
+
+  return formattedDate;
+};
+
+export default function SignupSurvey({
+  kakaoOauthToken,
+  kakaoNickname,
+  kakaoEmail,
+  kakaoProfileImageUrl,
+}: SignupSurveyProps) {
+  const router = useRouter();
+  const [curStage, setCurStage] = useState<number>(1);
+
+  const [curPreparation, setCurPreparation] = useState<PreparationStatus | null>(null);
+
   const [region, setRegion] = useState<RegionKo | "아직 잘 모르겠어요" | null>(null);
   const [countries, setCountries] = useState<[string] | []>([]);
-  const [preparation, setPreparation] = useState<PreparationStatus | null>(null);
 
   const [nickname, setNickname] = useState<string>(kakaoNickname);
-  const genderRef = useRef<HTMLSelectElement>(null);
-  const birthRef = useRef<HTMLInputElement>(null);
-  const [imageFile, setImageFile] = useState(null);
-
-  const router = useRouter();
-
-  const converGender = (value: string): "MALE" | "FEMALE" | "PREFER_NOT_TO_SAY" => {
-    if (value === "MALE" || value === "FEMALE" || value === "PREFER_NOT_TO_SAY") {
-      return value;
-    }
-    throw new Error("성별을 선택해주세요");
-  };
+  const [gender, setGender] = useState<Gender | "">("");
+  const [birth, setBirth] = useState<string>("");
+  const [profileImageFile, setProfileImageFile] = useState(null);
 
   const createRegisterRequest = (): RegisterRequest => {
     const submitRegion: [RegionKo] | [] = region === "아직 잘 모르겠어요" ? [] : [region];
 
-    const birth = convertBirth(birthRef.current.value);
-    const gender = converGender(genderRef.current.value);
+    if (!curPreparation) {
+      throw new Error("준비 단계를 선택해주세요");
+    }
+
+    if (gender === "") {
+      throw new Error("성별을 선택해주세요");
+    }
+
+    const convertedBirth: string = convertBirth(birth);
 
     let imageUrl: string | null = null;
-    if (imageFile) {
-      uploadProfileImageFilePublicApi(imageFile)
+    if (profileImageFile) {
+      uploadProfileImageFilePublicApi(profileImageFile)
         .then((res) => {
           imageUrl = res.data.fileUrl;
         })
@@ -58,11 +98,11 @@ export default function SignupSurvey(props) {
       kakaoOauthToken: kakaoOauthToken,
       interestedRegions: submitRegion,
       interestedCountries: countries,
-      preparationStatus: preparation,
+      preparationStatus: curPreparation,
       nickname: nickname,
       profileImageUrl: imageUrl,
       gender: gender,
-      birth: birth,
+      birth: convertedBirth,
     };
   };
 
@@ -88,9 +128,17 @@ export default function SignupSurvey(props) {
   }
 
   const renderCurrentSurvey = () => {
-    switch (stage) {
+    switch (curStage) {
       case 1:
-        return <SignupPrepareScreen preparation={preparation} setPreparation={setPreparation} setStage={setStage} />;
+        return (
+          <SignupPrepareScreen
+            preparation={curPreparation}
+            setPreparation={setCurPreparation}
+            toNextStage={() => {
+              setCurStage(2);
+            }}
+          />
+        );
       case 2:
         return (
           <SignupRegionScreen
@@ -99,11 +147,7 @@ export default function SignupSurvey(props) {
             curCountries={countries}
             setCurCountries={setCountries}
             toNextStage={() => {
-              if (!region) {
-                alert("권역을 선택해주세요");
-                return;
-              }
-              setStage(3);
+              setCurStage(3);
             }}
           />
         );
@@ -113,11 +157,13 @@ export default function SignupSurvey(props) {
             toNextStage={submitRegisterRequest}
             nickname={nickname}
             setNickname={setNickname}
-            genderRef={genderRef}
-            birthRef={birthRef}
+            gender={gender}
+            setGender={setGender}
+            birth={birth}
+            setBirth={setBirth}
             defaultProfileImageUrl={kakaoProfileImageUrl}
-            imageFile={imageFile}
-            setImageFile={setImageFile}
+            profileImageFile={profileImageFile}
+            setProfileImageFile={setProfileImageFile}
           />
         );
       default:

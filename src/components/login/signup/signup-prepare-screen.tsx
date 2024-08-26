@@ -9,18 +9,18 @@ import { MAX_WIDTH } from "@/constants/meta";
 import { PreparationStatus } from "@/types/auth";
 
 type SignupPrepareScreenProps = {
-  preparation: PreparationStatus;
+  preparation: PreparationStatus | null;
   setPreparation: Dispatch<SetStateAction<PreparationStatus>>;
-  setStage: Dispatch<SetStateAction<number>>;
+  toNextStage: () => void;
 };
 
-export default function SignupPrepareScreen({ preparation, setPreparation, setStage }: SignupPrepareScreenProps) {
-  const toNextStage = () => {
+export default function SignupPrepareScreen({ preparation, setPreparation, toNextStage }: SignupPrepareScreenProps) {
+  const submit = () => {
     if (!preparation) {
       alert("준비 단계를 선택해주세요.");
       return;
     }
-    setStage(2);
+    toNextStage();
   };
 
   return (
@@ -83,7 +83,7 @@ export default function SignupPrepareScreen({ preparation, setPreparation, setSt
           maxWidth: MAX_WIDTH - 60,
           marginLeft: "10px",
         }}
-        onClick={toNextStage}
+        onClick={submit}
         isToggled={!!preparation}
       >
         다음으로
