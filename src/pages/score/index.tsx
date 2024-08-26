@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 import { getApplicationListApi, getMyApplicationStatusApi } from "@/services/application";
@@ -135,7 +136,7 @@ export default function ScorePage() {
   } else if (status === "COLLEGE_SUBMITTED") {
     return <div>점수 공유 현황을 보려면 점수를 인증해야 합니다.</div>;
   } else if (status === "SCORE_SUBMITTED") {
-    return <div>점수 공유 현황을 보려면 지원 대학을 추가해야 합니다.</div>;
+    return <Link href="/score/college-register">점수 공유 현황을 보려면 지원 대학을 추가해야 합니다.</Link>;
   } else if (status === "SUBMITTED_PENDING") {
     return <div>점수 공유 현황을 보려면 점수가 승인되어야 합니다.</div>;
   } else if (status === "SUBMITTED_REJECTED") {
