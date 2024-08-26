@@ -15,6 +15,7 @@
 }
 
 .icon {
+  min-width: 24px;
   cursor: pointer;
 }
 
