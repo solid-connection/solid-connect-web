@@ -123,7 +123,13 @@ export default function SignupProfileScreen({
       <div style={{ margin: "64px 10px 0 10px" }}>
         <BlockToggleBtn
           onClick={submit}
-          isToggled={!!nickname && !!genderRef.current.value && !!birthRef.current.value}
+          isToggled={
+            !!nickname &&
+            genderRef.current !== null &&
+            !!genderRef.current.value &&
+            birthRef.current !== null &&
+            !!birthRef.current.value
+          }
         >
           가입 완료
         </BlockToggleBtn>
