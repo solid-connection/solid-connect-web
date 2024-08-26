@@ -10,35 +10,42 @@ import SignupPrepareScreen from "./signup-prepare-screen";
 import SignupProfileScreen from "./signup-profile-screen";
 import SignupRegionScreen from "./signup-region-screen";
 
-import { PreparationStatus, RegisterRequest } from "@/types/auth";
+import { Gender, GenderEnum, PreparationStatus, RegisterRequest } from "@/types/auth";
 import { RegionKo } from "@/types/university";
 
-export default function SignupSurvey(props) {
-  const { kakaoOauthToken, kakaoNickname, kakaoEmail, kakaoProfileImageUrl } = props;
-  const [stage, setStage] = useState<number>(1);
+type SignupSurveyProps = {
+  kakaoOauthToken: string;
+  kakaoNickname: string;
+  kakaoEmail: string;
+  kakaoProfileImageUrl: string;
+};
+
+export default function SignupSurvey({
+  kakaoOauthToken,
+  kakaoNickname,
+  kakaoEmail,
+  kakaoProfileImageUrl,
+}: SignupSurveyProps) {
+  const router = useRouter();
+  const [curStage, setCurStage] = useState<number>(1);
+
+  const [curPreparation, setCurPreparation] = useState<PreparationStatus | null>(null);
+
   const [region, setRegion] = useState<RegionKo | "아직 잘 모르겠어요" | null>(null);
   const [countries, setCountries] = useState<[string] | []>([]);
-  const [preparation, setPreparation] = useState<PreparationStatus | null>(null);
 
   const [nickname, setNickname] = useState<string>(kakaoNickname);
-  const genderRef = useRef<HTMLSelectElement>(null);
-  const birthRef = useRef<HTMLInputElement>(null);
+  const [gender, setGender] = useState<Gender | "">("");
+  const [birth, setBirth] = useState<string>("");
   const [imageFile, setImageFile] = useState(null);
-
-  const router = useRouter();
-
-  const converGender = (value: string): "MALE" | "FEMALE" | "PREFER_NOT_TO_SAY" => {
-    if (value === "MALE" || value === "FEMALE" || value === "PREFER_NOT_TO_SAY") {
-      return value;
-    }
-    throw new Error("성별을 선택해주세요");
-  };
 
   const createRegisterRequest = (): RegisterRequest => {
     const submitRegion: [RegionKo] | [] = region === "아직 잘 모르겠어요" ? [] : [region];
 
-    const birth = convertBirth(birthRef.current.value);
-    const gender = converGender(genderRef.current.value);
+    if (gender === "") {
+      alert("성별을 선택해주세요");
+      return;
+    }
 
     let imageUrl: string | null = null;
     if (imageFile) {
@@ -58,7 +65,7 @@ export default function SignupSurvey(props) {
       kakaoOauthToken: kakaoOauthToken,
       interestedRegions: submitRegion,
       interestedCountries: countries,
-      preparationStatus: preparation,
+      preparationStatus: curPreparation,
       nickname: nickname,
       profileImageUrl: imageUrl,
       gender: gender,
@@ -88,9 +95,11 @@ export default function SignupSurvey(props) {
   }
 
   const renderCurrentSurvey = () => {
-    switch (stage) {
+    switch (curStage) {
       case 1:
-        return <SignupPrepareScreen preparation={preparation} setPreparation={setPreparation} setStage={setStage} />;
+        return (
+          <SignupPrepareScreen preparation={curPreparation} setPreparation={setCurPreparation} setStage={setCurStage} />
+        );
       case 2:
         return (
           <SignupRegionScreen
@@ -103,7 +112,7 @@ export default function SignupSurvey(props) {
                 alert("권역을 선택해주세요");
                 return;
               }
-              setStage(3);
+              setCurStage(3);
             }}
           />
         );
@@ -113,8 +122,10 @@ export default function SignupSurvey(props) {
             toNextStage={submitRegisterRequest}
             nickname={nickname}
             setNickname={setNickname}
-            genderRef={genderRef}
-            birthRef={birthRef}
+            gender={gender}
+            setGender={setGender}
+            birth={birth}
+            setBirth={setBirth}
             defaultProfileImageUrl={kakaoProfileImageUrl}
             imageFile={imageFile}
             setImageFile={setImageFile}
