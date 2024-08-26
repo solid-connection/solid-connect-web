@@ -3,7 +3,6 @@ import { useRef, useState } from "react";
 
 import { signUpApi } from "@/services/auth";
 import { uploadProfileImageFilePublicApi } from "@/services/file";
-import { convertBirth } from "@/utils/datetimeUtils";
 import { saveAccessToken, saveRefreshToken } from "@/utils/localStorage";
 
 import SignupPrepareScreen from "./signup-prepare-screen";
@@ -18,6 +17,35 @@ type SignupSurveyProps = {
   kakaoNickname: string;
   kakaoEmail: string;
   kakaoProfileImageUrl: string;
+};
+
+const convertBirth = (value: string): string => {
+  // 20010101 방식의 생년월일을 "YYYY-MM-DD" 형식으로 변환
+  // 입력값이 8자리인지 확인
+  if (value.length !== 8) {
+    throw new Error("생년월일을 8자리로 입력해주세요.");
+  }
+
+  // 년, 월, 일을 분리
+  const year = value.substring(0, 4);
+  const month = value.substring(4, 6);
+  const day = value.substring(6, 8);
+
+  // "YYYY-MM-DD" 형식으로 변환
+  const formattedDate = `${year}-${month}-${day}`;
+
+  // 날짜 유효성 검증
+  const date = new Date(formattedDate);
+  const isValidDate =
+    date.getFullYear() === parseInt(year, 10) &&
+    date.getMonth() + 1 === parseInt(month, 10) &&
+    date.getDate() === parseInt(day, 10);
+
+  if (!isValidDate) {
+    throw new Error("유효한 날짜가 아닙니다.");
+  }
+
+  return formattedDate;
 };
 
 export default function SignupSurvey({
@@ -42,10 +70,15 @@ export default function SignupSurvey({
   const createRegisterRequest = (): RegisterRequest => {
     const submitRegion: [RegionKo] | [] = region === "아직 잘 모르겠어요" ? [] : [region];
 
-    if (gender === "") {
-      alert("성별을 선택해주세요");
-      return;
+    if (!curPreparation) {
+      throw new Error("준비 단계를 선택해주세요");
     }
+
+    if (gender === "") {
+      throw new Error("성별을 선택해주세요");
+    }
+
+    const convertedBirth: string = convertBirth(birth);
 
     let imageUrl: string | null = null;
     if (imageFile) {
@@ -69,7 +102,7 @@ export default function SignupSurvey({
       nickname: nickname,
       profileImageUrl: imageUrl,
       gender: gender,
-      birth: birth,
+      birth: convertedBirth,
     };
   };
 
@@ -98,7 +131,13 @@ export default function SignupSurvey({
     switch (curStage) {
       case 1:
         return (
-          <SignupPrepareScreen preparation={curPreparation} setPreparation={setCurPreparation} setStage={setCurStage} />
+          <SignupPrepareScreen
+            preparation={curPreparation}
+            setPreparation={setCurPreparation}
+            toNextStage={() => {
+              setCurStage(2);
+            }}
+          />
         );
       case 2:
         return (
@@ -108,10 +147,6 @@ export default function SignupSurvey({
             curCountries={countries}
             setCurCountries={setCountries}
             toNextStage={() => {
-              if (!region) {
-                alert("권역을 선택해주세요");
-                return;
-              }
               setCurStage(3);
             }}
           />
