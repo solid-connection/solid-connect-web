@@ -25,7 +25,8 @@ export default function KakaoLoginCallbackPage() {
   useEffect(() => {
     const code = router.query.code;
     if (code) {
-      sendCodeToBackend(code);
+      console.log("code", code);
+      // sendCodeToBackend(code);
     }
   }, [router.query.code]);
 
@@ -75,7 +76,7 @@ export default function KakaoLoginCallbackPage() {
             kakaoOauthToken={kakaoOauthToken}
             kakaoNickname={kakaoNickname}
             kakaoEmail={kakaoEmail}
-            kakaoProfileImageUrl={kakaoProfileImageUrl}
+            kakaoProfileImageUrl={"http://t1.kakaocdn.net/account_images/default_profile.jpeg.twg.thumb.R640x640"}
           />
         </>
       )}
