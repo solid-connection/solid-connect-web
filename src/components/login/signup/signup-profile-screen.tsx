@@ -110,8 +110,8 @@ export default function SignupProfileScreen({
 
         <div className={styles.profile__sex}>
           <label htmlFor="sex">성별</label>
-          <select ref={genderRef}>
-            <option value="" selected disabled>
+          <select ref={genderRef} defaultValue={""}>
+            <option value="" disabled>
               성별을 선택해주세요.
             </option>
             <option value="MALE">남성</option>

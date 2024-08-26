@@ -31,7 +31,7 @@ export default function BlockToggleBtn({
     borderRadius: "8px",
     cursor: "pointer",
     transition: "background-color 0.5s, color 0.5s",
-    "box-sizing": "border-box",
+    boxSizing: "border-box",
 
     fontFamily: "Pretendard",
     fontSize: "16px",
