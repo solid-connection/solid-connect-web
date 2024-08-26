@@ -1,27 +1,24 @@
 .topNav {
-  position: fixed;
-  top: 0px;
-
   display: flex;
   justify-content: space-between;
-
+  align-items: center;
+  position: fixed;
+  top: 0px;
   width: 100%;
   max-width: 600px;
   height: 56px;
+  padding: 0 20px;
+  box-sizing: border-box;
 
   background: #fff;
   z-index: 100;
 }
 
 .icon {
-  margin: 16px 20px 16px 20px;
-  width: 24px;
   cursor: pointer;
 }
 
 .title {
-  margin: 16px 0 14px 0;
-
   color: var(--Dark-Primary-Contrast, rgba(0, 0, 0, 0.87));
   font-feature-settings:
     "clig" off,
