@@ -77,10 +77,13 @@
 }
 
 .question__box {
+  display: inline-block;
   width: 18px;
   height: 18px;
-  display: inline-block;
+  border: none;
+  background: transparent;
   cursor: pointer;
+  padding: 0;
 }
 
 .content textarea {
