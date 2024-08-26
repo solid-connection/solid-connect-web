@@ -65,7 +65,7 @@ export default function SignupSurvey({
   const [nickname, setNickname] = useState<string>(kakaoNickname);
   const [gender, setGender] = useState<Gender | "">("");
   const [birth, setBirth] = useState<string>("");
-  const [imageFile, setImageFile] = useState(null);
+  const [profileImageFile, setProfileImageFile] = useState(null);
 
   const createRegisterRequest = (): RegisterRequest => {
     const submitRegion: [RegionKo] | [] = region === "아직 잘 모르겠어요" ? [] : [region];
@@ -81,8 +81,8 @@ export default function SignupSurvey({
     const convertedBirth: string = convertBirth(birth);
 
     let imageUrl: string | null = null;
-    if (imageFile) {
-      uploadProfileImageFilePublicApi(imageFile)
+    if (profileImageFile) {
+      uploadProfileImageFilePublicApi(profileImageFile)
         .then((res) => {
           imageUrl = res.data.fileUrl;
         })
@@ -162,8 +162,8 @@ export default function SignupSurvey({
             birth={birth}
             setBirth={setBirth}
             defaultProfileImageUrl={kakaoProfileImageUrl}
-            imageFile={imageFile}
-            setImageFile={setImageFile}
+            profileImageFile={profileImageFile}
+            setProfileImageFile={setProfileImageFile}
           />
         );
       default:

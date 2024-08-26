@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useRef } from "react";
+import { Dispatch, SetStateAction, useRef, useState } from "react";
 
 import BlockToggleBtn from "@/components/ui/block-toggle-btn";
 
@@ -16,8 +16,8 @@ type SignupProfileScreenProps = {
   birth: string;
   setBirth: Dispatch<SetStateAction<string>>;
   defaultProfileImageUrl: string;
-  imageFile: string;
-  setImageFile: Dispatch<SetStateAction<any>>;
+  profileImageFile: File;
+  setProfileImageFile: Dispatch<SetStateAction<File>>;
 };
 
 export default function SignupProfileScreen({
@@ -29,10 +29,11 @@ export default function SignupProfileScreen({
   birth,
   setBirth,
   defaultProfileImageUrl,
-  imageFile,
-  setImageFile,
+  profileImageFile,
+  setProfileImageFile,
 }: SignupProfileScreenProps) {
   const fileInputRef = useRef(null);
+  const [uploadedProfileImageFileView, setUploadedProfileImageFileView] = useState(null);
 
   const submit = () => {
     if (!nickname) {
@@ -52,10 +53,11 @@ export default function SignupProfileScreen({
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
+    setProfileImageFile(file);
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        setImageFile(reader.result);
+        setUploadedProfileImageFileView(reader.result);
       };
       reader.readAsDataURL(file);
     }
@@ -66,8 +68,8 @@ export default function SignupProfileScreen({
   };
 
   const getImage = () => {
-    if (imageFile) {
-      return <img src={imageFile} alt="profile image" />;
+    if (uploadedProfileImageFileView) {
+      return <img src={uploadedProfileImageFileView} alt="profile image" />;
     }
     if (defaultProfileImageUrl) {
       return <img src={defaultProfileImageUrl} alt="profile image" />;
