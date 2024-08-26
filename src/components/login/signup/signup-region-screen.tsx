@@ -1,6 +1,5 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 
-import BlockBtn from "@/components/ui/block-btn";
 import BlockToggleBtn from "@/components/ui/block-toggle-btn";
 
 import {
@@ -10,8 +9,6 @@ import {
   IconSignupRegionWorld,
 } from "../../../../public/svgs";
 import styles from "./signup.module.css";
-
-import { MAX_WIDTH } from "@/constants/meta";
 
 const regionList = [
   {
@@ -78,6 +75,14 @@ export default function SignupRegionScreen({
   setCurCountries,
   toNextStage,
 }: SignupRegionScreenProps) {
+  const submit = () => {
+    if (!curRegion) {
+      alert("권역을 선택해주세요.");
+      return;
+    }
+    toNextStage();
+  };
+
   return (
     <div className={styles.screen}>
       <div className={styles["secondary-title"]}>교환학생에 대한 정보를 알려주세요.</div>
@@ -93,7 +98,7 @@ export default function SignupRegionScreen({
       </div>
 
       <div style={{ margin: "39px 10px 0 10px" }}>
-        <BlockToggleBtn onClick={toNextStage} isToggled={!!curRegion}>
+        <BlockToggleBtn onClick={submit} isToggled={!!curRegion}>
           다음으로
         </BlockToggleBtn>
       </div>

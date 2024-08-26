@@ -9,8 +9,16 @@ export interface RegisterRequest {
   preparationStatus: PreparationStatus; // 준비 단계
   nickname: string; // 닉네임
   profileImageUrl: string; // 프로필 이미지
-  gender: "MALE" | "FEMALE" | "PREFER_NOT_TO_SAY"; // 성별
+  gender: Gender; // 성별
   birth: string; // 생년월일 yyyy-mm-dd
+}
+
+export type Gender = "MALE" | "FEMALE" | "PREFER_NOT_TO_SAY";
+
+export enum GenderEnum {
+  MALE = "MALE",
+  FEMALE = "FEMALE",
+  PREFER_NOT_TO_SAY = "PREFER_NOT_TO_SAY",
 }
 
 export interface RegisteredKakaoAuthReponse {

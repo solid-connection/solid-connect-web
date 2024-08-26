@@ -1,43 +1,50 @@
-import { Dispatch, SetStateAction, useRef } from "react";
+import { Dispatch, SetStateAction, useRef, useState } from "react";
 
 import BlockToggleBtn from "@/components/ui/block-toggle-btn";
 
 import { IconSignupProfileImage } from "../../../../public/svgs";
 import styles from "./signup.module.css";
 
+import { Gender, GenderEnum } from "@/types/auth";
+
 type SignupProfileScreenProps = {
   toNextStage: () => void;
   nickname: string;
   setNickname: Dispatch<SetStateAction<string>>;
-  genderRef: any;
-  birthRef: any;
+  gender: Gender | "";
+  setGender: Dispatch<SetStateAction<Gender>>;
+  birth: string;
+  setBirth: Dispatch<SetStateAction<string>>;
   defaultProfileImageUrl: string;
-  imageFile: string;
-  setImageFile: Dispatch<SetStateAction<any>>;
+  profileImageFile: File;
+  setProfileImageFile: Dispatch<SetStateAction<File>>;
 };
 
 export default function SignupProfileScreen({
   toNextStage,
   nickname,
   setNickname,
-  genderRef,
-  birthRef,
+  gender,
+  setGender,
+  birth,
+  setBirth,
   defaultProfileImageUrl,
-  imageFile,
-  setImageFile,
+  profileImageFile,
+  setProfileImageFile,
 }: SignupProfileScreenProps) {
   const fileInputRef = useRef(null);
+  const [uploadedProfileImageFileView, setUploadedProfileImageFileView] = useState(null);
 
   const submit = () => {
     if (!nickname) {
       alert("닉네임을 입력해주세요.");
       return;
     }
-    if (!birthRef.current.value) {
+    if (!birth) {
       alert("생년월일을 입력해주세요.");
       return;
     }
-    if (!genderRef.current.value) {
+    if (gender === "") {
       alert("성별을 선택해주세요.");
       return;
     }
@@ -46,10 +53,11 @@ export default function SignupProfileScreen({
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
+    setProfileImageFile(file);
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        setImageFile(reader.result);
+        setUploadedProfileImageFileView(reader.result);
       };
       reader.readAsDataURL(file);
     }
@@ -60,8 +68,8 @@ export default function SignupProfileScreen({
   };
 
   const getImage = () => {
-    if (imageFile) {
-      return <img src={imageFile} alt="profile image" />;
+    if (uploadedProfileImageFileView) {
+      return <img src={uploadedProfileImageFileView} alt="profile image" />;
     }
     if (defaultProfileImageUrl) {
       return <img src={defaultProfileImageUrl} alt="profile image" />;
@@ -105,32 +113,29 @@ export default function SignupProfileScreen({
 
         <div className={styles.profile__birth}>
           <label htmlFor="birth">생년월일</label>
-          <input id="birth" type="text" placeholder="생년월일 8자리를 입력해주세요. (예: 20010227)" ref={birthRef} />
+          <input
+            id="birth"
+            type="text"
+            placeholder="생년월일 8자리를 입력해주세요. (예: 20010227)"
+            value={birth}
+            onChange={(e) => setBirth(e.target.value)}
+          />
         </div>
 
         <div className={styles.profile__sex}>
           <label htmlFor="sex">성별</label>
-          <select ref={genderRef} defaultValue={""}>
+          <select id="sex" value={gender} onChange={(e) => setGender(e.target.value as GenderEnum)}>
             <option value="" disabled>
               성별을 선택해주세요.
             </option>
-            <option value="MALE">남성</option>
-            <option value="FEMALE">여성</option>
-            <option value="PREFER_NOT_TO_SAY">선택 안 함</option>
+            <option value={GenderEnum.MALE}>남성</option>
+            <option value={GenderEnum.FEMALE}>여성</option>
+            <option value={GenderEnum.PREFER_NOT_TO_SAY}>선택 안 함</option>
           </select>
         </div>
       </div>
       <div style={{ margin: "64px 10px 0 10px" }}>
-        <BlockToggleBtn
-          onClick={submit}
-          isToggled={
-            !!nickname &&
-            genderRef.current !== null &&
-            !!genderRef.current.value &&
-            birthRef.current !== null &&
-            !!birthRef.current.value
-          }
-        >
+        <BlockToggleBtn onClick={submit} isToggled={!!nickname && !!birth && !!gender}>
           가입 완료
         </BlockToggleBtn>
       </div>
