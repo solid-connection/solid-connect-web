@@ -26,7 +26,7 @@ export function PostCard({ post, boardCode }: { post: ListPost; boardCode: strin
       <div className={styles.card}>
         <div className={styles.textZone}>
           <div className={styles.meta}>
-            <div className={styles.category}>{null || "일반"}</div>
+            <div className={styles.category}>{post.postCategory || ""}</div>
             <div className={styles.date}>{convertISODateToDate(post.createdAt) || "1970. 1. 1."}</div>
           </div>
           <div className={styles.title}>{post.title || "제목 없음"}</div>

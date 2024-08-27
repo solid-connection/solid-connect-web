@@ -32,7 +32,7 @@ export default function Home({ recommendedColleges, newsList, applyStatus }: Hom
         <div className={styles["search-banner__left"]}>
           <div className={styles["search-banner__title"]}>아직 학교를 결정하지 못했다면?</div>
           <div className={styles["search-banner__description"]}>
-            내가 원하는 지역만 선택하고
+            나의 성적과 지역만 선택하고
             <br />
             모든 학교 목록을 확인해보세요!
           </div>

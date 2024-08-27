@@ -6,6 +6,7 @@ import { createPostApi } from "@/services/community";
 import ArrowBackFilled from "@/components/ui/icon/ArrowBackFilled";
 import CheckBoxOutlineBlankOutlined from "@/components/ui/icon/CheckBoxOutlineBlankOutlined";
 
+import { IconPosstCheckboxOutlined, IconPostCheckboxFilled } from "../../../../public/svgs";
 import navStyles from "../../../components/layout/top-detail-navigation.module.css";
 import styles from "./post-form.module.css";
 
@@ -93,9 +94,9 @@ export default function PostForm({ boardCode }: { boardCode: string }) {
         </div>
         <div className={styles.question}>
           <div className={styles.question__select}>
-            <div className={styles.question__box}>
-              <CheckBoxOutlineBlankOutlined size={18} />
-            </div>
+            <button className={styles.question__box} onClick={() => setIsQuestion(!isQuestion)}>
+              {isQuestion ? <IconPostCheckboxFilled /> : <IconPosstCheckboxOutlined />}
+            </button>
             질문으로 업로드 하기
           </div>
         </div>

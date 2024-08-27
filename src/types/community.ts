@@ -51,6 +51,7 @@ export interface ListPost {
   commentCount: number;
   createdAt: string;
   updatedAt: string;
+  postCategory: string;
   url: string | null;
 }
 
