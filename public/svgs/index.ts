@@ -3,6 +3,8 @@ import IconClock from "./clock.svg";
 import IconCloseFilled from "./close-filled.svg";
 import IconNoProfileImage from "./no-profile-image.svg";
 import IconObjectsAndTools from "./objects-and-tools.svg";
+import IconPostCheckboxFilled from "./post-checkbox-filled.svg";
+import IconPosstCheckboxOutlined from "./post-checkbox-outlined.svg";
 import IconPostLikeFilled from "./post-like-filled.svg";
 import IconPostLikeOutline from "./post-like-outline.svg";
 import IconPrepare1 from "./prepare-1.svg";
@@ -25,6 +27,8 @@ export {
   IconCloseFilled,
   IconNoProfileImage,
   IconObjectsAndTools,
+  IconPostCheckboxFilled,
+  IconPosstCheckboxOutlined,
   IconPostLikeFilled,
   IconPostLikeOutline,
   IconPrepare1,

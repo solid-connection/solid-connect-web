@@ -37,7 +37,7 @@
   background-color: #ececec;
 }
 
-.title textarea {
+.title > textarea {
   width: 100%;
   padding: 20px 20px 10px 20px;
   box-sizing: border-box;
@@ -47,7 +47,7 @@
   overflow: hidden; /* 스크롤바 제거 */
   transition: height 0.2s ease;
 
-  color: rgba(124, 124, 124, 0.87);
+  color: black;
   font-feature-settings:
     "clig" off,
     "liga" off;
@@ -57,6 +57,11 @@
   font-weight: 600;
   line-height: 160%; /* 28.8px */
 }
+
+.title > textarea::placeholder {
+  color: rgba(124, 124, 124, 0.87);
+}
+
 .question {
   height: 24px;
   border-bottom: 1px solid #ececec;
@@ -77,15 +82,18 @@
 }
 
 .question__box {
+  display: inline-block;
   width: 18px;
   height: 18px;
-  display: inline-block;
+  border: none;
+  background: transparent;
   cursor: pointer;
+  padding: 0;
 }
 
 .content textarea {
   width: 100%;
-  height: 250px;
+  height: 360px;
   box-sizing: border-box;
   margin-top: 16px;
   padding: 0px 20px 0 20px;
@@ -93,7 +101,7 @@
   outline: none;
   resize: none;
 
-  color: rgba(124, 124, 124, 0.87);
+  color: black;
   font-feature-settings:
     "clig" off,
     "liga" off;
@@ -103,6 +111,11 @@
   font-weight: 400;
   line-height: 160%; /* 25.6px */
 }
+
+.content textarea::placeholder {
+  color: rgba(124, 124, 124, 0.87);
+}
+
 .notice {
   padding: 10px 20px 0 20px;
   color: #8d8d8d;
