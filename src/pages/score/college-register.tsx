@@ -6,7 +6,8 @@ import { getMyApplicationStatusApi, postApplicationUniversityApi } from "@/servi
 import { getUniversityListPublicApi } from "@/services/university";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
-import FormCollege from "@/components/score/register/form-college";
+import CollegeFinalScreen from "@/components/score/register/college-final-screen";
+import CollegeFormScreen from "@/components/score/register/college-form-screen";
 import ProgressBar from "@/components/score/register/progress-bar";
 
 import { ListUniversity } from "@/types/university";
@@ -51,6 +52,9 @@ export default function CollegeRegisterPage({ universityList }: CollegeRegisterP
   }, []);
 
   function handleBack() {
+    if (currentStage === 4) {
+      return;
+    }
     if (currentStage !== 1) {
       setCurrentStage(currentStage - 1);
     }
@@ -58,14 +62,15 @@ export default function CollegeRegisterPage({ universityList }: CollegeRegisterP
 
   function getProgress() {
     if (currentStage === 1) {
-      return 33;
+      return 25;
     }
     if (currentStage === 2) {
-      return 66;
+      return 50;
     }
     if (currentStage === 3) {
-      return 100;
+      return 75;
     }
+    return 100;
   }
 
   function submitForm() {
@@ -78,8 +83,7 @@ export default function CollegeRegisterPage({ universityList }: CollegeRegisterP
 
       await postApplicationUniversityApi(applicationScore)
         .then((res) => {
-          alert("파견 희망학교를 제출했습니다");
-          router.push("/score");
+          setCurrentStage(4);
         })
         .catch((err) => {
           if (err.response) {
@@ -103,7 +107,7 @@ export default function CollegeRegisterPage({ universityList }: CollegeRegisterP
     switch (currentStage) {
       case 1:
         return (
-          <FormCollege
+          <CollegeFormScreen
             toNextStage={() => {
               setCurrentStage(2);
             }}
@@ -115,7 +119,7 @@ export default function CollegeRegisterPage({ universityList }: CollegeRegisterP
         );
       case 2:
         return (
-          <FormCollege
+          <CollegeFormScreen
             toNextStage={() => {
               setCurrentStage(3);
             }}
@@ -127,7 +131,7 @@ export default function CollegeRegisterPage({ universityList }: CollegeRegisterP
         );
       case 3:
         return (
-          <FormCollege
+          <CollegeFormScreen
             toNextStage={submitForm}
             text="3지망"
             universityList={universityList}
@@ -135,6 +139,8 @@ export default function CollegeRegisterPage({ universityList }: CollegeRegisterP
             setCollegeId={setThirdCollegeId}
           />
         );
+      case 4:
+        return <CollegeFinalScreen />;
       default:
         return <div>파견 희망대학을 제출했습니다!</div>;
     }
@@ -149,7 +155,7 @@ export default function CollegeRegisterPage({ universityList }: CollegeRegisterP
         <ProgressBar
           style={{ padding: "11px 20px 0 20px" }}
           progress={getProgress()}
-          display={`${currentStage}/3`}
+          display={`${currentStage}/4`}
           description={description}
         />
         {renderCurrentForm()}

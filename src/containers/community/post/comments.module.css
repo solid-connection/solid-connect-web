@@ -21,6 +21,12 @@
 .comment {
   display: flex;
   flex-direction: column;
+  width: 100%;
+}
+
+.comment__first-row {
+  display: flex;
+  justify-content: space-between;
 }
 
 .comment__author {
@@ -55,6 +61,15 @@
   font-weight: 500;
   line-height: 150%; /* 21px */
 }
+
+.comment__kebab-menu-wrapper {
+  position: relative;
+}
+
+.comment__kebab-menu {
+  cursor: pointer;
+}
+
 .comment__content {
   margin-top: 12px;
   overflow: hidden;

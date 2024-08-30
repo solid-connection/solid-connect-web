@@ -1,17 +1,51 @@
 import Image from "next/image";
+import { useState } from "react";
 
+import { deleteCommentApi } from "@/services/community";
 import { convertISODateToDateTime } from "@/utils/datetimeUtils";
 
-import { IconSubComment } from "../../../../public/svgs";
+import Dropdown from "@/components/ui/dropdown";
+
+import { IconMoreVertFilled, IconSubComment } from "../../../../public/svgs";
 import styles from "./comments.module.css";
 
 import { Comment } from "@/types/community";
 
 type CommentsProps = {
   comments: Comment[];
+  postId: number;
+  refresh: () => void;
 };
 
-export default function Comments({ comments }: CommentsProps) {
+export default function Comments({ comments, postId, refresh }: CommentsProps) {
+  const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
+
+  const toggleDeleteComment = (commentId: number) => {
+    if (!confirm("정말 삭제하시겠습니까?")) return;
+    deleteCommentApi(postId, commentId)
+      .then(() => {
+        refresh();
+      })
+      .catch((err) => {
+        if (err.response) {
+          console.error("Axios response error", err.response);
+          if (err.response.status === 401 || err.response.status === 403) {
+            alert("로그인이 필요합니다");
+            document.location.href = "/login";
+          } else {
+            alert(err.response.data?.message);
+          }
+        } else {
+          console.error("Error", err.message);
+          alert(err.message);
+        }
+      });
+  };
+
+  const toggleDropdown = (commentId: number) => {
+    setActiveDropdown(activeDropdown === commentId ? null : commentId);
+  };
+
   return (
     <div className={styles["comment-container"]}>
       {comments?.map((comment) => (
@@ -25,13 +59,34 @@ export default function Comments({ comments }: CommentsProps) {
             </div>
           )}
           <div className={styles.comment}>
-            <div className={styles.comment__author}>
-              <div className={styles["comment__author-profile-image"]}>
-                {comment.postFindSiteUserResponse.profileImageUrl && (
-                  <Image src={comment.postFindSiteUserResponse.profileImageUrl} width={40} height={40} alt="alt" />
-                )}
+            <div className={styles["comment__first-row"]}>
+              <div className={styles.comment__author}>
+                <div className={styles["comment__author-profile-image"]}>
+                  {comment.postFindSiteUserResponse.profileImageUrl && (
+                    <Image src={comment.postFindSiteUserResponse.profileImageUrl} width={40} height={40} alt="alt" />
+                  )}
+                </div>
+                <div className={styles["comment__author-name"]}>{comment.postFindSiteUserResponse.nickname}</div>
               </div>
-              <div className={styles["comment__author-name"]}>{comment.postFindSiteUserResponse.nickname}</div>
+              {comment.isOwner && (
+                <div className={styles["comment__kebab-menu-wrapper"]}>
+                  <div className={styles["comment__kebab-menu"]} onClick={() => toggleDropdown(comment.id)}>
+                    <IconMoreVertFilled />
+                  </div>
+                  {activeDropdown === comment.id && (
+                    <Dropdown
+                      options={[
+                        {
+                          label: "삭제하기",
+                          action: () => {
+                            toggleDeleteComment(comment.id);
+                          },
+                        },
+                      ]}
+                    />
+                  )}
+                </div>
+              )}
             </div>
             <div className={styles.comment__content}>{comment.content}</div>
             <div className={styles["comment__created-at"]}>
