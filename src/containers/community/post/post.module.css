@@ -37,7 +37,7 @@
   overflow: hidden;
   margin-top: 12px;
   margin-right: 20px;
-
+  white-space: pre-wrap;
   color: #1a1a1a;
   font-feature-settings:
     "clig" off,
