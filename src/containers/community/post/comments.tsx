@@ -18,7 +18,7 @@ type CommentsProps = {
 };
 
 export default function Comments({ comments, postId, refresh }: CommentsProps) {
-  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
+  const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
 
   const toggleDeleteComment = (commentId: number) => {
     if (!confirm("정말 삭제하시겠습니까?")) return;
@@ -42,8 +42,8 @@ export default function Comments({ comments, postId, refresh }: CommentsProps) {
       });
   };
 
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
+  const toggleDropdown = (commentId: number) => {
+    setActiveDropdown(activeDropdown === commentId ? null : commentId);
   };
 
   return (
@@ -70,10 +70,10 @@ export default function Comments({ comments, postId, refresh }: CommentsProps) {
               </div>
               {comment.isOwner && (
                 <div className={styles["comment__kebab-menu-wrapper"]}>
-                  <div className={styles["comment__kebab-menu"]} onClick={toggleDropdown}>
+                  <div className={styles["comment__kebab-menu"]} onClick={() => toggleDropdown(comment.id)}>
                     <IconMoreVertFilled />
                   </div>
-                  {isDropdownOpen && (
+                  {activeDropdown === comment.id && (
                     <Dropdown
                       options={[
                         {
