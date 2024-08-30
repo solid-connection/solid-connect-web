@@ -74,35 +74,6 @@ export default function ScorePage() {
     fetchData();
   }, []);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (status === "NO_AUTHORIZATION") {
-    return <div>점수 공유 현황을 보려면 로그인이 필요합니다.</div>;
-  } else if (status === "NOT_SUBMITTED") {
-    router.push("/score/register");
-    return <div>점수 공유 현황을 보려면 점수를 제출해주세요.</div>;
-  } else if (status === "COLLEGE_SUBMITTED") {
-    return <div>점수 공유 현황을 보려면 점수를 인증해야 합니다.</div>;
-  } else if (status === "SCORE_SUBMITTED") {
-    return (
-      <div style={{ height: "calc(100vh - 112px)", display: "flex", flexDirection: "column" }}>
-        <CertFinalScreen />
-      </div>
-    );
-    return <Link href="/score/college-register">점수 공유 현황을 보려면 지원 대학을 추가해야 합니다.</Link>;
-  } else if (status === "SUBMITTED_PENDING") {
-    return (
-      <div style={{ height: "calc(100vh - 112px)", display: "flex", flexDirection: "column" }}>
-        <CollegeFinalScreen />
-      </div>
-    );
-    return <div>점수 공유 현황을 보려면 점수가 승인되어야 합니다.</div>;
-  } else if (status === "SUBMITTED_REJECTED") {
-    return <div>점수 인증이 거절되었습니다. 점수 공유 현황을 확인을 위해 다시 제출해 주세요.</div>;
-  }
-
   function handleSearch(event) {
     event.preventDefault();
     const keyWord = searchRef.current.value;
@@ -157,6 +128,35 @@ export default function ScorePage() {
       setFilteredScoreData(scoreData);
     }
   }, [filter]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (status === "NO_AUTHORIZATION") {
+    return <div>점수 공유 현황을 보려면 로그인이 필요합니다.</div>;
+  } else if (status === "NOT_SUBMITTED") {
+    router.push("/score/register");
+    return <div>점수 공유 현황을 보려면 점수를 제출해주세요.</div>;
+  } else if (status === "COLLEGE_SUBMITTED") {
+    return <div>점수 공유 현황을 보려면 점수를 인증해야 합니다.</div>;
+  } else if (status === "SCORE_SUBMITTED") {
+    return (
+      <div style={{ height: "calc(100vh - 112px)", display: "flex", flexDirection: "column" }}>
+        <CertFinalScreen />
+      </div>
+    );
+    return <Link href="/score/college-register">점수 공유 현황을 보려면 지원 대학을 추가해야 합니다.</Link>;
+  } else if (status === "SUBMITTED_PENDING") {
+    return (
+      <div style={{ height: "calc(100vh - 112px)", display: "flex", flexDirection: "column" }}>
+        <CollegeFinalScreen />
+      </div>
+    );
+    return <div>점수 공유 현황을 보려면 점수가 승인되어야 합니다.</div>;
+  } else if (status === "SUBMITTED_REJECTED") {
+    return <div>점수 인증이 거절되었습니다. 점수 공유 현황을 확인을 위해 다시 제출해 주세요.</div>;
+  }
 
   if (searchActive) {
     return (
