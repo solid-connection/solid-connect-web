@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { useState } from "react";
+import ReactLinkify from "react-linkify";
 
 import { likePostApi, unlikePostApi } from "@/services/community";
 import { convertISODateToDateTime } from "@/utils/datetimeUtils";
@@ -65,7 +66,7 @@ export default function Post({ post, boardCode, postId }: PostProps) {
       <div className={styles.post}>
         <div className={styles.category}>{post.postCategory || "카테고리"}</div>
         <div className={styles.title}>{post.title || "제목 없음"}</div>
-        <div className={styles.content}>{post.content || "내용 없음"}</div>
+        <ReactLinkify>{post.content || "내용 없음"}</ReactLinkify>
         <div style={{ marginTop: "12px" }}>
           <PostImage images={post.postFindPostImageResponses} onImageClick={handleImageClick} />
         </div>
