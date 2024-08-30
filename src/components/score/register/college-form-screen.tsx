@@ -4,7 +4,7 @@ import styles from "./form.module.css";
 
 import { ListUniversity } from "@/types/university";
 
-type FormCollegeProps = {
+type CollegeFormScreenProps = {
   toNextStage: () => void;
   collegeId: number;
   setCollegeId: (value: number) => void;
@@ -12,7 +12,13 @@ type FormCollegeProps = {
   universityList: ListUniversity[];
 };
 
-export default function FormCollege({ toNextStage, collegeId, setCollegeId, text, universityList }: FormCollegeProps) {
+export default function CollegeFormScreen({
+  toNextStage,
+  collegeId,
+  setCollegeId,
+  text,
+  universityList,
+}: CollegeFormScreenProps) {
   const handleSubmit = () => {
     // 입력 필드 유효성 검사
     if (collegeId === null) {
