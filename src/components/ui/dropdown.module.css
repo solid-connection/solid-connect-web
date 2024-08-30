@@ -27,3 +27,8 @@
   border-bottom: none; /* 마지막 아이템에는 보더를 제거 */
   border-radius: 0 0 8px 8px; /* 마지막 아이템에만 border-radius 적용 */
 }
+
+.dropdown__item:first-child:last-child {
+  border-radius: 8px; /* 단일 아이템인 경우 전체 코너에 border-radius 적용 */
+  border-bottom: none; /* 단일 아이템일 경우 하단 보더 제거 */
+}

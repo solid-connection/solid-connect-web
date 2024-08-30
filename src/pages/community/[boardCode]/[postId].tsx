@@ -62,7 +62,13 @@ export default function PostPage({ boardCode, postId }: { boardCode: string | an
       />
       <div>
         <Post post={post} boardCode={boardCode} postId={postId} />
-        <Comments comments={post.postFindCommentResponses} />
+        <Comments
+          comments={post.postFindCommentResponses}
+          postId={postId}
+          refresh={() => {
+            router.reload();
+          }}
+        />
         <CommentWrite
           postId={postId}
           refresh={() => {
