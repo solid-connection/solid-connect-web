@@ -2,12 +2,15 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-import { getPostDetailApi } from "@/services/community";
+import { deletePostApi, getPostDetailApi } from "@/services/community";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
+import Dropdown from "@/components/ui/dropdown";
 import CommentWrite from "@/containers/community/post/comment-write";
 import Comments from "@/containers/community/post/comments";
 import Post from "@/containers/community/post/post";
+
+import { IconMoreVertFilled } from "../../../../public/svgs";
 
 import { Post as PostType } from "@/types/community";
 
@@ -55,6 +58,7 @@ export default function PostPage({ boardCode, postId }: { boardCode: string | an
         handleBack={() => {
           router.push(`/community/${boardCode}`);
         }}
+        icon={post.isOwner && <KebabMenu boardCode={boardCode} postId={postId} router={router} />}
       />
       <div>
         <Post post={post} boardCode={boardCode} postId={postId} />
@@ -67,6 +71,70 @@ export default function PostPage({ boardCode, postId }: { boardCode: string | an
         />
       </div>
     </>
+  );
+}
+
+type KebabMenuProps = {
+  boardCode: string;
+  postId: number;
+  router: any;
+};
+
+function KebabMenu({ boardCode, postId, router }: KebabMenuProps) {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const toggleDeletePost = () => {
+    if (!confirm("정말 삭제하시겠습니까?")) return;
+
+    deletePostApi(boardCode, postId)
+      .then(() => {
+        alert("게시글이 삭제되었습니다.");
+        router.push(`/community/${boardCode}`);
+      })
+      .catch((err) => {
+        if (err.response) {
+          console.error("Axios response error", err.response);
+          if (err.response.status === 401 || err.response.status === 403) {
+            alert("로그인이 필요합니다");
+            document.location.href = "/login";
+          } else {
+            alert(err.response.data?.message);
+          }
+        } else {
+          console.error("Error", err.message);
+          alert(err.message);
+        }
+      });
+  };
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const dropdownItems = [
+    {
+      label: "수정하기",
+      action: () => {
+        console.log("수정하기");
+      },
+    },
+    {
+      label: "삭제하기",
+      action: toggleDeletePost,
+    },
+  ];
+
+  return (
+    <div
+      style={{
+        position: "relative",
+      }}
+    >
+      <div onClick={toggleDropdown}>
+        <IconMoreVertFilled />
+      </div>
+      {isDropdownOpen && <Dropdown options={dropdownItems} />}
+    </div>
   );
 }
 

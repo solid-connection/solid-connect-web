@@ -6,9 +6,10 @@ import styles from "./top-detail-navigation.module.css";
 interface TopDetailNavigationProps {
   title: string;
   handleBack?: any;
+  icon?: any;
 }
 
-export default function TopDetailNavigation({ title, handleBack }: TopDetailNavigationProps) {
+export default function TopDetailNavigation({ title, handleBack, icon = null }: TopDetailNavigationProps) {
   const router = useRouter();
 
   const routeBack = () => {
@@ -21,7 +22,7 @@ export default function TopDetailNavigation({ title, handleBack }: TopDetailNavi
         <ArrowBackFilled />
       </div>
       <div className={styles.title}>{title}</div>
-      <div className={styles.icon}></div>
+      <div className={styles.icon}>{icon}</div>
     </div>
   );
 }
