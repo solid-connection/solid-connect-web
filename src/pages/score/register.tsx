@@ -5,7 +5,7 @@ import { postApplicationScoreApi } from "@/services/application";
 import { uploadGpaFileApi, uploadLanguageTestFileApi } from "@/services/file";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
-import FormCollegeFinal from "@/components/score/register/form-college-final";
+import CertFinalScreen from "@/components/score/register/cert-final-screen";
 import FormFinal from "@/components/score/register/form-final";
 import FormLanguage from "@/components/score/register/form-language";
 import FormScore from "@/components/score/register/form-score";
@@ -148,7 +148,7 @@ export default function ScoreRegisterPage() {
           />
         );
       case 4:
-        return <FormCollegeFinal />;
+        return <CertFinalScreen />;
       default:
         return <div>Survey Completed!</div>;
     }
