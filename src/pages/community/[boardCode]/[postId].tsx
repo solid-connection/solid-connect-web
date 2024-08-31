@@ -18,6 +18,7 @@ export default function PostPage({ boardCode, postId }: { boardCode: string | an
   const router = useRouter();
   const [post, setPost] = useState<PostType | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [curSelectedComment, setCurSelectedComment] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -64,12 +65,15 @@ export default function PostPage({ boardCode, postId }: { boardCode: string | an
             refresh={() => {
               router.reload();
             }}
+            setCurSelectedComment={setCurSelectedComment}
           />
           <CommentWrite
             postId={postId}
             refresh={() => {
               router.reload();
             }}
+            curSelectedComment={curSelectedComment}
+            setCurSelectedComment={setCurSelectedComment}
           />
         </div>
       </>
@@ -96,12 +100,15 @@ export default function PostPage({ boardCode, postId }: { boardCode: string | an
           refresh={() => {
             router.reload();
           }}
+          setCurSelectedComment={setCurSelectedComment}
         />
         <CommentWrite
           postId={postId}
           refresh={() => {
             router.reload();
           }}
+          curSelectedComment={curSelectedComment}
+          setCurSelectedComment={setCurSelectedComment}
         />
       </div>
     </>

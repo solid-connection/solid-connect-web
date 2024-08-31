@@ -1,8 +1,6 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 import { createCommentApi } from "@/services/community";
-
-import Flight from "@/components/ui/icon/Flight";
 
 import { IconCloseFilled, IconFlight } from "../../../../public/svgs";
 import styles from "./comment-write.module.css";
@@ -10,15 +8,22 @@ import styles from "./comment-write.module.css";
 type CommentWriteProps = {
   postId: number;
   refresh: any;
+  curSelectedComment: number;
+  setCurSelectedComment: React.Dispatch<React.SetStateAction<number | null>>;
 };
 
-export default function CommentWrite({ postId, refresh }: CommentWriteProps) {
+export default function CommentWrite({
+  postId,
+  refresh,
+  curSelectedComment,
+  setCurSelectedComment,
+}: CommentWriteProps) {
   const contentRef = useRef<HTMLInputElement>(null);
   const submitComment = async () => {
     try {
       const res = await createCommentApi(postId, {
         content: contentRef.current?.value,
-        parentId: null,
+        parentId: curSelectedComment,
       });
       refresh();
     } catch (err) {
@@ -37,12 +42,14 @@ export default function CommentWrite({ postId, refresh }: CommentWriteProps) {
     }
   };
 
-  const handleCloseComment = () => {};
+  const handleCloseComment = () => {
+    setCurSelectedComment(null);
+  };
 
   return (
     <div className={styles["comment-form"]}>
       <div className={styles["comment-input"]}>
-        {true && (
+        {curSelectedComment && (
           <div className={styles["comment-input-reply"]}>
             <div>답글을 입력중입니다..</div>
             <button className={styles["comment-input-close"]} onClick={handleCloseComment}>
