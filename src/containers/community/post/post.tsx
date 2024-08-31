@@ -20,8 +20,8 @@ type PostProps = {
 
 export default function Post({ post, boardCode, postId }: PostProps) {
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
-  const [likeCount, setLikeCount] = useState<number>(post.likeCount);
-  const [isLiked, setIsLiked] = useState<boolean>(post.isLiked);
+  const [likeCount, setLikeCount] = useState<number>(post?.likeCount);
+  const [isLiked, setIsLiked] = useState<boolean>(post?.isLiked);
 
   const handleImageClick = (index) => {
     setSelectedImageIndex(index);
@@ -64,14 +64,14 @@ export default function Post({ post, boardCode, postId }: PostProps) {
   return (
     <>
       <div className={styles.post}>
-        <div className={styles.category}>{post.postCategory || "카테고리"}</div>
-        <div className={styles.title}>{post.title || "제목 없음"}</div>
+        <div className={styles.category}>{post?.postCategory || "카테고리"}</div>
+        <div className={styles.title}>{post?.title || ""}</div>
         <div className={styles.content}>
-          <ReactLinkify>{post.content || "내용 없음"}</ReactLinkify>
+          <ReactLinkify>{post?.content || ""}</ReactLinkify>
         </div>
 
         <div style={{ marginTop: "12px" }}>
-          <PostImage images={post.postFindPostImageResponses} onImageClick={handleImageClick} />
+          <PostImage images={post?.postFindPostImageResponses || []} onImageClick={handleImageClick} />
         </div>
         {selectedImageIndex !== null && (
           <ImagePopup
@@ -88,7 +88,7 @@ export default function Post({ post, boardCode, postId }: PostProps) {
           </div>
           <div>
             <Communication />
-            <span>{post.commentCount || 0}</span>
+            <span>{post?.commentCount || 0}</span>
           </div>
         </div>
       </div>
@@ -96,9 +96,9 @@ export default function Post({ post, boardCode, postId }: PostProps) {
       <div className={styles.author}>
         <div className={styles.author__info}>
           <div className={styles["author__profile-image-wrapper"]}>
-            {post.postFindSiteUserResponse.profileImageUrl && (
+            {post?.postFindSiteUserResponse.profileImageUrl && (
               <Image
-                src={post.postFindSiteUserResponse.profileImageUrl}
+                src={post?.postFindSiteUserResponse.profileImageUrl}
                 width={40}
                 height={40}
                 alt="작성자 프로필 이미지"
@@ -106,9 +106,9 @@ export default function Post({ post, boardCode, postId }: PostProps) {
             )}
           </div>
           <div className={styles.author__textzone}>
-            <div className={styles.author__name}>{post.postFindSiteUserResponse.nickname || "작성자"}</div>
+            <div className={styles.author__name}>{post?.postFindSiteUserResponse.nickname || ""}</div>
             <div className={styles["author__created-at"]}>
-              {convertISODateToDateTime(post.createdAt) || "1970. 1. 1. 00:00"}
+              {convertISODateToDateTime(post?.createdAt) || "1970. 1. 1. 00:00"}
             </div>
           </div>
         </div>
