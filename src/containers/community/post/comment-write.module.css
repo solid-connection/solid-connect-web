@@ -1,31 +1,70 @@
 .comment-form {
   display: flex;
+  align-items: center;
+  gap: 12px;
+  align-self: stretch;
+
   position: fixed;
   bottom: 56px;
   width: 100%;
   max-width: 600px;
   min-width: 360px;
-  height: 49px;
-}
-
-.comment-input {
-  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
   border-top: 1px solid #ececec;
   border-bottom: 1px solid #ececec;
   background-color: #fff;
 }
 
-.comment-input input {
-  overflow: hidden;
+.comment-input {
   width: 100%;
-  padding: 14px 20px 14px 20px;
-  border: none;
-  outline: none;
+}
 
+.comment-input-reply {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 40px;
+  padding: 12px 10px 10px 10px;
+  box-sizing: border-box;
+  border-radius: 8px 8px 0px 0px;
+  background: #e2e2e2;
+
+  overflow: hidden;
   color: #808080;
   font-feature-settings:
-    "clig" off,
-    "liga" off;
+    "liga" off,
+    "clig" off;
+  text-overflow: ellipsis;
+  font-family: Pretendard;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%; /* 18px */
+}
+
+.comment-input-close {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.comment-input > input {
+  width: 100%;
+  height: 40px;
+  padding: 10px;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 8px;
+  background: #ececec;
+  outline: none;
+
+  overflow: hidden;
+  color: #808080;
+  font-feature-settings:
+    "liga" off,
+    "clig" off;
   text-overflow: ellipsis;
   font-family: Pretendard;
   font-size: 14px;
@@ -34,13 +73,16 @@
   line-height: 150%; /* 21px */
 }
 
+.comment-input-reply + input {
+  border-radius: 0px 0px 8px 8px;
+}
+
 .comment-submit {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 65px;
+  margin-top: auto;
+  margin-right: 4px;
+  margin-bottom: 5px;
   border: none;
-  background: var(--primary-1, #6f96d1);
+  background: transparent;
 
   cursor: pointer;
 }

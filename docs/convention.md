@@ -1,6 +1,9 @@
 # solid-connect-web 컨벤션
 솔리드커넥션 웹 프로젝트의 컨벤션을 정리한 문서입니다.
 
+## 이름 컨벤션
+- pages/ 에 정의하는 페이지 컴포넌트는 ~Page로 끝나야 합니다.
+
 ## CSS
 ### CSS 속성 선언 순서
 1. **display** - 표시(관련속성:visibility)
