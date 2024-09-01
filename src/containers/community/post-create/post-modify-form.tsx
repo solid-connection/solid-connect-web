@@ -26,11 +26,10 @@ export default function PostModifyForm({
   defaultIsQuestion,
   defaultPostCategory,
 }: PostModifyFormProps) {
-  const [title, setTitle] = useState(defaultTitle);
-  const [content, setContent] = useState(defaultContent);
+  const [title, setTitle] = useState<string>(defaultTitle);
+  const [content, setContent] = useState<string>(defaultContent);
   const textareaRef = useRef(null);
   const titleRef = useRef(null);
-  const contentRef = useRef(null);
   const imageUploadRef = useRef(null);
   const router = useRouter();
 
@@ -46,6 +45,7 @@ export default function PostModifyForm({
       const scrollHeight = textarea.scrollHeight;
       const newHeight = scrollHeight <= 50 ? 50 : Math.min(scrollHeight, 100);
       textarea.style.height = `${newHeight}px`;
+      titleRef.current.style.height = `${newHeight}px`;
     };
 
     textarea.addEventListener("input", adjustHeight);
@@ -55,12 +55,6 @@ export default function PostModifyForm({
 
     return () => textarea.removeEventListener("input", adjustHeight);
   }, []);
-
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
-    }
-  };
 
   const submitPost = async () => {
     try {
@@ -104,7 +98,11 @@ export default function PostModifyForm({
             ref={textareaRef}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            onKeyDown={handleKeyDown}
+            onKeyDown={(event) => {
+              if (event.key === "Enter") {
+                event.preventDefault();
+              }
+            }}
           ></textarea>
         </div>
         <div className={styles["second-row"]}>
@@ -131,12 +129,7 @@ export default function PostModifyForm({
           </div>
         </div>
         <div className={styles.content}>
-          <textarea
-            ref={textareaRef}
-            placeholder="내용을 입력하세요"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-          />
+          <textarea placeholder="내용을 입력하세요" value={content} onChange={(e) => setContent(e.target.value)} />
         </div>
         <div className={styles.notice} dangerouslySetInnerHTML={{ __html: notice.replace(/\n/g, "<br />") }}></div>
       </div>

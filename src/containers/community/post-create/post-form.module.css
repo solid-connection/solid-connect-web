@@ -1,5 +1,4 @@
 .form {
-  margin-top: 10px;
 }
 
 .submit-button {
@@ -38,13 +37,13 @@
 }
 
 .title > textarea {
+  overflow: hidden; /* 스크롤바 제거 */
   width: 100%;
   padding: 20px 20px 10px 20px;
   box-sizing: border-box;
   border: none;
   outline: none;
   resize: none; /* 사용자가 크기를 조절할 수 없게 함 */
-  overflow: hidden; /* 스크롤바 제거 */
   transition: height 0.2s ease;
 
   color: black;

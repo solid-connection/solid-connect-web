@@ -9,17 +9,17 @@ import { IconImage, IconPosstCheckboxOutlined, IconPostCheckboxFilled } from "..
 import navStyles from "../../../components/layout/top-detail-navigation.module.css";
 import styles from "./post-form.module.css";
 
-export default function PostForm({ boardCode }: { boardCode: string }) {
+type PostFormProps = {
+  boardCode: string;
+};
+
+export default function PostForm({ boardCode }: PostFormProps) {
   const textareaRef = useRef(null);
   const titleRef = useRef(null);
-  const contentRef = useRef(null);
+  const [content, setContent] = useState<string>("");
   const imageUploadRef = useRef(null);
   const router = useRouter();
   const [isQuestion, setIsQuestion] = useState<boolean>(false);
-
-  const routeBack = () => {
-    router.back(); // 라우터의 back 함수를 사용하여 이전 페이지로 이동
-  };
 
   useEffect(() => {
     const textarea = textareaRef.current;
@@ -41,19 +41,13 @@ export default function PostForm({ boardCode }: { boardCode: string }) {
     return () => textarea.removeEventListener("input", adjustHeight);
   }, []);
 
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
-    }
-  };
-
   const submitPost = async () => {
     try {
       const res = await createPostApi(boardCode, {
         postCreateRequest: {
           postCategory: isQuestion ? "질문" : "자유",
           title: titleRef.current.querySelector("textarea").value,
-          content: contentRef.current.value,
+          content: content,
           isQuestion: isQuestion,
         },
         file: [...imageUploadRef.current.files],
@@ -81,7 +75,12 @@ export default function PostForm({ boardCode }: { boardCode: string }) {
 
   return (
     <>
-      <CustomTopDetailNavigation routeBack={routeBack} submitPost={submitPost} />
+      <CustomTopDetailNavigation
+        routeBack={() => {
+          router.back();
+        }}
+        submitPost={submitPost}
+      />
       <div className={styles.form}>
         <div className={styles.title} ref={titleRef}>
           <textarea
@@ -89,7 +88,11 @@ export default function PostForm({ boardCode }: { boardCode: string }) {
             maxLength={40}
             rows={1}
             ref={textareaRef}
-            onKeyDown={handleKeyDown}
+            onKeyDown={(event) => {
+              if (event.key === "Enter") {
+                event.preventDefault();
+              }
+            }}
           ></textarea>
         </div>
         <div className={styles["second-row"]}>
@@ -118,7 +121,7 @@ export default function PostForm({ boardCode }: { boardCode: string }) {
           </div>
         </div>
         <div className={styles.content}>
-          <textarea ref={contentRef} placeholder="내용을 입력하세요" />
+          <textarea placeholder="내용을 입력하세요" value={content} onChange={(e) => setContent(e.target.value)} />
         </div>
         <div className={styles.notice} dangerouslySetInnerHTML={{ __html: notice.replace(/\n/g, "<br />") }}></div>
       </div>
