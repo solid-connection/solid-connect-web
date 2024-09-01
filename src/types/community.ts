@@ -71,7 +71,7 @@ export interface PostUpdateRequest {
     title: string;
     content: string;
   };
-  files: File[];
+  file: File[];
 }
 
 export interface CommentCreateRequest {
