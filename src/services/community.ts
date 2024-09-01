@@ -37,8 +37,8 @@ export const createPostApi = (
     "postCreateRequest",
     new Blob([JSON.stringify(postCreateRequest.postCreateRequest)], { type: "application/json" }),
   );
-  postCreateRequest.files.forEach((file) => {
-    convertedRequest.append("files", file);
+  postCreateRequest.file.forEach((file) => {
+    convertedRequest.append("file", file);
   });
 
   return axiosInstance.post(`/communities/${boardCode}/posts`, convertedRequest, {

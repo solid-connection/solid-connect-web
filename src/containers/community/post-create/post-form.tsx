@@ -4,9 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { createPostApi } from "@/services/community";
 
 import ArrowBackFilled from "@/components/ui/icon/ArrowBackFilled";
-import CheckBoxOutlineBlankOutlined from "@/components/ui/icon/CheckBoxOutlineBlankOutlined";
 
-import { IconPosstCheckboxOutlined, IconPostCheckboxFilled } from "../../../../public/svgs";
+import { IconImage, IconPosstCheckboxOutlined, IconPostCheckboxFilled } from "../../../../public/svgs";
 import navStyles from "../../../components/layout/top-detail-navigation.module.css";
 import styles from "./post-form.module.css";
 
@@ -14,6 +13,7 @@ export default function PostForm({ boardCode }: { boardCode: string }) {
   const textareaRef = useRef(null);
   const titleRef = useRef(null);
   const contentRef = useRef(null);
+  const imageUploadRef = useRef(null);
   const router = useRouter();
   const [isQuestion, setIsQuestion] = useState<boolean>(false);
 
@@ -56,7 +56,7 @@ export default function PostForm({ boardCode }: { boardCode: string }) {
           content: contentRef.current.value,
           isQuestion: isQuestion,
         },
-        files: [],
+        file: [...imageUploadRef.current.files],
       });
       const postId = res.data.id;
       router.push(`/community/${boardCode}/${postId}`);
@@ -92,12 +92,29 @@ export default function PostForm({ boardCode }: { boardCode: string }) {
             onKeyDown={handleKeyDown}
           ></textarea>
         </div>
-        <div className={styles.question}>
-          <div className={styles.question__select}>
-            <button className={styles.question__box} onClick={() => setIsQuestion(!isQuestion)}>
+        <div className={styles["second-row"]}>
+          <div className={styles.question}>
+            <button onClick={() => setIsQuestion(!isQuestion)}>
               {isQuestion ? <IconPostCheckboxFilled /> : <IconPosstCheckboxOutlined />}
             </button>
             질문으로 업로드 하기
+          </div>
+          <div className={styles["image-upload"]}>
+            <button
+              className={styles["image-upload__button"]}
+              onClick={() => {
+                imageUploadRef.current.click();
+              }}
+            >
+              <IconImage />
+            </button>
+            <input
+              className={styles["image-upload__input"]}
+              ref={imageUploadRef}
+              type="file"
+              accept="image/*"
+              multiple
+            />
           </div>
         </div>
         <div className={styles.content}>

@@ -2,6 +2,7 @@ import IconApplicantBanner from "./applicant-banner.svg";
 import IconClock from "./clock.svg";
 import IconCloseFilled from "./close-filled.svg";
 import IconFlight from "./flight.svg";
+import IconImage from "./image.svg";
 import IconMoreVertFilled from "./more-vert-filled.svg";
 import IconNoProfileImage from "./no-profile-image.svg";
 import IconObjectsAndTools from "./objects-and-tools.svg";
@@ -28,6 +29,7 @@ export {
   IconClock,
   IconCloseFilled,
   IconFlight,
+  IconImage,
   IconMoreVertFilled,
   IconNoProfileImage,
   IconObjectsAndTools,

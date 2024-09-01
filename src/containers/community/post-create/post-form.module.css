@@ -62,13 +62,16 @@
   color: rgba(124, 124, 124, 0.87);
 }
 
-.question {
+.second-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   height: 24px;
+  padding: 10px 20px 10px 18px;
   border-bottom: 1px solid #ececec;
-  padding: 10px 0 10px 18px;
 }
 
-.question__select {
+.question {
   color: rgba(124, 124, 124, 0.87);
   font-family: Pretendard;
   font-size: 14px;
@@ -81,7 +84,7 @@
   align-items: center;
 }
 
-.question__box {
+.question > button {
   display: inline-block;
   width: 18px;
   height: 18px;
@@ -89,6 +92,20 @@
   background: transparent;
   cursor: pointer;
   padding: 0;
+}
+
+.image-upload {
+  display: flex;
+}
+
+.image-upload__button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.image-upload__input {
+  display: none;
 }
 
 .content textarea {

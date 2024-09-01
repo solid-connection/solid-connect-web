@@ -62,7 +62,7 @@ export interface PostCreateRequest {
     content: string;
     isQuestion: boolean;
   };
-  files: Blob[];
+  file: Blob[];
 }
 
 export interface PostUpdateRequest {
