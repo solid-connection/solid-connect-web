@@ -37,8 +37,8 @@ export const createPostApi = (
     "postCreateRequest",
     new Blob([JSON.stringify(postCreateRequest.postCreateRequest)], { type: "application/json" }),
   );
-  postCreateRequest.files.forEach((file) => {
-    convertedRequest.append("files", file);
+  postCreateRequest.file.forEach((file) => {
+    convertedRequest.append("file", file);
   });
 
   return axiosInstance.post(`/communities/${boardCode}/posts`, convertedRequest, {
@@ -51,7 +51,17 @@ export const updatePostApi = (
   postId: number,
   postUpdateRequest: PostUpdateRequest,
 ): Promise<AxiosResponse<PostIdResponse>> => {
-  return axiosInstance.patch(`/communities/${boardCode}/posts/${postId}`, postUpdateRequest);
+  const convertedRequest: FormData = new FormData();
+  convertedRequest.append(
+    "postUpdateRequest",
+    new Blob([JSON.stringify(postUpdateRequest.postUpdateRequest)], { type: "application/json" }),
+  );
+  postUpdateRequest.file.forEach((file) => {
+    convertedRequest.append("file", file);
+  });
+  return axiosInstance.patch(`/communities/${boardCode}/posts/${postId}`, convertedRequest, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
 };
 
 export const deletePostApi = (boardCode: string, postId: number): Promise<AxiosResponse<PostIdResponse>> => {

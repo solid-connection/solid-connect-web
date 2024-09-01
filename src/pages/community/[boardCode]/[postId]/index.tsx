@@ -10,7 +10,7 @@ import CommentWrite from "@/containers/community/post/comment-write";
 import Comments from "@/containers/community/post/comments";
 import Post from "@/containers/community/post/post";
 
-import { IconMoreVertFilled } from "../../../../public/svgs";
+import { IconMoreVertFilled } from "../../../../../public/svgs";
 
 import { Post as PostType } from "@/types/community";
 
@@ -156,7 +156,7 @@ function KebabMenu({ boardCode, postId, router }: KebabMenuProps) {
     {
       label: "수정하기",
       action: () => {
-        console.log("수정하기");
+        router.push(`/community/${boardCode}/${postId}/modify`);
       },
     },
     {

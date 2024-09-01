@@ -62,7 +62,7 @@ export interface PostCreateRequest {
     content: string;
     isQuestion: boolean;
   };
-  files: Blob[];
+  file: Blob[];
 }
 
 export interface PostUpdateRequest {
@@ -71,7 +71,7 @@ export interface PostUpdateRequest {
     title: string;
     content: string;
   };
-  files: File[];
+  file: File[];
 }
 
 export interface CommentCreateRequest {

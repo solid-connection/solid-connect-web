@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 
-import { createPostApi } from "@/services/community";
+import { updatePostApi } from "@/services/community";
 
 import ArrowBackFilled from "@/components/ui/icon/ArrowBackFilled";
 
@@ -9,28 +9,43 @@ import { IconImage, IconPosstCheckboxOutlined, IconPostCheckboxFilled } from "..
 import navStyles from "../../../components/layout/top-detail-navigation.module.css";
 import styles from "./post-form.module.css";
 
-type PostFormProps = {
+type PostModifyFormProps = {
   boardCode: string;
+  postId: number;
+  defaultTitle: string;
+  defaultContent: string;
+  defaultIsQuestion: boolean;
+  defaultPostCategory: string;
 };
 
-export default function PostForm({ boardCode }: PostFormProps) {
+export default function PostModifyForm({
+  boardCode,
+  postId,
+  defaultTitle,
+  defaultContent,
+  defaultIsQuestion,
+  defaultPostCategory,
+}: PostModifyFormProps) {
+  const [title, setTitle] = useState<string>(defaultTitle);
+  const [content, setContent] = useState<string>(defaultContent);
   const textareaRef = useRef(null);
   const titleRef = useRef(null);
-  const [content, setContent] = useState<string>("");
   const imageUploadRef = useRef(null);
   const router = useRouter();
-  const [isQuestion, setIsQuestion] = useState<boolean>(false);
+
+  const routeBack = () => {
+    router.back(); // 라우터의 back 함수를 사용하여 이전 페이지로 이동
+  };
 
   useEffect(() => {
     const textarea = textareaRef.current;
-    const title = titleRef.current;
 
     const adjustHeight = () => {
       textarea.style.height = "auto";
       const scrollHeight = textarea.scrollHeight;
       const newHeight = scrollHeight <= 50 ? 50 : Math.min(scrollHeight, 100);
       textarea.style.height = `${newHeight}px`;
-      title.style.height = `${newHeight}px`;
+      titleRef.current.style.height = `${newHeight}px`;
     };
 
     textarea.addEventListener("input", adjustHeight);
@@ -43,16 +58,14 @@ export default function PostForm({ boardCode }: PostFormProps) {
 
   const submitPost = async () => {
     try {
-      const res = await createPostApi(boardCode, {
-        postCreateRequest: {
-          postCategory: isQuestion ? "질문" : "자유",
-          title: titleRef.current.querySelector("textarea").value,
+      const res = await updatePostApi(boardCode, postId, {
+        postUpdateRequest: {
+          postCategory: defaultPostCategory,
+          title: title,
           content: content,
-          isQuestion: isQuestion,
         },
         file: [...imageUploadRef.current.files],
       });
-      const postId = res.data.id;
       router.push(`/community/${boardCode}/${postId}`);
     } catch (err) {
       if (err.response) {
@@ -75,12 +88,7 @@ export default function PostForm({ boardCode }: PostFormProps) {
 
   return (
     <>
-      <CustomTopDetailNavigation
-        routeBack={() => {
-          router.back();
-        }}
-        submitPost={submitPost}
-      />
+      <CustomTopDetailNavigation routeBack={routeBack} submitPost={submitPost} />
       <div className={styles.form}>
         <div className={styles.title} ref={titleRef}>
           <textarea
@@ -88,6 +96,8 @@ export default function PostForm({ boardCode }: PostFormProps) {
             maxLength={40}
             rows={1}
             ref={textareaRef}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
             onKeyDown={(event) => {
               if (event.key === "Enter") {
                 event.preventDefault();
@@ -97,9 +107,7 @@ export default function PostForm({ boardCode }: PostFormProps) {
         </div>
         <div className={styles["second-row"]}>
           <div className={styles.question}>
-            <button onClick={() => setIsQuestion(!isQuestion)}>
-              {isQuestion ? <IconPostCheckboxFilled /> : <IconPosstCheckboxOutlined />}
-            </button>
+            <button>{defaultIsQuestion ? <IconPostCheckboxFilled /> : <IconPosstCheckboxOutlined />}</button>
             질문으로 업로드 하기
           </div>
           <div className={styles["image-upload"]}>
