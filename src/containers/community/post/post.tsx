@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReactLinkify from "react-linkify";
 
 import { likePostApi, unlikePostApi } from "@/services/community";
@@ -20,8 +20,15 @@ type PostProps = {
 
 export default function Post({ post, boardCode, postId }: PostProps) {
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
-  const [likeCount, setLikeCount] = useState<number>(post?.likeCount);
-  const [isLiked, setIsLiked] = useState<boolean>(post?.isLiked);
+  const [likeCount, setLikeCount] = useState<number>(0);
+  const [isLiked, setIsLiked] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (post) {
+      setLikeCount(post.likeCount);
+      setIsLiked(post.isLiked);
+    }
+  }, [post]);
 
   const handleImageClick = (index) => {
     setSelectedImageIndex(index);
