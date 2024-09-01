@@ -10,7 +10,7 @@ import CommentWrite from "@/containers/community/post/comment-write";
 import Comments from "@/containers/community/post/comments";
 import Post from "@/containers/community/post/post";
 
-import { IconMoreVertFilled } from "../../../../public/svgs";
+import { IconMoreVertFilled } from "../../../../../public/svgs";
 
 import { Post as PostType } from "@/types/community";
 
