@@ -4,7 +4,6 @@
   display: flex;
   flex-direction: row;
 
-  color: #000;
   font-family: Pretendard;
   font-size: 14px;
   font-style: normal;
@@ -19,7 +18,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-
   background: #fff;
 }
 .tabButtonActive {
@@ -27,7 +25,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-
   background: #fff;
   border-bottom: 2px solid var(--primary-1, #6f90d1);
 }
