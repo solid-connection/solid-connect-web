@@ -24,7 +24,7 @@ export function PostCard({ post, boardCode }: { post: ListPost; boardCode: strin
   return (
     <Link href={`/community/${boardCode}/${post.id}`} className={styles.a}>
       <div className={styles.card}>
-        <div className={styles.textZone}>
+        <div className={styles["text-zone"]}>
           <div className={styles.meta}>
             <div className={styles.category}>{post.postCategory || ""}</div>
             <div className={styles.date}>{convertISODateToDate(post.createdAt) || "1970. 1. 1."}</div>
@@ -42,9 +42,9 @@ export function PostCard({ post, boardCode }: { post: ListPost; boardCode: strin
             </div>
           </div>
         </div>
-        <div className={styles.imageZone}>
+        {/* <div className={styles.imageZone}>
           {null && <Image src={null} height={82} width={82} alt={post.title || "이미지 없음"} />}
-        </div>
+        </div> */}
       </div>
     </Link>
   );
