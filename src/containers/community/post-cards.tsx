@@ -42,7 +42,7 @@ export function PostCard({ post, boardCode }: { post: ListPost; boardCode: strin
             </div>
           </div>
         </div>
-        {/* <div className={styles.imageZone}>
+        {/* <div className={styles["image-zone"]}>
           {null && <Image src={null} height={82} width={82} alt={post.title || "이미지 없음"} />}
         </div> */}
       </div>
