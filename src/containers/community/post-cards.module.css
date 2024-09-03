@@ -3,14 +3,13 @@
 }
 
 .card {
-  padding: 16px 19px 16px 20px;
-  border-bottom: solid 1px #ececec;
-
   display: flex;
   justify-content: space-between;
+  padding: 16px 19px 16px 20px;
+  border-bottom: solid 1px #ececec;
 }
 
-.textZone {
+.text-zone {
   display: flex;
   flex-direction: column;
 }
@@ -18,8 +17,10 @@
 .meta {
   display: flex;
 }
+
 .category {
   overflow: hidden;
+
   color: #7c7c7c;
   font-feature-settings:
     "clig" off,
@@ -31,9 +32,11 @@
   font-weight: 800;
   line-height: 150%; /* 21px */
 }
+
 .date {
-  margin-left: 10px;
   overflow: hidden;
+  margin-left: 10px;
+
   color: #7c7c7c;
   font-feature-settings:
     "clig" off,
@@ -48,6 +51,7 @@
 
 .title {
   margin-top: 8px;
+
   color: #000;
   font-feature-settings:
     "clig" off,
@@ -60,9 +64,13 @@
 }
 
 .content {
-  margin-top: 4px;
   overflow: hidden;
+  height: 42px; /* 2줄로 자르기 위해 */
+  line-height: 150%; /* 21px */
+  margin-top: 4px;
+
   text-overflow: ellipsis;
+  word-break: break-all;
   color: #7c7c7c;
   font-feature-settings:
     "clig" off,
@@ -71,23 +79,24 @@
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
-  line-height: 150%; /* 21px */
-  height: 42px; /* 2줄로 자르기 위해 */
 }
 
 .icons {
-  margin-top: 4px;
   display: flex;
   gap: 10px;
   align-items: center;
+  margin-top: 4px;
 }
+
 .icons > div {
   display: flex;
   gap: 4px;
   align-items: center;
 }
+
 .icons span {
   overflow: hidden;
+
   color: #595959;
   font-feature-settings:
     "clig" off,
@@ -100,14 +109,15 @@
   line-height: 150%; /* 18px */
 }
 
-.imageZone {
-  margin-top: 11px;
-  margin-left: 15px;
+.image-zone {
   width: 82px;
   height: 82px;
+  margin-top: 11px;
+  margin-left: 15px;
   user-select: none;
 }
-.imageZone > img {
+
+.image-zone > img {
   object-fit: cover;
   border-radius: 6px;
 }
