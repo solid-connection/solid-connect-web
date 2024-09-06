@@ -8,6 +8,7 @@ const nextConfig = {
       "solid-connection-uploaded.s3.ap-northeast-2.amazonaws.com",
       "k.kakaocdn.net",
     ],
+    unoptimized: true,
   },
   eslint: {
     // Warning: This allows production builds to successfully complete even if
