@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 
 import ArrowBackFilled from "../ui/icon/ArrowBackFilled";
-import styles from "./top-detail-navigation.module.css";
 
 interface TopDetailNavigationProps {
   title: string;
@@ -17,12 +16,12 @@ export default function TopDetailNavigation({ title, handleBack, icon = null }: 
   };
 
   return (
-    <div className={styles.topNav}>
-      <div className={styles.icon} onClick={handleBack || routeBack}>
+    <div className="fixed top-0 z-[100] box-border flex h-[56px] w-full max-w-[600px] items-center justify-between bg-white px-[20px]">
+      <div className="min-w-[24px] cursor-pointer" onClick={handleBack || routeBack}>
         <ArrowBackFilled />
       </div>
-      <div className={styles.title}>{title}</div>
-      <div className={styles.icon}>{icon}</div>
+      <div className="font-serif text-base font-semibold leading-[160%] text-[rgba(0,0,0,0.87)]">{title}</div>
+      <div className="min-w-[24px] cursor-pointer">{icon}</div>
     </div>
   );
 }
