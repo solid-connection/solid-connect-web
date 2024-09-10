@@ -27,20 +27,8 @@ export default function HomePage(props: { newsList: News[] }) {
       }
     }
 
-    async function fetchApplyStatus() {
-      await getMyApplicationStatusApi()
-        .then((res) => {
-          setApplyStatus(res.data.status);
-        })
-        .catch((err) => {
-          // 오류 발생 시 비로그인 상태
-          setApplyStatus("NO_AUTHORIZATION");
-        });
-    }
-
     // if (isAuthenticated()) {
     fetchRecommendedColleges();
-    fetchApplyStatus();
     // }
   }, []);
 
@@ -50,7 +38,7 @@ export default function HomePage(props: { newsList: News[] }) {
         <title>솔리드 커넥션</title>
       </Head>
       <TopNavigation />
-      <Home recommendedColleges={recommendedColleges} newsList={props.newsList} applyStatus={applyStatus} />
+      <Home recommendedColleges={recommendedColleges} newsList={props.newsList} />
     </div>
   );
 }

@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import styles from "./bottom-navigation.module.css";
 import DegreeHat from "./icon/DegreeHat";
 import EditTwo from "./icon/EditTwo";
 import Home from "./icon/Home";
