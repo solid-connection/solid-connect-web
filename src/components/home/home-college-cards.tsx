@@ -51,7 +51,7 @@ export function HomeCollegeCard(props) {
     <Link href={`/college/${id}`}>
       <div className={styles.card}>
         <div className={styles["image-wrapper"]}>
-          <Image src={image} width={153} height={120} alt={name || "대학 없음"} />
+          <Image className="h-[120px]" src={image} width={153} height={120} alt={name || "대학 없음"} />
         </div>
         <div className={styles.name}>{name}</div>
       </div>
