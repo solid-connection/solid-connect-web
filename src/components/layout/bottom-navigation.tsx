@@ -61,11 +61,23 @@ export default function BottomNavigation() {
   ];
 
   return (
-    <nav className={styles.bottom_nav}>
+    <nav className="bg-white fixed bottom-0 flex h-[56px] w-full max-w-[600px]">
       {navs.map((nav, index) => (
-        <Link key={index} href={nav.route} className={styles.nav_item}>
+        <Link
+          key={index}
+          href={nav.route}
+          className="flex flex-[1_0_0] flex-col items-center self-stretch px-3 pb-2 pt-1.5 no-underline"
+        >
           {nav.icon}
-          <span className={nav.isActive ? styles.nav_text_active : styles.nav_text}>{nav.text}</span>
+          <span
+            className={
+              nav.isActive
+                ? "text-center font-serif text-xs font-normal leading-[1.66] tracking-[0.4px] text-[rgba(25,118,210,0.6)]"
+                : "text-center font-serif text-xs font-normal leading-[1.66] tracking-[0.4px] text-[rgba(0,0,0,0.6)]"
+            }
+          >
+            {nav.text}
+          </span>
         </Link>
       ))}
     </nav>
