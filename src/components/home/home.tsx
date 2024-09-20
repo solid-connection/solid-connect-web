@@ -39,7 +39,7 @@ export default function Home({ recommendedColleges, newsList }: HomeProps) {
             모든 학교 목록을 확인해보세요!
           </div>
         </div>
-        <div className={styles["search-banner__icon"]}>
+        <div>
           <IconSearchBanner />
         </div>
       </Link>
@@ -49,7 +49,7 @@ export default function Home({ recommendedColleges, newsList }: HomeProps) {
           href="/score/register"
           className="flex h-[100px] w-full flex-col justify-between rounded-[8px] bg-[#fff3e5] p-[10px_5px_5px_10px]"
         >
-          <div className={styles["score-banner__top"]}>
+          <div>
             <div className="font-serif text-[14px] font-bold leading-[150%] text-[#ff670a]">성적 입력하기</div>
             <div className="mt-[2px] font-serif text-[10px] font-normal leading-[150%] text-[#353535]">
               성적 입력하고 등수를 확인해보세요
@@ -63,7 +63,7 @@ export default function Home({ recommendedColleges, newsList }: HomeProps) {
           href="/score"
           className="flex h-[100px] w-full flex-col justify-between rounded-[8px] bg-[#e9f7ec] p-[10px_5px_5px_10px]"
         >
-          <div className={styles["applicant-banner__top"]}>
+          <div>
             <div className="font-serif text-[14px] font-bold leading-[150%] text-[#339660]">지원자 현황 확인</div>
             <div className="mt-[2px] font-serif text-[10px] font-normal leading-[150%] text-[#353535]">
               경쟁률을 바로 분석해드려요
@@ -76,7 +76,9 @@ export default function Home({ recommendedColleges, newsList }: HomeProps) {
       </div>
 
       <div style={{ marginTop: "20px" }}>
-        <div className={styles.title}>추천하는 파견학교</div>
+        <div className="mb-[10px] flex items-center gap-[6px] font-serif text-[16px] font-semibold text-[#44413d]">
+          추천하는 파견학교
+        </div>
         <HomeCollegeCards colleges={recommendedColleges} />
       </div>
 
