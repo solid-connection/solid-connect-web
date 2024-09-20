@@ -1,6 +1,6 @@
 export default function GoogleStaticMap(props) {
   const { latitude, longitude } = props;
-  const API_KEY = process.env.GOOGLE_MAP_API_KEY;
+  const GOOGLE_MAP_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY;
 
   return (
     <img
