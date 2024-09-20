@@ -28,7 +28,7 @@ export default function PostCards({ posts, boardCode }: PostCardsProps) {
 
 export function PostCard({ post }: { post: ListPost }) {
   return (
-    <div className="flex justify-between border-b border-b-[#ececec] px-5 py-4">
+    <div className="border-b-gray-c-100 flex justify-between border-b px-5 py-4">
       <div className="flex flex-col">
         <div className="flex items-center truncate font-serif text-[#7c7c7c]">
           <span className="text-sm font-extrabold leading-normal">{post.postCategory || ""}</span>

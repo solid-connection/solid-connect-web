@@ -105,7 +105,7 @@ export default function Post({ post, boardCode, postId }: PostProps) {
         </div>
       </div>
 
-      <div className="flex h-16 items-center justify-between border-y border-[#ececec] px-5 py-3">
+      <div className="border-gray-c-100 flex h-16 items-center justify-between border-y px-5 py-3">
         <div className="flex gap-2.5">
           <div className="h-10 w-10 rounded-full bg-[#d9d9d9]">
             {post.postFindSiteUserResponse.profileImageUrl && (
