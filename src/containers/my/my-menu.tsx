@@ -4,8 +4,7 @@ import { useState } from "react";
 
 import { signOutApi } from "@/services/auth";
 
-import Modal from "../ui/text-modal";
-import styles from "./my-menu.module.css";
+import Modal from "../../components/ui/text-modal";
 
 export default function MyMenu() {
   const router = useRouter();
@@ -44,19 +43,11 @@ export default function MyMenu() {
   };
 
   return (
-    <div className={styles.menu}>
-      <Link href="/my/favorite/" className={styles.item}>
-        <div>위시학교</div>
-      </Link>
-      <Link href="/score/register/" className={styles.item}>
-        <div>공인어학/학점 변경하기</div>
-      </Link>
-      <Link href="/score/college-register/" className={styles.item}>
-        <div>지원학교 변경하기</div>
-      </Link>
-      <button onClick={toggleLogout} className={styles.item}>
-        <div>로그아웃</div>
-      </button>
+    <div className="flex flex-col">
+      <MenuLinkItem href="/my/favorite/" text="위시학교" />
+      <MenuLinkItem href="/score/register/" text="공인어학/학점 변경하기" />
+      <MenuLinkItem href="/score/college-register/" text="지원학교 변경하기" />
+      <MenuButtonItem onClick={toggleLogout} text="로그아웃" />
       <Modal
         show={showLogout}
         handleCancel={toggleLogout}
@@ -64,9 +55,7 @@ export default function MyMenu() {
         title="로그아웃"
         content="로그아웃 하시겠습니까?"
       />
-      <button className={styles.item} onClick={toggleWithdraw}>
-        <div>탈퇴하기</div>
-      </button>
+      <MenuButtonItem onClick={toggleWithdraw} text="탈퇴하기" />
       <Modal
         show={showWithdraw}
         handleCancel={toggleWithdraw}
@@ -76,3 +65,19 @@ export default function MyMenu() {
     </div>
   );
 }
+
+const MenuLinkItem = ({ href, text }) => {
+  return (
+    <Link href={href} className="flex h-[61px] cursor-pointer items-center border-0 bg-white pl-5 no-underline">
+      <div className="text-black font-serif text-[16px] font-normal leading-normal">{text}</div>
+    </Link>
+  );
+};
+
+const MenuButtonItem = ({ onClick, text }) => {
+  return (
+    <button onClick={onClick} className="flex h-[61px] cursor-pointer items-center border-0 bg-white pl-5 no-underline">
+      <div className="text-black font-serif text-[16px] font-normal leading-normal">{text}</div>
+    </button>
+  );
+};

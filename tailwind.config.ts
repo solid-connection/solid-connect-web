@@ -9,6 +9,7 @@ const config: Config = {
       "secondary-1": "#c4ddff",
       "secondary-2": "#f2f1df",
       white: "#ffffff",
+      black: "#000000",
     },
     fontFamily: {
       serif: ["Pretendard", "ui-serif", "Georgia", "Cambria", "Times New Roman", "Times", "serif"],
