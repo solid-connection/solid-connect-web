@@ -4,18 +4,24 @@ import { useEffect, useState } from "react";
 import { getMyInfoApi } from "@/services/myInfo";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
-import MyModify from "@/components/my/my-modify";
+import MyModifyForm from "@/containers/my/modify/my-modify-form";
+import MyModifyProfileImage from "@/containers/my/modify/my-modify-profile-image";
 
 import { MyInfo } from "@/types/myInfo";
 
+const roleDisplay = {
+  MENTO: "멘토",
+  MENTEE: "멘티",
+};
+
 export default function MyModifyPage() {
-  const [myData, setMyData] = useState<MyInfo>(null);
+  const [myInfo, setMyInfo] = useState<MyInfo>(null);
 
   useEffect(() => {
     const fetchMyData = async () => {
       await getMyInfoApi()
         .then((res) => {
-          setMyData(res.data);
+          setMyInfo(res.data);
         })
         .catch((err) => {
           if (err.response) {
@@ -35,7 +41,7 @@ export default function MyModifyPage() {
     fetchMyData();
   }, []);
 
-  if (!myData) {
+  if (!myInfo) {
     return <></>;
   }
 
@@ -45,7 +51,15 @@ export default function MyModifyPage() {
         <title>프로필 수정</title>
       </Head>
       <TopDetailNavigation title="프로필 수정" />
-      <MyModify myInfo={myData} />
+      <div>
+        <div className="flex flex-col items-center gap-3 pb-[51px] pt-10">
+          <div className="text-black font-serif text-xl font-semibold">
+            {myInfo.role ? roleDisplay[myInfo.role] : "멘티"}
+          </div>
+          <MyModifyProfileImage myInfo={myInfo} />
+        </div>
+        <MyModifyForm myInfo={myInfo} />
+      </div>
     </>
   );
 }
