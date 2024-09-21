@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { useState } from "react";
 
-import EditFilled from "../ui/icon/EditFilled";
-import ExpendMoreFilled from "../ui/icon/ExpendMoreFilled";
+import EditFilled from "@/components/ui/icon/EditFilled";
+import ExpendMoreFilled from "@/components/ui/icon/ExpendMoreFilled";
+
 import styles from "./score-sheets.module.css";
 
 import { LANGUAGE_TEST } from "@/constants/application";

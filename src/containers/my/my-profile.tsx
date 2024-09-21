@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import EditFilled from "../../components/ui/icon/EditFilled";
+import EditFilled from "@/components/ui/icon/EditFilled";
 
 import { MyInfo } from "@/types/myInfo";
 

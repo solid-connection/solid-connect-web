@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import CheveronRightFilled from "../ui/icon/ChevronRightFilled";
+import CheveronRightFilled from "@/components/ui/icon/ChevronRightFilled";
+
 import styles from "./mento-card.module.css";
 
 export default function MentoCard(props) {

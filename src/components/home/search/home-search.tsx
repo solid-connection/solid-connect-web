@@ -2,8 +2,8 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 import World from "@/components/layout/icon/World";
+import ButtonTab from "@/components/ui/button-tab";
 
-import ButtonTab from "../../ui/button-tab";
 import styles from "./home-search.module.css";
 import SearchInputInterest from "./search-input-interest";
 import SearchInputTest from "./search-input-test";

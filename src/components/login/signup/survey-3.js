@@ -1,3 +1,4 @@
+// DEPRECATED
 import { useRef, useState } from "react";
 
 import BlockBtn from "@/components/ui/block-btn";
@@ -59,7 +60,7 @@ export default function Survey3(props) {
     <div className={styles.screen}>
       <div className={styles.survey3}>
         <div className={styles.profile}>
-          <img src={profileImageUrl} className={styles.profileImage}></img>
+          <img src={profileImageUrl} className={styles.profileImage} />
           <div className={styles.nicknameWrapper} onClick={handleNicknameChange}>
             <div className={styles.nickname}>{nickname}</div>
             <EditFilled />

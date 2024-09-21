@@ -1,7 +1,8 @@
 import React from "react";
 
-import { useLayout } from "../../context/LayoutContext";
 import BottomNavigation from "./bottom-navigation";
+
+import { useLayout } from "@/context/LayoutContext";
 
 type LayoutProps = {
   children: React.ReactNode;
