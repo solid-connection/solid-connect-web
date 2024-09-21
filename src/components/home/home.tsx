@@ -2,18 +2,13 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-import {
-  IconApplicantBanner,
-  IconScoreBanner,
-  IconSearchBanner,
-  IconSpeaker,
-  IconTablerSearch,
-} from "../../../public/svgs";
 import HomeCollegeCards from "./home-college-cards";
 import NewsCards from "./news-cards";
 
 import { News } from "@/types/news";
 import { ListUniversity } from "@/types/university";
+
+import { IconApplicantBanner, IconScoreBanner, IconSearchBanner, IconSpeaker, IconTablerSearch } from "@/public/svgs";
 
 type HomeProps = {
   recommendedColleges: ListUniversity[];

@@ -1,7 +1,8 @@
+// DEPRECATED
 import BlockBtn from "@/components/ui/block-btn";
+import CheckBoxFilled from "@/components/ui/icon/CheckBoxFilled";
 import CheckBoxOutlineBlankOutlined from "@/components/ui/icon/CheckBoxOutlineBlankOutlined";
 
-import CheckBoxFilled from "../../ui/icon/CheckBoxFilled";
 import styles from "./survey.module.css";
 
 export default function Survey2(props) {

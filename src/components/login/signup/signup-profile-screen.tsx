@@ -2,10 +2,11 @@ import { Dispatch, SetStateAction, useRef, useState } from "react";
 
 import BlockToggleBtn from "@/components/ui/block-toggle-btn";
 
-import { IconSignupProfileImage } from "../../../../public/svgs";
 import styles from "./signup.module.css";
 
 import { Gender, GenderEnum } from "@/types/auth";
+
+import { IconSignupProfileImage } from "@/public/svgs";
 
 type SignupProfileScreenProps = {
   toNextStage: () => void;

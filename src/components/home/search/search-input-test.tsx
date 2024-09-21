@@ -1,4 +1,5 @@
-import EditTwo from "../../layout/icon/EditTwo";
+import EditTwo from "@/components/layout/icon/EditTwo";
+
 import styles from "./search-input-test.module.css";
 
 export default function SearchInputTest(props) {

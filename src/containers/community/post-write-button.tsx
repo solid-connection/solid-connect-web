@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 
-import { IconObjectsAndTools } from "../../../public/svgs";
 import styles from "./post-write-button.module.css";
+
+import { IconObjectsAndTools } from "@/public/svgs";
 
 export default function PostWriteButton(props) {
   const { onClick } = props;

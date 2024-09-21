@@ -6,10 +6,11 @@ import { convertISODateToDateTime } from "@/utils/datetimeUtils";
 
 import Dropdown from "@/components/ui/dropdown";
 
-import { IconMoreVertFilled, IconSubComment } from "../../../../public/svgs";
 import styles from "./comments.module.css";
 
 import { Comment } from "@/types/community";
+
+import { IconMoreVertFilled, IconSubComment } from "@/public/svgs";
 
 type CommentsProps = {
   comments: Comment[];

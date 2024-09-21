@@ -3,8 +3,7 @@ import Link from "next/link";
 
 import { shortenLanguageTestName } from "@/utils/universityUtils";
 
-import CheveronRightFilled from "../../ui/icon/ChevronRightFilled";
-import styles from "./college-cards.module.css";
+import CheveronRightFilled from "@/components/ui/icon/ChevronRightFilled";
 
 import { ListUniversity } from "@/types/university";
 
@@ -37,7 +36,7 @@ export function CollegeCard({
   return (
     <Link
       className={
-        "relative mx-5 flex h-[99px] overflow-hidden rounded-md border border-solid border-[#eaeaea] no-underline hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/10"
+        "hover:shadow-black/10 relative mx-5 flex h-[99px] overflow-hidden rounded-md border border-solid border-[#eaeaea] no-underline hover:-translate-y-0.5 hover:shadow-md"
       }
       href={`/college/${id}`}
     >
@@ -52,7 +51,7 @@ export function CollegeCard({
       </div>
 
       <div className="ml-4 flex flex-col no-underline">
-        <span className="mt-[18px] font-serif text-base font-semibold leading-normal text-black">
+        <span className="text-black mt-[18px] font-serif text-base font-semibold leading-normal">
           {convertedKoreanName}
         </span>
         <div className="flex gap-[3px]">

@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import { signOutApi } from "@/services/auth";
 
-import Modal from "../../components/ui/text-modal";
+import Modal from "@/components/ui/text-modal";
 
 export default function MyMenu() {
   const router = useRouter();

@@ -4,11 +4,10 @@ import { useEffect, useRef, useState } from "react";
 
 import { getUniversityListPublicApi } from "@/services/university";
 
+import CollegeCards from "@/components/college/list/college-cards";
 import CollegeSearch from "@/components/college/list/college-search";
 import TopNavigation from "@/components/layout/top-navigation";
 import ButtonTab from "@/components/ui/button-tab";
-
-import CollegeCards from "../../components/college/list/college-cards";
 
 import { REGIONS_KO } from "@/constants/university";
 import { ListUniversity, RegionKo } from "@/types/university";

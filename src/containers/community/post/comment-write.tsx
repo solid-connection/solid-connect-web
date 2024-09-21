@@ -2,8 +2,9 @@ import { useRef, useState } from "react";
 
 import { createCommentApi } from "@/services/community";
 
-import { IconCloseFilled, IconFlight } from "../../../../public/svgs";
 import styles from "./comment-write.module.css";
+
+import { IconCloseFilled, IconFlight } from "@/public/svgs";
 
 type CommentWriteProps = {
   postId: number;

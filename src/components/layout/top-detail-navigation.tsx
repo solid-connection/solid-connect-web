@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 
-import ArrowBackFilled from "../ui/icon/ArrowBackFilled";
+import ArrowBackFilled from "@/components/ui/icon/ArrowBackFilled";
 
 interface TopDetailNavigationProps {
   title: string;

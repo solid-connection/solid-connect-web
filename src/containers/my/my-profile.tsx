@@ -1,9 +1,10 @@
 import Link from "next/link";
 
-import { IconNoProfileImage } from "../../../public/svgs";
-import EditFilled from "../../components/ui/icon/EditFilled";
+import EditFilled from "@/components/ui/icon/EditFilled";
 
 import { MyInfo } from "@/types/myInfo";
+
+import { IconNoProfileImage } from "@/public/svgs";
 
 type MyProfileProps = {
   myInfo: MyInfo;

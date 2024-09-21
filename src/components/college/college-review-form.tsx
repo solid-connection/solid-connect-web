@@ -1,8 +1,8 @@
 import { useState } from "react";
 
+import BlockBtn from "@/components/ui/block-btn";
 import StarFilledIcon from "@/components/ui/icon/star-filled";
 
-import BlockBtn from "../ui/block-btn";
 import styles from "./college-review-form.module.css";
 
 export default function CollegeReviewForm() {

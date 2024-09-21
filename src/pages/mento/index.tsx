@@ -1,6 +1,6 @@
 import React from "react";
 
-import { IconClock } from "../../../public/svgs";
+import { IconClock } from "@/public/svgs";
 
 export default function MentorPage() {
   return <MentorComingSoon />;

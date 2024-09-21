@@ -5,7 +5,7 @@ import { updatePostApi } from "@/services/community";
 
 import ArrowBackFilled from "@/components/ui/icon/ArrowBackFilled";
 
-import { IconImage, IconPosstCheckboxOutlined, IconPostCheckboxFilled } from "../../../../public/svgs";
+import { IconImage, IconPosstCheckboxOutlined, IconPostCheckboxFilled } from "@/public/svgs";
 
 type PostModifyFormProps = {
   boardCode: string;

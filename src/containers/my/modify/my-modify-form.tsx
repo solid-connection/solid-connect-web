@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import { updateMyNicknameApi } from "@/services/myInfo";
 
-import BlockBtn from "../../../components/ui/block-btn";
+import BlockBtn from "@/components/ui/block-btn";
 
 import { MAX_WIDTH } from "@/constants/meta";
 import { MyInfo } from "@/types/myInfo";
