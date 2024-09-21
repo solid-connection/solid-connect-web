@@ -3,6 +3,12 @@
 
 solid-connect-web은 Next.js(Pages Router) 기반의 프로젝트입니다.
 
+## 개발 시작하기
+```bash
+npm install
+npm run dev
+```
+
 ## 린팅, 포매팅
 - ESLint
 - Prettier

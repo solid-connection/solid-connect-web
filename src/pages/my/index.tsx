@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { getMyInfoApi } from "@/services/myInfo";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
-import MyMenu from "@/components/my/my-menu";
-import MyProfile from "@/components/my/my-profile";
+import MyMenu from "@/containers/my/my-menu";
+import MyProfile from "@/containers/my/my-profile";
 
 import { MyInfo } from "@/types/myInfo";
 

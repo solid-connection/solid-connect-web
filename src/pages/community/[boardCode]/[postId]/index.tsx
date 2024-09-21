@@ -46,38 +46,7 @@ export default function PostPage({ boardCode, postId }: { boardCode: string | an
   }, []);
 
   if (isLoading) {
-    return (
-      <>
-        <Head>
-          <title>커뮤니티</title>
-        </Head>
-        <TopDetailNavigation
-          title=""
-          handleBack={() => {
-            router.push(`/community/${boardCode}`);
-          }}
-        />
-        <div>
-          <Post post={null} boardCode={boardCode} postId={postId} />
-          <Comments
-            comments={[]}
-            postId={postId}
-            refresh={() => {
-              router.reload();
-            }}
-            setCurSelectedComment={setCurSelectedComment}
-          />
-          <CommentWrite
-            postId={postId}
-            refresh={() => {
-              router.reload();
-            }}
-            curSelectedComment={curSelectedComment}
-            setCurSelectedComment={setCurSelectedComment}
-          />
-        </div>
-      </>
-    );
+    return null;
   }
 
   return (
