@@ -2,13 +2,14 @@ import { Dispatch, SetStateAction } from "react";
 
 import BlockToggleBtn from "@/components/ui/block-toggle-btn";
 
+import styles from "./signup.module.css";
+
 import {
   IconSignupRegionAmerica,
   IconSignupRegionAsia,
   IconSignupRegionEurope,
   IconSignupRegionWorld,
-} from "../../../../public/svgs";
-import styles from "./signup.module.css";
+} from "@/public/svgs";
 
 const regionList = [
   {

@@ -2,11 +2,12 @@ import { Dispatch, SetStateAction } from "react";
 
 import BlockToggleBtn from "@/components/ui/block-toggle-btn";
 
-import { IconPrepare1, IconPrepare2, IconPrepare3 } from "../../../../public/svgs";
 import styles from "./signup.module.css";
 
 import { MAX_WIDTH } from "@/constants/meta";
 import { PreparationStatus } from "@/types/auth";
+
+import { IconPrepare1, IconPrepare2, IconPrepare3 } from "@/public/svgs";
 
 type SignupPrepareScreenProps = {
   preparation: PreparationStatus | null;

@@ -3,9 +3,9 @@ import { useRef } from "react";
 
 import { updateMyNicknameApi, updateMyProfileImage } from "@/services/myInfo";
 
-import { IconNoProfileImage } from "../../../../public/svgs";
-
 import { MyInfo } from "@/types/myInfo";
+
+import { IconNoProfileImage } from "@/public/svgs";
 
 type MyModifyProfileImageProps = {
   myInfo: MyInfo;

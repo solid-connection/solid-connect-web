@@ -10,9 +10,9 @@ import CommentWrite from "@/containers/community/post/comment-write";
 import Comments from "@/containers/community/post/comments";
 import Post from "@/containers/community/post/post";
 
-import { IconMoreVertFilled } from "../../../../../public/svgs";
-
 import { Post as PostType } from "@/types/community";
+
+import { IconMoreVertFilled } from "@/public/svgs";
 
 export default function PostPage({ boardCode, postId }: { boardCode: string | any; postId: number | any }) {
   const router = useRouter();

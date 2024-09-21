@@ -5,9 +5,9 @@ import { convertISODateToDate } from "@/utils/datetimeUtils";
 
 import Communication from "@/components/ui/icon/Communication";
 
-import { IconPostLikeOutline } from "../../../public/svgs";
-
 import { ListPost } from "@/types/community";
+
+import { IconPostLikeOutline } from "@/public/svgs";
 
 type PostCardsProps = {
   posts: ListPost[];

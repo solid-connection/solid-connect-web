@@ -7,9 +7,9 @@ import { convertISODateToDateTime } from "@/utils/datetimeUtils";
 
 import Communication from "@/components/ui/icon/Communication";
 
-import { IconCloseFilled, IconPostLikeFilled, IconPostLikeOutline } from "../../../../public/svgs";
-
 import { PostImage as PostImageType, Post as PostType } from "@/types/community";
+
+import { IconCloseFilled, IconPostLikeFilled, IconPostLikeOutline } from "@/public/svgs";
 
 type PostProps = {
   post: PostType;
