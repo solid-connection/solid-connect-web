@@ -1,12 +1,19 @@
 {
-  // "ignoreDuringBuilds": true,
   "root": true,
+  "parser": "@typescript-eslint/parser",
   "env": {
     "browser": true,
     "es2021": true,
     "node": true
   },
-  "extends": ["airbnb", "prettier"],
+  "plugins": [],
+  "extends": [
+    "airbnb", // import, react, react-hooks, jsx-a11y에 관한 규칙을 포함
+    // airbnb를 기반으로 next를 확장하기에 "next"나 "next/core-web-vitals"대신 "plugin:@next/next/recommended"를 사용
+    "plugin:@next/next/recommended",
+    "next/typescript", // 다음에 기반함: plugin:@typescript-eslint/recommended
+    "prettier" // 불필요하거나 Prettier와 충돌할 수 있는 모든 규칙을 끕니다. 마지막에 추가해 다른 설정을 덮어씁니다.
+  ],
   "overrides": [
     {
       "env": {
@@ -25,15 +32,19 @@
   "rules": {
     //
     "react/react-in-jsx-scope": "off",
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-    "import/order": "off"
+    // ㄴ JSX를 사용할 때 React를 import할 필요가 없도록 합니다.
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".tsx"] }]
+    // "import/order": "off"
   },
   "settings": {
     "import/parsers": {
       "@typescript-eslint/parser": [".ts", ".tsx"]
     },
     "import/resolver": {
-      "typescript": {}
+      "typescript": {
+        "alwaysTryTypes": true,
+        "project": "<root>/tsconfig.json"
+      }
     }
   }
 }
