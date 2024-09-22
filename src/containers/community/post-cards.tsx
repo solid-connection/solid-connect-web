@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 
 import { convertISODateToDate } from "@/utils/datetimeUtils";
@@ -28,7 +27,7 @@ export default function PostCards({ posts, boardCode }: PostCardsProps) {
 
 export function PostCard({ post }: { post: ListPost }) {
   return (
-    <div className="border-b-gray-c-100 flex justify-between border-b px-5 py-4">
+    <div className="flex justify-between border-b border-b-gray-c-100 px-5 py-4">
       <div className="flex flex-col">
         <div className="flex items-center truncate font-serif text-[#7c7c7c]">
           <span className="text-sm font-extrabold leading-normal">{post.postCategory || ""}</span>
@@ -36,7 +35,7 @@ export function PostCard({ post }: { post: ListPost }) {
             {convertISODateToDate(post.createdAt) || "1970. 1. 1."}
           </span>
         </div>
-        <span className="text-black mt-2 font-serif text-base font-semibold leading-5">{post.title || ""}</span>
+        <span className="mt-2 font-serif text-base font-semibold leading-5 text-black">{post.title || ""}</span>
         <div className="mt-1 h-11 overflow-hidden text-ellipsis break-all font-serif text-sm font-medium leading-normal text-[#7c7c7c]">
           {post.content || "내용 없음"}
         </div>
@@ -55,11 +54,10 @@ export function PostCard({ post }: { post: ListPost }) {
           </div>
         </div>
       </div>
-      {null && (
-        <div className="ml-[15px] mt-[11px] h-[82px] w-[82px] select-none">
-          <Image className="rounded-md object-cover" src={null} height={82} width={82} alt="게시글 사진" />
-        </div>
-      )}
+
+      {/* <div className="ml-[15px] mt-[11px] h-[82px] w-[82px] select-none">
+        <Image className="rounded-md object-cover" src={null} height={82} width={82} alt="게시글 사진" />
+      </div> */}
     </div>
   );
 }
