@@ -116,7 +116,9 @@ export default function CollegeReviewForm() {
           </div>
         </div>
       </div>
-      <BlockBtn style={{ marginTop: "24px" }}>작성하기</BlockBtn>
+      <BlockBtn style={{ marginTop: "24px" }} onClick={() => {}}>
+        작성하기
+      </BlockBtn>
     </form>
   );
 }

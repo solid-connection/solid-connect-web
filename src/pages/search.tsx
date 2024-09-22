@@ -41,14 +41,9 @@ export default function HomeSearchPage() {
         searchHandler={(e) => {
           searchHandler(e);
         }}
+        onClick={() => {}}
       />
-      <CollegeSearchField
-        setText={setSearchText}
-        keyWords={keyWords}
-        searchHandler={(e) => {
-          searchHandler(e);
-        }}
-      />
+      <CollegeSearchField setText={setSearchText} keyWords={keyWords} />
     </div>
   );
 }

@@ -185,9 +185,9 @@ export default function ScorePage() {
           searchHandler={(e) => {
             handleSearch(e);
           }}
+          onClick={() => {}}
         />
         <ScoreSearchField
-          searchRef={searchRef}
           keyWords={hotKeyWords}
           setKeyWord={(e) => {
             handleSearchField(e);
