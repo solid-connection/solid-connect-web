@@ -23,6 +23,7 @@ export default function HomePage({ newsList }: HomePageProps) {
       try {
         const response = await getRecommendedUniversitiesApi();
         setRecommendedColleges(response.data.recommendedUniversities);
+        // eslint-disable-next-line
       } catch (error) {
         setRecommendedColleges([]);
       }
