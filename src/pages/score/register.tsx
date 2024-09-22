@@ -35,6 +35,7 @@ export default function ScoreRegisterPage() {
     if (currentStage === 4) {
       return 100;
     }
+    return null;
   };
 
   const getProgressDisplay = () => {
@@ -47,6 +48,7 @@ export default function ScoreRegisterPage() {
     if (currentStage === 3) {
       return "2/2";
     }
+    return null;
   };
 
   function handleBack() {
@@ -136,7 +138,9 @@ export default function ScoreRegisterPage() {
       case 3:
         return (
           <FormFinal
-            toNextStage={submitForm}
+            toNextStage={() => {
+              submitForm();
+            }}
             languageType={languageType}
             languageScore={languageScore}
             languageCert={languageCert}
@@ -158,7 +162,12 @@ export default function ScoreRegisterPage() {
       <Head>
         <title>성적 입력하기</title>
       </Head>
-      <TopDetailNavigation title="성적 입력하기" handleBack={handleBack} />
+      <TopDetailNavigation
+        title="성적 입력하기"
+        handleBack={() => {
+          handleBack();
+        }}
+      />
       <div style={{ height: "calc(100vh - 112px)", display: "flex", flexDirection: "column" }}>
         <ProgressBar style={{ margin: "11px 20px 0 20px" }} progress={getProgress()} display={getProgressDisplay()} />
         {renderCurrentForm()}

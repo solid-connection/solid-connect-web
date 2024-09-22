@@ -21,16 +21,17 @@ export default function Tab({ choices, choice, setChoice, color }: TabProps) {
   return (
     <div className={styles.tabContainer}>
       {choices.map((c) => (
-        <div
+        <button
           key={c}
           style={{
             color: choice === c ? combinedColor.activeBtnFont : combinedColor.deactiveBtnFont,
           }}
           className={choice === c ? styles.tabButtonActive : styles.tabButton}
           onClick={() => setChoice(c)}
+          type="button"
         >
           <div>{c}</div>
-        </div>
+        </button>
       ))}
     </div>
   );

@@ -27,7 +27,7 @@ export default function SignupPrepareScreen({ preparation, setPreparation, toNex
   return (
     <div className={styles.screen}>
       <div className={styles["secondary-title"]}>솔리드 커넥션에 오신 것을 환영합니다.</div>
-      <div className={styles["title"]}>
+      <div className={styles.title}>
         현재 나의
         <span style={{ color: "#6F96D1" }}> 준비 단계</span>를<br />
         선택해주세요.
@@ -38,6 +38,7 @@ export default function SignupPrepareScreen({ preparation, setPreparation, toNex
           <button
             className={`${styles["prepare-choice"]} ${preparation === "CONSIDERING" ? styles["prepare-choice--selected"] : ""}`}
             onClick={() => setPreparation("CONSIDERING")}
+            type="button"
           >
             <div className={styles["prepare-choice__icon"]}>
               <IconPrepare2 />
@@ -51,6 +52,7 @@ export default function SignupPrepareScreen({ preparation, setPreparation, toNex
           <button
             className={`${styles["prepare-choice"]} ${preparation === "PREPARING_FOR_DEPARTURE" ? styles["prepare-choice--selected"] : ""}`}
             onClick={() => setPreparation("PREPARING_FOR_DEPARTURE")}
+            type="button"
           >
             <div className={styles["prepare-choice__icon"]}>
               <IconPrepare1 />
@@ -64,6 +66,7 @@ export default function SignupPrepareScreen({ preparation, setPreparation, toNex
           <button
             className={`${styles["prepare-choice"]} ${preparation === "STUDYING_ABROAD" ? styles["prepare-choice--selected"] : ""}`}
             onClick={() => setPreparation("STUDYING_ABROAD")}
+            type="button"
           >
             <div className={styles["prepare-choice__icon"]}>
               <IconPrepare3 />

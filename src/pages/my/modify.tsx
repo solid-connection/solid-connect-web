@@ -42,7 +42,7 @@ export default function MyModifyPage() {
   }, []);
 
   if (!myInfo) {
-    return <></>;
+    return null;
   }
 
   return (
@@ -53,7 +53,7 @@ export default function MyModifyPage() {
       <TopDetailNavigation title="프로필 수정" />
       <div>
         <div className="flex flex-col items-center gap-3 pb-[51px] pt-10">
-          <div className="text-black font-serif text-xl font-semibold">
+          <div className="font-serif text-xl font-semibold text-black">
             {myInfo.role ? roleDisplay[myInfo.role] : "멘티"}
           </div>
           <MyModifyProfileImage myInfo={myInfo} />

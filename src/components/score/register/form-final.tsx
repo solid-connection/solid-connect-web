@@ -5,11 +5,29 @@ import RoundBtn from "@/components/ui/round-btn";
 
 import styles from "./form.module.css";
 
-export default function FormFinal(props) {
-  const { toNextStage } = props;
-  const { languageType, languageScore, languageCert, scoreType, score, scoreCert, setLanguageCert, setScoreCert } =
-    props;
+type FormFinalProps = {
+  toNextStage: () => void;
+  languageType: string;
+  languageScore: string;
+  languageCert: File;
+  scoreType: string;
+  score: string;
+  scoreCert: File;
+  setLanguageCert: (value: File) => void;
+  setScoreCert: (value: File) => void;
+};
 
+export default function FormFinal({
+  toNextStage,
+  languageType,
+  languageScore,
+  languageCert,
+  scoreType,
+  score,
+  scoreCert,
+  setLanguageCert,
+  setScoreCert,
+}: FormFinalProps) {
   const languageCertInputRef = useRef(null);
   const scoreCertInputRef = useRef(null);
   const handleLanguageCertButtonClick = () => {
@@ -106,7 +124,13 @@ export default function FormFinal(props) {
         </div>
       </div>
       <div className={styles.blockBtns}>
-        <BlockBtn onClick={handleSubmit}>제출하기</BlockBtn>
+        <BlockBtn
+          onClick={() => {
+            handleSubmit();
+          }}
+        >
+          제출하기
+        </BlockBtn>
       </div>
     </div>
   );

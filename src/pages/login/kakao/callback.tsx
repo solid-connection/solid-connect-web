@@ -23,7 +23,7 @@ export default function KakaoLoginCallbackPage() {
   }, []);
 
   useEffect(() => {
-    const code = router.query.code;
+    const { code } = router.query;
     if (code) {
       sendCodeToBackend(code);
     }
@@ -32,13 +32,13 @@ export default function KakaoLoginCallbackPage() {
   const sendCodeToBackend = async (code) => {
     await kakaoAuthApi(code)
       .then((res) => {
-        const data = res.data;
+        const { data } = res;
         if (data.isRegistered) {
           // 기존 회원일 시
           saveAccessToken(data.accessToken);
           saveRefreshToken(data.refreshToken);
           router.push("/");
-        } else if (data.isRegistered == false) {
+        } else if (data.isRegistered === false) {
           // 새로운 회원일 시
           setkakaoOauthToken(data.kakaoOauthToken);
           setkakaoNickname(data.nickname);
@@ -57,28 +57,28 @@ export default function KakaoLoginCallbackPage() {
       });
   };
 
+  if (!kakaoOauthToken) {
+    return (
+      <>
+        <Head>
+          <title>카카오 로그인 진행중</title>
+        </Head>
+        <div />
+      </>
+    );
+  }
+
   return (
     <>
-      {!kakaoOauthToken ? (
-        <>
-          <Head>
-            <title>카카오 로그인 진행중</title>
-          </Head>
-          <div></div>
-        </>
-      ) : (
-        <>
-          <Head>
-            <title>회원가입</title>
-          </Head>
-          <SignupSurvey
-            kakaoOauthToken={kakaoOauthToken}
-            kakaoNickname={kakaoNickname}
-            kakaoEmail={kakaoEmail}
-            kakaoProfileImageUrl={kakaoProfileImageUrl}
-          />
-        </>
-      )}
+      <Head>
+        <title>회원가입</title>
+      </Head>
+      <SignupSurvey
+        kakaoOauthToken={kakaoOauthToken}
+        kakaoNickname={kakaoNickname}
+        kakaoEmail={kakaoEmail}
+        kakaoProfileImageUrl={kakaoProfileImageUrl}
+      />
     </>
   );
 }

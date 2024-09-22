@@ -5,12 +5,18 @@ import CheveronRightFilled from "@/components/ui/icon/ChevronRightFilled";
 
 import styles from "./mento-card.module.css";
 
-export default function MentoCard(props) {
-  const { mentoId, image, name, country, university, period } = props;
-  const url = `/mento/${mentoId}`;
+type MentoCardProps = {
+  mentoId: number;
+  image: string;
+  name: string;
+  country: string;
+  university: string;
+  period: string;
+};
 
+export default function MentoCard({ mentoId, image, name, country, university, period }: MentoCardProps) {
   return (
-    <Link href={url} className={styles.card}>
+    <Link href={`/mento/${mentoId}`} className={styles.card}>
       <div className={styles.imageWrapper}>
         <Image className={styles.image} src={image} alt={name} width={100} height={100} />
       </div>

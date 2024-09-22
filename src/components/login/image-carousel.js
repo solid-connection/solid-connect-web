@@ -17,7 +17,15 @@ export default function ImageCarousel() {
   };
 
   return (
-    <Slider {...settings} className={styles.onboardingImages}>
+    <Slider
+      className={styles.onboardingImages}
+      dots={settings.dots}
+      arrows={settings.arrows}
+      infinite={settings.infinite}
+      speed={settings.speed}
+      slidesToShow={settings.slidesToShow}
+      slidesToScroll={settings.slidesToScroll}
+    >
       <div className={styles.item}>
         <div className={styles.imageWrapper}>
           <Image src="/images/onboarding-1.jpeg" alt="onboarding-1" width={600} height={600} />

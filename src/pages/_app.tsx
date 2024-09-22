@@ -1,3 +1,4 @@
+import { AppProps } from "next/app";
 import { Inter } from "next/font/google";
 import Head from "next/head";
 import Script from "next/script";
@@ -8,16 +9,17 @@ import { LayoutProvider } from "@/context/LayoutContext";
 import "@/styles/globals.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
 
+// eslint-disable-next-line
 const inter = Inter({ subsets: ["latin"] });
 
 declare global {
   interface Window {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Kakao: any;
   }
 }
 
-export default function App({ Component, pageProps }) {
-  const getLayout = Component.getLayout || ((page) => <Layout>{page}</Layout>);
+export default function App({ Component, pageProps }: AppProps) {
   function kakaoInit() {
     // 페이지가 로드되면 실행
     window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_JS_KEY);
@@ -38,7 +40,9 @@ export default function App({ Component, pageProps }) {
           <title>솔리드 커넥션</title>
         </Head>
         <Layout>
+          {/* eslint-disable-next-line react/jsx-no-bind */}
           <Script src="https://developers.kakao.com/sdk/js/kakao.js" onLoad={kakaoInit} />
+          {/* eslint-disable-next-line react/jsx-props-no-spreading */}
           <Component {...pageProps} />
           <GoogleAnalytics gaId="G-V1KLYZC1DS" />
         </Layout>

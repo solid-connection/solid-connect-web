@@ -8,7 +8,11 @@ export default function KakaoLoginPage() {
   }
   return (
     <div>
-      <KakaoLoginButton onClick={kakaoLogin} />
+      <KakaoLoginButton
+        onClick={() => {
+          kakaoLogin();
+        }}
+      />
     </div>
   );
 }

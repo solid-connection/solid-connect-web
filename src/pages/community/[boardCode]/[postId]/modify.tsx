@@ -43,11 +43,9 @@ export default function PostCreatePage({ boardCode, postId }: PostCreatePageProp
 
   if (isLoading) {
     return (
-      <>
-        <Head>
-          <title>글 수정</title>
-        </Head>
-      </>
+      <Head>
+        <title>글 수정</title>
+      </Head>
     );
   }
 

@@ -48,7 +48,7 @@ export default function BlockToggleBtn({
   }
 
   return (
-    <button className={className} style={{ ...defaultStyle, ...style }} onClick={onClick}>
+    <button className={className} style={{ ...defaultStyle, ...style }} onClick={onClick} type="button">
       {children}
     </button>
   );

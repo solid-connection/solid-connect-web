@@ -6,7 +6,7 @@ export default function MentorPage() {
   return <MentorComingSoon />;
 }
 
-const MentorComingSoon = () => {
+function MentorComingSoon() {
   return (
     <div className="box-border flex min-h-[80vh] flex-col items-center justify-center p-4">
       <div className="w-[90%] max-w-[400px] rounded-lg bg-white p-8 text-center shadow-md md:max-w-[450px] md:p-12">
@@ -17,8 +17,8 @@ const MentorComingSoon = () => {
           <br />
           조금만 기다려 주세요!
         </p>
-        <div className="mx-auto h-[2px] w-12 bg-primary-1 md:w-16"></div>
+        <div className="mx-auto h-[2px] w-12 bg-primary-1 md:w-16" />
       </div>
     </div>
   );
-};
+}

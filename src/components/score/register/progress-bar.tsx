@@ -12,7 +12,7 @@ export default function ProgressBar({ progress, display, description, style }: P
     <div style={style}>
       <div className={styles.progress}>
         <div className={styles.barContainer}>
-          <div className={styles.bar} style={{ width: `${progress}%` }}></div>
+          <div className={styles.bar} style={{ width: `${progress}%` }} />
         </div>
         <div className={styles.percentage}>{display || `${progress}%`}</div>
       </div>

@@ -1,7 +1,7 @@
 export const convertISODateToDate = (isoDate: string) => {
   const date = new Date(isoDate);
 
-  if (isNaN(date.getTime())) {
+  if (Number.isNaN(date.getTime())) {
     return null;
   }
 
@@ -16,7 +16,7 @@ export const convertISODateToDate = (isoDate: string) => {
 export const convertISODateToDateTime = (isoDate: string) => {
   const date = new Date(isoDate);
 
-  if (isNaN(date.getTime())) {
+  if (Number.isNaN(date.getTime())) {
     return null;
   }
 

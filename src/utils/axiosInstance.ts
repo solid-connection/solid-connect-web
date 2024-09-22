@@ -1,5 +1,6 @@
 import axios, { AxiosInstance } from "axios";
 
+// eslint-disable-next-line import/no-cycle
 import { reissueAccessTokenPublicApi } from "@/services/auth";
 
 import { isTokenExpired } from "./jwtUtils";
@@ -11,9 +12,7 @@ import {
   saveAccessToken,
 } from "./localStorage";
 
-const convertToBearer = (token: string) => {
-  return `Bearer ${token}`;
-};
+const convertToBearer = (token: string) => `Bearer ${token}`;
 
 export const axiosInstance: AxiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_SERVER_URL,
@@ -22,6 +21,7 @@ export const axiosInstance: AxiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   async (config) => {
+    const newConfig = { ...config };
     let accessToken: string | null = loadAccessToken();
     if (accessToken === null || isTokenExpired(accessToken)) {
       const refreshToken = loadRefreshToken();
@@ -43,49 +43,44 @@ axiosInstance.interceptors.request.use(
     }
 
     if (accessToken !== null) {
-      config.headers["Authorization"] = convertToBearer(accessToken);
+      newConfig.headers.Authorization = convertToBearer(accessToken);
     }
-    return config;
+    return newConfig;
   },
-  (error) => {
-    return Promise.reject(error);
-  },
+  (error) => Promise.reject(error),
 );
 
 axiosInstance.interceptors.response.use(
-  (response) => {
-    return response;
-  },
+  (response) => response,
   async (error) => {
+    const newError = { ...error };
     if (error.response?.status === 401 || error.response?.status === 403) {
       const refreshToken = loadRefreshToken();
 
       if (refreshToken === null || isTokenExpired(refreshToken)) {
         removeAccessToken();
         removeRefreshToken();
-        throw error;
+        throw newError;
       }
 
       try {
-        const newAccessToken = await reissueAccessTokenPublicApi(refreshToken).then((res) => {
-          return res.data.accessToken;
-        });
+        const newAccessToken = await reissueAccessTokenPublicApi(refreshToken).then((res) => res.data.accessToken);
         saveAccessToken(newAccessToken);
 
         if (error?.config.headers === undefined) {
-          error.config.headers = {};
+          newError.config.headers = {};
         }
-        error.config.headers["Authorization"] = convertToBearer(newAccessToken);
+        newError.config.headers.Authorization = convertToBearer(newAccessToken);
 
         // 중단된 요청 새로운 토큰으로 재전송
-        return await axios.request(error.config);
+        return await axios.request(newError.config);
       } catch (err) {
         removeAccessToken();
         removeRefreshToken();
         throw Error("로그인이 필요합니다");
       }
     } else {
-      throw error;
+      throw newError;
     }
   },
 );

@@ -44,9 +44,13 @@ export default function HomeCollegeCards({ colleges }: { colleges: ListUniversit
     </div>
   );
 }
+type HomeCollegeCardProps = {
+  id: number;
+  image: string;
+  name: string;
+};
 
-export function HomeCollegeCard(props) {
-  const { id, image, name } = props;
+export function HomeCollegeCard({ id, image, name }: HomeCollegeCardProps) {
   return (
     <Link href={`/college/${id}`}>
       <div className={styles.card}>

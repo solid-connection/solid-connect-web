@@ -41,7 +41,7 @@ export default function ButtonTab({ choices, choice, setChoice, style, color }: 
       {choices.map((c) => {
         const isActive = c === choice;
         return (
-          <div
+          <button
             key={c}
             style={{
               backgroundColor: isActive ? resultColor.activeBtn : resultColor.deactiveBtn,
@@ -49,9 +49,10 @@ export default function ButtonTab({ choices, choice, setChoice, style, color }: 
             }}
             className={styles["tab-button"]}
             onClick={() => handleButtonClick(c)}
+            type="button"
           >
             <div>{c}</div>
-          </div>
+          </button>
         );
       })}
     </div>

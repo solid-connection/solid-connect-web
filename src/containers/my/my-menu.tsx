@@ -11,7 +11,7 @@ export default function MyMenu() {
 
   const handleLogout = async () => {
     await signOutApi()
-      .then((res) => {})
+      .then(() => {})
       .catch((err) => {
         if (err.response) {
           console.error("Axios response error", err.response);
@@ -59,6 +59,8 @@ export default function MyMenu() {
       <Modal
         show={showWithdraw}
         handleCancel={toggleWithdraw}
+        // TODO: 탈퇴 API 호출
+        handleConfirm={() => {}}
         title="탈퇴하기"
         content={"30일 이내 복귀시 탈퇴 자동 취소되며\n탈퇴 완료시 기존 정보 모두 소멸 됩니다.\n탈퇴 하시겠습니까?"}
       />
@@ -66,18 +68,32 @@ export default function MyMenu() {
   );
 }
 
-const MenuLinkItem = ({ href, text }) => {
-  return (
-    <Link href={href} className="flex h-[61px] cursor-pointer items-center border-0 bg-white pl-5 no-underline">
-      <div className="text-black font-serif text-[16px] font-normal leading-normal">{text}</div>
-    </Link>
-  );
+type LinkProps = {
+  href: string;
+  text: string;
 };
 
-const MenuButtonItem = ({ onClick, text }) => {
+function MenuLinkItem({ href, text }: LinkProps) {
   return (
-    <button onClick={onClick} className="flex h-[61px] cursor-pointer items-center border-0 bg-white pl-5 no-underline">
-      <div className="text-black font-serif text-[16px] font-normal leading-normal">{text}</div>
+    <Link href={href} className="flex h-[61px] cursor-pointer items-center border-0 bg-white pl-5 no-underline">
+      <div className="font-serif text-[16px] font-normal leading-normal text-black">{text}</div>
+    </Link>
+  );
+}
+
+type ButtonProps = {
+  onClick: () => void;
+  text: string;
+};
+
+function MenuButtonItem({ onClick, text }: ButtonProps) {
+  return (
+    <button
+      onClick={onClick}
+      className="flex h-[61px] cursor-pointer items-center border-0 bg-white pl-5 no-underline"
+      type="button"
+    >
+      <div className="font-serif text-[16px] font-normal leading-normal text-black">{text}</div>
     </button>
   );
-};
+}

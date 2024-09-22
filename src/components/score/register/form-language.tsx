@@ -6,10 +6,25 @@ import RoundBtn from "@/components/ui/round-btn";
 
 import styles from "./form.module.css";
 
-export default function FormLanguage(props) {
-  const { toNextStage } = props;
-  const { setLanguageType, setLanguageScore, setLanguageCert, languageType, languageScore, languageCert } = props;
+type FormLanguageProps = {
+  toNextStage: () => void;
+  setLanguageType: (value: string) => void;
+  setLanguageScore: (value: string) => void;
+  setLanguageCert: (value: File) => void;
+  languageType: string;
+  languageScore: string;
+  languageCert: File;
+};
 
+export default function FormLanguage({
+  toNextStage,
+  setLanguageType,
+  setLanguageScore,
+  setLanguageCert,
+  languageType,
+  languageScore,
+  languageCert,
+}: FormLanguageProps) {
   const fileInputRef = useRef(null);
   const handleButtonClick = () => {
     fileInputRef.current.click();
@@ -39,26 +54,26 @@ export default function FormLanguage(props) {
 
     // 어학 성적별 유효성 검사
     if (languageType === "toeic") {
-      if (!(languageScore >= 10 && languageScore <= 990)) {
+      if (!(Number(languageScore) >= 10 && Number(languageScore) <= 990)) {
         alert("TOEIC 점수는 10 ~ 990 사이여야 합니다.");
         return;
       }
     } else if (languageType === "ibt") {
-      if (!(languageScore >= 0 && languageScore <= 120)) {
+      if (!(Number(languageScore) >= 0 && Number(languageScore) <= 120)) {
         alert("TOEFL IBT 점수는 0 ~ 120 사이여야 합니다.");
         return;
       }
     } else if (languageType === "itp") {
-      if (!(languageScore >= 0 && languageScore <= 677)) {
+      if (!(Number(languageScore) >= 0 && Number(languageScore) <= 677)) {
         alert("TOEFL ITP 점수는 0 ~ 677 사이여야 합니다.");
         return;
       }
     } else if (languageType === "ielts") {
-      if (!(languageScore >= 0 && languageScore <= 9)) {
+      if (!(Number(languageScore) >= 0 && Number(languageScore) <= 9)) {
         alert("IELTS 점수는 0 ~ 9 사이여야 합니다.");
         return;
       }
-      if (languageScore % 0.5 !== 0) {
+      if (Number(languageScore) % 0.5 !== 0) {
         alert("IELTS 점수는 0.5 단위로 입력해주세요.");
         return;
       }

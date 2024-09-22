@@ -31,11 +31,19 @@ export default function HomeSearchPage() {
         console.error("Failed to add/update keyword: ", error);
       });
   }
+
   return (
     <div>
       <TopDetailNavigation title="키워드 검색" />
-      <CollegeSearchBar text={searchText} setText={setSearchText} searchHandler={searchHandler} />
-      <CollegeSearchField setText={setSearchText} keyWords={keyWords} searchHandler={searchHandler} />
+      <CollegeSearchBar
+        text={searchText}
+        setText={setSearchText}
+        searchHandler={(e) => {
+          searchHandler(e);
+        }}
+        onClick={() => {}}
+      />
+      <CollegeSearchField setText={setSearchText} keyWords={keyWords} />
     </div>
   );
 }

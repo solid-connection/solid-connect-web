@@ -40,7 +40,7 @@ export default function PostModifyForm({
 
     const adjustHeight = () => {
       textarea.style.height = "auto";
-      const scrollHeight = textarea.scrollHeight;
+      const { scrollHeight } = textarea;
       const newHeight = scrollHeight <= 50 ? 50 : Math.min(scrollHeight, 100);
       textarea.style.height = `${newHeight}px`;
       titleRef.current.style.height = `${newHeight}px`;
@@ -56,11 +56,11 @@ export default function PostModifyForm({
 
   const submitPost = async () => {
     try {
-      const res = await updatePostApi(boardCode, postId, {
+      await updatePostApi(boardCode, postId, {
         postUpdateRequest: {
           postCategory: defaultPostCategory,
-          title: title,
-          content: content,
+          title,
+          content,
         },
         file: [...imageUploadRef.current.files],
       });
@@ -89,11 +89,11 @@ export default function PostModifyForm({
       <CustomTopDetailNavigation routeBack={routeBack} submitPost={submitPost} />
       <div>
         <div
-          className="transition-height border-b-gray-c-100 after:bg-gray-c-100 relative border-b duration-200 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[1px]"
+          className="relative border-b border-b-gray-c-100 transition-height duration-200 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[1px] after:bg-gray-c-100"
           ref={titleRef}
         >
           <textarea
-            className="transition-height text-black w-full resize-none overflow-hidden px-5 pb-2.5 pt-5 font-serif text-lg font-semibold leading-[160%] outline-none duration-200 placeholder:text-[rgba(124,124,124,0.87)]"
+            className="w-full resize-none overflow-hidden px-5 pb-2.5 pt-5 font-serif text-lg font-semibold leading-[160%] text-black outline-none transition-height duration-200 placeholder:text-[rgba(124,124,124,0.87)]"
             placeholder="제목을 입력하세요"
             maxLength={40}
             rows={1}
@@ -105,21 +105,22 @@ export default function PostModifyForm({
                 event.preventDefault();
               }
             }}
-          ></textarea>
+          />
         </div>
-        <div className="border-b-gray-c-100 flex h-[42px] items-center justify-between border-b px-5 py-2.5">
+        <div className="flex h-[42px] items-center justify-between border-b border-b-gray-c-100 px-5 py-2.5">
           <div className="flex items-center gap-1 font-serif text-sm font-normal leading-[160%] text-[rgba(124,124,124,0.87)]">
-            <button role="button">
+            <button type="button">
               {defaultIsQuestion ? <IconPostCheckboxFilled /> : <IconPosstCheckboxOutlined />}
             </button>
             질문으로 업로드 하기
           </div>
           <div>
             <button
-              role="button"
+              type="button"
               onClick={() => {
                 imageUploadRef.current.click();
               }}
+              aria-label="이미지 추가"
             >
               <IconImage />
             </button>
@@ -128,7 +129,7 @@ export default function PostModifyForm({
         </div>
         <div>
           <textarea
-            className="text-black h-90 mt-4 box-border w-full resize-none border-0 px-5 font-serif text-base font-normal leading-[160%] outline-none placeholder:text-[rgba(124,124,124,0.87)]"
+            className="mt-4 box-border h-90 w-full resize-none border-0 px-5 font-serif text-base font-normal leading-[160%] text-black outline-none placeholder:text-[rgba(124,124,124,0.87)]"
             placeholder="내용을 입력하세요"
             value={content}
             onChange={(e) => setContent(e.target.value)}
@@ -137,23 +138,29 @@ export default function PostModifyForm({
         <div
           className="px-5 pt-2.5 font-['Inter'] text-xs font-normal leading-[160%] text-[#8d8d8d]"
           dangerouslySetInnerHTML={{ __html: notice.replace(/\n/g, "<br />") }}
-        ></div>
+        />
       </div>
     </>
   );
 }
 
-function CustomTopDetailNavigation({ routeBack, submitPost }) {
+type CustomTopDetailNavigationProps = {
+  routeBack: () => void;
+  submitPost: () => void;
+};
+
+function CustomTopDetailNavigation({ routeBack, submitPost }: CustomTopDetailNavigationProps) {
   return (
     <div className="fixed top-0 z-[100] box-border flex h-14 w-full max-w-[600px] items-center justify-between bg-white px-5">
-      <div className="min-w-6 cursor-pointer" onClick={routeBack}>
+      <button className="min-w-6 cursor-pointer" onClick={routeBack} type="button" aria-label="뒤로 가기">
         <ArrowBackFilled />
-      </div>
+      </button>
       <div className="font-serif text-base font-semibold leading-[160%] text-[rgba(0,0,0,0.87)]">글쓰기</div>
       <div className="min-w-6 cursor-pointer">
         <button
           className="h-8 cursor-pointer rounded-full border-0 bg-primary-1 px-3 py-[5px] font-serif text-sm font-medium leading-[160%] text-white"
           onClick={submitPost}
+          type="button"
         >
           등록
         </button>

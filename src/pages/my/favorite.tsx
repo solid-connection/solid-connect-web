@@ -41,7 +41,7 @@ export default function MyScrapPage() {
   const [tab, setTab] = useState(tabs[0]);
 
   if (!wishColleges) {
-    return <></>;
+    return null;
   }
 
   return (

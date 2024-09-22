@@ -60,10 +60,10 @@ export default function BottomNavigation() {
   ];
 
   return (
-    <nav className="bg-white fixed bottom-0 flex h-[56px] w-full max-w-[600px]">
-      {navs.map((nav, index) => (
+    <nav className="fixed bottom-0 flex h-[56px] w-full max-w-[600px] bg-white">
+      {navs.map((nav) => (
         <Link
-          key={index}
+          key={nav.text}
           href={nav.route}
           className="flex flex-[1_0_0] flex-col items-center self-stretch px-3 pb-2 pt-1.5 no-underline"
         >

@@ -14,6 +14,18 @@ npm run dev
 - Prettier
 해당 프로젝트에서는 ESLint와 Prettier를 사용하여 코드의 품질을 관리합니다.
 
+ESLint는 eslint-config-airbnb를 기반으로 next의 기본적인 next관련 규칙을 추가해주는 @next/next/recommended를 추가해 사용하고 있습니다.
+
+그리고 Prettier과의 충돌을 막기 위해 eslint-config-prettier를 통해 Prettier와 충돌하는 ESLint 규칙을 비활성화하고 있습니다.
+
+- [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript)
+- [Next.js ESLint Guide](https://nextjs.org/docs/pages/building-your-application/configuring/eslint)
+
+### import 순서 정렬
+import 순서를 정렬하기 위해 Prettier 플러그인인 @trivago/prettier-plugin-sort-imports를 사용하고 있습니다.
+
+TODO: eslint-plugin-import의 import/order로 변경, 규칙 목록 작성
+
 ## 프로젝트 구조
 - public: 정적 파일
 - docs: 문서 파일

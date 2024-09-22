@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 import { signUpApi } from "@/services/auth";
 import { uploadProfileImageFilePublicApi } from "@/services/file";
@@ -9,7 +9,7 @@ import SignupPrepareScreen from "./signup-prepare-screen";
 import SignupProfileScreen from "./signup-profile-screen";
 import SignupRegionScreen from "./signup-region-screen";
 
-import { Gender, GenderEnum, PreparationStatus, RegisterRequest } from "@/types/auth";
+import { Gender, PreparationStatus, RegisterRequest } from "@/types/auth";
 import { RegionKo } from "@/types/university";
 
 type SignupSurveyProps = {
@@ -51,6 +51,7 @@ const convertBirth = (value: string): string => {
 export default function SignupSurvey({
   kakaoOauthToken,
   kakaoNickname,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   kakaoEmail,
   kakaoProfileImageUrl,
 }: SignupSurveyProps) {
@@ -95,13 +96,13 @@ export default function SignupSurvey({
     }
 
     return {
-      kakaoOauthToken: kakaoOauthToken,
+      kakaoOauthToken,
       interestedRegions: submitRegion,
       interestedCountries: countries,
       preparationStatus: curPreparation,
-      nickname: nickname,
+      nickname,
       profileImageUrl: imageUrl,
-      gender: gender,
+      gender,
       birth: convertedBirth,
     };
   };
@@ -154,7 +155,9 @@ export default function SignupSurvey({
       case 3:
         return (
           <SignupProfileScreen
-            toNextStage={submitRegisterRequest}
+            toNextStage={() => {
+              submitRegisterRequest();
+            }}
             nickname={nickname}
             setNickname={setNickname}
             gender={gender}

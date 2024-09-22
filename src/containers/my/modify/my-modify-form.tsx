@@ -12,7 +12,7 @@ type MyModifyFormProps = {
   myInfo: MyInfo;
 };
 
-const MyModifyForm = ({ myInfo }: MyModifyFormProps) => {
+function MyModifyForm({ myInfo }: MyModifyFormProps) {
   const [nickname, setNickname] = useState<string>(myInfo.nickname);
   const router = useRouter();
 
@@ -38,7 +38,7 @@ const MyModifyForm = ({ myInfo }: MyModifyFormProps) => {
   };
 
   const handleNicknameChange = () => {
-    if (confirm("닉네임은 7일에 한번만 변경 가능합니다. 정말로 변경하시겠습니까?")) {
+    if (window.confirm("닉네임은 7일에 한번만 변경 가능합니다. 정말로 변경하시겠습니까?")) {
       updateNickname(nickname);
     }
   };
@@ -48,8 +48,8 @@ const MyModifyForm = ({ myInfo }: MyModifyFormProps) => {
       <div className="flex flex-col gap-5 px-5">
         <MyModifyFormElement title="이름" value={nickname} setValue={setNickname} />
         <MyModifyFormElement title="생년월일" value={myInfo.birth || "1970. 01. 01"} />
-        <MyModifyFormElement title="출신학교" value={"인하대학교"} />
-        <MyModifyFormElement title="파견학교" value={"미상"} />
+        <MyModifyFormElement title="출신학교" value="인하대학교" />
+        <MyModifyFormElement title="파견학교" value="미상" />
       </div>
 
       <BlockBtn
@@ -66,7 +66,7 @@ const MyModifyForm = ({ myInfo }: MyModifyFormProps) => {
       </BlockBtn>
     </>
   );
-};
+}
 
 export default MyModifyForm;
 
@@ -76,12 +76,12 @@ type MyModifyFormElementProps = {
   setValue?: (value: string) => void;
 };
 
-const MyModifyFormElement = ({ title, value, setValue }: MyModifyFormElementProps) => {
+function MyModifyFormElement({ title, value, setValue }: MyModifyFormElementProps) {
   return (
     <div className="flex gap-8">
-      <div className="text-black basis-14 font-serif text-base font-semibold">{title}</div>
+      <div className="basis-14 font-serif text-base font-semibold text-black">{title}</div>
       <input
-        className="text-black w-full flex-1 border-0 border-b border-b-[#d2d2d2] pb-2.5 font-serif text-base font-normal outline-none"
+        className="w-full flex-1 border-0 border-b border-b-[#d2d2d2] pb-2.5 font-serif text-base font-normal text-black outline-none"
         type="text"
         value={value}
         onChange={(e) => {
@@ -93,4 +93,4 @@ const MyModifyFormElement = ({ title, value, setValue }: MyModifyFormElementProp
       />
     </div>
   );
-};
+}
