@@ -14,8 +14,8 @@ interface DropdownProps {
 export default function Dropdown({ options }: DropdownProps) {
   return (
     <div className={styles.dropdown}>
-      {options.map((option, index) => (
-        <button key={index} className={styles.dropdown__item} onClick={option.action}>
+      {options.map((option) => (
+        <button key={option.label} className={styles.dropdown__item} onClick={option.action} type="button">
           {option.label}
         </button>
       ))}

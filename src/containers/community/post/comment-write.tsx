@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 
 import { createCommentApi } from "@/services/community";
 
@@ -8,7 +8,7 @@ import { IconCloseFilled, IconFlight } from "@/public/svgs";
 
 type CommentWriteProps = {
   postId: number;
-  refresh: any;
+  refresh: () => void;
   curSelectedComment: number;
   setCurSelectedComment: React.Dispatch<React.SetStateAction<number | null>>;
 };
@@ -22,7 +22,7 @@ export default function CommentWrite({
   const contentRef = useRef<HTMLInputElement>(null);
   const submitComment = async () => {
     try {
-      const res = await createCommentApi(postId, {
+      await createCommentApi(postId, {
         content: contentRef.current?.value,
         parentId: curSelectedComment,
       });
@@ -53,14 +53,19 @@ export default function CommentWrite({
         {curSelectedComment && (
           <div className={styles["comment-input-reply"]}>
             <div>답글을 입력중입니다..</div>
-            <button className={styles["comment-input-close"]} onClick={handleCloseComment}>
+            <button
+              className={styles["comment-input-close"]}
+              onClick={handleCloseComment}
+              type="button"
+              aria-label="답글 작성 취소"
+            >
               <IconCloseFilled />
             </button>
           </div>
         )}
         <input ref={contentRef} type="text" placeholder="댓글을 입력해 주세요" />
       </div>
-      <button className={styles["comment-submit"]} onClick={submitComment}>
+      <button className={styles["comment-submit"]} onClick={submitComment} type="button" aria-label="댓글 작성">
         <IconFlight />
       </button>
     </div>

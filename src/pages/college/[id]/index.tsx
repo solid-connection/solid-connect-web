@@ -29,7 +29,7 @@ export default function CollegeDetailPage({ collegeId, collegeData, reviewList }
       <CollegeDetail imageUrl={collegeData.backgroundImageUrl} name={convertedKoreanName || "대학명"} />
       <CollegeBottomSheet
         collegeId={collegeId}
-        {...collegeData}
+        university={collegeData}
         convertedKoreanName={convertedKoreanName}
         reviewList={reviewList}
       />

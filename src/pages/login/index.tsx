@@ -24,7 +24,11 @@ export default function KakaoLoginPage() {
     <div>
       <ImageCarousel />
       <div style={{ marginTop: "40px" }}>
-        <KakaoLoginButton onClick={kakaoLogin} />
+        <KakaoLoginButton
+          onClick={() => {
+            kakaoLogin();
+          }}
+        />
         <BlockBtn
           onClick={() => {
             router.push("/");

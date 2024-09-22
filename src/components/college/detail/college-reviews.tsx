@@ -11,18 +11,19 @@ export default function CollegeReviews({ style, reviewList }: { style?: React.CS
   return (
     <div className={styles.container} style={style}>
       {reviewList.map((review) => (
-        <CollegeReviewCard key={review.id} {...review} />
+        <CollegeReviewCard key={review.id} review={review} />
       ))}
     </div>
   );
 }
 
-export function CollegeReviewCard({ term, rating, content, dispatchSemester, transportation, buddyProgram }: Review) {
+export function CollegeReviewCard({ review }: { review: Review }) {
+  const { term, rating, content, dispatchSemester, transportation, buddyProgram } = review;
   const [open, setOpen] = useState<boolean>(false);
   const renderStars = () => {
     const TOTAL_STARS = 5;
-    let stars = [];
-    for (let i = 1; i <= TOTAL_STARS; i++) {
+    const stars = [];
+    for (let i = 1; i <= TOTAL_STARS; i += 1) {
       if (i <= rating) {
         // Full Star
         stars.push(<StarFilledIcon key={i} leftColor="#6F90D1" rightColor="#6F90D1" />);
@@ -61,22 +62,21 @@ export function CollegeReviewCard({ term, rating, content, dispatchSemester, tra
             <span>{buddyProgram}</span>
           </div>
         </div>
-        <button className={styles.toggleButton} onClick={() => setOpen(false)}>
+        <button className={styles.toggleButton} onClick={() => setOpen(false)} type="button" aria-label="평가 펼치기">
           <ExpendMoreFilled style={{ transform: "rotate(180deg)" }} />
         </button>
       </div>
     );
-  } else {
-    return (
-      <div className={styles.card}>
-        <div className={styles.firstRow}>
-          <div className={styles.term}>{term}</div>
-          <div className={styles.rating}>{renderStars()}</div>
-        </div>
-        <button className={styles.toggleButton} onClick={() => setOpen(true)}>
-          <ExpendMoreFilled />
-        </button>
-      </div>
-    );
   }
+  return (
+    <div className={styles.card}>
+      <div className={styles.firstRow}>
+        <div className={styles.term}>{term}</div>
+        <div className={styles.rating}>{renderStars()}</div>
+      </div>
+      <button className={styles.toggleButton} onClick={() => setOpen(true)} type="button" aria-label="평가 펼치기">
+        <ExpendMoreFilled />
+      </button>
+    </div>
+  );
 }

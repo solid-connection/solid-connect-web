@@ -10,11 +10,6 @@ import { ListUniversity } from "@/types/university";
 
 import { IconApplicantBanner, IconScoreBanner, IconSearchBanner, IconSpeaker, IconTablerSearch } from "@/public/svgs";
 
-type HomeProps = {
-  recommendedColleges: ListUniversity[];
-  newsList: News[];
-};
-
 export default function Home({ recommendedColleges, newsList }: HomeProps) {
   return (
     <div className="pl-5 pt-6">
@@ -87,7 +82,6 @@ export default function Home({ recommendedColleges, newsList }: HomeProps) {
     </div>
   );
 }
-
 function CollegeSearch() {
   const [searchText, setSearchText] = useState<string>("");
   const router = useRouter();
@@ -100,16 +94,21 @@ function CollegeSearch() {
     <div className="mr-5">
       <form className="flex items-center rounded-[8px] bg-[#f7f7f7] pr-[16px]" onSubmit={onSearch}>
         <input
-          className="text-black box-border w-full rounded-[8px] border-none bg-[#f7f7f7] p-[12px_16px] font-serif text-[14px] font-normal uppercase leading-[150%] tracking-[-0.35px] outline-none placeholder:text-[#a8a8a8]"
+          className="box-border w-full rounded-[8px] border-none bg-[#f7f7f7] p-[12px_16px] font-serif text-[14px] font-normal uppercase leading-[150%] tracking-[-0.35px] text-black outline-none placeholder:text-[#a8a8a8]"
           type="text"
           placeholder="원하는 해외 학교를 검색해보세요"
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
         />
-        <button className="bg-transparent cursor-pointer border-0" type="submit">
+        <button className="cursor-pointer border-0 bg-transparent" type="submit" aria-label="대학 검색하기">
           <IconTablerSearch />
         </button>
       </form>
     </div>
   );
 }
+
+type HomeProps = {
+  recommendedColleges: ListUniversity[];
+  newsList: News[];
+};

@@ -47,12 +47,12 @@ export default function ScorePage() {
         if (statusData.status === "SUBMITTED_APPROVED") {
           const scoreResponse = await getApplicationListApi();
 
-          const scoreData = scoreResponse.data;
-          scoreData.firstChoice.sort((a, b) => b.applicants.length - a.applicants.length);
-          scoreData.secondChoice.sort((a, b) => b.applicants.length - a.applicants.length);
-          scoreData.thirdChoice.sort((a, b) => b.applicants.length - a.applicants.length);
-          setScoreData(scoreData);
-          setFilteredScoreData(scoreData);
+          const scoreResponseData = scoreResponse.data;
+          scoreResponseData.firstChoice.sort((a, b) => b.applicants.length - a.applicants.length);
+          scoreResponseData.secondChoice.sort((a, b) => b.applicants.length - a.applicants.length);
+          scoreResponseData.thirdChoice.sort((a, b) => b.applicants.length - a.applicants.length);
+          setScoreData(scoreResponseData);
+          setFilteredScoreData(scoreResponseData);
         }
       } catch (err) {
         if (err.response) {
@@ -135,35 +135,64 @@ export default function ScorePage() {
 
   if (status === "NO_AUTHORIZATION") {
     return <div>점수 공유 현황을 보려면 로그인이 필요합니다.</div>;
-  } else if (status === "NOT_SUBMITTED") {
+  }
+  if (status === "NOT_SUBMITTED") {
     router.push("/score/register");
     return <div>점수 공유 현황을 보려면 점수를 제출해주세요.</div>;
-  } else if (status === "COLLEGE_SUBMITTED") {
+  }
+  if (status === "COLLEGE_SUBMITTED") {
     return <div>점수 공유 현황을 보려면 점수를 인증해야 합니다.</div>;
-  } else if (status === "SCORE_SUBMITTED") {
+  }
+  if (status === "SCORE_SUBMITTED") {
     return (
       <div style={{ height: "calc(100vh - 112px)", display: "flex", flexDirection: "column" }}>
         <CertFinalScreen />
       </div>
     );
     return <Link href="/score/college-register">점수 공유 현황을 보려면 지원 대학을 추가해야 합니다.</Link>;
-  } else if (status === "SUBMITTED_PENDING") {
+  }
+  if (status === "SUBMITTED_PENDING") {
     return (
       <div style={{ height: "calc(100vh - 112px)", display: "flex", flexDirection: "column" }}>
         <CollegeFinalScreen />
       </div>
     );
     return <div>점수 공유 현황을 보려면 점수가 승인되어야 합니다.</div>;
-  } else if (status === "SUBMITTED_REJECTED") {
+  }
+  if (status === "SUBMITTED_REJECTED") {
     return <div>점수 인증이 거절되었습니다. 점수 공유 현황을 확인을 위해 다시 제출해 주세요.</div>;
   }
+
+  const getScoreSheet = () => {
+    if (preference === "1순위") {
+      return filteredScoreData.firstChoice;
+    }
+    if (preference === "2순위") {
+      return filteredScoreData.secondChoice;
+    }
+    if (preference === "3순위") {
+      return filteredScoreData.thirdChoice;
+    }
+    return null;
+  };
 
   if (searchActive) {
     return (
       <>
         <TopDetailNavigation title="점수 공유 현황" />
-        <ScoreSearchBar textRef={searchRef} searchHandler={handleSearch} />
-        <ScoreSearchField searchRef={searchRef} keyWords={hotKeyWords} setKeyWord={handleSearchField} />
+        <ScoreSearchBar
+          textRef={searchRef}
+          searchHandler={(e) => {
+            handleSearch(e);
+          }}
+        />
+        <ScoreSearchField
+          searchRef={searchRef}
+          keyWords={hotKeyWords}
+          setKeyWord={(e) => {
+            handleSearchField(e);
+          }}
+        />
       </>
     );
   }
@@ -171,7 +200,15 @@ export default function ScorePage() {
   return (
     <>
       <TopDetailNavigation title="점수 공유 현황" />
-      <ScoreSearchBar onClick={handleSearchClick} textRef={searchRef} searchHandler={handleSearch} />
+      <ScoreSearchBar
+        onClick={() => {
+          handleSearchClick();
+        }}
+        textRef={searchRef}
+        searchHandler={(e) => {
+          handleSearch(e);
+        }}
+      />
       <Tab choices={PREFERENCE_CHOICE} choice={preference} setChoice={setPreference} />
       <ButtonTab
         choices={REGIONS_KO}
@@ -186,13 +223,7 @@ export default function ScorePage() {
         }}
         style={{ padding: "10px 0 10px 18px" }}
       />
-      <ScoreSheets
-        scoreSheets={
-          filteredScoreData[
-            preference === "1순위" ? "firstChoice" : preference === "2순위" ? "secondChoice" : "thirdChoice"
-          ]
-        }
-      />
+      <ScoreSheets scoreSheets={getScoreSheet()} />
     </>
   );
 }

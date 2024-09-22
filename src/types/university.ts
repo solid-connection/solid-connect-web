@@ -2,6 +2,11 @@ export type RegionKo = "아시아권" | "미주권" | "유럽권" | "중국권";
 
 export type Country = string;
 
+export interface LanguageRequirement {
+  languageTestType: string; // 어학 시험 종류
+  minScore: string; // 최소 점수
+}
+
 export interface University {
   id: number;
   term: string; // 파견 연도와 학기 ex) "2022-1"
@@ -43,11 +48,6 @@ export interface ListUniversity {
   logoImageUrl: string;
   studentCapacity: number;
   languageRequirements: LanguageRequirement[];
-}
-
-export interface LanguageRequirement {
-  languageTestType: string; // 어학 시험 종류
-  minScore: string; // 최소 점수
 }
 
 export interface UniversityFavoriteStatusResponse {

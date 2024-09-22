@@ -5,7 +5,7 @@ const containerStyle = {
   height: "204px",
 };
 
-export default function GoogleDynamicMap(props) {
+export default function GoogleDynamicMap() {
   const GOOGLE_MAP_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY;
 
   const latitude = "37.4275";

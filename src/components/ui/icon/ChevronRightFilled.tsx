@@ -1,10 +1,13 @@
-function CheveronRightFilled(props) {
-  let { color, opacity } = props;
-  if (!color) color = "black";
-  if (!opacity) opacity = "1";
+type CheveronRightFilledProps = {
+  color?: string;
+  opacity?: string;
+  className?: string;
+};
+
+function CheveronRightFilled({ color = "black", opacity = "1", className }: CheveronRightFilledProps) {
   return (
     <svg
-      className={props.className}
+      className={className}
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"

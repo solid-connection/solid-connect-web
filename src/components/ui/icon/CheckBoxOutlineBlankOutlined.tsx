@@ -1,10 +1,15 @@
-export default function CheckBoxOutlineBlankOutlined(props) {
+type CheckBoxOutlineBlankOutlinedProps = {
+  style?: React.CSSProperties;
+  size?: number;
+};
+
+export default function CheckBoxOutlineBlankOutlined({ style, size }: CheckBoxOutlineBlankOutlinedProps) {
   return (
     <svg
-      style={props.style}
+      style={style}
       xmlns="http://www.w3.org/2000/svg"
-      width={props.size || 24}
-      height={props.size || 24}
+      width={size || 24}
+      height={size || 24}
       viewBox="0 0 24 24"
       fill="none"
     >

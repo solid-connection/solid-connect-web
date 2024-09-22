@@ -1,5 +1,6 @@
 import { AxiosResponse } from "axios";
 
+// eslint-disable-next-line import/no-cycle
 import { axiosInstance, publicAxiosInstance } from "@/utils/axiosInstance";
 
 import {
@@ -12,24 +13,15 @@ import {
 
 export const kakaoAuthApi = (
   code: string,
-): Promise<AxiosResponse<RegisteredKakaoAuthReponse | UnregisteredKakaoAuthReponse>> => {
-  return publicAxiosInstance.post("/auth/kakao", { code: code });
-};
+): Promise<AxiosResponse<RegisteredKakaoAuthReponse | UnregisteredKakaoAuthReponse>> =>
+  publicAxiosInstance.post("/auth/kakao", { code });
 
-export const signUpApi = (signUpRequest: RegisterRequest): Promise<AxiosResponse<KakaoSignUpResponse>> => {
-  return publicAxiosInstance.post("/auth/sign-up", signUpRequest);
-};
+export const signUpApi = (signUpRequest: RegisterRequest): Promise<AxiosResponse<KakaoSignUpResponse>> =>
+  publicAxiosInstance.post("/auth/sign-up", signUpRequest);
 
-export const signOutApi = (): Promise<AxiosResponse<null>> => {
-  return axiosInstance.post("/auth/sign-out");
-};
+export const signOutApi = (): Promise<AxiosResponse<null>> => axiosInstance.post("/auth/sign-out");
 
-export const deleteAccountApi = (): Promise<AxiosResponse<null>> => {
-  return axiosInstance.patch("/auth/quit");
-};
+export const deleteAccountApi = (): Promise<AxiosResponse<null>> => axiosInstance.patch("/auth/quit");
 
-export const reissueAccessTokenPublicApi = (
-  refreshToken: string,
-): Promise<AxiosResponse<ReissueAccessTokenResponse>> => {
-  return publicAxiosInstance.post("/auth/reissue", {}, { headers: { Authorization: `Bearer ${refreshToken}` } });
-};
+export const reissueAccessTokenPublicApi = (refreshToken: string): Promise<AxiosResponse<ReissueAccessTokenResponse>> =>
+  publicAxiosInstance.post("/auth/reissue", {}, { headers: { Authorization: `Bearer ${refreshToken}` } });

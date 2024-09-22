@@ -73,7 +73,7 @@ export default function Post({ post, boardCode, postId }: PostProps) {
         <div className="inline-flex rounded-full bg-primary-1 px-3 py-[5px] font-serif text-sm font-medium leading-[160%] text-white">
           {post.postCategory || "카테고리"}
         </div>
-        <div className="text-black mt-4 font-serif text-xl font-semibold leading-6">{post.title || ""}</div>
+        <div className="mt-4 font-serif text-xl font-semibold leading-6 text-black">{post.title || ""}</div>
         <div className="mr-5 mt-3 whitespace-pre-wrap break-all font-serif text-sm font-normal leading-normal text-[#1a1a1a]">
           <ReactLinkify>{post.content || ""}</ReactLinkify>
         </div>
@@ -90,12 +90,12 @@ export default function Post({ post, boardCode, postId }: PostProps) {
         )}
 
         <div className="mt-5 flex items-center gap-2.5">
-          <div className="flex cursor-pointer items-center gap-1" onClick={toggleLike}>
+          <button className="flex cursor-pointer items-center gap-1" onClick={toggleLike} type="button">
             {isLiked ? <IconPostLikeFilled /> : <IconPostLikeOutline />}
             <span className="overflow-hidden font-serif text-xs font-normal leading-normal text-[#595959]">
               {likeCount || 0}
             </span>
-          </div>
+          </button>
           <div className="flex items-center gap-1">
             <Communication />
             <span className="overflow-hidden font-serif text-xs font-normal leading-normal text-[#595959]">
@@ -105,7 +105,7 @@ export default function Post({ post, boardCode, postId }: PostProps) {
         </div>
       </div>
 
-      <div className="border-gray-c-100 flex h-16 items-center justify-between border-y px-5 py-3">
+      <div className="flex h-16 items-center justify-between border-y border-gray-c-100 px-5 py-3">
         <div className="flex gap-2.5">
           <div className="h-10 w-10 rounded-full bg-[#d9d9d9]">
             {post.postFindSiteUserResponse.profileImageUrl && (
@@ -119,7 +119,7 @@ export default function Post({ post, boardCode, postId }: PostProps) {
             )}
           </div>
           <div className="flex flex-col">
-            <div className="text-black overflow-hidden text-ellipsis font-serif text-sm font-medium leading-normal">
+            <div className="overflow-hidden text-ellipsis font-serif text-sm font-medium leading-normal text-black">
               {post.postFindSiteUserResponse.nickname || ""}
             </div>
             <div className="overflow-hidden font-serif text-xs font-normal leading-normal text-[#7c7c7c]">
@@ -128,7 +128,10 @@ export default function Post({ post, boardCode, postId }: PostProps) {
           </div>
         </div>
 
-        <button className="h-[31px] cursor-pointer rounded-full bg-[#f0f0f0] px-3 py-[5px] font-serif text-[13px] font-medium leading-[160%] tracking-[0.15px] text-[#a2a2a2]">
+        <button
+          className="h-[31px] cursor-pointer rounded-full bg-[#f0f0f0] px-3 py-[5px] font-serif text-[13px] font-medium leading-[160%] tracking-[0.15px] text-[#a2a2a2]"
+          type="button"
+        >
           채팅보내기
         </button>
       </div>
@@ -172,15 +175,20 @@ type ImagePopupProps = {
 
 function ImagePopup({ image, title, onClose }: ImagePopupProps) {
   return (
-    <div className="bg-black fixed left-0 top-0 z-[1000] flex h-full w-full flex-col">
+    <div className="fixed left-0 top-0 z-[1000] flex h-full w-full flex-col bg-black">
       <div className="flex h-14 items-center justify-between bg-[rgba(255,255,255,0.15)]">
-        <button className="ml-5 h-6 w-6 cursor-pointer border-0 bg-none p-0" onClick={onClose}>
+        <button
+          className="ml-5 h-6 w-6 cursor-pointer border-0 bg-none p-0"
+          onClick={onClose}
+          type="button"
+          aria-label="뒤로가기"
+        >
           <IconCloseFilled />
         </button>
         <span className="mr-6 font-serif text-base font-semibold leading-[160%] text-[rgba(255,255,255,0.87)]">
           {title}
         </span>
-        <div></div>
+        <div />
       </div>
       <div className="relative flex-grow">
         <Image src={image.url} layout="fill" objectFit="contain" alt="Popup" />

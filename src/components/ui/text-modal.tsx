@@ -1,11 +1,18 @@
 import styles from "./text-modal.module.css";
 
-export default function TextModal(props) {
-  const { show, handleCancel, handleConfirm, title, content } = props;
+type TextModalProps = {
+  show: boolean;
+  handleCancel: () => void;
+  handleConfirm: () => void;
+  title: string;
+  content: string;
+};
 
+export default function TextModal({ show, handleCancel, handleConfirm, title, content }: TextModalProps) {
   if (!show) return null;
 
   return (
+    /* eslint-disable */
     <div className={styles.modalBackgorund} onClick={handleCancel}>
       <div className={styles.modalBox} onClick={(e) => e.stopPropagation()}>
         <div className={styles.modalText}>
@@ -15,14 +22,15 @@ export default function TextModal(props) {
           </div>
         </div>
         <div className={styles.modalButtons}>
-          <button className={styles.modalButtonWhite} onClick={handleCancel}>
+          <button className={styles.modalButtonWhite} onClick={handleCancel} type="button">
             취소
           </button>
-          <button className={styles.modalButtonBlack} onClick={handleConfirm}>
+          <button className={styles.modalButtonBlack} onClick={handleConfirm} type="button">
             확인
           </button>
         </div>
       </div>
     </div>
+    /* eslint-enable */
   );
 }

@@ -33,8 +33,24 @@
     //
     "react/react-in-jsx-scope": "off",
     // ㄴ JSX를 사용할 때 React를 import할 필요가 없도록 합니다.
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".tsx"] }]
-    // "import/order": "off"
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".tsx"] }],
+    "import/order": "off",
+    "import/extensions": [
+      // import 시 확장자를 사용하지 않도록 합니다.
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
+    "import/prefer-default-export": 1, // single export를 사용할 때 default export를 미사용하면 warning
+    "no-console": "off",
+    "react/require-default-props": "off",
+    "no-use-before-define": "off",
+    "jsx-a11y/label-has-associated-control": "off"
   },
   "settings": {
     "import/parsers": {
