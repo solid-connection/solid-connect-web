@@ -50,7 +50,8 @@
     "no-console": "off",
     "react/require-default-props": "off",
     "no-use-before-define": "off",
-    "jsx-a11y/label-has-associated-control": "off"
+    "jsx-a11y/label-has-associated-control": "off",
+    "react/function-component-definition": ["warning", { "namedComponents": "arrow-function" }]
   },
   "settings": {
     "import/parsers": {
