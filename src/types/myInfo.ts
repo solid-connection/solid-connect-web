@@ -6,6 +6,7 @@ export interface MyInfo {
   likedPostCount: number;
   likedMentoCount: number;
   likedUniversityCount: number;
+  email: string;
 }
 
 export interface MyInfoSimple {
