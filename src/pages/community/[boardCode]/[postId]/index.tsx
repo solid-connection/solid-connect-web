@@ -10,11 +10,11 @@ import CommentWrite from "@/containers/community/post/comment-write";
 import Comments from "@/containers/community/post/comments";
 import Post from "@/containers/community/post/post";
 
-import { IconMoreVertFilled } from "../../../../../public/svgs";
-
 import { Post as PostType } from "@/types/community";
 
-export default function PostPage({ boardCode, postId }: { boardCode: string | any; postId: number | any }) {
+import { IconMoreVertFilled } from "@/public/svgs";
+
+export default function PostPage({ boardCode, postId }: { boardCode: string; postId: number }) {
   const router = useRouter();
   const [post, setPost] = useState<PostType | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -46,38 +46,7 @@ export default function PostPage({ boardCode, postId }: { boardCode: string | an
   }, []);
 
   if (isLoading) {
-    return (
-      <>
-        <Head>
-          <title>커뮤니티</title>
-        </Head>
-        <TopDetailNavigation
-          title=""
-          handleBack={() => {
-            router.push(`/community/${boardCode}`);
-          }}
-        />
-        <div>
-          <Post post={null} boardCode={boardCode} postId={postId} />
-          <Comments
-            comments={[]}
-            postId={postId}
-            refresh={() => {
-              router.reload();
-            }}
-            setCurSelectedComment={setCurSelectedComment}
-          />
-          <CommentWrite
-            postId={postId}
-            refresh={() => {
-              router.reload();
-            }}
-            curSelectedComment={curSelectedComment}
-            setCurSelectedComment={setCurSelectedComment}
-          />
-        </div>
-      </>
-    );
+    return null;
   }
 
   return (
@@ -90,7 +59,7 @@ export default function PostPage({ boardCode, postId }: { boardCode: string | an
         handleBack={() => {
           router.push(`/community/${boardCode}`);
         }}
-        icon={post.isOwner && <KebabMenu boardCode={boardCode} postId={postId} router={router} />}
+        icon={post.isOwner && <KebabMenu boardCode={boardCode} postId={postId} />}
       />
       <div>
         <Post post={post} boardCode={boardCode} postId={postId} />
@@ -118,14 +87,14 @@ export default function PostPage({ boardCode, postId }: { boardCode: string | an
 type KebabMenuProps = {
   boardCode: string;
   postId: number;
-  router: any;
 };
 
-function KebabMenu({ boardCode, postId, router }: KebabMenuProps) {
+function KebabMenu({ boardCode, postId }: KebabMenuProps) {
+  const router = useRouter();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleDeletePost = () => {
-    if (!confirm("정말 삭제하시겠습니까?")) return;
+    if (!window.confirm("정말 삭제하시겠습니까?")) return;
 
     deletePostApi(boardCode, postId)
       .then(() => {
@@ -171,9 +140,9 @@ function KebabMenu({ boardCode, postId, router }: KebabMenuProps) {
         position: "relative",
       }}
     >
-      <div onClick={toggleDropdown}>
+      <button onClick={toggleDropdown} type="button" aria-label="더보기">
         <IconMoreVertFilled />
-      </div>
+      </button>
       {isDropdownOpen && <Dropdown options={dropdownItems} />}
     </div>
   );

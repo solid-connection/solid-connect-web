@@ -6,7 +6,17 @@ import Modal from "@/components/ui/modal";
 
 import styles from "./community-region-selector.module.css";
 
-export default function CommunityRegionSelector({ curRegion, setCurRegion, regionChoices }) {
+type CommunityRegionSelectorProps = {
+  curRegion: string;
+  setCurRegion: React.Dispatch<React.SetStateAction<string>>;
+  regionChoices: { code: string; nameKo: string }[];
+};
+
+export default function CommunityRegionSelector({
+  curRegion,
+  setCurRegion,
+  regionChoices,
+}: CommunityRegionSelectorProps) {
   const [isRegionSelectorModalVisible, setIsRegionSelectorModalVisible] = useState<boolean>(false);
   const toggleRegionSelectorModal = () => {
     setIsRegionSelectorModalVisible((prev) => !prev);
@@ -14,10 +24,10 @@ export default function CommunityRegionSelector({ curRegion, setCurRegion, regio
   return (
     <>
       <div className={styles.header}>
-        <div className={styles.title} onClick={toggleRegionSelectorModal}>
+        <button className={styles.title} onClick={toggleRegionSelectorModal} type="button">
           {curRegion}
-        </div>
-        <button className={styles.button} onClick={toggleRegionSelectorModal}>
+        </button>
+        <button className={styles.button} onClick={toggleRegionSelectorModal} type="button" aria-label="게시판 변경">
           <ExpendMoreFilled />
         </button>
       </div>
@@ -26,17 +36,18 @@ export default function CommunityRegionSelector({ curRegion, setCurRegion, regio
           <div className={styles.modal__header}>권역 변경</div>
           <div className={styles.modal__category}>
             {regionChoices.map((region) => (
-              <div
+              <button
                 className={styles.modal__element_wrapper}
                 key={region.code}
                 onClick={() => {
                   setCurRegion(region.code);
                   toggleRegionSelectorModal();
                 }}
+                type="button"
               >
                 <CheckBoxOutlineBlankOutlined />
                 <div className={styles.modal__element}>{region.nameKo}</div>
-              </div>
+              </button>
             ))}
           </div>
         </div>

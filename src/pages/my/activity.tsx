@@ -1,9 +1,10 @@
+// 미사용 페이지
 import Head from "next/head";
 import { useState } from "react";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
-import PostCards from "@/components/my/post-cards";
 import ScrollTab from "@/components/ui/scroll-tab";
+import PostCards from "@/containers/my/post-cards";
 
 export default function MyActivityPage() {
   const posts = [

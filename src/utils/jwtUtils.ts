@@ -10,7 +10,7 @@ export const isTokenExpired = (token: string): boolean => {
     const currentTime = Math.floor(Date.now() / 1000);
 
     // 토큰의 만료 시간 (`exp` 클레임)
-    const exp = payload.exp;
+    const { exp } = payload;
 
     // 토큰이 만료되었는지 확인
     return exp < currentTime;

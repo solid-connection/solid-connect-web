@@ -2,13 +2,14 @@ import { Dispatch, SetStateAction } from "react";
 
 import BlockToggleBtn from "@/components/ui/block-toggle-btn";
 
+import styles from "./signup.module.css";
+
 import {
   IconSignupRegionAmerica,
   IconSignupRegionAsia,
   IconSignupRegionEurope,
   IconSignupRegionWorld,
-} from "../../../../public/svgs";
-import styles from "./signup.module.css";
+} from "@/public/svgs";
 
 const regionList = [
   {
@@ -86,7 +87,7 @@ export default function SignupRegionScreen({
   return (
     <div className={styles.screen}>
       <div className={styles["secondary-title"]}>교환학생에 대한 정보를 알려주세요.</div>
-      <div className={styles["title"]}>
+      <div className={styles.title}>
         어느 지역에
         <br />
         관심이 있으신가요?
@@ -117,6 +118,7 @@ function RegionButtons({ curRegion, setCurRegion }: RegionButtonsProps) {
       <button
         className={`${styles["region-button"]} ${curRegion === "미주권" && styles["region-button--selected"]}`}
         onClick={() => setCurRegion("미주권")}
+        type="button"
       >
         <div className={styles["region-button__icon"]}>
           <IconSignupRegionAmerica />
@@ -127,6 +129,7 @@ function RegionButtons({ curRegion, setCurRegion }: RegionButtonsProps) {
       <button
         className={`${styles["region-button"]} ${curRegion === "유럽권" && styles["region-button--selected"]}`}
         onClick={() => setCurRegion("유럽권")}
+        type="button"
       >
         <div className={styles["region-button__icon"]}>
           <IconSignupRegionEurope />
@@ -137,6 +140,7 @@ function RegionButtons({ curRegion, setCurRegion }: RegionButtonsProps) {
       <button
         className={`${styles["region-button"]} ${styles[curRegion === "아시아권" && "region-button--selected"]}`}
         onClick={() => setCurRegion("아시아권")}
+        type="button"
       >
         <div className={styles["region-button__icon"]}>
           <IconSignupRegionAsia />
@@ -147,6 +151,7 @@ function RegionButtons({ curRegion, setCurRegion }: RegionButtonsProps) {
       <button
         className={`${styles["region-button"]} ${styles[curRegion === "아직 잘 모르겠어요" && "region-button--selected"]}`}
         onClick={() => setCurRegion("아직 잘 모르겠어요")}
+        type="button"
       >
         <div className={styles["region-button__icon"]}>
           <IconSignupRegionWorld />
@@ -157,7 +162,13 @@ function RegionButtons({ curRegion, setCurRegion }: RegionButtonsProps) {
   );
 }
 
-function ConuntryButtons({ curCountries, setCurCountries, region }: any) {
+type ConuntryButtonsProps = {
+  curCountries: string[];
+  setCurCountries: Dispatch<SetStateAction<string[]>>;
+  region: string | null;
+};
+
+function ConuntryButtons({ curCountries, setCurCountries, region }: ConuntryButtonsProps) {
   const addCountry = (country: string) => {
     if (curCountries.includes(country)) {
       setCurCountries(curCountries.filter((c) => c !== country));
@@ -170,9 +181,7 @@ function ConuntryButtons({ curCountries, setCurCountries, region }: any) {
     setCurCountries(curCountries.filter((c) => c !== country));
   };
 
-  const isCountrySelected = (country: string) => {
-    return curCountries.includes(country);
-  };
+  const isCountrySelected = (country: string) => curCountries.includes(country);
 
   if (region === null) {
     return null;
@@ -197,8 +206,13 @@ function ConuntryButtons({ curCountries, setCurCountries, region }: any) {
             key={country}
             className={`${styles["country-button"]} ${isCountrySelected(country) && styles["country-button--selected"]}`}
             onClick={() => {
-              isCountrySelected(country) ? removeCountry(country) : addCountry(country);
+              if (isCountrySelected(country)) {
+                removeCountry(country);
+              } else {
+                addCountry(country);
+              }
             }}
+            type="button"
           >
             {country}
           </button>

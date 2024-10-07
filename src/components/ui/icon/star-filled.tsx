@@ -4,8 +4,8 @@ interface StarFilledIconProps {
   rightColor?: string;
   leftOpacity?: string;
   rightOpacity?: string;
-  onClick?: any;
-  style?: any;
+  onClick?: (event: React.MouseEvent<SVGSVGElement, MouseEvent>) => void;
+  style?: React.CSSProperties;
 }
 
 export default function StarFilledIcon({

@@ -1,5 +1,4 @@
 import Head from "next/head";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 import { getMyApplicationStatusApi, postApplicationUniversityApi } from "@/services/application";
@@ -17,7 +16,6 @@ type CollegeRegisterPageProps = {
 };
 
 export default function CollegeRegisterPage({ universityList }: CollegeRegisterPageProps) {
-  const router = useRouter();
   const [currentStage, setCurrentStage] = useState<number>(1);
   const [description, setDescription] = useState<string>("본 과정 완료 후, 지원자 현황을 확인 할 수 있습니다.");
 
@@ -82,7 +80,7 @@ export default function CollegeRegisterPage({ universityList }: CollegeRegisterP
       };
 
       await postApplicationUniversityApi(applicationScore)
-        .then((res) => {
+        .then(() => {
           setCurrentStage(4);
         })
         .catch((err) => {
@@ -132,7 +130,9 @@ export default function CollegeRegisterPage({ universityList }: CollegeRegisterP
       case 3:
         return (
           <CollegeFormScreen
-            toNextStage={submitForm}
+            toNextStage={() => {
+              submitForm();
+            }}
             text="3지망"
             universityList={universityList}
             collegeId={thirdCollegeId}
@@ -150,7 +150,12 @@ export default function CollegeRegisterPage({ universityList }: CollegeRegisterP
       <Head>
         <title>지원하기</title>
       </Head>
-      <TopDetailNavigation title="지원하기" handleBack={handleBack} />
+      <TopDetailNavigation
+        title="지원하기"
+        handleBack={() => {
+          handleBack();
+        }}
+      />
       <div style={{ height: "calc(100vh - 112px)", display: "flex", flexDirection: "column" }}>
         <ProgressBar
           style={{ padding: "11px 20px 0 20px" }}
@@ -170,7 +175,7 @@ export async function getStaticProps() {
 
     const universityList = res.data;
     return {
-      props: { universityList: universityList },
+      props: { universityList },
       revalidate: 60,
     };
   } catch {

@@ -1,6 +1,14 @@
-export default function BlockBtn(props) {
-  const { backgroundColor, textColor, onClick } = props;
-  const style = {
+type BlockBtnProps = {
+  backgroundColor?: string;
+  textColor?: string;
+  onClick: () => void;
+  children: React.ReactNode;
+  style?: React.CSSProperties;
+  className?: string;
+};
+
+export default function BlockBtn({ backgroundColor, textColor, onClick, children, style, className }: BlockBtnProps) {
+  const defaultStyle = {
     backgroundColor: backgroundColor || "var(--primary-1, #6F90D1)",
     color: textColor || "white",
 
@@ -18,8 +26,8 @@ export default function BlockBtn(props) {
   };
 
   return (
-    <button className={props.className} style={{ ...style, ...props.style }} onClick={onClick}>
-      {props.children}
+    <button className={className} style={{ ...defaultStyle, ...style }} onClick={onClick} type="button">
+      {children}
     </button>
   );
 }

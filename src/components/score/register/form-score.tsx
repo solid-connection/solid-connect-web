@@ -6,10 +6,25 @@ import RoundBtn from "@/components/ui/round-btn";
 
 import styles from "./form.module.css";
 
-export default function FormScore(props) {
-  const { toNextStage } = props;
-  const { setScoreType, setScore, setScoreCert, scoreType, score, scoreCert } = props;
+type FormScoreProps = {
+  toNextStage: () => void;
+  setScoreType: (scoreType: string) => void;
+  setScore: (score: string) => void;
+  setScoreCert: (scoreCert: File) => void;
+  scoreType: string;
+  score: string;
+  scoreCert: File;
+};
 
+export default function FormScore({
+  toNextStage,
+  setScoreType,
+  setScore,
+  setScoreCert,
+  scoreType,
+  score,
+  scoreCert,
+}: FormScoreProps) {
   const fileInputRef = useRef(null);
   const handleButtonClick = () => {
     fileInputRef.current.click();
@@ -39,12 +54,12 @@ export default function FormScore(props) {
 
     // 점수 유효성 검사
     if (scoreType === "4.5") {
-      if (!(score >= 0 && score <= 4.5)) {
+      if (!(Number(score) >= 0 && Number(score) <= 4.5)) {
         alert("학점은 0 ~ 4.5 사이여야 합니다.");
         return;
       }
     } else if (scoreType === "4.3") {
-      if (!(score >= 0 && score <= 4.3)) {
+      if (!(Number(score) >= 0 && Number(score) <= 4.3)) {
         alert("학점은 0 ~ 4.3 사이여야 합니다.");
         return;
       }

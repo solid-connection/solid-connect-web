@@ -7,10 +7,9 @@ import { convertISODateToDateTime } from "@/utils/datetimeUtils";
 
 import Communication from "@/components/ui/icon/Communication";
 
-import { IconCloseFilled, IconPostLikeFilled, IconPostLikeOutline } from "../../../../public/svgs";
-import styles from "./post.module.css";
-
 import { PostImage as PostImageType, Post as PostType } from "@/types/community";
+
+import { IconCloseFilled, IconPostLikeFilled, IconPostLikeOutline } from "@/public/svgs";
 
 type PostProps = {
   post: PostType;
@@ -70,15 +69,17 @@ export default function Post({ post, boardCode, postId }: PostProps) {
 
   return (
     <>
-      <div className={styles.post}>
-        <div className={styles.category}>{post?.postCategory || "카테고리"}</div>
-        <div className={styles.title}>{post?.title || ""}</div>
-        <div className={styles.content}>
-          <ReactLinkify>{post?.content || ""}</ReactLinkify>
+      <div className="pb-3 pl-5 pt-6">
+        <div className="inline-flex rounded-full bg-primary-1 px-3 py-[5px] font-serif text-sm font-medium leading-[160%] text-white">
+          {post.postCategory || "카테고리"}
+        </div>
+        <div className="mt-4 font-serif text-xl font-semibold leading-6 text-black">{post.title || ""}</div>
+        <div className="mr-5 mt-3 whitespace-pre-wrap break-all font-serif text-sm font-normal leading-normal text-[#1a1a1a]">
+          <ReactLinkify>{post.content || ""}</ReactLinkify>
         </div>
 
-        <div style={{ marginTop: "12px" }}>
-          <PostImage images={post?.postFindPostImageResponses || []} onImageClick={handleImageClick} />
+        <div className="mt-3">
+          <PostImage images={post.postFindPostImageResponses || []} onImageClick={handleImageClick} />
         </div>
         {selectedImageIndex !== null && (
           <ImagePopup
@@ -88,40 +89,51 @@ export default function Post({ post, boardCode, postId }: PostProps) {
           />
         )}
 
-        <div className={styles.icons}>
-          <div className={styles.like} onClick={toggleLike}>
+        <div className="mt-5 flex items-center gap-2.5">
+          <button className="flex cursor-pointer items-center gap-1" onClick={toggleLike} type="button">
             {isLiked ? <IconPostLikeFilled /> : <IconPostLikeOutline />}
-            <span>{likeCount || 0}</span>
-          </div>
-          <div>
+            <span className="overflow-hidden font-serif text-xs font-normal leading-normal text-[#595959]">
+              {likeCount || 0}
+            </span>
+          </button>
+          <div className="flex items-center gap-1">
             <Communication />
-            <span>{post?.commentCount || 0}</span>
+            <span className="overflow-hidden font-serif text-xs font-normal leading-normal text-[#595959]">
+              {post?.commentCount || 0}
+            </span>
           </div>
         </div>
       </div>
 
-      <div className={styles.author}>
-        <div className={styles.author__info}>
-          <div className={styles["author__profile-image-wrapper"]}>
-            {post?.postFindSiteUserResponse.profileImageUrl && (
+      <div className="flex h-16 items-center justify-between border-y border-gray-c-100 px-5 py-3">
+        <div className="flex gap-2.5">
+          <div className="h-10 w-10 rounded-full bg-[#d9d9d9]">
+            {post.postFindSiteUserResponse.profileImageUrl && (
               <Image
-                src={post?.postFindSiteUserResponse.profileImageUrl}
+                className="h-full w-full rounded-full"
+                src={post.postFindSiteUserResponse.profileImageUrl}
                 width={40}
                 height={40}
                 alt="작성자 프로필 이미지"
               />
             )}
           </div>
-          <div className={styles.author__textzone}>
-            <div className={styles.author__name}>{post?.postFindSiteUserResponse.nickname || ""}</div>
-            <div className={styles["author__created-at"]}>
-              {convertISODateToDateTime(post?.createdAt) || "1970. 1. 1. 00:00"}
+          <div className="flex flex-col">
+            <div className="overflow-hidden text-ellipsis font-serif text-sm font-medium leading-normal text-black">
+              {post.postFindSiteUserResponse.nickname || ""}
+            </div>
+            <div className="overflow-hidden font-serif text-xs font-normal leading-normal text-[#7c7c7c]">
+              {convertISODateToDateTime(post.createdAt) || "1970. 01. 01. 00:00"}
             </div>
           </div>
         </div>
-        <div>
-          <button>채팅보내기</button>
-        </div>
+
+        <button
+          className="h-[31px] cursor-pointer rounded-full bg-[#f0f0f0] px-3 py-[5px] font-serif text-[13px] font-medium leading-[160%] tracking-[0.15px] text-[#a2a2a2]"
+          type="button"
+        >
+          채팅보내기
+        </button>
       </div>
     </>
   );
@@ -130,23 +142,16 @@ export default function Post({ post, boardCode, postId }: PostProps) {
 function PostImage({ images, onImageClick }: { images: PostImageType[]; onImageClick: (index: number) => void }) {
   if (images.length === 1) {
     return (
-      <div className={styles["single-image-container"]}>
-        <div className={styles["single-image-wrapper"]}>
-          <Image
-            className={styles["single-image"]}
-            src={images[0].url}
-            layout="fill"
-            objectFit="cover"
-            alt="image"
-            onClick={() => onImageClick(0)}
-          />
+      <div className="mb-3 pr-5">
+        <div className="relative pt-[75%]">
+          <Image src={images[0].url} layout="fill" objectFit="cover" alt="image" onClick={() => onImageClick(0)} />
         </div>
       </div>
     );
   }
   return (
-    <div className={styles["image-scroll-container"]}>
-      <div className={styles["image-scroll-content"]}>
+    <div className="w-full overflow-x-auto whitespace-nowrap">
+      <div className="flex gap-3">
         {images.map((image, index) => (
           <Image
             key={image.id}
@@ -170,15 +175,22 @@ type ImagePopupProps = {
 
 function ImagePopup({ image, title, onClose }: ImagePopupProps) {
   return (
-    <div className={styles["fullscreen-popup"]}>
-      <div className={styles.popup__header}>
-        <button className={styles["popup__close-button"]} onClick={onClose}>
+    <div className="fixed left-0 top-0 z-[1000] flex h-full w-full flex-col bg-black">
+      <div className="flex h-14 items-center justify-between bg-[rgba(255,255,255,0.15)]">
+        <button
+          className="ml-5 h-6 w-6 cursor-pointer border-0 bg-none p-0"
+          onClick={onClose}
+          type="button"
+          aria-label="뒤로가기"
+        >
           <IconCloseFilled />
         </button>
-        <span className={styles.popup__title}>{title}</span>
-        <div></div>
+        <span className="mr-6 font-serif text-base font-semibold leading-[160%] text-[rgba(255,255,255,0.87)]">
+          {title}
+        </span>
+        <div />
       </div>
-      <div className={styles["popup__image-container"]}>
+      <div className="relative flex-grow">
         <Image src={image.url} layout="fill" objectFit="contain" alt="Popup" />
       </div>
     </div>

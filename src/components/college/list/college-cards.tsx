@@ -3,8 +3,7 @@ import Link from "next/link";
 
 import { shortenLanguageTestName } from "@/utils/universityUtils";
 
-import CheveronRightFilled from "../../ui/icon/ChevronRightFilled";
-import styles from "./college-cards.module.css";
+import CheveronRightFilled from "@/components/ui/icon/ChevronRightFilled";
 
 import { ListUniversity } from "@/types/university";
 
@@ -15,57 +14,63 @@ type CollegeCardsProps = {
 
 export default function CollegeCards({ colleges, style }: CollegeCardsProps) {
   return (
-    <div className={styles.container} style={style}>
-      {colleges.map((college) => (
-        <CollegeCard key={college.id} {...college} />
+    <div className="flex flex-col gap-2" style={style}>
+      {colleges.map((university) => (
+        <CollegeCard key={university.id} university={university} />
       ))}
     </div>
   );
 }
 
-export function CollegeCard({
-  id,
-  term,
-  koreanName,
-  region,
-  country,
-  logoImageUrl,
-  studentCapacity,
-  languageRequirements,
-}: ListUniversity) {
-  const convertedKoreanName = term !== process.env.NEXT_PUBLIC_CURRENT_TERM ? `${koreanName}(${term})` : koreanName;
+type CollegeCardProps = {
+  university: ListUniversity;
+};
+
+export function CollegeCard({ university }: CollegeCardProps) {
+  const convertedKoreanName =
+    university.term !== process.env.NEXT_PUBLIC_CURRENT_TERM
+      ? `${university.koreanName}(${university.term})`
+      : university.koreanName;
   return (
-    <Link className={styles.card} href={`/college/${id}`}>
-      <div className={styles["image-wrapper"]}>
+    <Link
+      className="relative mx-5 flex h-[99px] overflow-hidden rounded-md border border-solid border-[#eaeaea] no-underline hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/10"
+      href={`/college/${university.id}`}
+    >
+      <div className="flex items-center">
         <Image
-          className={styles.image}
-          src={logoImageUrl}
+          className="ml-3 h-[60px] w-[60px] rounded-[60px] object-cover"
+          src={university.logoImageUrl}
           width={100}
           height={100}
           alt={convertedKoreanName || "대학 이미지"}
         />
       </div>
 
-      <div className={styles.info}>
-        <span className={styles.name}>{convertedKoreanName}</span>
-        <div className={styles["space-between"]}>
-          <span className={styles.country}>
-            {country} | {region}
+      <div className="ml-4 flex flex-col no-underline">
+        <span className="mt-[18px] font-serif text-base font-semibold leading-normal text-black">
+          {convertedKoreanName}
+        </span>
+        <div className="flex gap-[3px]">
+          <span className="mt-1.5 font-serif text-sm font-semibold leading-[150%] text-[#7c7c7c]">
+            {university.country} | {university.region}
           </span>
-          <span className={styles.capacity}>모집 {studentCapacity}명</span>
+          <span className="ml-2.5 mt-1.5 font-serif text-xs font-semibold leading-[150%] text-[#7c7c7c]">
+            모집 {university.studentCapacity}명
+          </span>
         </div>
-        <div className={styles.requirements}>
-          {languageRequirements.slice(0, 3).map((requirement, index) => {
-            return (
-              <span key={index} className={styles.requirement}>
-                {shortenLanguageTestName(requirement.languageTestType)}: {requirement.minScore}
-              </span>
-            );
-          })}
+        <div className="flex gap-4">
+          {university.languageRequirements.slice(0, 3).map((requirement) => (
+            <span
+              key={requirement.languageTestType}
+              className="whitespace-nowrap font-serif text-xs font-semibold leading-[150%] tracking-[0.15px] text-[#7c7c7c]"
+            >
+              {shortenLanguageTestName(requirement.languageTestType)}: {requirement.minScore}
+            </span>
+          ))}
         </div>
       </div>
 
-      <div className={styles["right-arrow-icon"]}>
+      <div className="absolute right-[9.77px] top-[38px] h-6 w-6">
         <CheveronRightFilled color="black" opacity="0.54" />
       </div>
     </Link>

@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { useState } from "react";
 
-import EditFilled from "../ui/icon/EditFilled";
-import ExpendMoreFilled from "../ui/icon/ExpendMoreFilled";
+import EditFilled from "@/components/ui/icon/EditFilled";
+import ExpendMoreFilled from "@/components/ui/icon/ExpendMoreFilled";
+
 import styles from "./score-sheets.module.css";
 
 import { LANGUAGE_TEST } from "@/constants/application";
@@ -12,26 +13,28 @@ export default function ScoreSheets({ scoreSheets }: { scoreSheets: ScoreSheetTy
   return (
     <div className={styles.container}>
       {scoreSheets.map((choice) => (
-        <ScoreSheet {...choice} key={choice.koreanName} />
+        <ScoreSheet key={choice.koreanName} scoreSheet={choice} />
       ))}
     </div>
   );
 }
 
-export function ScoreSheet({ koreanName, studentCapacity, region, country, applicants }: ScoreSheetType) {
+export function ScoreSheet({ scoreSheet }: { scoreSheet: ScoreSheetType }) {
   const [tableOpened, setTableOpened] = useState(false);
   return (
     <table className={styles.table}>
       <thead>
         <tr>
           <th>
-            {koreanName} ({applicants.length}/{studentCapacity})
+            {scoreSheet.koreanName} ({scoreSheet.applicants.length}/{scoreSheet.studentCapacity})
           </th>
           <th>
             <button
               onClick={() => {
                 setTableOpened(!tableOpened);
               }}
+              type="button"
+              aria-label="더보기"
             >
               <ExpendMoreFilled />
             </button>
@@ -40,7 +43,7 @@ export function ScoreSheet({ koreanName, studentCapacity, region, country, appli
       </thead>
       {tableOpened && (
         <tbody>
-          {applicants.map((applicant, index) => (
+          {scoreSheet.applicants.map((applicant) => (
             <tr key={applicant.nicknameForApply}>
               <td>{applicant.nicknameForApply}</td>
               <td>{applicant.gpa.toFixed(2)}</td>
@@ -48,7 +51,7 @@ export function ScoreSheet({ koreanName, studentCapacity, region, country, appli
               <td>{applicant.testScore}</td>
               <td>
                 {applicant.isMine && (
-                  <Link href={`/score/college-register`}>
+                  <Link href="/score/college-register">
                     <EditFilled />
                   </Link>
                 )}

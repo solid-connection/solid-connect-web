@@ -13,9 +13,10 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "paths": {
+      "@/public/*": ["./public/*"],
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/components/layout/icon/DegreeHat.js"],
   "exclude": ["node_modules"]
 }

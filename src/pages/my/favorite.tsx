@@ -5,22 +5,11 @@ import { getMyWishUniversityApi } from "@/services/myInfo";
 
 import CollegeCards from "@/components/college/list/college-cards";
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
-import PostCards from "@/components/my/post-cards";
 import ScrollTab from "@/components/ui/scroll-tab";
 
 import { ListUniversity } from "@/types/university";
 
 export default function MyScrapPage() {
-  const posts = [
-    // {
-    //   id: 1,
-    //   title: "보라스 대학교에 관한 정보",
-    //   content:
-    //     "안녕하세요 유저가 작성한 글의 내용 일부가 여기에 보입니다. 몇글자가 들어가는지는 모르겠지만 더 들어간다면ㅊ안녕하세요 유저가 작성한 글의 내용 일부가 여기에 보입니다. 몇글자가 들어가는지는 모르겠지만 더 들어간다면ㅊ안녕하세요 유저가 작성한 글의 내용 일부가 여기에 보입니다. 몇글자가 들어가는지는 모르겠지만 더 들어간다면ㅊ ",
-    //   createdAt: "2024. 1. 1.",
-    //   college: "보라스 대학교",
-    // },
-  ];
   const [wishColleges, setWishColleges] = useState<ListUniversity[]>(null);
 
   useEffect(() => {
@@ -52,7 +41,7 @@ export default function MyScrapPage() {
   const [tab, setTab] = useState(tabs[0]);
 
   if (!wishColleges) {
-    return <></>;
+    return null;
   }
 
   return (
@@ -65,13 +54,17 @@ export default function MyScrapPage() {
       {(() => {
         switch (tab) {
           case tabs[0]:
-            return <CollegeCards colleges={wishColleges} style={{ marginTop: "20px" }} />;
+            return (
+              <div className="mt-5">
+                <CollegeCards colleges={wishColleges} />
+              </div>
+            );
           // case tabs[1]:
           // return <PostCards posts={posts} />;
           // case tabs[2]:
           // return <></>;
           default:
-            return null; // 기본값으로 null 반환을 추가하는 것이 좋습니다.
+            return null;
         }
       })()}
     </>

@@ -9,6 +9,21 @@ export interface CommunityUser {
   profileImageUrl: string;
 }
 
+export interface Comment {
+  id: number;
+  parentId: number | null;
+  content: string;
+  isOwner: boolean;
+  createdAt: string;
+  updatedAt: string;
+  postFindSiteUserResponse: CommunityUser;
+}
+
+export interface PostImage {
+  id: number;
+  url: string;
+}
+
 export interface Post {
   id: number;
   title: string;
@@ -26,21 +41,6 @@ export interface Post {
   postFindSiteUserResponse: CommunityUser;
   postFindCommentResponses: Comment[];
   postFindPostImageResponses: PostImage[];
-}
-
-export interface Comment {
-  id: number;
-  parentId: number | null;
-  content: string;
-  isOwner: boolean;
-  createdAt: string;
-  updatedAt: string;
-  postFindSiteUserResponse: CommunityUser;
-}
-
-export interface PostImage {
-  id: number;
-  url: string;
 }
 
 export interface ListPost {

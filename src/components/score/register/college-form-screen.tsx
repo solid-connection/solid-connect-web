@@ -38,7 +38,7 @@ export default function CollegeFormScreen({
         </h1>
         <div className={styles.input}>
           <label>{text}</label>
-          <select value={collegeId || ""} onChange={(e) => setCollegeId(parseInt(e.target.value))}>
+          <select value={collegeId || ""} onChange={(e) => setCollegeId(parseInt(e.target.value, 10))}>
             <option value="">학교를 선택하세요.</option>
             {universityList.map((university) => (
               <option key={university.id} value={university.id}>

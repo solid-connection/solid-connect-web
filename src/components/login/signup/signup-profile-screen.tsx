@@ -2,10 +2,11 @@ import { Dispatch, SetStateAction, useRef, useState } from "react";
 
 import BlockToggleBtn from "@/components/ui/block-toggle-btn";
 
-import { IconSignupProfileImage } from "../../../../public/svgs";
 import styles from "./signup.module.css";
 
 import { Gender, GenderEnum } from "@/types/auth";
+
+import { IconSignupProfileImage } from "@/public/svgs";
 
 type SignupProfileScreenProps = {
   toNextStage: () => void;
@@ -29,6 +30,7 @@ export default function SignupProfileScreen({
   birth,
   setBirth,
   defaultProfileImageUrl,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   profileImageFile,
   setProfileImageFile,
 }: SignupProfileScreenProps) {
@@ -69,10 +71,10 @@ export default function SignupProfileScreen({
 
   const getImage = () => {
     if (uploadedProfileImageFileView) {
-      return <img src={uploadedProfileImageFileView} alt="profile image" />;
+      return <img src={uploadedProfileImageFileView} alt="profile" />;
     }
     if (defaultProfileImageUrl) {
-      return <img src={defaultProfileImageUrl} alt="profile image" />;
+      return <img src={defaultProfileImageUrl} alt="profile" />;
     }
     return <IconSignupProfileImage />;
   };
@@ -80,7 +82,7 @@ export default function SignupProfileScreen({
   return (
     <div className={styles.screen}>
       <div className={styles["secondary-title"]}>가입 마지막 단계예요!</div>
-      <div className={styles["title"]}>
+      <div className={styles.title}>
         기본 회원 정보를
         <br />
         등록해주세요.
@@ -88,6 +90,7 @@ export default function SignupProfileScreen({
 
       <div className={styles["profile-screen"]}>
         <div className={styles.profile__image}>
+          {/* eslint-disable-next-line */}
           <div className={styles["image-wrapper"]} onClick={handleImageClick}>
             {getImage()}
           </div>

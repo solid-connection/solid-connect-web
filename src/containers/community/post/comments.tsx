@@ -6,10 +6,11 @@ import { convertISODateToDateTime } from "@/utils/datetimeUtils";
 
 import Dropdown from "@/components/ui/dropdown";
 
-import { IconMoreVertFilled, IconSubComment } from "../../../../public/svgs";
 import styles from "./comments.module.css";
 
 import { Comment } from "@/types/community";
+
+import { IconMoreVertFilled, IconSubComment } from "@/public/svgs";
 
 type CommentsProps = {
   comments: Comment[];
@@ -22,7 +23,7 @@ export default function Comments({ comments, postId, refresh, setCurSelectedComm
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
 
   const toggleDeleteComment = (commentId: number) => {
-    if (!confirm("정말 삭제하시겠습니까?")) return;
+    if (!window.confirm("정말 삭제하시겠습니까?")) return;
     deleteCommentApi(postId, commentId)
       .then(() => {
         refresh();
@@ -50,6 +51,7 @@ export default function Comments({ comments, postId, refresh, setCurSelectedComm
   return (
     <div className={styles["comment-container"]}>
       {comments?.map((comment) => (
+        // eslint-disable-next-line
         <div
           className={`${styles["comment-wrapper"]} ${comment.parentId !== null && styles["comment-wrapper--sub-comment"]}`}
           key={comment.id}
@@ -77,9 +79,14 @@ export default function Comments({ comments, postId, refresh, setCurSelectedComm
               </div>
               {comment.isOwner && (
                 <div className={styles["comment__kebab-menu-wrapper"]}>
-                  <div className={styles["comment__kebab-menu"]} onClick={() => toggleDropdown(comment.id)}>
+                  <button
+                    className={styles["comment__kebab-menu"]}
+                    onClick={() => toggleDropdown(comment.id)}
+                    type="button"
+                    aria-label="더보기"
+                  >
                     <IconMoreVertFilled />
-                  </div>
+                  </button>
                   {activeDropdown === comment.id && (
                     <Dropdown
                       options={[

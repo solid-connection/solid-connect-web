@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
 
-import { IconObjectsAndTools } from "../../../public/svgs";
 import styles from "./post-write-button.module.css";
 
-export default function PostWriteButton(props) {
-  const { onClick } = props;
+import { IconObjectsAndTools } from "@/public/svgs";
+
+type PostWriteButtonProps = {
+  onClick: () => void;
+};
+
+export default function PostWriteButton({ onClick }: PostWriteButtonProps) {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
@@ -25,11 +29,11 @@ export default function PostWriteButton(props) {
 
   return (
     <div className={`${styles["button-wrapper"]} ${isVisible ? styles["button-visible"] : styles["button-hidden"]}`}>
-      <div className={styles.button} onClick={onClick}>
+      <button className={styles.button} onClick={onClick} type="button" aria-label="글쓰기">
         <div className={styles.icon}>
           <IconObjectsAndTools />
         </div>
-      </div>
+      </button>
     </div>
   );
 }

@@ -4,11 +4,10 @@ import { useEffect, useRef, useState } from "react";
 
 import { getUniversityListPublicApi } from "@/services/university";
 
+import CollegeCards from "@/components/college/list/college-cards";
 import CollegeSearch from "@/components/college/list/college-search";
 import TopNavigation from "@/components/layout/top-navigation";
 import ButtonTab from "@/components/ui/button-tab";
-
-import CollegeCards from "../../components/college/list/college-cards";
 
 import { REGIONS_KO } from "@/constants/university";
 import { ListUniversity, RegionKo } from "@/types/university";
@@ -21,9 +20,9 @@ export default function CollegePage({ colleges }: { colleges: ListUniversity[] }
   const querySearchTexts: string[] = Array.isArray(router.query.keyword)
     ? router.query.keyword
     : [router.query.keyword];
-  const queryTestScore: string = Array.isArray(router.query.testScore)
-    ? router.query.testScore[0]
-    : router.query.testScore;
+  // const queryTestScore: string = Array.isArray(router.query.testScore)
+  //   ? router.query.testScore[0]
+  //   : router.query.testScore;
   let queryTest: string | null = Array.isArray(router.query.test) ? router.query.test[0] : router.query.test;
   if (!["TOEIC", "TOEFL_IBT", "TOEFL_ITP", "IELTS", "JLPT"].includes(queryTest)) queryTest = null;
 
@@ -97,7 +96,13 @@ export default function CollegePage({ colleges }: { colleges: ListUniversity[] }
         <title>솔리드 커넥션</title>
       </Head>
       <TopNavigation />
-      <CollegeSearch searchHandler={searchHandler} textRef={searchTextRef} defaultValue={searchTexts.join(",")} />
+      <CollegeSearch
+        searchHandler={(e) => {
+          searchHandler(e);
+        }}
+        textRef={searchTextRef}
+        defaultValue={searchTexts.join(",")}
+      />
       <ButtonTab
         choices={REGIONS}
         choice={region}

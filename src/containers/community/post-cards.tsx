@@ -1,51 +1,63 @@
-import Image from "next/image";
 import Link from "next/link";
 
 import { convertISODateToDate } from "@/utils/datetimeUtils";
 
 import Communication from "@/components/ui/icon/Communication";
 
-import { IconPostLikeOutline } from "../../../public/svgs";
-import styles from "./post-cards.module.css";
-
 import { ListPost } from "@/types/community";
 
-export default function PostCards({ posts, boardCode }: { posts: ListPost[]; boardCode: string }) {
+import { IconPostLikeOutline } from "@/public/svgs";
+
+type PostCardsProps = {
+  posts: ListPost[];
+  boardCode: string;
+};
+
+export default function PostCards({ posts, boardCode }: PostCardsProps) {
   return (
-    <div>
+    <div className="flex flex-col">
       {posts.map((post) => (
-        <PostCard key={post.id} post={post} boardCode={boardCode} />
+        <Link href={`/community/${boardCode}/${post.id}`} className="no-underline">
+          <PostCard key={post.id} post={post} />
+        </Link>
       ))}
     </div>
   );
 }
 
-export function PostCard({ post, boardCode }: { post: ListPost; boardCode: string }) {
+export function PostCard({ post }: { post: ListPost }) {
   return (
-    <Link href={`/community/${boardCode}/${post.id}`} className={styles.a}>
-      <div className={styles.card}>
-        <div className={styles["text-zone"]}>
-          <div className={styles.meta}>
-            <div className={styles.category}>{post.postCategory || ""}</div>
-            <div className={styles.date}>{convertISODateToDate(post.createdAt) || "1970. 1. 1."}</div>
+    <div className="flex justify-between border-b border-b-gray-c-100 px-5 py-4">
+      <div className="flex flex-col">
+        <div className="flex items-center truncate font-serif text-[#7c7c7c]">
+          <span className="text-sm font-extrabold leading-normal">{post.postCategory || ""}</span>
+          <span className="ml-2.5 text-xs font-normal leading-normal">
+            {convertISODateToDate(post.createdAt) || "1970. 1. 1."}
+          </span>
+        </div>
+        <span className="mt-2 font-serif text-base font-semibold leading-5 text-black">{post.title || ""}</span>
+        <div className="mt-1 h-11 overflow-hidden text-ellipsis break-all font-serif text-sm font-medium leading-normal text-[#7c7c7c]">
+          {post.content || "내용 없음"}
+        </div>
+        <div className="mt-1 flex items-center gap-2.5">
+          <div className="flex items-center gap-1">
+            <IconPostLikeOutline />
+            <span className="overflow-hidden font-serif text-xs font-normal leading-normal text-[#595959]">
+              {post.likeCount || 0}
+            </span>
           </div>
-          <div className={styles.title}>{post.title || "제목 없음"}</div>
-          <div className={styles.content}>{post.content || "내용 없음"}</div>
-          <div className={styles.icons}>
-            <div className={styles.favorite}>
-              <IconPostLikeOutline />
-              <span>{post.likeCount || 0}</span>
-            </div>
-            <div className={styles.comment}>
-              <Communication />
-              <span>{post.commentCount || 0}</span>
-            </div>
+          <div className="flex items-center gap-1">
+            <Communication />
+            <span className="overflow-hidden font-serif text-xs font-normal leading-normal text-[#595959]">
+              {post.commentCount || 0}
+            </span>
           </div>
         </div>
-        {/* <div className={styles["image-zone"]}>
-          {null && <Image src={null} height={82} width={82} alt={post.title || "이미지 없음"} />}
-        </div> */}
       </div>
-    </Link>
+
+      {/* <div className="ml-[15px] mt-[11px] h-[82px] w-[82px] select-none">
+        <Image className="rounded-md object-cover" src={null} height={82} width={82} alt="게시글 사진" />
+      </div> */}
+    </div>
   );
 }
