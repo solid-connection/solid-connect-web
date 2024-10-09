@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import { updateMyNicknameApi } from "@/services/myInfo";
 
-import BlockBtn from "@/components/button/block-btn";
+import BlockBtn from "@/components/button/BlockBtn";
 
 import { MAX_WIDTH } from "@/constants/meta";
 import { MyInfo } from "@/types/myInfo";
@@ -63,18 +63,9 @@ const MyModifyForm = ({ myInfo }: MyModifyFormProps) => {
         <MyModifyFormElement title="활동" value="Mentee" />
       </div>
 
-      <BlockBtn
-        style={{
-          position: "fixed",
-          bottom: "86px",
-          width: "calc(100% - 60px)",
-          maxWidth: MAX_WIDTH - 60,
-          marginLeft: "30px",
-        }}
-        onClick={handleNicknameChange}
-      >
-        저장하기
-      </BlockBtn>
+      <div className="fixed bottom-24 w-full max-w-[600px] px-5">
+        <BlockBtn onClick={handleNicknameChange}>저장하기</BlockBtn>
+      </div>
     </>
   );
 };
