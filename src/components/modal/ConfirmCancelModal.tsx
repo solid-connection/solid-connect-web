@@ -2,13 +2,13 @@ import ModalBase from "./ModalBase";
 
 type ConfirmCancelModalProps = {
   isOpen: boolean;
-  handleCancel: () => void;
-  handleConfirm: () => void;
   title: string;
   content: string;
+  handleConfirm: () => void;
+  handleCancel: () => void;
 };
 
-const ConfirmCancelModal = ({ isOpen, handleCancel, handleConfirm, title, content }: ConfirmCancelModalProps) => {
+const ConfirmCancelModal = ({ isOpen, title, content, handleConfirm, handleCancel }: ConfirmCancelModalProps) => {
   if (!isOpen) return null;
 
   return (

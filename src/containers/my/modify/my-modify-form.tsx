@@ -4,8 +4,8 @@ import { useState } from "react";
 import { updateMyNicknameApi } from "@/services/myInfo";
 
 import BlockBtn from "@/components/button/BlockBtn";
+import ConfirmCancelModal from "@/components/modal/ConfirmCancelModal";
 
-import { MAX_WIDTH } from "@/constants/meta";
 import { MyInfo } from "@/types/myInfo";
 
 type MyModifyFormProps = {
@@ -14,10 +14,12 @@ type MyModifyFormProps = {
 
 const MyModifyForm = ({ myInfo }: MyModifyFormProps) => {
   const [nickname, setNickname] = useState<string>(myInfo.nickname);
+  const [isChangeModalOpen, setIsChangeModalOpen] = useState<boolean>(false);
   const router = useRouter();
 
   const updateNickname = async (newNickname: string) => {
     try {
+      setIsChangeModalOpen(false);
       await updateMyNicknameApi(newNickname);
       alert("닉네임이 변경되었습니다");
       router.reload();
@@ -34,12 +36,6 @@ const MyModifyForm = ({ myInfo }: MyModifyFormProps) => {
         console.error("Error", err.message);
         alert(err.message);
       }
-    }
-  };
-
-  const handleNicknameChange = () => {
-    if (window.confirm("닉네임은 7일에 한번만 변경 가능합니다. 정말로 변경하시겠습니까?")) {
-      updateNickname(nickname);
     }
   };
 
@@ -64,8 +60,25 @@ const MyModifyForm = ({ myInfo }: MyModifyFormProps) => {
       </div>
 
       <div className="fixed bottom-24 w-full max-w-[600px] px-5">
-        <BlockBtn onClick={handleNicknameChange}>저장하기</BlockBtn>
+        <BlockBtn
+          onClick={() => {
+            setIsChangeModalOpen(true);
+          }}
+        >
+          저장하기
+        </BlockBtn>
       </div>
+      <ConfirmCancelModal
+        isOpen={isChangeModalOpen}
+        title="닉네임 변경"
+        content="닉네임은 7일에 한번만 변경 가능합니다. 정말로 변경하시겠습니까?"
+        handleConfirm={() => {
+          updateNickname(nickname);
+        }}
+        handleCancel={() => {
+          setIsChangeModalOpen(false);
+        }}
+      />
     </>
   );
 };
