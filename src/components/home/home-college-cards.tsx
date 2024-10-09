@@ -36,7 +36,7 @@ export default function HomeCollegeCards({ colleges }: { colleges: ListUniversit
           <HomeCollegeCard
             key={college.id}
             id={college.id}
-            image={college.logoImageUrl ? college.logoImageUrl : ""}
+            imageUrl={college.logoImageUrl ? college.logoImageUrl : ""}
             name={college.koreanName || "대학명"}
           />
         ))}
@@ -46,16 +46,22 @@ export default function HomeCollegeCards({ colleges }: { colleges: ListUniversit
 }
 type HomeCollegeCardProps = {
   id: number;
-  image: string;
+  imageUrl: string;
   name: string;
 };
 
-export function HomeCollegeCard({ id, image, name }: HomeCollegeCardProps) {
+export function HomeCollegeCard({ id, imageUrl, name }: HomeCollegeCardProps) {
   return (
     <Link href={`/college/${id}`}>
       <div className={styles.card}>
         <div className={styles["image-wrapper"]}>
-          <Image className="h-[120px]" src={image} width={153} height={120} alt={name || "대학 없음"} />
+          <Image
+            className="h-[120px]"
+            src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${imageUrl}`}
+            width={153}
+            height={120}
+            alt={name || "대학 없음"}
+          />
         </div>
         <div className={styles.name}>{name}</div>
       </div>
