@@ -5,9 +5,10 @@ type TextModalProps = {
   handleClose: () => void;
   title: string;
   content: string;
+  buttonContent?: string;
 };
 
-const TextModal = ({ isOpen, handleClose, title, content }: TextModalProps) => {
+const TextModal = ({ isOpen, handleClose, title, content, buttonContent }: TextModalProps) => {
   if (!isOpen) return null;
 
   return (
@@ -24,7 +25,9 @@ const TextModal = ({ isOpen, handleClose, title, content }: TextModalProps) => {
             className="flex h-11 w-36 cursor-pointer items-center justify-center rounded-lg bg-primary-2 px-1.5 py-2"
             onClick={handleClose}
           >
-            <span className="text-center font-serif text-base font-normal leading-4 text-white">취소</span>
+            <span className="text-center font-serif text-base font-normal leading-4 text-white">
+              {buttonContent || "확인"}
+            </span>
           </button>
         </div>
       </div>
