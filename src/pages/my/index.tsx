@@ -7,7 +7,7 @@ import { deleteAccountApi, signOutApi } from "@/services/auth";
 import { getMyInfoApi } from "@/services/myInfo";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
-import Modal from "@/components/ui/text-modal";
+import Modal from "@/components/modal/text-modal";
 import MyInfoCard from "@/containers/my/MyInfoCard";
 import MyMenu from "@/containers/my/MyMenu";
 import MyMenuGroup from "@/containers/my/MyMenuGroup";

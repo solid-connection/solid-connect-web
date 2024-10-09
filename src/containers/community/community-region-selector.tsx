@@ -1,8 +1,8 @@
 import { useState } from "react";
 
+import Modal from "@/components/modal/modal";
 import CheckBoxOutlineBlankOutlined from "@/components/ui/icon/CheckBoxOutlineBlankOutlined";
 import ExpendMoreFilled from "@/components/ui/icon/ExpendMoreFilled";
-import Modal from "@/components/ui/modal";
 
 import styles from "./community-region-selector.module.css";
 
