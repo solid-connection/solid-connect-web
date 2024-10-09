@@ -120,7 +120,11 @@ const MyPage = () => {
         <div className="my-9 ml-5 flex h-12 gap-5">
           <div>
             {myInfo.profileImageUrl ? (
-              <img className="h-[45px] w-[45px] rounded-full object-cover" src={myInfo.profileImageUrl} alt="프로필" />
+              <img
+                className="h-[45px] w-[45px] rounded-full object-cover"
+                src={`${process.env.NEXT_PUBLIC_UPLOADED_IMAGE_URL}/${myInfo.profileImageUrl}`}
+                alt="프로필"
+              />
             ) : (
               <IconNoProfileImage />
             )}

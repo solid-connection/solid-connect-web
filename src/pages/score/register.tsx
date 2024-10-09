@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 import { postApplicationScoreApi } from "@/services/application";
@@ -14,6 +15,7 @@ import ProgressBar from "@/components/score/register/progress-bar";
 import { LANGUAGE_TEST_CONVERSE } from "@/constants/application";
 
 export default function ScoreRegisterPage() {
+  const router = useRouter();
   const [currentStage, setCurrentStage] = useState<number>(1);
   const [languageType, setLanguageType] = useState<string>("");
   const [languageScore, setLanguageScore] = useState("");
@@ -53,6 +55,7 @@ export default function ScoreRegisterPage() {
 
   function handleBack() {
     if (currentStage === 1) {
+      router.back();
       return;
     }
     if (currentStage === 2) {

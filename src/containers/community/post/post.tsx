@@ -111,7 +111,7 @@ export default function Post({ post, boardCode, postId }: PostProps) {
             {post.postFindSiteUserResponse.profileImageUrl && (
               <Image
                 className="h-full w-full rounded-full"
-                src={post.postFindSiteUserResponse.profileImageUrl}
+                src={`${process.env.NEXT_PUBLIC_UPLOADED_IMAGE_URL}/${post.postFindSiteUserResponse.profileImageUrl}`}
                 width={40}
                 height={40}
                 alt="작성자 프로필 이미지"
@@ -144,7 +144,13 @@ function PostImage({ images, onImageClick }: { images: PostImageType[]; onImageC
     return (
       <div className="mb-3 pr-5">
         <div className="relative pt-[75%]">
-          <Image src={images[0].url} layout="fill" objectFit="cover" alt="image" onClick={() => onImageClick(0)} />
+          <Image
+            src={`${process.env.NEXT_PUBLIC_UPLOADED_IMAGE_URL}/${images[0].url}`}
+            layout="fill"
+            objectFit="cover"
+            alt="image"
+            onClick={() => onImageClick(0)}
+          />
         </div>
       </div>
     );
@@ -155,7 +161,7 @@ function PostImage({ images, onImageClick }: { images: PostImageType[]; onImageC
         {images.map((image, index) => (
           <Image
             key={image.id}
-            src={image.url}
+            src={`${process.env.NEXT_PUBLIC_UPLOADED_IMAGE_URL}/${image.url}`}
             width={197}
             height={197}
             alt="image"
@@ -191,7 +197,12 @@ function ImagePopup({ image, title, onClose }: ImagePopupProps) {
         <div />
       </div>
       <div className="relative flex-grow">
-        <Image src={image.url} layout="fill" objectFit="contain" alt="Popup" />
+        <Image
+          src={`${process.env.NEXT_PUBLIC_UPLOADED_IMAGE_URL}/${image.url}`}
+          layout="fill"
+          objectFit="contain"
+          alt="Popup"
+        />
       </div>
     </div>
   );

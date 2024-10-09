@@ -39,7 +39,7 @@ export function CollegeCard({ university }: CollegeCardProps) {
       <div className="flex items-center">
         <Image
           className="ml-3 h-[60px] w-[60px] rounded-[60px] object-cover"
-          src={university.logoImageUrl}
+          src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${university.logoImageUrl}`}
           width={100}
           height={100}
           alt={convertedKoreanName || "대학 이미지"}
