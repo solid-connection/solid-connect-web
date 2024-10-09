@@ -4,8 +4,16 @@
 ## 이름 컨벤션
 - pages/ 에 정의하는 페이지 컴포넌트는 ~Page로 끝나야 합니다.
 
+### 파일명
+- 파일명은 기본적으로 kebab-case로 작성합니다.
+- React Component 파일명은 PascalCase로 작성합니다.
+  - 현재 React Component 파일명을 kebab-case에서 PascalCase로 변경하는 작업을 진행 중입니다.
+
 ## CSS
 ### CSS 속성 선언 순서
+Tailwindcss의 속성은 린터에 의한 자동 정렬을 사용합니다.
+
+### (Legacy)CSS 속성 선언 순서
 1. **display** - 표시(관련속성:visibility)
 2. **overflow** - 넘침
 3. **float** - 흐름(관련속성:clear)
