@@ -8,6 +8,8 @@ import ConfirmCancelModal from "@/components/modal/ConfirmCancelModal";
 
 import { MyInfo } from "@/types/myInfo";
 
+import { useAlert } from "@/context/AlertContext";
+
 type MyModifyFormProps = {
   myInfo: MyInfo;
 };
@@ -16,25 +18,26 @@ const MyModifyForm = ({ myInfo }: MyModifyFormProps) => {
   const [nickname, setNickname] = useState<string>(myInfo.nickname);
   const [isChangeModalOpen, setIsChangeModalOpen] = useState<boolean>(false);
   const router = useRouter();
+  const { alert } = useAlert();
 
   const updateNickname = async (newNickname: string) => {
     try {
       setIsChangeModalOpen(false);
       await updateMyNicknameApi(newNickname);
-      alert("닉네임이 변경되었습니다");
+      await alert("닉네임이 변경되었습니다");
       router.reload();
     } catch (err) {
       if (err.response) {
         console.error("Axios response error", err.response);
         if (err.response.status === 401 || err.response.status === 403) {
-          alert("로그인이 필요합니다");
+          await alert("로그인이 필요합니다");
           document.location.href = "/login";
         } else {
-          alert(err.response.data?.message);
+          await alert(err.response.data?.message);
         }
       } else {
         console.error("Error", err.message);
-        alert(err.message);
+        await alert(err.message);
       }
     }
   };
