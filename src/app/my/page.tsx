@@ -1,12 +1,14 @@
+"use client";
+
 import Head from "next/head";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { deleteAccountApi, signOutApi } from "@/services/auth";
 import { getMyInfoApi } from "@/services/myInfo";
 
-import TopDetailNavigation from "@/components/layout/top-detail-navigation";
+import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import ConfirmCancelModal from "@/components/modal/ConfirmCancelModal";
 import MyInfoCard from "@/containers/my/MyInfoCard";
 import MyMenu from "@/containers/my/MyMenu";
