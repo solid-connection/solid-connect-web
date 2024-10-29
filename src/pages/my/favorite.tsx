@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { getMyWishUniversityApi } from "@/services/myInfo";
 
 import CollegeCards from "@/components/college/list/college-cards";
-import TopDetailNavigation from "@/components/layout/top-detail-navigation";
+import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import ScrollTab from "@/components/ui/scroll-tab";
 
 import { ListUniversity } from "@/types/university";

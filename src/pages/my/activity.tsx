@@ -2,7 +2,7 @@
 import Head from "next/head";
 import { useState } from "react";
 
-import TopDetailNavigation from "@/components/layout/top-detail-navigation";
+import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import ScrollTab from "@/components/ui/scroll-tab";
 import PostCards from "@/containers/my/post-cards";
 

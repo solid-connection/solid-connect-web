@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { getMyApplicationStatusApi, postApplicationUniversityApi } from "@/services/application";
 import { getUniversityListPublicApi } from "@/services/university";
 
-import TopDetailNavigation from "@/components/layout/top-detail-navigation";
+import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import CollegeFinalScreen from "@/components/score/register/college-final-screen";
 import CollegeFormScreen from "@/components/score/register/college-form-screen";
 import ProgressBar from "@/components/score/register/progress-bar";

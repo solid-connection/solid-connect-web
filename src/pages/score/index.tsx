@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 
 import { getApplicationListApi, getMyApplicationStatusApi } from "@/services/application";
 
-import TopDetailNavigation from "@/components/layout/top-detail-navigation";
+import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import CloudSpinnerPage from "@/components/loading/CloudSpinnerPage";
 import CertFinalScreen from "@/components/score/register/cert-final-screen";
 import CollegeFinalScreen from "@/components/score/register/college-final-screen";

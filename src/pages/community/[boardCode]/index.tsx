@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import { getPostListApi } from "@/services/community";
 
-import TopDetailNavigation from "@/components/layout/top-detail-navigation";
+import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import CloudSpinnerPage from "@/components/loading/CloudSpinnerPage";
 import ButtonTab from "@/components/ui/button-tab";
 import CommunityRegionSelector from "@/containers/community/community-region-selector";

@@ -5,7 +5,7 @@ import { useState } from "react";
 import { postApplicationScoreApi } from "@/services/application";
 import { uploadGpaFileApi, uploadLanguageTestFileApi } from "@/services/file";
 
-import TopDetailNavigation from "@/components/layout/top-detail-navigation";
+import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import CertFinalScreen from "@/components/score/register/cert-final-screen";
 import FormFinal from "@/components/score/register/form-final";
 import FormLanguage from "@/components/score/register/form-language";

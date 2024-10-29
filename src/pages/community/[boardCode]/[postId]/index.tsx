@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import { deletePostApi, getPostDetailApi } from "@/services/community";
 
-import TopDetailNavigation from "@/components/layout/top-detail-navigation";
+import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import CloudSpinnerPage from "@/components/loading/CloudSpinnerPage";
 import Dropdown from "@/components/ui/dropdown";
 import CommentWrite from "@/containers/community/post/comment-write";

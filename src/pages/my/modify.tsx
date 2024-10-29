@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 import { getMyInfoApi } from "@/services/myInfo";
 
-import TopDetailNavigation from "@/components/layout/top-detail-navigation";
+import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import MyModifyForm from "@/containers/my/modify/my-modify-form";
 import MyModifyProfileImage from "@/containers/my/modify/my-modify-profile-image";
 
