@@ -44,7 +44,6 @@ function MyModifyProfileImage({ myInfo }: MyModifyProfileImageProps) {
   };
 
   return (
-    // eslint-disable-next-line
     <div
       className="h-[6.75rem] w-[6.75rem] hover:cursor-pointer"
       onClick={() => {
@@ -54,7 +53,7 @@ function MyModifyProfileImage({ myInfo }: MyModifyProfileImageProps) {
       {myInfo.profileImageUrl ? (
         <img
           className="h-[6.75rem] w-[6.75rem] rounded-full object-cover"
-          src={myInfo.profileImageUrl}
+          src={`${process.env.NEXT_PUBLIC_UPLOADED_IMAGE_URL}/${myInfo.profileImageUrl}`}
           alt="프로필 이미지"
         />
       ) : (

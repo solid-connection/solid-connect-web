@@ -1,4 +1,4 @@
-import BlockBtn from "@/components/ui/block-btn";
+import BlockBtn from "@/components/button/block-btn";
 
 import styles from "./form.module.css";
 

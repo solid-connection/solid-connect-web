@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { useRef } from "react";
 
-import BlockBtn from "@/components/ui/block-btn";
-import RoundBtn from "@/components/ui/round-btn";
+import BlockBtn from "@/components/button/block-btn";
+import RoundBtn from "@/components/button/round-btn";
 
 import styles from "./form.module.css";
 

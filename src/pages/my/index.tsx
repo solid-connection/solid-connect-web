@@ -7,7 +7,7 @@ import { deleteAccountApi, signOutApi } from "@/services/auth";
 import { getMyInfoApi } from "@/services/myInfo";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
-import Modal from "@/components/ui/text-modal";
+import ConfirmCancelModal from "@/components/modal/ConfirmCancelModal";
 import MyInfoCard from "@/containers/my/MyInfoCard";
 import MyMenu from "@/containers/my/MyMenu";
 import MyMenuGroup from "@/containers/my/MyMenuGroup";
@@ -184,15 +184,15 @@ const MyPage = () => {
           </MyMenuGroup>
         </div>
 
-        <Modal
-          show={showLogout}
+        <ConfirmCancelModal
+          isOpen={showLogout}
           handleCancel={toggleLogout}
           handleConfirm={handleLogout}
           title="로그아웃"
           content="로그아웃 하시겠습니까?"
         />
-        <Modal
-          show={showWithdraw}
+        <ConfirmCancelModal
+          isOpen={showWithdraw}
           handleCancel={toggleWithdraw}
           handleConfirm={handleWithdraw}
           title="탈퇴하기"
