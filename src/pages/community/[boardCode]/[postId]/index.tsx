@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { deletePostApi, getPostDetailApi } from "@/services/community";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
+import CloudSpinnerPage from "@/components/loading/CloudSpinnerPage";
 import Dropdown from "@/components/ui/dropdown";
 import CommentWrite from "@/containers/community/post/comment-write";
 import Comments from "@/containers/community/post/comments";
@@ -46,7 +47,7 @@ export default function PostPage({ boardCode, postId }: { boardCode: string; pos
   }, []);
 
   if (isLoading) {
-    return null;
+    return <CloudSpinnerPage />;
   }
 
   return (

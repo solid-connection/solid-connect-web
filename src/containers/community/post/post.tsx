@@ -114,7 +114,7 @@ export default function Post({ post, boardCode, postId }: PostProps) {
                 src={`${process.env.NEXT_PUBLIC_UPLOADED_IMAGE_URL}/${post.postFindSiteUserResponse.profileImageUrl}`}
                 width={40}
                 height={40}
-                alt="작성자 프로필 이미지"
+                alt=""
               />
             )}
           </div>

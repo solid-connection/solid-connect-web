@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { getPostListApi } from "@/services/community";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
+import CloudSpinnerPage from "@/components/loading/CloudSpinnerPage";
 import ButtonTab from "@/components/ui/button-tab";
 import CommunityRegionSelector from "@/containers/community/community-region-selector";
 import PostCards from "@/containers/community/post-cards";
@@ -19,12 +20,14 @@ export default function CommunityPage({ boardCode: initialBoardCode }: { boardCo
   const [boardDisplayName, setBoardDisplayName] = useState<string>("자유");
   const [category, setCategory] = useState<string>("전체");
   const [posts, setPosts] = useState<ListPost[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchPosts = async () => {
       await getPostListApi(boardCode, category)
         .then((res) => {
           setPosts(res.data.reverse());
+          setIsLoading(false);
         })
         .catch((err) => {
           if (err.response) {
@@ -52,6 +55,10 @@ export default function CommunityPage({ boardCode: initialBoardCode }: { boardCo
   const postWriteHandler = () => {
     router.push(`/community/${boardCode}/create`);
   };
+
+  if (isLoading) {
+    return <CloudSpinnerPage />;
+  }
 
   return (
     <>
