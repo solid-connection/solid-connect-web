@@ -5,6 +5,7 @@ import Script from "next/script";
 
 import Layout from "@/components/layout/layout";
 
+import { AlertProvider } from "@/context/AlertContext";
 import { LayoutProvider } from "@/context/LayoutContext";
 import "@/styles/globals.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
@@ -39,13 +40,15 @@ export default function App({ Component, pageProps }: AppProps) {
           <link rel="icon" href="/icons/favicon_48.ico" />
           <title>솔리드 커넥션</title>
         </Head>
-        <Layout>
-          {/* eslint-disable-next-line react/jsx-no-bind */}
-          <Script src="https://developers.kakao.com/sdk/js/kakao.js" onLoad={kakaoInit} />
-          {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-          <Component {...pageProps} />
-          <GoogleAnalytics gaId="G-V1KLYZC1DS" />
-        </Layout>
+        <AlertProvider>
+          <Layout>
+            {/* eslint-disable-next-line react/jsx-no-bind */}
+            <Script src="https://developers.kakao.com/sdk/js/kakao.js" onLoad={kakaoInit} />
+            {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+            <Component {...pageProps} />
+            <GoogleAnalytics gaId="G-V1KLYZC1DS" />
+          </Layout>
+        </AlertProvider>
       </>
     </LayoutProvider>
   );

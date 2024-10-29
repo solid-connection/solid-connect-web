@@ -1,8 +1,8 @@
 import { useState } from "react";
 
+import ModalBase from "@/components/modal/ModalBase";
 import CheckBoxOutlineBlankOutlined from "@/components/ui/icon/CheckBoxOutlineBlankOutlined";
 import ExpendMoreFilled from "@/components/ui/icon/ExpendMoreFilled";
-import Modal from "@/components/ui/modal";
 
 import styles from "./community-region-selector.module.css";
 
@@ -31,7 +31,7 @@ export default function CommunityRegionSelector({
           <ExpendMoreFilled />
         </button>
       </div>
-      <Modal isOpen={isRegionSelectorModalVisible} onClose={toggleRegionSelectorModal}>
+      <ModalBase isOpen={isRegionSelectorModalVisible} onClose={toggleRegionSelectorModal}>
         <div className={styles.modal}>
           <div className={styles.modal__header}>권역 변경</div>
           <div className={styles.modal__category}>
@@ -51,7 +51,7 @@ export default function CommunityRegionSelector({
             ))}
           </div>
         </div>
-      </Modal>
+      </ModalBase>
     </>
   );
 }

@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
+import BlockBtn from "@/components/button/block-btn";
 import ImageCarousel from "@/components/login/image-carousel";
 import KakaoLoginButton from "@/components/login/kakao-login-button";
-import BlockBtn from "@/components/ui/block-btn";
 
 import { useLayout } from "@/context/LayoutContext";
 

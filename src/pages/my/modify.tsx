@@ -52,7 +52,7 @@ export default function MyModifyPage() {
       </Head>
       <TopDetailNavigation title="프로필 수정" />
       <div>
-        <div className="flex flex-col items-center gap-3 pb-[51px] pt-10">
+        <div className="flex flex-col items-center gap-3 pb-8 pt-10">
           <div className="font-serif text-xl font-semibold text-black">
             {myInfo.role ? roleDisplay[myInfo.role] : "멘티"}
           </div>
