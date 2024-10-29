@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { getApplicationListApi, getMyApplicationStatusApi } from "@/services/application";
 
 import TopDetailNavigation from "@/components/layout/top-detail-navigation";
+import CloudSpinnerPage from "@/components/loading/CloudSpinnerPage";
 import CertFinalScreen from "@/components/score/register/cert-final-screen";
 import CollegeFinalScreen from "@/components/score/register/college-final-screen";
 import ScoreSearchBar from "@/components/score/score-search-bar";
@@ -130,7 +131,7 @@ export default function ScorePage() {
   }, [filter]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <CloudSpinnerPage />;
   }
 
   if (status === "NO_AUTHORIZATION") {
