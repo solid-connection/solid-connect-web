@@ -1,4 +1,6 @@
-import { useRouter } from "next/router";
+"use client";
+
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { updateMyNicknameApi } from "@/services/myInfo";
@@ -10,11 +12,11 @@ import { MyInfo } from "@/types/myInfo";
 
 import { useAlert } from "@/context/AlertContext";
 
-type MyModifyFormProps = {
+type MyInfoModifyFormProps = {
   myInfo: MyInfo;
 };
 
-const MyModifyForm = ({ myInfo }: MyModifyFormProps) => {
+const MyInfoModifyForm = ({ myInfo }: MyInfoModifyFormProps) => {
   const [nickname, setNickname] = useState<string>(myInfo.nickname);
   const [isChangeModalOpen, setIsChangeModalOpen] = useState<boolean>(false);
   const router = useRouter();
@@ -25,7 +27,7 @@ const MyModifyForm = ({ myInfo }: MyModifyFormProps) => {
       setIsChangeModalOpen(false);
       await updateMyNicknameApi(newNickname);
       await alert("닉네임이 변경되었습니다");
-      router.reload();
+      router.refresh();
     } catch (err) {
       if (err.response) {
         console.error("Axios response error", err.response);
@@ -54,12 +56,12 @@ const MyModifyForm = ({ myInfo }: MyModifyFormProps) => {
   return (
     <>
       <div className="flex flex-col gap-5 px-5">
-        <MyModifyFormElement title="이름" value={nickname} setValue={setNickname} />
-        {/* <MyModifyFormElement title="성별" value="성별 값" /> */}
-        <MyModifyFormElement title="생년월일" value={convertBirthFormat(myInfo.birth) || "1970.1.1"} />
-        <MyModifyFormElement title="출신학교" value="인하대학교" />
-        <MyModifyFormElement title="파견학교" value="미상" />
-        <MyModifyFormElement title="활동" value="Mentee" />
+        <MyInfoModifyFormElement title="이름" value={nickname} setValue={setNickname} />
+        {/* <MyInfoModifyFormElement title="성별" value="성별 값" /> */}
+        <MyInfoModifyFormElement title="생년월일" value={convertBirthFormat(myInfo.birth) || "1970.1.1"} />
+        <MyInfoModifyFormElement title="출신학교" value="인하대학교" />
+        <MyInfoModifyFormElement title="파견학교" value="미상" />
+        <MyInfoModifyFormElement title="활동" value="Mentee" />
       </div>
 
       <div className="fixed bottom-24 w-full max-w-[600px] px-5">
@@ -86,15 +88,15 @@ const MyModifyForm = ({ myInfo }: MyModifyFormProps) => {
   );
 };
 
-export default MyModifyForm;
+export default MyInfoModifyForm;
 
-type MyModifyFormElementProps = {
+type MyInfoModifyFormElementProps = {
   title: string;
   value: string;
   setValue?: (value: string) => void;
 };
 
-const MyModifyFormElement = ({ title, value, setValue }: MyModifyFormElementProps) => {
+const MyInfoModifyFormElement = ({ title, value, setValue }: MyInfoModifyFormElementProps) => {
   return (
     <div className="flex items-center gap-8">
       <div className="basis-14 font-serif text-base font-semibold text-black">{title}</div>

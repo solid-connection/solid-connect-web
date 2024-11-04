@@ -1,4 +1,6 @@
-import { useRouter } from "next/router";
+"use client";
+
+import { useRouter } from "next/navigation";
 import { useRef } from "react";
 
 import { updateMyProfileImage } from "@/services/myInfo";
@@ -7,11 +9,11 @@ import { MyInfo } from "@/types/myInfo";
 
 import { IconNoProfileImage } from "@/public/svgs";
 
-type MyModifyProfileImageProps = {
+type MyProfileImageModifyProps = {
   myInfo: MyInfo;
 };
 
-function MyModifyProfileImage({ myInfo }: MyModifyProfileImageProps) {
+function MyProfileImageModify({ myInfo }: MyProfileImageModifyProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
@@ -19,7 +21,7 @@ function MyModifyProfileImage({ myInfo }: MyModifyProfileImageProps) {
     try {
       await updateMyProfileImage(imageFile);
       alert("프로필 이미지가 변경되었습니다");
-      router.reload();
+      router.refresh();
     } catch (err) {
       if (err.response) {
         console.error("Axios response error", err.response);
@@ -64,4 +66,4 @@ function MyModifyProfileImage({ myInfo }: MyModifyProfileImageProps) {
   );
 }
 
-export default MyModifyProfileImage;
+export default MyProfileImageModify;

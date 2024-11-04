@@ -1,3 +1,5 @@
+"use client";
+
 import { useRouter } from "next/navigation";
 
 import ArrowBackFilled from "@/components/ui/icon/ArrowBackFilled";
