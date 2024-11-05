@@ -1,4 +1,6 @@
-import { useRouter } from "next/router";
+"use client";
+
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import { updatePostApi } from "@/services/community";
@@ -16,42 +18,45 @@ type PostModifyFormProps = {
   defaultPostCategory: string;
 };
 
-export default function PostModifyForm({
+const PostModifyForm = ({
   boardCode,
   postId,
   defaultTitle,
   defaultContent,
   defaultIsQuestion,
   defaultPostCategory,
-}: PostModifyFormProps) {
+}: PostModifyFormProps) => {
   const [title, setTitle] = useState<string>(defaultTitle);
   const [content, setContent] = useState<string>(defaultContent);
-  const textareaRef = useRef(null);
-  const titleRef = useRef(null);
-  const imageUploadRef = useRef(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const titleRef = useRef<HTMLDivElement>(null);
+  const imageUploadRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
   const routeBack = () => {
-    router.back(); // 라우터의 back 함수를 사용하여 이전 페이지로 이동
+    router.back();
   };
 
   useEffect(() => {
     const textarea = textareaRef.current;
+    const titleDiv = titleRef.current;
 
-    const adjustHeight = () => {
-      textarea.style.height = "auto";
-      const { scrollHeight } = textarea;
-      const newHeight = scrollHeight <= 50 ? 50 : Math.min(scrollHeight, 100);
-      textarea.style.height = `${newHeight}px`;
-      titleRef.current.style.height = `${newHeight}px`;
-    };
+    if (textarea && titleDiv) {
+      const adjustHeight = () => {
+        textarea.style.height = "auto";
+        const { scrollHeight } = textarea;
+        const newHeight = scrollHeight <= 50 ? 50 : Math.min(scrollHeight, 100);
+        textarea.style.height = `${newHeight}px`;
+        titleDiv.style.height = `${newHeight}px`;
+      };
 
-    textarea.addEventListener("input", adjustHeight);
+      textarea.addEventListener("input", adjustHeight);
 
-    // 초기 높이 설정
-    adjustHeight();
+      // 초기 높이 설정
+      adjustHeight();
 
-    return () => textarea.removeEventListener("input", adjustHeight);
+      return () => textarea.removeEventListener("input", adjustHeight);
+    }
   }, []);
 
   const submitPost = async () => {
@@ -62,10 +67,10 @@ export default function PostModifyForm({
           title,
           content,
         },
-        file: [...imageUploadRef.current.files],
+        file: imageUploadRef.current ? [...imageUploadRef.current.files] : [],
       });
       router.push(`/community/${boardCode}/${postId}`);
-    } catch (err) {
+    } catch (err: any) {
       if (err.response) {
         console.error("Axios response error", err.response);
         if (err.response.status === 401 || err.response.status === 403) {
@@ -118,7 +123,7 @@ export default function PostModifyForm({
             <button
               type="button"
               onClick={() => {
-                imageUploadRef.current.click();
+                imageUploadRef.current?.click();
               }}
               aria-label="이미지 추가"
             >
@@ -142,20 +147,22 @@ export default function PostModifyForm({
       </div>
     </>
   );
-}
+};
+
+export default PostModifyForm;
 
 type CustomTopDetailNavigationProps = {
   routeBack: () => void;
   submitPost: () => void;
 };
 
-function CustomTopDetailNavigation({ routeBack, submitPost }: CustomTopDetailNavigationProps) {
+const CustomTopDetailNavigation = ({ routeBack, submitPost }: CustomTopDetailNavigationProps) => {
   return (
     <div className="fixed top-0 z-30 box-border flex h-14 w-full max-w-[600px] items-center justify-between bg-white px-5">
       <button className="min-w-6 cursor-pointer" onClick={routeBack} type="button" aria-label="뒤로 가기">
         <ArrowBackFilled />
       </button>
-      <div className="font-serif text-base font-semibold leading-[160%] text-[rgba(0,0,0,0.87)]">글쓰기</div>
+      <div className="font-serif text-base font-semibold leading-[160%] text-[rgba(0,0,0,0.87)]">글 수정</div>
       <div className="min-w-6 cursor-pointer">
         <button
           className="h-8 cursor-pointer rounded-full border-0 bg-primary-1 px-3 py-[5px] font-serif text-sm font-medium leading-[160%] text-white"
@@ -167,4 +174,4 @@ function CustomTopDetailNavigation({ routeBack, submitPost }: CustomTopDetailNav
       </div>
     </div>
   );
-}
+};
