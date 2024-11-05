@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useRef, useState } from "react";
 
 import { getUniversityFavoriteStatusApi, postUniversityFavoriteApi } from "@/services/university";
@@ -7,8 +9,8 @@ import BookmarkOutlined from "@/components/ui/icon/BookmarkOutlined";
 import GoogleEmbedMap from "@/components/ui/map/google-embed-map";
 import ScrollTab from "@/components/ui/scroll-tab";
 
+import CollegeReviews from "./CollegeReviews";
 import styles from "./college-bottomsheet.module.css";
-import CollegeReviews from "./college-reviews";
 
 import { Review } from "@/types/review";
 import { University } from "@/types/university";
@@ -20,12 +22,7 @@ interface CollegeBottomSheetProps {
   university: University;
 }
 
-export default function CollegeBottomSheet({
-  collegeId,
-  convertedKoreanName,
-  reviewList,
-  university,
-}: CollegeBottomSheetProps) {
+const CollegeBottomSheet = ({ collegeId, convertedKoreanName, reviewList, university }: CollegeBottomSheetProps) => {
   const pages: string[] = ["학교정보", "어학성적", "지원전공", "위치", "파견후기"];
   const [activeTab, setActiveTab] = useState<string>("학교정보");
   const sectionRefs = [useRef(null), useRef(null), useRef(null), useRef(null), useRef(null)];
@@ -33,52 +30,49 @@ export default function CollegeBottomSheet({
 
   useEffect(() => {
     const getFavoriteStatus = async () => {
-      await getUniversityFavoriteStatusApi(collegeId)
-        .then((res) => {
-          setIsLiked(res.data.isLike);
-        })
-        .catch(() => {
-          // 비로그인시 무시
-        });
+      try {
+        const res = await getUniversityFavoriteStatusApi(collegeId);
+        setIsLiked(res.data.isLike);
+      } catch {
+        // 비로그인 시 무시
+      }
     };
     getFavoriteStatus();
-  }, []);
+  }, [collegeId]);
 
-  function toggleLike() {
+  const toggleLike = () => {
     const postLike = async () => {
-      await postUniversityFavoriteApi(collegeId)
-        .then((res) => {
-          const { result } = res.data;
-          if (result === "LIKE_SUCCESS") {
-            setIsLiked(true);
-          } else if (result === "LIKE_CANCELED") {
-            setIsLiked(false);
-          }
-        })
-        .catch((err) => {
-          if (err.response) {
-            console.error("Axios response error", err.response);
-            if (err.response.status === 401 || err.response.status === 403) {
-              alert("로그인이 필요합니다");
-              document.location.href = "/login";
-            } else {
-              alert(err.response.data?.message);
-            }
+      try {
+        const res = await postUniversityFavoriteApi(collegeId);
+        const { result } = res.data;
+        if (result === "LIKE_SUCCESS") {
+          setIsLiked(true);
+        } else if (result === "LIKE_CANCELED") {
+          setIsLiked(false);
+        }
+      } catch (err) {
+        if (err.response) {
+          console.error("Axios response error", err.response);
+          if (err.response.status === 401 || err.response.status === 403) {
+            alert("로그인이 필요합니다");
+            document.location.href = "/login";
           } else {
-            console.error("Error", err.message);
-            alert(err.message);
+            alert(err.response.data?.message);
           }
-        });
+        } else {
+          console.error("Error", err.message);
+          alert(err.message);
+        }
+      }
     };
     postLike();
-  }
+  };
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            // 현재 보이는 섹션에 따라 activeTab을 업데이트
             const index = sectionRefs.findIndex((ref) => ref.current === entry.target);
             setActiveTab(pages[index]);
           }
@@ -93,15 +87,16 @@ export default function CollegeBottomSheet({
       }
     });
 
-    return () =>
+    return () => {
       sectionRefs.forEach((ref) => {
         if (ref.current) {
           observer.unobserve(ref.current);
         }
       });
-  }, []);
+    };
+  }, [pages, sectionRefs]);
 
-  const handleTabClick = (tab) => {
+  const handleTabClick = (tab: string) => {
     setActiveTab(tab);
     sectionRefs[pages.findIndex((t) => t === tab)].current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
@@ -262,4 +257,6 @@ export default function CollegeBottomSheet({
       </div>
     </>
   );
-}
+};
+
+export default CollegeBottomSheet;

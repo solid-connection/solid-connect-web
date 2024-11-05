@@ -7,7 +7,7 @@ import styles from "./college-reviews.module.css";
 
 import { Review } from "@/types/review";
 
-export default function CollegeReviews({ style, reviewList }: { style?: React.CSSProperties; reviewList: Review[] }) {
+const CollegeReviews = ({ style, reviewList }: { style?: React.CSSProperties; reviewList: Review[] }) => {
   return (
     <div className={styles.container} style={style}>
       {reviewList.map((review) => (
@@ -15,7 +15,9 @@ export default function CollegeReviews({ style, reviewList }: { style?: React.CS
       ))}
     </div>
   );
-}
+};
+
+export default CollegeReviews;
 
 export function CollegeReviewCard({ review }: { review: Review }) {
   const { term, rating, content, dispatchSemester, transportation, buddyProgram } = review;

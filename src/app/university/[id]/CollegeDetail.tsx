@@ -2,12 +2,12 @@ import Image from "next/image";
 
 import styles from "./college-detail.module.css";
 
-interface CollegeDetailProps {
+type CollegeDetailProps = {
   name: string;
   imageUrl: string;
-}
+};
 
-export default function CollegeDetail({ name, imageUrl }: CollegeDetailProps) {
+const CollegeDetail = ({ name, imageUrl }: CollegeDetailProps) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.imageWrapper}>
@@ -21,4 +21,6 @@ export default function CollegeDetail({ name, imageUrl }: CollegeDetailProps) {
       </div>
     </div>
   );
-}
+};
+
+export default CollegeDetail;
