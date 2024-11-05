@@ -17,8 +17,8 @@ type PostProps = {
   postId: number;
 };
 
-export default function Post({ post, boardCode, postId }: PostProps) {
-  const [selectedImageIndex, setSelectedImageIndex] = useState(null);
+const Post = ({ post, boardCode, postId }: PostProps) => {
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   const [likeCount, setLikeCount] = useState<number>(0);
   const [isLiked, setIsLiked] = useState<boolean>(false);
 
@@ -29,7 +29,7 @@ export default function Post({ post, boardCode, postId }: PostProps) {
     }
   }, [post]);
 
-  const handleImageClick = (index) => {
+  const handleImageClick = (index: number) => {
     setSelectedImageIndex(index);
   };
 
@@ -137,9 +137,11 @@ export default function Post({ post, boardCode, postId }: PostProps) {
       </div>
     </>
   );
-}
+};
 
-function PostImage({ images, onImageClick }: { images: PostImageType[]; onImageClick: (index: number) => void }) {
+export default Post;
+
+const PostImage = ({ images, onImageClick }: { images: PostImageType[]; onImageClick: (index: number) => void }) => {
   if (images.length === 1) {
     return (
       <div className="mb-3 pr-5">
@@ -171,7 +173,7 @@ function PostImage({ images, onImageClick }: { images: PostImageType[]; onImageC
       </div>
     </div>
   );
-}
+};
 
 type ImagePopupProps = {
   image: PostImageType;
@@ -179,7 +181,7 @@ type ImagePopupProps = {
   onClose: () => void;
 };
 
-function ImagePopup({ image, title, onClose }: ImagePopupProps) {
+const ImagePopup = ({ image, title, onClose }: ImagePopupProps) => {
   return (
     <div className="fixed left-0 top-0 z-[1000] flex h-full w-full flex-col bg-black">
       <div className="flex h-14 items-center justify-between bg-[rgba(255,255,255,0.15)]">
@@ -206,4 +208,4 @@ function ImagePopup({ image, title, onClose }: ImagePopupProps) {
       </div>
     </div>
   );
-}
+};

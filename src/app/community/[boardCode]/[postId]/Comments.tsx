@@ -19,7 +19,7 @@ type CommentsProps = {
   setCurSelectedComment: React.Dispatch<React.SetStateAction<number | null>>;
 };
 
-export default function Comments({ comments, postId, refresh, setCurSelectedComment }: CommentsProps) {
+const Comments = ({ comments, postId, refresh, setCurSelectedComment }: CommentsProps) => {
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
 
   const toggleDeleteComment = (commentId: number) => {
@@ -51,9 +51,10 @@ export default function Comments({ comments, postId, refresh, setCurSelectedComm
   return (
     <div className={styles["comment-container"]}>
       {comments?.map((comment) => (
-        // eslint-disable-next-line
         <div
-          className={`${styles["comment-wrapper"]} ${comment.parentId !== null && styles["comment-wrapper--sub-comment"]}`}
+          className={`${styles["comment-wrapper"]} ${
+            comment.parentId !== null && styles["comment-wrapper--sub-comment"]
+          }`}
           key={comment.id}
           onClick={() => {
             if (comment.parentId === null) setCurSelectedComment(comment.id);
@@ -116,4 +117,6 @@ export default function Comments({ comments, postId, refresh, setCurSelectedComm
       ))}
     </div>
   );
-}
+};
+
+export default Comments;

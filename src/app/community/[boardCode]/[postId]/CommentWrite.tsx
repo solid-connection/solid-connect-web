@@ -9,17 +9,13 @@ import { IconCloseFilled, IconFlight } from "@/public/svgs";
 type CommentWriteProps = {
   postId: number;
   refresh: () => void;
-  curSelectedComment: number;
+  curSelectedComment: number | null;
   setCurSelectedComment: React.Dispatch<React.SetStateAction<number | null>>;
 };
 
-export default function CommentWrite({
-  postId,
-  refresh,
-  curSelectedComment,
-  setCurSelectedComment,
-}: CommentWriteProps) {
+const CommentWrite = ({ postId, refresh, curSelectedComment, setCurSelectedComment }: CommentWriteProps) => {
   const contentRef = useRef<HTMLInputElement>(null);
+
   const submitComment = async () => {
     try {
       await createCommentApi(postId, {
@@ -70,4 +66,6 @@ export default function CommentWrite({
       </button>
     </div>
   );
-}
+};
+
+export default CommentWrite;
