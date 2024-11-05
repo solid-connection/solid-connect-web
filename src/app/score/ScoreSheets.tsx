@@ -9,7 +9,7 @@ import styles from "./score-sheets.module.css";
 import { LANGUAGE_TEST } from "@/constants/application";
 import { ScoreSheet as ScoreSheetType } from "@/types/application";
 
-export default function ScoreSheets({ scoreSheets }: { scoreSheets: ScoreSheetType[] }) {
+const ScoreSheets = ({ scoreSheets }: { scoreSheets: ScoreSheetType[] }) => {
   return (
     <div className={styles.container}>
       {scoreSheets.map((choice) => (
@@ -17,9 +17,11 @@ export default function ScoreSheets({ scoreSheets }: { scoreSheets: ScoreSheetTy
       ))}
     </div>
   );
-}
+};
 
-export function ScoreSheet({ scoreSheet }: { scoreSheet: ScoreSheetType }) {
+export default ScoreSheets;
+
+const ScoreSheet = ({ scoreSheet }: { scoreSheet: ScoreSheetType }) => {
   const [tableOpened, setTableOpened] = useState(false);
   return (
     <table className={styles.table}>
@@ -62,4 +64,4 @@ export function ScoreSheet({ scoreSheet }: { scoreSheet: ScoreSheetType }) {
       )}
     </table>
   );
-}
+};

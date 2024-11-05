@@ -5,7 +5,7 @@ type ScoreSearchFieldProps = {
   setKeyWord: (keyWord: string) => void;
 };
 
-export default function ScoreSearchField({ keyWords, setKeyWord }: ScoreSearchFieldProps) {
+const ScoreSearchField = ({ keyWords, setKeyWord }: ScoreSearchFieldProps) => {
   return (
     <div>
       <div className={styles.title}>인기 검색</div>
@@ -18,4 +18,6 @@ export default function ScoreSearchField({ keyWords, setKeyWord }: ScoreSearchFi
       </div>
     </div>
   );
-}
+};
+
+export default ScoreSearchField;

@@ -2,11 +2,13 @@ import React from "react";
 
 import { IconClock } from "@/public/svgs";
 
-export default function MentorPage() {
+const MentorPage = () => {
   return <MentorComingSoon />;
-}
+};
 
-function MentorComingSoon() {
+export default MentorPage;
+
+const MentorComingSoon = () => {
   return (
     <div className="box-border flex min-h-[80vh] flex-col items-center justify-center p-4">
       <div className="w-[90%] max-w-[400px] rounded-lg bg-white p-8 text-center shadow-md md:max-w-[450px] md:p-12">
@@ -21,4 +23,4 @@ function MentorComingSoon() {
       </div>
     </div>
   );
-}
+};
