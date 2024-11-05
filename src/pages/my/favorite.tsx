@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 import { getMyWishUniversityApi } from "@/services/myInfo";
 
-import CollegeCards from "@/components/college/list/college-cards";
+import CollegeCards from "@/components/college/UniversityCards";
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import ScrollTab from "@/components/ui/scroll-tab";
 

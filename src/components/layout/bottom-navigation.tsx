@@ -12,15 +12,15 @@ import WhatsNew from "./icon/WhatsNew";
 export default function BottomNavigation() {
   const pathname = usePathname();
 
-  const specificRoutes = ["/college", "/community", "/mento", "/my"];
+  const specificRoutes = ["/university", "/community", "/mento", "/my"];
   const isSpecificRouteActive = specificRoutes.some((specificRoute) => pathname.startsWith(specificRoute));
 
   const navs = [
     {
-      route: "/college",
+      route: "/university",
       text: "학교",
-      isActive: pathname.startsWith("/college"),
-      icon: <DegreeHat color={pathname.startsWith("/college") ? "#6F96D1" : "#707070"} />,
+      isActive: pathname.startsWith("/university"),
+      icon: <DegreeHat color={pathname.startsWith("/university") ? "#6F96D1" : "#707070"} />,
     },
     {
       route: "/community",

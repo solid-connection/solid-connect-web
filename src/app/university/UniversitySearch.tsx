@@ -4,13 +4,13 @@ import SearchFilled from "@/components/ui/icon/SearchFilled";
 
 import styles from "./college-search.module.css";
 
-type CollegeSearchProps = {
+type UniversitySearchProps = {
   searchHandler: (e: React.FormEvent<HTMLFormElement>) => void;
   textRef: React.RefObject<HTMLInputElement>;
   defaultValue: string;
 };
 
-export default function CollegeSearch({ searchHandler, textRef, defaultValue }: CollegeSearchProps) {
+export default function UniversitySearch({ searchHandler, textRef, defaultValue }: UniversitySearchProps) {
   const [inputValue, setInputValue] = useState(defaultValue);
 
   useEffect(() => {

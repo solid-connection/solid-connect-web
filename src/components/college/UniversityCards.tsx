@@ -7,12 +7,12 @@ import CheveronRightFilled from "@/components/ui/icon/ChevronRightFilled";
 
 import { ListUniversity } from "@/types/university";
 
-type CollegeCardsProps = {
+type UniversityCardsProps = {
   colleges: ListUniversity[];
   style?: React.CSSProperties;
 };
 
-export default function CollegeCards({ colleges, style }: CollegeCardsProps) {
+const UniversityCards = ({ colleges, style }: UniversityCardsProps) => {
   return (
     <div className="flex flex-col gap-2" style={style}>
       {colleges.map((university) => (
@@ -20,7 +20,8 @@ export default function CollegeCards({ colleges, style }: CollegeCardsProps) {
       ))}
     </div>
   );
-}
+};
+export default UniversityCards;
 
 type CollegeCardProps = {
   university: ListUniversity;
@@ -34,7 +35,7 @@ export function CollegeCard({ university }: CollegeCardProps) {
   return (
     <Link
       className="relative mx-5 flex h-[99px] overflow-hidden rounded-md border border-solid border-[#eaeaea] no-underline hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/10"
-      href={`/college/${university.id}`}
+      href={`/university/${university.id}`}
     >
       <div className="flex items-center">
         <Image
