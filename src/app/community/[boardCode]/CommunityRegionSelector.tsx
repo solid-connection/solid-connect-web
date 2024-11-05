@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 
 import ModalBase from "@/components/modal/ModalBase";
@@ -12,11 +14,7 @@ type CommunityRegionSelectorProps = {
   regionChoices: { code: string; nameKo: string }[];
 };
 
-export default function CommunityRegionSelector({
-  curRegion,
-  setCurRegion,
-  regionChoices,
-}: CommunityRegionSelectorProps) {
+const CommunityRegionSelector = ({ curRegion, setCurRegion, regionChoices }: CommunityRegionSelectorProps) => {
   const [isRegionSelectorModalVisible, setIsRegionSelectorModalVisible] = useState<boolean>(false);
   const toggleRegionSelectorModal = () => {
     setIsRegionSelectorModalVisible((prev) => !prev);
@@ -54,4 +52,6 @@ export default function CommunityRegionSelector({
       </ModalBase>
     </>
   );
-}
+};
+
+export default CommunityRegionSelector;

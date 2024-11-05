@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 
 import { convertISODateToDate } from "@/utils/datetimeUtils";
@@ -13,19 +15,21 @@ type PostCardsProps = {
   boardCode: string;
 };
 
-export default function PostCards({ posts, boardCode }: PostCardsProps) {
+const PostCards = ({ posts, boardCode }: PostCardsProps) => {
   return (
     <div className="flex flex-col">
       {posts.map((post) => (
-        <Link href={`/community/${boardCode}/${post.id}`} className="no-underline">
-          <PostCard key={post.id} post={post} />
+        <Link href={`/community/${boardCode}/${post.id}`} className="no-underline" key={post.id}>
+          <PostCard post={post} />
         </Link>
       ))}
     </div>
   );
-}
+};
 
-export function PostCard({ post }: { post: ListPost }) {
+export default PostCards;
+
+export const PostCard = ({ post }: { post: ListPost }) => {
   return (
     <div className="flex justify-between border-b border-b-gray-c-100 px-5 py-4">
       <div className="flex flex-col">
@@ -60,4 +64,4 @@ export function PostCard({ post }: { post: ListPost }) {
       </div> */}
     </div>
   );
-}
+};

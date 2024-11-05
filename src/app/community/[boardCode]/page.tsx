@@ -1,5 +1,6 @@
-import Head from "next/head";
-import { useRouter } from "next/router";
+"use client";
+
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { getPostListApi } from "@/services/community";
@@ -7,16 +8,17 @@ import { getPostListApi } from "@/services/community";
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import CloudSpinnerPage from "@/components/loading/CloudSpinnerPage";
 import ButtonTab from "@/components/ui/button-tab";
-import CommunityRegionSelector from "@/containers/community/community-region-selector";
-import PostCards from "@/containers/community/post-cards";
-import PostWriteButton from "@/containers/community/post-write-button";
+
+import CommunityRegionSelector from "./CommunityRegionSelector";
+import PostCards from "./PostCards";
+import PostWriteButton from "./PostWriteButton";
 
 import { COMMUNITY_BOARDS, COMMUNITY_CATEGORIES } from "@/constants/commnunity";
 import { ListPost } from "@/types/community";
 
-export default function CommunityPage({ boardCode: initialBoardCode }: { boardCode: string }) {
+const CommunityPage = ({ params }: { params: { boardCode: string } }) => {
   const router = useRouter();
-  const boardCode = (router.query.boardCode as string) || initialBoardCode;
+  const boardCode = params.boardCode;
   const [boardDisplayName, setBoardDisplayName] = useState<string>("자유");
   const [category, setCategory] = useState<string>("전체");
   const [posts, setPosts] = useState<ListPost[]>([]);
@@ -24,28 +26,27 @@ export default function CommunityPage({ boardCode: initialBoardCode }: { boardCo
 
   useEffect(() => {
     const fetchPosts = async () => {
-      await getPostListApi(boardCode, category)
-        .then((res) => {
-          setPosts(res.data.reverse());
-          setIsLoading(false);
-        })
-        .catch((err) => {
-          if (err.response) {
-            console.error("Axios response error", err.response);
-            if (err.response.status === 401 || err.response.status === 403) {
-              alert("로그인이 필요합니다");
-              document.location.href = "/login";
-            } else {
-              alert(err.response.data?.message);
-            }
+      try {
+        const res = await getPostListApi(boardCode, category);
+        setPosts(res.data.reverse());
+        setIsLoading(false);
+      } catch (err) {
+        if (err.response) {
+          console.error("Axios response error", err.response);
+          if (err.response.status === 401 || err.response.status === 403) {
+            alert("로그인이 필요합니다");
+            document.location.href = "/login";
           } else {
-            console.error("Error", err.message);
-            alert(err.message);
+            alert(err.response.data?.message);
           }
-        });
+        } else {
+          console.error("Error", err.message);
+          alert(err.message);
+        }
+      }
     };
     fetchPosts();
-    setBoardDisplayName(COMMUNITY_BOARDS.find((b) => b.code === boardCode)?.nameKo);
+    setBoardDisplayName(COMMUNITY_BOARDS.find((b) => b.code === boardCode)?.nameKo || "자유");
   }, [boardCode, category]);
 
   const handleBoardChange = (newBoard: string) => {
@@ -62,9 +63,6 @@ export default function CommunityPage({ boardCode: initialBoardCode }: { boardCo
 
   return (
     <>
-      <Head>
-        <title>커뮤니티</title>
-      </Head>
       <TopDetailNavigation title="커뮤니티" />
       <div>
         <CommunityRegionSelector
@@ -84,9 +82,6 @@ export default function CommunityPage({ boardCode: initialBoardCode }: { boardCo
       </div>
     </>
   );
-}
+};
 
-export async function getServerSideProps({ params }) {
-  const { boardCode }: { boardCode: string } = params;
-  return { props: { boardCode } };
-}
+export default CommunityPage;

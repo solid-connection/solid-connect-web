@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 
 import styles from "./post-write-button.module.css";
@@ -8,7 +10,7 @@ type PostWriteButtonProps = {
   onClick: () => void;
 };
 
-export default function PostWriteButton({ onClick }: PostWriteButtonProps) {
+const PostWriteButton = ({ onClick }: PostWriteButtonProps) => {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
@@ -36,4 +38,6 @@ export default function PostWriteButton({ onClick }: PostWriteButtonProps) {
       </button>
     </div>
   );
-}
+};
+
+export default PostWriteButton;
