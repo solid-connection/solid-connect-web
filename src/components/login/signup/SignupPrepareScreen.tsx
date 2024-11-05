@@ -1,3 +1,5 @@
+"use client";
+
 import { Dispatch, SetStateAction } from "react";
 
 import BlockToggleBtn from "@/components/button/block-toggle-btn";
@@ -11,11 +13,11 @@ import { IconPrepare1, IconPrepare2, IconPrepare3 } from "@/public/svgs";
 
 type SignupPrepareScreenProps = {
   preparation: PreparationStatus | null;
-  setPreparation: Dispatch<SetStateAction<PreparationStatus>>;
+  setPreparation: Dispatch<SetStateAction<PreparationStatus | null>>;
   toNextStage: () => void;
 };
 
-export default function SignupPrepareScreen({ preparation, setPreparation, toNextStage }: SignupPrepareScreenProps) {
+const SignupPrepareScreen = ({ preparation, setPreparation, toNextStage }: SignupPrepareScreenProps) => {
   const submit = () => {
     if (!preparation) {
       alert("준비 단계를 선택해주세요.");
@@ -29,14 +31,17 @@ export default function SignupPrepareScreen({ preparation, setPreparation, toNex
       <div className={styles["secondary-title"]}>솔리드 커넥션에 오신 것을 환영합니다.</div>
       <div className={styles.title}>
         현재 나의
-        <span style={{ color: "#6F96D1" }}> 준비 단계</span>를<br />
+        <span style={{ color: "#6F96D1" }}> 준비 단계</span>를
+        <br />
         선택해주세요.
       </div>
 
       <div className={styles["prepare-screen"]}>
         <div className={styles["prepare-choices"]}>
           <button
-            className={`${styles["prepare-choice"]} ${preparation === "CONSIDERING" ? styles["prepare-choice--selected"] : ""}`}
+            className={`${styles["prepare-choice"]} ${
+              preparation === "CONSIDERING" ? styles["prepare-choice--selected"] : ""
+            }`}
             onClick={() => setPreparation("CONSIDERING")}
             type="button"
           >
@@ -50,7 +55,9 @@ export default function SignupPrepareScreen({ preparation, setPreparation, toNex
           </button>
 
           <button
-            className={`${styles["prepare-choice"]} ${preparation === "PREPARING_FOR_DEPARTURE" ? styles["prepare-choice--selected"] : ""}`}
+            className={`${styles["prepare-choice"]} ${
+              preparation === "PREPARING_FOR_DEPARTURE" ? styles["prepare-choice--selected"] : ""
+            }`}
             onClick={() => setPreparation("PREPARING_FOR_DEPARTURE")}
             type="button"
           >
@@ -64,7 +71,9 @@ export default function SignupPrepareScreen({ preparation, setPreparation, toNex
           </button>
 
           <button
-            className={`${styles["prepare-choice"]} ${preparation === "STUDYING_ABROAD" ? styles["prepare-choice--selected"] : ""}`}
+            className={`${styles["prepare-choice"]} ${
+              preparation === "STUDYING_ABROAD" ? styles["prepare-choice--selected"] : ""
+            }`}
             onClick={() => setPreparation("STUDYING_ABROAD")}
             type="button"
           >
@@ -94,4 +103,6 @@ export default function SignupPrepareScreen({ preparation, setPreparation, toNex
       </BlockToggleBtn>
     </div>
   );
-}
+};
+
+export default SignupPrepareScreen;

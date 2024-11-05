@@ -1,3 +1,5 @@
+"use client";
+
 import { Dispatch, SetStateAction, useRef, useState } from "react";
 
 import BlockToggleBtn from "@/components/button/block-toggle-btn";
@@ -13,15 +15,15 @@ type SignupProfileScreenProps = {
   nickname: string;
   setNickname: Dispatch<SetStateAction<string>>;
   gender: Gender | "";
-  setGender: Dispatch<SetStateAction<Gender>>;
+  setGender: Dispatch<SetStateAction<Gender | "">>;
   birth: string;
   setBirth: Dispatch<SetStateAction<string>>;
   defaultProfileImageUrl: string;
-  profileImageFile: File;
-  setProfileImageFile: Dispatch<SetStateAction<File>>;
+  profileImageFile: File | null;
+  setProfileImageFile: Dispatch<SetStateAction<File | null>>;
 };
 
-export default function SignupProfileScreen({
+const SignupProfileScreen = ({
   toNextStage,
   nickname,
   setNickname,
@@ -30,12 +32,11 @@ export default function SignupProfileScreen({
   birth,
   setBirth,
   defaultProfileImageUrl,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   profileImageFile,
   setProfileImageFile,
-}: SignupProfileScreenProps) {
-  const fileInputRef = useRef(null);
-  const [uploadedProfileImageFileView, setUploadedProfileImageFileView] = useState(null);
+}: SignupProfileScreenProps) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [uploadedProfileImageFileView, setUploadedProfileImageFileView] = useState<string | null>(null);
 
   const submit = () => {
     if (!nickname) {
@@ -53,20 +54,20 @@ export default function SignupProfileScreen({
     toNextStage();
   };
 
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-    setProfileImageFile(file);
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
     if (file) {
+      setProfileImageFile(file);
       const reader = new FileReader();
       reader.onload = () => {
-        setUploadedProfileImageFileView(reader.result);
+        setUploadedProfileImageFileView(reader.result as string);
       };
       reader.readAsDataURL(file);
     }
   };
 
   const handleImageClick = () => {
-    fileInputRef.current.click();
+    fileInputRef.current?.click();
   };
 
   const getImage = () => {
@@ -90,7 +91,6 @@ export default function SignupProfileScreen({
 
       <div className={styles["profile-screen"]}>
         <div className={styles.profile__image}>
-          {/* eslint-disable-next-line */}
           <div className={styles["image-wrapper"]} onClick={handleImageClick}>
             {getImage()}
           </div>
@@ -127,7 +127,7 @@ export default function SignupProfileScreen({
 
         <div className={styles.profile__sex}>
           <label htmlFor="sex">성별</label>
-          <select id="sex" value={gender} onChange={(e) => setGender(e.target.value as GenderEnum)}>
+          <select id="sex" value={gender} onChange={(e) => setGender(e.target.value as Gender)}>
             <option value="" disabled>
               성별을 선택해주세요.
             </option>
@@ -144,4 +144,6 @@ export default function SignupProfileScreen({
       </div>
     </div>
   );
-}
+};
+
+export default SignupProfileScreen;

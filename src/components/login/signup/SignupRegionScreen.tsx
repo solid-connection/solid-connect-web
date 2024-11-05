@@ -1,3 +1,5 @@
+"use client";
+
 import { Dispatch, SetStateAction } from "react";
 
 import BlockToggleBtn from "@/components/button/block-toggle-btn";
@@ -69,13 +71,13 @@ type SignupRegionScreenProps = {
   toNextStage: () => void;
 };
 
-export default function SignupRegionScreen({
+const SignupRegionScreen = ({
   curRegion,
   setCurRegion,
   curCountries,
   setCurCountries,
   toNextStage,
-}: SignupRegionScreenProps) {
+}: SignupRegionScreenProps) => {
   const submit = () => {
     if (!curRegion) {
       alert("권역을 선택해주세요.");
@@ -95,7 +97,7 @@ export default function SignupRegionScreen({
 
       <div className={styles["region-screen"]}>
         <RegionButtons curRegion={curRegion} setCurRegion={setCurRegion} />
-        <ConuntryButtons curCountries={curCountries} setCurCountries={setCurCountries} region={curRegion} />
+        <CountryButtons curCountries={curCountries} setCurCountries={setCurCountries} region={curRegion} />
       </div>
 
       <div style={{ margin: "39px 10px 0 10px" }}>
@@ -105,71 +107,46 @@ export default function SignupRegionScreen({
       </div>
     </div>
   );
-}
+};
+
+export default SignupRegionScreen;
 
 type RegionButtonsProps = {
   curRegion: string | null;
   setCurRegion: Dispatch<SetStateAction<string | null>>;
 };
 
-function RegionButtons({ curRegion, setCurRegion }: RegionButtonsProps) {
+const RegionButtons = ({ curRegion, setCurRegion }: RegionButtonsProps) => {
   return (
     <div className={styles["region-choices"]}>
-      <button
-        className={`${styles["region-button"]} ${curRegion === "미주권" && styles["region-button--selected"]}`}
-        onClick={() => setCurRegion("미주권")}
-        type="button"
-      >
-        <div className={styles["region-button__icon"]}>
-          <IconSignupRegionAmerica />
-        </div>
-        <div className={styles["region-button__name"]}>미주권</div>
-      </button>
-
-      <button
-        className={`${styles["region-button"]} ${curRegion === "유럽권" && styles["region-button--selected"]}`}
-        onClick={() => setCurRegion("유럽권")}
-        type="button"
-      >
-        <div className={styles["region-button__icon"]}>
-          <IconSignupRegionEurope />
-        </div>
-        <div className={styles["region-button__name"]}>유럽권</div>
-      </button>
-
-      <button
-        className={`${styles["region-button"]} ${styles[curRegion === "아시아권" && "region-button--selected"]}`}
-        onClick={() => setCurRegion("아시아권")}
-        type="button"
-      >
-        <div className={styles["region-button__icon"]}>
-          <IconSignupRegionAsia />
-        </div>
-        <div className={styles["region-button__name"]}>아시아권</div>
-      </button>
-
-      <button
-        className={`${styles["region-button"]} ${styles[curRegion === "아직 잘 모르겠어요" && "region-button--selected"]}`}
-        onClick={() => setCurRegion("아직 잘 모르겠어요")}
-        type="button"
-      >
-        <div className={styles["region-button__icon"]}>
-          <IconSignupRegionWorld />
-        </div>
-        <div className={styles["region-button__name"]}>아직 잘 모르겠어요</div>
-      </button>
+      {regionList.map((region) => (
+        <button
+          key={region.name}
+          className={`${styles["region-button"]} ${curRegion === region.name && styles["region-button--selected"]}`}
+          onClick={() => setCurRegion(region.name)}
+          type="button"
+        >
+          <div className={styles["region-button__icon"]}>
+            {region.name === "미주권" && <IconSignupRegionAmerica />}
+            {region.name === "유럽권" && <IconSignupRegionEurope />}
+            {region.name === "아시아권" && <IconSignupRegionAsia />}
+            {region.name === "아직 잘 모르겠어요" && <IconSignupRegionWorld />}
+          </div>
+          <div className={styles["region-button__name"]}>{region.name}</div>
+        </button>
+      ))}
     </div>
   );
-}
+};
 
-type ConuntryButtonsProps = {
+type CountryButtonsProps = {
   curCountries: string[];
   setCurCountries: Dispatch<SetStateAction<string[]>>;
   region: string | null;
 };
 
-function ConuntryButtons({ curCountries, setCurCountries, region }: ConuntryButtonsProps) {
-  const addCountry = (country: string) => {
+const CountryButtons = ({ curCountries, setCurCountries, region }: CountryButtonsProps) => {
+  const toggleCountry = (country: string) => {
     if (curCountries.includes(country)) {
       setCurCountries(curCountries.filter((c) => c !== country));
     } else {
@@ -177,46 +154,32 @@ function ConuntryButtons({ curCountries, setCurCountries, region }: ConuntryButt
     }
   };
 
-  const removeCountry = (country: string) => {
-    setCurCountries(curCountries.filter((c) => c !== country));
-  };
-
-  const isCountrySelected = (country: string) => curCountries.includes(country);
-
-  if (region === null) {
-    return null;
-  }
-
-  if (region === "아직 잘 모르겠어요") {
-    return (
+  if (region === null || region === "아직 잘 모르겠어요") {
+    return region === "아직 잘 모르겠어요" ? (
       <div className={styles.idk}>
         솔리드 커넥션에서 다양한 정보를 맛보고
         <br />
         가고 싶은 나라를 골라봐요
       </div>
-    );
+    ) : null;
   }
+
+  const countries = regionList.find((r) => r.name === region)?.countries || [];
 
   return (
     <div className={styles["country-choices"]}>
-      {regionList
-        .find((r) => r.name === region)
-        ?.countries.map((country) => (
-          <button
-            key={country}
-            className={`${styles["country-button"]} ${isCountrySelected(country) && styles["country-button--selected"]}`}
-            onClick={() => {
-              if (isCountrySelected(country)) {
-                removeCountry(country);
-              } else {
-                addCountry(country);
-              }
-            }}
-            type="button"
-          >
-            {country}
-          </button>
-        ))}
+      {countries.map((country) => (
+        <button
+          key={country}
+          className={`${styles["country-button"]} ${
+            curCountries.includes(country) && styles["country-button--selected"]
+          }`}
+          onClick={() => toggleCountry(country)}
+          type="button"
+        >
+          {country}
+        </button>
+      ))}
     </div>
   );
-}
+};
