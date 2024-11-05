@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { kakaoAuthApi } from "@/services/auth";
 import { saveAccessToken, saveRefreshToken } from "@/utils/localStorage";
 
+import CloudSpinnerPage from "@/components/loading/CloudSpinnerPage";
 import SignupSurvey from "@/components/login/signup/SignupSurvey";
 
 import { useLayout } from "@/context/LayoutContext";
@@ -69,7 +70,7 @@ const KakaoLoginCallbackPage = () => {
   }, [kakaoOauthToken]);
 
   if (!kakaoOauthToken) {
-    return <div>카카오 로그인 진행중...</div>;
+    return <CloudSpinnerPage />;
   }
 
   return (
