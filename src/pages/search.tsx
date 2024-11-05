@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 import { getPopularKeywordsPublicApi, postSearchKeywordPublicApi } from "@/services/keyword";
 
-import TopDetailNavigation from "@/components/layout/top-detail-navigation";
+import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import CollegeSearchBar from "@/components/search/college-search-bar";
 import CollegeSearchField from "@/components/search/college-search-field";
 

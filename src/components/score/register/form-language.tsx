@@ -147,7 +147,7 @@ export default function FormLanguage({
         <div className={styles.btns}>
           <input type="file" ref={fileInputRef} onChange={handleFileChange} style={{ display: "none" }} />
           <RoundBtn onClick={handleButtonClick}>파일 첨부하기</RoundBtn>
-          <Link href="/score/lang-cert-example" target="_blank">
+          <Link href="/score/example/lang-cert" target="_blank">
             <RoundBtn backgroundColor="var(--secondary-1, #C4DDFF)" textColor="#484848">
               증명서 예시
             </RoundBtn>
