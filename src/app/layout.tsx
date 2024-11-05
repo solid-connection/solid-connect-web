@@ -14,6 +14,12 @@ export const metadata: Metadata = {
   description: "솔리드 커넥션. 교환학생의 첫 걸음",
 };
 
+declare global {
+  interface Window {
+    Kakao: any;
+  }
+}
+
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <AlertProvider>

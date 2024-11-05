@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Slider from "react-slick";
 
@@ -6,7 +8,7 @@ import "slick-carousel/slick/slick.css";
 
 import styles from "./image-carousel.module.css";
 
-export default function ImageCarousel() {
+const ImageCarousel = () => {
   const settings = {
     dots: true,
     arrows: false,
@@ -17,15 +19,7 @@ export default function ImageCarousel() {
   };
 
   return (
-    <Slider
-      className={styles.onboardingImages}
-      dots={settings.dots}
-      arrows={settings.arrows}
-      infinite={settings.infinite}
-      speed={settings.speed}
-      slidesToShow={settings.slidesToShow}
-      slidesToScroll={settings.slidesToScroll}
-    >
+    <Slider {...settings} className={styles.onboardingImages}>
       <div className={styles.item}>
         <div className={styles.imageWrapper}>
           <Image src="/images/onboarding-1.jpeg" alt="onboarding-1" width={600} height={600} />
@@ -68,4 +62,6 @@ export default function ImageCarousel() {
       </div>
     </Slider>
   );
-}
+};
+
+export default ImageCarousel;
