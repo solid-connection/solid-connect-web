@@ -1,4 +1,6 @@
-import { useRouter } from "next/router";
+"use client";
+
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import { createPostApi } from "@/services/community";
@@ -11,11 +13,11 @@ type PostFormProps = {
   boardCode: string;
 };
 
-export default function PostForm({ boardCode }: PostFormProps) {
-  const textareaRef = useRef(null);
-  const titleRef = useRef(null);
+const PostForm = ({ boardCode }: PostFormProps) => {
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const titleRef = useRef<HTMLDivElement>(null);
   const [content, setContent] = useState<string>("");
-  const imageUploadRef = useRef(null);
+  const imageUploadRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const [isQuestion, setIsQuestion] = useState<boolean>(false);
 
@@ -23,20 +25,22 @@ export default function PostForm({ boardCode }: PostFormProps) {
     const textarea = textareaRef.current;
     const title = titleRef.current;
 
-    const adjustHeight = () => {
-      textarea.style.height = "auto";
-      const { scrollHeight } = textarea;
-      const newHeight = scrollHeight <= 50 ? 50 : Math.min(scrollHeight, 100);
-      textarea.style.height = `${newHeight}px`;
-      title.style.height = `${newHeight}px`;
-    };
+    if (textarea && title) {
+      const adjustHeight = () => {
+        textarea.style.height = "auto";
+        const { scrollHeight } = textarea;
+        const newHeight = scrollHeight <= 50 ? 50 : Math.min(scrollHeight, 100);
+        textarea.style.height = `${newHeight}px`;
+        title.style.height = `${newHeight}px`;
+      };
 
-    textarea.addEventListener("input", adjustHeight);
+      textarea.addEventListener("input", adjustHeight);
 
-    // 초기 높이 설정
-    adjustHeight();
+      // 초기 높이 설정
+      adjustHeight();
 
-    return () => textarea.removeEventListener("input", adjustHeight);
+      return () => textarea.removeEventListener("input", adjustHeight);
+    }
   }, []);
 
   const submitPost = async () => {
@@ -44,15 +48,15 @@ export default function PostForm({ boardCode }: PostFormProps) {
       const res = await createPostApi(boardCode, {
         postCreateRequest: {
           postCategory: isQuestion ? "질문" : "자유",
-          title: titleRef.current.querySelector("textarea").value,
+          title: titleRef.current?.querySelector("textarea")?.value || "",
           content,
           isQuestion,
         },
-        file: [...imageUploadRef.current.files],
+        file: imageUploadRef.current ? [...imageUploadRef.current.files] : [],
       });
       const postId = res.data.id;
       router.push(`/community/${boardCode}/${postId}`);
-    } catch (err) {
+    } catch (err: any) {
       if (err.response) {
         console.error("Axios response error", err.response);
         if (err.response.status === 401 || err.response.status === 403) {
@@ -107,7 +111,7 @@ export default function PostForm({ boardCode }: PostFormProps) {
           <div>
             <button
               onClick={() => {
-                imageUploadRef.current.click();
+                imageUploadRef.current?.click();
               }}
               type="button"
               aria-label="이미지 추가"
@@ -132,14 +136,16 @@ export default function PostForm({ boardCode }: PostFormProps) {
       </div>
     </>
   );
-}
+};
+
+export default PostForm;
 
 type CustomTopDetailNavigationProps = {
   routeBack: () => void;
   submitPost: () => void;
 };
 
-function CustomTopDetailNavigation({ routeBack, submitPost }: CustomTopDetailNavigationProps) {
+const CustomTopDetailNavigation = ({ routeBack, submitPost }: CustomTopDetailNavigationProps) => {
   return (
     <div className="fixed top-0 z-30 box-border flex h-14 w-full max-w-[600px] items-center justify-between bg-white px-5">
       <button className="min-w-6 cursor-pointer" onClick={routeBack} type="button" aria-label="뒤로 가기">
@@ -157,4 +163,4 @@ function CustomTopDetailNavigation({ routeBack, submitPost }: CustomTopDetailNav
       </div>
     </div>
   );
-}
+};
