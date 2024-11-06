@@ -8,7 +8,7 @@ type NewsCardsProps = {
   newsList: News[];
 };
 
-export default function NewsCards({ newsList }: NewsCardsProps) {
+const NewsCards = ({ newsList }: NewsCardsProps) => {
   return (
     <div className={styles.container}>
       {newsList.map((news) => (
@@ -16,12 +16,15 @@ export default function NewsCards({ newsList }: NewsCardsProps) {
       ))}
     </div>
   );
-}
+};
+
+export default NewsCards;
+
 type NewsCardProps = {
   news: News;
 };
 
-export function NewsCard({ news }: NewsCardProps) {
+const NewsCard = ({ news }: NewsCardProps) => {
   return (
     <a target="_blank" href={news.url} rel="noreferrer">
       <div className={styles.card}>
@@ -33,4 +36,4 @@ export function NewsCard({ news }: NewsCardProps) {
       </div>
     </a>
   );
-}
+};

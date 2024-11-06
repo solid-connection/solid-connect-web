@@ -1,16 +1,39 @@
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useState } from "react";
+"use client";
 
-import HomeCollegeCards from "./home-college-cards";
-import NewsCards from "./news-cards";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+
+import { getRecommendedUniversitiesApi } from "@/services/university";
+
+import HomeCollegeCards from "./HomeCollegeCards";
+import NewsCards from "./NewsCards";
 
 import { News } from "@/types/news";
 import { ListUniversity } from "@/types/university";
 
 import { IconApplicantBanner, IconScoreBanner, IconSearchBanner, IconSpeaker, IconTablerSearch } from "@/public/svgs";
 
-export default function Home({ recommendedColleges, newsList }: HomeProps) {
+type HomeProps = {
+  newsList: News[];
+};
+
+const Home = ({ newsList }: HomeProps) => {
+  const [recommendedColleges, setRecommendedColleges] = useState<ListUniversity[]>([]);
+
+  useEffect(() => {
+    const fetchRecommendedColleges = async () => {
+      try {
+        const response = await getRecommendedUniversitiesApi();
+        setRecommendedColleges(response.data.recommendedUniversities);
+      } catch (error) {
+        setRecommendedColleges([]);
+      }
+    };
+
+    fetchRecommendedColleges();
+  }, []);
+
   return (
     <div className="pl-5 pt-6">
       <CollegeSearch />
@@ -81,15 +104,19 @@ export default function Home({ recommendedColleges, newsList }: HomeProps) {
       </div>
     </div>
   );
-}
-function CollegeSearch() {
+};
+
+export default Home;
+
+const CollegeSearch = () => {
   const [searchText, setSearchText] = useState<string>("");
   const router = useRouter();
 
-  const onSearch = (e) => {
+  const onSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     router.push(`/college?keyword=${searchText}`);
   };
+
   return (
     <div className="mr-5">
       <form className="flex items-center rounded-[8px] bg-[#f7f7f7] pr-[16px]" onSubmit={onSearch}>
@@ -106,9 +133,4 @@ function CollegeSearch() {
       </form>
     </div>
   );
-}
-
-type HomeProps = {
-  recommendedColleges: ListUniversity[];
-  newsList: News[];
 };

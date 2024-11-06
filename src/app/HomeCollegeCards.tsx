@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
@@ -6,10 +8,14 @@ import styles from "./home-college-cards.module.css";
 
 import { ListUniversity } from "@/types/university";
 
-export default function HomeCollegeCards({ colleges }: { colleges: ListUniversity[] }) {
-  const containerRef = useRef(null);
+type HomeCollegeCardsProps = {
+  colleges: ListUniversity[];
+};
 
-  const handleWheel = (e) => {
+const HomeCollegeCards = ({ colleges }: HomeCollegeCardsProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const handleWheel = (e: WheelEvent) => {
     if (containerRef.current) {
       e.preventDefault(); // 기본 스크롤 동작 중지
       containerRef.current.scrollLeft += e.deltaY;
@@ -19,12 +25,12 @@ export default function HomeCollegeCards({ colleges }: { colleges: ListUniversit
   useEffect(() => {
     const container = containerRef.current;
     if (container) {
-      container.addEventListener("wheel", handleWheel, { passive: false });
+      container.addEventListener("wheel", handleWheel as unknown as EventListener, { passive: false });
     }
 
     return () => {
       if (container) {
-        container.removeEventListener("wheel", handleWheel);
+        container.removeEventListener("wheel", handleWheel as unknown as EventListener);
       }
     };
   }, []);
@@ -36,21 +42,24 @@ export default function HomeCollegeCards({ colleges }: { colleges: ListUniversit
           <HomeCollegeCard
             key={college.id}
             id={college.id}
-            imageUrl={college.logoImageUrl ? college.logoImageUrl : ""}
+            imageUrl={college.logoImageUrl || ""}
             name={college.koreanName || "대학명"}
           />
         ))}
       </div>
     </div>
   );
-}
+};
+
+export default HomeCollegeCards;
+
 type HomeCollegeCardProps = {
   id: number;
   imageUrl: string;
   name: string;
 };
 
-export function HomeCollegeCard({ id, imageUrl, name }: HomeCollegeCardProps) {
+const HomeCollegeCard = ({ id, imageUrl, name }: HomeCollegeCardProps) => {
   return (
     <Link href={`/college/${id}`}>
       <div className={styles.card}>
@@ -67,4 +76,4 @@ export function HomeCollegeCard({ id, imageUrl, name }: HomeCollegeCardProps) {
       </div>
     </Link>
   );
-}
+};
