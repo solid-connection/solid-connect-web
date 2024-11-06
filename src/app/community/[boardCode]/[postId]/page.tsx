@@ -20,7 +20,7 @@ import { IconMoreVertFilled } from "@/public/svgs";
 
 const PostPage = ({ params }: { params: { boardCode: string; postId: string } }) => {
   const router = useRouter();
-  const boardCode = params.boardCode;
+  const { boardCode } = params;
   const postId = Number(params.postId);
   const [post, setPost] = useState<PostType | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);

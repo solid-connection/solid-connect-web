@@ -96,21 +96,19 @@ type MyInfoModifyFormElementProps = {
   setValue?: (value: string) => void;
 };
 
-const MyInfoModifyFormElement = ({ title, value, setValue }: MyInfoModifyFormElementProps) => {
-  return (
-    <div className="flex items-center gap-8">
-      <div className="basis-14 font-serif text-base font-semibold text-black">{title}</div>
-      <input
-        className="h-10 w-full flex-1 rounded-md bg-[#f7f8fa] px-5 py-3 font-serif text-sm font-medium text-black outline-none"
-        type="text"
-        value={value}
-        onChange={(e) => {
-          if (setValue) {
-            setValue(e.target.value);
-          }
-        }}
-        disabled={!setValue}
-      />
-    </div>
-  );
-};
+const MyInfoModifyFormElement = ({ title, value, setValue }: MyInfoModifyFormElementProps) => (
+  <div className="flex items-center gap-8">
+    <div className="basis-14 font-serif text-base font-semibold text-black">{title}</div>
+    <input
+      className="h-10 w-full flex-1 rounded-md bg-[#f7f8fa] px-5 py-3 font-serif text-sm font-medium text-black outline-none"
+      type="text"
+      value={value}
+      onChange={(e) => {
+        if (setValue) {
+          setValue(e.target.value);
+        }
+      }}
+      disabled={!setValue}
+    />
+  </div>
+);

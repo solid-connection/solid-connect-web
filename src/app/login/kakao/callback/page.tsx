@@ -50,7 +50,7 @@ const KakaoLoginCallbackPage = () => {
         setKakaoEmail(data.email);
         setKakaoProfileImageUrl(data.profileImageUrl);
       }
-    } catch (err: any) {
+    } catch (err) {
       if (err.response) {
         console.error("Axios response error", err.response.data);
         alert(err.response.data?.message);

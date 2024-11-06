@@ -56,10 +56,21 @@ const Comments = ({ comments, postId, refresh, setCurSelectedComment }: Comments
             comment.parentId !== null && styles["comment-wrapper--sub-comment"]
           }`}
           key={comment.id}
+          role="button"
+          tabIndex={0}
           onClick={() => {
             if (comment.parentId === null) setCurSelectedComment(comment.id);
             else {
               setCurSelectedComment(comment.parentId);
+            }
+          }}
+          onKeyDown={(e) => {
+            // Handles keyboard events
+            if (e.key === "Enter" || e.key === " ") {
+              if (comment.parentId === null) setCurSelectedComment(comment.id);
+              else {
+                setCurSelectedComment(comment.parentId);
+              }
             }
           }}
         >

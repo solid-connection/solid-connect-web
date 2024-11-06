@@ -59,21 +59,19 @@ type HomeCollegeCardProps = {
   name: string;
 };
 
-const HomeCollegeCard = ({ id, imageUrl, name }: HomeCollegeCardProps) => {
-  return (
-    <Link href={`/college/${id}`}>
-      <div className={styles.card}>
-        <div className={styles["image-wrapper"]}>
-          <Image
-            className="h-[120px]"
-            src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${imageUrl}`}
-            width={153}
-            height={120}
-            alt={name || "대학 없음"}
-          />
-        </div>
-        <div className={styles.name}>{name}</div>
+const HomeCollegeCard = ({ id, imageUrl, name }: HomeCollegeCardProps) => (
+  <Link href={`/college/${id}`}>
+    <div className={styles.card}>
+      <div className={styles["image-wrapper"]}>
+        <Image
+          className="h-[120px]"
+          src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${imageUrl}`}
+          width={153}
+          height={120}
+          alt={name || "대학 없음"}
+        />
       </div>
-    </Link>
-  );
-};
+      <div className={styles.name}>{name}</div>
+    </div>
+  </Link>
+);

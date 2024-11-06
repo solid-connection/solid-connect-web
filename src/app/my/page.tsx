@@ -158,7 +158,7 @@ const MyPage = () => {
               <MyMenu text="공인어학/학점 변경" />
             </Link>
             <Link href="/score/college-register/">
-              <MyMenu text="지원학교 변경" isBold={true} />
+              <MyMenu text="지원학교 변경" isBold />
             </Link>
           </MyMenuGroup>
           <MyMenuGroup icon={<IconMyMenuCalendar />} subject="내 활동">
@@ -181,7 +181,7 @@ const MyPage = () => {
               <MyMenu text="로그아웃" isArrowVisible={false} />
             </div>
             <div onClick={toggleWithdraw}>
-              <MyMenu text="회원탈퇴" isArrowVisible={false} isBold={true} />
+              <MyMenu text="회원탈퇴" isArrowVisible={false} isBold />
             </div>
           </MyMenuGroup>
         </div>
