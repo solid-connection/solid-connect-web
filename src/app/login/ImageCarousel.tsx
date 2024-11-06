@@ -19,6 +19,7 @@ const ImageCarousel = () => {
   };
 
   return (
+    // eslint-disable-next-line react/jsx-props-no-spreading
     <Slider {...settings} className={styles.onboardingImages}>
       <div className={styles.item}>
         <div className={styles.imageWrapper}>

@@ -20,7 +20,7 @@ const PostModifyPage = ({ params }: { params: { boardCode: string; postId: strin
       try {
         const res = await getPostDetailApi(boardCode, Number(postId));
         setPost(res.data);
-      } catch (err: any) {
+      } catch (err) {
         // 에러 처리
         if (err.response) {
           console.error("Axios response error", err.response);

@@ -15,7 +15,7 @@ type CollegeRegisterPageProps = {
   universityList: ListUniversity[];
 };
 
-export default function CollegeRegisterPage({ universityList }: CollegeRegisterPageProps) {
+const CollegeRegisterPage = ({ universityList }: CollegeRegisterPageProps) => {
   const [currentStage, setCurrentStage] = useState<number>(1);
   const [description, setDescription] = useState<string>("본 과정 완료 후, 지원자 현황을 확인 할 수 있습니다.");
 
@@ -167,7 +167,9 @@ export default function CollegeRegisterPage({ universityList }: CollegeRegisterP
       </div>
     </>
   );
-}
+};
+
+export default CollegeRegisterPage;
 
 export async function getStaticProps() {
   try {

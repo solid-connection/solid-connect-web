@@ -6,4 +6,6 @@ React + Next.js
 
 ```bash
 npm run dev
+
+npm run lint
 ```

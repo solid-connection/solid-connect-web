@@ -50,7 +50,7 @@ const MyInfoModifyForm = ({ myInfo }: MyInfoModifyFormProps) => {
       return null;
     }
     const [year, month, day] = birth.split("-");
-    return `${year}.${parseInt(month)}.${parseInt(day)}`;
+    return `${year}.${parseInt(month, 10)}.${parseInt(day, 10)}`;
   };
 
   return (

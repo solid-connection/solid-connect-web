@@ -14,7 +14,7 @@ import ProgressBar from "@/components/score/register/progress-bar";
 
 import { LANGUAGE_TEST_CONVERSE } from "@/constants/application";
 
-export default function ScoreRegisterPage() {
+const ScoreRegisterPage = () => {
   const router = useRouter();
   const [currentStage, setCurrentStage] = useState<number>(1);
   const [languageType, setLanguageType] = useState<string>("");
@@ -177,4 +177,6 @@ export default function ScoreRegisterPage() {
       </div>
     </>
   );
-}
+};
+
+export default ScoreRegisterPage;

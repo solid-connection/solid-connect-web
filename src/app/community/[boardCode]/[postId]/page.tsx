@@ -3,11 +3,10 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { deletePostApi, getPostDetailApi } from "@/services/community";
+import { getPostDetailApi } from "@/services/community";
 
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import CloudSpinnerPage from "@/components/loading/CloudSpinnerPage";
-import Dropdown from "@/components/ui/dropdown";
 
 import CommentWrite from "./CommentWrite";
 import Comments from "./Comments";
@@ -15,8 +14,6 @@ import KebabMenu from "./KebabMenu";
 import Post from "./Post";
 
 import { Post as PostType } from "@/types/community";
-
-import { IconMoreVertFilled } from "@/public/svgs";
 
 const PostPage = ({ params }: { params: { boardCode: string; postId: string } }) => {
   const router = useRouter();
