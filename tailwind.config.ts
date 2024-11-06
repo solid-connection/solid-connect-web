@@ -4,7 +4,16 @@ const config: Config = {
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     fontFamily: {
-      serif: ["Pretendard", "ui-serif", "Georgia", "Cambria", "Times New Roman", "Times", "serif"],
+      serif: [
+        "var(--font-pretendard)",
+        "Pretendard",
+        "ui-serif",
+        "Georgia",
+        "Cambria",
+        "Times New Roman",
+        "Times",
+        "serif",
+      ],
     },
     extend: {
       colors: {
