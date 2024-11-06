@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 
 import KakaoScriptLoader from "@/components/layout/KakaoScriptLoader";
 import Layout from "@/components/layout/layout";
@@ -14,6 +16,18 @@ export const metadata: Metadata = {
   description: "솔리드 커넥션. 교환학생의 첫 걸음",
 };
 
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const pretendard = localFont({
+  src: "../../public/fonts/PretendardVariable.woff2",
+  display: "swap",
+  weight: "45 920",
+  variable: "--font-pretendard",
+});
+
 declare global {
   interface Window {
     Kakao: any;
@@ -27,7 +41,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         <html lang="ko">
           <KakaoScriptLoader />
           <GoogleAnalytics gaId="G-V1KLYZC1DS" />
-          <body>
+          <body className={pretendard.className + " " + inter.className}>
             <Layout>{children}</Layout>
           </body>
         </html>

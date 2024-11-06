@@ -1,0 +1,26 @@
+import TopNavigation from "@/components/layout/top-navigation";
+
+import Home from "./Home";
+
+import { News } from "@/types/news";
+
+import { fetchAllNews } from "@/libs/firebaseNews";
+
+export const metadata = {
+  title: "솔리드 커넥션",
+};
+
+const HomePage = async () => {
+  // Fetch newsList on the server side
+  const newsListResponse = await fetchAllNews();
+  const newsList: News[] = newsListResponse;
+
+  return (
+    <div>
+      <TopNavigation />
+      <Home newsList={newsList} />
+    </div>
+  );
+};
+
+export default HomePage;

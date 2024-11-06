@@ -1,0 +1,50 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* NewsCard */
+.card {
+  display: flex;
+  gap: 15px;
+}
+
+.image {
+  flex-shrink: 0;
+  width: 170px;
+  height: 90px;
+  border-radius: 12px;
+
+  object-fit: cover;
+}
+
+.card__right {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  margin-right: 20px;
+}
+
+.title {
+  color: #44413d;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 150%; /* 21px */
+
+  /* overflow: hidden; */
+  /* text-overflow: ellipsis; */
+  /* white-space: nowrap; */
+}
+
+.description {
+  color: #808080;
+  font-family: Pretendard;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%; /* 15px */
+}
