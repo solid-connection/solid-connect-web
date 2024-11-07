@@ -7,7 +7,7 @@ type BlockBtnProps = {
   className?: string;
 };
 
-export default function BlockBtn({ backgroundColor, textColor, onClick, children, style, className }: BlockBtnProps) {
+const BlockBtn = ({ backgroundColor, textColor, onClick, children, style, className }: BlockBtnProps) => {
   const defaultStyle = {
     backgroundColor: backgroundColor || "var(--primary-1, #6F90D1)",
     color: textColor || "white",
@@ -30,4 +30,6 @@ export default function BlockBtn({ backgroundColor, textColor, onClick, children
       {children}
     </button>
   );
-}
+};
+
+export default BlockBtn;

@@ -162,10 +162,10 @@ const MyPage = () => {
             </Link>
           </MyMenuGroup>
           <MyMenuGroup icon={<IconMyMenuCalendar />} subject="내 활동">
-            <Link href="">
+            <Link href="/my">
               <MyMenu text="활동 내역" />
             </Link>
-            <Link href="">
+            <Link href="/my">
               <MyMenu text="멘토 지원" />
             </Link>
           </MyMenuGroup>

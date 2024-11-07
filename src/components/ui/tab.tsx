@@ -12,7 +12,7 @@ type TabProps = {
   };
 };
 
-export default function Tab({ choices, choice, setChoice, color }: TabProps) {
+const Tab = ({ choices, choice, setChoice, color }: TabProps) => {
   const defaultColor = {
     activeBtnFont: "#000",
     deactiveBtnFont: "#7D7D7D",
@@ -35,4 +35,6 @@ export default function Tab({ choices, choice, setChoice, color }: TabProps) {
       ))}
     </div>
   );
-}
+};
+
+export default Tab;

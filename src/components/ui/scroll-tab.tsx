@@ -8,20 +8,20 @@ type ScrollTabProps = {
   style?: React.CSSProperties;
 };
 
-export default function ScrollTab({ choices, choice, setChoice, borderColor, style }: ScrollTabProps) {
-  return (
-    <div style={style} className={styles.tabContainer}>
-      {choices.map((c) => (
-        <button
-          key={c}
-          className={styles.tabButton}
-          style={choice === c ? { borderColor: borderColor || "var(--primary-1, #6f90d1)" } : {}}
-          onClick={() => setChoice(c)}
-          type="button"
-        >
-          <div>{c}</div>
-        </button>
-      ))}
-    </div>
-  );
-}
+const ScrollTab = ({ choices, choice, setChoice, borderColor, style }: ScrollTabProps) => (
+  <div style={style} className={styles.tabContainer}>
+    {choices.map((c) => (
+      <button
+        key={c}
+        className={styles.tabButton}
+        style={choice === c ? { borderColor: borderColor || "var(--primary-1, #6f90d1)" } : {}}
+        onClick={() => setChoice(c)}
+        type="button"
+      >
+        <div>{c}</div>
+      </button>
+    ))}
+  </div>
+);
+
+export default ScrollTab;

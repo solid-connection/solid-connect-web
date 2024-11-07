@@ -16,7 +16,7 @@ type FormLanguageProps = {
   languageCert: File;
 };
 
-export default function FormLanguage({
+const FormLanguage = ({
   toNextStage,
   setLanguageType,
   setLanguageScore,
@@ -24,7 +24,7 @@ export default function FormLanguage({
   languageType,
   languageScore,
   languageCert,
-}: FormLanguageProps) {
+}: FormLanguageProps) => {
   const fileInputRef = useRef(null);
   const handleButtonClick = () => {
     fileInputRef.current.click();
@@ -159,4 +159,6 @@ export default function FormLanguage({
       </div>
     </div>
   );
-}
+};
+
+export default FormLanguage;

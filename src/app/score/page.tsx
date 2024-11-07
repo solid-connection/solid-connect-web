@@ -61,7 +61,7 @@ const ScorePage = () => {
           setScoreData(scoreResponseData);
           setFilteredScoreData(scoreResponseData);
         }
-      } catch (err: any) {
+      } catch (err) {
         if (err.response) {
           console.error("Axios response error", err.response);
           if (err.response.status === 401 || err.response.status === 403) {

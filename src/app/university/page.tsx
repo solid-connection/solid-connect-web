@@ -6,7 +6,7 @@ export const metadata = {
   title: "솔리드 커넥션",
 };
 
-export default async function Page() {
+const Page = async () => {
   let universities = [];
   try {
     const res = await getUniversityListPublicApi();
@@ -16,4 +16,6 @@ export default async function Page() {
   }
 
   return <UniversityPage universities={universities} />;
-}
+};
+
+export default Page;

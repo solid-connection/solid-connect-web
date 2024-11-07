@@ -8,7 +8,7 @@ type GoogleEmbedMapProps = {
   style?: React.CSSProperties;
 };
 
-export default function GoogleEmbedMap({ width, height, name, latitude, longitude, zoom, style }: GoogleEmbedMapProps) {
+const GoogleEmbedMap = ({ width, height, name, latitude, longitude, zoom, style }: GoogleEmbedMapProps) => {
   // name이 있으면 name으로 검색, 없으면 좌표로 검색
   const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY;
 
@@ -35,4 +35,6 @@ export default function GoogleEmbedMap({ width, height, name, latitude, longitud
       src={mapSrc}
     />
   );
-}
+};
+
+export default GoogleEmbedMap;

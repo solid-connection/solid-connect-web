@@ -78,7 +78,7 @@ const SignupSurvey = ({ kakaoOauthToken, kakaoNickname, kakaoEmail, kakaoProfile
       try {
         const res = await uploadProfileImageFilePublicApi(profileImageFile);
         imageUrl = res.data.fileUrl;
-      } catch (err: any) {
+      } catch (err) {
         console.error("Error", err.message);
         alert(err.message);
       }
@@ -105,7 +105,7 @@ const SignupSurvey = ({ kakaoOauthToken, kakaoNickname, kakaoEmail, kakaoProfile
 
       alert("회원가입이 완료되었습니다.");
       router.push("/");
-    } catch (err: any) {
+    } catch (err) {
       if (err.response) {
         console.error("Axios response error", err.response);
         alert(err.response.data?.message);

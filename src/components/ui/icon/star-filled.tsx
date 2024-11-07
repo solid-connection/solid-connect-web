@@ -8,7 +8,7 @@ interface StarFilledIconProps {
   style?: React.CSSProperties;
 }
 
-export default function StarFilledIcon({
+const StarFilledIcon = ({
   size = "20",
   leftColor = "#000000",
   rightColor = "#000000",
@@ -16,7 +16,7 @@ export default function StarFilledIcon({
   rightOpacity = "1",
   onClick,
   style,
-}: StarFilledIconProps) {
+}: StarFilledIconProps) => {
   const gradientId = `gradient-${Math.random().toString(16).slice(2)}`;
 
   return (
@@ -41,4 +41,6 @@ export default function StarFilledIcon({
       />
     </svg>
   );
-}
+};
+
+export default StarFilledIcon;

@@ -16,7 +16,7 @@ type ButtonTabProps = {
   };
 };
 
-export default function ButtonTab({ choices, choice, setChoice, style, color }: ButtonTabProps) {
+const ButtonTab = ({ choices, choice, setChoice, style, color }: ButtonTabProps) => {
   // 디자인 색상
   const defaultColor = {
     activeBtn: "#6f90d1",
@@ -57,4 +57,6 @@ export default function ButtonTab({ choices, choice, setChoice, style, color }: 
       })}
     </div>
   );
-}
+};
+
+export default ButtonTab;

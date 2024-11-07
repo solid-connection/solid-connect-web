@@ -3,7 +3,7 @@ type GoogleStaticMapProps = {
   longitude: number;
 };
 
-export default function GoogleStaticMap({ latitude, longitude }: GoogleStaticMapProps) {
+const GoogleStaticMap = ({ latitude, longitude }: GoogleStaticMapProps) => {
   const GOOGLE_MAP_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY;
 
   return (
@@ -14,4 +14,6 @@ export default function GoogleStaticMap({ latitude, longitude }: GoogleStaticMap
       alt="map"
     />
   );
-}
+};
+
+export default GoogleStaticMap;

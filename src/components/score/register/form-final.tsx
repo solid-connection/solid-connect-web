@@ -17,7 +17,7 @@ type FormFinalProps = {
   setScoreCert: (value: File) => void;
 };
 
-export default function FormFinal({
+const FormFinal = ({
   toNextStage,
   languageType,
   languageScore,
@@ -27,7 +27,7 @@ export default function FormFinal({
   scoreCert,
   setLanguageCert,
   setScoreCert,
-}: FormFinalProps) {
+}: FormFinalProps) => {
   const languageCertInputRef = useRef(null);
   const scoreCertInputRef = useRef(null);
   const handleLanguageCertButtonClick = () => {
@@ -134,4 +134,6 @@ export default function FormFinal({
       </div>
     </div>
   );
-}
+};
+
+export default FormFinal;

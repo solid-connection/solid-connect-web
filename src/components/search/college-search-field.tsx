@@ -5,17 +5,17 @@ type CollegeSearchFieldProps = {
   keyWords: string[];
 };
 
-export default function CollegeSearchField({ setText, keyWords }: CollegeSearchFieldProps) {
-  return (
-    <div>
-      <div className={styles.title}>인기 검색</div>
-      <div className={styles.container}>
-        {keyWords.map((keyWord) => (
-          <button key={keyWord} className={styles.item} onClick={() => setText(keyWord)} type="button">
-            {keyWord}
-          </button>
-        ))}
-      </div>
+const CollegeSearchField = ({ setText, keyWords }: CollegeSearchFieldProps) => (
+  <div>
+    <div className={styles.title}>인기 검색</div>
+    <div className={styles.container}>
+      {keyWords.map((keyWord) => (
+        <button key={keyWord} className={styles.item} onClick={() => setText(keyWord)} type="button">
+          {keyWord}
+        </button>
+      ))}
     </div>
-  );
-}
+  </div>
+);
+
+export default CollegeSearchField;

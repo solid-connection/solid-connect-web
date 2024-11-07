@@ -10,7 +10,7 @@ type BlockToggleBtnProps = {
   isToggled?: boolean;
 };
 
-export default function BlockToggleBtn({
+const BlockToggleBtn = ({
   children,
   className,
   style,
@@ -20,7 +20,7 @@ export default function BlockToggleBtn({
   disableTextColor,
   onClick,
   isToggled = true,
-}: BlockToggleBtnProps) {
+}: BlockToggleBtnProps) => {
   let defaultStyle = {
     backgroundColor: backgroundColor || "var(--primary-1, #6F90D1)",
     color: textColor || "white",
@@ -52,4 +52,6 @@ export default function BlockToggleBtn({
       {children}
     </button>
   );
-}
+};
+
+export default BlockToggleBtn;

@@ -9,7 +9,7 @@ import Home from "./icon/Home";
 import Human from "./icon/Human";
 import WhatsNew from "./icon/WhatsNew";
 
-export default function BottomNavigation() {
+const BottomNavigation = () => {
   const pathname = usePathname();
 
   const specificRoutes = ["/university", "/community", "/mento", "/my"];
@@ -70,4 +70,6 @@ export default function BottomNavigation() {
       ))}
     </nav>
   );
-}
+};
+
+export default BottomNavigation;
