@@ -26,7 +26,7 @@ const roleDisplay = {
 
 const MyPage = () => {
   const router = useRouter();
-  const [myInfo, setMyInfo] = useState<MyInfo>(null);
+  const [myInfo, setMyInfo] = useState<MyInfo | null>(null);
   const [showLogout, setShowLogout] = useState<boolean>(false);
   const [showWithdraw, setShowWithdraw] = useState<boolean>(false);
 

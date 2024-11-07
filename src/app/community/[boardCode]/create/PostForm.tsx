@@ -53,7 +53,7 @@ const PostForm = ({ boardCode }: PostFormProps) => {
           content,
           isQuestion,
         },
-        file: imageUploadRef.current ? [...imageUploadRef.current.files] : [],
+        file: imageUploadRef.current && imageUploadRef.current.files ? Array.from(imageUploadRef.current.files) : [],
       });
       const postId = res.data.id;
       router.push(`/community/${boardCode}/${postId}`);

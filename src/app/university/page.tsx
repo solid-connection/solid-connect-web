@@ -7,15 +7,13 @@ export const metadata = {
 };
 
 const Page = async () => {
-  let universities = [];
   try {
-    const res = await getUniversityListPublicApi();
-    universities = res.data;
+    const { data: universities } = await getUniversityListPublicApi();
+    return <UniversityPage universities={universities} />;
   } catch (error) {
-    console.error(error);
+    console.error("Failed to fetch university list:", error);
+    return <UniversityPage universities={[]} />;
   }
-
-  return <UniversityPage universities={universities} />;
 };
 
 export default Page;

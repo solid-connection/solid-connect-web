@@ -28,7 +28,7 @@ const KakaoLoginCallbackPage = () => {
   }, [setHideBottomNavigation]);
 
   useEffect(() => {
-    const code = searchParams.get("code");
+    const code = searchParams?.get("code");
     if (code) {
       sendCodeToBackend(code);
     }

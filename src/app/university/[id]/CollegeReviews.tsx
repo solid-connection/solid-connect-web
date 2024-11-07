@@ -22,7 +22,7 @@ export const CollegeReviewCard = ({ review }: { review: Review }) => {
   const [open, setOpen] = useState<boolean>(false);
   const renderStars = () => {
     const TOTAL_STARS = 5;
-    const stars = [];
+    const stars: JSX.Element[] = [];
     for (let i = 1; i <= TOTAL_STARS; i += 1) {
       if (i <= rating) {
         // Full Star

@@ -28,13 +28,13 @@ const FormFinal = ({
   setLanguageCert,
   setScoreCert,
 }: FormFinalProps) => {
-  const languageCertInputRef = useRef(null);
-  const scoreCertInputRef = useRef(null);
+  const languageCertInputRef = useRef<HTMLInputElement>(null);
+  const scoreCertInputRef = useRef<HTMLInputElement>(null);
   const handleLanguageCertButtonClick = () => {
-    languageCertInputRef.current.click();
+    languageCertInputRef.current?.click();
   };
   const handleScoreCertButtonClick = () => {
-    scoreCertInputRef.current.click();
+    scoreCertInputRef.current?.click();
   };
   const handleLanguageCertChange = (event) => {
     const file = event.target.files[0];

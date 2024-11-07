@@ -25,13 +25,13 @@ const FormScore = ({
   score,
   scoreCert,
 }: FormScoreProps) => {
-  const fileInputRef = useRef(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const handleButtonClick = () => {
-    fileInputRef.current.click();
+    fileInputRef.current?.click();
   };
 
   const handleFileChange = () => {
-    const file = fileInputRef.current.files[0];
+    const file = fileInputRef.current?.files?.[0];
     if (file) {
       setScoreCert(file);
     }

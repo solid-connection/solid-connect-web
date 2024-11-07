@@ -76,10 +76,10 @@ const UniversityPage = ({ universities }: { universities: ListUniversity[] }) =>
 
   function searchHandler(event) {
     event.preventDefault();
-    const searchTerms: string[] = searchTextRef.current.value
+    const searchTerms: string[] = searchTextRef.current?.value
       .split(",")
       .map((term) => term.trim())
-      .filter((term) => term !== "");
+      .filter((term) => term !== "") || [""];
     setSearchTexts(searchTerms);
   }
 

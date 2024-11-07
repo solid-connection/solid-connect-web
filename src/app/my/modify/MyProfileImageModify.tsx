@@ -49,7 +49,7 @@ const MyProfileImageModify = ({ myInfo }: MyProfileImageModifyProps) => {
     <div
       className="h-[6.75rem] w-[6.75rem] hover:cursor-pointer"
       onClick={() => {
-        fileInputRef.current.click();
+        fileInputRef.current?.click();
       }}
     >
       {myInfo.profileImageUrl ? (

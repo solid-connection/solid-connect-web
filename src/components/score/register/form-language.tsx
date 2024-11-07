@@ -25,9 +25,9 @@ const FormLanguage = ({
   languageScore,
   languageCert,
 }: FormLanguageProps) => {
-  const fileInputRef = useRef(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const handleButtonClick = () => {
-    fileInputRef.current.click();
+    fileInputRef.current?.click();
   };
 
   const handleFileChange = (event) => {

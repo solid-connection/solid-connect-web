@@ -13,20 +13,20 @@ const BottomNavigation = () => {
   const pathname = usePathname();
 
   const specificRoutes = ["/university", "/community", "/mento", "/my"];
-  const isSpecificRouteActive = specificRoutes.some((specificRoute) => pathname.startsWith(specificRoute));
+  const isSpecificRouteActive = specificRoutes.some((specificRoute) => pathname?.startsWith(specificRoute));
 
   const navs = [
     {
       route: "/university",
       text: "학교",
-      isActive: pathname.startsWith("/university"),
-      icon: <DegreeHat color={pathname.startsWith("/university") ? "#6F96D1" : "#707070"} />,
+      isActive: pathname?.startsWith("/university"),
+      icon: <DegreeHat color={pathname?.startsWith("/university") ? "#6F96D1" : "#707070"} />,
     },
     {
       route: "/community",
       text: "커뮤니티",
-      isActive: pathname.startsWith("/community"),
-      icon: <EditTwo color={pathname.startsWith("/community") ? "#6F96D1" : "#707070"} />,
+      isActive: pathname?.startsWith("/community"),
+      icon: <EditTwo color={pathname?.startsWith("/community") ? "#6F96D1" : "#707070"} />,
     },
     {
       route: "/",
@@ -37,14 +37,14 @@ const BottomNavigation = () => {
     {
       route: "/mento",
       text: "멘토",
-      isActive: pathname.startsWith("/mento"),
-      icon: <WhatsNew color={pathname.startsWith("/mento") ? "#6F96D1" : "#707070"} />,
+      isActive: pathname?.startsWith("/mento"),
+      icon: <WhatsNew color={pathname?.startsWith("/mento") ? "#6F96D1" : "#707070"} />,
     },
     {
       route: "/my",
       text: "마이",
-      isActive: pathname.startsWith("/my"),
-      icon: <Human color={pathname.startsWith("/my") ? "#6F96D1" : "#707070"} />,
+      isActive: pathname?.startsWith("/my"),
+      icon: <Human color={pathname?.startsWith("/my") ? "#6F96D1" : "#707070"} />,
     },
   ];
 

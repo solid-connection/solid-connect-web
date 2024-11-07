@@ -68,7 +68,7 @@ const PostModifyForm = ({
           title,
           content,
         },
-        file: imageUploadRef.current ? [...imageUploadRef.current.files] : [],
+        file: imageUploadRef.current && imageUploadRef.current.files ? Array.from(imageUploadRef.current.files) : [],
       });
       router.push(`/community/${boardCode}/${postId}`);
     } catch (err) {
