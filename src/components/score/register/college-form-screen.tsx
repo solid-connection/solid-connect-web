@@ -6,7 +6,7 @@ import { ListUniversity } from "@/types/university";
 
 type CollegeFormScreenProps = {
   toNextStage: () => void;
-  collegeId: number;
+  collegeId: number | null;
   setCollegeId: (value: number) => void;
   text: string;
   universityList: ListUniversity[];

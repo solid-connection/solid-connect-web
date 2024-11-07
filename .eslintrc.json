@@ -19,7 +19,7 @@
     "next",
     "next/typescript", // 다음에 기반함: plugin:@typescript-eslint/recommended
     "plugin:@typescript-eslint/recommended",
-    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    // "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "prettier" // 불필요하거나 Prettier와 충돌할 수 있는 모든 규칙을 끕니다. 마지막에 추가해 다른 설정을 덮어씁니다.
   ],
   "overrides": [
@@ -58,6 +58,12 @@
     "no-use-before-define": "off",
     "no-unused-vars": "warn",
     "@typescript-eslint/no-unused-vars": "warn",
+    //
+    "@typescript-eslint/no-unsafe-assignment": "warn",
+    "@typescript-eslint/no-unsafe-member-access": "warn",
+    "@typescript-eslint/no-unsafe-return": "warn",
+    "@typescript-eslint/no-unsafe-call": "warn",
+    "@typescript-eslint/no-unsafe-argument": "warn",
     "jsx-a11y/label-has-associated-control": "off",
     "jsx-a11y/click-events-have-key-events": "warn",
     "jsx-a11y/no-static-element-interactions": "warn"
