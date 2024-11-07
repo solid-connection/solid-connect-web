@@ -1,17 +1,25 @@
 {
   "root": true,
   "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
   "env": {
     "browser": true,
     "es2021": true,
     "node": true
   },
-  "plugins": [],
+  "plugins": ["@typescript-eslint"],
   "extends": [
-    "airbnb", // import, react, react-hooks, jsx-a11y에 관한 규칙을 포함
+    // "airbnb", // import, react, react-hooks, jsx-a11y에 관한 규칙을 포함
     // airbnb를 기반으로 next를 확장하기에 "next"나 "next/core-web-vitals"대신 "plugin:@next/next/recommended"를 사용
-    "plugin:@next/next/recommended",
+    // "plugin:@next/next/recommended",
+    "next",
     "next/typescript", // 다음에 기반함: plugin:@typescript-eslint/recommended
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "prettier" // 불필요하거나 Prettier와 충돌할 수 있는 모든 규칙을 끕니다. 마지막에 추가해 다른 설정을 덮어씁니다.
   ],
   "overrides": [
@@ -25,10 +33,6 @@
       }
     }
   ],
-  "parserOptions": {
-    "ecmaVersion": "latest",
-    "sourceType": "module"
-  },
   "rules": {
     //
     "react/react-in-jsx-scope": "off",
