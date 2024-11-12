@@ -1,6 +1,6 @@
 {
   "name": "solid-connect-web",
-  "version": "0.1.0",
+  "version": "2.2445",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -27,6 +27,8 @@
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@types/node": "^20.11.19",
     "@types/react": "^18.2.55",
+    "@typescript-eslint/eslint-plugin": "^8.13.0",
+    "@typescript-eslint/parser": "^8.13.0",
     "autoprefixer": "^10.4.20",
     "eslint": "^8.56.0",
     "eslint-config-airbnb": "^19.0.4",

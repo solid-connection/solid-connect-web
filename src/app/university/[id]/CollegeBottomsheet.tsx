@@ -25,7 +25,13 @@ interface CollegeBottomSheetProps {
 const CollegeBottomSheet = ({ collegeId, convertedKoreanName, reviewList, university }: CollegeBottomSheetProps) => {
   const pages: string[] = ["학교정보", "어학성적", "지원전공", "위치", "파견후기"];
   const [activeTab, setActiveTab] = useState<string>("학교정보");
-  const sectionRefs = [useRef(null), useRef(null), useRef(null), useRef(null), useRef(null)];
+  const sectionRefs = [
+    useRef<HTMLDivElement>(null),
+    useRef<HTMLDivElement>(null),
+    useRef<HTMLDivElement>(null),
+    useRef<HTMLDivElement>(null),
+    useRef<HTMLDivElement>(null),
+  ];
   const [isLiked, setIsLiked] = useState<boolean>(false);
 
   useEffect(() => {

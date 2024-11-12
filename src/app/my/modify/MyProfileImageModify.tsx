@@ -13,7 +13,7 @@ type MyProfileImageModifyProps = {
   myInfo: MyInfo;
 };
 
-function MyProfileImageModify({ myInfo }: MyProfileImageModifyProps) {
+const MyProfileImageModify = ({ myInfo }: MyProfileImageModifyProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
@@ -49,7 +49,7 @@ function MyProfileImageModify({ myInfo }: MyProfileImageModifyProps) {
     <div
       className="h-[6.75rem] w-[6.75rem] hover:cursor-pointer"
       onClick={() => {
-        fileInputRef.current.click();
+        fileInputRef.current?.click();
       }}
     >
       {myInfo.profileImageUrl ? (
@@ -64,6 +64,6 @@ function MyProfileImageModify({ myInfo }: MyProfileImageModifyProps) {
       <input type="file" accept="image/*" ref={fileInputRef} style={{ display: "none" }} onChange={handleImageUpload} />
     </div>
   );
-}
+};
 
 export default MyProfileImageModify;

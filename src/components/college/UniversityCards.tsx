@@ -12,22 +12,20 @@ type UniversityCardsProps = {
   style?: React.CSSProperties;
 };
 
-const UniversityCards = ({ colleges, style }: UniversityCardsProps) => {
-  return (
-    <div className="flex flex-col gap-2" style={style}>
-      {colleges.map((university) => (
-        <CollegeCard key={university.id} university={university} />
-      ))}
-    </div>
-  );
-};
+const UniversityCards = ({ colleges, style }: UniversityCardsProps) => (
+  <div className="flex flex-col gap-2" style={style}>
+    {colleges.map((university) => (
+      <CollegeCard key={university.id} university={university} />
+    ))}
+  </div>
+);
 export default UniversityCards;
 
 type CollegeCardProps = {
   university: ListUniversity;
 };
 
-export function CollegeCard({ university }: CollegeCardProps) {
+export const CollegeCard = ({ university }: CollegeCardProps) => {
   const convertedKoreanName =
     university.term !== process.env.NEXT_PUBLIC_CURRENT_TERM
       ? `${university.koreanName}(${university.term})`
@@ -76,4 +74,4 @@ export function CollegeCard({ university }: CollegeCardProps) {
       </div>
     </Link>
   );
-}
+};

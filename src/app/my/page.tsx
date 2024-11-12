@@ -26,7 +26,7 @@ const roleDisplay = {
 
 const MyPage = () => {
   const router = useRouter();
-  const [myInfo, setMyInfo] = useState<MyInfo>(null);
+  const [myInfo, setMyInfo] = useState<MyInfo | null>(null);
   const [showLogout, setShowLogout] = useState<boolean>(false);
   const [showWithdraw, setShowWithdraw] = useState<boolean>(false);
 
@@ -158,14 +158,14 @@ const MyPage = () => {
               <MyMenu text="공인어학/학점 변경" />
             </Link>
             <Link href="/score/college-register/">
-              <MyMenu text="지원학교 변경" isBold={true} />
+              <MyMenu text="지원학교 변경" isBold />
             </Link>
           </MyMenuGroup>
           <MyMenuGroup icon={<IconMyMenuCalendar />} subject="내 활동">
-            <Link href="">
+            <Link href="/my">
               <MyMenu text="활동 내역" />
             </Link>
-            <Link href="">
+            <Link href="/my">
               <MyMenu text="멘토 지원" />
             </Link>
           </MyMenuGroup>
@@ -181,7 +181,7 @@ const MyPage = () => {
               <MyMenu text="로그아웃" isArrowVisible={false} />
             </div>
             <div onClick={toggleWithdraw}>
-              <MyMenu text="회원탈퇴" isArrowVisible={false} isBold={true} />
+              <MyMenu text="회원탈퇴" isArrowVisible={false} isBold />
             </div>
           </MyMenuGroup>
         </div>

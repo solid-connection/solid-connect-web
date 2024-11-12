@@ -17,7 +17,7 @@ type FormFinalProps = {
   setScoreCert: (value: File) => void;
 };
 
-export default function FormFinal({
+const FormFinal = ({
   toNextStage,
   languageType,
   languageScore,
@@ -27,14 +27,14 @@ export default function FormFinal({
   scoreCert,
   setLanguageCert,
   setScoreCert,
-}: FormFinalProps) {
-  const languageCertInputRef = useRef(null);
-  const scoreCertInputRef = useRef(null);
+}: FormFinalProps) => {
+  const languageCertInputRef = useRef<HTMLInputElement>(null);
+  const scoreCertInputRef = useRef<HTMLInputElement>(null);
   const handleLanguageCertButtonClick = () => {
-    languageCertInputRef.current.click();
+    languageCertInputRef.current?.click();
   };
   const handleScoreCertButtonClick = () => {
-    scoreCertInputRef.current.click();
+    scoreCertInputRef.current?.click();
   };
   const handleLanguageCertChange = (event) => {
     const file = event.target.files[0];
@@ -134,4 +134,6 @@ export default function FormFinal({
       </div>
     </div>
   );
-}
+};
+
+export default FormFinal;

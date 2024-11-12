@@ -10,7 +10,7 @@ interface TopDetailNavigationProps {
   icon?: React.ReactNode;
 }
 
-export default function TopDetailNavigation({ title, handleBack, icon }: TopDetailNavigationProps) {
+const TopDetailNavigation = ({ title, handleBack, icon }: TopDetailNavigationProps) => {
   const router = useRouter();
 
   const routeBack = () => {
@@ -26,4 +26,6 @@ export default function TopDetailNavigation({ title, handleBack, icon }: TopDeta
       <div className="min-w-6 cursor-pointer">{icon}</div>
     </div>
   );
-}
+};
+
+export default TopDetailNavigation;

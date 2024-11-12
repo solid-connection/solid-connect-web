@@ -11,8 +11,8 @@ import ScrollTab from "@/components/ui/scroll-tab";
 
 import { ListUniversity } from "@/types/university";
 
-export default function MyScrapPage() {
-  const [wishColleges, setWishColleges] = useState<ListUniversity[]>(null);
+const MyScrapPage = () => {
+  const [wishColleges, setWishColleges] = useState<ListUniversity[] | null>(null);
 
   useEffect(() => {
     const fetchWishColleges = async () => {
@@ -71,4 +71,6 @@ export default function MyScrapPage() {
       })()}
     </>
   );
-}
+};
+
+export default MyScrapPage;

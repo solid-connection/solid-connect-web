@@ -36,4 +36,4 @@ const MyInfoCardItem = ({ title, count, link }: MyInfoCardItemProps) => (
   </Link>
 );
 
-const MyInfoCardSeparator = () => <div className="h-8 w-px bg-white opacity-50"></div>;
+const MyInfoCardSeparator = () => <div className="h-8 w-px bg-white opacity-50" />;

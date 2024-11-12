@@ -7,24 +7,22 @@ import styles from "./college-reviews.module.css";
 
 import { Review } from "@/types/review";
 
-const CollegeReviews = ({ style, reviewList }: { style?: React.CSSProperties; reviewList: Review[] }) => {
-  return (
-    <div className={styles.container} style={style}>
-      {reviewList.map((review) => (
-        <CollegeReviewCard key={review.id} review={review} />
-      ))}
-    </div>
-  );
-};
+const CollegeReviews = ({ style, reviewList }: { style?: React.CSSProperties; reviewList: Review[] }) => (
+  <div className={styles.container} style={style}>
+    {reviewList.map((review) => (
+      <CollegeReviewCard key={review.id} review={review} />
+    ))}
+  </div>
+);
 
 export default CollegeReviews;
 
-export function CollegeReviewCard({ review }: { review: Review }) {
+export const CollegeReviewCard = ({ review }: { review: Review }) => {
   const { term, rating, content, dispatchSemester, transportation, buddyProgram } = review;
   const [open, setOpen] = useState<boolean>(false);
   const renderStars = () => {
     const TOTAL_STARS = 5;
-    const stars = [];
+    const stars: JSX.Element[] = [];
     for (let i = 1; i <= TOTAL_STARS; i += 1) {
       if (i <= rating) {
         // Full Star
@@ -81,4 +79,4 @@ export function CollegeReviewCard({ review }: { review: Review }) {
       </button>
     </div>
   );
-}
+};

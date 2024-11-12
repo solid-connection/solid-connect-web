@@ -7,7 +7,7 @@ import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import CollegeSearchBar from "@/components/search/college-search-bar";
 import CollegeSearchField from "@/components/search/college-search-field";
 
-export default function HomeSearchPage() {
+const HomeSearchPage = () => {
   const router = useRouter();
   const [searchText, setSearchText] = useState<string>("");
   const [keyWords, setKeyWords] = useState([]);
@@ -46,4 +46,6 @@ export default function HomeSearchPage() {
       <CollegeSearchField setText={setSearchText} keyWords={keyWords} />
     </div>
   );
-}
+};
+
+export default HomeSearchPage;

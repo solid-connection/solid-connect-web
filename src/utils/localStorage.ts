@@ -7,7 +7,7 @@ export const loadRefreshToken = () => {
   }
 };
 
-export const saveRefreshToken = (token) => {
+export const saveRefreshToken = (token: string) => {
   try {
     localStorage.setItem("refreshToken", token);
   } catch (err) {
@@ -32,7 +32,7 @@ export const loadAccessToken = () => {
   }
 };
 
-export const saveAccessToken = (token) => {
+export const saveAccessToken = (token: string) => {
   try {
     localStorage.setItem("accessToken", token);
   } catch (err) {

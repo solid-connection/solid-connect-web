@@ -181,31 +181,29 @@ type ImagePopupProps = {
   onClose: () => void;
 };
 
-const ImagePopup = ({ image, title, onClose }: ImagePopupProps) => {
-  return (
-    <div className="fixed left-0 top-0 z-[1000] flex h-full w-full flex-col bg-black">
-      <div className="flex h-14 items-center justify-between bg-[rgba(255,255,255,0.15)]">
-        <button
-          className="ml-5 h-6 w-6 cursor-pointer border-0 bg-none p-0"
-          onClick={onClose}
-          type="button"
-          aria-label="뒤로가기"
-        >
-          <IconCloseFilled />
-        </button>
-        <span className="mr-6 font-serif text-base font-semibold leading-[160%] text-[rgba(255,255,255,0.87)]">
-          {title}
-        </span>
-        <div />
-      </div>
-      <div className="relative flex-grow">
-        <Image
-          src={`${process.env.NEXT_PUBLIC_UPLOADED_IMAGE_URL}/${image.url}`}
-          layout="fill"
-          objectFit="contain"
-          alt="Popup"
-        />
-      </div>
+const ImagePopup = ({ image, title, onClose }: ImagePopupProps) => (
+  <div className="fixed left-0 top-0 z-[1000] flex h-full w-full flex-col bg-black">
+    <div className="flex h-14 items-center justify-between bg-[rgba(255,255,255,0.15)]">
+      <button
+        className="ml-5 h-6 w-6 cursor-pointer border-0 bg-none p-0"
+        onClick={onClose}
+        type="button"
+        aria-label="뒤로가기"
+      >
+        <IconCloseFilled />
+      </button>
+      <span className="mr-6 font-serif text-base font-semibold leading-[160%] text-[rgba(255,255,255,0.87)]">
+        {title}
+      </span>
+      <div />
     </div>
-  );
-};
+    <div className="relative flex-grow">
+      <Image
+        src={`${process.env.NEXT_PUBLIC_UPLOADED_IMAGE_URL}/${image.url}`}
+        layout="fill"
+        objectFit="contain"
+        alt="Popup"
+      />
+    </div>
+  </div>
+);

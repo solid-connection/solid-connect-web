@@ -10,16 +10,22 @@ const LayoutContext = createContext<
   | undefined
 >(undefined);
 
-export const useLayout = () => useContext(LayoutContext);
+export const useLayout = () => {
+  const context = useContext(LayoutContext);
+  if (!context) {
+    throw new Error("useLayout must be used within a LayoutProvider");
+  }
+  return context;
+};
 
 type LayoutProviderProps = {
   children: React.ReactNode;
 };
 
-export function LayoutProvider({ children }: LayoutProviderProps) {
+export const LayoutProvider = ({ children }: LayoutProviderProps) => {
   const [hideBottomNavigation, setHideBottomNavigation] = useState(false);
 
   const contextValue = useMemo(() => ({ hideBottomNavigation, setHideBottomNavigation }), [hideBottomNavigation]);
 
   return <LayoutContext.Provider value={contextValue}>{children}</LayoutContext.Provider>;
-}
+};

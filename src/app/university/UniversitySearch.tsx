@@ -10,7 +10,7 @@ type UniversitySearchProps = {
   defaultValue: string;
 };
 
-export default function UniversitySearch({ searchHandler, textRef, defaultValue }: UniversitySearchProps) {
+const UniversitySearch = ({ searchHandler, textRef, defaultValue }: UniversitySearchProps) => {
   const [inputValue, setInputValue] = useState(defaultValue);
 
   useEffect(() => {
@@ -40,4 +40,6 @@ export default function UniversitySearch({ searchHandler, textRef, defaultValue 
       </button>
     </form>
   );
-}
+};
+
+export default UniversitySearch;

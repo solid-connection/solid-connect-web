@@ -20,7 +20,7 @@ const roleDisplay = {
 //   title: "프로필 수정",
 // };
 
-export default function MyModifyPage() {
+const MyModifyPage = () => {
   const [myInfo, setMyInfo] = useState<MyInfo | null>(null);
 
   useEffect(() => {
@@ -64,4 +64,6 @@ export default function MyModifyPage() {
       </div>
     </>
   );
-}
+};
+
+export default MyModifyPage;

@@ -11,14 +11,14 @@ interface DropdownProps {
   options: DropdownItem[];
 }
 
-export default function Dropdown({ options }: DropdownProps) {
-  return (
-    <div className={styles.dropdown}>
-      {options.map((option) => (
-        <button key={option.label} className={styles.dropdown__item} onClick={option.action} type="button">
-          {option.label}
-        </button>
-      ))}
-    </div>
-  );
-}
+const Dropdown = ({ options }: DropdownProps) => (
+  <div className={styles.dropdown}>
+    {options.map((option) => (
+      <button key={option.label} className={styles.dropdown__item} onClick={option.action} type="button">
+        {option.label}
+      </button>
+    ))}
+  </div>
+);
+
+export default Dropdown;

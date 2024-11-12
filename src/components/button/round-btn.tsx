@@ -7,7 +7,7 @@ type RoundBtnProps = {
   children: React.ReactNode;
 };
 
-export default function RoundBtn({ textColor, backgroundColor, onClick, style, className, children }: RoundBtnProps) {
+const RoundBtn = ({ textColor, backgroundColor, onClick, style, className, children }: RoundBtnProps) => {
   const defaultStyle = {
     backgroundColor: backgroundColor || "var(--primary-1, #6F90D1)",
     color: textColor || "white",
@@ -29,4 +29,6 @@ export default function RoundBtn({ textColor, backgroundColor, onClick, style, c
       {children}
     </button>
   );
-}
+};
+
+export default RoundBtn;

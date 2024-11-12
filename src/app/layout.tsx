@@ -30,24 +30,23 @@ const pretendard = localFont({
 
 declare global {
   interface Window {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Kakao: any;
   }
 }
 
-const RootLayout = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <AlertProvider>
-      <LayoutProvider>
-        <html lang="ko">
-          <KakaoScriptLoader />
-          <GoogleAnalytics gaId="G-V1KLYZC1DS" />
-          <body className={pretendard.className + " " + inter.className}>
-            <Layout>{children}</Layout>
-          </body>
-        </html>
-      </LayoutProvider>
-    </AlertProvider>
-  );
-};
+const RootLayout = ({ children }: { children: React.ReactNode }) => (
+  <AlertProvider>
+    <LayoutProvider>
+      <html lang="ko">
+        <KakaoScriptLoader />
+        <GoogleAnalytics gaId="G-V1KLYZC1DS" />
+        <body className={`${pretendard.className} ${inter.className}`}>
+          <Layout>{children}</Layout>
+        </body>
+      </html>
+    </LayoutProvider>
+  </AlertProvider>
+);
 
 export default RootLayout;

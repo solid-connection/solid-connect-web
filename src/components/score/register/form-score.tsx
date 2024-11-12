@@ -16,7 +16,7 @@ type FormScoreProps = {
   scoreCert: File;
 };
 
-export default function FormScore({
+const FormScore = ({
   toNextStage,
   setScoreType,
   setScore,
@@ -24,14 +24,14 @@ export default function FormScore({
   scoreType,
   score,
   scoreCert,
-}: FormScoreProps) {
-  const fileInputRef = useRef(null);
+}: FormScoreProps) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const handleButtonClick = () => {
-    fileInputRef.current.click();
+    fileInputRef.current?.click();
   };
 
   const handleFileChange = () => {
-    const file = fileInputRef.current.files[0];
+    const file = fileInputRef.current?.files?.[0];
     if (file) {
       setScoreCert(file);
     }
@@ -135,4 +135,6 @@ export default function FormScore({
       </div>
     </div>
   );
-}
+};
+
+export default FormScore;

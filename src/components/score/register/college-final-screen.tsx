@@ -5,7 +5,7 @@ import BlockBtn from "@/components/button/block-btn";
 
 import styles from "./form.module.css";
 
-export default function CollegeFinalScreen() {
+const CollegeFinalScreen = () => {
   const router = useRouter();
   return (
     <div className={styles.formWrapper}>
@@ -22,4 +22,6 @@ export default function CollegeFinalScreen() {
       </div>
     </div>
   );
-}
+};
+
+export default CollegeFinalScreen;

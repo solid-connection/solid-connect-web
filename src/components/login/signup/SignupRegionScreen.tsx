@@ -116,28 +116,26 @@ type RegionButtonsProps = {
   setCurRegion: Dispatch<SetStateAction<string | null>>;
 };
 
-const RegionButtons = ({ curRegion, setCurRegion }: RegionButtonsProps) => {
-  return (
-    <div className={styles["region-choices"]}>
-      {regionList.map((region) => (
-        <button
-          key={region.name}
-          className={`${styles["region-button"]} ${curRegion === region.name && styles["region-button--selected"]}`}
-          onClick={() => setCurRegion(region.name)}
-          type="button"
-        >
-          <div className={styles["region-button__icon"]}>
-            {region.name === "미주권" && <IconSignupRegionAmerica />}
-            {region.name === "유럽권" && <IconSignupRegionEurope />}
-            {region.name === "아시아권" && <IconSignupRegionAsia />}
-            {region.name === "아직 잘 모르겠어요" && <IconSignupRegionWorld />}
-          </div>
-          <div className={styles["region-button__name"]}>{region.name}</div>
-        </button>
-      ))}
-    </div>
-  );
-};
+const RegionButtons = ({ curRegion, setCurRegion }: RegionButtonsProps) => (
+  <div className={styles["region-choices"]}>
+    {regionList.map((region) => (
+      <button
+        key={region.name}
+        className={`${styles["region-button"]} ${curRegion === region.name && styles["region-button--selected"]}`}
+        onClick={() => setCurRegion(region.name)}
+        type="button"
+      >
+        <div className={styles["region-button__icon"]}>
+          {region.name === "미주권" && <IconSignupRegionAmerica />}
+          {region.name === "유럽권" && <IconSignupRegionEurope />}
+          {region.name === "아시아권" && <IconSignupRegionAsia />}
+          {region.name === "아직 잘 모르겠어요" && <IconSignupRegionWorld />}
+        </div>
+        <div className={styles["region-button__name"]}>{region.name}</div>
+      </button>
+    ))}
+  </div>
+);
 
 type CountryButtonsProps = {
   curCountries: string[];

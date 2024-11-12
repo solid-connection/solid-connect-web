@@ -3,11 +3,10 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { deletePostApi, getPostDetailApi } from "@/services/community";
+import { getPostDetailApi } from "@/services/community";
 
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import CloudSpinnerPage from "@/components/loading/CloudSpinnerPage";
-import Dropdown from "@/components/ui/dropdown";
 
 import CommentWrite from "./CommentWrite";
 import Comments from "./Comments";
@@ -16,11 +15,9 @@ import Post from "./Post";
 
 import { Post as PostType } from "@/types/community";
 
-import { IconMoreVertFilled } from "@/public/svgs";
-
 const PostPage = ({ params }: { params: { boardCode: string; postId: string } }) => {
   const router = useRouter();
-  const boardCode = params.boardCode;
+  const { boardCode } = params;
   const postId = Number(params.postId);
   const [post, setPost] = useState<PostType | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -51,7 +48,7 @@ const PostPage = ({ params }: { params: { boardCode: string; postId: string } })
     fetchPosts();
   }, [boardCode, postId]);
 
-  if (isLoading) {
+  if (isLoading || post === null) {
     return <CloudSpinnerPage />;
   }
 
@@ -59,16 +56,16 @@ const PostPage = ({ params }: { params: { boardCode: string; postId: string } })
     <>
       {/* 페이지 타이틀을 설정하려면 metadata API를 사용할 수 있습니다 */}
       <TopDetailNavigation
-        title={post?.postFindBoardResponse.koreanName}
+        title={post.postFindBoardResponse.koreanName}
         handleBack={() => {
           router.push(`/community/${boardCode}`);
         }}
-        icon={post?.isOwner && <KebabMenu boardCode={boardCode} postId={postId} />}
+        icon={post.isOwner && <KebabMenu boardCode={boardCode} postId={postId} />}
       />
       <div>
         <Post post={post} boardCode={boardCode} postId={postId} />
         <Comments
-          comments={post?.postFindCommentResponses}
+          comments={post.postFindCommentResponses}
           postId={postId}
           refresh={() => {
             router.refresh();

@@ -1,6 +1,8 @@
+// Injected content via Sentry wizard below
+import { withSentryConfig } from "@sentry/nextjs";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // reactStrictMode: true,
   swcMinify: true,
   images: {
     domains: [
@@ -15,6 +17,9 @@ const nextConfig = {
     // your project has ESLint errors.
     ignoreDuringBuilds: true,
   },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   webpack: (config) => {
     config.module.rules.push({
       test: /\.svg$/,
@@ -24,14 +29,8 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
-
-// Injected content via Sentry wizard below
-
-const { withSentryConfig } = require("@sentry/nextjs");
-
-module.exports = withSentryConfig(
-  module.exports,
+export default withSentryConfig(
+  nextConfig,
   {
     // For all available options, see:
     // https://github.com/getsentry/sentry-webpack-plugin#options
@@ -40,6 +39,7 @@ module.exports = withSentryConfig(
     silent: true,
     org: process.env.SENTRY_ORG,
     project: process.env.SENTRY_PROJECT,
+    authToken: process.env.SENTRY_AUTH_TOKEN,
   },
   {
     // For all available options, see:

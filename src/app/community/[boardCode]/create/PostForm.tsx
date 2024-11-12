@@ -41,6 +41,7 @@ const PostForm = ({ boardCode }: PostFormProps) => {
 
       return () => textarea.removeEventListener("input", adjustHeight);
     }
+    return () => {};
   }, []);
 
   const submitPost = async () => {
@@ -52,11 +53,11 @@ const PostForm = ({ boardCode }: PostFormProps) => {
           content,
           isQuestion,
         },
-        file: imageUploadRef.current ? [...imageUploadRef.current.files] : [],
+        file: imageUploadRef.current && imageUploadRef.current.files ? Array.from(imageUploadRef.current.files) : [],
       });
       const postId = res.data.id;
       router.push(`/community/${boardCode}/${postId}`);
-    } catch (err: any) {
+    } catch (err) {
       if (err.response) {
         console.error("Axios response error", err.response);
         if (err.response.status === 401 || err.response.status === 403) {
@@ -145,22 +146,20 @@ type CustomTopDetailNavigationProps = {
   submitPost: () => void;
 };
 
-const CustomTopDetailNavigation = ({ routeBack, submitPost }: CustomTopDetailNavigationProps) => {
-  return (
-    <div className="fixed top-0 z-30 box-border flex h-14 w-full max-w-[600px] items-center justify-between bg-white px-5">
-      <button className="min-w-6 cursor-pointer" onClick={routeBack} type="button" aria-label="뒤로 가기">
-        <ArrowBackFilled />
+const CustomTopDetailNavigation = ({ routeBack, submitPost }: CustomTopDetailNavigationProps) => (
+  <div className="fixed top-0 z-30 box-border flex h-14 w-full max-w-[600px] items-center justify-between bg-white px-5">
+    <button className="min-w-6 cursor-pointer" onClick={routeBack} type="button" aria-label="뒤로 가기">
+      <ArrowBackFilled />
+    </button>
+    <div className="font-serif text-base font-semibold leading-[160%] text-[rgba(0,0,0,0.87)]">글쓰기</div>
+    <div className="min-w-6 cursor-pointer">
+      <button
+        className="h-8 cursor-pointer rounded-full border-0 bg-primary-1 px-3 py-[5px] font-serif text-sm font-medium leading-[160%] text-white"
+        onClick={submitPost}
+        type="button"
+      >
+        등록
       </button>
-      <div className="font-serif text-base font-semibold leading-[160%] text-[rgba(0,0,0,0.87)]">글쓰기</div>
-      <div className="min-w-6 cursor-pointer">
-        <button
-          className="h-8 cursor-pointer rounded-full border-0 bg-primary-1 px-3 py-[5px] font-serif text-sm font-medium leading-[160%] text-white"
-          onClick={submitPost}
-          type="button"
-        >
-          등록
-        </button>
-      </div>
     </div>
-  );
-};
+  </div>
+);

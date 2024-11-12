@@ -26,7 +26,7 @@ const Home = ({ newsList }: HomeProps) => {
       try {
         const response = await getRecommendedUniversitiesApi();
         setRecommendedColleges(response.data.recommendedUniversities);
-      } catch (error) {
+      } catch {
         setRecommendedColleges([]);
       }
     };

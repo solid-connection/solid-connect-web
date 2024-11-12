@@ -18,7 +18,7 @@ import { ListPost } from "@/types/community";
 
 const CommunityPage = ({ params }: { params: { boardCode: string } }) => {
   const router = useRouter();
-  const boardCode = params.boardCode;
+  const { boardCode } = params;
   const [boardDisplayName, setBoardDisplayName] = useState<string>("자유");
   const [category, setCategory] = useState<string>("전체");
   const [posts, setPosts] = useState<ListPost[]>([]);

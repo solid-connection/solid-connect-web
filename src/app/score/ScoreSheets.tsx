@@ -9,15 +9,13 @@ import styles from "./score-sheets.module.css";
 import { LANGUAGE_TEST } from "@/constants/application";
 import { ScoreSheet as ScoreSheetType } from "@/types/application";
 
-const ScoreSheets = ({ scoreSheets }: { scoreSheets: ScoreSheetType[] }) => {
-  return (
-    <div className={styles.container}>
-      {scoreSheets.map((choice) => (
-        <ScoreSheet key={choice.koreanName} scoreSheet={choice} />
-      ))}
-    </div>
-  );
-};
+const ScoreSheets = ({ scoreSheets }: { scoreSheets: ScoreSheetType[] }) => (
+  <div className={styles.container}>
+    {scoreSheets.map((choice) => (
+      <ScoreSheet key={choice.koreanName} scoreSheet={choice} />
+    ))}
+  </div>
+);
 
 export default ScoreSheets;
 
