@@ -4,10 +4,10 @@ import { useEffect, useRef, useState } from "react";
 
 import { getUniversityFavoriteStatusApi, postUniversityFavoriteApi } from "@/services/university";
 
+import ScrollTab from "@/components/ui/ScrollTab";
 import BookmarkFilled from "@/components/ui/icon/BookmarkFilled";
 import BookmarkOutlined from "@/components/ui/icon/BookmarkOutlined";
-import GoogleEmbedMap from "@/components/ui/map/google-embed-map";
-import ScrollTab from "@/components/ui/scroll-tab";
+import GoogleEmbedMap from "@/components/ui/map/GoogleEmbedMap";
 
 import CollegeReviews from "./CollegeReviews";
 import styles from "./college-bottomsheet.module.css";

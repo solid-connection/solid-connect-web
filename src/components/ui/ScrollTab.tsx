@@ -1,5 +1,3 @@
-import styles from "./scroll-tab.module.css";
-
 type ScrollTabProps = {
   choices: string[];
   choice: string;
@@ -9,11 +7,14 @@ type ScrollTabProps = {
 };
 
 const ScrollTab = ({ choices, choice, setChoice, borderColor, style }: ScrollTabProps) => (
-  <div style={style} className={styles.tabContainer}>
+  <div
+    style={style}
+    className="flex flex-row overflow-x-auto whitespace-nowrap bg-[#f9f9f9] font-serif text-sm font-semibold text-black"
+  >
     {choices.map((c) => (
       <button
         key={c}
-        className={styles.tabButton}
+        className="flex items-center justify-center border-b-2 border-secondary-2 px-5 py-3.5"
         style={choice === c ? { borderColor: borderColor || "var(--primary-1, #6f90d1)" } : {}}
         onClick={() => setChoice(c)}
         type="button"

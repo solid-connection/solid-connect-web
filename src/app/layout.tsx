@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 
 import KakaoScriptLoader from "@/components/layout/KakaoScriptLoader";
-import Layout from "@/components/layout/layout";
+import Layout from "@/components/layout/Layout";
 
 import "../styles/globals.css";
 

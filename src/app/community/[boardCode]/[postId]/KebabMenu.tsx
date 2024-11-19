@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import { deletePostApi } from "@/services/community";
 
-import Dropdown from "@/components/ui/dropdown";
+import Dropdown from "@/components/ui/Dropdown";
 
 import { IconMoreVertFilled } from "@/public/svgs";
 

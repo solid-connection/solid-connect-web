@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import BottomNavigation from "./bottom-navigation";
+import BottomNavigation from "./BottomNavigation";
 
 import { useLayout } from "@/context/LayoutContext";
 

@@ -7,7 +7,7 @@ import { getPostListApi } from "@/services/community";
 
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import CloudSpinnerPage from "@/components/loading/CloudSpinnerPage";
-import ButtonTab from "@/components/ui/button-tab";
+import ButtonTab from "@/components/ui/ButtonTab";
 
 import CommunityRegionSelector from "./CommunityRegionSelector";
 import PostCards from "./PostCards";

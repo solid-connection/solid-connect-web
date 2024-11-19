@@ -9,8 +9,8 @@ import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import CloudSpinnerPage from "@/components/loading/CloudSpinnerPage";
 import CertFinalScreen from "@/components/score/register/cert-final-screen";
 import CollegeFinalScreen from "@/components/score/register/college-final-screen";
-import ButtonTab from "@/components/ui/button-tab";
-import Tab from "@/components/ui/tab";
+import ButtonTab from "@/components/ui/ButtonTab";
+import Tab from "@/components/ui/Tab";
 
 import ScoreSearchBar from "./ScoreSearchBar";
 import ScoreSearchField from "./ScoreSearchField";

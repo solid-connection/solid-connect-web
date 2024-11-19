@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import Head from "next/head";
 import Script from "next/script";
 
-import Layout from "@/components/layout/layout";
+import Layout from "@/components/layout/Layout";
 
 import { AlertProvider } from "@/context/AlertContext";
 import { LayoutProvider } from "@/context/LayoutContext";
