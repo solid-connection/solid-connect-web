@@ -5,8 +5,6 @@ import { useEffect, useRef, useState } from "react";
 import { getUniversityFavoriteStatusApi, postUniversityFavoriteApi } from "@/services/university";
 
 import ScrollTab from "@/components/ui/ScrollTab";
-import BookmarkFilled from "@/components/ui/icon/BookmarkFilled";
-import BookmarkOutlined from "@/components/ui/icon/BookmarkOutlined";
 import GoogleEmbedMap from "@/components/ui/map/GoogleEmbedMap";
 
 import CollegeReviews from "./CollegeReviews";
@@ -14,6 +12,8 @@ import styles from "./college-bottomsheet.module.css";
 
 import { Review } from "@/types/review";
 import { University } from "@/types/university";
+
+import { IconBookmarkFilled, IconBookmarkOutlined } from "@/public/svgs";
 
 interface CollegeBottomSheetProps {
   collegeId: number;
@@ -112,7 +112,7 @@ const CollegeBottomSheet = ({ collegeId, convertedKoreanName, reviewList, univer
       <div className={styles.blank} />
       <div className={styles.bottomSheet}>
         <button className={styles.like} onClick={toggleLike} type="button">
-          {isLiked ? <BookmarkFilled /> : <BookmarkOutlined />}
+          {isLiked ? <IconBookmarkFilled /> : <IconBookmarkOutlined />}
         </button>
         <div className={styles.englishName}>{university.englishName || "대학명"}</div>
         <div className={styles.name}>{convertedKoreanName || "대학명"}</div>

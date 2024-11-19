@@ -4,9 +4,10 @@ import { useState } from "react";
 
 import ModalBase from "@/components/modal/ModalBase";
 import CheckBoxOutlineBlankOutlined from "@/components/ui/icon/CheckBoxOutlineBlankOutlined";
-import ExpendMoreFilled from "@/components/ui/icon/ExpendMoreFilled";
 
 import styles from "./community-region-selector.module.css";
+
+import { IconExpandMoreFilled } from "@/public/svgs/community";
 
 type CommunityRegionSelectorProps = {
   curRegion: string;
@@ -26,7 +27,7 @@ const CommunityRegionSelector = ({ curRegion, setCurRegion, regionChoices }: Com
           {curRegion}
         </button>
         <button className={styles.button} onClick={toggleRegionSelectorModal} type="button" aria-label="게시판 변경">
-          <ExpendMoreFilled />
+          <IconExpandMoreFilled />
         </button>
       </div>
       <ModalBase isOpen={isRegionSelectorModalVisible} onClose={toggleRegionSelectorModal}>

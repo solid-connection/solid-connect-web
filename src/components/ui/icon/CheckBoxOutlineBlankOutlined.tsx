@@ -1,3 +1,4 @@
+// 커뮤니티 지역 선택지 드랍다운으로 바뀌며 삭제 예정
 type CheckBoxOutlineBlankOutlinedProps = {
   style?: React.CSSProperties;
   size?: number;

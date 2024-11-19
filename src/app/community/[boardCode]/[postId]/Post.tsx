@@ -5,11 +5,10 @@ import ReactLinkify from "react-linkify";
 import { likePostApi, unlikePostApi } from "@/services/community";
 import { convertISODateToDateTime } from "@/utils/datetimeUtils";
 
-import Communication from "@/components/ui/icon/Communication";
-
 import { PostImage as PostImageType, Post as PostType } from "@/types/community";
 
 import { IconCloseFilled, IconPostLikeFilled, IconPostLikeOutline } from "@/public/svgs";
+import { IconCommunication } from "@/public/svgs/community";
 
 type PostProps = {
   post: PostType;
@@ -97,7 +96,7 @@ const Post = ({ post, boardCode, postId }: PostProps) => {
             </span>
           </button>
           <div className="flex items-center gap-1">
-            <Communication />
+            <IconCommunication />
             <span className="overflow-hidden font-serif text-xs font-normal leading-normal text-[#595959]">
               {post?.commentCount || 0}
             </span>
