@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 
-import styles from "./button-tab.module.css";
+import clsx from "clsx";
 
 type ButtonTabProps = {
   choices: string[];
@@ -17,17 +17,17 @@ type ButtonTabProps = {
 };
 
 const ButtonTab = ({ choices, choice, setChoice, style, color }: ButtonTabProps) => {
-  // 디자인 색상
   const defaultColor = {
-    activeBtn: "#6f90d1",
-    deactiveBtn: "#ffffff",
-    activeBtnFont: "#ffffff",
-    deactiveBtnFont: "black",
-    background: "#ffffff",
+    activeBtn: "bg-secondary",
+    deactiveBtn: "bg-white",
+    activeBtnFont: "text-white",
+    deactiveBtnFont: "text-black",
+    background: "bg-background-1",
   };
+
   const resultColor = { ...defaultColor, ...color };
 
-  const handleButtonClick = (c) => {
+  const handleButtonClick = (c: string) => {
     // 이미 선택된 버튼을 다시 클릭할 경우 선택 취소
     if (c === choice) {
       setChoice(null);
@@ -37,21 +37,30 @@ const ButtonTab = ({ choices, choice, setChoice, style, color }: ButtonTabProps)
   };
 
   return (
-    <div className={styles["tab-container"]} style={{ ...style, backgroundColor: resultColor.background }}>
+    <div
+      className={clsx("flex flex-row gap-2 overflow-x-auto whitespace-nowrap", resultColor.background)}
+      style={{ ...style }}
+    >
       {choices.map((c) => {
         const isActive = c === choice;
         return (
           <button
             key={c}
-            style={{
-              backgroundColor: isActive ? resultColor.activeBtn : resultColor.deactiveBtn,
-              color: isActive ? resultColor.activeBtnFont : resultColor.deactiveBtnFont,
-            }}
-            className={styles["tab-button"]}
+            className={clsx(
+              "rounded-full px-3 py-1 leading-5 transition-all duration-200 ease-in-out",
+              isActive ? `${resultColor.activeBtn}` : `${resultColor.deactiveBtn}`,
+            )}
             onClick={() => handleButtonClick(c)}
             type="button"
           >
-            <div>{c}</div>
+            <span
+              className={clsx(
+                "font-serif text-sm font-medium",
+                isActive ? `${resultColor.activeBtnFont}` : `${resultColor.deactiveBtnFont}`,
+              )}
+            >
+              {c}
+            </span>
           </button>
         );
       })}
