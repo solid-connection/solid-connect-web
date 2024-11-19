@@ -5,7 +5,7 @@ type BlockBtnProps = {
 
 const BlockBtn = ({ onClick, children }: BlockBtnProps) => (
   <button
-    className="h-[3.125rem] w-full min-w-80 max-w-screen-sm rounded-lg bg-primary-2"
+    className="bg-primary h-[3.125rem] w-full min-w-80 max-w-screen-sm rounded-lg"
     onClick={onClick}
     type="button"
   >
