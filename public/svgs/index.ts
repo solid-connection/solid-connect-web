@@ -1,4 +1,7 @@
 import IconApplicantBanner from "./applicant-banner.svg";
+import IconArrowBackFilled from "./arrow-back-filled.svg";
+import IconBookmarkFilled from "./bookmark-filled.svg";
+import IconBookmarkOutlined from "./bookmark-outlined.svg";
 import IconClock from "./clock.svg";
 import IconCloseFilled from "./close-filled.svg";
 import IconFlight from "./flight.svg";
@@ -15,6 +18,7 @@ import IconPrepare2 from "./prepare-2.svg";
 import IconPrepare3 from "./prepare-3.svg";
 import IconScoreBanner from "./score-banner.svg";
 import IconSearchBanner from "./search-banner.svg";
+import IconSearchFilled from "./search-filled.svg";
 import IconSignupProfileImage from "./signup-profile-image.svg";
 import IconSignupRegionAmerica from "./signup-region-america.svg";
 import IconSignupRegionAsia from "./signup-region-asia.svg";
@@ -26,6 +30,9 @@ import IconTablerSearch from "./tabler-search.svg";
 
 export {
   IconApplicantBanner,
+  IconArrowBackFilled,
+  IconBookmarkFilled,
+  IconBookmarkOutlined,
   IconClock,
   IconCloseFilled,
   IconFlight,
@@ -42,6 +49,7 @@ export {
   IconPrepare3,
   IconScoreBanner,
   IconSearchBanner,
+  IconSearchFilled,
   IconSignupProfileImage,
   IconSignupRegionAmerica,
   IconSignupRegionAsia,

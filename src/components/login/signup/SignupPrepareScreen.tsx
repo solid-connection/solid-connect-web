@@ -2,7 +2,7 @@
 
 import { Dispatch, SetStateAction } from "react";
 
-import BlockToggleBtn from "@/components/button/block-toggle-btn";
+import BlockToggleBtn from "@/components/button/BlockToggleBtn";
 
 import styles from "./signup.module.css";
 

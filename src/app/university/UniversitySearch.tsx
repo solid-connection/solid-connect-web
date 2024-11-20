@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 
-import SearchFilled from "@/components/ui/icon/SearchFilled";
-
 import styles from "./college-search.module.css";
+
+import { IconSearchFilled } from "@/public/svgs";
 
 type UniversitySearchProps = {
   searchHandler: (e: React.FormEvent<HTMLFormElement>) => void;
@@ -36,7 +36,7 @@ const UniversitySearch = ({ searchHandler, textRef, defaultValue }: UniversitySe
         placeholder="해외 파견 학교를 검색하세요."
       />
       <button className={styles.searchButton} type="submit" aria-label="대학 검색하기">
-        <SearchFilled />
+        <IconSearchFilled />
       </button>
     </form>
   );

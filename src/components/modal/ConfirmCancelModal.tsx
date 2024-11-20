@@ -29,7 +29,7 @@ const ConfirmCancelModal = ({ isOpen, title, content, handleConfirm, handleCance
             <span className="text-center font-serif text-base font-normal leading-4 text-[#3c3c3c]">취소</span>
           </button>
           <button
-            className="flex h-11 w-36 cursor-pointer items-center justify-center rounded-lg bg-primary-2 px-1.5 py-2"
+            className="bg-primary flex h-11 w-36 cursor-pointer items-center justify-center rounded-lg px-1.5 py-2"
             onClick={handleConfirm}
             type="button"
           >

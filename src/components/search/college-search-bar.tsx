@@ -1,6 +1,6 @@
-import SearchFilled from "@/components/ui/icon/SearchFilled";
-
 import styles from "./college-search-bar.module.css";
+
+import { IconSearchFilled } from "@/public/svgs";
 
 type CollegeSearchBarProps = {
   onClick: () => void;
@@ -19,7 +19,7 @@ const CollegeSearchBar = ({ onClick, text, setText, searchHandler }: CollegeSear
       onChange={(e) => setText(e.target.value)}
     />
     <button className={styles.searchButton} type="submit" aria-label="검색">
-      <SearchFilled />
+      <IconSearchFilled />
     </button>
   </form>
 );

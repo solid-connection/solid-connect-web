@@ -4,8 +4,8 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import UniversityCards from "@/components/college/UniversityCards";
-import TopNavigation from "@/components/layout/top-navigation";
-import ButtonTab from "@/components/ui/button-tab";
+import TopNavigation from "@/components/layout/TopNavigation";
+import ButtonTab from "@/components/ui/ButtonTab";
 
 import UniversitySearch from "./UniversitySearch";
 
@@ -97,7 +97,7 @@ const UniversityPage = ({ universities }: { universities: ListUniversity[] }) =>
         choices={REGIONS}
         choice={region}
         setChoice={setRegion}
-        color={{ deactiveBtn: "#F0F0F0", deactiveBtnFont: "#A2A2A2" }}
+        color={{ deactiveBtn: "bg-[#f0f0f0]", deactiveBtnFont: "text-[#a2a2a2]", background: "white" }}
         style={{ marginTop: "14px", marginLeft: "18px" }}
       />
       <UniversityCards colleges={filteredColleges} style={{ marginTop: "12px" }} />

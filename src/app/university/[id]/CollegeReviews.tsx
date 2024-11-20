@@ -1,11 +1,12 @@
 import { useState } from "react";
 
-import ExpendMoreFilled from "@/components/ui/icon/ExpendMoreFilled";
 import StarFilledIcon from "@/components/ui/icon/star-filled";
 
 import styles from "./college-reviews.module.css";
 
 import { Review } from "@/types/review";
+
+import { IconExpandMoreFilled } from "@/public/svgs/community";
 
 const CollegeReviews = ({ style, reviewList }: { style?: React.CSSProperties; reviewList: Review[] }) => (
   <div className={styles.container} style={style}>
@@ -63,7 +64,8 @@ export const CollegeReviewCard = ({ review }: { review: Review }) => {
           </div>
         </div>
         <button className={styles.toggleButton} onClick={() => setOpen(false)} type="button" aria-label="평가 펼치기">
-          <ExpendMoreFilled style={{ transform: "rotate(180deg)" }} />
+          {/* TODO: 180도 회전 */}
+          <IconExpandMoreFilled />
         </button>
       </div>
     );
@@ -75,7 +77,7 @@ export const CollegeReviewCard = ({ review }: { review: Review }) => {
         <div className={styles.rating}>{renderStars()}</div>
       </div>
       <button className={styles.toggleButton} onClick={() => setOpen(true)} type="button" aria-label="평가 펼치기">
-        <ExpendMoreFilled />
+        <IconExpandMoreFilled />
       </button>
     </div>
   );

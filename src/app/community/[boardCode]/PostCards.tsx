@@ -4,11 +4,10 @@ import Link from "next/link";
 
 import { convertISODateToDate } from "@/utils/datetimeUtils";
 
-import Communication from "@/components/ui/icon/Communication";
-
 import { ListPost } from "@/types/community";
 
 import { IconPostLikeOutline } from "@/public/svgs";
+import { IconCommunication } from "@/public/svgs/community";
 
 type PostCardsProps = {
   posts: ListPost[];
@@ -48,7 +47,7 @@ export const PostCard = ({ post }: { post: ListPost }) => (
           </span>
         </div>
         <div className="flex items-center gap-1">
-          <Communication />
+          <IconCommunication />
           <span className="overflow-hidden font-serif text-xs font-normal leading-normal text-[#595959]">
             {post.commentCount || 0}
           </span>

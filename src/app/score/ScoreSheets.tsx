@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { useState } from "react";
 
-import EditFilled from "@/components/ui/icon/EditFilled";
-import ExpendMoreFilled from "@/components/ui/icon/ExpendMoreFilled";
-
 import styles from "./score-sheets.module.css";
 
 import { LANGUAGE_TEST } from "@/constants/application";
 import { ScoreSheet as ScoreSheetType } from "@/types/application";
+
+import { IconExpandMoreFilled } from "@/public/svgs/community";
+import { IconEditFilled } from "@/public/svgs/score";
 
 const ScoreSheets = ({ scoreSheets }: { scoreSheets: ScoreSheetType[] }) => (
   <div className={styles.container}>
@@ -36,7 +36,7 @@ const ScoreSheet = ({ scoreSheet }: { scoreSheet: ScoreSheetType }) => {
               type="button"
               aria-label="더보기"
             >
-              <ExpendMoreFilled />
+              <IconExpandMoreFilled />
             </button>
           </th>
         </tr>
@@ -52,7 +52,7 @@ const ScoreSheet = ({ scoreSheet }: { scoreSheet: ScoreSheetType }) => {
               <td>
                 {applicant.isMine && (
                   <Link href="/score/college-register">
-                    <EditFilled />
+                    <IconEditFilled />
                   </Link>
                 )}
               </td>

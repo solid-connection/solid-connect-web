@@ -4,7 +4,7 @@ import { useState } from "react";
 import { deleteCommentApi } from "@/services/community";
 import { convertISODateToDateTime } from "@/utils/datetimeUtils";
 
-import Dropdown from "@/components/ui/dropdown";
+import Dropdown from "@/components/ui/Dropdown";
 
 import styles from "./comments.module.css";
 

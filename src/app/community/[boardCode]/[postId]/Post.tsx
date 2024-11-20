@@ -5,11 +5,10 @@ import ReactLinkify from "react-linkify";
 import { likePostApi, unlikePostApi } from "@/services/community";
 import { convertISODateToDateTime } from "@/utils/datetimeUtils";
 
-import Communication from "@/components/ui/icon/Communication";
-
 import { PostImage as PostImageType, Post as PostType } from "@/types/community";
 
 import { IconCloseFilled, IconPostLikeFilled, IconPostLikeOutline } from "@/public/svgs";
+import { IconCommunication } from "@/public/svgs/community";
 
 type PostProps = {
   post: PostType;
@@ -70,7 +69,7 @@ const Post = ({ post, boardCode, postId }: PostProps) => {
   return (
     <>
       <div className="pb-3 pl-5 pt-6">
-        <div className="inline-flex rounded-full bg-primary-1 px-3 py-[5px] font-serif text-sm font-medium leading-[160%] text-white">
+        <div className="bg-secondary inline-flex rounded-full px-3 py-[5px] font-serif text-sm font-medium leading-[160%] text-white">
           {post.postCategory || "카테고리"}
         </div>
         <div className="mt-4 font-serif text-xl font-semibold leading-6 text-black">{post.title || ""}</div>
@@ -97,7 +96,7 @@ const Post = ({ post, boardCode, postId }: PostProps) => {
             </span>
           </button>
           <div className="flex items-center gap-1">
-            <Communication />
+            <IconCommunication />
             <span className="overflow-hidden font-serif text-xs font-normal leading-normal text-[#595959]">
               {post?.commentCount || 0}
             </span>

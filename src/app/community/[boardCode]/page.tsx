@@ -7,7 +7,7 @@ import { getPostListApi } from "@/services/community";
 
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import CloudSpinnerPage from "@/components/loading/CloudSpinnerPage";
-import ButtonTab from "@/components/ui/button-tab";
+import ButtonTab from "@/components/ui/ButtonTab";
 
 import CommunityRegionSelector from "./CommunityRegionSelector";
 import PostCards from "./PostCards";
@@ -74,7 +74,6 @@ const CommunityPage = ({ params }: { params: { boardCode: string } }) => {
           choices={COMMUNITY_CATEGORIES}
           choice={category}
           setChoice={setCategory}
-          color={{ background: "#FAFAFA" }}
           style={{ padding: "10px 0 10px 18px" }}
         />
         <PostCards posts={posts} boardCode={boardCode} />

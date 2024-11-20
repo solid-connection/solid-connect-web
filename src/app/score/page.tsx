@@ -9,8 +9,8 @@ import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import CloudSpinnerPage from "@/components/loading/CloudSpinnerPage";
 import CertFinalScreen from "@/components/score/register/cert-final-screen";
 import CollegeFinalScreen from "@/components/score/register/college-final-screen";
-import ButtonTab from "@/components/ui/button-tab";
-import Tab from "@/components/ui/tab";
+import ButtonTab from "@/components/ui/ButtonTab";
+import Tab from "@/components/ui/Tab";
 
 import ScoreSearchBar from "./ScoreSearchBar";
 import ScoreSearchField from "./ScoreSearchField";
@@ -186,19 +186,7 @@ const ScorePage = () => {
       <TopDetailNavigation title="점수 공유 현황" />
       <ScoreSearchBar onClick={handleSearchClick} textRef={searchRef} searchHandler={handleSearch} />
       <Tab choices={PREFERENCE_CHOICE} choice={preference} setChoice={setPreference} />
-      <ButtonTab
-        choices={REGIONS_KO}
-        choice={filter}
-        setChoice={setFilter}
-        color={{
-          activeBtn: "#6f90d1",
-          deactiveBtn: "#fff",
-          activeBtnFont: "#fff",
-          deactiveBtnFont: "#000",
-          background: "#fafafa",
-        }}
-        style={{ padding: "10px 0 10px 18px" }}
-      />
+      <ButtonTab choices={REGIONS_KO} choice={filter} setChoice={setFilter} style={{ padding: "10px 0 10px 18px" }} />
       <ScoreSheets scoreSheets={getScoreSheet()} />
     </>
   );

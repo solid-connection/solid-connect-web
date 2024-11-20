@@ -7,7 +7,7 @@ import { getMyWishUniversityApi } from "@/services/myInfo";
 
 import CollegeCards from "@/components/college/UniversityCards";
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
-import ScrollTab from "@/components/ui/scroll-tab";
+import ScrollTab from "@/components/ui/ScrollTab";
 
 import { ListUniversity } from "@/types/university";
 

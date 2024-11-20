@@ -1,4 +1,4 @@
-import TopNavigation from "@/components/layout/top-navigation";
+import TopNavigation from "@/components/layout/TopNavigation";
 
 import Home from "./Home";
 

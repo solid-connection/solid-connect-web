@@ -20,31 +20,31 @@ const BottomNavigation = () => {
       route: "/university",
       text: "학교",
       isActive: pathname?.startsWith("/university"),
-      icon: <DegreeHat color={pathname?.startsWith("/university") ? "#6F96D1" : "#707070"} />,
+      icon: <DegreeHat color={pathname?.startsWith("/university") ? "#5950F6" : "#707070"} />,
     },
     {
       route: "/community",
       text: "커뮤니티",
       isActive: pathname?.startsWith("/community"),
-      icon: <EditTwo color={pathname?.startsWith("/community") ? "#6F96D1" : "#707070"} />,
+      icon: <EditTwo color={pathname?.startsWith("/community") ? "#5950F6" : "#707070"} />,
     },
     {
       route: "/",
       text: "홈",
       isActive: !isSpecificRouteActive,
-      icon: <Home color={!isSpecificRouteActive ? "#6F96D1" : "#707070"} />,
+      icon: <Home color={!isSpecificRouteActive ? "#5950F6" : "#707070"} />,
     },
     {
       route: "/mento",
       text: "멘토",
       isActive: pathname?.startsWith("/mento"),
-      icon: <WhatsNew color={pathname?.startsWith("/mento") ? "#6F96D1" : "#707070"} />,
+      icon: <WhatsNew color={pathname?.startsWith("/mento") ? "#5950F6" : "#707070"} />,
     },
     {
       route: "/my",
       text: "마이",
       isActive: pathname?.startsWith("/my"),
-      icon: <Human color={pathname?.startsWith("/my") ? "#6F96D1" : "#707070"} />,
+      icon: <Human color={pathname?.startsWith("/my") ? "#5950F6" : "#707070"} />,
     },
   ];
 
@@ -60,7 +60,7 @@ const BottomNavigation = () => {
           <span
             className={
               nav.isActive
-                ? "text-center font-serif text-xs font-normal leading-[1.66] tracking-[0.4px] text-[rgba(25,118,210,0.6)]"
+                ? "text-secondary text-center font-serif text-xs font-normal leading-[1.66] tracking-[0.4px]"
                 : "text-center font-serif text-xs font-normal leading-[1.66] tracking-[0.4px] text-[rgba(0,0,0,0.6)]"
             }
           >
