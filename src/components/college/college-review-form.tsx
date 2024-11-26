@@ -5,7 +5,7 @@ import StarFilledIcon from "@/components/ui/icon/star-filled";
 
 import styles from "./college-review-form.module.css";
 
-export default function CollegeReviewForm() {
+const CollegeReviewForm = () => {
   const totalStars = 5;
   const [rating, setRating] = useState<number>(2.5);
 
@@ -121,4 +121,6 @@ export default function CollegeReviewForm() {
       </BlockBtn>
     </form>
   );
-}
+};
+
+export default CollegeReviewForm;

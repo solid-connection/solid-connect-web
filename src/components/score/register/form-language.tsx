@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { useRef } from "react";
 
+import RoundBtn from "@/components/button/RoundBtn";
 import BlockBtn from "@/components/button/block-btn";
-import RoundBtn from "@/components/button/round-btn";
 
 import styles from "./form.module.css";
 
@@ -16,7 +16,7 @@ type FormLanguageProps = {
   languageCert: File;
 };
 
-export default function FormLanguage({
+const FormLanguage = ({
   toNextStage,
   setLanguageType,
   setLanguageScore,
@@ -24,10 +24,10 @@ export default function FormLanguage({
   languageType,
   languageScore,
   languageCert,
-}: FormLanguageProps) {
-  const fileInputRef = useRef(null);
+}: FormLanguageProps) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const handleButtonClick = () => {
-    fileInputRef.current.click();
+    fileInputRef.current?.click();
   };
 
   const handleFileChange = (event) => {
@@ -147,7 +147,7 @@ export default function FormLanguage({
         <div className={styles.btns}>
           <input type="file" ref={fileInputRef} onChange={handleFileChange} style={{ display: "none" }} />
           <RoundBtn onClick={handleButtonClick}>파일 첨부하기</RoundBtn>
-          <Link href="/score/lang-cert-example" target="_blank">
+          <Link href="/score/example/lang-cert" target="_blank">
             <RoundBtn backgroundColor="var(--secondary-1, #C4DDFF)" textColor="#484848">
               증명서 예시
             </RoundBtn>
@@ -159,4 +159,6 @@ export default function FormLanguage({
       </div>
     </div>
   );
-}
+};
+
+export default FormLanguage;

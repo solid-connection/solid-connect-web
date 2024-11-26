@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { getMyApplicationStatusApi, postApplicationUniversityApi } from "@/services/application";
 import { getUniversityListPublicApi } from "@/services/university";
 
-import TopDetailNavigation from "@/components/layout/top-detail-navigation";
+import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import CollegeFinalScreen from "@/components/score/register/college-final-screen";
 import CollegeFormScreen from "@/components/score/register/college-form-screen";
 import ProgressBar from "@/components/score/register/progress-bar";
@@ -15,13 +15,13 @@ type CollegeRegisterPageProps = {
   universityList: ListUniversity[];
 };
 
-export default function CollegeRegisterPage({ universityList }: CollegeRegisterPageProps) {
+const CollegeRegisterPage = ({ universityList }: CollegeRegisterPageProps) => {
   const [currentStage, setCurrentStage] = useState<number>(1);
   const [description, setDescription] = useState<string>("본 과정 완료 후, 지원자 현황을 확인 할 수 있습니다.");
 
-  const [firstCollegeId, setFirstCollegeId] = useState<number>(null);
-  const [secondCollegeId, setSecondCollegeId] = useState<number>(null);
-  const [thirdCollegeId, setThirdCollegeId] = useState<number>(null);
+  const [firstCollegeId, setFirstCollegeId] = useState<number | null>(null);
+  const [secondCollegeId, setSecondCollegeId] = useState<number | null>(null);
+  const [thirdCollegeId, setThirdCollegeId] = useState<number | null>(null);
 
   useEffect(() => {
     async function checkUpdateCount() {
@@ -73,6 +73,11 @@ export default function CollegeRegisterPage({ universityList }: CollegeRegisterP
 
   function submitForm() {
     const postData = async () => {
+      if (firstCollegeId === null || secondCollegeId === null || thirdCollegeId === null) {
+        alert("지망 학교를 모두 선택해주세요");
+        return;
+      }
+
       const applicationScore = {
         firstChoiceUniversityId: firstCollegeId,
         secondChoiceUniversityId: secondCollegeId,
@@ -167,7 +172,9 @@ export default function CollegeRegisterPage({ universityList }: CollegeRegisterP
       </div>
     </>
   );
-}
+};
+
+export default CollegeRegisterPage;
 
 export async function getStaticProps() {
   try {

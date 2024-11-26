@@ -1,4 +1,6 @@
-import React, { createContext, useContext, useState } from "react";
+"use client";
+
+import React, { createContext, useCallback, useContext, useMemo, useState } from "react";
 
 import TextModal from "@/components/modal/TextModal";
 
@@ -11,11 +13,13 @@ const AlertContext = createContext<AlertContextType | undefined>(undefined);
 export const AlertProvider = ({ children }: { children: React.ReactNode }) => {
   const [alertState, setAlertState] = useState<{ message: string; resolve: () => void } | null>(null);
 
-  const alert = (message: string): Promise<void> => {
-    return new Promise((resolve) => {
-      setAlertState({ message, resolve });
-    });
-  };
+  const alert = useCallback(
+    (message: string): Promise<void> =>
+      new Promise((resolve) => {
+        setAlertState({ message, resolve });
+      }),
+    [],
+  );
 
   const handleClose = () => {
     if (alertState) {
@@ -24,10 +28,12 @@ export const AlertProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const value = useMemo(() => ({ alert }), [alert]);
+
   return (
-    <AlertContext.Provider value={{ alert }}>
+    <AlertContext.Provider value={value}>
       {children}
-      {alertState && <TextModal isOpen={true} handleClose={handleClose} title="알림" content={alertState.message} />}
+      {alertState && <TextModal isOpen handleClose={handleClose} title="알림" content={alertState.message} />}
     </AlertContext.Provider>
   );
 };

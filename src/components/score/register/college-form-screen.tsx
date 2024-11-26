@@ -6,19 +6,13 @@ import { ListUniversity } from "@/types/university";
 
 type CollegeFormScreenProps = {
   toNextStage: () => void;
-  collegeId: number;
+  collegeId: number | null;
   setCollegeId: (value: number) => void;
   text: string;
   universityList: ListUniversity[];
 };
 
-export default function CollegeFormScreen({
-  toNextStage,
-  collegeId,
-  setCollegeId,
-  text,
-  universityList,
-}: CollegeFormScreenProps) {
+const CollegeFormScreen = ({ toNextStage, collegeId, setCollegeId, text, universityList }: CollegeFormScreenProps) => {
   const handleSubmit = () => {
     // 입력 필드 유효성 검사
     if (collegeId === null) {
@@ -55,4 +49,6 @@ export default function CollegeFormScreen({
       </div>
     </div>
   );
-}
+};
+
+export default CollegeFormScreen;

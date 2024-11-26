@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { useRef } from "react";
 
+import RoundBtn from "@/components/button/RoundBtn";
 import BlockBtn from "@/components/button/block-btn";
-import RoundBtn from "@/components/button/round-btn";
 
 import styles from "./form.module.css";
 
@@ -16,7 +16,7 @@ type FormScoreProps = {
   scoreCert: File;
 };
 
-export default function FormScore({
+const FormScore = ({
   toNextStage,
   setScoreType,
   setScore,
@@ -24,14 +24,14 @@ export default function FormScore({
   scoreType,
   score,
   scoreCert,
-}: FormScoreProps) {
-  const fileInputRef = useRef(null);
+}: FormScoreProps) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const handleButtonClick = () => {
-    fileInputRef.current.click();
+    fileInputRef.current?.click();
   };
 
   const handleFileChange = () => {
-    const file = fileInputRef.current.files[0];
+    const file = fileInputRef.current?.files?.[0];
     if (file) {
       setScoreCert(file);
     }
@@ -123,7 +123,7 @@ export default function FormScore({
         <div className={styles.btns}>
           <input type="file" ref={fileInputRef} onChange={handleFileChange} style={{ display: "none" }} />
           <RoundBtn onClick={handleButtonClick}>파일 첨부하기</RoundBtn>
-          <Link href="/score/gpa-cert-example" target="_blank">
+          <Link href="/score/example/gpa-cert" target="_blank">
             <RoundBtn backgroundColor="var(--secondary-1, #C4DDFF)" textColor="#484848">
               증명서 예시
             </RoundBtn>
@@ -135,4 +135,6 @@ export default function FormScore({
       </div>
     </div>
   );
-}
+};
+
+export default FormScore;

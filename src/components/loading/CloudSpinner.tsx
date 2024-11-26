@@ -20,7 +20,11 @@ const frames = [
   IconCloudSpinner7,
 ];
 
-const CloudSpinner = ({ interval = 200 }) => {
+type CloudSpinnerProps = {
+  interval?: number;
+};
+
+const CloudSpinner = ({ interval = 200 }: CloudSpinnerProps) => {
   const [currentFrame, setCurrentFrame] = useState(0);
 
   useEffect(() => {

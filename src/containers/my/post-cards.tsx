@@ -15,28 +15,26 @@ type PostCardsProps = {
   posts: Post[];
 };
 
-export default function PostCards({ posts }: PostCardsProps) {
-  return (
-    <div className={styles.container} style={{ margin: "20px 20px 0 20px" }}>
-      {posts.map((post) => (
-        <PostCard key={post.id} post={post} />
-      ))}
-    </div>
-  );
-}
+const PostCards = ({ posts }: PostCardsProps) => (
+  <div className={styles.container} style={{ margin: "20px 20px 0 20px" }}>
+    {posts.map((post) => (
+      <PostCard key={post.id} post={post} />
+    ))}
+  </div>
+);
+
+export default PostCards;
 
 type PostCardProps = {
   post: Post;
 };
-export function PostCard({ post }: PostCardProps) {
-  return (
-    <Link href={`/community/post/${post.id}`} className={styles.box}>
-      <div className={styles.meta}>
-        <div>{post.createdAt}</div>
-        <div>{post.college}</div>
-      </div>
-      <div className={styles.title}>{post.title}</div>
-      <p className={styles.content}>{post.content}</p>
-    </Link>
-  );
-}
+export const PostCard = ({ post }: PostCardProps) => (
+  <Link href={`/community/post/${post.id}`} className={styles.box}>
+    <div className={styles.meta}>
+      <div>{post.createdAt}</div>
+      <div>{post.college}</div>
+    </div>
+    <div className={styles.title}>{post.title}</div>
+    <p className={styles.content}>{post.content}</p>
+  </Link>
+);

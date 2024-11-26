@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import Head from "next/head";
 import Script from "next/script";
 
-import Layout from "@/components/layout/layout";
+import Layout from "@/components/layout/Layout";
 
 import { AlertProvider } from "@/context/AlertContext";
 import { LayoutProvider } from "@/context/LayoutContext";
@@ -20,11 +20,9 @@ declare global {
   }
 }
 
-export default function App({ Component, pageProps }: AppProps) {
+const App = ({ Component, pageProps }: AppProps) => {
   function kakaoInit() {
     // 페이지가 로드되면 실행
-    window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_JS_KEY);
-    // console.log(window.Kakao.isInitialized());
   }
   return (
     <LayoutProvider>
@@ -52,4 +50,6 @@ export default function App({ Component, pageProps }: AppProps) {
       </>
     </LayoutProvider>
   );
-}
+};
+
+export default App;

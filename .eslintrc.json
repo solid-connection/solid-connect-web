@@ -1,17 +1,25 @@
 {
   "root": true,
   "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
   "env": {
     "browser": true,
     "es2021": true,
     "node": true
   },
-  "plugins": [],
+  "plugins": ["@typescript-eslint"],
   "extends": [
-    "airbnb", // import, react, react-hooks, jsx-a11y에 관한 규칙을 포함
+    // "airbnb", // import, react, react-hooks, jsx-a11y에 관한 규칙을 포함
     // airbnb를 기반으로 next를 확장하기에 "next"나 "next/core-web-vitals"대신 "plugin:@next/next/recommended"를 사용
-    "plugin:@next/next/recommended",
+    // "plugin:@next/next/recommended",
+    "next",
     "next/typescript", // 다음에 기반함: plugin:@typescript-eslint/recommended
+    "plugin:@typescript-eslint/recommended",
+    // "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "prettier" // 불필요하거나 Prettier와 충돌할 수 있는 모든 규칙을 끕니다. 마지막에 추가해 다른 설정을 덮어씁니다.
   ],
   "overrides": [
@@ -25,15 +33,13 @@
       }
     }
   ],
-  "parserOptions": {
-    "ecmaVersion": "latest",
-    "sourceType": "module"
-  },
   "rules": {
     //
     "react/react-in-jsx-scope": "off",
     // ㄴ JSX를 사용할 때 React를 import할 필요가 없도록 합니다.
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".tsx"] }],
+    "react/require-default-props": "off",
+    "react/function-component-definition": [1, { "namedComponents": "arrow-function" }],
     "import/order": "off",
     "import/extensions": [
       // import 시 확장자를 사용하지 않도록 합니다.
@@ -48,10 +54,19 @@
     ],
     "import/prefer-default-export": 1, // single export를 사용할 때 default export를 미사용하면 warning
     "no-console": "off",
-    "react/require-default-props": "off",
+    "no-alert": "off",
     "no-use-before-define": "off",
+    "no-unused-vars": "warn",
+    "@typescript-eslint/no-unused-vars": "warn",
+    //
+    "@typescript-eslint/no-unsafe-assignment": "warn",
+    "@typescript-eslint/no-unsafe-member-access": "warn",
+    "@typescript-eslint/no-unsafe-return": "warn",
+    "@typescript-eslint/no-unsafe-call": "warn",
+    "@typescript-eslint/no-unsafe-argument": "warn",
     "jsx-a11y/label-has-associated-control": "off",
-    "react/function-component-definition": ["warning", { "namedComponents": "arrow-function" }]
+    "jsx-a11y/click-events-have-key-events": "warn",
+    "jsx-a11y/no-static-element-interactions": "warn"
   },
   "settings": {
     "import/parsers": {
