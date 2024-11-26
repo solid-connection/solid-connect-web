@@ -31,7 +31,7 @@ const SignupPrepareScreen = ({ preparation, setPreparation, toNextStage }: Signu
       <div className={styles["secondary-title"]}>솔리드 커넥션에 오신 것을 환영합니다.</div>
       <div className={styles.title}>
         현재 나의
-        <span style={{ color: "#6F96D1" }}> 준비 단계</span>를
+        <span style={{ color: "#5950f6" }}> 준비 단계</span>를
         <br />
         선택해주세요.
       </div>

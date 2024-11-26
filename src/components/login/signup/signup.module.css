@@ -51,7 +51,7 @@
 }
 
 .prepare-choice--selected {
-  border: 2px solid var(--primary-1, #6f96d1);
+  border: 2px solid var(--primary-1, #5950f6);
 }
 
 .prepare-choice__icon {
@@ -106,7 +106,7 @@
 }
 
 .region-button--selected {
-  border: 2px solid var(--primary-1, #6f96d1);
+  border: 2px solid var(--primary-1, #5950f6);
   background: #e6f0ff;
 }
 
