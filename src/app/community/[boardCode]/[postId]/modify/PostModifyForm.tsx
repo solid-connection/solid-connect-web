@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 
 import { updatePostApi } from "@/services/community";
 
-import { IconArrowBackFilled, IconImage, IconPosstCheckboxOutlined, IconPostCheckboxFilled } from "@/public/svgs";
+import { IconArrowBackFilled, IconImage, IconPostCheckboxFilled, IconPostCheckboxOutlined } from "@/public/svgs";
 
 type PostModifyFormProps = {
   boardCode: string;
@@ -114,7 +114,7 @@ const PostModifyForm = ({
         <div className="flex h-[42px] items-center justify-between border-b border-b-gray-c-100 px-5 py-2.5">
           <div className="flex items-center gap-1 font-serif text-sm font-normal leading-[160%] text-[rgba(124,124,124,0.87)]">
             <button type="button">
-              {defaultIsQuestion ? <IconPostCheckboxFilled /> : <IconPosstCheckboxOutlined />}
+              {defaultIsQuestion ? <IconPostCheckboxFilled /> : <IconPostCheckboxOutlined />}
             </button>
             질문으로 업로드 하기
           </div>
@@ -163,7 +163,7 @@ const CustomTopDetailNavigation = ({ routeBack, submitPost }: CustomTopDetailNav
     <div className="font-serif text-base font-semibold leading-[160%] text-[rgba(0,0,0,0.87)]">글 수정</div>
     <div className="min-w-6 cursor-pointer">
       <button
-        className="bg-secondary h-8 cursor-pointer rounded-full border-0 px-3 py-[5px] font-serif text-sm font-medium leading-[160%] text-white"
+        className="h-8 cursor-pointer rounded-full border-0 bg-secondary px-3 py-[5px] font-serif text-sm font-medium leading-[160%] text-white"
         onClick={submitPost}
         type="button"
       >

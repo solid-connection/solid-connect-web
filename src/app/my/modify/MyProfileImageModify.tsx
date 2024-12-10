@@ -7,8 +7,6 @@ import { updateMyProfileImage } from "@/services/myInfo";
 
 import { MyInfo } from "@/types/myInfo";
 
-import { IconNoProfileImage } from "@/public/svgs";
-
 type MyProfileImageModifyProps = {
   myInfo: MyInfo;
 };
@@ -52,15 +50,15 @@ const MyProfileImageModify = ({ myInfo }: MyProfileImageModifyProps) => {
         fileInputRef.current?.click();
       }}
     >
-      {myInfo.profileImageUrl ? (
-        <img
-          className="h-[6.75rem] w-[6.75rem] rounded-full object-cover"
-          src={`${process.env.NEXT_PUBLIC_UPLOADED_IMAGE_URL}/${myInfo.profileImageUrl}`}
-          alt="프로필 이미지"
-        />
-      ) : (
-        <IconNoProfileImage />
-      )}
+      <img
+        className="h-[6.75rem] w-[6.75rem] rounded-full object-cover"
+        src={
+          myInfo.profileImageUrl
+            ? `${process.env.NEXT_PUBLIC_UPLOADED_IMAGE_URL}/${myInfo.profileImageUrl}`
+            : "/images/placeholder/profile64.svg"
+        }
+        alt="프로필 이미지"
+      />
       <input type="file" accept="image/*" ref={fileInputRef} style={{ display: "none" }} onChange={handleImageUpload} />
     </div>
   );

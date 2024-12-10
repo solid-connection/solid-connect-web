@@ -16,7 +16,6 @@ import MyMenuGroup from "@/containers/my/MyMenuGroup";
 
 import { MyInfo } from "@/types/myInfo";
 
-import { IconNoProfileImage } from "@/public/svgs";
 import { IconMyMenuCalendar, IconMyMenuLock, IconMyMenuPerson } from "@/public/svgs/my";
 
 const roleDisplay = {
@@ -121,15 +120,15 @@ const MyPage = () => {
       <div>
         <div className="my-9 ml-5 flex h-12 gap-5">
           <div>
-            {myInfo.profileImageUrl ? (
-              <img
-                className="h-[45px] w-[45px] rounded-full object-cover"
-                src={`${process.env.NEXT_PUBLIC_UPLOADED_IMAGE_URL}/${myInfo.profileImageUrl}`}
-                alt="프로필"
-              />
-            ) : (
-              <IconNoProfileImage />
-            )}
+            <img
+              className="h-[45px] w-[45px] rounded-full object-cover"
+              src={
+                myInfo.profileImageUrl
+                  ? `${process.env.NEXT_PUBLIC_UPLOADED_IMAGE_URL}/${myInfo.profileImageUrl}`
+                  : "/images/placeholder/profile64.svg"
+              }
+              alt="프로필"
+            />
           </div>
           <div className="flex flex-col gap-2.5">
             <div className="flex items-end gap-2">
