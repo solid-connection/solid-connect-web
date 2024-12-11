@@ -2,10 +2,7 @@
 
 import { useState } from "react";
 
-import ModalBase from "@/components/modal/ModalBase";
-import CheckBoxOutlineBlankOutlined from "@/components/ui/icon/CheckBoxOutlineBlankOutlined";
-
-import styles from "./community-region-selector.module.css";
+import SlimDropdown from "@/components/ui/SlimDropdown";
 
 import { IconExpandMoreFilled } from "@/public/svgs/community";
 
@@ -16,41 +13,38 @@ type CommunityRegionSelectorProps = {
 };
 
 const CommunityRegionSelector = ({ curRegion, setCurRegion, regionChoices }: CommunityRegionSelectorProps) => {
-  const [isRegionSelectorModalVisible, setIsRegionSelectorModalVisible] = useState<boolean>(false);
-  const toggleRegionSelectorModal = () => {
-    setIsRegionSelectorModalVisible((prev) => !prev);
+  // const [isRegionSelectorModalVisible, setIsRegionSelectorModalVisible] = useState<boolean>(false);
+  // const toggleRegionSelectorModal = () => {
+  //   setIsRegionSelectorModalVisible((prev) => !prev);
+  // };
+
+  const [isDropdownVisible, setIsDropdownVisible] = useState<boolean>(false);
+
+  const toggleDropdown = () => {
+    setIsDropdownVisible((prev) => !prev);
   };
+
+  const handleSelectRegion = (regionCode: string) => {
+    setCurRegion(regionCode);
+    setIsDropdownVisible(false);
+  };
+
+  const dropdownOptions = regionChoices.map((region) => ({
+    label: region.nameKo,
+    action: () => handleSelectRegion(region.code),
+  }));
+
   return (
     <>
-      <div className={styles.header}>
-        <button className={styles.title} onClick={toggleRegionSelectorModal} type="button">
-          {curRegion}
-        </button>
-        <button className={styles.button} onClick={toggleRegionSelectorModal} type="button" aria-label="게시판 변경">
-          <IconExpandMoreFilled />
-        </button>
-      </div>
-      <ModalBase isOpen={isRegionSelectorModalVisible} onClose={toggleRegionSelectorModal}>
-        <div className={styles.modal}>
-          <div className={styles.modal__header}>권역 변경</div>
-          <div className={styles.modal__category}>
-            {regionChoices.map((region) => (
-              <button
-                className={styles.modal__element_wrapper}
-                key={region.code}
-                onClick={() => {
-                  setCurRegion(region.code);
-                  toggleRegionSelectorModal();
-                }}
-                type="button"
-              >
-                <CheckBoxOutlineBlankOutlined />
-                <div className={styles.modal__element}>{region.nameKo}</div>
-              </button>
-            ))}
+      <div className="pb-3.5 pl-5 pt-5">
+        <button className="flex items-center gap-1" onClick={toggleDropdown} aria-label="게시판 변경">
+          <div className="font-serif text-2xl font-semibold leading-normal">{curRegion}</div>
+          <div>
+            <IconExpandMoreFilled />
           </div>
-        </div>
-      </ModalBase>
+        </button>
+        <div className="relative">{isDropdownVisible && <SlimDropdown options={dropdownOptions} />}</div>
+      </div>
     </>
   );
 };
