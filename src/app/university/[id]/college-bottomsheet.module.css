@@ -7,23 +7,6 @@
   overflow-wrap: break-word;
 }
 
-.like {
-  position: absolute;
-  top: -10px;
-  right: 30px;
-
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  background-color: #eef5fe;
-
-  cursor: pointer;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .blank {
   height: calc(100vw / 2);
   /* opacity: 0;
@@ -52,9 +35,6 @@
 }
 
 .name {
-  padding-top: 24px;
-  margin-left: 20px;
-
   color: #000;
   font-family: Pretendard, sans-serif;
   font-size: 24px;

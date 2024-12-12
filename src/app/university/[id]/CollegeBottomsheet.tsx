@@ -100,7 +100,7 @@ const CollegeBottomSheet = ({ collegeId, convertedKoreanName, reviewList, univer
         }
       });
     };
-  }, [pages, sectionRefs]);
+  }, [sectionRefs]);
 
   const handleTabClick = (tab: string) => {
     setActiveTab(tab);
@@ -111,11 +111,13 @@ const CollegeBottomSheet = ({ collegeId, convertedKoreanName, reviewList, univer
     <>
       <div className={styles.blank} />
       <div className={styles.bottomSheet}>
-        <button className={styles.like} onClick={toggleLike} type="button">
-          {isLiked ? <IconBookmarkFilled /> : <IconBookmarkOutlined />}
-        </button>
         <div className={styles.englishName}>{university.englishName || "대학명"}</div>
-        <div className={styles.name}>{convertedKoreanName || "대학명"}</div>
+        <div className="flex h-[69px] items-center justify-between pl-5 pr-[22px] pt-6">
+          <div className={styles.name}>{convertedKoreanName || "대학명"}</div>
+          <button onClick={toggleLike} type="button">
+            {isLiked ? <IconBookmarkFilled /> : <IconBookmarkOutlined />}
+          </button>
+        </div>
 
         <ScrollTab
           choices={pages}
