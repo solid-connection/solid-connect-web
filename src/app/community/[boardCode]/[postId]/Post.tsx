@@ -69,7 +69,7 @@ const Post = ({ post, boardCode, postId }: PostProps) => {
   return (
     <>
       <div className="pb-3 pl-5 pt-6">
-        <div className="bg-secondary inline-flex rounded-full px-3 py-[5px] font-serif text-sm font-medium leading-[160%] text-white">
+        <div className="inline-flex rounded-full bg-secondary px-3 py-[5px] font-serif text-sm font-medium leading-[160%] text-white">
           {post.postCategory || "카테고리"}
         </div>
         <div className="mt-4 font-serif text-xl font-semibold leading-6 text-black">{post.title || ""}</div>
@@ -107,22 +107,24 @@ const Post = ({ post, boardCode, postId }: PostProps) => {
       <div className="flex h-16 items-center justify-between border-y border-gray-c-100 px-5 py-3">
         <div className="flex gap-2.5">
           <div className="h-10 w-10 rounded-full bg-[#d9d9d9]">
-            {post.postFindSiteUserResponse.profileImageUrl && (
-              <Image
-                className="h-full w-full rounded-full"
-                src={`${process.env.NEXT_PUBLIC_UPLOADED_IMAGE_URL}/${post.postFindSiteUserResponse.profileImageUrl}`}
-                width={40}
-                height={40}
-                alt=""
-              />
-            )}
+            <Image
+              className="h-full w-full rounded-full"
+              src={
+                post.postFindSiteUserResponse.profileImageUrl
+                  ? `${process.env.NEXT_PUBLIC_UPLOADED_IMAGE_URL}/${post.postFindSiteUserResponse.profileImageUrl}`
+                  : "/images/placeholder/profile64.svg"
+              }
+              width={40}
+              height={40}
+              alt=""
+            />
           </div>
           <div className="flex flex-col">
             <div className="overflow-hidden text-ellipsis font-serif text-sm font-medium leading-normal text-black">
               {post.postFindSiteUserResponse.nickname || ""}
             </div>
             <div className="overflow-hidden font-serif text-xs font-normal leading-normal text-[#7c7c7c]">
-              {convertISODateToDateTime(post.createdAt) || "1970. 01. 01. 00:00"}
+              {convertISODateToDateTime(post.createdAt) || ""}
             </div>
           </div>
         </div>
