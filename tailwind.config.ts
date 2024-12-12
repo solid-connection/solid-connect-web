@@ -68,12 +68,18 @@ const config: Config = {
         background: {
           1: "#f8f8fa",
           2: "#f7f7f7",
+          sdwA50: "rgba(16, 47, 96, 0.05)",
+          sdwA100: "rgba(16, 47, 96, 0.1)",
         },
 
         line: {
           1: "#f2f2f2",
           2: "#e5e5e5",
         },
+      },
+      boxShadow: {
+        sdwA50: "0px 0px 20px 5px rgba(16, 47, 96, 0.05)",
+        sdwA100: "0px 0px 20px 5px rgba(16, 47, 96, 0.05)",
       },
       spacing: {
         "90": "22.5rem",
