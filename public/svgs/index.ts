@@ -7,10 +7,9 @@ import IconCloseFilled from "./close-filled.svg";
 import IconFlight from "./flight.svg";
 import IconImage from "./image.svg";
 import IconMoreVertFilled from "./more-vert-filled.svg";
-import IconNoProfileImage from "./no-profile-image.svg";
 import IconObjectsAndTools from "./objects-and-tools.svg";
 import IconPostCheckboxFilled from "./post-checkbox-filled.svg";
-import IconPosstCheckboxOutlined from "./post-checkbox-outlined.svg";
+import IconPostCheckboxOutlined from "./post-checkbox-outlined.svg";
 import IconPostLikeFilled from "./post-like-filled.svg";
 import IconPostLikeOutline from "./post-like-outline.svg";
 import IconPrepare1 from "./prepare-1.svg";
@@ -38,10 +37,9 @@ export {
   IconFlight,
   IconImage,
   IconMoreVertFilled,
-  IconNoProfileImage,
   IconObjectsAndTools,
   IconPostCheckboxFilled,
-  IconPosstCheckboxOutlined,
+  IconPostCheckboxOutlined,
   IconPostLikeFilled,
   IconPostLikeOutline,
   IconPrepare1,

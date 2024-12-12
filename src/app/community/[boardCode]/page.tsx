@@ -17,19 +17,19 @@ import { COMMUNITY_BOARDS, COMMUNITY_CATEGORIES } from "@/constants/commnunity";
 import { ListPost } from "@/types/community";
 
 const CommunityPage = ({ params }: { params: { boardCode: string } }) => {
-  const router = useRouter();
   const { boardCode } = params;
+  const router = useRouter();
   const [boardDisplayName, setBoardDisplayName] = useState<string>("자유");
   const [category, setCategory] = useState<string>("전체");
   const [posts, setPosts] = useState<ListPost[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchPosts = async () => {
+      setIsLoading(true);
       try {
         const res = await getPostListApi(boardCode, category);
         setPosts(res.data.reverse());
-        setIsLoading(false);
       } catch (err) {
         if (err.response) {
           console.error("Axios response error", err.response);
@@ -43,6 +43,8 @@ const CommunityPage = ({ params }: { params: { boardCode: string } }) => {
           console.error("Error", err.message);
           alert(err.message);
         }
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchPosts();
@@ -56,10 +58,6 @@ const CommunityPage = ({ params }: { params: { boardCode: string } }) => {
   const postWriteHandler = () => {
     router.push(`/community/${boardCode}/create`);
   };
-
-  if (isLoading) {
-    return <CloudSpinnerPage />;
-  }
 
   return (
     <>
@@ -76,7 +74,7 @@ const CommunityPage = ({ params }: { params: { boardCode: string } }) => {
           setChoice={setCategory}
           style={{ padding: "10px 0 10px 18px" }}
         />
-        <PostCards posts={posts} boardCode={boardCode} />
+        {isLoading ? <CloudSpinnerPage /> : <PostCards posts={posts} boardCode={boardCode} />}
         <PostWriteButton onClick={postWriteHandler} />
       </div>
     </>
