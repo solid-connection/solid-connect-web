@@ -111,9 +111,11 @@ const CollegeBottomSheet = ({ collegeId, convertedKoreanName, reviewList, univer
     <>
       <div className={styles.blank} />
       <div className={styles.bottomSheet}>
-        <div className={styles.englishName}>{university.englishName || "대학명"}</div>
+        <div className="absolute -top-3 ml-8 -translate-y-full font-serif text-3xl font-semibold text-white">
+          {university.englishName || "대학명"}
+        </div>
         <div className="flex h-[69px] items-center justify-between pl-5 pr-[22px] pt-6">
-          <div className={styles.name}>{convertedKoreanName || "대학명"}</div>
+          <div className="font-serif text-2xl font-semibold">{convertedKoreanName || "대학명"}</div>
           <button onClick={toggleLike} type="button">
             {isLiked ? <IconBookmarkFilled /> : <IconBookmarkOutlined />}
           </button>
@@ -130,20 +132,25 @@ const CollegeBottomSheet = ({ collegeId, convertedKoreanName, reviewList, univer
         {/* 학교정보 */}
         <div className={styles.scrollOffset} style={{ paddingTop: "123px" }} ref={sectionRefs[0]}>
           <div className={styles.item}>
-            <div className={styles.title}>홈페이지</div>
-            <div className={styles.content}>
+            <div className={"ml-5 font-serif text-base font-semibold"}>홈페이지</div>
+            <div className="mx-5 mt-2.5 font-serif text-sm font-normal leading-normal">
               <a href={university.homepageUrl || ""} target="_blank" rel="noreferrer">
                 {university.homepageUrl || "홈페이지 없음"}
               </a>
             </div>
           </div>
           <div className={styles.item}>
-            <div className={styles.title}>기숙사</div>
+            <div className={"ml-5 font-serif text-base font-semibold"}>기숙사</div>
 
-            <div className={styles.content}>
+            <div className="mx-5 mt-2.5 font-serif text-sm font-normal leading-normal">
               {university.accommodationUrl && (
                 <>
-                  <a href={university.accommodationUrl} target="_blank" rel="noreferrer" className={styles.content}>
+                  <a
+                    href={university.accommodationUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-serif text-sm font-normal leading-normal"
+                  >
                     {university.accommodationUrl}
                   </a>
                   <br />
@@ -157,14 +164,14 @@ const CollegeBottomSheet = ({ collegeId, convertedKoreanName, reviewList, univer
             </div>
           </div>
           <div className={styles.item}>
-            <div className={styles.title}>파견 대학 위치</div>
-            <div className={styles.content}>
+            <div className={"ml-5 font-serif text-base font-semibold"}>파견 대학 위치</div>
+            <div className="mx-5 mt-2.5 font-serif text-sm font-normal leading-normal">
               {university.region} {university.country}
             </div>
           </div>
           <div className={styles.item}>
-            <div className={styles.title}>지역정보</div>
-            <div className={styles.content}>
+            <div className={"ml-5 font-serif text-base font-semibold"}>지역정보</div>
+            <div className="mx-5 mt-2.5 font-serif text-sm font-normal leading-normal">
               <div dangerouslySetInnerHTML={{ __html: university.detailsForLocal || "지역정보 없음" }} />
             </div>
           </div>
@@ -180,8 +187,8 @@ const CollegeBottomSheet = ({ collegeId, convertedKoreanName, reviewList, univer
         </div>
         <div className={styles.scrollOffsetWithBar} ref={sectionRefs[1]}>
           <div className={styles.item}>
-            <div className={styles.title}>어학 세부요건</div>
-            <div className={styles.content}>
+            <div className={"ml-5 font-serif text-base font-semibold"}>어학 세부요건</div>
+            <div className="mx-5 mt-2.5 font-serif text-sm font-normal leading-normal">
               <div dangerouslySetInnerHTML={{ __html: university.detailsForLanguage || "어학 세부요건 없음" }} />
             </div>
           </div>
@@ -190,43 +197,56 @@ const CollegeBottomSheet = ({ collegeId, convertedKoreanName, reviewList, univer
         {/* 지원전공 */}
         <div className={styles.scrollOffset} ref={sectionRefs[2]}>
           <div className={styles.item}>
-            <div className={styles.title}>선발 인원</div>
-            <div className={styles.content}>{university.studentCapacity || "?"}명</div>
+            <div className={"ml-5 font-serif text-base font-semibold"}>선발 인원</div>
+            <div className="mx-5 mt-2.5 font-serif text-sm font-normal leading-normal">
+              {university.studentCapacity || "?"}명
+            </div>
           </div>
           <div className={styles.item}>
-            <div className={styles.title}>등록금 납부 유형</div>
-            <div className={styles.content}>{university.tuitionFeeType || "등록금 납부 유형 정보 없음"}</div>
+            <div className={"ml-5 font-serif text-base font-semibold"}>등록금 납부 유형</div>
+            <div className="mx-5 mt-2.5 font-serif text-sm font-normal leading-normal">
+              {university.tuitionFeeType || "등록금 납부 유형 정보 없음"}
+            </div>
           </div>
           <div className={styles.item}>
-            <div className={styles.title}>파견가능학기</div>
-            <div className={styles.content}>{university.semesterAvailableForDispatch || "파견가능학기 정보 없음"}</div>
+            <div className={"ml-5 font-serif text-base font-semibold"}>파견가능학기</div>
+            <div className="mx-5 mt-2.5 font-serif text-sm font-normal leading-normal">
+              {university.semesterAvailableForDispatch || "파견가능학기 정보 없음"}
+            </div>
           </div>
           <div className={styles.item}>
-            <div className={styles.title}>최저이수학기</div>
-            <div className={styles.content}>{university.semesterRequirement || "최저이수학기 정보 없음"}</div>
+            <div className={"ml-5 font-serif text-base font-semibold"}>최저이수학기</div>
+            <div className="mx-5 mt-2.5 font-serif text-sm font-normal leading-normal">
+              {university.semesterRequirement || "최저이수학기 정보 없음"}
+            </div>
           </div>
           <div className={styles.item}>
-            <div className={styles.title}>최저성적 / 기준 성적</div>
-            <div className={styles.content}>
+            <div className={"ml-5 font-serif text-base font-semibold"}>최저성적 / 기준 성적</div>
+            <div className="mx-5 mt-2.5 font-serif text-sm font-normal leading-normal">
               {university.gpaRequirement
                 ? `${university.gpaRequirement} / ${university.gpaRequirementCriteria}`
                 : "없음"}
             </div>
           </div>
           <div className={styles.item}>
-            <div className={styles.title}>전공 상세</div>
-            <div className={styles.content}>
+            <div className={"ml-5 font-serif text-base font-semibold"}>전공 상세</div>
+            <div className="mx-5 mt-2.5 font-serif text-sm font-normal leading-normal">
               <div dangerouslySetInnerHTML={{ __html: university.detailsForMajor || "전공 상세 정보 없음" }} />
             </div>
           </div>
 
           <div className={styles.item}>
-            <div className={styles.title}>영어강의 리스트</div>
+            <div className={"ml-5 font-serif text-base font-semibold"}>영어강의 리스트</div>
 
-            <div className={styles.content}>
+            <div className="mx-5 mt-2.5 font-serif text-sm font-normal leading-normal">
               {university.englishCourseUrl && (
                 <>
-                  <a href={university.englishCourseUrl} target="_blank" rel="noreferrer" className={styles.content}>
+                  <a
+                    href={university.englishCourseUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-serif text-sm font-normal leading-normal"
+                  >
                     {university.englishCourseUrl}
                   </a>
                   <br />
@@ -238,8 +258,8 @@ const CollegeBottomSheet = ({ collegeId, convertedKoreanName, reviewList, univer
             </div>
           </div>
           <div className={styles.item}>
-            <div className={styles.title}>비고</div>
-            <div className={styles.content}>
+            <div className={"ml-5 font-serif text-base font-semibold"}>비고</div>
+            <div className="mx-5 mt-2.5 font-serif text-sm font-normal leading-normal">
               <div dangerouslySetInnerHTML={{ __html: university.details || "비고 없음" }} />
             </div>
           </div>
@@ -249,7 +269,7 @@ const CollegeBottomSheet = ({ collegeId, convertedKoreanName, reviewList, univer
         <div className={styles.scrollOffset} ref={sectionRefs[3]}>
           <div className={styles.item}>
             <div className={styles.title}>파견학교 위치</div>
-            <div className={styles.content}>
+            <div className="mx-5 mt-2.5 font-serif text-sm font-normal leading-normal">
               <GoogleEmbedMap width="100%" height="204" style={{ border: 0 }} name={university.englishName} />
             </div>
           </div>

@@ -20,35 +20,11 @@
   }
 }
 
-.englishName {
-  position: absolute;
-  margin-left: 30px;
-  top: -12px;
-  transform: translateY(-100%);
-
-  color: #fff;
-  font-family: Pretendard;
-  font-size: 32px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-}
-
-.name {
-  color: #000;
-  font-family: Pretendard, sans-serif;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-}
-
 .bar {
   margin-top: 42px; /* 임시 */
   position: sticky;
   top: 103px;
 
-  width: calc(100% - 40px);
   height: 52px;
   padding: 0 20px 0 20px;
   background: var(--primary-1, #6f90d1);
@@ -87,27 +63,4 @@
   display: flex;
   flex-direction: column;
   gap: 30px;
-}
-
-.title {
-  margin-left: 20px;
-  color: #000;
-  font-family: Pretendard;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-}
-
-.content {
-  margin: 10px 20px 0 20px;
-  color: #000;
-  font-family: Pretendard;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 150%; /* 21px */
-}
-.content > a {
-  margin: 0;
 }
