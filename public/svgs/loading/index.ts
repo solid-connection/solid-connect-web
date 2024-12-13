@@ -5,6 +5,7 @@ import IconCloudSpinner4 from "./cloud-spinner-4.svg";
 import IconCloudSpinner5 from "./cloud-spinner-5.svg";
 import IconCloudSpinner6 from "./cloud-spinner-6.svg";
 import IconCloudSpinner7 from "./cloud-spinner-7.svg";
+import IconNotFound from "./not-found.svg";
 
 export {
   IconCloudSpinner1,
@@ -14,4 +15,5 @@ export {
   IconCloudSpinner5,
   IconCloudSpinner6,
   IconCloudSpinner7,
+  IconNotFound,
 };

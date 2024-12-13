@@ -7,6 +7,7 @@ import { getApplicationListApi, getMyApplicationStatusApi } from "@/services/app
 
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import CloudSpinnerPage from "@/components/loading/CloudSpinnerPage";
+import NotFound from "@/components/loading/NotFound";
 import CertFinalScreen from "@/components/score/register/cert-final-screen";
 import CollegeFinalScreen from "@/components/score/register/college-final-screen";
 import ButtonTab from "@/components/ui/ButtonTab";
@@ -23,6 +24,11 @@ import { RegionKo } from "@/types/university";
 const PREFERENCE_CHOICE: string[] = ["1순위", "2순위", "3순위"];
 
 const ScorePage = () => {
+  return (
+    <a href="/" className="flex h-screen items-center justify-center pb-40">
+      <NotFound text="현재 이용 가능 기간이 아닙니다" />
+    </a>
+  );
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(true);
   const [status, setStatus] = useState<string>("");
