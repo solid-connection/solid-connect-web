@@ -33,7 +33,7 @@ const App = ({ Component, pageProps }: AppProps) => {
           <meta property="og:title" content="솔리드 커넥션" />
           <meta property="og:description" content="솔리드 커넥션. 교환학생의 첫 걸음" />
           <meta property="og:image" content="/images/site-thumbnail.png" />
-          <meta property="og:url" content="https://solid-connect.net" />
+          <meta property="og:url" content="https://solid-connection.com" />
           <meta property="og:locale" content="ko_KR" />
           <link rel="icon" href="/icons/favicon_48.ico" />
           <title>솔리드 커넥션</title>
