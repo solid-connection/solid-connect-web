@@ -6,6 +6,7 @@ import { postApplicationScoreApi } from "@/services/application";
 import { uploadGpaFileApi, uploadLanguageTestFileApi } from "@/services/file";
 
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
+import NotFound from "@/components/loading/NotFound";
 import CertFinalScreen from "@/components/score/register/cert-final-screen";
 import FormFinal from "@/components/score/register/form-final";
 import FormLanguage from "@/components/score/register/form-language";
@@ -15,6 +16,11 @@ import ProgressBar from "@/components/score/register/progress-bar";
 import { LANGUAGE_TEST_CONVERSE } from "@/constants/application";
 
 const ScoreRegisterPage = () => {
+  return (
+    <a href="/" className="flex h-screen items-center justify-center pb-40">
+      <NotFound text="현재 이용 가능 기간이 아닙니다" />
+    </a>
+  );
   const router = useRouter();
   const [currentStage, setCurrentStage] = useState<number>(1);
   const [languageType, setLanguageType] = useState<string>("");
