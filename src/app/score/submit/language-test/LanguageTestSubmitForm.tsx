@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 
 import clsx from "clsx";
@@ -13,6 +13,7 @@ import BlockBtn from "@/components/button/BlockBtn";
 import RoundBtn from "@/components/button/RoundBtn";
 
 const LanguageTestSubmitForm = () => {
+  const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [testType, setTestType] = useState("");
@@ -79,11 +80,10 @@ const LanguageTestSubmitForm = () => {
           languageTestReportUrl: fileUrl,
         });
 
-        if (res.status === 200) {
-          redirect("/score");
-        } else {
-          alert("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+        if (res.status !== 200) {
+          throw new Error("API 호출 응답 status가 200이 아닙니다.");
         }
+        router.push("/score");
       } catch (e) {
         alert("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
       }
@@ -133,7 +133,7 @@ const LanguageTestSubmitForm = () => {
             />
           </div>
           <div className="flex flex-col gap-1">
-            <label className="font-serif text-base font-semibold leading-normal">증명 파일</label>
+            <label className="font-serif text-base font-semibold leading-normal">증명서 첨부</label>
             <span className="flex h-10 items-center rounded-lg bg-k-50 px-5 py-2.5 font-serif text-sm font-semibold leading-normal text-primary">
               {file?.name}
             </span>
