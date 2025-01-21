@@ -3,29 +3,39 @@
 import { useEffect, useState } from "react";
 
 import { getMyGpaScoreApi, getMyLanguageTestScoreApi } from "@/services/score";
+import { getUniversityListPublicApi } from "@/services/university";
 
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import ProgressBar from "@/components/ui/ProgressBar";
 
+import GpaStep from "./GpaStep";
 import LanguageStep from "./LanguageStep";
+import UniversityStep from "./UniversityStep";
 
 import { GpaScore, LanguageTestScore } from "@/types/score";
+import { ListUniversity } from "@/types/university";
 
 const ApplyPage = () => {
   const [step, setStep] = useState<number>(1);
 
   const [languageTestScoreList, setLanguageTestScoreList] = useState<LanguageTestScore[]>([]);
   const [gpaScoreList, setGpaScoreList] = useState<GpaScore[]>([]);
+  const [universityList, setUniversityList] = useState<ListUniversity[]>([]);
 
   const [curLanguageTestScore, setCurLanguageTestScore] = useState<number | null>(null);
-  const [curGpaScore, setCurGpaScore] = useState<number | LanguageTestScore | null>(null);
+  const [curGpaScore, setCurGpaScore] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchAll = async () => {
       try {
-        const [gpaRes, languageRes] = await Promise.all([getMyGpaScoreApi(), getMyLanguageTestScoreApi()]);
+        const [gpaRes, languageRes, universityRes] = await Promise.all([
+          getMyGpaScoreApi(),
+          getMyLanguageTestScoreApi(),
+          getUniversityListPublicApi(),
+        ]);
         setGpaScoreList(gpaRes.data.gpaScoreStatusList);
         setLanguageTestScoreList(languageRes.data.languageTestScoreStatusList);
+        setUniversityList(universityRes.data);
       } catch (err) {
         console.error(err);
       }
@@ -56,8 +66,15 @@ const ApplyPage = () => {
             onNext={goNextStep}
           />
         )}
-        {/* {step === 2 && <GpaStep data={formData} setData={setFormData} onNext={goNextStep} onPrev={goPrevStep} />} */}
-        {/* {step === 3 && <UniversityStep data={formData} setData={setFormData} onNext={goNextStep} onPrev={goPrevStep} />} */}
+        {step === 2 && (
+          <GpaStep
+            gpaScoreList={gpaScoreList}
+            curGpaScore={curGpaScore}
+            setCurGpaScore={setCurGpaScore}
+            onNext={goNextStep}
+          />
+        )}
+        {/* {step === 3 && <UniversityStep universityList={universityList} onNext={goNextStep} />} */}
         {/* {step === 4 && <ConfirmStep data={formData} onSubmit={handleSubmit} onPrev={goPrevStep} />} */}
         {/* {step === 99 && <DoneScreen />} */}
       </div>

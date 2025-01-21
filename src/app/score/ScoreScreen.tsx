@@ -17,6 +17,7 @@ const ScoreScreen = () => {
   const [curTab, setCurTab] = useState<"공인어학" | "학점">("공인어학");
   const [gpaScoreList, setGpaScoreList] = useState<GpaScore[]>([]);
   const [languageTestScoreList, setLanguageTestScoreList] = useState<LanguageTestScore[]>([]);
+  const [curUniversityList, setCurUniversityList] = useState<number[]>([]);
 
   useEffect(() => {
     const fetchGpaScoreList = async () => {
@@ -60,10 +61,10 @@ const ScoreScreen = () => {
             gpaScoreList.map((score) => (
               <ScoreCard
                 key={score.id}
-                name="학점"
+                name="인하대학교" // TODO: 학교명 API에서 받아오기
                 score={`${score.gpa.gpa.toFixed(1)}/${score.gpa.gpaCriteria}`}
                 status={score.verifyStatus}
-                date={score.issueDate}
+                date={new Date(score.issueDate).toISOString()}
                 isFocused={score.verifyStatus === "APPROVED"}
               />
             ))}

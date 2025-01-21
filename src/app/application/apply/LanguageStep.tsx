@@ -1,3 +1,4 @@
+import BlockBtn from "@/components/button/BlockBtn";
 import Tab from "@/components/ui/Tab";
 
 import { LanguageTestScore } from "@/types/score";
@@ -37,6 +38,17 @@ const LanguageStep = ({
             />
           </button>
         ))}
+      </div>
+      <div className="fixed bottom-14 w-full max-w-[600px] bg-white">
+        <div className="mb-[37px] px-5">
+          <BlockBtn
+            onClick={() => {
+              if (curLanguageTestScore) onNext();
+            }}
+          >
+            다음
+          </BlockBtn>
+        </div>
       </div>
     </div>
   );
