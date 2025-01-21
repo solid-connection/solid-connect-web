@@ -52,6 +52,7 @@ const ScoreScreen = () => {
                 score={score.languageTest.languageTestScore}
                 status={score.verifyStatus}
                 date={new Date(score.issueDate).toISOString()}
+                isFocused={score.verifyStatus === "APPROVED"}
               />
             ))}
 
@@ -63,6 +64,7 @@ const ScoreScreen = () => {
                 score={`${score.gpa.gpa.toFixed(1)}/${score.gpa.gpaCriteria}`}
                 status={score.verifyStatus}
                 date={score.issueDate}
+                isFocused={score.verifyStatus === "APPROVED"}
               />
             ))}
         </div>

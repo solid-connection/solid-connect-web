@@ -7,6 +7,7 @@ type ScoreCardProps = {
   score: string;
   status: ScoreSubmitStatus;
   date: string; // Date ISO string
+  isFocused?: boolean;
 };
 
 const formatDate = (date: string) => {
@@ -47,23 +48,23 @@ const getStatus = (status: ScoreSubmitStatus) => {
   }
 };
 
-const ScoreCard = ({ name, score, status, date }: ScoreCardProps) => {
+const ScoreCard = ({ name, score, status, date, isFocused = false }: ScoreCardProps) => {
   return (
     <div className="flex h-[66px] flex-col rounded-lg bg-k-50 px-5 py-3">
       <div className="flex">
         <div>{getStatus(status)}</div>
         <div
           className={clsx("ml-3 font-serif text-sm font-semibold leading-normal", {
-            "text-k-900": status === "APPROVED",
-            "text-k-300": status !== "APPROVED",
+            "text-k-900": isFocused,
+            "text-k-300": !isFocused,
           })}
         >
           {name}
         </div>
         <div
           className={clsx("ml-auto font-serif text-sm font-bold leading-normal", {
-            "text-primary": status === "APPROVED",
-            "text-primary-300": status !== "APPROVED",
+            "text-primary": isFocused,
+            "text-primary-300": !isFocused,
           })}
         >
           {score}
