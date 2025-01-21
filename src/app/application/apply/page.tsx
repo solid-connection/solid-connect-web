@@ -8,6 +8,8 @@ import { getUniversityListPublicApi } from "@/services/university";
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import ProgressBar from "@/components/ui/ProgressBar";
 
+import ConfirmStep from "./ConfirmStep";
+import DoneStep from "./DoneStep";
 import GpaStep from "./GpaStep";
 import LanguageStep from "./LanguageStep";
 import UniversityStep from "./UniversityStep";
@@ -24,6 +26,7 @@ const ApplyPage = () => {
 
   const [curLanguageTestScore, setCurLanguageTestScore] = useState<number | null>(null);
   const [curGpaScore, setCurGpaScore] = useState<number | null>(null);
+  const [curUniversityList, setCurUniversityList] = useState<number[]>([]);
 
   useEffect(() => {
     const fetchAll = async () => {
@@ -57,7 +60,7 @@ const ApplyPage = () => {
     <>
       <TopDetailNavigation title="지원하기" />
       <div className="px-5">
-        <ProgressBar currentStep={step} totalSteps={3} />
+        {(step === 1 || step === 2 || step === 3) && <ProgressBar currentStep={step} totalSteps={3} />}
         {step === 1 && (
           <LanguageStep
             languageTestScoreList={languageTestScoreList}
@@ -74,9 +77,23 @@ const ApplyPage = () => {
             onNext={goNextStep}
           />
         )}
-        {/* {step === 3 && <UniversityStep universityList={universityList} onNext={goNextStep} />} */}
-        {/* {step === 4 && <ConfirmStep data={formData} onSubmit={handleSubmit} onPrev={goPrevStep} />} */}
-        {/* {step === 99 && <DoneScreen />} */}
+        {step === 3 && (
+          <UniversityStep
+            universityList={universityList}
+            curUniversityList={curUniversityList}
+            setCurUniversityList={setCurUniversityList}
+            onNext={goNextStep}
+          />
+        )}
+        {step === 4 && (
+          <ConfirmStep
+            languageTestScore={languageTestScoreList.find((score) => score.id === curLanguageTestScore)}
+            gpaScore={gpaScoreList.find((score) => score.id === curGpaScore)}
+            universityList={universityList.filter((university) => curUniversityList.includes(university.id))}
+            onNext={handleSubmit}
+          />
+        )}
+        {step === 99 && <DoneStep />}
       </div>
     </>
   );
