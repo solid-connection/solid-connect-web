@@ -19,25 +19,27 @@ const LanguageStep = ({
   onNext,
 }: LanguageStepProps) => {
   return (
-    <div className="my-5">
-      <Tab choices={["공인어학", "학점"]} choice="공인어학" setChoice={() => {}} />
-      <div className="my-[14px] flex flex-col gap-[14px]">
-        {languageTestScoreList.map((score) => (
-          <button
-            className="transition-transform hover:scale-[1.01] active:scale-[0.97]"
-            onClick={() => setCurLanguageTestScore(score.id)}
-            key={score.id}
-          >
-            <ScoreCard
+    <>
+      <div className="my-5 px-5">
+        <Tab choices={["공인어학", "학점"]} choice="공인어학" setChoice={() => {}} />
+        <div className="my-[14px] mb-40 flex flex-col gap-[14px]">
+          {languageTestScoreList.map((score) => (
+            <button
+              className="transition-transform hover:scale-[1.01] active:scale-[0.97]"
+              onClick={() => setCurLanguageTestScore(score.id)}
               key={score.id}
-              name={score.languageTest.languageTestType}
-              score={score.languageTest.languageTestScore}
-              status={score.verifyStatus}
-              date={new Date(score.issueDate).toISOString()}
-              isFocused={score.id === curLanguageTestScore}
-            />
-          </button>
-        ))}
+            >
+              <ScoreCard
+                key={score.id}
+                name={score.languageTest.languageTestType}
+                score={score.languageTest.languageTestScore}
+                status={score.verifyStatus}
+                date={new Date(score.issueDate).toISOString()}
+                isFocused={score.id === curLanguageTestScore}
+              />
+            </button>
+          ))}
+        </div>
       </div>
       <div className="fixed bottom-14 w-full max-w-[600px] bg-white">
         <div className="mb-[37px] px-5">
@@ -50,7 +52,7 @@ const LanguageStep = ({
           </BlockBtn>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

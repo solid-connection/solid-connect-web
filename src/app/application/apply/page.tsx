@@ -58,43 +58,43 @@ const ApplyPage = () => {
 
   return (
     <>
-      <TopDetailNavigation title="지원하기" />
+      <TopDetailNavigation title="지원하기" handleBack={goPrevStep} />
       <div className="px-5">
         {(step === 1 || step === 2 || step === 3) && <ProgressBar currentStep={step} totalSteps={3} />}
-        {step === 1 && (
-          <LanguageStep
-            languageTestScoreList={languageTestScoreList}
-            curLanguageTestScore={curLanguageTestScore}
-            setCurLanguageTestScore={setCurLanguageTestScore}
-            onNext={goNextStep}
-          />
-        )}
-        {step === 2 && (
-          <GpaStep
-            gpaScoreList={gpaScoreList}
-            curGpaScore={curGpaScore}
-            setCurGpaScore={setCurGpaScore}
-            onNext={goNextStep}
-          />
-        )}
-        {step === 3 && (
-          <UniversityStep
-            universityList={universityList}
-            curUniversityList={curUniversityList}
-            setCurUniversityList={setCurUniversityList}
-            onNext={goNextStep}
-          />
-        )}
-        {step === 4 && (
-          <ConfirmStep
-            languageTestScore={languageTestScoreList.find((score) => score.id === curLanguageTestScore)}
-            gpaScore={gpaScoreList.find((score) => score.id === curGpaScore)}
-            universityList={universityList.filter((university) => curUniversityList.includes(university.id))}
-            onNext={handleSubmit}
-          />
-        )}
-        {step === 99 && <DoneStep />}
       </div>
+      {step === 1 && (
+        <LanguageStep
+          languageTestScoreList={languageTestScoreList}
+          curLanguageTestScore={curLanguageTestScore}
+          setCurLanguageTestScore={setCurLanguageTestScore}
+          onNext={goNextStep}
+        />
+      )}
+      {step === 2 && (
+        <GpaStep
+          gpaScoreList={gpaScoreList}
+          curGpaScore={curGpaScore}
+          setCurGpaScore={setCurGpaScore}
+          onNext={goNextStep}
+        />
+      )}
+      {step === 3 && (
+        <UniversityStep
+          universityList={universityList}
+          curUniversityList={curUniversityList}
+          setCurUniversityList={setCurUniversityList}
+          onNext={goNextStep}
+        />
+      )}
+      {step === 4 && (
+        <ConfirmStep
+          languageTestScore={languageTestScoreList.find((score) => score.id === curLanguageTestScore)}
+          gpaScore={gpaScoreList.find((score) => score.id === curGpaScore)}
+          universityList={universityList.filter((university) => curUniversityList.includes(university.id))}
+          onNext={handleSubmit}
+        />
+      )}
+      {step === 99 && <DoneStep />}
     </>
   );
 };
