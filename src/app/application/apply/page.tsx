@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 
+import { postApplicationApi } from "@/services/application";
 import { getMyGpaScoreApi, getMyLanguageTestScoreApi } from "@/services/score";
 import { getUniversityListPublicApi } from "@/services/university";
 
@@ -53,6 +54,30 @@ const ApplyPage = () => {
 
   const handleSubmit = async () => {
     // TODO:  최종 제출 로직 (서버에 한번에 전송)
+    if (!curGpaScore) {
+      alert("GPA를 선택해주세요.");
+      return;
+    }
+
+    if (!curLanguageTestScore) {
+      alert("어학성적을 선택해주세요.");
+      return;
+    }
+
+    if (curUniversityList.length === 0) {
+      alert("대학교를 선택해주세요.");
+      return;
+    }
+
+    postApplicationApi({
+      gpaScoreId: curGpaScore,
+      languageTestScoreId: curLanguageTestScore,
+      universityChoiceRequest: {
+        firstChoiceUniversityId: curUniversityList[0] || null,
+        secondChoiceUniversityId: curUniversityList[1] || null,
+        thirdChoiceUniversityId: curUniversityList[2] || null,
+      },
+    });
     setStep(99);
   };
 

@@ -60,3 +60,17 @@ export interface ApplicationStatusResponse {
   status: ApplyStatus;
   updateCount: number;
 }
+
+export interface SubmitApplicationRequest {
+  gpaScoreId: number;
+  languageTestScoreId: number;
+  universityChoiceRequest: {
+    firstChoiceUniversityId: number | null;
+    secondChoiceUniversityId: number | null;
+    thirdChoiceUniversityId: number | null;
+  };
+}
+
+export interface SubmitApplicationResponse {
+  isSuccess: boolean;
+}
