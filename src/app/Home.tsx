@@ -59,7 +59,7 @@ const Home = ({ newsList }: HomeProps) => {
 
       <div className="mr-[20px] mt-[20px] flex gap-[15px]">
         <Link
-          href="/score/register"
+          href="/score"
           className="flex h-[100px] w-full flex-col justify-between rounded-[8px] bg-[#fff3e5] p-[10px_5px_5px_10px]"
         >
           <div>
