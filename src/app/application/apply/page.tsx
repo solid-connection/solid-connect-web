@@ -47,7 +47,18 @@ const ApplyPage = () => {
         );
         setUniversityList(universityRes.data);
       } catch (err) {
-        console.error(err);
+        if (err.response) {
+          console.error("Axios response error", err.response);
+          if (err.response.status === 401 || err.response.status === 403) {
+            alert("로그인이 필요합니다");
+            document.location.href = "/login";
+          } else {
+            alert(err.response.data?.message);
+          }
+        } else {
+          console.error("Error", err.message);
+          alert(err.message);
+        }
       }
     };
     fetchAll();
