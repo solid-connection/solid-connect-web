@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect } from "react";
 
 import BlockBtn from "@/components/button/BlockBtn";
@@ -39,7 +40,9 @@ const KakaoLoginPage = () => {
   return (
     <div>
       <div className="mt-[-56px] h-[77px] border-b border-[#f5f5f5] py-[21px] pl-5">
-        <IconSolidConnectionFullBlackLogo />
+        <Link href="/">
+          <IconSolidConnectionFullBlackLogo />
+        </Link>
       </div>
       <div className="h-[229px] pt-[90px]">
         <div className="text-center font-serif text-[22px] font-bold text-k-900">로그인</div>
