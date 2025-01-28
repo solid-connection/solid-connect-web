@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 
+import { AxiosError } from "axios";
+
 import { postApplicationApi } from "@/services/application";
 import { getMyGpaScoreApi, getMyLanguageTestScoreApi } from "@/services/score";
 import { getUniversityListPublicApi } from "@/services/university";
@@ -37,8 +39,12 @@ const ApplyPage = () => {
           getMyLanguageTestScoreApi(),
           getUniversityListPublicApi(),
         ]);
-        setGpaScoreList(gpaRes.data.gpaScoreStatusList);
-        setLanguageTestScoreList(languageRes.data.languageTestScoreStatusList);
+        setGpaScoreList(gpaRes.data.gpaScoreStatusList.filter((score: GpaScore) => score.verifyStatus === "APPROVED"));
+        setLanguageTestScoreList(
+          languageRes.data.languageTestScoreStatusList.filter(
+            (score: LanguageTestScore) => score.verifyStatus === "APPROVED",
+          ),
+        );
         setUniversityList(universityRes.data);
       } catch (err) {
         console.error(err);
@@ -69,16 +75,19 @@ const ApplyPage = () => {
       return;
     }
 
-    postApplicationApi({
-      gpaScoreId: curGpaScore,
-      languageTestScoreId: curLanguageTestScore,
-      universityChoiceRequest: {
-        firstChoiceUniversityId: curUniversityList[0] || null,
-        secondChoiceUniversityId: curUniversityList[1] || null,
-        thirdChoiceUniversityId: curUniversityList[2] || null,
-      },
-    });
-    setStep(99);
+    try {
+      await postApplicationApi({
+        gpaScoreId: curGpaScore,
+        languageTestScoreId: curLanguageTestScore,
+        universityChoiceRequest: {
+          firstChoiceUniversityId: curUniversityList[0] || null,
+          secondChoiceUniversityId: curUniversityList[1] || null,
+          thirdChoiceUniversityId: curUniversityList[2] || null,
+        },
+      });
+    } catch (err) {
+      alert(err.response.data.message);
+    }
   };
 
   return (
