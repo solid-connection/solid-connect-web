@@ -8,6 +8,8 @@ import "slick-carousel/slick/slick.css";
 
 import styles from "./image-carousel.module.css";
 
+// DEPRECATED: 해당 컴포넌트는 더 이상 사용되지 않습니다. 삭제 예정
+
 const ImageCarousel = () => {
   const settings = {
     dots: true,

@@ -26,5 +26,5 @@
   justify-content: center;
   align-items: center;
   background: #fff;
-  border-bottom: 2px solid var(--primary-1, #6f90d1);
+  border-bottom: 2px solid var(--primary, #4672ee);
 }
