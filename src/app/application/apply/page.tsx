@@ -59,7 +59,6 @@ const ApplyPage = () => {
   const goPrevStep = () => setStep((prev) => Math.max(1, prev - 1));
 
   const handleSubmit = async () => {
-    // TODO:  최종 제출 로직 (서버에 한번에 전송)
     if (!curGpaScore) {
       alert("GPA를 선택해주세요.");
       return;
@@ -85,6 +84,7 @@ const ApplyPage = () => {
           thirdChoiceUniversityId: curUniversityList[2] || null,
         },
       });
+      setStep(99);
     } catch (err) {
       alert(err.response.data.message);
     }
@@ -117,7 +117,15 @@ const ApplyPage = () => {
           universityList={universityList}
           curUniversityList={curUniversityList}
           setCurUniversityList={setCurUniversityList}
-          onNext={goNextStep}
+          onNext={() => {
+            if (curUniversityList.length === 0) {
+              alert("대학교를 선택해주세요.");
+              return;
+            }
+            setCurUniversityList(curUniversityList.filter((id) => id !== null));
+
+            goNextStep();
+          }}
         />
       )}
       {step === 4 && (
