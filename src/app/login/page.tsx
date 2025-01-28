@@ -1,14 +1,14 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-import BlockBtn from "@/components/button/block-btn";
+import BlockBtn from "@/components/button/BlockBtn";
 
-import ImageCarousel from "./ImageCarousel";
+import AppleLoginButton from "./AppleLoginButton";
 import KakaoLoginButton from "./KakaoLoginButton";
 
 import { useLayout } from "@/context/LayoutContext";
+import { IconSolidConnectionFullBlackLogo } from "@/public/svgs";
 
 const KakaoLoginPage = () => {
   const { setHideBottomNavigation } = useLayout();
@@ -17,8 +17,6 @@ const KakaoLoginPage = () => {
     setHideBottomNavigation(true);
     return () => setHideBottomNavigation(false); // 컴포넌트가 언마운트될 때 다시 보이게 설정
   }, [setHideBottomNavigation]);
-
-  const router = useRouter();
 
   const kakaoLogin = () => {
     if (window.Kakao && window.Kakao.Auth) {
@@ -30,25 +28,44 @@ const KakaoLoginPage = () => {
     }
   };
 
+  const appleLogin = () => {
+    alert("애플 로그인은 준비 중입니다.");
+  };
+
+  const emailLogin = () => {
+    alert("이메일 로그인은 준비 중입니다.");
+  };
+
   return (
     <div>
-      <ImageCarousel />
-      <div style={{ marginTop: "40px" }}>
-        <KakaoLoginButton onClick={kakaoLogin} />
-        <BlockBtn
-          onClick={() => {
-            router.push("/");
-          }}
-          style={{
-            margin: "8px 20px 0 20px",
-            width: "calc(100% - 40px)",
-            height: "calc((100vw - 40px) * 0.15)",
-            minHeight: "48px",
-            maxHeight: "84px",
-          }}
-        >
-          비회원으로 둘러보기
-        </BlockBtn>
+      <div className="mt-[-56px] h-[77px] border-b border-[#f5f5f5] py-[21px] pl-5">
+        <IconSolidConnectionFullBlackLogo />
+      </div>
+      <div className="h-[229px] pt-[90px]">
+        <div className="text-center font-serif text-[22px] font-bold text-k-900">로그인</div>
+        <div className="text-center font-serif text-xs font-medium leading-normal text-k-300">
+          교환학생을 위한 여정
+          <br />
+          지금 솔리드 커넥션에서 시작하세요.
+        </div>
+      </div>
+
+      <div>
+        <div className="flex flex-col gap-3">
+          <div className="mx-5">
+            <input
+              type="text"
+              placeholder="이메일"
+              className="h-[41px] w-full rounded-lg border px-5 py-3 font-serif text-xs font-normal leading-normal text-k-400 focus:outline-none"
+            />
+          </div>
+          <div className="mx-5 transition active:scale-95">
+            <BlockBtn onClick={emailLogin}>이메일로 시작하기</BlockBtn>
+          </div>
+          <div className="text-center font-serif text-base font-medium text-k-300">or</div>
+          <KakaoLoginButton onClick={kakaoLogin} className="mx-5 transition active:scale-95" />
+          <AppleLoginButton onClick={appleLogin} className="mx-5 transition active:scale-95" />
+        </div>
       </div>
     </div>
   );

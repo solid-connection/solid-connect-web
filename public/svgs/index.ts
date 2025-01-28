@@ -23,6 +23,7 @@ import IconSignupRegionAmerica from "./signup-region-america.svg";
 import IconSignupRegionAsia from "./signup-region-asia.svg";
 import IconSignupRegionEurope from "./signup-region-europe.svg";
 import IconSignupRegionWorld from "./signup-region-world.svg";
+import IconSolidConnectionFullBlackLogo from "./solid-connection-full-black-logo.svg";
 import IconSpeaker from "./speaker.svg";
 import IconSubComment from "./sub-comment.svg";
 import IconTablerSearch from "./tabler-search.svg";
@@ -53,6 +54,7 @@ export {
   IconSignupRegionAsia,
   IconSignupRegionEurope,
   IconSignupRegionWorld,
+  IconSolidConnectionFullBlackLogo,
   IconSpeaker,
   IconSubComment,
   IconTablerSearch,
