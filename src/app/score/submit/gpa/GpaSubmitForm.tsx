@@ -53,13 +53,20 @@ const GpaSubmitForm = () => {
           gpaReportUrl: fileUrl,
         });
 
-        if (res.status !== 200) {
-          throw new Error("API 호출 응답 status가 200이 아닙니다.");
-        }
         router.push("/score");
-      } catch (e) {
-        console.error(e);
-        alert("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+      } catch (err) {
+        if (err.response) {
+          console.error("Axios response error", err.response);
+          if (err.response.status === 401 || err.response.status === 403) {
+            alert("로그인이 필요합니다");
+            document.location.href = "/login";
+          } else {
+            alert(err.response.data?.message);
+          }
+        } else {
+          console.error("Error", err.message);
+          alert(err.message);
+        }
       }
     }
     postData();
