@@ -25,7 +25,18 @@ const ScoreScreen = () => {
         const res = await getMyGpaScoreApi();
         setGpaScoreList(res.data.gpaScoreStatusList);
       } catch (err) {
-        console.error(err);
+        if (err.response) {
+          console.error("Axios response error", err.response);
+          if (err.response.status === 401 || err.response.status === 403) {
+            alert("로그인이 필요합니다");
+            document.location.href = "/login";
+          } else {
+            alert(err.response.data?.message);
+          }
+        } else {
+          console.error("Error", err.message);
+          alert(err.message);
+        }
       }
     };
     const fetchLanguageTestScoreList = async () => {
@@ -33,7 +44,18 @@ const ScoreScreen = () => {
         const res = await getMyLanguageTestScoreApi();
         setLanguageTestScoreList(res.data.languageTestScoreStatusList);
       } catch (err) {
-        console.error(err);
+        if (err.response) {
+          console.error("Axios response error", err.response);
+          if (err.response.status === 401 || err.response.status === 403) {
+            alert("로그인이 필요합니다");
+            document.location.href = "/login";
+          } else {
+            alert(err.response.data?.message);
+          }
+        } else {
+          console.error("Error", err.message);
+          alert(err.message);
+        }
       }
     };
     if (curTab === "공인어학") fetchLanguageTestScoreList();
