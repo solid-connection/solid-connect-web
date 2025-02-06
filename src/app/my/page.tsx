@@ -118,7 +118,7 @@ const MyPage = () => {
       </Head>
       <TopDetailNavigation title="마이페이지" />
       <div>
-        <div className="my-9 ml-5 flex h-12 gap-5">
+        <div className="mb-5 ml-5 mt-[37px] flex h-[45px] gap-5">
           <div>
             <img
               className="h-[45px] w-[45px] rounded-full object-cover"
@@ -130,10 +130,10 @@ const MyPage = () => {
               alt="프로필"
             />
           </div>
-          <div className="flex flex-col gap-1">
-            <div className="flex items-end gap-2">
-              <span className="font-serif text-xl font-bold text-k-900">{myInfo.nickname || "닉네임"}</span>
-              <span className="font-serif text-xs font-medium text-k-600">
+          <div className="flex flex-col">
+            <div className="flex items-end items-center gap-2">
+              <span className="text-xl font-semibold text-k-900">{myInfo.nickname || "닉네임"}</span>
+              <span className="text-base font-semibold text-k-600">
                 {myInfo.role in roleDisplay ? roleDisplay[myInfo.role] : "역할"}
               </span>
             </div>
@@ -145,7 +145,7 @@ const MyPage = () => {
           </div>
         </div>
 
-        <div className="mx-4 mb-[29px]">
+        <div className="mx-5 mb-5">
           <MyInfoCard scarpCount={0} interestMentoCount={0} wishUniversityCount={0} />
         </div>
         <div>

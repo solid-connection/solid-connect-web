@@ -9,11 +9,9 @@ type MyInfoCardProps = {
 };
 
 const MyInfoCard = ({ scarpCount, interestMentoCount, wishUniversityCount }: MyInfoCardProps) => (
-  <div className="flex h-[70px] items-center justify-between rounded-lg bg-[#4672EE] py-4">
+  <div className="flex h-[58px] items-center justify-center gap-5 rounded-lg bg-primary py-4">
     <MyInfoCardItem title="스크랩" count={`${scarpCount}개`} link="" />
-    <MyInfoCardSeparator />
     <MyInfoCardItem title="관심 멘토" count={`${interestMentoCount}명`} link="" />
-    <MyInfoCardSeparator />
     <MyInfoCardItem title="위시학교" count={`${wishUniversityCount}개`} link="/my/favorite/" />
   </div>
 );
@@ -27,7 +25,7 @@ type MyInfoCardItemProps = {
 };
 
 const MyInfoCardItem = ({ title, count, link }: MyInfoCardItemProps) => (
-  <Link href={link} className="flex flex-1 flex-col items-center">
+  <Link href={link} className="flex flex-col items-center">
     <div className="flex items-center gap-1">
       <span className="font-serif text-[13px] font-semibold text-white">{title}</span>
       <IconMyInfoCardArrow />
@@ -35,5 +33,3 @@ const MyInfoCardItem = ({ title, count, link }: MyInfoCardItemProps) => (
     <span className="font-serif text-base font-semibold text-white">{count}</span>
   </Link>
 );
-
-const MyInfoCardSeparator = () => <div className="h-8 w-px bg-white opacity-50" />;
