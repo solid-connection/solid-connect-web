@@ -1,15 +1,22 @@
 "use client";
 
-import Image from "next/image";
-
-type KakaoLoginButtonProps = {
+type AppleLoginButtonProps = {
   onClick: () => void;
-  className?: string;
 };
 
-const AppleLoginButton = ({ onClick, className = "" }: KakaoLoginButtonProps) => (
-  <button type="button" onClick={onClick} className={className}>
-    <Image src="/images/login/apple-login-button.svg" alt="애플 로그인" width={599} height={90} />
+const AppleLoginButton = ({ onClick }: AppleLoginButtonProps) => (
+  <button
+    onClick={onClick}
+    type="button"
+    className="flex h-11 w-full items-center justify-center gap-[5px] rounded-lg bg-black p-2.5"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+      <path
+        d="M14.2086 16.9C13.392 17.6917 12.5003 17.5667 11.642 17.1917C10.7336 16.8083 9.9003 16.7917 8.94197 17.1917C7.74197 17.7083 7.10863 17.5583 6.39197 16.9C2.3253 12.7083 2.9253 6.325 7.54197 6.09167C8.66697 6.15 9.4503 6.70833 10.1086 6.75833C11.092 6.55833 12.0336 5.98333 13.0836 6.05833C14.342 6.15833 15.292 6.65833 15.917 7.55833C13.317 9.11667 13.9336 12.5417 16.317 13.5C15.842 14.75 15.2253 15.9917 14.2003 16.9083L14.2086 16.9ZM10.0253 6.04167C9.9003 4.18333 11.4086 2.65 13.142 2.5C13.3836 4.65 11.192 6.25 10.0253 6.04167Z"
+        fill="white"
+      />
+    </svg>
+    <span className="text-white">애플로 시작하기</span>
   </button>
 );
 
