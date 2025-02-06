@@ -6,10 +6,10 @@ type MyMenuGroupItemProps = {
 
 const MyMenuGroup = ({ children, icon, subject }: MyMenuGroupItemProps) => (
   <div>
-    <div className="flex h-[33px] gap-1.5 bg-[#F4F5FA] py-2 pl-6">
-      {icon} <span className="text-secondary font-serif text-sm font-semibold">{subject}</span>
+    <div className="flex h-[27px] items-center gap-1.5 bg-primary-100 py-1 pl-5">
+      {icon} <span className="text-base font-semibold text-primary">{subject}</span>
     </div>
-    <div className="pb-5 pt-3">{children}</div>
+    <div className="flex flex-col gap-0.5 pb-4 pt-1">{children}</div>
   </div>
 );
 

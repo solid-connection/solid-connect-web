@@ -33,7 +33,7 @@ const config: Config = {
           400: "#8AA5F4",
           300: "#A2B7F6",
           200: "#C7D4FA",
-          100: "#C7D4FA",
+          100: "#E8EDFD",
         },
 
         secondary: {

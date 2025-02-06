@@ -10,12 +10,12 @@ import { getMyInfoApi } from "@/services/myInfo";
 
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import ConfirmCancelModal from "@/components/modal/ConfirmCancelModal";
-import MyInfoCard from "@/containers/my/MyInfoCard";
-import MyMenu from "@/containers/my/MyMenu";
-import MyMenuGroup from "@/containers/my/MyMenuGroup";
 
 import { MyInfo } from "@/types/myInfo";
 
+import MyInfoCard from "@/app/my/MyInfoCard";
+import MyMenu from "@/app/my/MyMenu";
+import MyMenuGroup from "@/app/my/MyMenuGroup";
 import { IconMyMenuCalendar, IconMyMenuLock, IconMyMenuPerson } from "@/public/svgs/my";
 
 const roleDisplay = {
@@ -118,7 +118,7 @@ const MyPage = () => {
       </Head>
       <TopDetailNavigation title="마이페이지" />
       <div>
-        <div className="my-9 ml-5 flex h-12 gap-5">
+        <div className="mb-5 ml-5 mt-[37px] flex h-[45px] gap-5">
           <div>
             <img
               className="h-[45px] w-[45px] rounded-full object-cover"
@@ -130,22 +130,22 @@ const MyPage = () => {
               alt="프로필"
             />
           </div>
-          <div className="flex flex-col gap-2.5">
-            <div className="flex items-end gap-2">
-              <span className="font-serif text-xl font-bold text-black">{myInfo.nickname || "닉네임"}</span>
-              <span className="font-serif text-xs font-medium text-[#717171]">
+          <div className="flex flex-col">
+            <div className="flex items-end items-center gap-2">
+              <span className="text-xl font-semibold text-k-900">{myInfo.nickname || "닉네임"}</span>
+              <span className="text-base font-semibold text-k-600">
                 {myInfo.role in roleDisplay ? roleDisplay[myInfo.role] : "역할"}
               </span>
             </div>
 
-            <div className="flex gap-0.5">
-              <span className="font-serif text-xs font-normal leading-4 text-[#717171]">inha university</span>
-              <span className="font-serif text-xs font-normal leading-4 text-[#717171]">{myInfo.email}</span>
+            <div className="flex gap-2.5">
+              <span className="text-xs font-normal leading-normal text-k-400">INHA University</span>
+              <span className="text-xs font-normal leading-normal text-k-400">{myInfo.email}</span>
             </div>
           </div>
         </div>
 
-        <div className="mx-4 mb-[29px]">
+        <div className="mx-5 mb-5">
           <MyInfoCard scarpCount={0} interestMentoCount={0} wishUniversityCount={0} />
         </div>
         <div>
@@ -153,34 +153,34 @@ const MyPage = () => {
             <Link href="/my/modify">
               <MyMenu text="프로필 관리" />
             </Link>
-            <Link href="/score/register/">
+            <Link href="/score">
               <MyMenu text="공인어학/학점 변경" />
             </Link>
-            <Link href="/score/college-register/">
-              <MyMenu text="지원학교 변경" isBold />
+            <Link href="/application/apply">
+              <MyMenu text="지원학교 변경" />
             </Link>
           </MyMenuGroup>
           <MyMenuGroup icon={<IconMyMenuCalendar />} subject="내 활동">
             <Link href="/my">
               <MyMenu text="활동 내역" />
             </Link>
-            <Link href="/my">
+            <Link href="/mento">
               <MyMenu text="멘토 지원" />
             </Link>
           </MyMenuGroup>
           <MyMenuGroup icon={<IconMyMenuLock />} subject="내 계정">
-            <div className="flex h-10 items-center justify-between pl-7 pr-7">
-              <span className="font-serif text-sm font-normal text-black">솔커 계정</span>
+            <div className="flex h-[30px] items-center justify-between pl-8 pr-10">
+              <span className="text-sm font-normal leading-normal text-k-800">솔커 계정</span>
               <div className="flex items-center gap-2">
-                <span className="font-serif text-[10px] font-semibold text-[#707070]">카카오 로그인</span>
-                <span className="font-serif text-xs font-medium text-[#707070]">{myInfo.email}</span>
+                <span className="text-[10px] font-semibold text-k-500">카카오 로그인</span>
+                <span className="text-xs font-medium text-k-500">{myInfo.email}</span>
               </div>
             </div>
             <div onClick={toggleLogout}>
               <MyMenu text="로그아웃" isArrowVisible={false} />
             </div>
             <div onClick={toggleWithdraw}>
-              <MyMenu text="회원탈퇴" isArrowVisible={false} isBold />
+              <MyMenu text="회원탈퇴" isArrowVisible={false} />
             </div>
           </MyMenuGroup>
         </div>
