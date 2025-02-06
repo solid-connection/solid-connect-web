@@ -66,8 +66,12 @@ const KakaoLoginPage = () => {
             <BlockBtn onClick={emailLogin}>이메일로 시작하기</BlockBtn>
           </div>
           <div className="text-center font-serif text-base font-medium text-k-300">or</div>
-          <KakaoLoginButton onClick={kakaoLogin} className="mx-5 transition active:scale-95" />
-          <AppleLoginButton onClick={appleLogin} className="mx-5 transition active:scale-95" />
+          <div className="mx-5 transition active:scale-95">
+            <KakaoLoginButton onClick={kakaoLogin} />
+          </div>
+          <div className="mx-5 transition active:scale-95">
+            <AppleLoginButton onClick={appleLogin} />
+          </div>
         </div>
       </div>
     </div>

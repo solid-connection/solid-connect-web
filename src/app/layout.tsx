@@ -38,7 +38,7 @@ declare global {
 const RootLayout = ({ children }: { children: React.ReactNode }) => (
   <AlertProvider>
     <LayoutProvider>
-      <html lang="ko">
+      <html lang="ko" className="font-serif">
         <KakaoScriptLoader />
         <GoogleAnalytics gaId="G-V1KLYZC1DS" />
         <body className={`${pretendard.className} ${inter.className}`}>
