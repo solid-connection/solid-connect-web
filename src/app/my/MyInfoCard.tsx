@@ -29,7 +29,7 @@ type MyInfoCardItemProps = {
 const MyInfoCardItem = ({ title, count, link }: MyInfoCardItemProps) => (
   <Link href={link} className="flex flex-1 flex-col items-center">
     <div className="flex items-center gap-1">
-      <span className="font-serif text-[10px] font-semibold text-white">{title}</span>
+      <span className="font-serif text-[13px] font-semibold text-white">{title}</span>
       <IconMyInfoCardArrow />
     </div>
     <span className="font-serif text-base font-semibold text-white">{count}</span>
