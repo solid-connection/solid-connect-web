@@ -15,13 +15,13 @@ import { Gender, PreparationStatus, RegisterRequest } from "@/types/auth";
 import { RegionKo } from "@/types/university";
 
 type SignupSurveyProps = {
-  kakaoOauthToken: string;
-  kakaoNickname: string;
-  kakaoEmail: string;
-  kakaoProfileImageUrl: string;
+  signUpToken: string;
+  baseNickname: string;
+  baseEmail: string;
+  baseProfileImageUrl: string;
 };
 
-const SignupSurvey = ({ kakaoOauthToken, kakaoNickname, kakaoEmail, kakaoProfileImageUrl }: SignupSurveyProps) => {
+const SignupSurvey = ({ signUpToken, baseNickname, baseEmail, baseProfileImageUrl }: SignupSurveyProps) => {
   const router = useRouter();
   const [curStage, setCurStage] = useState<number>(1);
 
@@ -30,7 +30,7 @@ const SignupSurvey = ({ kakaoOauthToken, kakaoNickname, kakaoEmail, kakaoProfile
   const [region, setRegion] = useState<RegionKo | "아직 잘 모르겠어요" | null>(null);
   const [countries, setCountries] = useState<string[]>([]);
 
-  const [nickname, setNickname] = useState<string>(kakaoNickname);
+  const [nickname, setNickname] = useState<string>(baseNickname);
   const [gender, setGender] = useState<Gender | "">("");
   const [birth, setBirth] = useState<string>("");
   const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
@@ -72,7 +72,7 @@ const SignupSurvey = ({ kakaoOauthToken, kakaoNickname, kakaoEmail, kakaoProfile
 
     const convertedBirth: string = convertBirth(birth);
 
-    let imageUrl: string | null = kakaoProfileImageUrl;
+    let imageUrl: string | null = baseProfileImageUrl;
 
     if (profileImageFile) {
       try {
@@ -85,7 +85,7 @@ const SignupSurvey = ({ kakaoOauthToken, kakaoNickname, kakaoEmail, kakaoProfile
     }
 
     return {
-      signUpToken: kakaoOauthToken,
+      signUpToken: signUpToken,
       interestedRegions: submitRegion,
       interestedCountries: countries,
       preparationStatus: curPreparation,
@@ -150,7 +150,7 @@ const SignupSurvey = ({ kakaoOauthToken, kakaoNickname, kakaoEmail, kakaoProfile
             setGender={setGender}
             birth={birth}
             setBirth={setBirth}
-            defaultProfileImageUrl={kakaoProfileImageUrl}
+            defaultProfileImageUrl={baseProfileImageUrl}
             profileImageFile={profileImageFile}
             setProfileImageFile={setProfileImageFile}
           />

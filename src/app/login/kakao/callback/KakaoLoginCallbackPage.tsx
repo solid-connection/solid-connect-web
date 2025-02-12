@@ -82,10 +82,10 @@ const KakaoLoginCallbackPage = () => {
 
   return (
     <SignupSurvey
-      kakaoOauthToken={kakaoOauthToken}
-      kakaoNickname={kakaoNickname}
-      kakaoEmail={kakaoEmail}
-      kakaoProfileImageUrl={kakaoProfileImageUrl}
+      signUpToken={kakaoOauthToken}
+      baseNickname={kakaoNickname}
+      baseEmail={kakaoEmail}
+      baseProfileImageUrl={kakaoProfileImageUrl}
     />
   );
 };
