@@ -46,6 +46,7 @@ export interface ListUniversity {
   region: string;
   country: string;
   logoImageUrl: string;
+  backgroundImageUrl: string;
   studentCapacity: number;
   languageRequirements: LanguageRequirement[];
 }
