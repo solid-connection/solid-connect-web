@@ -49,7 +49,7 @@ const KakaoLoginCallbackPage = () => {
         router.push("/");
       } else if (data.isRegistered === false) {
         // 새로운 회원일 시
-        setKakaoOauthToken(data.kakaoOauthToken);
+        setKakaoOauthToken(data.signUpToken);
         setKakaoNickname(data.nickname);
         setKakaoEmail(data.email);
         setKakaoProfileImageUrl(data.profileImageUrl);

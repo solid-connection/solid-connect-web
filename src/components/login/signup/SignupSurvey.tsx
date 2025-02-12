@@ -11,7 +11,7 @@ import SignupPrepareScreen from "./SignupPrepareScreen";
 import SignupProfileScreen from "./SignupProfileScreen";
 import SignupRegionScreen from "./SignupRegionScreen";
 
-import { Gender, PreparationStatus, RegisterRequest } from "@/types/auth";
+import { Gender, PreparationStatus, SignUpRequest } from "@/types/auth";
 import { RegionKo } from "@/types/university";
 
 type SignupSurveyProps = {
@@ -59,7 +59,7 @@ const SignupSurvey = ({ signUpToken, baseNickname, baseEmail, baseProfileImageUr
     return formattedDate;
   };
 
-  const createRegisterRequest = async (): Promise<RegisterRequest> => {
+  const createRegisterRequest = async (): Promise<SignUpRequest> => {
     const submitRegion: RegionKo[] = region === "아직 잘 모르겠어요" ? [] : [region as RegionKo];
 
     if (!curPreparation) {
@@ -98,7 +98,7 @@ const SignupSurvey = ({ signUpToken, baseNickname, baseEmail, baseProfileImageUr
 
   const submitRegisterRequest = async () => {
     try {
-      const registerRequest: RegisterRequest = await createRegisterRequest();
+      const registerRequest = await createRegisterRequest();
       const res = await signUpApi(registerRequest);
       saveAccessToken(res.data.accessToken);
       saveRefreshToken(res.data.refreshToken);
