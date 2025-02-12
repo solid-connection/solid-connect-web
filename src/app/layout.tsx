@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 
+import AppleScriptLoader from "@/components/layout/AppleScriptLoader";
 import KakaoScriptLoader from "@/components/layout/KakaoScriptLoader";
 import Layout from "@/components/layout/Layout";
 
@@ -40,6 +41,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => (
     <LayoutProvider>
       <html lang="ko" className="font-serif">
         <KakaoScriptLoader />
+        <AppleScriptLoader />
         <GoogleAnalytics gaId="G-V1KLYZC1DS" />
         <body className={`${pretendard.className} ${inter.className}`}>
           <Layout>{children}</Layout>
