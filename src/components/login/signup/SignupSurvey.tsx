@@ -85,7 +85,7 @@ const SignupSurvey = ({ kakaoOauthToken, kakaoNickname, kakaoEmail, kakaoProfile
     }
 
     return {
-      kakaoOauthToken,
+      signUpToken: kakaoOauthToken,
       interestedRegions: submitRegion,
       interestedCountries: countries,
       preparationStatus: curPreparation,
