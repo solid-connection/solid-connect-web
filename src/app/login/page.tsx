@@ -41,7 +41,7 @@ const KakaoLoginPage = () => {
       redirectURI: `${process.env.NEXT_PUBLIC_WEB_URL}/login/apple/callback`,
       // state: '[STATE]',
       // nonce: '[NONCE]',
-      usePopup: true,
+      usePopup: false,
     });
 
     try {
