@@ -4,10 +4,12 @@ import { AxiosResponse } from "axios";
 import { axiosInstance, publicAxiosInstance } from "@/utils/axiosInstance";
 
 import {
-  KakaoSignUpResponse,
-  RegisterRequest,
+  RegisteredAppleAuthResponse,
   RegisteredKakaoAuthReponse,
   ReissueAccessTokenResponse,
+  SignUpRequest,
+  SignUpResponse,
+  UnregisteredAppleAuthResponse,
   UnregisteredKakaoAuthReponse,
 } from "@/types/auth";
 
@@ -16,7 +18,12 @@ export const kakaoAuthApi = (
 ): Promise<AxiosResponse<RegisteredKakaoAuthReponse | UnregisteredKakaoAuthReponse>> =>
   publicAxiosInstance.post("/auth/kakao", { code });
 
-export const signUpApi = (signUpRequest: RegisterRequest): Promise<AxiosResponse<KakaoSignUpResponse>> =>
+export const appleAuthApi = (
+  code: string,
+): Promise<AxiosResponse<RegisteredAppleAuthResponse | UnregisteredAppleAuthResponse>> =>
+  publicAxiosInstance.post("/auth/apple", { code });
+
+export const signUpApi = (signUpRequest: SignUpRequest): Promise<AxiosResponse<SignUpResponse>> =>
   publicAxiosInstance.post("/auth/sign-up", signUpRequest);
 
 export const signOutApi = (): Promise<AxiosResponse<null>> => axiosInstance.post("/auth/sign-out");

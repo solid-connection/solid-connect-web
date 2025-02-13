@@ -11,17 +11,17 @@ import SignupPrepareScreen from "./SignupPrepareScreen";
 import SignupProfileScreen from "./SignupProfileScreen";
 import SignupRegionScreen from "./SignupRegionScreen";
 
-import { Gender, PreparationStatus, RegisterRequest } from "@/types/auth";
+import { Gender, PreparationStatus, SignUpRequest } from "@/types/auth";
 import { RegionKo } from "@/types/university";
 
 type SignupSurveyProps = {
-  kakaoOauthToken: string;
-  kakaoNickname: string;
-  kakaoEmail: string;
-  kakaoProfileImageUrl: string;
+  signUpToken: string;
+  baseNickname: string;
+  baseEmail: string;
+  baseProfileImageUrl: string;
 };
 
-const SignupSurvey = ({ kakaoOauthToken, kakaoNickname, kakaoEmail, kakaoProfileImageUrl }: SignupSurveyProps) => {
+const SignupSurvey = ({ signUpToken, baseNickname, baseEmail, baseProfileImageUrl }: SignupSurveyProps) => {
   const router = useRouter();
   const [curStage, setCurStage] = useState<number>(1);
 
@@ -30,7 +30,7 @@ const SignupSurvey = ({ kakaoOauthToken, kakaoNickname, kakaoEmail, kakaoProfile
   const [region, setRegion] = useState<RegionKo | "아직 잘 모르겠어요" | null>(null);
   const [countries, setCountries] = useState<string[]>([]);
 
-  const [nickname, setNickname] = useState<string>(kakaoNickname);
+  const [nickname, setNickname] = useState<string>(baseNickname);
   const [gender, setGender] = useState<Gender | "">("");
   const [birth, setBirth] = useState<string>("");
   const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
@@ -59,7 +59,7 @@ const SignupSurvey = ({ kakaoOauthToken, kakaoNickname, kakaoEmail, kakaoProfile
     return formattedDate;
   };
 
-  const createRegisterRequest = async (): Promise<RegisterRequest> => {
+  const createRegisterRequest = async (): Promise<SignUpRequest> => {
     const submitRegion: RegionKo[] = region === "아직 잘 모르겠어요" ? [] : [region as RegionKo];
 
     if (!curPreparation) {
@@ -72,7 +72,7 @@ const SignupSurvey = ({ kakaoOauthToken, kakaoNickname, kakaoEmail, kakaoProfile
 
     const convertedBirth: string = convertBirth(birth);
 
-    let imageUrl: string | null = kakaoProfileImageUrl;
+    let imageUrl: string | null = baseProfileImageUrl;
 
     if (profileImageFile) {
       try {
@@ -85,7 +85,7 @@ const SignupSurvey = ({ kakaoOauthToken, kakaoNickname, kakaoEmail, kakaoProfile
     }
 
     return {
-      kakaoOauthToken,
+      signUpToken: signUpToken,
       interestedRegions: submitRegion,
       interestedCountries: countries,
       preparationStatus: curPreparation,
@@ -98,7 +98,7 @@ const SignupSurvey = ({ kakaoOauthToken, kakaoNickname, kakaoEmail, kakaoProfile
 
   const submitRegisterRequest = async () => {
     try {
-      const registerRequest: RegisterRequest = await createRegisterRequest();
+      const registerRequest = await createRegisterRequest();
       const res = await signUpApi(registerRequest);
       saveAccessToken(res.data.accessToken);
       saveRefreshToken(res.data.refreshToken);
@@ -150,7 +150,7 @@ const SignupSurvey = ({ kakaoOauthToken, kakaoNickname, kakaoEmail, kakaoProfile
             setGender={setGender}
             birth={birth}
             setBirth={setBirth}
-            defaultProfileImageUrl={kakaoProfileImageUrl}
+            defaultProfileImageUrl={baseProfileImageUrl}
             profileImageFile={profileImageFile}
             setProfileImageFile={setProfileImageFile}
           />
