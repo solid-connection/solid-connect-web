@@ -29,8 +29,27 @@ const KakaoLoginPage = () => {
     }
   };
 
-  const appleLogin = () => {
-    alert("애플 로그인은 준비 중입니다.");
+  const appleLogin = async () => {
+    if (!window.AppleID || !window.AppleID.auth) {
+      alert("Apple SDK를 불러오는 중입니다. 잠시 후 다시 시도해주세요.");
+      return;
+    }
+
+    window.AppleID.auth.init({
+      clientId: process.env.NEXT_PUBLIC_APPLE_CLIENT_ID,
+      scope: process.env.NEXT_PUBLIC_APPLE_SCOPE,
+      redirectURI: `${process.env.NEXT_PUBLIC_WEB_URL}/login/apple/callback`,
+      // state: '[STATE]',
+      // nonce: '[NONCE]',
+      usePopup: true,
+    });
+
+    try {
+      const res = await window.AppleID.auth.signIn();
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const emailLogin = () => {

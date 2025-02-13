@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 import axios from "axios";
 
-import { kakaoAuthApi } from "@/services/auth";
+import { appleAuthApi } from "@/services/auth";
 import { saveAccessToken, saveRefreshToken } from "@/utils/localStorage";
 
 import CloudSpinnerPage from "@/components/loading/CloudSpinnerPage";
@@ -15,14 +15,12 @@ import { useLayout } from "@/context/LayoutContext";
 
 // AxiosError 타입 가드 사용을 위해 추가
 
-const KakaoLoginCallbackPage = () => {
+const AppleLoginCallbackPage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [kakaoOauthToken, setKakaoOauthToken] = useState<string>("");
-  const [kakaoNickname, setKakaoNickname] = useState<string>("");
-  const [kakaoEmail, setKakaoEmail] = useState<string>("");
-  const [kakaoProfileImageUrl, setKakaoProfileImageUrl] = useState<string>("");
+  const [signUpToken, setSignUpToken] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
 
   const { setHideBottomNavigation } = useLayout();
 
@@ -40,7 +38,7 @@ const KakaoLoginCallbackPage = () => {
 
   const sendCodeToBackend = async (code: string) => {
     try {
-      const res = await kakaoAuthApi(code);
+      const res = await appleAuthApi(code);
       const { data } = res;
       if (data.isRegistered) {
         // 기존 회원일 시
@@ -49,10 +47,8 @@ const KakaoLoginCallbackPage = () => {
         router.push("/");
       } else if (data.isRegistered === false) {
         // 새로운 회원일 시
-        setKakaoOauthToken(data.signUpToken);
-        setKakaoNickname(data.nickname);
-        setKakaoEmail(data.email);
-        setKakaoProfileImageUrl(data.profileImageUrl);
+        setSignUpToken(data.signUpToken);
+        setEmail(data.email);
       }
     } catch (err: unknown) {
       if (axios.isAxiosError(err) && err.response) {
@@ -69,25 +65,18 @@ const KakaoLoginCallbackPage = () => {
   };
 
   useEffect(() => {
-    if (!kakaoOauthToken) {
-      document.title = "카카오 로그인 진행중";
+    if (!signUpToken) {
+      document.title = "애플 로그인 진행중";
     } else {
       document.title = "회원가입";
     }
-  }, [kakaoOauthToken]);
+  }, [signUpToken]);
 
-  if (!kakaoOauthToken) {
+  if (!signUpToken) {
     return <CloudSpinnerPage />;
   }
 
-  return (
-    <SignupSurvey
-      signUpToken={kakaoOauthToken}
-      baseNickname={kakaoNickname}
-      baseEmail={kakaoEmail}
-      baseProfileImageUrl={kakaoProfileImageUrl}
-    />
-  );
+  return <SignupSurvey signUpToken={signUpToken} baseNickname={""} baseEmail={email} baseProfileImageUrl={""} />;
 };
 
-export default KakaoLoginCallbackPage;
+export default AppleLoginCallbackPage;
