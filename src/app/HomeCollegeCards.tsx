@@ -42,7 +42,7 @@ const HomeCollegeCards = ({ colleges }: HomeCollegeCardsProps) => {
           <HomeCollegeCard
             key={college.id}
             id={college.id}
-            imageUrl={college.logoImageUrl || ""}
+            imageUrl={college.backgroundImageUrl || ""}
             name={college.koreanName || "대학명"}
           />
         ))}
