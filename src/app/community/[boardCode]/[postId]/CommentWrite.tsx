@@ -18,7 +18,8 @@ const CommentWrite = ({ postId, refresh, curSelectedComment, setCurSelectedComme
 
   const submitComment = async () => {
     try {
-      await createCommentApi(postId, {
+      await createCommentApi({
+        postId: postId,
         content: contentRef.current?.value || "",
         parentId: curSelectedComment,
       });

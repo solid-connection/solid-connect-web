@@ -76,6 +76,7 @@ export interface PostUpdateRequest {
 }
 
 export interface CommentCreateRequest {
+  postId: number;
   content: string;
   parentId: number | null;
 }

@@ -64,11 +64,10 @@ export const unlikePostApi = (postId: number): Promise<AxiosResponse<PostLikeRes
   axiosInstance.delete(`/posts/${postId}/like`);
 
 export const createCommentApi = (
-  postId: number,
   commentCreateRequest: CommentCreateRequest,
-): Promise<AxiosResponse<CommentIdResponse>> => axiosInstance.post(`/posts/${postId}/comments`, commentCreateRequest);
+): Promise<AxiosResponse<CommentIdResponse>> => axiosInstance.post(`/comments`, commentCreateRequest);
 
 export const deleteCommentApi = (postId: number, commentId: number): Promise<AxiosResponse<CommentIdResponse>> =>
-  axiosInstance.delete(`/posts/${postId}/comments/${commentId}`);
+  axiosInstance.delete(`/comments/${commentId}`);
 
 // export const updateCommentApi
