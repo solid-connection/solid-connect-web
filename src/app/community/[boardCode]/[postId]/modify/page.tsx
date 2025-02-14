@@ -18,7 +18,7 @@ const PostModifyPage = ({ params }: { params: { boardCode: string; postId: strin
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const res = await getPostDetailApi(boardCode, Number(postId));
+        const res = await getPostDetailApi(Number(postId));
         setPost(res.data);
       } catch (err) {
         // 에러 처리

@@ -60,7 +60,7 @@ const PostModifyForm = ({
 
   const submitPost = async () => {
     try {
-      await updatePostApi(boardCode, postId, {
+      await updatePostApi(postId, {
         postUpdateRequest: {
           postCategory: defaultPostCategory,
           title,
