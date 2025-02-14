@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 import BlockBtn from "@/components/button/BlockBtn";
@@ -8,10 +9,13 @@ import BlockBtn from "@/components/button/BlockBtn";
 import AppleLoginButton from "./AppleLoginButton";
 import KakaoLoginButton from "./KakaoLoginButton";
 
+import { appleOAuth2CodeResponse } from "@/types/auth";
+
 import { useLayout } from "@/context/LayoutContext";
 import { IconSolidConnectionFullBlackLogo } from "@/public/svgs";
 
 const KakaoLoginPage = () => {
+  const router = useRouter();
   const { setHideBottomNavigation } = useLayout();
 
   useEffect(() => {
@@ -41,12 +45,14 @@ const KakaoLoginPage = () => {
       redirectURI: `${process.env.NEXT_PUBLIC_WEB_URL}/login/apple/callback`,
       // state: '[STATE]',
       // nonce: '[NONCE]',
-      usePopup: false,
+      usePopup: true,
     });
 
     try {
-      const res = await window.AppleID.auth.signIn();
-      console.log(res);
+      const res: appleOAuth2CodeResponse = await window.AppleID.auth.signIn();
+      if (res.authorization) {
+        router.push(`/login/apple/callback?code=${res.authorization.code}`);
+      }
     } catch (error) {
       console.log(error);
     }

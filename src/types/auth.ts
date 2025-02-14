@@ -58,3 +58,12 @@ export interface SignUpResponse {
 export interface ReissueAccessTokenResponse {
   accessToken: string;
 }
+
+// SDK
+
+export interface appleOAuth2CodeResponse {
+  authorization: {
+    code: string;
+    id_token: string;
+  };
+}
