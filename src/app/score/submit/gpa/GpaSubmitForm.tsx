@@ -6,7 +6,6 @@ import { useRef, useState } from "react";
 
 import clsx from "clsx";
 
-import { uploadGpaFileApi } from "@/services/file";
 import { postGpaScoreApi } from "@/services/score";
 
 import BlockBtn from "@/components/button/BlockBtn";

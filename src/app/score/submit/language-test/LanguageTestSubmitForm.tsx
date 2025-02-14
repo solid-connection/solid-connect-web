@@ -6,8 +6,8 @@ import { useRef, useState } from "react";
 
 import clsx from "clsx";
 
-import { uploadLanguageTestFileApi } from "@/services/file";
 import { postLanguageTestScoreApi } from "@/services/score";
+import { validateLanguageScore } from "@/utils/scoreUtils";
 
 import BlockBtn from "@/components/button/BlockBtn";
 import RoundBtn from "@/components/button/RoundBtn";
@@ -36,35 +36,11 @@ const LanguageTestSubmitForm = () => {
     }
 
     // 점수 유효성 검사
-    if (testType === "TOEIC") {
-      if (!(Number(score) >= 0 && Number(score) <= 990)) {
-        alert("TOEIC 점수는 0 ~ 990 사이여야 합니다.");
-        return;
-      }
-    }
-    if (testType === "TOEFL IBT") {
-      if (!(Number(score) >= 0 && Number(score) <= 120)) {
-        alert("TOEFL IBT 점수는 0 ~ 120 사이여야 합니다.");
-        return;
-      }
-    }
-    if (testType === "TOEFL ITP") {
-      if (!(Number(score) >= 310 && Number(score) <= 677)) {
-        alert("TOEFL ITP 점수는 310 ~ 677 사이여야 합니다.");
-        return;
-      }
-    }
-    if (testType === "IELTS") {
-      if (!(Number(score) >= 0 && Number(score) <= 9)) {
-        alert("IELTS 점수는 0 ~ 9 사이여야 합니다.");
-        return;
-      }
-    }
-    if (testType === "JLPT") {
-      if (!(Number(score) >= 0 && Number(score) <= 5)) {
-        alert("JLPT 점수는 0 ~ 5 사이여야 합니다.");
-        return;
-      }
+    try {
+      validateLanguageScore(testType, score);
+    } catch (err: any) {
+      alert(err.message);
+      return;
     }
 
     async function postData() {
