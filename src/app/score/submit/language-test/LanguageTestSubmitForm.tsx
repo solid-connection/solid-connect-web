@@ -69,15 +69,11 @@ const LanguageTestSubmitForm = () => {
 
     async function postData() {
       try {
-        const fileUploadRes = await uploadLanguageTestFileApi(file as File);
-        const fileUrl = fileUploadRes.data.fileUrl;
-
-        // API 호출
         const res = await postLanguageTestScoreApi({
           languageTestType: testType,
           languageTestScore: score,
           issueDate: "2025-01-01",
-          languageTestReportUrl: fileUrl,
+          file: file as File,
         });
 
         router.push("/score");

@@ -42,15 +42,11 @@ const GpaSubmitForm = () => {
 
     async function postData() {
       try {
-        const fileUploadRes = await uploadGpaFileApi(file as File);
-        const fileUrl = fileUploadRes.data.fileUrl;
-
-        // API 호출
         const res = await postGpaScoreApi({
           gpa: Number(gpa),
           gpaCriteria: gpaCriteria as number,
           issueDate: "2025-01-01",
-          gpaReportUrl: fileUrl,
+          file: file as File,
         });
 
         router.push("/score");
