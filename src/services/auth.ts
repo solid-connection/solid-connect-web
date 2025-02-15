@@ -4,6 +4,7 @@ import { AxiosResponse } from "axios";
 import { axiosInstance, publicAxiosInstance } from "@/utils/axiosInstance";
 
 import {
+  EmailSignInResponse,
   RegisteredAppleAuthResponse,
   RegisteredKakaoAuthReponse,
   ReissueAccessTokenResponse,
@@ -22,6 +23,9 @@ export const appleAuthApi = (
   code: string,
 ): Promise<AxiosResponse<RegisteredAppleAuthResponse | UnregisteredAppleAuthResponse>> =>
   publicAxiosInstance.post("/auth/apple", { code });
+
+export const emailAuthApi = (email: string, password: string): Promise<AxiosResponse<EmailSignInResponse>> =>
+  publicAxiosInstance.post("/auth/email/sign-in", { email, password });
 
 export const signUpApi = (signUpRequest: SignUpRequest): Promise<AxiosResponse<SignUpResponse>> =>
   publicAxiosInstance.post("/auth/sign-up", signUpRequest);

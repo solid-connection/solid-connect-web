@@ -2,7 +2,10 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
+import { emailAuthApi } from "@/services/auth";
+import { saveAccessToken, saveRefreshToken } from "@/utils/localStorage";
 
 import BlockBtn from "@/components/button/BlockBtn";
 
@@ -18,10 +21,19 @@ const KakaoLoginPage = () => {
   const router = useRouter();
   const { setHideBottomNavigation } = useLayout();
 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   useEffect(() => {
     setHideBottomNavigation(true);
     return () => setHideBottomNavigation(false); // 컴포넌트가 언마운트될 때 다시 보이게 설정
   }, [setHideBottomNavigation]);
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleEmailLogin();
+    }
+  };
 
   const kakaoLogin = () => {
     if (window.Kakao && window.Kakao.Auth) {
@@ -43,8 +55,6 @@ const KakaoLoginPage = () => {
       clientId: process.env.NEXT_PUBLIC_APPLE_CLIENT_ID,
       scope: process.env.NEXT_PUBLIC_APPLE_SCOPE,
       redirectURI: `${process.env.NEXT_PUBLIC_WEB_URL}/login/apple/callback`,
-      // state: '[STATE]',
-      // nonce: '[NONCE]',
       usePopup: true,
     });
 
@@ -58,8 +68,24 @@ const KakaoLoginPage = () => {
     }
   };
 
-  const emailLogin = () => {
-    alert("이메일 로그인은 준비 중입니다.");
+  const handleEmailLogin = async () => {
+    if (!email.trim()) {
+      alert("이메일을 입력해주세요.");
+      return;
+    }
+    if (!password) {
+      alert("비밀번호를 입력해주세요.");
+      return;
+    }
+    try {
+      const response = await emailAuthApi(email, password);
+      saveAccessToken(response.data.accessToken);
+      saveRefreshToken(response.data.refreshToken);
+      router.push("/");
+    } catch (error: any) {
+      console.error(error);
+      alert(error.response?.data?.message || "로그인에 실패했습니다.");
+    }
   };
 
   return (
@@ -82,14 +108,34 @@ const KakaoLoginPage = () => {
         <div className="flex flex-col gap-3">
           <div className="mx-5">
             <input
-              type="text"
+              type="email"
               placeholder="이메일"
               className="h-[41px] w-full rounded-lg border px-5 py-3 font-serif text-xs font-normal leading-normal text-k-400 focus:outline-none"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              onKeyDown={handleKeyDown}
             />
           </div>
-          <div className="mx-5 transition active:scale-95">
-            <BlockBtn onClick={emailLogin}>이메일로 시작하기</BlockBtn>
+
+          <div
+            className={`mx-5 overflow-hidden transition-all duration-500 ease-in-out ${
+              email.trim() ? "max-h-20 opacity-100" : "max-h-0 opacity-0"
+            }`}
+          >
+            <input
+              type="password"
+              placeholder="비밀번호"
+              className="h-[41px] w-full rounded-lg border px-5 py-3 font-serif text-xs font-normal leading-normal text-k-400 focus:outline-none"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              onKeyDown={handleKeyDown}
+            />
           </div>
+
+          <div className="mx-5 transition active:scale-95">
+            <BlockBtn onClick={handleEmailLogin}>이메일로 시작하기</BlockBtn>
+          </div>
+
           <div className="text-center font-serif text-base font-medium text-k-300">or</div>
           <div className="mx-5 transition active:scale-95">
             <KakaoLoginButton onClick={kakaoLogin} />
