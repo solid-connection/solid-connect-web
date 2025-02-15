@@ -28,7 +28,8 @@ const GpaStep = ({ gpaScoreList, curGpaScore, setCurGpaScore, onNext }: GpaStepP
                 name="인하대학교" // TODO: 학교명 API에서 받아오기
                 score={`${score.gpa.gpa.toFixed(1)}/${score.gpa.gpaCriteria}`}
                 status={score.verifyStatus}
-                date={new Date(score.issueDate).toISOString()}
+                // date={new Date(score.issueDate).toISOString()}
+                date="2025-01-01"
                 isFocused={score.id === curGpaScore}
               />
             </button>

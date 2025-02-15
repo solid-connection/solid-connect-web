@@ -46,9 +46,11 @@ const LanguageTestSubmitForm = () => {
     async function postData() {
       try {
         const res = await postLanguageTestScoreApi({
-          languageTestType: testType,
-          languageTestScore: score,
-          issueDate: "2025-01-01",
+          languageTestScoreRequest: {
+            languageTestType: testType,
+            languageTestScore: score,
+            issueDate: "2025-01-01",
+          },
           file: file as File,
         });
 

@@ -42,9 +42,11 @@ const GpaSubmitForm = () => {
     async function postData() {
       try {
         const res = await postGpaScoreApi({
-          gpa: Number(gpa),
-          gpaCriteria: gpaCriteria as number,
-          issueDate: "2025-01-01",
+          gpaScoreRequest: {
+            gpa: Number(gpa),
+            gpaCriteria: gpaCriteria as number,
+            issueDate: "2025-01-01",
+          },
           file: file as File,
         });
 
