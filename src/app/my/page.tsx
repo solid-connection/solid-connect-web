@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 
 import { deleteAccountApi, signOutApi } from "@/services/auth";
 import { getMyInfoApi } from "@/services/myInfo";
+import { authProviderName } from "@/utils/authUtils";
 
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import ConfirmCancelModal from "@/components/modal/ConfirmCancelModal";
@@ -172,7 +173,7 @@ const MyPage = () => {
             <div className="flex h-[30px] items-center justify-between pl-8 pr-10">
               <span className="text-sm font-normal leading-normal text-k-800">솔커 계정</span>
               <div className="flex items-center gap-2">
-                <span className="text-[10px] font-semibold text-k-500">카카오 로그인</span>
+                <span className="text-[10px] font-semibold text-k-500">{authProviderName(myInfo.authType)} 로그인</span>
                 <span className="text-xs font-medium text-k-500">{myInfo.email}</span>
               </div>
             </div>
