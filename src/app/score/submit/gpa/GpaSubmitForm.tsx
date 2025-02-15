@@ -6,7 +6,6 @@ import { useRef, useState } from "react";
 
 import clsx from "clsx";
 
-import { uploadGpaFileApi } from "@/services/file";
 import { postGpaScoreApi } from "@/services/score";
 
 import BlockBtn from "@/components/button/BlockBtn";
@@ -42,15 +41,11 @@ const GpaSubmitForm = () => {
 
     async function postData() {
       try {
-        const fileUploadRes = await uploadGpaFileApi(file as File);
-        const fileUrl = fileUploadRes.data.fileUrl;
-
-        // API 호출
         const res = await postGpaScoreApi({
           gpa: Number(gpa),
           gpaCriteria: gpaCriteria as number,
           issueDate: "2025-01-01",
-          gpaReportUrl: fileUrl,
+          file: file as File,
         });
 
         router.push("/score");

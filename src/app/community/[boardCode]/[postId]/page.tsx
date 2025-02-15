@@ -25,7 +25,7 @@ const PostPage = ({ params }: { params: { boardCode: string; postId: string } })
 
   useEffect(() => {
     const fetchPosts = async () => {
-      await getPostDetailApi(boardCode, postId)
+      await getPostDetailApi(postId)
         .then((res) => {
           setPost(res.data);
         })

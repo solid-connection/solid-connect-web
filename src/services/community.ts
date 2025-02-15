@@ -14,19 +14,15 @@ import {
 } from "@/types/community";
 
 export const getPostListApi = (boardCode: string, category: string | null = null): Promise<AxiosResponse<ListPost[]>> =>
-  axiosInstance.get(`/communities/${boardCode}`, {
+  axiosInstance.get(`/boards/${boardCode}`, {
     params: {
       category,
     },
   });
 
-export const getPostDetailApi = (boardCode: string, postId: number): Promise<AxiosResponse<Post>> =>
-  axiosInstance.get(`/communities/${boardCode}/posts/${postId}`);
+export const getPostDetailApi = (postId: number): Promise<AxiosResponse<Post>> => axiosInstance.get(`/posts/${postId}`);
 
-export const createPostApi = (
-  boardCode: string,
-  postCreateRequest: PostCreateRequest,
-): Promise<AxiosResponse<PostIdResponse>> => {
+export const createPostApi = (postCreateRequest: PostCreateRequest): Promise<AxiosResponse<PostIdResponse>> => {
   const convertedRequest: FormData = new FormData();
   convertedRequest.append(
     "postCreateRequest",
@@ -36,13 +32,12 @@ export const createPostApi = (
     convertedRequest.append("file", file);
   });
 
-  return axiosInstance.post(`/communities/${boardCode}/posts`, convertedRequest, {
+  return axiosInstance.post(`/posts`, convertedRequest, {
     headers: { "Content-Type": "multipart/form-data" },
   });
 };
 
 export const updatePostApi = (
-  boardCode: string,
   postId: number,
   postUpdateRequest: PostUpdateRequest,
 ): Promise<AxiosResponse<PostIdResponse>> => {
@@ -54,26 +49,25 @@ export const updatePostApi = (
   postUpdateRequest.file.forEach((file) => {
     convertedRequest.append("file", file);
   });
-  return axiosInstance.patch(`/communities/${boardCode}/posts/${postId}`, convertedRequest, {
+  return axiosInstance.patch(`/posts/${postId}`, convertedRequest, {
     headers: { "Content-Type": "multipart/form-data" },
   });
 };
 
-export const deletePostApi = (boardCode: string, postId: number): Promise<AxiosResponse<PostIdResponse>> =>
-  axiosInstance.delete(`/communities/${boardCode}/posts/${postId}`);
+export const deletePostApi = (postId: number): Promise<AxiosResponse<PostIdResponse>> =>
+  axiosInstance.delete(`/posts/${postId}`);
 
-export const likePostApi = (boardCode, postId: number): Promise<AxiosResponse<PostLikeResponse>> =>
-  axiosInstance.post(`/communities/${boardCode}/posts/${postId}/like`);
+export const likePostApi = (postId: number): Promise<AxiosResponse<PostLikeResponse>> =>
+  axiosInstance.post(`/posts/${postId}/like`);
 
-export const unlikePostApi = (boardCode, postId: number): Promise<AxiosResponse<PostLikeResponse>> =>
-  axiosInstance.delete(`/communities/${boardCode}/posts/${postId}/like`);
+export const unlikePostApi = (postId: number): Promise<AxiosResponse<PostLikeResponse>> =>
+  axiosInstance.delete(`/posts/${postId}/like`);
 
 export const createCommentApi = (
-  postId: number,
   commentCreateRequest: CommentCreateRequest,
-): Promise<AxiosResponse<CommentIdResponse>> => axiosInstance.post(`/posts/${postId}/comments`, commentCreateRequest);
+): Promise<AxiosResponse<CommentIdResponse>> => axiosInstance.post(`/comments`, commentCreateRequest);
 
 export const deleteCommentApi = (postId: number, commentId: number): Promise<AxiosResponse<CommentIdResponse>> =>
-  axiosInstance.delete(`/posts/${postId}/comments/${commentId}`);
+  axiosInstance.delete(`/comments/${commentId}`);
 
 // export const updateCommentApi

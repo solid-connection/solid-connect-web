@@ -39,6 +39,11 @@ export interface UnregisteredAppleAuthResponse {
   signUpToken: string;
 }
 
+export interface EmailSignInResponse {
+  accessToken: string;
+  refreshToken: string;
+}
+
 export interface SignUpRequest {
   signUpToken: string; // 최초 접속 시 발급받는 토큰
   interestedRegions: RegionKo[]; // 한글 지역명 e.g. 미주권
