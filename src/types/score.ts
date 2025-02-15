@@ -1,15 +1,19 @@
 export interface SubmitGpaScoreRequest {
-  gpa: number;
-  gpaCriteria: number;
-  issueDate: string; // yyyy-MM-dd
+  gpaScoreRequest: {
+    gpa: number;
+    gpaCriteria: number;
+    issueDate: string; // yyyy-MM-dd
+  };
   file: Blob;
 }
 
 export interface SubmitLanguageTestScoreRequest {
-  languageTestType: string;
-  languageTestScore: string;
-  issueDate: string; // yyyy-MM-dd
-  file: Blob;
+  languageTestScoreRequest: {
+    languageTestType: string;
+    languageTestScore: string;
+    issueDate: string; // yyyy-MM-dd
+  };
+  file: File;
 }
 
 export interface GpaScore {

@@ -9,11 +9,27 @@ import {
   SubmitLanguageTestScoreRequest,
 } from "@/types/score";
 
-export const postGpaScoreApi = (request: SubmitGpaScoreRequest): Promise<AxiosResponse<null>> =>
-  axiosInstance.post("/scores/gpas", request, { headers: { "Content-Type": "multipart/form-data" } });
+export const postGpaScoreApi = (request: SubmitGpaScoreRequest): Promise<AxiosResponse<null>> => {
+  const convertedRequest: FormData = new FormData();
+  convertedRequest.append(
+    "gpaScoreRequest",
+    new Blob([JSON.stringify(request.gpaScoreRequest)], { type: "application/json" }),
+  );
+  convertedRequest.append("file", request.file);
+  return axiosInstance.post("/scores/gpas", convertedRequest, { headers: { "Content-Type": "multipart/form-data" } });
+};
 
-export const postLanguageTestScoreApi = (request: SubmitLanguageTestScoreRequest): Promise<AxiosResponse<null>> =>
-  axiosInstance.post("/scores/language-tests", request, { headers: { "Content-Type": "multipart/form-data" } });
+export const postLanguageTestScoreApi = (request: SubmitLanguageTestScoreRequest): Promise<AxiosResponse<null>> => {
+  const convertedRequest: FormData = new FormData();
+  convertedRequest.append(
+    "languageTestScoreRequest",
+    new Blob([JSON.stringify(request.languageTestScoreRequest)], { type: "application/json" }),
+  );
+  convertedRequest.append("file", request.file);
+  return axiosInstance.post("/scores/language-tests", convertedRequest, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+};
 
 export const getMyGpaScoreApi = (): Promise<AxiosResponse<MyGpaScoreResponse>> => axiosInstance.get("/scores/gpas");
 
