@@ -34,7 +34,8 @@ const LanguageStep = ({
                 name={score.languageTest.languageTestType}
                 score={score.languageTest.languageTestScore}
                 status={score.verifyStatus}
-                date={new Date(score.issueDate).toISOString()}
+                // date={new Date(score.issueDate).toISOString()}
+                date="2025-01-01"
                 isFocused={score.id === curLanguageTestScore}
               />
             </button>
