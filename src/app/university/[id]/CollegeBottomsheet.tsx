@@ -53,7 +53,9 @@ const CollegeBottomSheet = ({ collegeId, convertedKoreanName, reviewList, univer
   const toggleLike = () => {
     const postLike = async () => {
       try {
-        const res = isLiked ? await postUniversityFavoriteApi(collegeId) : await deleteUniversityFavoriteApi(collegeId);
+        const res = !isLiked
+          ? await postUniversityFavoriteApi(collegeId)
+          : await deleteUniversityFavoriteApi(collegeId);
         const { result } = res.data;
         if (result === "LIKE_SUCCESS") {
           setIsLiked(true);
