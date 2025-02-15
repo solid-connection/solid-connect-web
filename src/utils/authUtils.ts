@@ -7,3 +7,15 @@ export const isAuthenticated = () => {
   }
   return false;
 };
+
+export const authProviderName = (provider: "KAKAO" | "APPLE" | "EMAIL"): string => {
+  if (provider === "KAKAO") {
+    return "카카오";
+  } else if (provider === "APPLE") {
+    return "애플";
+  } else if (provider === "EMAIL") {
+    return "이메일";
+  } else {
+    return "";
+  }
+};
