@@ -2,7 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 
-import { getUniversityFavoriteStatusApi, postUniversityFavoriteApi } from "@/services/university";
+import {
+  deleteUniversityFavoriteApi,
+  getUniversityFavoriteStatusApi,
+  postUniversityFavoriteApi,
+} from "@/services/university";
 
 import ScrollTab from "@/components/ui/ScrollTab";
 import GoogleEmbedMap from "@/components/ui/map/GoogleEmbedMap";
@@ -49,7 +53,7 @@ const CollegeBottomSheet = ({ collegeId, convertedKoreanName, reviewList, univer
   const toggleLike = () => {
     const postLike = async () => {
       try {
-        const res = await postUniversityFavoriteApi(collegeId);
+        const res = isLiked ? await postUniversityFavoriteApi(collegeId) : await deleteUniversityFavoriteApi(collegeId);
         const { result } = res.data;
         if (result === "LIKE_SUCCESS") {
           setIsLiked(true);
