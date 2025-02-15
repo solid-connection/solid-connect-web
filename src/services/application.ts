@@ -14,19 +14,19 @@ import {
 // DEPRECATED
 export const postApplicationScoreApi = (
   applicationScoreRequest: ApplicationScoreRequest,
-): Promise<AxiosResponse<null>> => axiosInstance.post("/application/score", applicationScoreRequest);
+): Promise<AxiosResponse<null>> => axiosInstance.post("/applications/score", applicationScoreRequest);
 
 // DEPRECATED
 export const postApplicationUniversityApi = (
   applicationUniversityRequest: ApplicationUniversityRequest,
-): Promise<AxiosResponse<null>> => axiosInstance.post("/application/university", applicationUniversityRequest);
+): Promise<AxiosResponse<null>> => axiosInstance.post("/applications/university", applicationUniversityRequest);
 
 export const postApplicationApi = (
   request: SubmitApplicationRequest,
-): Promise<AxiosResponse<SubmitApplicationResponse>> => axiosInstance.post("/application", request);
+): Promise<AxiosResponse<SubmitApplicationResponse>> => axiosInstance.post("/applications", request);
 
 export const getApplicationListApi = (): Promise<AxiosResponse<ApplicationListResponse>> =>
-  axiosInstance.get("/application");
+  axiosInstance.get("/applications");
 
 export const getMyApplicationStatusApi = (): Promise<AxiosResponse<ApplicationStatusResponse>> =>
-  axiosInstance.get("/application/status");
+  axiosInstance.get("/applications/status");

@@ -57,6 +57,7 @@ export interface ListPost {
 
 export interface PostCreateRequest {
   postCreateRequest: {
+    boardCode: string;
     postCategory: string;
     title: string;
     content: string;
@@ -75,6 +76,7 @@ export interface PostUpdateRequest {
 }
 
 export interface CommentCreateRequest {
+  postId: number;
   content: string;
   parentId: number | null;
 }

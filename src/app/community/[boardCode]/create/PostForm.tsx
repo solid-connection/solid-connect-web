@@ -44,8 +44,9 @@ const PostForm = ({ boardCode }: PostFormProps) => {
 
   const submitPost = async () => {
     try {
-      const res = await createPostApi(boardCode, {
+      const res = await createPostApi({
         postCreateRequest: {
+          boardCode: boardCode,
           postCategory: isQuestion ? "질문" : "자유",
           title: titleRef.current?.querySelector("textarea")?.value || "",
           content,

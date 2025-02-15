@@ -41,13 +41,13 @@ const Post = ({ post, boardCode, postId }: PostProps) => {
       if (isLiked) {
         setLikeCount((prev) => prev - 1);
         setIsLiked(false);
-        const res = await unlikePostApi(boardCode, postId);
+        const res = await unlikePostApi(postId);
         setLikeCount(res.data.likeCount);
         setIsLiked(res.data.isLiked);
       } else {
         setLikeCount((prev) => prev + 1);
         setIsLiked(true);
-        const res = await likePostApi(boardCode, postId);
+        const res = await likePostApi(postId);
         setLikeCount(res.data.likeCount);
         setIsLiked(res.data.isLiked);
       }
