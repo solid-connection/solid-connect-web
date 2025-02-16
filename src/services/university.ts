@@ -33,4 +33,4 @@ export const deleteUniversityFavoriteApi = (
   axiosInstance.delete(`/universities/${universityInfoForApplyId}/like`);
 
 export const getRecommendedUniversitiesApi = (): Promise<AxiosResponse<RecommendedUniversitiesResponse>> =>
-  axiosInstance.get("/universities/recommends");
+  axiosInstance.get("/universities/recommend");
