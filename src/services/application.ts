@@ -28,5 +28,6 @@ export const postApplicationApi = (
 export const getApplicationListApi = (): Promise<AxiosResponse<ApplicationListResponse>> =>
   axiosInstance.get("/applications");
 
+// DEPRECATED
 export const getMyApplicationStatusApi = (): Promise<AxiosResponse<ApplicationStatusResponse>> =>
   axiosInstance.get("/applications/status");

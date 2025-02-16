@@ -1,0 +1,81 @@
+/* ScoreSheets */
+.container {
+  margin: 10px 22px 0 22px;
+  width: calc(100% - 44px);
+  overflow-x: auto;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ScoreSheet */
+.table {
+  border-collapse: collapse;
+}
+.table tr {
+  border: 1px solid #f0f0f0;
+
+  /* white-space: nowrap; */
+}
+
+.table button {
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.table thead {
+  background: #fafafa;
+}
+.table thead tr {
+  height: 40px;
+  padding: 0 12px 0 14px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.table th {
+  color: #000;
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.table tbody tr {
+  height: 40px;
+  padding: 0 12px 0 12px;
+
+  display: flex;
+  align-items: center;
+  /* justify-content: space-around; */
+  /* gap: 40px; */
+}
+.table td {
+  color: #4d4d4d;
+  font-family: Pretendard;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+
+  flex: 1;
+  min-width: 30px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.table td:nth-of-type(5) {
+  flex: 0 0 18px;
+}
+
+.table tbody > td:first-of-type {
+  color: #000;
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}

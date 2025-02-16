@@ -13,6 +13,14 @@ import { News } from "@/types/news";
 import { ListUniversity } from "@/types/university";
 
 import { IconApplicantBanner, IconScoreBanner, IconSearchBanner, IconSpeaker, IconTablerSearch } from "@/public/svgs";
+import {
+  IconGraduationCap,
+  IconIdCard,
+  IconMagnifyingGlass,
+  IconMuseum,
+  IconPaper,
+  IconRightArrow,
+} from "@/public/svgs/home";
 
 type HomeProps = {
   newsList: News[];
@@ -35,67 +43,82 @@ const Home = ({ newsList }: HomeProps) => {
   }, []);
 
   return (
-    <div className="pl-5 pt-6">
-      <CollegeSearch />
+    <div className="">
+      {/* <div className="pl-5">
+        <CollegeSearch />
+      </div> */}
 
-      <Link
-        href="/college"
-        className="mr-[20px] mt-[15px] flex justify-between gap-[23px] rounded-[8px] bg-[#f0f5ff] p-[20px] shadow-[0px_0px_4px_0px_rgba(0,0,0,0.1)]"
+      <div
+        className="flex h-[60px] cursor-pointer items-center justify-between border-b border-k-100 px-5 py-3"
+        onClick={() => alert("해당 기능은 현재 준비중입니다.")}
       >
-        <div className="flex flex-col gap-[4px]">
-          <div className="mt-[6px] font-serif text-[16px] font-bold leading-[150%] text-[#497fe2]">
-            아직 학교를 결정하지 못했다면?
-          </div>
-          <div className="font-serif text-[10px] font-normal leading-[150%] text-[#353535]">
-            나의 성적과 지역만 선택하고
-            <br />
-            모든 학교 목록을 확인해보세요!
-          </div>
-        </div>
         <div>
-          <IconSearchBanner />
+          <div className="flex items-center gap-4">
+            <IconGraduationCap />
+            <div className="flex flex-col">
+              <span className="text-xs font-normal leading-normal text-k-800">작년 합격 점수가 궁금하신가요?</span>
+              <span className="text-sm font-semibold leading-normal text-k-800">작년도 합격 점수 확인하러 가기</span>
+            </div>
+          </div>
         </div>
-      </Link>
-
-      <div className="mr-[20px] mt-[20px] flex gap-[15px]">
-        <Link
-          href="/score"
-          className="flex h-[100px] w-full flex-col justify-between rounded-[8px] bg-[#fff3e5] p-[10px_5px_5px_10px]"
-        >
-          <div>
-            <div className="font-serif text-[14px] font-bold leading-[150%] text-[#ff670a]">성적 입력하기</div>
-            <div className="mt-[2px] font-serif text-[10px] font-normal leading-[150%] text-[#353535]">
-              성적 입력하고 등수를 확인해보세요
-            </div>
-          </div>
-          <div className="flex justify-end">
-            <IconScoreBanner />
-          </div>
-        </Link>
-        <Link
-          href="/application/apply"
-          className="flex h-[100px] w-full flex-col justify-between rounded-[8px] bg-[#e9f7ec] p-[10px_5px_5px_10px]"
-        >
-          <div>
-            <div className="font-serif text-[14px] font-bold leading-[150%] text-[#339660]">지원자 현황 확인</div>
-            <div className="mt-[2px] font-serif text-[10px] font-normal leading-[150%] text-[#353535]">
-              경쟁률을 바로 분석해드려요
-            </div>
-          </div>
-          <div className="flex justify-end">
-            <IconApplicantBanner />
-          </div>
-        </Link>
+        <IconRightArrow />
       </div>
 
-      <div style={{ marginTop: "20px" }}>
-        <div className="mb-[10px] flex items-center gap-[6px] font-serif text-[16px] font-semibold text-[#44413d]">
-          추천하는 파견학교
+      <div className="flex flex-col gap-2.5 px-5 py-3.5">
+        <div className="flex gap-[7px]">
+          <Link className="flex h-[102px] flex-1 flex-col gap-2 rounded-lg bg-k-50 p-2.5" href="/university">
+            <div className="flex flex-col">
+              <span className="text-sm font-bold text-primary-900">학교 검색하기</span>
+              <span className="text-[11px] font-medium leading-[14px] text-primary-700">
+                모든 학교 목록을 확인해보세요
+              </span>
+            </div>
+            <div className="flex justify-end">
+              <IconMagnifyingGlass />
+            </div>
+          </Link>
+          <Link className="flex h-[102px] flex-1 flex-col gap-2 rounded-lg bg-k-50 p-2.5" href="/score">
+            <div className="flex flex-col">
+              <span className="text-sm font-bold text-primary-900">성적 입력하기</span>
+              <span className="text-[11px] font-medium leading-[14px] text-primary-700">성적을 입력해보세요</span>
+            </div>
+            <div className="flex justify-end">
+              <IconPaper />
+            </div>
+          </Link>
+        </div>
+        <div className="flex gap-[7px]">
+          <Link className="flex h-[102px] flex-1 flex-col gap-2 rounded-lg bg-k-50 p-2.5" href="/application/apply">
+            <div className="flex flex-col">
+              <span className="text-sm font-bold text-primary-900">학교 지원하기</span>
+              <span className="text-[11px] font-medium leading-[14px] text-primary-700">학교를 지원해주세요</span>
+            </div>
+            <div className="flex justify-end">
+              <IconMuseum />
+            </div>
+          </Link>
+          <Link className="flex h-[102px] flex-1 flex-col gap-2 rounded-lg bg-k-50 p-2.5" href="/application">
+            <div className="flex flex-col">
+              <span className="text-sm font-bold text-primary-900">지원자 현황 확인</span>
+              <span className="text-[11px] font-medium leading-[14px] text-primary-700">
+                경쟁률을 바로 분석해드려요
+              </span>
+            </div>
+            <div className="flex justify-end">
+              <IconIdCard />
+            </div>
+          </Link>
+        </div>
+      </div>
+
+      <div className="border-t-[5px] border-k-50 pl-5 pt-[15px]">
+        <div className="mb-2 flex items-center gap-[6px] font-serif text-[16px] font-semibold text-[#44413d]">
+          실시간 인기있는 파견학교
         </div>
         <HomeCollegeCards colleges={recommendedColleges} />
       </div>
 
-      <div style={{ marginTop: "24px" }}>
+      <div className="mt-6 pl-5">
         <div className="mb-[10px] flex items-center gap-[6px] font-serif text-[16px] font-semibold text-[#44413d]">
           솔커에서 맛보는 소식
           <IconSpeaker />
