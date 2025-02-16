@@ -13,7 +13,14 @@ import { News } from "@/types/news";
 import { ListUniversity } from "@/types/university";
 
 import { IconApplicantBanner, IconScoreBanner, IconSearchBanner, IconSpeaker, IconTablerSearch } from "@/public/svgs";
-import { IconIdCard, IconMagnifyingGlass, IconMuseum, IconPaper } from "@/public/svgs/home";
+import {
+  IconGraduationCap,
+  IconIdCard,
+  IconMagnifyingGlass,
+  IconMuseum,
+  IconPaper,
+  IconRightArrow,
+} from "@/public/svgs/home";
 
 type HomeProps = {
   newsList: News[];
@@ -40,6 +47,22 @@ const Home = ({ newsList }: HomeProps) => {
       {/* <div className="pl-5">
         <CollegeSearch />
       </div> */}
+
+      <div
+        className="flex h-[60px] cursor-pointer items-center justify-between border-b border-k-100 px-5 py-3"
+        onClick={() => alert("해당 기능은 현재 준비중입니다.")}
+      >
+        <div>
+          <div className="flex items-center gap-4">
+            <IconGraduationCap />
+            <div className="flex flex-col">
+              <span className="text-xs font-normal leading-normal text-k-800">작년 합격 점수가 궁금하신가요?</span>
+              <span className="text-sm font-semibold leading-normal text-k-800">작년도 합격 점수 확인하러 가기</span>
+            </div>
+          </div>
+        </div>
+        <IconRightArrow />
+      </div>
 
       <div className="flex flex-col gap-2.5 px-5 py-3.5">
         <div className="flex gap-[7px]">
