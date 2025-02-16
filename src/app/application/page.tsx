@@ -3,12 +3,10 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
-import { getApplicationListApi, getMyApplicationStatusApi } from "@/services/application";
+import { getApplicationListApi } from "@/services/application";
 
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import CloudSpinnerPage from "@/components/loading/CloudSpinnerPage";
-import CertFinalScreen from "@/components/score/register/cert-final-screen";
-import CollegeFinalScreen from "@/components/score/register/college-final-screen";
 import ButtonTab from "@/components/ui/ButtonTab";
 import Tab from "@/components/ui/tab";
 
@@ -25,7 +23,6 @@ const PREFERENCE_CHOICE: string[] = ["1순위", "2순위", "3순위"];
 const ScorePage = () => {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(true);
-  const [status, setStatus] = useState<string>("");
   // 검색
   const [searchActive, setSearchActive] = useState<boolean>(false); // 검색 창 활성화 여부
   const searchRef = useRef<HTMLInputElement>(null);
@@ -46,12 +43,6 @@ const ScorePage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // const statusResponse = await getMyApplicationStatusApi();
-
-        // const statusData = statusResponse.data;
-        // setStatus(statusData.status);
-        setStatus("SUBMITTED_APPROVED");
-
         if (true) {
           const scoreResponse = await getApplicationListApi();
 
@@ -64,8 +55,10 @@ const ScorePage = () => {
         }
       } catch (err) {
         if (err.response) {
-          console.error("Axios response error", err.response);
-          if (err.response.status === 401 || err.response.status === 403) {
+          if (err.response.status === 404) {
+            alert("점수 공유 현황을 보려면 지원 절차를 진행해주세요.");
+            router.push("/application/apply");
+          } else if (err.response.status === 401 || err.response.status === 403) {
             alert("로그인이 필요합니다");
             document.location.href = "/login";
           } else {
@@ -73,7 +66,6 @@ const ScorePage = () => {
           }
         } else {
           console.error("Error", err.message);
-          alert(err.message);
         }
       } finally {
         setLoading(false);
@@ -124,34 +116,6 @@ const ScorePage = () => {
 
   if (loading) {
     return <CloudSpinnerPage />;
-  }
-
-  if (status === "NO_AUTHORIZATION") {
-    return <div>점수 공유 현황을 보려면 로그인이 필요합니다.</div>;
-  }
-  if (status === "NOT_SUBMITTED") {
-    router.push("/score/register");
-    return <div>점수 공유 현황을 보려면 점수를 제출해주세요.</div>;
-  }
-  if (status === "COLLEGE_SUBMITTED") {
-    return <div>점수 공유 현황을 보려면 점수를 인증해야 합니다.</div>;
-  }
-  if (status === "SCORE_SUBMITTED") {
-    return (
-      <div style={{ height: "calc(100vh - 112px)", display: "flex", flexDirection: "column" }}>
-        <CertFinalScreen />
-      </div>
-    );
-  }
-  if (status === "SUBMITTED_PENDING") {
-    return (
-      <div style={{ height: "calc(100vh - 112px)", display: "flex", flexDirection: "column" }}>
-        <CollegeFinalScreen />
-      </div>
-    );
-  }
-  if (status === "SUBMITTED_REJECTED") {
-    return <div>점수 인증이 거절되었습니다. 점수 공유 현황을 확인을 위해 다시 제출해 주세요.</div>;
   }
 
   const getScoreSheet = () => {
