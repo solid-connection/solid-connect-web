@@ -17,16 +17,17 @@ type CommentsProps = {
   postId: number;
   refresh: () => void;
   setCurSelectedComment: React.Dispatch<React.SetStateAction<number | null>>;
+  onSuccess: () => void;
 };
 
-const Comments = ({ comments, postId, refresh, setCurSelectedComment }: CommentsProps) => {
+const Comments = ({ comments, postId, refresh, setCurSelectedComment, onSuccess }: CommentsProps) => {
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
 
   const toggleDeleteComment = (commentId: number) => {
     if (!window.confirm("정말 삭제하시겠습니까?")) return;
     deleteCommentApi(postId, commentId)
       .then(() => {
-        refresh();
+        onSuccess();
       })
       .catch((err) => {
         if (err.response) {

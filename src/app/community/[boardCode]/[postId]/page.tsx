@@ -23,30 +23,31 @@ const PostPage = ({ params }: { params: { boardCode: string; postId: string } })
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [curSelectedComment, setCurSelectedComment] = useState<number | null>(null);
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      await getPostDetailApi(postId)
-        .then((res) => {
-          setPost(res.data);
-        })
-        .catch((err) => {
-          if (err.response) {
-            console.error("Axios response error", err.response);
-            if (err.response.status === 401 || err.response.status === 403) {
-              alert("로그인이 필요합니다");
-              document.location.href = "/login";
-            } else {
-              alert(err.response.data?.message);
-            }
+  const fetchPosts = async () => {
+    await getPostDetailApi(postId)
+      .then((res) => {
+        setPost(res.data);
+      })
+      .catch((err) => {
+        if (err.response) {
+          console.error("Axios response error", err.response);
+          if (err.response.status === 401 || err.response.status === 403) {
+            alert("로그인이 필요합니다");
+            document.location.href = "/login";
           } else {
-            console.error("Error", err.message);
-            alert(err.message);
+            alert(err.response.data?.message);
           }
-        });
-      setIsLoading(false);
-    };
+        } else {
+          console.error("Error", err.message);
+          alert(err.message);
+        }
+      });
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
     fetchPosts();
-  }, [boardCode, postId]);
+  }, [postId]);
 
   if (isLoading || post === null) {
     return <CloudSpinnerPage />;
@@ -71,14 +72,13 @@ const PostPage = ({ params }: { params: { boardCode: string; postId: string } })
             router.refresh();
           }}
           setCurSelectedComment={setCurSelectedComment}
+          onSuccess={fetchPosts}
         />
         <CommentWrite
           postId={postId}
-          refresh={() => {
-            router.refresh();
-          }}
           curSelectedComment={curSelectedComment}
           setCurSelectedComment={setCurSelectedComment}
+          onSuccess={fetchPosts}
         />
       </div>
     </>
