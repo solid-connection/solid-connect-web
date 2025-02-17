@@ -60,7 +60,7 @@ type HomeCollegeCardProps = {
 };
 
 const HomeCollegeCard = ({ id, imageUrl, name }: HomeCollegeCardProps) => (
-  <Link href={`/college/${id}`}>
+  <Link href={`/university/${id}`}>
     <div className={styles.card}>
       <div className={styles["image-wrapper"]}>
         <Image
