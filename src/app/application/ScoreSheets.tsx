@@ -51,7 +51,7 @@ const ScoreSheet = ({ scoreSheet }: { scoreSheet: ScoreSheetType }) => {
               <td>{applicant.testScore}</td>
               <td>
                 {applicant.isMine && (
-                  <Link href="/score/college-register">
+                  <Link href="/application/apply">
                     <IconEditFilled />
                   </Link>
                 )}
