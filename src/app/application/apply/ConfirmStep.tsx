@@ -43,7 +43,7 @@ const ConfirmStep = ({ languageTestScore, gpaScore, universityList, onNext }: Co
               <div className="font-serif text-[11px] font-semibold leading-normal text-k-700">인하대학교</div>
               <div className="text-right">
                 <div className="font-serif text-[15px] font-semibold leading-normal text-primary">
-                  {gpaScore?.gpa.gpa.toFixed(1)}/{gpaScore?.gpa.gpaCriteria}
+                  {gpaScore?.gpa.gpa.toFixed(2)}/{gpaScore?.gpa.gpaCriteria}
                 </div>
                 <div className="font-serif text-[10px] font-normal leading-normal text-k-300">~4학년 1학기</div>
               </div>

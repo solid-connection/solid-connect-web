@@ -38,7 +38,6 @@
 }
 .table th {
   color: #000;
-  font-family: Pretendard;
   font-size: 16px;
   font-style: normal;
   font-weight: 600;
@@ -56,7 +55,6 @@
 }
 .table td {
   color: #4d4d4d;
-  font-family: Pretendard;
   font-size: 13px;
   font-style: normal;
   font-weight: 500;
@@ -73,7 +71,6 @@
 
 .table tbody > td:first-of-type {
   color: #000;
-  font-family: Pretendard;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
