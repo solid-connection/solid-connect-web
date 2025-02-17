@@ -13,7 +13,7 @@ export const updateMyInfoApi = (data: MyInfoSimple): Promise<AxiosResponse<MyInf
   axiosInstance.patch("/my/update", data);
 
 export const getMyWishUniversityApi = (): Promise<AxiosResponse<ListUniversity[]>> =>
-  axiosInstance.get("/university/like");
+  axiosInstance.get("/universities/like");
 
 export const updateMyNicknameApi = (nickname: string): Promise<AxiosResponse<MyNickname>> =>
   // DEPRECATED: Use updateMyInfoApi instead
