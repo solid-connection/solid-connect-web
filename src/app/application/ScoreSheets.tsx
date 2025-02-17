@@ -50,11 +50,11 @@ const ScoreSheet = ({ scoreSheet }: { scoreSheet: ScoreSheetType }) => {
               <td>{LANGUAGE_TEST[applicant.testType].toUpperCase()}</td>
               <td>{applicant.testScore}</td>
               <td>
-                {applicant.isMine && (
-                  <Link href="/score/college-register">
+                {/* {applicant.isMine && (
+                  <Link href="/application/apply">
                     <IconEditFilled />
                   </Link>
-                )}
+                )} */}
               </td>
             </tr>
           ))}
