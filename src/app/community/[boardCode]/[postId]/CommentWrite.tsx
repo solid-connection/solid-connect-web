@@ -1,3 +1,6 @@
+"use client";
+
+import { useRouter } from "next/navigation";
 import { useRef } from "react";
 
 import { createCommentApi } from "@/services/community";
@@ -8,12 +11,13 @@ import { IconCloseFilled, IconFlight } from "@/public/svgs";
 
 type CommentWriteProps = {
   postId: number;
-  refresh: () => void;
   curSelectedComment: number | null;
   setCurSelectedComment: React.Dispatch<React.SetStateAction<number | null>>;
+  onSuccess: () => void;
 };
 
-const CommentWrite = ({ postId, refresh, curSelectedComment, setCurSelectedComment }: CommentWriteProps) => {
+const CommentWrite = ({ postId, curSelectedComment, setCurSelectedComment, onSuccess }: CommentWriteProps) => {
+  const router = useRouter();
   const contentRef = useRef<HTMLInputElement>(null);
 
   const submitComment = async () => {
@@ -23,7 +27,8 @@ const CommentWrite = ({ postId, refresh, curSelectedComment, setCurSelectedComme
         content: contentRef.current?.value || "",
         parentId: curSelectedComment,
       });
-      refresh();
+      // router.refresh();
+      onSuccess();
     } catch (err) {
       if (err.response) {
         console.error("Axios response error", err.response);
