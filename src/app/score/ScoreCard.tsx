@@ -8,6 +8,7 @@ type ScoreCardProps = {
   status: ScoreSubmitStatus;
   date: string; // Date ISO string
   isFocused?: boolean;
+  rejectedReason?: string | null;
 };
 
 const formatDate = (date: string) => {
@@ -19,7 +20,7 @@ const formatDate = (date: string) => {
   return `${year}.${month}.${day}`;
 };
 
-const getStatus = (status: ScoreSubmitStatus) => {
+const getStatus = (status: ScoreSubmitStatus, rejectedReason?: string | null) => {
   switch (status) {
     case "PENDING":
       return (
@@ -32,7 +33,10 @@ const getStatus = (status: ScoreSubmitStatus) => {
       );
     case "REJECTED":
       return (
-        <div className="flex h-5 cursor-pointer items-center gap-0.5 rounded-[20px] bg-[#FFD9D9] p-2.5">
+        <div
+          className="flex h-5 cursor-pointer items-center gap-0.5 rounded-[20px] bg-[#FFD9D9] p-2.5"
+          onClick={() => alert(rejectedReason)}
+        >
           <span className="font-serif text-[10px] font-bold leading-normal text-[#E22A2D]">승인 거절</span>
           <div className="flex h-3 w-[11px] items-center justify-center rounded-[10px] bg-white font-serif text-[9px] font-medium leading-normal text-[#E22A2D]">
             ?
@@ -48,11 +52,11 @@ const getStatus = (status: ScoreSubmitStatus) => {
   }
 };
 
-const ScoreCard = ({ name, score, status, date, isFocused = false }: ScoreCardProps) => {
+const ScoreCard = ({ name, score, status, date, isFocused = false, rejectedReason = null }: ScoreCardProps) => {
   return (
     <div className="flex h-[66px] flex-col rounded-lg bg-k-50 px-5 py-3">
       <div className="flex">
-        <div>{getStatus(status)}</div>
+        <div>{getStatus(status, rejectedReason)}</div>
         <div
           className={clsx("ml-3 font-serif text-sm font-semibold leading-normal", {
             "text-k-900": isFocused,
