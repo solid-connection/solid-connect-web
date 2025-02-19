@@ -12,6 +12,8 @@ import { validateLanguageScore } from "@/utils/scoreUtils";
 import BlockBtn from "@/components/button/BlockBtn";
 import RoundBtn from "@/components/button/RoundBtn";
 
+import { LanguageTestEnum } from "@/types/score";
+
 const LanguageTestSubmitForm = () => {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -97,12 +99,17 @@ const LanguageTestSubmitForm = () => {
               onChange={(e) => setTestType(e.target.value)}
             >
               <option></option>
-              <option>TOEIC</option>
-              <option>TOEFL IBT</option>
-              <option>TOEFL ITP</option>
-              <option>IELTS</option>
-              <option>JLPT</option>
-              <option>기타</option>
+              <option value={LanguageTestEnum.TOEIC}>TOEIC</option>
+              <option value={LanguageTestEnum.TOEFL_IBT}>TOEFL IBT</option>
+              <option value={LanguageTestEnum.TOEFL_ITP}>TOEFL ITP</option>
+              <option value={LanguageTestEnum.IELTS}>IELTS</option>
+              <option value={LanguageTestEnum.JLPT}>JLPT</option>
+              <option value={LanguageTestEnum.NEW_HSK}>NEW HSK</option>
+              <option value={LanguageTestEnum.DALF}>DALF</option>
+              <option value={LanguageTestEnum.CEFR}>CEFR</option>
+              <option value={LanguageTestEnum.TCF}>TCF</option>
+              <option value={LanguageTestEnum.TEF}>TEF</option>
+              <option value={LanguageTestEnum.DUOLINGO}>DUOLINGO</option>
             </select>
           </div>
           <div className="flex flex-col gap-1">
