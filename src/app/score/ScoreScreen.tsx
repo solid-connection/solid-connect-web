@@ -77,6 +77,7 @@ const ScoreScreen = () => {
                 // date={new Date(score.issueDate).toISOString()}
                 date="2025-01-01"
                 isFocused={score.verifyStatus === "APPROVED"}
+                rejectedReason={score.rejectedReason}
               />
             ))}
 
@@ -90,6 +91,7 @@ const ScoreScreen = () => {
                 // date={new Date(score.issueDate).toISOString()}
                 date="2025-01-01"
                 isFocused={score.verifyStatus === "APPROVED"}
+                rejectedReason={score.rejectedReason}
               />
             ))}
         </div>
