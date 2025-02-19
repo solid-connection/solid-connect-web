@@ -1,3 +1,18 @@
+export enum LanguageTestEnum {
+  TOEIC = "TOEIC",
+  TOEFL_IBT = "TOEFL_IBT",
+  TOEFL_ITP = "TOEFL_ITP",
+  IELTS = "IELTS",
+  JLPT = "JLPT",
+  NEW_HSK = "NEW_HSK",
+
+  DALF = "DALF",
+  CEFR = "CEFR",
+  TCF = "TCF",
+  TEF = "TEF",
+  DUOLINGO = "DUOLINGO",
+}
+
 export interface SubmitGpaScoreRequest {
   gpaScoreRequest: {
     gpa: number;
@@ -9,7 +24,7 @@ export interface SubmitGpaScoreRequest {
 
 export interface SubmitLanguageTestScoreRequest {
   languageTestScoreRequest: {
-    languageTestType: string;
+    languageTestType: LanguageTestEnum;
     languageTestScore: string;
     issueDate: string; // yyyy-MM-dd
   };
