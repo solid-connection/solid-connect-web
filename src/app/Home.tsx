@@ -66,21 +66,19 @@ const Home = ({ newsList }: HomeProps) => {
 
       <div className="flex flex-col gap-2.5 px-5 py-3.5">
         <div className="flex gap-[7px]">
-          <Link className="flex h-[102px] flex-1 flex-col gap-2 rounded-lg bg-k-50 p-2.5" href="/university">
+          <Link className="flex h-[102px] flex-1 flex-col gap-2 rounded-lg bg-[#F0F5FF] p-2.5" href="/university">
             <div className="flex flex-col">
               <span className="text-sm font-bold text-primary-900">학교 검색하기</span>
-              <span className="text-[11px] font-medium leading-[14px] text-primary-700">
-                모든 학교 목록을 확인해보세요
-              </span>
+              <span className="text-[11px] font-medium leading-[14px] text-k-700">모든 학교 목록을 확인해보세요</span>
             </div>
             <div className="flex justify-end">
               <IconMagnifyingGlass />
             </div>
           </Link>
-          <Link className="flex h-[102px] flex-1 flex-col gap-2 rounded-lg bg-k-50 p-2.5" href="/score">
+          <Link className="flex h-[102px] flex-1 flex-col gap-2 rounded-lg bg-[#E5F9FF] p-2.5" href="/score">
             <div className="flex flex-col">
               <span className="text-sm font-bold text-primary-900">성적 입력하기</span>
-              <span className="text-[11px] font-medium leading-[14px] text-primary-700">성적을 입력해보세요</span>
+              <span className="text-[11px] font-medium leading-[14px] text-k-700">성적을 입력해보세요</span>
             </div>
             <div className="flex justify-end">
               <IconPaper />
@@ -88,21 +86,22 @@ const Home = ({ newsList }: HomeProps) => {
           </Link>
         </div>
         <div className="flex gap-[7px]">
-          <Link className="flex h-[102px] flex-1 flex-col gap-2 rounded-lg bg-k-50 p-2.5" href="/application/apply">
+          <Link
+            className="flex h-[102px] flex-1 flex-col gap-2 rounded-lg bg-[#FFF3E5] p-2.5"
+            href="/application/apply"
+          >
             <div className="flex flex-col">
               <span className="text-sm font-bold text-primary-900">학교 지원하기</span>
-              <span className="text-[11px] font-medium leading-[14px] text-primary-700">학교를 지원해주세요</span>
+              <span className="text-[11px] font-medium leading-[14px] text-k-700">학교를 지원해주세요</span>
             </div>
             <div className="flex justify-end">
               <IconMuseum />
             </div>
           </Link>
-          <Link className="flex h-[102px] flex-1 flex-col gap-2 rounded-lg bg-k-50 p-2.5" href="/application">
+          <Link className="flex h-[102px] flex-1 flex-col gap-2 rounded-lg bg-[#E9F7EC] p-2.5" href="/application">
             <div className="flex flex-col">
               <span className="text-sm font-bold text-primary-900">지원자 현황 확인</span>
-              <span className="text-[11px] font-medium leading-[14px] text-primary-700">
-                경쟁률을 바로 분석해드려요
-              </span>
+              <span className="text-[11px] font-medium leading-[14px] text-k-700">경쟁률을 바로 분석해드려요</span>
             </div>
             <div className="flex justify-end">
               <IconIdCard />
