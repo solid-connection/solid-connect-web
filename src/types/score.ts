@@ -5,6 +5,7 @@ export enum LanguageTestEnum {
   IELTS = "IELTS",
   JLPT = "JLPT",
   NEW_HSK = "NEW_HSK",
+  ETC = "ETC",
 
   DALF = "DALF",
   CEFR = "CEFR",
