@@ -40,7 +40,11 @@ const GpaStep = ({ gpaScoreList, curGpaScore, setCurGpaScore, onNext }: GpaStepP
         <div className="mb-[37px] px-5">
           <BlockBtn
             onClick={() => {
-              if (curGpaScore) onNext();
+              if (!curGpaScore) {
+                alert("학점을 선택해주세요. 심사가 완료된 학점만 선택 가능합니다.");
+                return;
+              }
+              onNext();
             }}
           >
             다음
