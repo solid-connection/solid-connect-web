@@ -46,7 +46,11 @@ const LanguageStep = ({
         <div className="mb-[37px] px-5">
           <BlockBtn
             onClick={() => {
-              if (curLanguageTestScore) onNext();
+              if (!curLanguageTestScore) {
+                alert("공인어학을 선택해주세요. 심사가 완료된 공인어학만 선택 가능합니다.");
+                return;
+              }
+              onNext();
             }}
           >
             다음
