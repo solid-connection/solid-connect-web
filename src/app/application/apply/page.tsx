@@ -2,8 +2,6 @@
 
 import { useEffect, useState } from "react";
 
-import { AxiosError } from "axios";
-
 import { postApplicationApi } from "@/services/application";
 import { getMyGpaScoreApi, getMyLanguageTestScoreApi } from "@/services/score";
 import { getUniversityListPublicApi } from "@/services/university";
@@ -112,7 +110,13 @@ const ApplyPage = () => {
           languageTestScoreList={languageTestScoreList}
           curLanguageTestScore={curLanguageTestScore}
           setCurLanguageTestScore={setCurLanguageTestScore}
-          onNext={goNextStep}
+          onNext={() => {
+            if (!curLanguageTestScore) {
+              alert("공인어학을 선택해주세요. 심사가 완료된 공인어학만 선택 가능합니다.");
+              return;
+            }
+            goNextStep();
+          }}
         />
       )}
       {step === 2 && (
@@ -120,7 +124,13 @@ const ApplyPage = () => {
           gpaScoreList={gpaScoreList}
           curGpaScore={curGpaScore}
           setCurGpaScore={setCurGpaScore}
-          onNext={goNextStep}
+          onNext={() => {
+            if (!curGpaScore) {
+              alert("학점을 선택해주세요. 심사가 완료된 학점만 선택 가능합니다.");
+              return;
+            }
+            goNextStep();
+          }}
         />
       )}
       {step === 3 && (
