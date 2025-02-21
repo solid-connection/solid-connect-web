@@ -12,6 +12,7 @@ on:
 jobs:
   generate_tag:
     runs-on: ubuntu-latest
+    permissions: write-all
     outputs:
       version: ${{ steps.compute_version.outputs.version }}
     steps:
@@ -52,8 +53,8 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_ENV
           echo "::set-output name=version::$VERSION"
 
-      - name: Push Git Tag
-        uses: actions/github-script@v5
+      - name: Create Tag
+        uses: actions/github-script@v6
         with:
           script: |
             github.rest.git.createRef({
