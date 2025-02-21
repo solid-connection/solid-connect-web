@@ -53,6 +53,9 @@ jobs:
           echo "::set-output name=version::$VERSION"
 
       - name: Create Tag
-        uses: rickstaa/action-create-tag@v1.7.2
-        with:
-          tag: ${{ env.version }}
+        run: |
+          TAG="v${{ steps.compute_version.outputs.version }}"
+          echo "Creating tag: $TAG"
+
+          git tag $TAG
+          git push origin $TAG
