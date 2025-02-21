@@ -11,11 +11,12 @@ on:
   push:
     branches:
       - main
-      - chore/tag-cd
+
+  workflow_dispatch:
 
 jobs:
   generate_tag:
-    uses: ./.github/workflows/headver-tagging.yml # 태깅 워크플로우 실행
+    uses: ./.github/workflows/headver-tagging.yml
     with: {}
 
   Deploy-Preview:

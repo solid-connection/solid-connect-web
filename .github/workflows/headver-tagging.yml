@@ -9,8 +9,6 @@ on:
         description: "Generated HeadVer version"
         value: ${{ jobs.generate_tag.outputs.version }}
 
-  workflow_dispatch: # 수동 실행 가능하도록 추가
-
 jobs:
   generate_tag:
     runs-on: ubuntu-latest
