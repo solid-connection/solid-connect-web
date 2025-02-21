@@ -1,0 +1,63 @@
+name: Generate HeadVer Tag
+permissions:
+  contents: write
+
+on:
+  workflow_call:
+    outputs:
+      version:
+        description: "Generated HeadVer version"
+        value: ${{ jobs.generate_tag.outputs.version }}
+
+jobs:
+  generate_tag:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.compute_version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Compute HeadVer Tag
+        id: compute_version
+        run: |
+          # headver.json에서 head 버전 가져오기
+          if [ ! -f headver.json ]; then
+            echo "headver.json 파일이 없습니다. 기본 head=0을 사용합니다."
+            HEAD=0
+          else
+            HEAD=$(jq -r '.head' headver.json)
+          fi
+          echo "Head number: $HEAD"
+
+          # 현재 연도와 주차(yyww) 가져오기
+          YYWW=$(date +"%y%V")
+          echo "YearWeek: $YYWW"
+
+          # 최신 태그 검색
+          LAST_BUILD=$(git tag --list "v*.*.*" | awk -F. '{print $3}' | sort -n | tail -n 1)
+
+          if [ -z "$LAST_BUILD" ]; then
+            BUILD=1
+          else
+            BUILD=$((LAST_BUILD + 1))
+          fi
+
+          echo "Build number: $BUILD"
+
+          # 최종 태그 생성
+          VERSION="${HEAD}.${YYWW}.${BUILD}"
+          echo "Computed version: $VERSION"
+
+          # GitHub Actions 환경 변수로 설정
+          echo "version=$VERSION" >> $GITHUB_ENV
+          echo "::set-output name=version::$VERSION"
+
+      - name: Create Tag
+        run: |
+          TAG="v${{ steps.compute_version.outputs.version }}"
+          echo "Creating tag: $TAG"
+
+          git tag $TAG
+          git push origin $TAG
