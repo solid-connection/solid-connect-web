@@ -6,18 +6,17 @@ import { useEffect, useState } from "react";
 import { getMyGpaScoreApi, getMyLanguageTestScoreApi } from "@/services/score";
 
 import BlockBtn from "@/components/button/BlockBtn";
-import Tab from "@/components/ui/Tab";
+import Tab from "@/components/ui/tab";
 
 import ScoreCard from "./ScoreCard";
 
-import { GpaScore, LanguageTestScore } from "@/types/score";
+import { GpaScore, LanguageTestScore, languageTestMapping } from "@/types/score";
 
 const ScoreScreen = () => {
   const router = useRouter();
   const [curTab, setCurTab] = useState<"공인어학" | "학점">("공인어학");
   const [gpaScoreList, setGpaScoreList] = useState<GpaScore[]>([]);
   const [languageTestScoreList, setLanguageTestScoreList] = useState<LanguageTestScore[]>([]);
-  const [curUniversityList, setCurUniversityList] = useState<number[]>([]);
 
   useEffect(() => {
     const fetchGpaScoreList = async () => {
@@ -71,7 +70,7 @@ const ScoreScreen = () => {
             languageTestScoreList.map((score) => (
               <ScoreCard
                 key={score.id}
-                name={score.languageTest.languageTestType}
+                name={languageTestMapping[score.languageTest.languageTestType]}
                 score={score.languageTest.languageTestScore}
                 status={score.verifyStatus}
                 // date={new Date(score.issueDate).toISOString()}

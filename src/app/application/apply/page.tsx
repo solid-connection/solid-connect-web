@@ -43,7 +43,21 @@ const ApplyPage = () => {
             (score: LanguageTestScore) => score.verifyStatus === "APPROVED",
           ),
         );
-        setUniversityList(universityRes.data);
+
+        // 대학명을 지역/나라, 대학명 가나다 순으로 정렬합니다
+        const sortedUniversityList = [...universityRes.data].sort((a, b) => {
+          // 1) region 비교
+          const regionCompare = a.region.localeCompare(b.region);
+          if (regionCompare !== 0) return regionCompare;
+
+          // 2) country 비교
+          const countryCompare = a.country.localeCompare(b.country);
+          if (countryCompare !== 0) return countryCompare;
+
+          // 3) 같은 region, country라면 대학명을 비교(가나다 순)
+          return a.koreanName.localeCompare(b.koreanName);
+        });
+        setUniversityList(sortedUniversityList);
       } catch (err) {
         if (err.response) {
           console.error("Axios response error", err.response);
