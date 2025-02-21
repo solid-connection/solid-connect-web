@@ -29,6 +29,8 @@ const ApplyPage = () => {
   const [curGpaScore, setCurGpaScore] = useState<number | null>(null);
   const [curUniversityList, setCurUniversityList] = useState<number[]>([]);
 
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
   useEffect(() => {
     const fetchAll = async () => {
       try {
@@ -97,6 +99,7 @@ const ApplyPage = () => {
       return;
     }
 
+    setIsSubmitting(true); // TODO: 현재 임시 submit 처리, 이후에 통합 처리 추가
     try {
       await postApplicationApi({
         gpaScoreId: curGpaScore,
@@ -110,6 +113,8 @@ const ApplyPage = () => {
       setStep(99);
     } catch (err) {
       alert(err.response.data.message);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
