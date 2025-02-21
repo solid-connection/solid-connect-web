@@ -12,7 +12,6 @@ on:
 jobs:
   generate_tag:
     runs-on: ubuntu-latest
-    permissions: write-all
     outputs:
       version: ${{ steps.compute_version.outputs.version }}
     steps:
