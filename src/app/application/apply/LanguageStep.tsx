@@ -1,7 +1,7 @@
 import BlockBtn from "@/components/button/BlockBtn";
 import Tab from "@/components/ui/Tab";
 
-import { LanguageTestScore } from "@/types/score";
+import { LanguageTestScore, languageTestMapping } from "@/types/score";
 
 import ScoreCard from "@/app/score/ScoreCard";
 
@@ -31,7 +31,7 @@ const LanguageStep = ({
             >
               <ScoreCard
                 key={score.id}
-                name={score.languageTest.languageTestType}
+                name={languageTestMapping[score.languageTest.languageTestType]}
                 score={score.languageTest.languageTestScore}
                 status={score.verifyStatus}
                 // date={new Date(score.issueDate).toISOString()}
