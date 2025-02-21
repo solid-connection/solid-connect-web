@@ -1,4 +1,6 @@
 name: Build and Vercel Preview Deployment on Main
+permissions:
+  contents: write
 
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
