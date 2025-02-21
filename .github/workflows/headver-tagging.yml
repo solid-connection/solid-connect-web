@@ -54,12 +54,6 @@ jobs:
           echo "::set-output name=version::$VERSION"
 
       - name: Create Tag
-        uses: actions/github-script@v6
+        uses: rickstaa/action-create-tag@v1.7.2
         with:
-          script: |
-            github.rest.git.createRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: 'refs/tags/${{ env.version }}',
-              sha: context.sha
-            })
+          tag: ${{ env.version }}
