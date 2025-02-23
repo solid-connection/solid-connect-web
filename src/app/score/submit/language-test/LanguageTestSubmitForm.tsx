@@ -110,6 +110,7 @@ const LanguageTestSubmitForm = () => {
               <option value={LanguageTestEnum.TCF}>TCF</option>
               <option value={LanguageTestEnum.TEF}>TEF</option>
               <option value={LanguageTestEnum.DUOLINGO}>DUOLINGO</option>
+              <option value={LanguageTestEnum.ETC}>기타</option>
             </select>
           </div>
           <div className="flex flex-col gap-1">

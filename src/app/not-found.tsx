@@ -1,13 +1,11 @@
-import Link from "next/link";
+import NotFound from "@/components/loading/NotFound";
 
-const NotFound = () => {
+const NotFoundPage = () => {
   return (
     <div>
-      <h2>Not Found</h2>
-      <p>Could not find requested resource</p>
-      <Link href="/">Return Home</Link>
+      <NotFound text="존재하지 않는 페이지입니다" />
     </div>
   );
 };
 
-export default NotFound;
+export default NotFoundPage;

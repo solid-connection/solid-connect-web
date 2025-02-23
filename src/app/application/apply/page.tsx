@@ -2,8 +2,6 @@
 
 import { useEffect, useState } from "react";
 
-import { AxiosError } from "axios";
-
 import { postApplicationApi } from "@/services/application";
 import { getMyGpaScoreApi, getMyLanguageTestScoreApi } from "@/services/score";
 import { getUniversityListPublicApi } from "@/services/university";
@@ -31,6 +29,8 @@ const ApplyPage = () => {
   const [curGpaScore, setCurGpaScore] = useState<number | null>(null);
   const [curUniversityList, setCurUniversityList] = useState<number[]>([]);
 
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
   useEffect(() => {
     const fetchAll = async () => {
       try {
@@ -45,7 +45,21 @@ const ApplyPage = () => {
             (score: LanguageTestScore) => score.verifyStatus === "APPROVED",
           ),
         );
-        setUniversityList(universityRes.data);
+
+        // 대학명을 지역/나라, 대학명 가나다 순으로 정렬합니다
+        const sortedUniversityList = [...universityRes.data].sort((a, b) => {
+          // 1) region 비교
+          const regionCompare = a.region.localeCompare(b.region);
+          if (regionCompare !== 0) return regionCompare;
+
+          // 2) country 비교
+          const countryCompare = a.country.localeCompare(b.country);
+          if (countryCompare !== 0) return countryCompare;
+
+          // 3) 같은 region, country라면 대학명을 비교(가나다 순)
+          return a.koreanName.localeCompare(b.koreanName);
+        });
+        setUniversityList(sortedUniversityList);
       } catch (err) {
         if (err.response) {
           console.error("Axios response error", err.response);
@@ -85,6 +99,7 @@ const ApplyPage = () => {
       return;
     }
 
+    setIsSubmitting(true); // TODO: 현재 임시 submit 처리, 이후에 통합 처리 추가
     try {
       await postApplicationApi({
         gpaScoreId: curGpaScore,
@@ -98,6 +113,8 @@ const ApplyPage = () => {
       setStep(99);
     } catch (err) {
       alert(err.response.data.message);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 

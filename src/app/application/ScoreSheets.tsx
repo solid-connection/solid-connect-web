@@ -1,13 +1,14 @@
-import Link from "next/link";
 import { useState } from "react";
 
 import styles from "./score-sheets.module.css";
 
 import { LANGUAGE_TEST } from "@/constants/application";
 import { ScoreSheet as ScoreSheetType } from "@/types/application";
+import { languageTestMapping } from "@/types/score";
 
 import { IconExpandMoreFilled } from "@/public/svgs/community";
-import { IconEditFilled } from "@/public/svgs/score";
+
+// import { IconEditFilled } from "@/public/svgs/score";
 
 const ScoreSheets = ({ scoreSheets }: { scoreSheets: ScoreSheetType[] }) => (
   <div className={styles.container}>
@@ -47,7 +48,7 @@ const ScoreSheet = ({ scoreSheet }: { scoreSheet: ScoreSheetType }) => {
             <tr key={applicant.nicknameForApply}>
               <td>{applicant.nicknameForApply}</td>
               <td>{applicant.gpa.toFixed(2)}</td>
-              <td>{LANGUAGE_TEST[applicant.testType].toUpperCase()}</td>
+              <td>{languageTestMapping[applicant.testType]}</td>
               <td>{applicant.testScore}</td>
               <td>
                 {/* {applicant.isMine && (

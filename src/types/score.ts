@@ -5,6 +5,7 @@ export enum LanguageTestEnum {
   IELTS = "IELTS",
   JLPT = "JLPT",
   NEW_HSK = "NEW_HSK",
+  ETC = "ETC",
 
   DALF = "DALF",
   CEFR = "CEFR",
@@ -12,6 +13,21 @@ export enum LanguageTestEnum {
   TEF = "TEF",
   DUOLINGO = "DUOLINGO",
 }
+
+export const languageTestMapping: Record<LanguageTestEnum, string> = {
+  TOEIC: "TOEIC",
+  TOEFL_IBT: "TOEFL IBT",
+  TOEFL_ITP: "TOEFL ITP",
+  IELTS: "IELTS",
+  JLPT: "JLPT",
+  NEW_HSK: "NEW HSK",
+  ETC: "기타",
+  DALF: "DALF",
+  CEFR: "CEFR",
+  TCF: "TCF",
+  TEF: "TEF",
+  DUOLINGO: "DUOLINGO",
+};
 
 export interface SubmitGpaScoreRequest {
   gpaScoreRequest: {
@@ -50,7 +66,7 @@ export interface MyGpaScoreResponse {
 export interface LanguageTestScore {
   id: number;
   languageTest: {
-    languageTestType: string;
+    languageTestType: LanguageTestEnum;
     languageTestScore: string;
     languageTestReportUrl: string;
   };
