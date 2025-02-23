@@ -15,17 +15,17 @@ type UniversityCardsProps = {
 const UniversityCards = ({ colleges, style }: UniversityCardsProps) => (
   <div className="flex flex-col gap-2" style={style}>
     {colleges.map((university) => (
-      <CollegeCard key={university.id} university={university} />
+      <UniversityCard key={university.id} university={university} />
     ))}
   </div>
 );
 export default UniversityCards;
 
-type CollegeCardProps = {
+type UniversityCardProps = {
   university: ListUniversity;
 };
 
-export const CollegeCard = ({ university }: CollegeCardProps) => {
+export const UniversityCard = ({ university }: UniversityCardProps) => {
   const convertedKoreanName =
     university.term !== process.env.NEXT_PUBLIC_CURRENT_TERM
       ? `${university.koreanName}(${university.term})`
