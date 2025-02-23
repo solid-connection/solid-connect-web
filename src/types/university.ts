@@ -1,5 +1,20 @@
 export type RegionKo = "아시아권" | "미주권" | "유럽권" | "중국권";
 
+export enum RegionEnum {
+  ASIA = "ASIA", // 아시아권
+  AMERICAS = "AMERICAS", // 미주권
+  EUROPE = "EUROPE", // 유럽권
+  CHINA = "CHINA", // 중국권
+}
+
+export const regionMapping: Record<string, RegionEnum | null> = {
+  전체: null, // 전체일 경우 필터 없이 전체 데이터를 조회하도록 처리할 수 있음
+  영미권: RegionEnum.AMERICAS,
+  유럽권: RegionEnum.EUROPE,
+  아시아권: RegionEnum.ASIA,
+  중국권: RegionEnum.CHINA,
+};
+
 export type Country = string;
 
 export interface LanguageRequirement {

@@ -29,6 +29,21 @@ export const languageTestMapping: Record<LanguageTestEnum, string> = {
   DUOLINGO: "DUOLINGO",
 };
 
+export const languageTestShortMapping: Record<LanguageTestEnum, string> = {
+  TOEIC: "TOEIC",
+  TOEFL_IBT: "IBT",
+  TOEFL_ITP: "ITP",
+  IELTS: "IELTS",
+  JLPT: "JLPT",
+  NEW_HSK: "HSK",
+  ETC: "기타",
+  DALF: "DALF",
+  CEFR: "CEFR",
+  TCF: "TCF",
+  TEF: "TEF",
+  DUOLINGO: "DUOLINGO",
+};
+
 export interface SubmitGpaScoreRequest {
   gpaScoreRequest: {
     gpa: number;

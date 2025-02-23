@@ -5,6 +5,7 @@ import { axiosInstance, publicAxiosInstance } from "@/utils/axiosInstance";
 import {
   ListUniversity,
   RecommendedUniversitiesResponse,
+  RegionEnum,
   University,
   UniversityFavoriteResponse,
   UniversityFavoriteStatusResponse,
@@ -14,8 +15,13 @@ export const getUniversityDetailPublicApi = (universityInfoForApplyId: number): 
   // TODO: 인증 포함 API로 변경 필요
   publicAxiosInstance.get(`/universities/${universityInfoForApplyId}`);
 
-export const getUniversityListPublicApi = (): Promise<AxiosResponse<ListUniversity[]>> =>
-  publicAxiosInstance.get("/universities/search");
+export const getUniversityListPublicApi = (region?: RegionEnum | null): Promise<AxiosResponse<ListUniversity[]>> => {
+  return publicAxiosInstance.get("/universities/search", {
+    params: {
+      region: region,
+    },
+  });
+};
 
 export const getUniversityFavoriteStatusApi = (
   universityInfoForApplyId: number,

@@ -99,6 +99,7 @@ const ApplyPage = () => {
       return;
     }
 
+    if (isSubmitting) return;
     setIsSubmitting(true); // TODO: 현재 임시 submit 처리, 이후에 통합 처리 추가
     try {
       await postApplicationApi({

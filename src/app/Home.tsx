@@ -8,11 +8,12 @@ import { getRecommendedUniversitiesApi } from "@/services/university";
 
 import HomeCollegeCards from "./HomeCollegeCards";
 import NewsCards from "./NewsCards";
+import UniversityList from "./UniversityList";
 
 import { News } from "@/types/news";
 import { ListUniversity } from "@/types/university";
 
-import { IconApplicantBanner, IconScoreBanner, IconSearchBanner, IconSpeaker, IconTablerSearch } from "@/public/svgs";
+import { IconSpeaker, IconTablerSearch } from "@/public/svgs";
 import {
   IconGraduationCap,
   IconIdCard,
@@ -110,15 +111,19 @@ const Home = ({ newsList }: HomeProps) => {
         </div>
       </div>
 
-      <div className="border-t-[5px] border-k-50 pl-5 pt-[15px]">
-        <div className="mb-2 flex items-center gap-[6px] font-serif text-[16px] font-semibold text-[#44413d]">
+      <div className="border-t-[5px] border-k-50 py-5 pl-5">
+        <div className="mb-2 flex items-center gap-[6px] font-serif text-[16px] font-semibold text-[#44413D]">
           실시간 인기있는 파견학교
         </div>
         <HomeCollegeCards colleges={recommendedColleges} />
       </div>
 
+      <div className="p-5">
+        <UniversityList />
+      </div>
+
       <div className="mt-6 pl-5">
-        <div className="mb-[10px] flex items-center gap-[6px] font-serif text-[16px] font-semibold text-[#44413d]">
+        <div className="mb-[10px] flex items-center gap-[6px] font-serif text-[16px] font-semibold text-[#44413D]">
           솔커에서 맛보는 소식
           <IconSpeaker />
         </div>

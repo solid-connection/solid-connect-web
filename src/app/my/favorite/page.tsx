@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 import { getMyWishUniversityApi } from "@/services/myInfo";
 
-import CollegeCards from "@/components/college/UniversityCards";
+import UniversityCards from "@/components/college/UniversityCards";
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import ScrollTab from "@/components/ui/ScrollTab";
 
@@ -58,7 +58,7 @@ const MyScrapPage = () => {
           case tabs[0]:
             return (
               <div className="mt-5">
-                <CollegeCards colleges={wishColleges} />
+                <UniversityCards colleges={wishColleges} />
               </div>
             );
           // case tabs[1]:
