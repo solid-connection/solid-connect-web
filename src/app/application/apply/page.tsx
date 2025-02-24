@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { postApplicationApi } from "@/services/application";
@@ -19,6 +20,7 @@ import { GpaScore, LanguageTestScore } from "@/types/score";
 import { ListUniversity } from "@/types/university";
 
 const ApplyPage = () => {
+  const router = useRouter();
   const [step, setStep] = useState<number>(1);
 
   const [languageTestScoreList, setLanguageTestScoreList] = useState<LanguageTestScore[]>([]);
@@ -81,7 +83,12 @@ const ApplyPage = () => {
   // 다음 스텝으로 넘어가기
   const goNextStep = () => setStep((prev) => prev + 1);
   // 이전 스텝으로 돌아가기
-  const goPrevStep = () => setStep((prev) => Math.max(1, prev - 1));
+  const goPrevStep = () => {
+    if (step === 1) {
+      router.back();
+    }
+    setStep((prev) => prev - 1);
+  };
 
   const handleSubmit = async () => {
     if (!curGpaScore) {
