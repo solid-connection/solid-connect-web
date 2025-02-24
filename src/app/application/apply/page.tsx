@@ -94,7 +94,7 @@ const ApplyPage = () => {
       return;
     }
 
-    if (curUniversityList.length === 0) {
+    if (curUniversityList.length === 0 || curUniversityList[0] === 0) {
       alert("대학교를 선택해주세요.");
       return;
     }
@@ -146,15 +146,7 @@ const ApplyPage = () => {
           universityList={universityList}
           curUniversityList={curUniversityList}
           setCurUniversityList={setCurUniversityList}
-          onNext={() => {
-            if (curUniversityList.length === 0) {
-              alert("대학교를 선택해주세요.");
-              return;
-            }
-            setCurUniversityList(curUniversityList.filter((id) => id !== null));
-
-            goNextStep();
-          }}
+          onNext={goNextStep}
         />
       )}
       {step === 4 && (
