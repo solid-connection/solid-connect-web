@@ -6,9 +6,19 @@ type ConfirmCancelModalProps = {
   content: string;
   handleConfirm: () => void;
   handleCancel: () => void;
+  cancelText?: string;
+  approveText?: string;
 };
 
-const ConfirmCancelModal = ({ isOpen, title, content, handleConfirm, handleCancel }: ConfirmCancelModalProps) => {
+const ConfirmCancelModal = ({
+  isOpen,
+  title,
+  content,
+  handleConfirm,
+  handleCancel,
+  cancelText = "취소",
+  approveText = "확인",
+}: ConfirmCancelModalProps) => {
   if (!isOpen) return null;
 
   return (
@@ -26,14 +36,14 @@ const ConfirmCancelModal = ({ isOpen, title, content, handleConfirm, handleCance
             onClick={handleCancel}
             type="button"
           >
-            <span className="text-center font-serif text-base font-normal leading-4 text-[#3c3c3c]">취소</span>
+            <span className="text-center font-serif text-base font-normal leading-4 text-[#3c3c3c]">{cancelText}</span>
           </button>
           <button
-            className="bg-primary flex h-11 w-36 cursor-pointer items-center justify-center rounded-lg px-1.5 py-2"
+            className="flex h-11 w-36 cursor-pointer items-center justify-center rounded-lg bg-primary px-1.5 py-2"
             onClick={handleConfirm}
             type="button"
           >
-            <span className="text-center font-serif text-base font-normal leading-4 text-white">확인</span>
+            <span className="text-center font-serif text-base font-normal leading-4 text-white">{approveText}</span>
           </button>
         </div>
       </div>
