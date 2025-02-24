@@ -7,6 +7,7 @@ import { getApplicationListApi } from "@/services/application";
 
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import CloudSpinnerPage from "@/components/loading/CloudSpinnerPage";
+import ConfirmCancelModal from "@/components/modal/ConfirmCancelModal";
 import ButtonTab from "@/components/ui/ButtonTab";
 import Tab from "@/components/ui/tab";
 
@@ -40,6 +41,8 @@ const ScorePage = () => {
   const [preference, setPreference] = useState<"1순위" | "2순위" | "3순위">("1순위");
   const [filter, setFilter] = useState<RegionKo | "">("");
 
+  const [showNeedApply, setShowNeedApply] = useState<boolean>(false);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -56,8 +59,7 @@ const ScorePage = () => {
       } catch (err) {
         if (err.response) {
           if (err.response.status === 404) {
-            alert("점수 공유 현황을 보려면 지원 절차를 진행해주세요.");
-            router.push("/application/apply");
+            setShowNeedApply(true);
           } else if (err.response.status === 401 || err.response.status === 403) {
             alert("로그인이 필요합니다");
             document.location.href = "/login";
@@ -153,6 +155,19 @@ const ScorePage = () => {
       <Tab choices={PREFERENCE_CHOICE} choice={preference} setChoice={setPreference} />
       <ButtonTab choices={REGIONS_KO} choice={filter} setChoice={setFilter} style={{ padding: "10px 0 10px 18px" }} />
       <ScoreSheets scoreSheets={getScoreSheet()} />
+      <ConfirmCancelModal
+        isOpen={showNeedApply}
+        handleCancel={() => {
+          router.push("/");
+        }}
+        handleConfirm={() => {
+          router.push("/application/apply");
+        }}
+        title=""
+        content={"점수 공유현황을 확인하려면 지원절차를\n진행해주세요."}
+        cancelText="확인"
+        approveText="학교 지원하기"
+      />
     </>
   );
 };

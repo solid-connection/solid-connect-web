@@ -15,7 +15,8 @@ const ConfirmStep = ({ languageTestScore, gpaScore, universityList, onNext }: Co
       <div className="mt-[11px] h-[93px] border-b-[10px] border-k-50 px-5">
         <div className="font-serif text-[22px] font-bold leading-normal text-k-900">최종 제출 확인</div>
         <div className="font-serif text-[13px] font-medium leading-normal text-k-600">
-          제출 완료 후 성적을 변경 하실 수 없습니다.
+          지원은 총 3번만 가능하며, 제출 완료 후 성적을
+          <br /> 변경 하실 수 없습니다.
         </div>
       </div>
       <div className="px-5">
@@ -31,7 +32,7 @@ const ConfirmStep = ({ languageTestScore, gpaScore, universityList, onNext }: Co
                   {languageTestScore?.languageTest.languageTestScore}
                 </div>
                 <div className="font-serif text-[10px] font-normal leading-normal text-k-300">
-                  만료일 : 2024.5.6까지
+                  {/* 만료일 : 2024.5.6까지 */}
                 </div>
               </div>
             </div>
@@ -45,7 +46,7 @@ const ConfirmStep = ({ languageTestScore, gpaScore, universityList, onNext }: Co
                 <div className="font-serif text-[15px] font-semibold leading-normal text-primary">
                   {gpaScore?.gpa.gpa.toFixed(2)}/{gpaScore?.gpa.gpaCriteria}
                 </div>
-                <div className="font-serif text-[10px] font-normal leading-normal text-k-300">~4학년 1학기</div>
+                {/* <div className="font-serif text-[10px] font-normal leading-normal text-k-300">~4학년 1학기</div> */}
               </div>
             </div>
           </div>

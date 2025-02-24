@@ -1,4 +1,9 @@
+"use client";
+
+import { useState } from "react";
+
 import BlockBtn from "@/components/button/BlockBtn";
+import TextModal from "@/components/modal/TextModal";
 
 import { ListUniversity } from "@/types/university";
 
@@ -10,6 +15,8 @@ type UniversityStepProps = {
 };
 
 const UniversityStep = ({ universityList, curUniversityList, setCurUniversityList, onNext }: UniversityStepProps) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const handleSelect = (index: number, value: number) => {
     const newList = [...curUniversityList];
     newList[index] = value;
@@ -33,7 +40,7 @@ const UniversityStep = ({ universityList, curUniversityList, setCurUniversityLis
             <label className="block font-serif text-sm font-semibold leading-normal text-k-900">1지망</label>
             <select
               className="flex h-10 items-center rounded-lg bg-k-50 px-5 py-2.5 font-serif text-sm font-semibold leading-normal text-primary"
-              value={curUniversityList[0] ?? ""}
+              value={curUniversityList[0] ?? null}
               onChange={(e) => handleSelect(0, Number(e.target.value))}
             >
               <option value=""></option>
@@ -48,7 +55,7 @@ const UniversityStep = ({ universityList, curUniversityList, setCurUniversityLis
             <label className="block font-serif text-sm font-semibold leading-normal text-k-900">2지망</label>
             <select
               className="flex h-10 items-center rounded-lg bg-k-50 px-5 py-2.5 font-serif text-sm font-semibold leading-normal text-primary"
-              value={curUniversityList[1] ?? ""}
+              value={curUniversityList[1] ?? null}
               onChange={(e) => handleSelect(1, Number(e.target.value))}
             >
               <option value=""></option>
@@ -63,7 +70,7 @@ const UniversityStep = ({ universityList, curUniversityList, setCurUniversityLis
             <label className="block font-serif text-sm font-semibold leading-normal text-k-900">3지망</label>
             <select
               className="flex h-10 items-center rounded-lg bg-k-50 px-5 py-2.5 font-serif text-sm font-semibold leading-normal text-primary"
-              value={curUniversityList[2] ?? ""}
+              value={curUniversityList[2] ?? null}
               onChange={(e) => handleSelect(2, Number(e.target.value))}
             >
               <option value=""></option>
@@ -80,6 +87,11 @@ const UniversityStep = ({ universityList, curUniversityList, setCurUniversityLis
         <div className="mb-[37px] px-5">
           <BlockBtn
             onClick={() => {
+              if (curUniversityList.length === 0 || curUniversityList[0] === 0) {
+                setIsModalOpen(true);
+                setCurUniversityList(curUniversityList.filter((id) => id !== null));
+                return;
+              }
               onNext();
             }}
           >
@@ -87,6 +99,12 @@ const UniversityStep = ({ universityList, curUniversityList, setCurUniversityLis
           </BlockBtn>
         </div>
       </div>
+      <TextModal
+        isOpen={isModalOpen}
+        handleClose={() => setIsModalOpen(false)}
+        title=""
+        content="적어도 1지망 대학은 선택해야합니다."
+      />
     </>
   );
 };
