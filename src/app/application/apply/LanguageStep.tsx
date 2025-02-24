@@ -1,4 +1,9 @@
+"use client";
+
+import { useState } from "react";
+
 import BlockBtn from "@/components/button/BlockBtn";
+import TextModal from "@/components/modal/TextModal";
 import Tab from "@/components/ui/Tab";
 
 import { LanguageTestScore, languageTestMapping } from "@/types/score";
@@ -18,6 +23,7 @@ const LanguageStep = ({
   setCurLanguageTestScore,
   onNext,
 }: LanguageStepProps) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <>
       <div className="my-5 px-5">
@@ -47,7 +53,7 @@ const LanguageStep = ({
           <BlockBtn
             onClick={() => {
               if (!curLanguageTestScore) {
-                alert("공인어학을 선택해주세요. 심사가 완료된 공인어학만 선택 가능합니다.");
+                setIsModalOpen(true);
                 return;
               }
               onNext();
@@ -57,6 +63,12 @@ const LanguageStep = ({
           </BlockBtn>
         </div>
       </div>
+      <TextModal
+        isOpen={isModalOpen}
+        handleClose={() => setIsModalOpen(false)}
+        title=""
+        content="지원할 성적을 선택해주십시오."
+      />
     </>
   );
 };

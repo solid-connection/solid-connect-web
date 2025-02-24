@@ -8,7 +8,7 @@ type TextModalProps = {
   buttonContent?: string;
 };
 
-const TextModal = ({ isOpen, handleClose, title, content, buttonContent }: TextModalProps) => {
+const TextModal = ({ isOpen, handleClose, title, content, buttonContent = "확인" }: TextModalProps) => {
   if (!isOpen) return null;
 
   return (
@@ -22,13 +22,11 @@ const TextModal = ({ isOpen, handleClose, title, content, buttonContent }: TextM
         </div>
         <div className="mt-5 flex flex-col items-center">
           <button
-            className="bg-primary flex h-11 w-36 cursor-pointer items-center justify-center rounded-lg px-1.5 py-2"
+            className="flex h-11 w-36 cursor-pointer items-center justify-center rounded-lg bg-primary px-1.5 py-2"
             onClick={handleClose}
             type="button"
           >
-            <span className="text-center font-serif text-base font-normal leading-4 text-white">
-              {buttonContent || "확인"}
-            </span>
+            <span className="text-center font-serif text-base font-normal leading-4 text-white">{buttonContent}</span>
           </button>
         </div>
       </div>
