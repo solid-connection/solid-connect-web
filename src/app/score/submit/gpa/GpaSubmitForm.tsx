@@ -4,8 +4,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 
-import clsx from "clsx";
-
 import { postGpaScoreApi } from "@/services/score";
 
 import BlockBtn from "@/components/button/BlockBtn";
