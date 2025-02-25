@@ -4,8 +4,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 
-import clsx from "clsx";
-
 import { postLanguageTestScoreApi } from "@/services/score";
 import { validateLanguageScore } from "@/utils/scoreUtils";
 
@@ -139,14 +137,11 @@ const LanguageTestSubmitForm = () => {
               }}
             />
             <div className="mt-[30px] flex gap-[9px]">
-              <RoundBtn
-                className={clsx({ "bg-primary text-k-0": file, "bg-k-300 text-k-0": !file })}
-                onClick={() => fileInputRef.current?.click()}
-              >
+              <RoundBtn variant={file ? "default" : "inactive"} onClick={() => fileInputRef.current?.click()}>
                 파일 첨부하기
               </RoundBtn>
-              <Link href="/score/example/gpa-cert" target="_blank">
-                <RoundBtn className="bg-primary-400 text-k-0">증명서 예시</RoundBtn>
+              <Link href="/score/example/lang-cert" target="_blank">
+                <RoundBtn variant="primary-400">증명서 예시</RoundBtn>
               </Link>
             </div>
           </div>

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import BlockBtn from "@/components/button/block-btn";
+import BlockBtn from "@/components/button/BlockBtn";
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 
 const GpaCertExamplePage = () => {
