@@ -1,6 +1,13 @@
-솔리드 커넥션 웹
+# 솔리드 커넥션 웹
 
-React + Next.js
+- Next.js (App Router)
+- TypeScript
+- Tailwind CSS
+- Clsx
+- Axios
+- ESLint
+- Prettier
+- Vercel
 
 ## Commands
 
