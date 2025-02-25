@@ -1,19 +1,43 @@
-type RoundBtnProps = {
-  className?: string;
+import * as React from "react";
+
+import { type VariantProps, cva } from "class-variance-authority";
+
+import { cn } from "@/utils/designUtils";
+
+const roundBtnVariants = cva("h-[2.375rem] w-[6.375rem] rounded-3xl px-4 py-2.5 ", {
+  variants: {
+    variant: {
+      default: "bg-secondary hover:bg-secondary/90 text-k-0",
+      primary: "bg-primary hover:bg-primary/90 text-k-0",
+      "primary-400": "bg-primary-400 hover:bg-primary-400/90 text-k-0",
+      inactive: "bg-k-100 hover:bg-k-100/90 text-k-0",
+    },
+    text: {
+      default: "text-xs font-bold leading-normal",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+    text: "default",
+  },
+});
+
+export interface RoundBtnProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof roundBtnVariants> {
   onClick?: () => void;
   children: React.ReactNode;
-};
+}
 
-const RoundBtn = ({ onClick, className, children }: RoundBtnProps) => {
-  return (
-    <button
-      className={`${"h-10 w-[102px] rounded-full px-3 py-[5px] font-serif text-xs font-bold leading-normal"} ${className || ""}`}
-      onClick={onClick}
-      type="button"
-    >
-      {children}
-    </button>
-  );
-};
+const RoundBtn = React.forwardRef<HTMLButtonElement, RoundBtnProps>(
+  ({ className, variant, text, children, ...props }, ref) => {
+    return (
+      <button ref={ref} className={cn(roundBtnVariants({ variant, text, className }))} {...props}>
+        <span>{children}</span>
+      </button>
+    );
+  },
+);
+RoundBtn.displayName = "RoundBtn";
 
 export default RoundBtn;
