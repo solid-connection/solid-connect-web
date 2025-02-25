@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import BlockBtn from "@/components/button/block-btn";
+import BlockBtn from "@/components/button/BlockBtn";
 import StarFilledIcon from "@/components/ui/icon/star-filled";
 
 import styles from "./college-review-form.module.css";
@@ -116,7 +116,7 @@ const CollegeReviewForm = () => {
           </div>
         </div>
       </div>
-      <BlockBtn style={{ marginTop: "24px" }} onClick={() => {}}>
+      <BlockBtn className="mt-6" onClick={() => {}}>
         작성하기
       </BlockBtn>
     </form>
