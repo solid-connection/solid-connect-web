@@ -94,6 +94,7 @@ const config: Config = {
         sdwA: "0px 4px 40px 0px rgba(26, 31, 39, 0.40)",
       },
       spacing: {
+        "13": "3.25rem", // 3.25rem = 13 = 52px
         "90": "22.5rem",
       },
       transitionProperty: {
