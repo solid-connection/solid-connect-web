@@ -25,7 +25,7 @@ const config: Config = {
         "primary-2": "#4672ee",
 
         primary: {
-          900: "#373299",
+          900: "#262181",
           800: "#403AB2",
           700: "#4E46D9",
           DEFAULT: "#5950F6",
