@@ -7,9 +7,9 @@ import { cn } from "@/utils/designUtils";
 const roundBtnVariants = cva("h-[2.375rem] w-[6.375rem] rounded-3xl px-4 py-2.5 ", {
   variants: {
     variant: {
-      default: "bg-secondary hover:bg-secondary/90 text-k-0",
-      primary: "bg-primary hover:bg-primary/90 text-k-0",
-      "primary-400": "bg-primary-400 hover:bg-primary-400/90 text-k-0",
+      default: "bg-primary hover:bg-primary/90 text-k-0",
+      secondary: "bg-secondary hover:bg-secondary/90 text-k-0",
+      "secondary-400": "bg-secondary-400 hover:bg-secondary-400/90 text-k-0",
       inactive: "bg-k-100 hover:bg-k-100/90 text-k-0",
     },
     text: {

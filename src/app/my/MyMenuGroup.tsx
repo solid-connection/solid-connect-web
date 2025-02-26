@@ -6,8 +6,8 @@ type MyMenuGroupItemProps = {
 
 const MyMenuGroup = ({ children, icon, subject }: MyMenuGroupItemProps) => (
   <div>
-    <div className="flex h-[27px] items-center gap-1.5 bg-primary-100 py-1 pl-5">
-      {icon} <span className="text-base font-semibold text-primary">{subject}</span>
+    <div className="flex h-[27px] items-center gap-1.5 bg-secondary-100 py-1 pl-5">
+      {icon} <span className="text-base font-semibold text-secondary">{subject}</span>
     </div>
     <div className="flex flex-col gap-0.5 pb-4 pt-1">{children}</div>
   </div>

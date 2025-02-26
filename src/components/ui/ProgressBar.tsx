@@ -23,7 +23,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
   currentStep,
   totalSteps,
   barHeight = "h-2",
-  barColor = "bg-primary",
+  barColor = "bg-secondary",
   backgroundColor = "bg-k-100",
   showLabel = true,
   labelPosition = "right",

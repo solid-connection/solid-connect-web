@@ -23,7 +23,7 @@ const ConfirmCancelModal = ({
 
   return (
     <ModalBase isOpen={isOpen} onClose={handleCancel}>
-      <div className="shadow-sdwA w-[20.5rem] rounded-xl bg-white px-5 py-[22px]">
+      <div className="w-[20.5rem] rounded-xl bg-white px-5 py-[22px] shadow-sdwA">
         <div className="flex flex-col items-center gap-2">
           <span className="font-serif text-base font-bold leading-5 text-[#121212]">{title}</span>
           <span className="whitespace-pre-wrap text-center font-serif font-normal leading-6 text-[#7a7a7a]">
@@ -39,7 +39,7 @@ const ConfirmCancelModal = ({
             <span className="text-center font-serif text-base font-normal leading-4 text-[#3c3c3c]">{cancelText}</span>
           </button>
           <button
-            className="flex h-11 w-36 cursor-pointer items-center justify-center rounded-lg bg-primary px-1.5 py-2"
+            className="flex h-11 w-36 cursor-pointer items-center justify-center rounded-lg bg-secondary px-1.5 py-2"
             onClick={handleConfirm}
             type="button"
           >

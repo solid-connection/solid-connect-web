@@ -9,7 +9,7 @@ type MyInfoCardProps = {
 };
 
 const MyInfoCard = ({ scarpCount, interestMentoCount, wishUniversityCount }: MyInfoCardProps) => (
-  <div className="flex h-[58px] items-center justify-center gap-5 rounded-lg bg-primary py-4">
+  <div className="flex h-[58px] items-center justify-center gap-5 rounded-lg bg-secondary py-4">
     <MyInfoCardItem title="스크랩" count={`${scarpCount}개`} link="" />
     <MyInfoCardItem title="관심 멘토" count={`${interestMentoCount}명`} link="" />
     <MyInfoCardItem title="위시학교" count={`${wishUniversityCount}개`} link="/my/favorite/" />

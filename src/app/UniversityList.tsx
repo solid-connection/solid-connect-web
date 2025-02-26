@@ -46,9 +46,9 @@ const UniversityList = () => {
           choice={region}
           setChoice={setRegion}
           color={{
-            activeBtn: "bg-primary-100",
+            activeBtn: "bg-secondary-100",
             deactiveBtn: "bg-k-50",
-            activeBtnFont: "text-primary",
+            activeBtnFont: "text-secondary",
             deactiveBtnFont: "text-k-300",
             background: "white",
           }}
@@ -104,7 +104,7 @@ const UniversityCard = ({ university }: UniversityCardProps) => {
             {convertedKoreanName}
           </span>
           <div className="flex shrink-0 gap-2.5">
-            <span className="text-sm font-semibold leading-normal text-primary">
+            <span className="text-sm font-semibold leading-normal text-secondary">
               {university.country} | {university.region}
             </span>
             <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20" fill="none">
