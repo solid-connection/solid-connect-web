@@ -92,7 +92,7 @@ const LanguageTestSubmitForm = () => {
           <div className="flex flex-col gap-1">
             <label className="font-serif text-base font-semibold leading-normal">어학 종류</label>
             <select
-              className="flex h-10 items-center rounded-lg bg-k-50 px-5 py-2.5 font-serif text-sm font-semibold leading-normal text-primary"
+              className="flex h-10 items-center rounded-lg bg-k-50 px-5 py-2.5 font-serif text-sm font-semibold leading-normal text-secondary"
               value={testType}
               onChange={(e) => setTestType(e.target.value)}
             >
@@ -115,14 +115,14 @@ const LanguageTestSubmitForm = () => {
             <label className="font-serif text-base font-semibold leading-normal">점수</label>
             <input
               type="text"
-              className="flex h-10 items-center rounded-lg bg-k-50 px-5 py-2.5 font-serif text-sm font-semibold leading-normal text-primary"
+              className="flex h-10 items-center rounded-lg bg-k-50 px-5 py-2.5 font-serif text-sm font-semibold leading-normal text-secondary"
               value={score}
               onChange={(e) => setScore(e.target.value)}
             />
           </div>
           <div className="flex flex-col gap-1">
             <label className="font-serif text-base font-semibold leading-normal">증명서 첨부</label>
-            <span className="flex h-10 items-center rounded-lg bg-k-50 px-5 py-2.5 font-serif text-sm font-semibold leading-normal text-primary">
+            <span className="flex h-10 items-center rounded-lg bg-k-50 px-5 py-2.5 font-serif text-sm font-semibold leading-normal text-secondary">
               {file?.name}
             </span>
             <input
@@ -141,7 +141,7 @@ const LanguageTestSubmitForm = () => {
                 파일 첨부하기
               </RoundBtn>
               <Link href="/score/example/lang-cert" target="_blank">
-                <RoundBtn variant="primary-400">증명서 예시</RoundBtn>
+                <RoundBtn variant="secondary-400">증명서 예시</RoundBtn>
               </Link>
             </div>
           </div>

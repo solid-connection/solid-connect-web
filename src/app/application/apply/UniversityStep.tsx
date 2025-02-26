@@ -39,7 +39,7 @@ const UniversityStep = ({ universityList, curUniversityList, setCurUniversityLis
           <div className="flex flex-col gap-1">
             <label className="block font-serif text-sm font-semibold leading-normal text-k-900">1지망</label>
             <select
-              className="flex h-10 items-center rounded-lg bg-k-50 px-5 py-2.5 font-serif text-sm font-semibold leading-normal text-primary"
+              className="flex h-10 items-center rounded-lg bg-k-50 px-5 py-2.5 font-serif text-sm font-semibold leading-normal text-secondary"
               value={curUniversityList[0] ?? null}
               onChange={(e) => handleSelect(0, Number(e.target.value))}
             >
@@ -54,7 +54,7 @@ const UniversityStep = ({ universityList, curUniversityList, setCurUniversityLis
           <div className="flex flex-col gap-1">
             <label className="block font-serif text-sm font-semibold leading-normal text-k-900">2지망</label>
             <select
-              className="flex h-10 items-center rounded-lg bg-k-50 px-5 py-2.5 font-serif text-sm font-semibold leading-normal text-primary"
+              className="flex h-10 items-center rounded-lg bg-k-50 px-5 py-2.5 font-serif text-sm font-semibold leading-normal text-secondary"
               value={curUniversityList[1] ?? null}
               onChange={(e) => handleSelect(1, Number(e.target.value))}
             >
@@ -69,7 +69,7 @@ const UniversityStep = ({ universityList, curUniversityList, setCurUniversityLis
           <div className="flex flex-col gap-1">
             <label className="block font-serif text-sm font-semibold leading-normal text-k-900">3지망</label>
             <select
-              className="flex h-10 items-center rounded-lg bg-k-50 px-5 py-2.5 font-serif text-sm font-semibold leading-normal text-primary"
+              className="flex h-10 items-center rounded-lg bg-k-50 px-5 py-2.5 font-serif text-sm font-semibold leading-normal text-secondary"
               value={curUniversityList[2] ?? null}
               onChange={(e) => handleSelect(2, Number(e.target.value))}
             >

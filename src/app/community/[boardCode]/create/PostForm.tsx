@@ -153,7 +153,7 @@ const CustomTopDetailNavigation = ({ routeBack, submitPost }: CustomTopDetailNav
     <div className="font-serif text-base font-semibold leading-[160%] text-[rgba(0,0,0,0.87)]">글쓰기</div>
     <div className="min-w-6 cursor-pointer">
       <button
-        className="h-8 cursor-pointer rounded-full border-0 bg-secondary px-3 py-[5px] font-serif text-sm font-medium leading-[160%] text-white"
+        className="h-8 cursor-pointer rounded-full border-0 bg-primary px-3 py-[5px] font-serif text-sm font-medium leading-[160%] text-white"
         onClick={submitPost}
         type="button"
       >

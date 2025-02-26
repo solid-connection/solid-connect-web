@@ -18,7 +18,7 @@ type ButtonTabProps = {
 
 const ButtonTab = ({ choices, choice, setChoice, style, color }: ButtonTabProps) => {
   const defaultColor = {
-    activeBtn: "bg-secondary",
+    activeBtn: "bg-primary",
     deactiveBtn: "bg-white",
     activeBtnFont: "text-white",
     deactiveBtnFont: "text-black",

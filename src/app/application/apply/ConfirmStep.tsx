@@ -28,7 +28,7 @@ const ConfirmStep = ({ languageTestScore, gpaScore, universityList, onNext }: Co
                 {languageTestScore?.languageTest.languageTestType}
               </div>
               <div className="text-right">
-                <div className="font-serif text-[15px] font-semibold leading-normal text-primary">
+                <div className="font-serif text-[15px] font-semibold leading-normal text-secondary">
                   {languageTestScore?.languageTest.languageTestScore}
                 </div>
                 <div className="font-serif text-[10px] font-normal leading-normal text-k-300">
@@ -43,7 +43,7 @@ const ConfirmStep = ({ languageTestScore, gpaScore, universityList, onNext }: Co
             <div className="flex flex-1 justify-between rounded-lg bg-k-50 px-5 py-3">
               <div className="font-serif text-[11px] font-semibold leading-normal text-k-700">인하대학교</div>
               <div className="text-right">
-                <div className="font-serif text-[15px] font-semibold leading-normal text-primary">
+                <div className="font-serif text-[15px] font-semibold leading-normal text-secondary">
                   {gpaScore?.gpa.gpa.toFixed(2)}/{gpaScore?.gpa.gpaCriteria}
                 </div>
                 {/* <div className="font-serif text-[10px] font-normal leading-normal text-k-300">~4학년 1학기</div> */}
@@ -59,7 +59,7 @@ const ConfirmStep = ({ languageTestScore, gpaScore, universityList, onNext }: Co
                   <div className="font-serif text-xs font-semibold leading-normal text-k-700">
                     {universityList.indexOf(university) + 1}지망
                   </div>
-                  <div className="text-right font-serif text-[11px] font-semibold leading-normal text-primary">
+                  <div className="text-right font-serif text-[11px] font-semibold leading-normal text-secondary">
                     [{university.region} - {university.country}]<br />
                     {university.koreanName}
                   </div>

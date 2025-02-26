@@ -45,8 +45,8 @@ const getStatus = (status: ScoreSubmitStatus, rejectedReason?: string | null) =>
       );
     case "APPROVED":
       return (
-        <div className="flex h-5 items-center rounded-[20px] bg-primary-200 p-2.5">
-          <span className="font-serif text-[10px] font-bold leading-normal text-secondary">승인 완료</span>
+        <div className="flex h-5 items-center rounded-[20px] bg-secondary-200 p-2.5">
+          <span className="font-serif text-[10px] font-bold leading-normal text-primary">승인 완료</span>
         </div>
       );
   }
@@ -67,8 +67,8 @@ const ScoreCard = ({ name, score, status, date, isFocused = false, rejectedReaso
         </div>
         <div
           className={clsx("ml-auto font-serif text-sm font-bold leading-normal", {
-            "text-primary": isFocused,
-            "text-primary-300": !isFocused,
+            "text-secondary": isFocused,
+            "text-secondary-300": !isFocused,
           })}
         >
           {score}
