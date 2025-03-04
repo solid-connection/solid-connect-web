@@ -160,7 +160,11 @@ const ApplyPage = () => {
         <ConfirmStep
           languageTestScore={languageTestScoreList.find((score) => score.id === curLanguageTestScore)}
           gpaScore={gpaScoreList.find((score) => score.id === curGpaScore)}
-          universityList={universityList.filter((university) => curUniversityList.includes(university.id))}
+          universityList={
+            curUniversityList
+              .map((id) => universityList.find((university) => university.id === id))
+              .filter(Boolean) as ListUniversity[]
+          }
           onNext={handleSubmit}
         />
       )}
