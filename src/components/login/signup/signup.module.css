@@ -1,5 +1,5 @@
 .screen {
-  margin: -56px 20px -56px 20px;
+  margin: 0px 20px -56px 20px;
 }
 
 .secondary-title {
@@ -141,22 +141,6 @@
   font-style: normal;
   font-weight: 600;
   line-height: 150%; /* 24px */
-}
-
-.country-button {
-  height: 32px;
-  /* padding: 4px 16px; */
-  border: none;
-  border-radius: 4px;
-  background: var(--Gray-50, #f7f7f7);
-}
-
-.country-button:hover {
-  background: #dedede;
-}
-
-.country-button--selected {
-  background: #e6f0ff;
 }
 
 /* SignupProfileScreen */

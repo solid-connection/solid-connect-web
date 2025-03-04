@@ -2,6 +2,8 @@
 
 import { Dispatch, SetStateAction } from "react";
 
+import clsx from "clsx";
+
 import BlockToggleBtn from "@/components/button/BlockToggleBtn";
 
 import styles from "./signup.module.css";
@@ -169,9 +171,9 @@ const CountryButtons = ({ curCountries, setCurCountries, region }: CountryButton
       {countries.map((country) => (
         <button
           key={country}
-          className={`${styles["country-button"]} ${
-            curCountries.includes(country) && styles["country-button--selected"]
-          }`}
+          className={clsx("h-8 rounded-lg bg-gray-50 hover:bg-[#dedede]", {
+            "bg-[#e6f0ff]": curCountries.includes(country),
+          })}
           onClick={() => toggleCountry(country)}
           type="button"
         >

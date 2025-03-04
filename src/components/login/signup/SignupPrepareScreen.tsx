@@ -99,7 +99,7 @@ const SignupPrepareScreen = ({ preparation, setPreparation, toNextStage }: Signu
         onClick={submit}
         isToggled={!!preparation}
       >
-        다음으로
+        다음
       </BlockToggleBtn>
     </div>
   );

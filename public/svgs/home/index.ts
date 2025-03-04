@@ -1,3 +1,4 @@
+import IconBlueCloud from "./blue-cloud.svg";
 import IconCloud from "./cloud.svg";
 import IconGraduationCap from "./graduation-cap.svg";
 import IconIdCard from "./id-card.svg";
@@ -6,4 +7,13 @@ import IconMuseum from "./museum.svg";
 import IconPaper from "./paper.svg";
 import IconRightArrow from "./right-arrow.svg";
 
-export { IconCloud, IconGraduationCap, IconIdCard, IconMagnifyingGlass, IconMuseum, IconPaper, IconRightArrow };
+export {
+  IconBlueCloud,
+  IconCloud,
+  IconGraduationCap,
+  IconIdCard,
+  IconMagnifyingGlass,
+  IconMuseum,
+  IconPaper,
+  IconRightArrow,
+};
