@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
-import { getApplicationListApi } from "@/services/application";
+import { getApplicationListApi, getCompetitorsApplicationListApi } from "@/services/application";
 
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import CloudSpinnerPage from "@/components/loading/CloudSpinnerPage";
@@ -47,7 +47,7 @@ const ScorePage = () => {
     const fetchData = async () => {
       try {
         if (true) {
-          const scoreResponse = await getApplicationListApi();
+          const scoreResponse = await getCompetitorsApplicationListApi();
 
           const scoreResponseData = scoreResponse.data;
           scoreResponseData.firstChoice.sort((a, b) => b.applicants.length - a.applicants.length);
