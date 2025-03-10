@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  darkMode: ["class"],
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     fontFamily: {
@@ -17,78 +18,101 @@ const config: Config = {
     },
     extend: {
       colors: {
-        // "primary-1": "#6f96d1",
-        // "primary-2": "#091f5b",
         "secondary-1": "#c4ddff",
         "secondary-2": "#f2f1df",
         "primary-1": "#5950f6",
         "primary-2": "#4672ee",
-
         primary: {
-          900: "#262181",
-          800: "#403AB2",
-          700: "#4E46D9",
+          "100": "#CECBFD",
+          "200": "#ABA7FA",
+          "300": "#938DF9",
+          "400": "#837CF8",
+          "500": "#726AF7",
+          "600": "#6259F7",
           DEFAULT: "#5950F6",
-          600: "#6259F7",
-          500: "#726AF7",
-          400: "#837CF8",
-          300: "#938DF9",
-          200: "#ABA7FA",
-          100: "#CECBFD",
+          "700": "#4E46D9",
+          "800": "#403AB2",
+          "900": "#262181",
+          foreground: "hsl(var(--primary-foreground))",
         },
-
         secondary: {
-          900: "#1D2F63",
-          800: "#29428A",
-          700: "#3455B2",
-          600: "#4068D9",
+          "100": "#E8EDFD",
+          "200": "#C7D4FA",
+          "300": "#A2B7F6",
+          "400": "#8AA5F4",
+          "500": "#5C82F0",
           DEFAULT: "#4672EE",
-          500: "#5C82F0",
-          400: "#8AA5F4",
-          300: "#A2B7F6",
-          200: "#C7D4FA",
-          100: "#E8EDFD",
+          "600": "#4068D9",
+          "700": "#3455B2",
+          "800": "#29428A",
+          "900": "#1D2F63",
+          foreground: "hsl(var(--secondary-foreground))",
         },
-
         k: {
-          900: "#1A1F27",
-          800: "#31353D",
-          700: "#484C52",
-          600: "#5F6268",
-          500: "#76797D",
-          400: "#919397",
-          300: "#AAACAF",
-          200: "#C6C7C9",
-          100: "#DDDDDF",
-          50: "#EFEFF0",
-          0: "#FFFFFF",
+          "0": "#FFFFFF",
+          "50": "#EFEFF0",
+          "100": "#DDDDDF",
+          "200": "#C6C7C9",
+          "300": "#AAACAF",
+          "400": "#919397",
+          "500": "#76797D",
+          "600": "#5F6268",
+          "700": "#484C52",
+          "800": "#31353D",
+          "900": "#1A1F27",
         },
-
         "gray-c": {
-          100: "#ececec",
+          "100": "#ececec",
         },
-
         "sub-a": {
+          "100": "#9BC5F3",
+          "500": "#60A3ED",
           DEFAULT: "#388CE8",
-          500: "#60A3ED",
-          100: "#9BC5F3",
         },
-
         "sub-b": {
+          "100": "#AADBF3",
+          "500": "#6AC0EB",
           DEFAULT: "#2AA4E2",
-          500: "#6AC0EB",
-          100: "#AADBF3",
         },
-
         background: {
           1: "#F8F8FA",
           2: "#F7F7F7",
           sdwA: "rgba(26, 31, 39, 0.4)",
         },
-
         line: {
-          1: "#f2f2f2",
-          2: "#e5e5e5",
+          "1": "#f2f2f2",
+          "2": "#e5e5e5",
+        },
+        foreground: "hsl(var(--foreground))",
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        chart: {
+          "1": "hsl(var(--chart-1))",
+          "2": "hsl(var(--chart-2))",
+          "3": "hsl(var(--chart-3))",
+          "4": "hsl(var(--chart-4))",
+          "5": "hsl(var(--chart-5))",
         },
       },
       boxShadow: {
@@ -101,8 +125,13 @@ const config: Config = {
       transitionProperty: {
         height: "height",
       },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
+      },
     },
   },
-  plugins: [],
+  plugins: [require("tailwindcss-animate")],
 };
 export default config;
