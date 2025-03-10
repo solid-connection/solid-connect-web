@@ -78,6 +78,7 @@ const config: Config = {
           1: "#F8F8FA",
           2: "#F7F7F7",
           sdwA: "rgba(26, 31, 39, 0.4)",
+          DEFAULT: "hsl(var(--background))",
         },
         line: {
           "1": "#f2f2f2",

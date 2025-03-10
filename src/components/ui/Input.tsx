@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { VariantProps, cva } from "class-variance-authority";
 
-import { cn } from "@/utils/designUtils";
+import { cn } from "@/lib/utils";
 
 const inputVariants = cva(
   "border-input flex w-full px-3.5 py-2.5 rounded-md shadow-sm transition-colors placeholder:text-muted-foreground" +
@@ -13,7 +13,7 @@ const inputVariants = cva(
     variants: {
       variant: {
         default: "bg-transparent border",
-        gray: "bg-k-50 text-primary border-none font-semibold",
+        gray: "bg-k-50 text-primary border-none font-semibold placeholder:text-k-200",
       },
       text: {
         default: "text-base file:text-sm file:font-medium",
