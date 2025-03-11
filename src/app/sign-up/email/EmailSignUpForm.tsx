@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 
+import { emailSignUpApi } from "@/services/auth";
+
 import BlockBtn from "@/components/button/BlockBtn";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
@@ -38,6 +40,33 @@ const EmailSignUpForm = () => {
 
     setPasswordMatch(password === passwordConfirm);
   }, [password, passwordConfirm]);
+
+  const emailSignUp = async () => {
+    if (!email) {
+      alert("이메일을 입력해주세요.");
+      return;
+    }
+    if (!password) {
+      alert("비밀번호를 입력해주세요.");
+      return;
+    }
+    if (!passwordConfirm) {
+      alert("비밀번호 확인을 입력해주세요.");
+      return;
+    }
+    if (password !== passwordConfirm) {
+      alert("비밀번호가 일치하지 않습니다.");
+      return;
+    }
+
+    try {
+      const res = await emailSignUpApi({ email, password });
+
+      const signUpToken = res.data.signUpToken;
+    } catch (error) {
+      alert(error.response.data.message);
+    }
+  };
 
   return (
     <>
@@ -90,6 +119,7 @@ const EmailSignUpForm = () => {
                   </button>
                 </div>
               </div>
+              {/* TODO: 이메일 주소 구조 검증 */}
               <div>
                 <Label htmlFor="passwordConfirm" className="text-k-900">
                   비밀번호 확인
@@ -111,6 +141,7 @@ const EmailSignUpForm = () => {
                     {passwordsVisible ? <IconEyeOn /> : <IconEyeOff />}
                   </button>
                 </div>
+                {/* TODO: 비밀번호 요건 검증 */}
 
                 {passwordConfirm !== "" && (
                   <div className="mt-1">
@@ -135,7 +166,9 @@ const EmailSignUpForm = () => {
 
       <div className="fixed bottom-14 w-full max-w-[600px] bg-white">
         <div className="mb-[37px] px-5">
-          <BlockBtn onClick={() => {}}>다음</BlockBtn>
+          <BlockBtn onClick={emailSignUp} disabled={!email || !password || !passwordConfirm || !passwordMatch}>
+            다음
+          </BlockBtn>
         </div>
       </div>
     </>
