@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import BlockBtn from "@/components/button/BlockBtn";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
+import { Progress } from "@/components/ui/Progress";
 import ProgressBar from "@/components/ui/ProgressBar";
 
 import { IconCheckBlue, IconExpRed, IconEyeOff, IconEyeOn } from "@/public/svgs/ui";
@@ -41,6 +42,7 @@ const EmailSignUpForm = () => {
   return (
     <>
       <div className="px-5 pt-2.5">
+        <Progress value={currentStep * 50} showPercentage={true} className="mt-4" />
         <ProgressBar currentStep={currentStep} totalSteps={2} />
         <div className="mt-10">
           <span className="text-2xl font-bold leading-[1.4] text-k-900">
@@ -49,6 +51,7 @@ const EmailSignUpForm = () => {
             입력해주세요
           </span>
         </div>
+
         <div className="mt-10 flex flex-col gap-5">
           <div>
             <Label htmlFor="email" className="text-k-900">
