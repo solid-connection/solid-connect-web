@@ -10,6 +10,7 @@ import { saveAccessToken, saveRefreshToken } from "@/utils/localStorage";
 import BlockBtn from "@/components/button/BlockBtn";
 
 import AppleLoginButton from "./AppleLoginButton";
+import EmailSignUpButton from "./EmailSignUpButton";
 import KakaoLoginButton from "./KakaoLoginButton";
 
 import { appleOAuth2CodeResponse } from "@/types/auth";
@@ -133,13 +134,16 @@ const KakaoLoginPage = () => {
           </div>
 
           <div className="mx-5 transition active:scale-95">
-            <BlockBtn onClick={handleEmailLogin}>이메일로 시작하기</BlockBtn>
+            <BlockBtn onClick={handleEmailLogin}>로그인</BlockBtn>
           </div>
 
           <div className="text-center font-serif text-base font-medium text-k-300">or</div>
           <div className="mx-5 transition active:scale-95">
             <KakaoLoginButton onClick={kakaoLogin} />
           </div>
+          {/* <div className="mx-5 transition active:scale-95">
+            <EmailSignUpButton onClick={() => router.push("/sign-up/email")} />
+          </div> */}
           <div className="mx-5 transition active:scale-95">
             <AppleLoginButton onClick={appleLogin} />
           </div>

@@ -11,6 +11,22 @@ export enum GenderEnum {
   PREFER_NOT_TO_SAY = "PREFER_NOT_TO_SAY",
 }
 
+// Email
+export interface EmailSignUpRequest {
+  email: string;
+  password: string;
+}
+
+export interface EmailSignUpResponse {
+  signUpToken: string;
+}
+
+export interface EmailSignInResponse {
+  accessToken: string;
+  refreshToken: string;
+}
+
+// Kakao
 export interface RegisteredKakaoAuthReponse {
   isRegistered: true;
   accessToken: string;
@@ -25,6 +41,7 @@ export interface UnregisteredKakaoAuthReponse {
   signUpToken: string;
 }
 
+// Apple
 export interface RegisteredAppleAuthResponse {
   isRegistered: true;
   accessToken: string;
@@ -39,11 +56,14 @@ export interface UnregisteredAppleAuthResponse {
   signUpToken: string;
 }
 
-export interface EmailSignInResponse {
-  accessToken: string;
-  refreshToken: string;
+export interface appleOAuth2CodeResponse {
+  authorization: {
+    code: string;
+    id_token: string;
+  };
 }
 
+// Sign Up
 export interface SignUpRequest {
   signUpToken: string; // 최초 접속 시 발급받는 토큰
   interestedRegions: RegionKo[]; // 한글 지역명 e.g. 미주권
@@ -62,13 +82,4 @@ export interface SignUpResponse {
 
 export interface ReissueAccessTokenResponse {
   accessToken: string;
-}
-
-// SDK
-
-export interface appleOAuth2CodeResponse {
-  authorization: {
-    code: string;
-    id_token: string;
-  };
 }
