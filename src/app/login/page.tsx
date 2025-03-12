@@ -141,9 +141,9 @@ const KakaoLoginPage = () => {
           <div className="mx-5 transition active:scale-95">
             <KakaoLoginButton onClick={kakaoLogin} />
           </div>
-          <div className="mx-5 transition active:scale-95">
+          {/* <div className="mx-5 transition active:scale-95">
             <EmailSignUpButton onClick={() => router.push("/sign-up/email")} />
-          </div>
+          </div> */}
           <div className="mx-5 transition active:scale-95">
             <AppleLoginButton onClick={appleLogin} />
           </div>
