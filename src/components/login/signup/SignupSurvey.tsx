@@ -7,6 +7,7 @@ import { signUpApi } from "@/services/auth";
 import { uploadProfileImageFilePublicApi } from "@/services/file";
 import { saveAccessToken, saveRefreshToken } from "@/utils/localStorage";
 
+import SignupPolicyScreen from "./SignupPolicyScreen";
 import SignupPrepareScreen from "./SignupPrepareScreen";
 import SignupProfileScreen from "./SignupProfileScreen";
 import SignupRegionScreen from "./SignupRegionScreen";
@@ -120,9 +121,7 @@ const SignupSurvey = ({ signUpToken, baseNickname, baseEmail, baseProfileImageUr
     switch (curStage) {
       case 1:
         return (
-          <SignupPrepareScreen
-            preparation={curPreparation}
-            setPreparation={setCurPreparation}
+          <SignupPolicyScreen
             toNextStage={() => {
               setCurStage(2);
             }}
@@ -130,17 +129,27 @@ const SignupSurvey = ({ signUpToken, baseNickname, baseEmail, baseProfileImageUr
         );
       case 2:
         return (
-          <SignupRegionScreen
-            curRegion={region}
-            setCurRegion={setRegion}
-            curCountries={countries}
-            setCurCountries={setCountries}
+          <SignupPrepareScreen
+            preparation={curPreparation}
+            setPreparation={setCurPreparation}
             toNextStage={() => {
               setCurStage(3);
             }}
           />
         );
       case 3:
+        return (
+          <SignupRegionScreen
+            curRegion={region}
+            setCurRegion={setRegion}
+            curCountries={countries}
+            setCurCountries={setCountries}
+            toNextStage={() => {
+              setCurStage(4);
+            }}
+          />
+        );
+      case 4:
         return (
           <SignupProfileScreen
             toNextStage={submitRegisterRequest}
