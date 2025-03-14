@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 import BlockBtn from "@/components/button/BlockBtn";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Checkbox } from "@/components/ui/Checkbox";
 
 interface SignupPolicyScreenProps {
   toNextStage: () => void;
