@@ -95,12 +95,12 @@ const SignupProfileScreen = ({
             onChange={(e) => setNickname(e.target.value)}
           />
         </div>
+      </div>
 
-        <div style={{ margin: "64px 10px 0 10px" }}>
-          <BlockToggleBtn onClick={submit} isToggled={!!nickname}>
-            가입 완료
-          </BlockToggleBtn>
-        </div>
+      <div style={{ margin: "64px 10px 0 10px" }}>
+        <BlockToggleBtn onClick={submit} isToggled={!!nickname}>
+          가입 완료
+        </BlockToggleBtn>
       </div>
     </div>
   );
