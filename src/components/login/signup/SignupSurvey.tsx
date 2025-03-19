@@ -12,7 +12,7 @@ import SignupPrepareScreen from "./SignupPrepareScreen";
 import SignupProfileScreen from "./SignupProfileScreen";
 import SignupRegionScreen from "./SignupRegionScreen";
 
-import { Gender, PreparationStatus, SignUpRequest } from "@/types/auth";
+import { PreparationStatus, SignUpRequest } from "@/types/auth";
 import { RegionKo } from "@/types/university";
 
 type SignupSurveyProps = {
@@ -32,33 +32,7 @@ const SignupSurvey = ({ signUpToken, baseNickname, baseEmail, baseProfileImageUr
   const [countries, setCountries] = useState<string[]>([]);
 
   const [nickname, setNickname] = useState<string>(baseNickname);
-  const [gender, setGender] = useState<Gender | "">("");
-  const [birth, setBirth] = useState<string>("");
   const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
-
-  const convertBirth = (value: string): string => {
-    if (value.length !== 8) {
-      throw new Error("생년월일을 8자리로 입력해주세요.");
-    }
-
-    const year = value.substring(0, 4);
-    const month = value.substring(4, 6);
-    const day = value.substring(6, 8);
-
-    const formattedDate = `${year}-${month}-${day}`;
-
-    const date = new Date(formattedDate);
-    const isValidDate =
-      date.getFullYear() === parseInt(year, 10) &&
-      date.getMonth() + 1 === parseInt(month, 10) &&
-      date.getDate() === parseInt(day, 10);
-
-    if (!isValidDate) {
-      throw new Error("유효한 날짜가 아닙니다.");
-    }
-
-    return formattedDate;
-  };
 
   const createRegisterRequest = async (): Promise<SignUpRequest> => {
     const submitRegion: RegionKo[] = region === "아직 잘 모르겠어요" ? [] : [region as RegionKo];
@@ -66,12 +40,6 @@ const SignupSurvey = ({ signUpToken, baseNickname, baseEmail, baseProfileImageUr
     if (!curPreparation) {
       throw new Error("준비 단계를 선택해주세요");
     }
-
-    if (gender === "") {
-      throw new Error("성별을 선택해주세요");
-    }
-
-    const convertedBirth: string = convertBirth(birth);
 
     let imageUrl: string | null = baseProfileImageUrl;
 
@@ -92,8 +60,6 @@ const SignupSurvey = ({ signUpToken, baseNickname, baseEmail, baseProfileImageUr
       preparationStatus: curPreparation,
       nickname,
       profileImageUrl: imageUrl,
-      gender,
-      birth: convertedBirth,
     };
   };
 
@@ -155,10 +121,6 @@ const SignupSurvey = ({ signUpToken, baseNickname, baseEmail, baseProfileImageUr
             toNextStage={submitRegisterRequest}
             nickname={nickname}
             setNickname={setNickname}
-            gender={gender}
-            setGender={setGender}
-            birth={birth}
-            setBirth={setBirth}
             defaultProfileImageUrl={baseProfileImageUrl}
             profileImageFile={profileImageFile}
             setProfileImageFile={setProfileImageFile}

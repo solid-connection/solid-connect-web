@@ -32,8 +32,13 @@ export const emailAuthApi = (email: string, password: string): Promise<AxiosResp
 export const emailSignUpApi = (signUpRequest: EmailSignUpRequest): Promise<AxiosResponse<EmailSignUpResponse>> =>
   publicAxiosInstance.post("/auth/email/sign-up", signUpRequest);
 
-export const signUpApi = (signUpRequest: SignUpRequest): Promise<AxiosResponse<SignUpResponse>> =>
-  publicAxiosInstance.post("/auth/sign-up", signUpRequest);
+export const signUpApi = (signUpRequest: SignUpRequest): Promise<AxiosResponse<SignUpResponse>> => {
+  // 임시 성별, 생년월일 추가. API 변경 시 삭제
+  signUpRequest["birth"] = "2000-01-01";
+  signUpRequest["gender"] = "PREFER_NOT_TO_SAY";
+
+  return publicAxiosInstance.post("/auth/sign-up", signUpRequest);
+};
 
 export const signOutApi = (): Promise<AxiosResponse<null>> => axiosInstance.post("/auth/sign-out");
 
