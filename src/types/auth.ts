@@ -2,14 +2,14 @@ import { Country, RegionKo } from "./university";
 
 export type PreparationStatus = "CONSIDERING" | "PREPARING_FOR_DEPARTURE" | "STUDYING_ABROAD";
 
-export type Gender = "MALE" | "FEMALE" | "PREFER_NOT_TO_SAY";
+// export type Gender = "MALE" | "FEMALE" | "PREFER_NOT_TO_SAY";
 
 // eslint-disable-next-line no-shadow
-export enum GenderEnum {
-  MALE = "MALE",
-  FEMALE = "FEMALE",
-  PREFER_NOT_TO_SAY = "PREFER_NOT_TO_SAY",
-}
+// export enum GenderEnum {
+//   MALE = "MALE",
+//   FEMALE = "FEMALE",
+//   PREFER_NOT_TO_SAY = "PREFER_NOT_TO_SAY",
+// }
 
 // Email
 export interface EmailSignUpRequest {
@@ -71,8 +71,8 @@ export interface SignUpRequest {
   preparationStatus: PreparationStatus; // 준비 단계
   nickname: string; // 닉네임
   profileImageUrl: string; // 프로필 이미지
-  gender: Gender; // 성별
-  birth: string; // 생년월일 yyyy-mm-dd
+  // gender: Gender; // 성별
+  // birth: string; // 생년월일 yyyy-mm-dd
 }
 
 export interface SignUpResponse {

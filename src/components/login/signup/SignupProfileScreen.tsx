@@ -6,18 +6,12 @@ import BlockToggleBtn from "@/components/button/BlockToggleBtn";
 
 import styles from "./signup.module.css";
 
-import { Gender, GenderEnum } from "@/types/auth";
-
 import { IconSignupProfileImage } from "@/public/svgs";
 
 type SignupProfileScreenProps = {
   toNextStage: () => void;
   nickname: string;
   setNickname: Dispatch<SetStateAction<string>>;
-  gender: Gender | "";
-  setGender: Dispatch<SetStateAction<Gender | "">>;
-  birth: string;
-  setBirth: Dispatch<SetStateAction<string>>;
   defaultProfileImageUrl: string;
   profileImageFile: File | null;
   setProfileImageFile: Dispatch<SetStateAction<File | null>>;
@@ -27,10 +21,6 @@ const SignupProfileScreen = ({
   toNextStage,
   nickname,
   setNickname,
-  gender,
-  setGender,
-  birth,
-  setBirth,
   defaultProfileImageUrl,
   profileImageFile,
   setProfileImageFile,
@@ -41,14 +31,6 @@ const SignupProfileScreen = ({
   const submit = () => {
     if (!nickname) {
       alert("닉네임을 입력해주세요.");
-      return;
-    }
-    if (!birth) {
-      alert("생년월일을 입력해주세요.");
-      return;
-    }
-    if (gender === "") {
-      alert("성별을 선택해주세요.");
       return;
     }
     toNextStage();
@@ -114,33 +96,11 @@ const SignupProfileScreen = ({
           />
         </div>
 
-        <div className={styles.profile__birth}>
-          <label htmlFor="birth">생년월일</label>
-          <input
-            id="birth"
-            type="text"
-            placeholder="생년월일 8자리를 입력해주세요. (예: 20010227)"
-            value={birth}
-            onChange={(e) => setBirth(e.target.value)}
-          />
+        <div style={{ margin: "64px 10px 0 10px" }}>
+          <BlockToggleBtn onClick={submit} isToggled={!!nickname}>
+            가입 완료
+          </BlockToggleBtn>
         </div>
-
-        <div className={styles.profile__sex}>
-          <label htmlFor="sex">성별</label>
-          <select id="sex" value={gender} onChange={(e) => setGender(e.target.value as Gender)}>
-            <option value="" disabled>
-              성별을 선택해주세요.
-            </option>
-            <option value={GenderEnum.MALE}>남성</option>
-            <option value={GenderEnum.FEMALE}>여성</option>
-            <option value={GenderEnum.PREFER_NOT_TO_SAY}>선택 안 함</option>
-          </select>
-        </div>
-      </div>
-      <div style={{ margin: "64px 10px 0 10px" }}>
-        <BlockToggleBtn onClick={submit} isToggled={!!nickname && !!birth && !!gender}>
-          가입 완료
-        </BlockToggleBtn>
       </div>
     </div>
   );
