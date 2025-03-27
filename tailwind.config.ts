@@ -23,7 +23,7 @@ const config: Config = {
         "primary-1": "#5950f6",
         "primary-2": "#4672ee",
         primary: {
-          "100": "#CECBFD",
+          "100": "#EFEEFF",
           "200": "#ABA7FA",
           "300": "#938DF9",
           "400": "#837CF8",

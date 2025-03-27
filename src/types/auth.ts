@@ -2,6 +2,12 @@ import { Country, RegionKo } from "./university";
 
 export type PreparationStatus = "CONSIDERING" | "PREPARING_FOR_DEPARTURE" | "STUDYING_ABROAD";
 
+export enum PreparationStatusEnum {
+  CONSIDERING = "CONSIDERING",
+  PREPARING_FOR_DEPARTURE = "PREPARING_FOR_DEPARTURE",
+  STUDYING_ABROAD = "STUDYING_ABROAD",
+}
+
 // export type Gender = "MALE" | "FEMALE" | "PREFER_NOT_TO_SAY";
 
 // eslint-disable-next-line no-shadow

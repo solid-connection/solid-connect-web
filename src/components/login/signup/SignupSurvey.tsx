@@ -7,6 +7,9 @@ import { signUpApi } from "@/services/auth";
 import { uploadProfileImageFilePublicApi } from "@/services/file";
 import { saveAccessToken, saveRefreshToken } from "@/utils/localStorage";
 
+import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
+import { Progress } from "@/components/ui/Progress";
+
 import SignupPolicyScreen from "./SignupPolicyScreen";
 import SignupPrepareScreen from "./SignupPrepareScreen";
 import SignupProfileScreen from "./SignupProfileScreen";
@@ -131,7 +134,14 @@ const SignupSurvey = ({ signUpToken, baseNickname, baseEmail, baseProfileImageUr
     }
   };
 
-  return <>{renderCurrentSurvey()}</>;
+  return (
+    <div>
+      <div className="mt-8 px-5">
+        <Progress value={25} />
+      </div>
+      {renderCurrentSurvey()}
+    </div>
+  );
 };
 
 export default SignupSurvey;

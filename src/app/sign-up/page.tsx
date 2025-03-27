@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 
+import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import SignupSurvey from "@/components/login/signup/SignupSurvey";
 
 const SignUpPage = () => {
@@ -14,9 +15,10 @@ const SignUpPage = () => {
   }
 
   return (
-    <div>
+    <>
+      <TopDetailNavigation title="회원가입" />
       <SignupSurvey signUpToken={signUpToken} baseNickname="" baseEmail="" baseProfileImageUrl="" />
-    </div>
+    </>
   );
 };
 
