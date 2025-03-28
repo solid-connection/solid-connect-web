@@ -1,13 +1,12 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { signUpApi } from "@/services/auth";
 import { uploadProfileImageFilePublicApi } from "@/services/file";
 import { saveAccessToken, saveRefreshToken } from "@/utils/localStorage";
 
-import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import { Progress } from "@/components/ui/Progress";
 
 import SignupPolicyScreen from "./SignupPolicyScreen";
@@ -28,6 +27,7 @@ type SignupSurveyProps = {
 const SignupSurvey = ({ signUpToken, baseNickname, baseEmail, baseProfileImageUrl }: SignupSurveyProps) => {
   const router = useRouter();
   const [curStage, setCurStage] = useState<number>(1);
+  const [curProgress, setCurProgress] = useState<number>(0);
 
   const [curPreparation, setCurPreparation] = useState<PreparationStatus | null>(null);
 
@@ -36,6 +36,10 @@ const SignupSurvey = ({ signUpToken, baseNickname, baseEmail, baseProfileImageUr
 
   const [nickname, setNickname] = useState<string>(baseNickname);
   const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
+
+  useEffect(() => {
+    setCurProgress(((curStage - 1) / 3) * 100);
+  }, [curStage]);
 
   const createRegisterRequest = async (): Promise<SignUpRequest> => {
     const submitRegion: RegionKo[] = region === "아직 잘 모르겠어요" ? [] : [region as RegionKo];
@@ -137,7 +141,7 @@ const SignupSurvey = ({ signUpToken, baseNickname, baseEmail, baseProfileImageUr
   return (
     <div>
       <div className="mt-8 px-5">
-        <Progress value={25} />
+        <Progress value={curProgress} />
       </div>
       {renderCurrentSurvey()}
     </div>
