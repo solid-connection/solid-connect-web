@@ -2,17 +2,6 @@
   margin: -56px 20px -56px 20px;
 }
 
-.secondary-title {
-  margin-top: 20px;
-
-  color: #878787;
-  font-family: Pretendard;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 150%; /* 24px */
-}
-
 .title {
   margin-top: 20px;
 
@@ -22,64 +11,4 @@
   font-style: normal;
   font-weight: 700;
   line-height: 140%; /* 33.6px */
-}
-
-/* SignupProfileScreen */
-.profile-screen {
-  margin-top: 27px;
-}
-
-.profile-screen label {
-  display: block;
-  margin-bottom: 6px;
-
-  color: #323232;
-  font-family: Pretendard;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 150%; /* 21px */
-  letter-spacing: -0.35px;
-  text-transform: uppercase;
-}
-
-.profile__image {
-  display: flex;
-  justify-content: center;
-}
-
-.image-wrapper {
-}
-
-.image-wrapper > img {
-  width: 120px;
-  height: 120px;
-  border-radius: 100%;
-}
-
-.profile__nickname {
-  margin-top: 23px;
-}
-
-.profile__nickname {
-  margin: 32px 10px 0 10px;
-}
-
-.profile__nickname > input {
-  width: 100%;
-  height: 50px;
-  padding: 0px 16px;
-  box-sizing: border-box;
-  border: none;
-  border-radius: 8px;
-  background: #f7f7f7;
-
-  color: #a8a8a8;
-  font-family: Pretendard;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 150%; /* 21px */
-  letter-spacing: -0.35px;
-  text-transform: uppercase;
 }

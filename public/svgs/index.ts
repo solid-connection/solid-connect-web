@@ -15,7 +15,6 @@ import IconPostLikeOutline from "./post-like-outline.svg";
 import IconScoreBanner from "./score-banner.svg";
 import IconSearchBanner from "./search-banner.svg";
 import IconSearchFilled from "./search-filled.svg";
-import IconSignupProfileImage from "./signup-profile-image.svg";
 import IconSignupRegionAmerica from "./signup-region-america.svg";
 import IconSignupRegionAsia from "./signup-region-asia.svg";
 import IconSignupRegionEurope from "./signup-region-europe.svg";
@@ -43,7 +42,6 @@ export {
   IconScoreBanner,
   IconSearchBanner,
   IconSearchFilled,
-  IconSignupProfileImage,
   IconSignupRegionAmerica,
   IconSignupRegionAsia,
   IconSignupRegionEurope,
