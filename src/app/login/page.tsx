@@ -1,5 +1,6 @@
 "use client";
 
+import { Metadata } from "next";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -17,6 +18,10 @@ import { appleOAuth2CodeResponse } from "@/types/auth";
 
 import { useLayout } from "@/context/LayoutContext";
 import { IconSolidConnectionFullBlackLogo } from "@/public/svgs";
+
+// export const metadata: Metadata = {
+//   title: "로그인",
+// };
 
 const KakaoLoginPage = () => {
   const router = useRouter();
