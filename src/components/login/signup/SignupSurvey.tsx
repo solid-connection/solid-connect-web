@@ -1,11 +1,13 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 import { signUpApi } from "@/services/auth";
 import { uploadProfileImageFilePublicApi } from "@/services/file";
 import { saveAccessToken, saveRefreshToken } from "@/utils/localStorage";
+
+import { Progress } from "@/components/ui/Progress";
 
 import SignupPolicyScreen from "./SignupPolicyScreen";
 import SignupPrepareScreen from "./SignupPrepareScreen";
@@ -16,15 +18,22 @@ import { PreparationStatus, SignUpRequest } from "@/types/auth";
 import { RegionKo } from "@/types/university";
 
 type SignupSurveyProps = {
-  signUpToken: string;
   baseNickname: string;
   baseEmail: string;
   baseProfileImageUrl: string;
 };
 
-const SignupSurvey = ({ signUpToken, baseNickname, baseEmail, baseProfileImageUrl }: SignupSurveyProps) => {
+const SignupSurvey = ({ baseNickname, baseEmail, baseProfileImageUrl }: SignupSurveyProps) => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const signUpToken = searchParams?.get("token");
+  if (!signUpToken) {
+    router.push("/login");
+  }
+
   const [curStage, setCurStage] = useState<number>(1);
+  const [curProgress, setCurProgress] = useState<number>(0);
 
   const [curPreparation, setCurPreparation] = useState<PreparationStatus | null>(null);
 
@@ -33,6 +42,10 @@ const SignupSurvey = ({ signUpToken, baseNickname, baseEmail, baseProfileImageUr
 
   const [nickname, setNickname] = useState<string>(baseNickname);
   const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
+
+  useEffect(() => {
+    setCurProgress(((curStage - 1) / 3) * 100);
+  }, [curStage]);
 
   const createRegisterRequest = async (): Promise<SignUpRequest> => {
     const submitRegion: RegionKo[] = region === "아직 잘 모르겠어요" ? [] : [region as RegionKo];
@@ -131,7 +144,14 @@ const SignupSurvey = ({ signUpToken, baseNickname, baseEmail, baseProfileImageUr
     }
   };
 
-  return <>{renderCurrentSurvey()}</>;
+  return (
+    <div>
+      <div className="mt-8 px-5">
+        <Progress value={curProgress} />
+      </div>
+      {renderCurrentSurvey()}
+    </div>
+  );
 };
 
 export default SignupSurvey;

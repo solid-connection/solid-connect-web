@@ -2,9 +2,9 @@
 
 import { Dispatch, SetStateAction } from "react";
 
-import BlockToggleBtn from "@/components/button/BlockToggleBtn";
+import clsx from "clsx";
 
-import styles from "./signup.module.css";
+import BlockBtn from "@/components/button/BlockBtn";
 
 import {
   IconSignupRegionAmerica,
@@ -16,10 +16,12 @@ import {
 const regionList = [
   {
     name: "미주권",
+    icon: <IconSignupRegionAmerica />,
     countries: ["미국", "캐나다", "호주", "브라질"],
   },
   {
     name: "아시아권",
+    icon: <IconSignupRegionAsia />,
     countries: [
       "말레이시아",
       "브루나이",
@@ -38,6 +40,7 @@ const regionList = [
   },
   {
     name: "유럽권",
+    icon: <IconSignupRegionEurope />,
     countries: [
       "네덜란드",
       "노르웨이",
@@ -59,6 +62,7 @@ const regionList = [
   },
   {
     name: "아직 잘 모르겠어요",
+    icon: <IconSignupRegionWorld />,
     countries: [],
   },
 ];
@@ -87,23 +91,28 @@ const SignupRegionScreen = ({
   };
 
   return (
-    <div className={styles.screen}>
-      <div className={styles["secondary-title"]}>교환학생에 대한 정보를 알려주세요.</div>
-      <div className={styles.title}>
-        어느 지역에
-        <br />
-        관심이 있으신가요?
-      </div>
+    <div className="mb-40">
+      <div className="px-5">
+        <div className="mt-5">
+          <span className="text-2xl font-bold leading-snug text-k-900">
+            현재 나의
+            <span className="text-primary"> 관심 국가</span>를
+            <br />
+            선택해주세요.
+          </span>
+        </div>
 
-      <div className={styles["region-screen"]}>
-        <RegionButtons curRegion={curRegion} setCurRegion={setCurRegion} />
-        <CountryButtons curCountries={curCountries} setCurCountries={setCurCountries} region={curRegion} />
+        <div className="mt-10">
+          <RegionButtons curRegion={curRegion} setCurRegion={setCurRegion} />
+          <CountryButtons curCountries={curCountries} setCurCountries={setCurCountries} region={curRegion} />
+        </div>
       </div>
-
-      <div style={{ margin: "39px 10px 0 10px" }}>
-        <BlockToggleBtn onClick={submit} isToggled={!!curRegion}>
-          다음으로
-        </BlockToggleBtn>
+      <div className="fixed bottom-14 w-full max-w-[600px] bg-white">
+        <div className="px-5">
+          <BlockBtn className="mb-[29px]" disabled={!curRegion} onClick={submit}>
+            다음
+          </BlockBtn>
+        </div>
       </div>
     </div>
   );
@@ -117,21 +126,32 @@ type RegionButtonsProps = {
 };
 
 const RegionButtons = ({ curRegion, setCurRegion }: RegionButtonsProps) => (
-  <div className={styles["region-choices"]}>
+  <div className="grid grid-cols-2 gap-5">
     {regionList.map((region) => (
       <button
         key={region.name}
-        className={`${styles["region-button"]} ${curRegion === region.name && styles["region-button--selected"]}`}
+        className={clsx("relative flex h-[82px] flex-col items-center justify-center rounded-lg", {
+          "border-none bg-k-50": curRegion !== region.name,
+          "border-2 border-primary-500 bg-primary-100": curRegion === region.name,
+        })}
         onClick={() => setCurRegion(region.name)}
-        type="button"
       >
-        <div className={styles["region-button__icon"]}>
-          {region.name === "미주권" && <IconSignupRegionAmerica />}
-          {region.name === "유럽권" && <IconSignupRegionEurope />}
-          {region.name === "아시아권" && <IconSignupRegionAsia />}
-          {region.name === "아직 잘 모르겠어요" && <IconSignupRegionWorld />}
-        </div>
-        <div className={styles["region-button__name"]}>{region.name}</div>
+        <div>{region.icon}</div>
+        <span className="text-base font-semibold text-k-800">{region.name}</span>
+        {curRegion === "아직 잘 모르겠어요" && region.name === "아직 잘 모르겠어요" && (
+          <div className="absolute top-[100px] flex justify-center">
+            <div className="absolute bottom-full left-1/2 h-0 w-0 -translate-x-1/2 border-x-8 border-b-[12px] border-x-transparent border-b-primary"></div>
+            <div className="relative rounded-lg bg-primary px-4 py-3">
+              <p className="text-center text-sm font-normal leading-normal text-white">
+                괜찮아요,
+                <br />
+                솔커에서 다양한 정보를
+                <br />
+                탐색해보세요!
+              </p>
+            </div>
+          </div>
+        )}
       </button>
     ))}
   </div>
@@ -152,26 +172,17 @@ const CountryButtons = ({ curCountries, setCurCountries, region }: CountryButton
     }
   };
 
-  if (region === null || region === "아직 잘 모르겠어요") {
-    return region === "아직 잘 모르겠어요" ? (
-      <div className={styles.idk}>
-        솔리드 커넥션에서 다양한 정보를 맛보고
-        <br />
-        가고 싶은 나라를 골라봐요
-      </div>
-    ) : null;
-  }
-
   const countries = regionList.find((r) => r.name === region)?.countries || [];
 
   return (
-    <div className={styles["country-choices"]}>
+    <div className="mt-5 grid grid-cols-3 gap-4">
       {countries.map((country) => (
         <button
           key={country}
-          className={`${styles["country-button"]} ${
-            curCountries.includes(country) && styles["country-button--selected"]
-          }`}
+          className={clsx("h-8 rounded-sm border-none", {
+            "bg-k-50 hover:bg-k-100": !curCountries.includes(country),
+            "bg-primary-100": curCountries.includes(country),
+          })}
           onClick={() => toggleCountry(country)}
           type="button"
         >

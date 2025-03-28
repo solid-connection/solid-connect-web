@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import axios from "axios";
 
@@ -13,14 +13,12 @@ import SignupSurvey from "@/components/login/signup/SignupSurvey";
 
 import { useLayout } from "@/context/LayoutContext";
 
-// AxiosError 타입 가드 사용을 위해 추가
-
 const AppleLoginCallbackPage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [signUpToken, setSignUpToken] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
+  // const [signUpToken, setSignUpToken] = useState<string>("");
+  // const [email, setEmail] = useState<string>("");
 
   const { setHideBottomNavigation } = useLayout();
 
@@ -47,8 +45,9 @@ const AppleLoginCallbackPage = () => {
         router.push("/");
       } else if (data.isRegistered === false) {
         // 새로운 회원일 시
-        setSignUpToken(data.signUpToken);
-        setEmail(data.email);
+        // setSignUpToken(data.signUpToken);
+        // setEmail(data.email);
+        router.push(`/sign-up?token=${data.signUpToken}`);
       }
     } catch (err: unknown) {
       if (axios.isAxiosError(err) && err.response) {
@@ -64,19 +63,11 @@ const AppleLoginCallbackPage = () => {
     }
   };
 
-  useEffect(() => {
-    if (!signUpToken) {
-      document.title = "애플 로그인 진행중";
-    } else {
-      document.title = "회원가입";
-    }
-  }, [signUpToken]);
+  // if (!signUpToken) {
+  return <CloudSpinnerPage />;
+  // }
 
-  if (!signUpToken) {
-    return <CloudSpinnerPage />;
-  }
-
-  return <SignupSurvey signUpToken={signUpToken} baseNickname={""} baseEmail={email} baseProfileImageUrl={""} />;
+  // return <SignupSurvey signUpToken={signUpToken} baseNickname={""} baseEmail={email} baseProfileImageUrl={""} />;
 };
 
 export default AppleLoginCallbackPage;

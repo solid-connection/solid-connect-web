@@ -56,7 +56,7 @@ const SignupPolicyScreen = ({ toNextStage }: SignupPolicyScreenProps) => {
       <div className="fixed bottom-14 w-full max-w-[600px] bg-white">
         <div className="px-5">
           <BlockBtn
-            className="mt-5"
+            className="mb-[29px]"
             disabled={!isChecked}
             onClick={toNextStage}
             style={{ backgroundColor: isChecked ? "#5950f6" : "#c4c4c4" }}

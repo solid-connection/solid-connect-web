@@ -12,7 +12,7 @@ interface ExtendedProgressProps extends React.ComponentPropsWithoutRef<typeof Pr
 }
 
 const Progress = React.forwardRef<React.ElementRef<typeof ProgressPrimitive.Root>, ExtendedProgressProps>(
-  ({ className, value, showPercentage = false, percentageClassName, showIndicator = true, ...props }, ref) => (
+  ({ className, value, showPercentage = true, percentageClassName, showIndicator = true, ...props }, ref) => (
     <div className="relative">
       {showPercentage && (
         <div

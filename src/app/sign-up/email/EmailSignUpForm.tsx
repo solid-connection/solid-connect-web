@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { emailSignUpApi } from "@/services/auth";
@@ -8,12 +9,12 @@ import BlockBtn from "@/components/button/BlockBtn";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
 import { Progress } from "@/components/ui/Progress";
-import ProgressBar from "@/components/ui/ProgressBar";
 
 import { IconCheckBlue, IconExpRed, IconEyeOff, IconEyeOn } from "@/public/svgs/ui";
 
 const EmailSignUpForm = () => {
-  const [currentStep, setCurrentStep] = useState<number>(1);
+  const router = useRouter();
+  const [currentStep, setCurrentStep] = useState<number>(0);
   const [email, setEmail] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [password, setPassword] = useState<string>("");
@@ -24,6 +25,7 @@ const EmailSignUpForm = () => {
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
     if (!showPassword) {
+      setCurrentStep(1);
       setShowPassword(true);
     }
   };
@@ -33,6 +35,10 @@ const EmailSignUpForm = () => {
   };
 
   useEffect(() => {
+    if (passwordConfirm.length > 0) {
+      setCurrentStep(2);
+    }
+
     if (passwordConfirm === "") {
       setPasswordMatch(null);
       return;
@@ -63,6 +69,7 @@ const EmailSignUpForm = () => {
       const res = await emailSignUpApi({ email, password });
 
       const signUpToken = res.data.signUpToken;
+      router.push(`/sign-up?token=${signUpToken}`);
     } catch (error) {
       alert(error.response.data.message);
     }
@@ -72,7 +79,6 @@ const EmailSignUpForm = () => {
     <>
       <div className="px-5 pt-2.5">
         <Progress value={currentStep * 50} showPercentage={true} className="mt-4" />
-        <ProgressBar currentStep={currentStep} totalSteps={2} />
         <div className="mt-10">
           <span className="text-2xl font-bold leading-[1.4] text-k-900">
             이메일을

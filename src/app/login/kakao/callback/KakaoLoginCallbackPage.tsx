@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import axios from "axios";
 
@@ -13,16 +13,14 @@ import SignupSurvey from "@/components/login/signup/SignupSurvey";
 
 import { useLayout } from "@/context/LayoutContext";
 
-// AxiosError 타입 가드 사용을 위해 추가
-
 const KakaoLoginCallbackPage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [kakaoOauthToken, setKakaoOauthToken] = useState<string>("");
-  const [kakaoNickname, setKakaoNickname] = useState<string>("");
-  const [kakaoEmail, setKakaoEmail] = useState<string>("");
-  const [kakaoProfileImageUrl, setKakaoProfileImageUrl] = useState<string>("");
+  // const [kakaoOauthToken, setKakaoOauthToken] = useState<string>("");
+  // const [kakaoNickname, setKakaoNickname] = useState<string>("");
+  // const [kakaoEmail, setKakaoEmail] = useState<string>("");
+  // const [kakaoProfileImageUrl, setKakaoProfileImageUrl] = useState<string>("");
 
   const { setHideBottomNavigation } = useLayout();
 
@@ -49,10 +47,11 @@ const KakaoLoginCallbackPage = () => {
         router.push("/");
       } else if (data.isRegistered === false) {
         // 새로운 회원일 시
-        setKakaoOauthToken(data.signUpToken);
-        setKakaoNickname(data.nickname);
-        setKakaoEmail(data.email);
-        setKakaoProfileImageUrl(data.profileImageUrl);
+        // setKakaoOauthToken(data.signUpToken);
+        // setKakaoNickname(data.nickname);
+        // setKakaoEmail(data.email);
+        // setKakaoProfileImageUrl(data.profileImageUrl);
+        router.push(`/sign-up?token=${data.signUpToken}`);
       }
     } catch (err: unknown) {
       if (axios.isAxiosError(err) && err.response) {
@@ -68,26 +67,18 @@ const KakaoLoginCallbackPage = () => {
     }
   };
 
-  useEffect(() => {
-    if (!kakaoOauthToken) {
-      document.title = "카카오 로그인 진행중";
-    } else {
-      document.title = "회원가입";
-    }
-  }, [kakaoOauthToken]);
+  // if (!kakaoOauthToken) {
+  return <CloudSpinnerPage />;
+  // }
 
-  if (!kakaoOauthToken) {
-    return <CloudSpinnerPage />;
-  }
-
-  return (
-    <SignupSurvey
-      signUpToken={kakaoOauthToken}
-      baseNickname={kakaoNickname}
-      baseEmail={kakaoEmail}
-      baseProfileImageUrl={kakaoProfileImageUrl}
-    />
-  );
+  // return (
+  // <SignupSurvey
+  //   signUpToken={kakaoOauthToken}
+  //   baseNickname={kakaoNickname}
+  //   baseEmail={kakaoEmail}
+  //   baseProfileImageUrl={kakaoProfileImageUrl}
+  // />
+  // );
 };
 
 export default KakaoLoginCallbackPage;

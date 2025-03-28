@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { getMyGpaScoreApi, getMyLanguageTestScoreApi } from "@/services/score";
 
 import BlockBtn from "@/components/button/BlockBtn";
-import Tab from "@/components/ui/tab";
+import Tab from "@/components/ui/Tab";
 
 import ScoreCard from "./ScoreCard";
 
