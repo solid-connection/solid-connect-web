@@ -1,6 +1,11 @@
+import { Metadata } from "next";
 import React from "react";
 
 import { IconClock } from "@/public/svgs";
+
+export const metadata: Metadata = {
+  title: "멘토링",
+};
 
 const MentorPage = () => <MentorComingSoon />;
 
