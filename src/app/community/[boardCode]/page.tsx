@@ -16,6 +16,10 @@ import PostWriteButton from "./PostWriteButton";
 import { COMMUNITY_BOARDS, COMMUNITY_CATEGORIES } from "@/constants/commnunity";
 import { ListPost } from "@/types/community";
 
+// export const metadata: Metadata = {
+//   title: "커뮤니티",
+// };
+
 const CommunityPage = ({ params }: { params: { boardCode: string } }) => {
   const { boardCode } = params;
   const router = useRouter();

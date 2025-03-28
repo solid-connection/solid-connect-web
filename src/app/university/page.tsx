@@ -1,11 +1,12 @@
+import { Metadata } from "next";
 import React, { Suspense } from "react";
 
 import { getUniversityListPublicApi } from "@/services/university";
 
 import UniversityPage from "./UniversityPage";
 
-export const metadata = {
-  title: "솔리드 커넥션",
+export const metadata: Metadata = {
+  title: "파견 학교 목록",
 };
 
 const Page = async () => {

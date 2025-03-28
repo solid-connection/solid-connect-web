@@ -1,5 +1,6 @@
 "use client";
 
+import { Metadata } from "next";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -8,6 +9,10 @@ import { getPostDetailApi } from "@/services/community";
 import PostModifyForm from "./PostModifyForm";
 
 import { Post } from "@/types/community";
+
+// export const metadata: Metadata = {
+//   title: "글 수정",
+// };
 
 const PostModifyPage = ({ params }: { params: { boardCode: string; postId: string } }) => {
   const { boardCode, postId } = params;
