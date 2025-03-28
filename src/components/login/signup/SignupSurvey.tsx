@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { signUpApi } from "@/services/auth";
@@ -18,14 +18,20 @@ import { PreparationStatus, SignUpRequest } from "@/types/auth";
 import { RegionKo } from "@/types/university";
 
 type SignupSurveyProps = {
-  signUpToken: string;
   baseNickname: string;
   baseEmail: string;
   baseProfileImageUrl: string;
 };
 
-const SignupSurvey = ({ signUpToken, baseNickname, baseEmail, baseProfileImageUrl }: SignupSurveyProps) => {
+const SignupSurvey = ({ baseNickname, baseEmail, baseProfileImageUrl }: SignupSurveyProps) => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const signUpToken = searchParams?.get("token");
+  if (!signUpToken) {
+    router.push("/login");
+  }
+
   const [curStage, setCurStage] = useState<number>(1);
   const [curProgress, setCurProgress] = useState<number>(0);
 

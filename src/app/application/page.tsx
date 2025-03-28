@@ -9,7 +9,7 @@ import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import CloudSpinnerPage from "@/components/loading/CloudSpinnerPage";
 import ConfirmCancelModal from "@/components/modal/ConfirmCancelModal";
 import ButtonTab from "@/components/ui/ButtonTab";
-import Tab from "@/components/ui/tab";
+import Tab from "@/components/ui/Tab";
 
 import ScoreSearchBar from "./ScoreSearchBar";
 import ScoreSearchField from "./ScoreSearchField";

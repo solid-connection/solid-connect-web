@@ -1,23 +1,20 @@
-"use client";
-
-import { useRouter, useSearchParams } from "next/navigation";
+import { Metadata } from "next";
+import { Suspense } from "react";
 
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import SignupSurvey from "@/components/login/signup/SignupSurvey";
 
+export const metadata: Metadata = {
+  title: "회원가입",
+};
+
 const SignUpPage = () => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const signUpToken = searchParams?.get("token");
-
-  if (!signUpToken) {
-    router.push("/login");
-  }
-
   return (
     <>
       <TopDetailNavigation title="회원가입" />
-      <SignupSurvey signUpToken={signUpToken} baseNickname="" baseEmail="" baseProfileImageUrl="" />
+      <Suspense fallback={<div>Loading...</div>}>
+        <SignupSurvey baseNickname="" baseEmail="" baseProfileImageUrl="" />
+      </Suspense>
     </>
   );
 };
