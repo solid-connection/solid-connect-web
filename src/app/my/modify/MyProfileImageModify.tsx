@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useRef } from "react";
 
-import { updateMyProfileImage } from "@/services/myInfo";
+import { updateMyInfoApi } from "@/services/myInfo";
 
 import { MyInfo } from "@/types/myInfo";
 
@@ -17,7 +17,7 @@ const MyProfileImageModify = ({ myInfo }: MyProfileImageModifyProps) => {
 
   const updateProfileImage = async (imageFile: File) => {
     try {
-      await updateMyProfileImage(imageFile);
+      await updateMyInfoApi({ file: imageFile });
       alert("프로필 이미지가 변경되었습니다");
       router.refresh();
     } catch (err) {
