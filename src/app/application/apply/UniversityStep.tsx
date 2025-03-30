@@ -49,7 +49,7 @@ const UniversityStep = ({ universityList, curUniversityList, setCurUniversityLis
             <label className="block font-serif text-sm font-semibold leading-normal text-k-900">1지망</label>
             <Select
               value={curUniversityList[0]?.toString() ?? null}
-              onValueChange={(value: string) => handleSelect(0, parseInt(value))}
+              onValueChange={(value: string) => handleSelect(0, parseInt(value, 10))}
             >
               <SelectTrigger className="">
                 <SelectValue placeholder="" />
@@ -71,7 +71,7 @@ const UniversityStep = ({ universityList, curUniversityList, setCurUniversityLis
             <label className="block font-serif text-sm font-semibold leading-normal text-k-900">2지망</label>
             <Select
               value={curUniversityList[1]?.toString() ?? null}
-              onValueChange={(value: string) => handleSelect(1, parseInt(value))}
+              onValueChange={(value: string) => handleSelect(1, parseInt(value, 10))}
             >
               <SelectTrigger className="">
                 <SelectValue placeholder="" />
@@ -93,7 +93,7 @@ const UniversityStep = ({ universityList, curUniversityList, setCurUniversityLis
             <label className="block font-serif text-sm font-semibold leading-normal text-k-900">3지망</label>
             <Select
               value={curUniversityList[2]?.toString() ?? null}
-              onValueChange={(value: string) => handleSelect(2, parseInt(value))}
+              onValueChange={(value: string) => handleSelect(2, parseInt(value, 10))}
             >
               <SelectTrigger className="">
                 <SelectValue placeholder="" />
