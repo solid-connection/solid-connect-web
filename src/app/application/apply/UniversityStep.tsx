@@ -4,6 +4,15 @@ import { useState } from "react";
 
 import BlockBtn from "@/components/button/BlockBtn";
 import TextModal from "@/components/modal/TextModal";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/Select";
 
 import { ListUniversity } from "@/types/university";
 
@@ -38,48 +47,69 @@ const UniversityStep = ({ universityList, curUniversityList, setCurUniversityLis
         <div className="mt-5 flex flex-col gap-4">
           <div className="flex flex-col gap-1">
             <label className="block font-serif text-sm font-semibold leading-normal text-k-900">1지망</label>
-            <select
-              className="flex h-10 items-center rounded-lg bg-k-50 px-5 py-2.5 font-serif text-sm font-semibold leading-normal text-secondary"
-              value={curUniversityList[0] ?? null}
-              onChange={(e) => handleSelect(0, Number(e.target.value))}
+            <Select
+              value={curUniversityList[0]?.toString() ?? null}
+              onValueChange={(value: string) => handleSelect(0, parseInt(value))}
             >
-              <option value=""></option>
-              {universityList.map((university) => (
-                <option key={university.id} value={university.id} disabled={isDisabled(university.id, 0)}>
-                  [{university.region} - {university.country}]{university.koreanName}
-                </option>
-              ))}
-            </select>
+              <SelectTrigger className="">
+                <SelectValue placeholder="" />
+              </SelectTrigger>
+              <SelectContent>
+                {universityList.map((university) => (
+                  <SelectItem
+                    key={university.id}
+                    value={university.id.toString()}
+                    disabled={isDisabled(university.id, 0)}
+                  >
+                    [{university.region} - {university.country}]{university.koreanName}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
           <div className="flex flex-col gap-1">
             <label className="block font-serif text-sm font-semibold leading-normal text-k-900">2지망</label>
-            <select
-              className="flex h-10 items-center rounded-lg bg-k-50 px-5 py-2.5 font-serif text-sm font-semibold leading-normal text-secondary"
-              value={curUniversityList[1] ?? null}
-              onChange={(e) => handleSelect(1, Number(e.target.value))}
+            <Select
+              value={curUniversityList[1]?.toString() ?? null}
+              onValueChange={(value: string) => handleSelect(1, parseInt(value))}
             >
-              <option value=""></option>
-              {universityList.map((university) => (
-                <option key={university.id} value={university.id} disabled={isDisabled(university.id, 1)}>
-                  [{university.region} - {university.country}]{university.koreanName}
-                </option>
-              ))}
-            </select>
+              <SelectTrigger className="">
+                <SelectValue placeholder="" />
+              </SelectTrigger>
+              <SelectContent>
+                {universityList.map((university) => (
+                  <SelectItem
+                    key={university.id}
+                    value={university.id.toString()}
+                    disabled={isDisabled(university.id, 1)}
+                  >
+                    [{university.region} - {university.country}]{university.koreanName}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
           <div className="flex flex-col gap-1">
             <label className="block font-serif text-sm font-semibold leading-normal text-k-900">3지망</label>
-            <select
-              className="flex h-10 items-center rounded-lg bg-k-50 px-5 py-2.5 font-serif text-sm font-semibold leading-normal text-secondary"
-              value={curUniversityList[2] ?? null}
-              onChange={(e) => handleSelect(2, Number(e.target.value))}
+            <Select
+              value={curUniversityList[2]?.toString() ?? null}
+              onValueChange={(value: string) => handleSelect(2, parseInt(value))}
             >
-              <option value=""></option>
-              {universityList.map((university) => (
-                <option key={university.id} value={university.id} disabled={isDisabled(university.id, 2)}>
-                  [{university.region} - {university.country}]{university.koreanName}
-                </option>
-              ))}
-            </select>
+              <SelectTrigger className="">
+                <SelectValue placeholder="" />
+              </SelectTrigger>
+              <SelectContent>
+                {universityList.map((university) => (
+                  <SelectItem
+                    key={university.id}
+                    value={university.id.toString()}
+                    disabled={isDisabled(university.id, 2)}
+                  >
+                    [{university.region} - {university.country}]{university.koreanName}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         </div>
       </div>
