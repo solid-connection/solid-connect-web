@@ -3,14 +3,12 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-import { updateMyNicknameApi } from "@/services/myInfo";
+import { updateMyInfoApi } from "@/services/myInfo";
 
 import BlockBtn from "@/components/button/BlockBtn";
 import ConfirmCancelModal from "@/components/modal/ConfirmCancelModal";
 
 import { MyInfo } from "@/types/myInfo";
-
-import { useAlert } from "@/context/AlertContext";
 
 type MyInfoModifyFormProps = {
   myInfo: MyInfo;
@@ -20,12 +18,11 @@ const MyInfoModifyForm = ({ myInfo }: MyInfoModifyFormProps) => {
   const [nickname, setNickname] = useState<string>(myInfo.nickname);
   const [isChangeModalOpen, setIsChangeModalOpen] = useState<boolean>(false);
   const router = useRouter();
-  const { alert } = useAlert();
 
   const updateNickname = async (newNickname: string) => {
+    setIsChangeModalOpen(false);
     try {
-      setIsChangeModalOpen(false);
-      await updateMyNicknameApi(newNickname);
+      await updateMyInfoApi({ nickname: newNickname });
       await alert("닉네임이 변경되었습니다");
       router.refresh();
     } catch (err) {
