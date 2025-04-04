@@ -10,8 +10,6 @@ import ConfirmCancelModal from "@/components/modal/ConfirmCancelModal";
 
 import { MyInfo } from "@/types/myInfo";
 
-import { useAlert } from "@/context/AlertContext";
-
 type MyInfoModifyFormProps = {
   myInfo: MyInfo;
 };
@@ -20,7 +18,6 @@ const MyInfoModifyForm = ({ myInfo }: MyInfoModifyFormProps) => {
   const [nickname, setNickname] = useState<string>(myInfo.nickname);
   const [isChangeModalOpen, setIsChangeModalOpen] = useState<boolean>(false);
   const router = useRouter();
-  const { alert } = useAlert();
 
   const updateNickname = async (newNickname: string) => {
     setIsChangeModalOpen(false);
