@@ -66,7 +66,7 @@ const CollegeDetailPage = async ({ params }: CollegeDetailPageProps) => {
         <title>{convertedKoreanName || "대학명"}</title>
       </Head>
       <TopDetailNavigation title={convertedKoreanName || "대학명"} />
-      <CollegeDetail imageUrl={collegeData.backgroundImageUrl} name={convertedKoreanName || "대학명"} />
+      <CollegeDetail imageUrl={collegeData.backgroundImageUrl} />
       <CollegeBottomSheet
         collegeId={collegeId}
         university={collegeData}
