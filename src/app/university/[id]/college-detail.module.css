@@ -15,7 +15,8 @@
   height: 67vw;
   max-height: 400px;
 }
-.imageWrapper::before {
+
+/* .imageWrapper::before {
   content: "";
   position: absolute;
   top: 0;
@@ -24,4 +25,4 @@
   bottom: 0;
   background: linear-gradient(180deg, rgba(0, 0, 0, 0) 33.85%, rgba(0, 0, 0, 0.6) 86.98%);
   z-index: 1;
-}
+} */

@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 
+import clsx from "clsx";
+
 import {
   deleteUniversityFavoriteApi,
   getUniversityFavoriteStatusApi,
@@ -115,11 +117,12 @@ const CollegeBottomSheet = ({ collegeId, convertedKoreanName, reviewList, univer
 
   return (
     <>
-      <div className={styles.blank} />
-      <div className={styles.bottomSheet}>
-        <div className="absolute -top-3 ml-8 -translate-y-full font-serif text-3xl font-semibold text-white">
-          {university.englishName || "대학명"}
+      <div className={clsx("max-h-80", styles["flexible-height"])}>
+        <div className="flex h-full items-end pb-3 pl-8">
+          <span className="text-3xl font-semibold text-white">{university.englishName || "대학명"}</span>
         </div>
+      </div>
+      <div className="relative rounded-t-3xl bg-white">
         <div className="flex h-[69px] items-center justify-between pl-5 pr-[22px] pt-6">
           <div className="font-serif text-2xl font-semibold">{convertedKoreanName || "대학명"}</div>
           <button onClick={toggleLike} type="button">
@@ -140,7 +143,7 @@ const CollegeBottomSheet = ({ collegeId, convertedKoreanName, reviewList, univer
           <div className={styles.item}>
             <div className={"ml-5 font-serif text-base font-semibold"}>홈페이지</div>
             <div className="mx-5 mt-2.5 font-serif text-sm font-normal leading-normal">
-              <a href={university.homepageUrl || ""} target="_blank" rel="noreferrer">
+              <a className="break-words" href={university.homepageUrl || ""} target="_blank" rel="noreferrer">
                 {university.homepageUrl || "홈페이지 없음"}
               </a>
             </div>
@@ -155,7 +158,7 @@ const CollegeBottomSheet = ({ collegeId, convertedKoreanName, reviewList, univer
                     href={university.accommodationUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="font-serif text-sm font-normal leading-normal"
+                    className="break-words font-serif text-sm font-normal leading-normal"
                   >
                     {university.accommodationUrl}
                   </a>
@@ -251,7 +254,7 @@ const CollegeBottomSheet = ({ collegeId, convertedKoreanName, reviewList, univer
                     href={university.englishCourseUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="font-serif text-sm font-normal leading-normal"
+                    className="break-words font-serif text-sm font-normal leading-normal"
                   >
                     {university.englishCourseUrl}
                   </a>
