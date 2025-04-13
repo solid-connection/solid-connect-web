@@ -50,7 +50,7 @@ const config: Config = {
         },
         k: {
           "0": "#FFFFFF",
-          "50": "#EFEFF0",
+          "50": "#F5F5F5",
           "100": "#DDDDDF",
           "200": "#C6C7C9",
           "300": "#AAACAF",
