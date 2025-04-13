@@ -6,7 +6,7 @@ import { getUniversityDetailPublicApi } from "@/services/university";
 
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 
-import CollegeBottomSheet from "./CollegeBottomsheet";
+import CollegeBottomSheet from "./CollegeBottomSheet";
 import CollegeDetail from "./CollegeDetail";
 
 import { Review } from "@/types/review";
