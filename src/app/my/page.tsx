@@ -119,10 +119,10 @@ const MyPage = () => {
       </Head>
       <TopDetailNavigation title="마이페이지" />
       <div>
-        <div className="mb-5 ml-5 mt-[37px] flex h-[45px] gap-5">
+        <div className="mb-5 ml-5 mt-10 flex h-[54px] gap-3">
           <div>
             <img
-              className="h-[45px] w-[45px] rounded-full object-cover"
+              className="h-[54px] w-[54px] rounded-full object-cover"
               src={
                 myInfo.profileImageUrl
                   ? `${process.env.NEXT_PUBLIC_UPLOADED_IMAGE_URL}/${myInfo.profileImageUrl}`
@@ -131,23 +131,22 @@ const MyPage = () => {
               alt="프로필"
             />
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col gap-[5px]">
             <div className="flex items-end items-center gap-2">
-              <span className="text-xl font-semibold text-k-900">{myInfo.nickname || "닉네임"}</span>
-              <span className="text-base font-semibold text-k-600">
-                {myInfo.role in roleDisplay ? roleDisplay[myInfo.role] : "역할"}
-              </span>
+              <span className="text-base font-semibold text-k-900">{myInfo.nickname || "닉네임"}</span>
+              <div className="flex items-center justify-center rounded-full bg-primary-100 px-3 py-1">
+                <span className="text-[11px] font-semibold leading-normal text-primary">
+                  {myInfo.role in roleDisplay ? roleDisplay[myInfo.role] : "Mentee"}
+                </span>
+              </div>
             </div>
 
-            <div className="flex gap-2.5">
-              <span className="text-xs font-normal leading-normal text-k-400">INHA University</span>
-              <span className="text-xs font-normal leading-normal text-k-400">{myInfo.email}</span>
-            </div>
+            <div className="text-sm font-medium leading-normal text-k-400">INHA Univ</div>
           </div>
         </div>
 
         <div className="mx-5 mb-5">
-          <MyInfoCard scarpCount={0} interestMentoCount={0} wishUniversityCount={0} />
+          <MyInfoCard scrapCount={0} interestMentoCount={0} wishUniversityCount={0} />
         </div>
         <div>
           <MyMenuGroup icon={<IconMyMenuPerson />} subject="내 정보">
@@ -170,7 +169,7 @@ const MyPage = () => {
             </Link>
           </MyMenuGroup>
           <MyMenuGroup icon={<IconMyMenuLock />} subject="내 계정">
-            <div className="flex h-[30px] items-center justify-between pl-8 pr-10">
+            <div className="flex h-[30px] items-center justify-between pl-5 pr-10">
               <span className="text-sm font-normal leading-normal text-k-800">솔커 계정</span>
               <div className="flex items-center gap-2">
                 <span className="text-[10px] font-semibold text-k-500">{authProviderName(myInfo.authType)} 로그인</span>
