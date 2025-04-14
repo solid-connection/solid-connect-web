@@ -22,7 +22,7 @@ const ScoreScreen = () => {
     const fetchGpaScoreList = async () => {
       try {
         const res = await getMyGpaScoreApi();
-        setGpaScoreList(res.data.gpaScoreStatusList);
+        setGpaScoreList(res.data.gpaScoreStatusResponseList);
       } catch (err) {
         if (err.response) {
           console.error("Axios response error", err.response);
@@ -41,7 +41,7 @@ const ScoreScreen = () => {
     const fetchLanguageTestScoreList = async () => {
       try {
         const res = await getMyLanguageTestScoreApi();
-        setLanguageTestScoreList(res.data.languageTestScoreStatusList);
+        setLanguageTestScoreList(res.data.languageTestScoreStatusResponseList);
       } catch (err) {
         if (err.response) {
           console.error("Axios response error", err.response);
@@ -70,8 +70,8 @@ const ScoreScreen = () => {
             languageTestScoreList.map((score) => (
               <ScoreCard
                 key={score.id}
-                name={languageTestMapping[score.languageTest.languageTestType]}
-                score={score.languageTest.languageTestScore}
+                name={languageTestMapping[score.languageTestResponse.languageTestType]}
+                score={score.languageTestResponse.languageTestScore}
                 status={score.verifyStatus}
                 // date={new Date(score.issueDate).toISOString()}
                 date="2025-01-01"
@@ -85,7 +85,7 @@ const ScoreScreen = () => {
               <ScoreCard
                 key={score.id}
                 name="인하대학교" // TODO: 학교명 API에서 받아오기
-                score={`${score.gpa.gpa.toFixed(2)}/${score.gpa.gpaCriteria}`}
+                score={`${score.gpaResponse.gpa.toFixed(2)}/${score.gpaResponse.gpaCriteria}`}
                 status={score.verifyStatus}
                 // date={new Date(score.issueDate).toISOString()}
                 date="2025-01-01"

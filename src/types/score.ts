@@ -64,7 +64,7 @@ export interface SubmitLanguageTestScoreRequest {
 
 export interface GpaScore {
   id: number;
-  gpa: {
+  gpaResponse: {
     gpa: number;
     gpaCriteria: number;
     gpaReportUrl: string;
@@ -75,12 +75,12 @@ export interface GpaScore {
 }
 
 export interface MyGpaScoreResponse {
-  gpaScoreStatusList: GpaScore[];
+  gpaScoreStatusResponseList: GpaScore[];
 }
 
 export interface LanguageTestScore {
   id: number;
-  languageTest: {
+  languageTestResponse: {
     languageTestType: LanguageTestEnum;
     languageTestScore: string;
     languageTestReportUrl: string;
@@ -91,7 +91,7 @@ export interface LanguageTestScore {
 }
 
 export interface MyLanguageTestScoreResponse {
-  languageTestScoreStatusList: LanguageTestScore[];
+  languageTestScoreStatusResponseList: LanguageTestScore[];
 }
 
 export type ScoreSubmitStatus = "PENDING" | "REJECTED" | "APPROVED";

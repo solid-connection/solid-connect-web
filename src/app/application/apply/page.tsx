@@ -41,9 +41,11 @@ const ApplyPage = () => {
           getMyLanguageTestScoreApi(),
           getUniversityListPublicApi(),
         ]);
-        setGpaScoreList(gpaRes.data.gpaScoreStatusList.filter((score: GpaScore) => score.verifyStatus === "APPROVED"));
+        setGpaScoreList(
+          gpaRes.data.gpaScoreStatusResponseList.filter((score: GpaScore) => score.verifyStatus === "APPROVED"),
+        );
         setLanguageTestScoreList(
-          languageRes.data.languageTestScoreStatusList.filter(
+          languageRes.data.languageTestScoreStatusResponseList.filter(
             (score: LanguageTestScore) => score.verifyStatus === "APPROVED",
           ),
         );
