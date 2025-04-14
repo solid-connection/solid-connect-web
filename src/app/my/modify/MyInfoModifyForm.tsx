@@ -54,8 +54,6 @@ const MyInfoModifyForm = ({ myInfo }: MyInfoModifyFormProps) => {
     <>
       <div className="flex flex-col gap-5 px-5">
         <MyInfoModifyFormElement title="이름" value={nickname} setValue={setNickname} />
-        {/* <MyInfoModifyFormElement title="성별" value="성별 값" /> */}
-        <MyInfoModifyFormElement title="생년월일" value={convertBirthFormat(myInfo.birth) || "1970.1.1"} />
         <MyInfoModifyFormElement title="출신학교" value="인하대학교" />
         <MyInfoModifyFormElement title="파견학교" value="미상" />
         <MyInfoModifyFormElement title="활동" value="Mentee" />
