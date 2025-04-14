@@ -37,8 +37,8 @@ const LanguageStep = ({
             >
               <ScoreCard
                 key={score.id}
-                name={languageTestMapping[score.languageTest.languageTestType]}
-                score={score.languageTest.languageTestScore}
+                name={languageTestMapping[score.languageTestResponse.languageTestType]}
+                score={score.languageTestResponse.languageTestScore}
                 status={score.verifyStatus}
                 // date={new Date(score.issueDate).toISOString()}
                 date="2025-01-01"

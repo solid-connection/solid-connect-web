@@ -25,11 +25,11 @@ const ConfirmStep = ({ languageTestScore, gpaScore, universityList, onNext }: Co
             <div className="w-12 pt-3 font-serif text-[13px] font-semibold leading-normal text-k-900">공인어학</div>
             <div className="flex flex-1 justify-between rounded-lg bg-k-50 px-5 py-3">
               <div className="font-serif text-[11px] font-semibold leading-normal text-k-700">
-                {languageTestScore?.languageTest.languageTestType}
+                {languageTestScore?.languageTestResponse.languageTestType}
               </div>
               <div className="text-right">
                 <div className="font-serif text-[15px] font-semibold leading-normal text-secondary">
-                  {languageTestScore?.languageTest.languageTestScore}
+                  {languageTestScore?.languageTestResponse.languageTestScore}
                 </div>
                 <div className="font-serif text-[10px] font-normal leading-normal text-k-300">
                   {/* 만료일 : 2024.5.6까지 */}
@@ -44,7 +44,7 @@ const ConfirmStep = ({ languageTestScore, gpaScore, universityList, onNext }: Co
               <div className="font-serif text-[11px] font-semibold leading-normal text-k-700">인하대학교</div>
               <div className="text-right">
                 <div className="font-serif text-[15px] font-semibold leading-normal text-secondary">
-                  {gpaScore?.gpa.gpa.toFixed(2)}/{gpaScore?.gpa.gpaCriteria}
+                  {gpaScore?.gpaResponse.gpa.toFixed(2)}/{gpaScore?.gpaResponse.gpaCriteria}
                 </div>
                 {/* <div className="font-serif text-[10px] font-normal leading-normal text-k-300">~4학년 1학기</div> */}
               </div>
