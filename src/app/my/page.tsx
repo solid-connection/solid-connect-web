@@ -169,7 +169,7 @@ const MyPage = () => {
             </Link>
           </MyMenuGroup>
           <MyMenuGroup icon={<IconMyMenuLock />} subject="내 계정">
-            <div className="flex h-[30px] items-center justify-between pl-8 pr-10">
+            <div className="flex h-[30px] items-center justify-between pl-5 pr-10">
               <span className="text-sm font-normal leading-normal text-k-800">솔커 계정</span>
               <div className="flex items-center gap-2">
                 <span className="text-[10px] font-semibold text-k-500">{authProviderName(myInfo.authType)} 로그인</span>
