@@ -1,18 +1,23 @@
 import Link from "next/link";
 
-import { IconMyInfoCardArrow } from "@/public/svgs/my";
+import { IconMyInfoCardBookmark, IconMyInfoCardMento, IconMyInfoCardwish } from "@/public/svgs/my";
 
 type MyInfoCardProps = {
-  scarpCount: number;
+  scrapCount: number;
   interestMentoCount: number;
   wishUniversityCount: number;
 };
 
-const MyInfoCard = ({ scarpCount, interestMentoCount, wishUniversityCount }: MyInfoCardProps) => (
-  <div className="flex h-[58px] items-center justify-center gap-5 rounded-lg bg-secondary py-4">
-    <MyInfoCardItem title="스크랩" count={`${scarpCount}개`} link="" />
-    <MyInfoCardItem title="관심 멘토" count={`${interestMentoCount}명`} link="" />
-    <MyInfoCardItem title="위시학교" count={`${wishUniversityCount}개`} link="/my/favorite/" />
+const MyInfoCard = ({ scrapCount, interestMentoCount, wishUniversityCount }: MyInfoCardProps) => (
+  <div className="flex h-[3.75rem] items-center justify-center gap-11 rounded-lg bg-primary-500 py-4">
+    <MyInfoCardItem title="스크랩" count={`${scrapCount}개`} link="" icon={<IconMyInfoCardBookmark />} />
+    <MyInfoCardItem title="관심 멘토" count={`${interestMentoCount}명`} link="" icon={<IconMyInfoCardMento />} />
+    <MyInfoCardItem
+      title="위시학교"
+      count={`${wishUniversityCount}개`}
+      link="/my/favorite/"
+      icon={<IconMyInfoCardwish />}
+    />
   </div>
 );
 
@@ -22,13 +27,14 @@ type MyInfoCardItemProps = {
   title: string;
   count: string;
   link: string;
+  icon?: React.ReactNode;
 };
 
-const MyInfoCardItem = ({ title, count, link }: MyInfoCardItemProps) => (
+const MyInfoCardItem = ({ title, count, link, icon }: MyInfoCardItemProps) => (
   <Link href={link} className="flex flex-col items-center">
     <div className="flex items-center gap-1">
+      <div className="flex h-4 w-4 items-center justify-center rounded-full bg-white p-0.5">{icon}</div>
       <span className="font-serif text-[13px] font-semibold text-white">{title}</span>
-      <IconMyInfoCardArrow />
     </div>
     <span className="font-serif text-base font-semibold text-white">{count}</span>
   </Link>
