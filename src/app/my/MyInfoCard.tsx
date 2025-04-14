@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { IconMyInfoCardBookmark, IconMyInfoCardMento, IconMyInfoCardwish } from "@/public/svgs/my";
+import { IconMyInfoCardBookmark, IconMyInfoCardMento, IconMyInfoCardWish } from "@/public/svgs/my";
 
 type MyInfoCardProps = {
   scrapCount: number;
@@ -16,7 +16,7 @@ const MyInfoCard = ({ scrapCount, interestMentoCount, wishUniversityCount }: MyI
       title="위시학교"
       count={`${wishUniversityCount}개`}
       link="/my/favorite/"
-      icon={<IconMyInfoCardwish />}
+      icon={<IconMyInfoCardWish />}
     />
   </div>
 );

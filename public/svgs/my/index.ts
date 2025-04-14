@@ -1,6 +1,6 @@
 import IconMyInfoCardBookmark from "./my-info-card-bookmark.svg";
 import IconMyInfoCardMento from "./my-info-card-mento.svg";
-import IconMyInfoCardwish from "./my-info-card-wish.svg";
+import IconMyInfoCardWish from "./my-info-card-wish.svg";
 import IconMyMenuArrow from "./my-menu-arrow.svg";
 import IconMyMenuCalendar from "./my-menu-calendar.svg";
 import IconMyMenuLock from "./my-menu-lock.svg";
@@ -13,5 +13,5 @@ export {
   IconMyMenuPerson,
   IconMyInfoCardBookmark,
   IconMyInfoCardMento,
-  IconMyInfoCardwish,
+  IconMyInfoCardWish,
 };
