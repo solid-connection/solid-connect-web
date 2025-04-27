@@ -85,45 +85,37 @@ const UniversityCard = ({ university }: UniversityCardProps) => {
       : university.koreanName;
   return (
     <Link
-      className="relative flex h-[91px] gap-5 overflow-hidden rounded-lg bg-k-50 p-5 no-underline"
+      className="relative flex h-[91px] overflow-hidden rounded-lg border border-solid border-k-100 px-5 py-4 hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/10"
       href={`/university/${university.id}`}
     >
-      <div className="flex items-center">
+      <div className="flex flex-shrink-0 items-center">
         <Image
-          className="h-[55px] w-[55px] rounded-full object-cover"
+          className="h-14 w-14 rounded-full object-cover"
           src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${university.logoImageUrl}`}
-          width={55}
-          height={55}
+          width={100}
+          height={100}
           alt={convertedKoreanName || "대학 이미지"}
         />
       </div>
 
-      <div className="flex flex-1 flex-col gap-1">
-        <div className="flex justify-between">
-          <span className="truncate font-serif text-base font-semibold leading-normal text-black">
-            {convertedKoreanName}
-          </span>
-          <div className="flex shrink-0 gap-2.5">
-            <span className="text-sm font-semibold leading-normal text-secondary">
+      <div className="ml-[22px] flex flex-grow flex-col gap-1">
+        <div className="flex items-center justify-between">
+          <span className="text-base font-bold leading-normal text-k-700">{convertedKoreanName}</span>
+          <div className="flex items-center">
+            <span className="whitespace-nowrap text-sm font-semibold leading-normal text-primary">
               {university.country} | {university.region}
             </span>
-            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20" fill="none">
-              <path
-                d="M9.51953 14L13.5195 10L9.51953 6"
-                stroke="#5F6268"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
+            <CheveronRightFilled color="black" opacity="0.54" />
           </div>
         </div>
+
         <div className="flex gap-2.5">
           {university.languageRequirements.slice(0, 3).map((requirement) => (
             <span
               key={requirement.languageTestType}
-              className="whitespace-nowrap text-sm font-medium leading-normal text-[#919397]"
+              className="whitespace-nowrap text-sm font-medium leading-normal text-k-500"
             >
-              {languageTestShortMapping[requirement.languageTestType] || ""} {requirement.minScore || ""}
+              {shortenLanguageTestName(requirement.languageTestType)} {requirement.minScore}
             </span>
           ))}
         </div>
