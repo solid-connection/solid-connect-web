@@ -70,8 +70,6 @@ export const UniversityCard = ({ university }: UniversityCardProps) => {
           ))}
         </div>
       </div>
-
-      <div className="absolute right-[9.77px] top-[38px] h-6 w-6"></div>
     </Link>
   );
 };
