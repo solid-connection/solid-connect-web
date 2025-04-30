@@ -13,7 +13,7 @@ type LayoutProps = {
 const Layout = ({ children }: LayoutProps) => {
   const { hideBottomNavigation } = useLayout();
   return (
-    <div className="mx-auto mb-[56px] w-full min-w-[360px] max-w-[600px] pt-[56px]">
+    <div className="mx-auto mb-14 w-full min-w-[360px] max-w-[600px] pt-14">
       {children}
       {!hideBottomNavigation && <BottomNavigation />}
     </div>
