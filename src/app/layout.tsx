@@ -4,7 +4,7 @@ import localFont from "next/font/local";
 
 import AppleScriptLoader from "@/components/layout/AppleScriptLoader";
 import KakaoScriptLoader from "@/components/layout/KakaoScriptLoader";
-import Layout from "@/components/layout/Layout";
+import Layout from "@/components/layout/layout";
 
 import "../styles/globals.css";
 
