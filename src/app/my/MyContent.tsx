@@ -174,6 +174,24 @@ const MyContent = () => {
             <div onClick={toggleWithdraw}>
               <MyMenu text="회원탈퇴" isArrowVisible={false} />
             </div>
+            <Link href={process.env.NEXT_PUBLIC_CONTACT_LINK || ""} target="_blank">
+              <div className="flex h-[30px] items-center justify-between pl-5 pr-10">
+                <span className="text-sm font-normal leading-normal text-k-800">문의하기</span>
+                <div className="flex items-center gap-2">
+                  <span className="flex items-center gap-0.5 text-[10px] font-semibold text-k-500">
+                    카카오톡 오픈채팅방
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="11" viewBox="0 0 12 11" fill="none">
+                      <path
+                        d="M6.45801 2.74967L7.37467 1.83301C7.83301 1.37467 8.74967 1.37467 9.20801 1.83301L9.66634 2.29134C10.1247 2.74967 10.1247 3.66634 9.66634 4.12467L7.37467 6.41634C6.91634 6.87467 5.99967 6.87467 5.54134 6.41634M5.54134 8.24967L4.62467 9.16634C4.16634 9.62467 3.24967 9.62467 2.79134 9.16634L2.33301 8.70801C1.87467 8.24967 1.87467 7.33301 2.33301 6.87467L4.62467 4.58301C5.08301 4.12467 5.99967 4.12467 6.45801 4.58301"
+                        stroke="#76797D"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </span>
+                </div>
+              </div>
+            </Link>
           </MyMenuGroup>
         </div>
 
