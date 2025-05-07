@@ -4,8 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 
-import styles from "./home-college-cards.module.css";
-
 import { ListUniversity } from "@/types/university";
 
 type HomeCollegeCardsProps = {
@@ -17,7 +15,7 @@ const HomeCollegeCards = ({ colleges }: HomeCollegeCardsProps) => {
 
   const handleWheel = (e: WheelEvent) => {
     if (containerRef.current) {
-      e.preventDefault(); // 기본 스크롤 동작 중지
+      e.preventDefault();
       containerRef.current.scrollLeft += e.deltaY;
     }
   };
@@ -36,8 +34,8 @@ const HomeCollegeCards = ({ colleges }: HomeCollegeCardsProps) => {
   }, []);
 
   return (
-    <div ref={containerRef} className={styles.container}>
-      <div className={styles.items}>
+    <div ref={containerRef} className="overflow-x-auto">
+      <div className="flex gap-2">
         {colleges.map((college) => (
           <HomeCollegeCard
             key={college.id}
@@ -61,17 +59,20 @@ type HomeCollegeCardProps = {
 
 const HomeCollegeCard = ({ id, imageUrl, name }: HomeCollegeCardProps) => (
   <Link href={`/university/${id}`}>
-    <div className={styles.card}>
-      <div className={styles["image-wrapper"]}>
+    <div className="relative w-[153px]">
+      <div className="relative w-[153px]">
+        <div className="absolute inset-0 h-[120px] rounded-lg bg-gradient-to-b from-transparent via-black/35 to-black/70" />
         <Image
-          className="h-[120px]"
+          className="h-[120px] rounded-lg object-cover"
           src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${imageUrl}`}
           width={153}
           height={120}
           alt={name || "대학 없음"}
         />
       </div>
-      <div className={styles.name}>{name}</div>
+      <div className="absolute bottom-[9px] left-[10px] z-10 text-sm font-semibold leading-[160%] tracking-[0.15px] text-white">
+        {name}
+      </div>
     </div>
   </Link>
 );
