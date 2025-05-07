@@ -6,9 +6,9 @@ import { useEffect, useState } from "react";
 
 import { getRecommendedUniversitiesApi } from "@/services/university";
 
-import HomeCollegeCards from "./HomeCollegeCards";
-import NewsCards from "./NewsCards";
-import UniversityList from "./UniversityList";
+import HomeCollegeCards from "../components/home/HomeCollegeCards";
+import NewsCards from "../components/home/NewsCards";
+import UniversityList from "../components/home/UniversityList";
 
 import { News } from "@/types/news";
 import { ListUniversity } from "@/types/university";
