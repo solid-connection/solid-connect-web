@@ -3,6 +3,8 @@ import React, { Suspense } from "react";
 
 import { getUniversityListPublicApi } from "@/services/university";
 
+import CloudSpinner from "@/components/loading/CloudSpinner";
+
 import UniversityPage from "./UniversityPage";
 
 export const metadata: Metadata = {
@@ -13,14 +15,14 @@ const Page = async () => {
   try {
     const { data: universities } = await getUniversityListPublicApi();
     return (
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<CloudSpinner />}>
         <UniversityPage universities={universities} />
       </Suspense>
     );
   } catch (error) {
     console.error("Failed to fetch university list:", error);
     return (
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<CloudSpinner />}>
         <UniversityPage universities={[]} />
       </Suspense>
     );
