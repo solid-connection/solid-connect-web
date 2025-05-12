@@ -1,11 +1,8 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 import { createCommentApi } from "@/services/community";
-
-import styles from "./comment-write.module.css";
 
 import { IconCloseFilled, IconFlight } from "@/public/svgs";
 
@@ -17,15 +14,16 @@ type CommentWriteProps = {
 };
 
 const CommentWrite = ({ postId, curSelectedComment, setCurSelectedComment, onSuccess }: CommentWriteProps) => {
-  const contentRef = useRef<HTMLInputElement>(null);
+  const [content, setContent] = useState<string>("");
 
   const submitComment = async () => {
     try {
       await createCommentApi({
         postId: postId,
-        content: contentRef.current?.value || "",
+        content: content,
         parentId: curSelectedComment,
       });
+      setContent("");
       onSuccess();
     } catch (err) {
       if (err.response) {
@@ -65,7 +63,8 @@ const CommentWrite = ({ postId, curSelectedComment, setCurSelectedComment, onSuc
         )}
         <input
           className="h-10 w-full overflow-hidden text-ellipsis rounded-lg border-none bg-[#ececec] p-2.5 text-sm font-normal leading-normal outline-none placeholder:text-[#808080]"
-          ref={contentRef}
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
           type="text"
           placeholder="댓글을 입력해 주세요"
         />

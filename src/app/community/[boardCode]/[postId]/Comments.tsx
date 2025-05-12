@@ -6,9 +6,7 @@ import clsx from "clsx";
 import { deleteCommentApi } from "@/services/community";
 import { convertISODateToDateTime } from "@/utils/datetimeUtils";
 
-import Dropdown from "@/components/ui/Dropdown";
-
-import styles from "./comments.module.css";
+import Dropdown from "@/components/ui/dropdown";
 
 import { Comment } from "@/types/community";
 
