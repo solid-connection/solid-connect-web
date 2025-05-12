@@ -42,7 +42,7 @@ export const signUpApi = (signUpRequest: SignUpRequest): Promise<AxiosResponse<S
 
 export const signOutApi = (): Promise<AxiosResponse<null>> => axiosInstance.post("/auth/sign-out");
 
-export const deleteAccountApi = (): Promise<AxiosResponse<null>> => axiosInstance.patch("/auth/quit");
+export const deleteAccountApi = (): Promise<AxiosResponse<null>> => axiosInstance.delete("/auth/quit");
 
 export const reissueAccessTokenPublicApi = (refreshToken: string): Promise<AxiosResponse<ReissueAccessTokenResponse>> =>
   publicAxiosInstance.post("/auth/reissue", {}, { headers: { Authorization: `Bearer ${refreshToken}` } });
