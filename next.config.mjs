@@ -10,6 +10,7 @@ const nextConfig = {
       "solid-connection-uploaded.s3.ap-northeast-2.amazonaws.com",
       "k.kakaocdn.net",
       "d1q5o8tzvz4j3d.cloudfront.net",
+      "d23lwokhcc3r0c.cloudfront.net",
     ],
   },
   eslint: {

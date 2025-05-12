@@ -84,14 +84,16 @@ const Comments = ({ comments, postId, refresh, setCurSelectedComment, onSuccess 
             <div className={styles["comment__first-row"]}>
               <div className={styles.comment__author}>
                 <div className={styles["comment__author-profile-image"]}>
-                  {comment.postFindSiteUserResponse.profileImageUrl && (
-                    <Image
-                      src={`${process.env.NEXT_PUBLIC_UPLOADED_IMAGE_URL}/${comment.postFindSiteUserResponse.profileImageUrl}`}
-                      width={40}
-                      height={40}
-                      alt="alt"
-                    />
-                  )}
+                  <Image
+                    src={
+                      comment.postFindSiteUserResponse.profileImageUrl
+                        ? `${process.env.NEXT_PUBLIC_UPLOADED_IMAGE_URL}/${comment.postFindSiteUserResponse.profileImageUrl}`
+                        : "/images/placeholder/profile64.svg"
+                    }
+                    width={40}
+                    height={40}
+                    alt="alt"
+                  />
                 </div>
                 <div className={styles["comment__author-name"]}>{comment.postFindSiteUserResponse.nickname}</div>
               </div>
