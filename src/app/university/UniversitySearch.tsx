@@ -32,7 +32,10 @@ const UniversitySearch = ({ searchHandler, textRef, defaultValue }: UniversitySe
         className={styles.searchInput}
         ref={textRef}
         value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
+        onChange={(e) => {
+          setInputValue(e.target.value);
+          searchHandler(e);
+        }}
         placeholder="해외 파견 학교를 검색하세요."
       />
       <button className={styles.searchButton} type="submit" aria-label="대학 검색하기">
