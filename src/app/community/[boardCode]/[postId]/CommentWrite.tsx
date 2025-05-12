@@ -1,11 +1,8 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 import { createCommentApi } from "@/services/community";
-
-import styles from "./comment-write.module.css";
 
 import { IconCloseFilled, IconFlight } from "@/public/svgs";
 
@@ -17,17 +14,16 @@ type CommentWriteProps = {
 };
 
 const CommentWrite = ({ postId, curSelectedComment, setCurSelectedComment, onSuccess }: CommentWriteProps) => {
-  const router = useRouter();
-  const contentRef = useRef<HTMLInputElement>(null);
+  const [content, setContent] = useState<string>("");
 
   const submitComment = async () => {
     try {
       await createCommentApi({
         postId: postId,
-        content: contentRef.current?.value || "",
+        content: content,
         parentId: curSelectedComment,
       });
-      // router.refresh();
+      setContent("");
       onSuccess();
     } catch (err) {
       if (err.response) {
@@ -50,13 +46,13 @@ const CommentWrite = ({ postId, curSelectedComment, setCurSelectedComment, onSuc
   };
 
   return (
-    <div className={styles["comment-form"]}>
-      <div className={styles["comment-input"]}>
+    <div className="fixed bottom-14 flex w-full min-w-[360px] max-w-[600px] items-center gap-3 border-t border-[#ececec] bg-k-0 p-2">
+      <div className="w-full">
         {curSelectedComment && (
-          <div className={styles["comment-input-reply"]}>
-            <div>답글을 입력중입니다..</div>
+          <div className="flex h-10 w-full items-center justify-between rounded-t-lg bg-[#e2e2e2] px-2.5 pb-2.5 pt-3">
+            <span className="text-xs font-normal leading-normal text-[#808080]">답글을 입력중입니다..</span>
             <button
-              className={styles["comment-input-close"]}
+              className="cursor-pointer border-none bg-transparent"
               onClick={handleCloseComment}
               type="button"
               aria-label="답글 작성 취소"
@@ -65,9 +61,20 @@ const CommentWrite = ({ postId, curSelectedComment, setCurSelectedComment, onSuc
             </button>
           </div>
         )}
-        <input ref={contentRef} type="text" placeholder="댓글을 입력해 주세요" />
+        <input
+          className="h-10 w-full overflow-hidden text-ellipsis rounded-lg border-none bg-[#ececec] p-2.5 text-sm font-normal leading-normal outline-none placeholder:text-[#808080]"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          type="text"
+          placeholder="댓글을 입력해 주세요"
+        />
       </div>
-      <button className={styles["comment-submit"]} onClick={submitComment} type="button" aria-label="댓글 작성">
+      <button
+        className="mb-2 mr-1 mt-auto cursor-pointer border-none bg-transparent"
+        onClick={submitComment}
+        type="button"
+        aria-label="댓글 작성"
+      >
         <IconFlight />
       </button>
     </div>

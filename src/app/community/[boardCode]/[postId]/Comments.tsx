@@ -1,12 +1,12 @@
 import Image from "next/image";
 import { useState } from "react";
 
+import clsx from "clsx";
+
 import { deleteCommentApi } from "@/services/community";
 import { convertISODateToDateTime } from "@/utils/datetimeUtils";
 
-import Dropdown from "@/components/ui/Dropdown";
-
-import styles from "./comments.module.css";
+import Dropdown from "@/components/ui/dropdown";
 
 import { Comment } from "@/types/community";
 
@@ -15,12 +15,11 @@ import { IconMoreVertFilled, IconSubComment } from "@/public/svgs";
 type CommentsProps = {
   comments: Comment[];
   postId: number;
-  refresh: () => void;
   setCurSelectedComment: React.Dispatch<React.SetStateAction<number | null>>;
   onSuccess: () => void;
 };
 
-const Comments = ({ comments, postId, refresh, setCurSelectedComment, onSuccess }: CommentsProps) => {
+const Comments = ({ comments, postId, setCurSelectedComment, onSuccess }: CommentsProps) => {
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
 
   const toggleDeleteComment = (commentId: number) => {
@@ -50,12 +49,13 @@ const Comments = ({ comments, postId, refresh, setCurSelectedComment, onSuccess 
   };
 
   return (
-    <div className={styles["comment-container"]}>
+    <div className="h-[50vh] pb-[49px]">
       {comments?.map((comment) => (
         <div
-          className={`${styles["comment-wrapper"]} ${
-            comment.parentId !== null && styles["comment-wrapper--sub-comment"]
-          }`}
+          className={clsx(
+            "flex border-b border-[#ececec] px-5 py-[18px]",
+            comment.parentId !== null ? "bg-[#f2f2f2]" : "bg-[#fafafa]",
+          )}
           key={comment.id}
           role="button"
           tabIndex={0}
@@ -76,15 +76,16 @@ const Comments = ({ comments, postId, refresh, setCurSelectedComment, onSuccess 
           }}
         >
           {comment.parentId !== null && (
-            <div className={styles["comment__sub-comment-icon"]}>
+            <div className="mr-1.5">
               <IconSubComment />
             </div>
           )}
-          <div className={styles.comment}>
-            <div className={styles["comment__first-row"]}>
-              <div className={styles.comment__author}>
-                <div className={styles["comment__author-profile-image"]}>
+          <div className="flex w-full flex-col">
+            <div className="flex justify-between">
+              <div className="flex items-center gap-2">
+                <div className="h-[25px] w-[25px] rounded-full bg-[#d9d9d9]">
                   <Image
+                    className="h-full w-full rounded-full"
                     src={
                       comment.postFindSiteUserResponse.profileImageUrl
                         ? `${process.env.NEXT_PUBLIC_UPLOADED_IMAGE_URL}/${comment.postFindSiteUserResponse.profileImageUrl}`
@@ -95,12 +96,14 @@ const Comments = ({ comments, postId, refresh, setCurSelectedComment, onSuccess 
                     alt="alt"
                   />
                 </div>
-                <div className={styles["comment__author-name"]}>{comment.postFindSiteUserResponse.nickname}</div>
+                <div className="overflow-hidden text-sm font-medium leading-normal text-black">
+                  {comment.postFindSiteUserResponse.nickname}
+                </div>
               </div>
               {comment.isOwner && (
-                <div className={styles["comment__kebab-menu-wrapper"]}>
+                <div className="relative">
                   <button
-                    className={styles["comment__kebab-menu"]}
+                    className="cursor-pointer"
                     onClick={() => toggleDropdown(comment.id)}
                     type="button"
                     aria-label="더보기"
@@ -122,9 +125,9 @@ const Comments = ({ comments, postId, refresh, setCurSelectedComment, onSuccess 
                 </div>
               )}
             </div>
-            <div className={styles.comment__content}>{comment.content}</div>
-            <div className={styles["comment__created-at"]}>
-              {convertISODateToDateTime(comment.createdAt) || "1970. 1. 1. 00:00"}
+            <div className="mt-3 text-sm font-normal leading-normal text-black">{comment.content}</div>
+            <div className="mt-2 overflow-hidden text-xs font-normal leading-normal text-[#7c7c7c]">
+              {convertISODateToDateTime(comment.createdAt) || "1970. 01. 01. 00:00"}
             </div>
           </div>
         </div>
