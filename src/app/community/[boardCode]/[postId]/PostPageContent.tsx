@@ -69,9 +69,6 @@ const PostPageContent = ({ boardCode, postId }: PostPageContentProps) => {
       <Comments
         comments={post.postFindCommentResponses}
         postId={postId}
-        refresh={() => {
-          router.refresh();
-        }}
         setCurSelectedComment={setCurSelectedComment}
         onSuccess={fetchPosts}
       />
