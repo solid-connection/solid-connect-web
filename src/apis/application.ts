@@ -2,24 +2,7 @@ import { AxiosResponse } from "axios";
 
 import { axiosInstance } from "@/utils/axiosInstance";
 
-import {
-  ApplicationListResponse,
-  ApplicationScoreRequest,
-  ApplicationStatusResponse,
-  ApplicationUniversityRequest,
-  SubmitApplicationRequest,
-  SubmitApplicationResponse,
-} from "@/types/application";
-
-// DEPRECATED
-export const postApplicationScoreApi = (
-  applicationScoreRequest: ApplicationScoreRequest,
-): Promise<AxiosResponse<null>> => axiosInstance.post("/applications/score", applicationScoreRequest);
-
-// DEPRECATED
-export const postApplicationUniversityApi = (
-  applicationUniversityRequest: ApplicationUniversityRequest,
-): Promise<AxiosResponse<null>> => axiosInstance.post("/applications/university", applicationUniversityRequest);
+import { ApplicationListResponse, SubmitApplicationRequest, SubmitApplicationResponse } from "@/types/application";
 
 export const postApplicationApi = (
   request: SubmitApplicationRequest,
@@ -30,7 +13,3 @@ export const getApplicationListApi = (): Promise<AxiosResponse<ApplicationListRe
 
 export const getCompetitorsApplicationListApi = (): Promise<AxiosResponse<ApplicationListResponse>> =>
   axiosInstance.get("/applications/competitors");
-
-// DEPRECATED
-export const getMyApplicationStatusApi = (): Promise<AxiosResponse<ApplicationStatusResponse>> =>
-  axiosInstance.get("/applications/status");
