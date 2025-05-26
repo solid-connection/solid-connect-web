@@ -1,8 +1,5 @@
 import axios, { AxiosInstance } from "axios";
 
-// eslint-disable-next-line import/no-cycle
-import { reissueAccessTokenPublicApi } from "@/services/auth";
-
 import { isTokenExpired } from "./jwtUtils";
 import {
   loadAccessToken,
@@ -11,6 +8,9 @@ import {
   removeRefreshToken,
   saveAccessToken,
 } from "./localStorage";
+
+// eslint-disable-next-line import/no-cycle
+import { reissueAccessTokenPublicApi } from "@/api/auth";
 
 const convertToBearer = (token: string) => `Bearer ${token}`;
 

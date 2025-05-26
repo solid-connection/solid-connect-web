@@ -3,8 +3,6 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { signUpApi } from "@/services/auth";
-import { uploadProfileImageFilePublicApi } from "@/services/file";
 import { saveAccessToken, saveRefreshToken } from "@/utils/localStorage";
 
 import { Progress } from "@/components/ui/Progress";
@@ -16,6 +14,9 @@ import SignupRegionScreen from "./SignupRegionScreen";
 
 import { PreparationStatus, SignUpRequest } from "@/types/auth";
 import { RegionKo } from "@/types/university";
+
+import { signUpApi } from "@/api/auth";
+import { uploadProfileImageFilePublicApi } from "@/api/file";
 
 type SignupSurveyProps = {
   baseNickname: string;

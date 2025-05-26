@@ -2,10 +2,9 @@
 
 import { useEffect, useState } from "react";
 
-import { getMyInfoApi } from "@/services/myInfo";
-
 import { MyInfo } from "@/types/myInfo";
 
+import { getMyInfoApi } from "@/api/myInfo";
 import MyInfoModifyForm from "@/app/my/modify/MyInfoModifyForm";
 import MyProfileImageModify from "@/app/my/modify/MyProfileImageModify";
 

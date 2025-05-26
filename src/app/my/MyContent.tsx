@@ -4,14 +4,14 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { deleteAccountApi, signOutApi } from "@/services/auth";
-import { getMyInfoApi } from "@/services/myInfo";
 import { authProviderName } from "@/utils/authUtils";
 
 import ConfirmCancelModal from "@/components/modal/ConfirmCancelModal";
 
 import { MyInfo } from "@/types/myInfo";
 
+import { deleteAccountApi, signOutApi } from "@/api/auth";
+import { getMyInfoApi } from "@/api/myInfo";
 import MyInfoCard from "@/app/my/MyInfoCard";
 import MyMenu from "@/app/my/MyMenu";
 import MyMenuGroup from "@/app/my/MyMenuGroup";

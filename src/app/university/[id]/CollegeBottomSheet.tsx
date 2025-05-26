@@ -4,12 +4,6 @@ import { useEffect, useRef, useState } from "react";
 
 import clsx from "clsx";
 
-import {
-  deleteUniversityFavoriteApi,
-  getUniversityFavoriteStatusApi,
-  postUniversityFavoriteApi,
-} from "@/services/university";
-
 import ScrollTab from "@/components/ui/ScrollTab";
 import GoogleEmbedMap from "@/components/ui/map/GoogleEmbedMap";
 
@@ -19,6 +13,11 @@ import styles from "./college-bottomsheet.module.css";
 import { Review } from "@/types/review";
 import { University } from "@/types/university";
 
+import {
+  deleteUniversityFavoriteApi,
+  getUniversityFavoriteStatusApi,
+  postUniversityFavoriteApi,
+} from "@/api/university";
 import { IconBookmarkFilled, IconBookmarkOutlined } from "@/public/svgs";
 
 interface CollegeBottomSheetProps {

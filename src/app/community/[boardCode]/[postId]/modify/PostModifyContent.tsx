@@ -3,13 +3,13 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { getPostDetailApi } from "@/services/community";
-
 import CloudSpinnerPage from "@/components/loading/CloudSpinnerPage";
 
 import PostModifyForm from "./PostModifyForm";
 
 import { Post } from "@/types/community";
+
+import { getPostDetailApi } from "@/api/community";
 
 interface PostModifyContentProps {
   boardCode: string;

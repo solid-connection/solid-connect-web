@@ -4,8 +4,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { getRecommendedUniversitiesApi } from "@/services/university";
-
 import HomeCollegeCards from "../components/home/HomeCollegeCards";
 import NewsCards from "../components/home/NewsCards";
 import UniversityList from "../components/home/UniversityList";
@@ -13,6 +11,7 @@ import UniversityList from "../components/home/UniversityList";
 import { News } from "@/types/news";
 import { ListUniversity } from "@/types/university";
 
+import { getRecommendedUniversitiesApi } from "@/api/university";
 import { IconSpeaker, IconTablerSearch } from "@/public/svgs";
 import {
   IconGraduationCap,

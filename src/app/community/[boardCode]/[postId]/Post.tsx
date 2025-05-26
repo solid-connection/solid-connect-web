@@ -3,11 +3,11 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import ReactLinkify from "react-linkify";
 
-import { likePostApi, unlikePostApi } from "@/services/community";
 import { convertISODateToDateTime } from "@/utils/datetimeUtils";
 
 import { PostImage as PostImageType, Post as PostType } from "@/types/community";
 
+import { likePostApi, unlikePostApi } from "@/api/community";
 import { IconCloseFilled, IconPostLikeFilled, IconPostLikeOutline } from "@/public/svgs";
 import { IconCommunication } from "@/public/svgs/community";
 

@@ -4,10 +4,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 
-import { postGpaScoreApi } from "@/services/score";
-
 import BlockBtn from "@/components/button/BlockBtn";
 import RoundBtn from "@/components/button/RoundBtn";
+
+import { postGpaScoreApi } from "@/api/score";
 
 const GpaSubmitForm = () => {
   const router = useRouter();

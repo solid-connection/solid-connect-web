@@ -3,8 +3,6 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { getPostDetailApi } from "@/services/community";
-
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import CloudSpinnerPage from "@/components/loading/CloudSpinnerPage";
 
@@ -14,6 +12,8 @@ import KebabMenu from "./KebabMenu";
 import Post from "./Post";
 
 import { Post as PostType } from "@/types/community";
+
+import { getPostDetailApi } from "@/api/community";
 
 interface PostPageContentProps {
   boardCode: string;

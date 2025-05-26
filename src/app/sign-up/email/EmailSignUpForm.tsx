@@ -3,13 +3,12 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { emailSignUpApi } from "@/services/auth";
-
 import BlockBtn from "@/components/button/BlockBtn";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
 import { Progress } from "@/components/ui/Progress";
 
+import { emailSignUpApi } from "@/api/auth";
 import { IconCheckBlue, IconExpRed, IconEyeOff, IconEyeOn } from "@/public/svgs/ui";
 
 const EmailSignUpForm = () => {

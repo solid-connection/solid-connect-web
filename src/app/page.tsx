@@ -6,7 +6,7 @@ import Home from "./Home";
 
 import { News } from "@/types/news";
 
-import { fetchAllNews } from "@/libs/firebaseNews";
+import { fetchAllNews } from "@/lib/firebaseNews";
 
 export const metadata: Metadata = {
   title: "솔리드 커넥션",
