@@ -22,7 +22,7 @@ interface PostPageContentProps {
 
 const PostPageContent = ({ boardCode, postId }: PostPageContentProps) => {
   const router = useRouter();
-  const [curSelectedComment, setCurSelectedComment] = useState<number | null>(null);
+
   const { post, isLoading, refresh } = useFetchPost(postId);
 
   if (isLoading || post === null) {
@@ -39,12 +39,7 @@ const PostPageContent = ({ boardCode, postId }: PostPageContentProps) => {
         icon={post.isOwner && <KebabMenu boardCode={boardCode} postId={postId} />}
       />
       <Content post={post} postId={postId} />
-      <Comments
-        comments={post.postFindCommentResponses}
-        postId={postId}
-        setCurSelectedComment={setCurSelectedComment}
-        refresh={refresh}
-      />
+      <Comments comments={post.postFindCommentResponses} postId={postId} refresh={refresh} />
     </div>
   );
 };

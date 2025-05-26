@@ -67,7 +67,7 @@ export const createCommentApi = (
   commentCreateRequest: CommentCreateRequest,
 ): Promise<AxiosResponse<CommentIdResponse>> => axiosInstance.post(`/comments`, commentCreateRequest);
 
-export const deleteCommentApi = (postId: number, commentId: number): Promise<AxiosResponse<CommentIdResponse>> =>
+export const deleteCommentApi = (commentId: number): Promise<AxiosResponse<CommentIdResponse>> =>
   axiosInstance.delete(`/comments/${commentId}`);
 
 // export const updateCommentApi
