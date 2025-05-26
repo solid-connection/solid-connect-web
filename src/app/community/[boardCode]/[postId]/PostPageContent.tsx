@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import CloudSpinnerPage from "@/components/loading/CloudSpinnerPage";
 
-import CommentWrite from "./CommentWrite";
+import CommentWrite from "./CommentInput";
 import Comments from "./Comments";
 import Content from "./Content";
 import KebabMenu from "./KebabMenu";

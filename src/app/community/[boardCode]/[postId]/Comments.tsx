@@ -9,7 +9,7 @@ import { convertISODateToDateTime } from "@/utils/datetimeUtils";
 
 import Dropdown from "@/components/ui/Dropdown";
 
-import CommentWrite from "./CommentWrite";
+import CommentInput from "./CommentInput";
 
 import { Comment } from "@/types/community";
 
@@ -136,7 +136,7 @@ const Comments = ({ comments, postId, setCurSelectedComment, refresh }: Comments
           </div>
         </div>
       ))}
-      <CommentWrite
+      <CommentInput
         postId={postId}
         curSelectedComment={null}
         setCurSelectedComment={setCurSelectedComment}

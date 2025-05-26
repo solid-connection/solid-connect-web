@@ -5,14 +5,14 @@ import { useState } from "react";
 import { createCommentApi } from "@/api/community";
 import { IconCloseFilled, IconFlight } from "@/public/svgs";
 
-type CommentWriteProps = {
+type CommentInputProps = {
   postId: number;
   curSelectedComment: number | null;
   setCurSelectedComment: React.Dispatch<React.SetStateAction<number | null>>;
   refresh: () => void;
 };
 
-const CommentWrite = ({ postId, curSelectedComment, setCurSelectedComment, refresh }: CommentWriteProps) => {
+const CommentInput = ({ postId, curSelectedComment, setCurSelectedComment, refresh }: CommentInputProps) => {
   const [content, setContent] = useState<string>("");
 
   const submitComment = async () => {
@@ -79,4 +79,4 @@ const CommentWrite = ({ postId, curSelectedComment, setCurSelectedComment, refre
   );
 };
 
-export default CommentWrite;
+export default CommentInput;
