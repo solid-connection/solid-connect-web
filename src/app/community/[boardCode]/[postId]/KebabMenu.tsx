@@ -1,10 +1,9 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-import { deletePostApi } from "@/services/community";
-
 import Dropdown from "@/components/ui/Dropdown";
 
+import { deletePostApi } from "@/apis/community";
 import { IconMoreVertFilled } from "@/public/svgs";
 
 type KebabMenuProps = {

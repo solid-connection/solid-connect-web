@@ -1,11 +1,11 @@
 import { Metadata } from "next";
 import React, { Suspense } from "react";
 
-import { getUniversityListPublicApi } from "@/services/university";
-
 import CloudSpinner from "@/components/loading/CloudSpinner";
 
 import UniversityPage from "./UniversityPage";
+
+import { getUniversityListPublicApi } from "@/apis/university";
 
 export const metadata: Metadata = {
   title: "파견 학교 목록",

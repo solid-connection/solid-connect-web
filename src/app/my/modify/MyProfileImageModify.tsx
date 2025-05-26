@@ -3,9 +3,9 @@
 import { useRouter } from "next/navigation";
 import { useRef } from "react";
 
-import { updateMyInfoApi } from "@/services/myInfo";
-
 import { MyInfo } from "@/types/myInfo";
+
+import { updateMyInfoApi } from "@/apis/myInfo";
 
 type MyProfileImageModifyProps = {
   myInfo: MyInfo;

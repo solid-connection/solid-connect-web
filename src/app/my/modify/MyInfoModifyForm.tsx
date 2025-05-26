@@ -3,12 +3,12 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-import { updateMyInfoApi } from "@/services/myInfo";
-
 import BlockBtn from "@/components/button/BlockBtn";
 import ConfirmCancelModal from "@/components/modal/ConfirmCancelModal";
 
 import { MyInfo } from "@/types/myInfo";
+
+import { updateMyInfoApi } from "@/apis/myInfo";
 
 type MyInfoModifyFormProps = {
   myInfo: MyInfo;

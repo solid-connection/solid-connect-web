@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { emailAuthApi } from "@/services/auth";
 import { saveAccessToken, saveRefreshToken } from "@/utils/localStorage";
 
 import BlockBtn from "@/components/button/BlockBtn";
@@ -15,6 +14,7 @@ import KakaoLoginButton from "./KakaoLoginButton";
 
 import { appleOAuth2CodeResponse } from "@/types/auth";
 
+import { emailAuthApi } from "@/apis/auth";
 import { useLayout } from "@/context/LayoutContext";
 import { IconSolidConnectionFullBlackLogo } from "@/public/svgs";
 

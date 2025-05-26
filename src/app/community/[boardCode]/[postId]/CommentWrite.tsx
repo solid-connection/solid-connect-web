@@ -2,8 +2,7 @@
 
 import { useRef, useState } from "react";
 
-import { createCommentApi } from "@/services/community";
-
+import { createCommentApi } from "@/apis/community";
 import { IconCloseFilled, IconFlight } from "@/public/svgs";
 
 type CommentWriteProps = {

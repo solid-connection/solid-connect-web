@@ -3,14 +3,14 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { getMyGpaScoreApi, getMyLanguageTestScoreApi } from "@/services/score";
-
 import BlockBtn from "@/components/button/BlockBtn";
 import Tab from "@/components/ui/Tab";
 
 import ScoreCard from "./ScoreCard";
 
 import { GpaScore, LanguageTestScore, languageTestMapping } from "@/types/score";
+
+import { getMyGpaScoreApi, getMyLanguageTestScoreApi } from "@/apis/score";
 
 const ScoreScreen = () => {
   const router = useRouter();

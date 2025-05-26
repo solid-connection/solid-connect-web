@@ -3,8 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
-import { createPostApi } from "@/services/community";
-
+import { createPostApi } from "@/apis/community";
 import { IconArrowBackFilled, IconImage, IconPostCheckboxFilled, IconPostCheckboxOutlined } from "@/public/svgs";
 
 type PostFormProps = {

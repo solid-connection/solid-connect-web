@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from "react";
 
-import { getMyWishUniversityApi } from "@/services/myInfo";
-
 import UniversityCards from "@/components/college/UniversityCards";
 import ScrollTab from "@/components/ui/ScrollTab";
 
 import { ListUniversity } from "@/types/university";
+
+import { getMyWishUniversityApi } from "@/apis/myInfo";
 
 const FavoriteContent = () => {
   const [wishColleges, setWishColleges] = useState<ListUniversity[] | null>(null);

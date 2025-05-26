@@ -3,8 +3,6 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
-import { getApplicationListApi, getCompetitorsApplicationListApi } from "@/services/application";
-
 import CloudSpinnerPage from "@/components/loading/CloudSpinnerPage";
 import ConfirmCancelModal from "@/components/modal/ConfirmCancelModal";
 import ButtonTab from "@/components/ui/ButtonTab";
@@ -17,6 +15,8 @@ import ScoreSheets from "./ScoreSheets";
 import { REGIONS_KO } from "@/constants/university";
 import { ApplicationListResponse } from "@/types/application";
 import { RegionKo } from "@/types/university";
+
+import { getApplicationListApi, getCompetitorsApplicationListApi } from "@/apis/application";
 
 const PREFERENCE_CHOICE: string[] = ["1순위", "2순위", "3순위"];
 

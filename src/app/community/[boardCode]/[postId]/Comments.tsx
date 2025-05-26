@@ -3,13 +3,13 @@ import { useState } from "react";
 
 import clsx from "clsx";
 
-import { deleteCommentApi } from "@/services/community";
 import { convertISODateToDateTime } from "@/utils/datetimeUtils";
 
 import Dropdown from "@/components/ui/dropdown";
 
 import { Comment } from "@/types/community";
 
+import { deleteCommentApi } from "@/apis/community";
 import { IconMoreVertFilled, IconSubComment } from "@/public/svgs";
 
 type CommentsProps = {

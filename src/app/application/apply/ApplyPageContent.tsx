@@ -3,10 +3,6 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { postApplicationApi } from "@/services/application";
-import { getMyGpaScoreApi, getMyLanguageTestScoreApi } from "@/services/score";
-import { getUniversityListPublicApi } from "@/services/university";
-
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import ProgressBar from "@/components/ui/ProgressBar";
 
@@ -18,6 +14,10 @@ import UniversityStep from "./UniversityStep";
 
 import { GpaScore, LanguageTestScore } from "@/types/score";
 import { ListUniversity } from "@/types/university";
+
+import { postApplicationApi } from "@/apis/application";
+import { getMyGpaScoreApi, getMyLanguageTestScoreApi } from "@/apis/score";
+import { getUniversityListPublicApi } from "@/apis/university";
 
 const ApplyPageContent = () => {
   const router = useRouter();

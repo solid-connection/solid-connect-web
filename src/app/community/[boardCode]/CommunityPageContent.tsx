@@ -3,8 +3,6 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { getPostListApi } from "@/services/community";
-
 import CloudSpinnerPage from "@/components/loading/CloudSpinnerPage";
 import ButtonTab from "@/components/ui/ButtonTab";
 
@@ -14,6 +12,8 @@ import PostWriteButton from "./PostWriteButton";
 
 import { COMMUNITY_BOARDS, COMMUNITY_CATEGORIES } from "@/constants/commnunity";
 import { ListPost } from "@/types/community";
+
+import { getPostListApi } from "@/apis/community";
 
 interface CommunityPageContentProps {
   boardCode: string;

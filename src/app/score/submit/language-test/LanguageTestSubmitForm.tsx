@@ -4,13 +4,14 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 
-import { postLanguageTestScoreApi } from "@/services/score";
 import { validateLanguageScore } from "@/utils/scoreUtils";
 
 import BlockBtn from "@/components/button/BlockBtn";
 import RoundBtn from "@/components/button/RoundBtn";
 
 import { LanguageTestEnum } from "@/types/score";
+
+import { postLanguageTestScoreApi } from "@/apis/score";
 
 const LanguageTestSubmitForm = () => {
   const router = useRouter();
