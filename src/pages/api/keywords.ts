@@ -1,4 +1,4 @@
-import { fetchPopularKeywords, saveSearchKeyword } from "@/libs/firebaseKeywords";
+import { fetchPopularKeywords, saveSearchKeyword } from "@/lib/firebaseKeywords";
 
 export default async function handler(req, res) {
   if (req.method === "POST") {

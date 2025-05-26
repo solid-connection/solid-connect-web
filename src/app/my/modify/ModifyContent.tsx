@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import { MyInfo } from "@/types/myInfo";
 
-import { getMyInfoApi } from "@/apis/myInfo";
+import { getMyInfoApi } from "@/api/myInfo";
 import MyInfoModifyForm from "@/app/my/modify/MyInfoModifyForm";
 import MyProfileImageModify from "@/app/my/modify/MyProfileImageModify";
 

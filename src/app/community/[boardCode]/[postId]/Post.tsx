@@ -7,7 +7,7 @@ import { convertISODateToDateTime } from "@/utils/datetimeUtils";
 
 import { PostImage as PostImageType, Post as PostType } from "@/types/community";
 
-import { likePostApi, unlikePostApi } from "@/apis/community";
+import { likePostApi, unlikePostApi } from "@/api/community";
 import { IconCloseFilled, IconPostLikeFilled, IconPostLikeOutline } from "@/public/svgs";
 import { IconCommunication } from "@/public/svgs/community";
 

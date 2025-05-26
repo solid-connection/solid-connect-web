@@ -10,7 +10,7 @@ import CollegeDetail from "./CollegeDetail";
 import { Review } from "@/types/review";
 import { University } from "@/types/university";
 
-import { getUniversityDetailPublicApi } from "@/apis/university";
+import { getUniversityDetailPublicApi } from "@/api/university";
 
 export const revalidate = 60; // ISR 재생성 주기 설정
 

@@ -8,7 +8,7 @@ import ConfirmCancelModal from "@/components/modal/ConfirmCancelModal";
 
 import { MyInfo } from "@/types/myInfo";
 
-import { updateMyInfoApi } from "@/apis/myInfo";
+import { updateMyInfoApi } from "@/api/myInfo";
 
 type MyInfoModifyFormProps = {
   myInfo: MyInfo;

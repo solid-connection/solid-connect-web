@@ -17,7 +17,7 @@ import {
   deleteUniversityFavoriteApi,
   getUniversityFavoriteStatusApi,
   postUniversityFavoriteApi,
-} from "@/apis/university";
+} from "@/api/university";
 import { IconBookmarkFilled, IconBookmarkOutlined } from "@/public/svgs";
 
 interface CollegeBottomSheetProps {

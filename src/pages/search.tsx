@@ -5,7 +5,7 @@ import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import CollegeSearchBar from "@/components/search/college-search-bar";
 import CollegeSearchField from "@/components/search/college-search-field";
 
-import { getPopularKeywordsPublicApi, postSearchKeywordPublicApi } from "@/apis/keyword";
+import { getPopularKeywordsPublicApi, postSearchKeywordPublicApi } from "@/api/keyword";
 
 const HomeSearchPage = () => {
   const router = useRouter();

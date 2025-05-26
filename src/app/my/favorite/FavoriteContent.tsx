@@ -7,7 +7,7 @@ import ScrollTab from "@/components/ui/ScrollTab";
 
 import { ListUniversity } from "@/types/university";
 
-import { getMyWishUniversityApi } from "@/apis/myInfo";
+import { getMyWishUniversityApi } from "@/api/myInfo";
 
 const FavoriteContent = () => {
   const [wishColleges, setWishColleges] = useState<ListUniversity[] | null>(null);

@@ -5,7 +5,7 @@ import CloudSpinner from "@/components/loading/CloudSpinner";
 
 import UniversityPage from "./UniversityPage";
 
-import { getUniversityListPublicApi } from "@/apis/university";
+import { getUniversityListPublicApi } from "@/api/university";
 
 export const metadata: Metadata = {
   title: "파견 학교 목록",

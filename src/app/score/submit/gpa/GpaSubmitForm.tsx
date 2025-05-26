@@ -7,7 +7,7 @@ import { useRef, useState } from "react";
 import BlockBtn from "@/components/button/BlockBtn";
 import RoundBtn from "@/components/button/RoundBtn";
 
-import { postGpaScoreApi } from "@/apis/score";
+import { postGpaScoreApi } from "@/api/score";
 
 const GpaSubmitForm = () => {
   const router = useRouter();

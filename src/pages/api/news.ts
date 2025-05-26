@@ -1,4 +1,4 @@
-import { fetchAllNews } from "@/libs/firebaseNews";
+import { fetchAllNews } from "@/lib/firebaseNews";
 
 export async function getNewsList() {
   const newsList = await fetchAllNews();

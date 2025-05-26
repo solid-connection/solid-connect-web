@@ -5,7 +5,7 @@ import { useRef } from "react";
 
 import { MyInfo } from "@/types/myInfo";
 
-import { updateMyInfoApi } from "@/apis/myInfo";
+import { updateMyInfoApi } from "@/api/myInfo";
 
 type MyProfileImageModifyProps = {
   myInfo: MyInfo;

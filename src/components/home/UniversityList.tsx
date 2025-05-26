@@ -12,7 +12,7 @@ import CheveronRightFilled from "@/components/ui/icon/ChevronRightFilled";
 import { languageTestShortMapping } from "@/types/score";
 import { ListUniversity, regionMapping } from "@/types/university";
 
-import { getUniversityListPublicApi } from "@/apis/university";
+import { getUniversityListPublicApi } from "@/api/university";
 
 const UniversityList = () => {
   const [region, setRegion] = useState<"전체" | "영미권" | "유럽권" | "아시아권">("전체");

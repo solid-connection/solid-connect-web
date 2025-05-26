@@ -13,7 +13,7 @@ import Post from "./Post";
 
 import { Post as PostType } from "@/types/community";
 
-import { getPostDetailApi } from "@/apis/community";
+import { getPostDetailApi } from "@/api/community";
 
 interface PostPageContentProps {
   boardCode: string;

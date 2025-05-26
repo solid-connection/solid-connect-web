@@ -10,7 +10,7 @@ import { saveAccessToken, saveRefreshToken } from "@/utils/localStorage";
 import CloudSpinnerPage from "@/components/loading/CloudSpinnerPage";
 import SignupSurvey from "@/components/login/signup/SignupSurvey";
 
-import { kakaoAuthApi } from "@/apis/auth";
+import { kakaoAuthApi } from "@/api/auth";
 import { useLayout } from "@/context/LayoutContext";
 
 const KakaoLoginCallbackPage = () => {

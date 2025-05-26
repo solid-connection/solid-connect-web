@@ -11,7 +11,7 @@ import RoundBtn from "@/components/button/RoundBtn";
 
 import { LanguageTestEnum } from "@/types/score";
 
-import { postLanguageTestScoreApi } from "@/apis/score";
+import { postLanguageTestScoreApi } from "@/api/score";
 
 const LanguageTestSubmitForm = () => {
   const router = useRouter();

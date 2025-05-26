@@ -15,9 +15,9 @@ import UniversityStep from "./UniversityStep";
 import { GpaScore, LanguageTestScore } from "@/types/score";
 import { ListUniversity } from "@/types/university";
 
-import { postApplicationApi } from "@/apis/application";
-import { getMyGpaScoreApi, getMyLanguageTestScoreApi } from "@/apis/score";
-import { getUniversityListPublicApi } from "@/apis/university";
+import { postApplicationApi } from "@/api/application";
+import { getMyGpaScoreApi, getMyLanguageTestScoreApi } from "@/api/score";
+import { getUniversityListPublicApi } from "@/api/university";
 
 const ApplyPageContent = () => {
   const router = useRouter();

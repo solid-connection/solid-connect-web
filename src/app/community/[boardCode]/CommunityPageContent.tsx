@@ -13,7 +13,7 @@ import PostWriteButton from "./PostWriteButton";
 import { COMMUNITY_BOARDS, COMMUNITY_CATEGORIES } from "@/constants/commnunity";
 import { ListPost } from "@/types/community";
 
-import { getPostListApi } from "@/apis/community";
+import { getPostListApi } from "@/api/community";
 
 interface CommunityPageContentProps {
   boardCode: string;

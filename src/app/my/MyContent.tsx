@@ -10,8 +10,8 @@ import ConfirmCancelModal from "@/components/modal/ConfirmCancelModal";
 
 import { MyInfo } from "@/types/myInfo";
 
-import { deleteAccountApi, signOutApi } from "@/apis/auth";
-import { getMyInfoApi } from "@/apis/myInfo";
+import { deleteAccountApi, signOutApi } from "@/api/auth";
+import { getMyInfoApi } from "@/api/myInfo";
 import MyInfoCard from "@/app/my/MyInfoCard";
 import MyMenu from "@/app/my/MyMenu";
 import MyMenuGroup from "@/app/my/MyMenuGroup";

@@ -9,7 +9,7 @@ import PostModifyForm from "./PostModifyForm";
 
 import { Post } from "@/types/community";
 
-import { getPostDetailApi } from "@/apis/community";
+import { getPostDetailApi } from "@/api/community";
 
 interface PostModifyContentProps {
   boardCode: string;

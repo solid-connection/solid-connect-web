@@ -10,7 +10,7 @@ import {
 } from "./localStorage";
 
 // eslint-disable-next-line import/no-cycle
-import { reissueAccessTokenPublicApi } from "@/apis/auth";
+import { reissueAccessTokenPublicApi } from "@/api/auth";
 
 const convertToBearer = (token: string) => `Bearer ${token}`;
 

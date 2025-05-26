@@ -14,7 +14,7 @@ import KakaoLoginButton from "./KakaoLoginButton";
 
 import { appleOAuth2CodeResponse } from "@/types/auth";
 
-import { emailAuthApi } from "@/apis/auth";
+import { emailAuthApi } from "@/api/auth";
 import { useLayout } from "@/context/LayoutContext";
 import { IconSolidConnectionFullBlackLogo } from "@/public/svgs";
 

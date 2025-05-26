@@ -15,8 +15,8 @@ import SignupRegionScreen from "./SignupRegionScreen";
 import { PreparationStatus, SignUpRequest } from "@/types/auth";
 import { RegionKo } from "@/types/university";
 
-import { signUpApi } from "@/apis/auth";
-import { uploadProfileImageFilePublicApi } from "@/apis/file";
+import { signUpApi } from "@/api/auth";
+import { uploadProfileImageFilePublicApi } from "@/api/file";
 
 type SignupSurveyProps = {
   baseNickname: string;

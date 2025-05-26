@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import Dropdown from "@/components/ui/Dropdown";
 
-import { deletePostApi } from "@/apis/community";
+import { deletePostApi } from "@/api/community";
 import { IconMoreVertFilled } from "@/public/svgs";
 
 type KebabMenuProps = {

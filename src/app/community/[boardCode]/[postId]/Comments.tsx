@@ -9,7 +9,7 @@ import Dropdown from "@/components/ui/dropdown";
 
 import { Comment } from "@/types/community";
 
-import { deleteCommentApi } from "@/apis/community";
+import { deleteCommentApi } from "@/api/community";
 import { IconMoreVertFilled, IconSubComment } from "@/public/svgs";
 
 type CommentsProps = {

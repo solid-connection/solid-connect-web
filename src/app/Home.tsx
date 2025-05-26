@@ -11,7 +11,7 @@ import UniversityList from "../components/home/UniversityList";
 import { News } from "@/types/news";
 import { ListUniversity } from "@/types/university";
 
-import { getRecommendedUniversitiesApi } from "@/apis/university";
+import { getRecommendedUniversitiesApi } from "@/api/university";
 import { IconSpeaker, IconTablerSearch } from "@/public/svgs";
 import {
   IconGraduationCap,
