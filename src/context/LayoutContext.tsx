@@ -2,13 +2,12 @@
 
 import { createContext, useContext, useMemo, useState } from "react";
 
-const LayoutContext = createContext<
-  | {
-      hideBottomNavigation: boolean;
-      setHideBottomNavigation: React.Dispatch<React.SetStateAction<boolean>>;
-    }
-  | undefined
->(undefined);
+type LayoutContextType = {
+  hideBottomNavigation: boolean;
+  setHideBottomNavigation: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const LayoutContext = createContext<LayoutContextType | undefined>(undefined);
 
 export const useLayout = () => {
   const context = useContext(LayoutContext);
