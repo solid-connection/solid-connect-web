@@ -9,10 +9,9 @@ type CommentWriteProps = {
   postId: number;
   curSelectedComment: number | null;
   setCurSelectedComment: React.Dispatch<React.SetStateAction<number | null>>;
-  onSuccess: () => void;
 };
 
-const CommentWrite = ({ postId, curSelectedComment, setCurSelectedComment, onSuccess }: CommentWriteProps) => {
+const CommentWrite = ({ postId, curSelectedComment, setCurSelectedComment }: CommentWriteProps) => {
   const [content, setContent] = useState<string>("");
 
   const submitComment = async () => {
@@ -23,7 +22,6 @@ const CommentWrite = ({ postId, curSelectedComment, setCurSelectedComment, onSuc
         parentId: curSelectedComment,
       });
       setContent("");
-      onSuccess();
     } catch (err) {
       if (err.response) {
         console.error("Axios response error", err.response);

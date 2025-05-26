@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 import clsx from "clsx";
@@ -16,17 +19,17 @@ type CommentsProps = {
   comments: Comment[];
   postId: number;
   setCurSelectedComment: React.Dispatch<React.SetStateAction<number | null>>;
-  onSuccess: () => void;
 };
 
-const Comments = ({ comments, postId, setCurSelectedComment, onSuccess }: CommentsProps) => {
+const Comments = ({ comments, postId, setCurSelectedComment }: CommentsProps) => {
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
+  const router = useRouter();
 
   const toggleDeleteComment = (commentId: number) => {
     if (!window.confirm("정말 삭제하시겠습니까?")) return;
     deleteCommentApi(postId, commentId)
       .then(() => {
-        onSuccess();
+        router.reload();
       })
       .catch((err) => {
         if (err.response) {
