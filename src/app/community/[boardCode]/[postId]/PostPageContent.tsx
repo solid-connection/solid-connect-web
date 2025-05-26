@@ -23,7 +23,7 @@ interface PostPageContentProps {
 const PostPageContent = ({ boardCode, postId }: PostPageContentProps) => {
   const router = useRouter();
   const [curSelectedComment, setCurSelectedComment] = useState<number | null>(null);
-  const { post, isLoading } = useFetchPost(postId);
+  const { post, isLoading, refresh } = useFetchPost(postId);
 
   if (isLoading || post === null) {
     return <CloudSpinnerPage />;
@@ -43,11 +43,7 @@ const PostPageContent = ({ boardCode, postId }: PostPageContentProps) => {
         comments={post.postFindCommentResponses}
         postId={postId}
         setCurSelectedComment={setCurSelectedComment}
-      />
-      <CommentWrite
-        postId={postId}
-        curSelectedComment={curSelectedComment}
-        setCurSelectedComment={setCurSelectedComment}
+        refresh={refresh}
       />
     </div>
   );
@@ -83,7 +79,12 @@ const useFetchPost = (postId: number) => {
     fetchPost();
   }, [postId]);
 
-  return { post, isLoading };
+  const refresh = () => {
+    setIsLoading(true);
+    fetchPost();
+  };
+
+  return { post, isLoading, refresh };
 };
 
 export default PostPageContent;

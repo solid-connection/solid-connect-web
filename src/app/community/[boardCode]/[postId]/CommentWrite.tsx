@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 import { createCommentApi } from "@/api/community";
 import { IconCloseFilled, IconFlight } from "@/public/svgs";
@@ -9,9 +9,10 @@ type CommentWriteProps = {
   postId: number;
   curSelectedComment: number | null;
   setCurSelectedComment: React.Dispatch<React.SetStateAction<number | null>>;
+  refresh: () => void;
 };
 
-const CommentWrite = ({ postId, curSelectedComment, setCurSelectedComment }: CommentWriteProps) => {
+const CommentWrite = ({ postId, curSelectedComment, setCurSelectedComment, refresh }: CommentWriteProps) => {
   const [content, setContent] = useState<string>("");
 
   const submitComment = async () => {
@@ -21,7 +22,7 @@ const CommentWrite = ({ postId, curSelectedComment, setCurSelectedComment }: Com
         content: content,
         parentId: curSelectedComment,
       });
-      setContent("");
+      refresh();
     } catch (err) {
       if (err.response) {
         console.error("Axios response error", err.response);

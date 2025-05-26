@@ -1,14 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import { useRouter } from "next/router";
 import { useState } from "react";
 
 import clsx from "clsx";
 
 import { convertISODateToDateTime } from "@/utils/datetimeUtils";
 
-import Dropdown from "@/components/ui/dropdown";
+import Dropdown from "@/components/ui/Dropdown";
+
+import CommentWrite from "./CommentWrite";
 
 import { Comment } from "@/types/community";
 
@@ -19,17 +20,17 @@ type CommentsProps = {
   comments: Comment[];
   postId: number;
   setCurSelectedComment: React.Dispatch<React.SetStateAction<number | null>>;
+  refresh: () => void;
 };
 
-const Comments = ({ comments, postId, setCurSelectedComment }: CommentsProps) => {
+const Comments = ({ comments, postId, setCurSelectedComment, refresh }: CommentsProps) => {
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
-  const router = useRouter();
 
   const toggleDeleteComment = (commentId: number) => {
     if (!window.confirm("정말 삭제하시겠습니까?")) return;
     deleteCommentApi(postId, commentId)
       .then(() => {
-        router.reload();
+        refresh();
       })
       .catch((err) => {
         if (err.response) {
@@ -52,7 +53,7 @@ const Comments = ({ comments, postId, setCurSelectedComment }: CommentsProps) =>
   };
 
   return (
-    <div className="h-[50vh] pb-[49px]">
+    <div className="min-h-[50vh] pb-[49px]">
       {comments?.map((comment) => (
         <div
           className={clsx(
@@ -135,6 +136,12 @@ const Comments = ({ comments, postId, setCurSelectedComment }: CommentsProps) =>
           </div>
         </div>
       ))}
+      <CommentWrite
+        postId={postId}
+        curSelectedComment={null}
+        setCurSelectedComment={setCurSelectedComment}
+        refresh={refresh}
+      />
     </div>
   );
 };
