@@ -16,13 +16,13 @@ import { Comment as CommentType, CommunityUser } from "@/types/community";
 import { deleteCommentApi } from "@/api/community";
 import { IconMoreVertFilled, IconSubComment } from "@/public/svgs";
 
-type CommentsProps = {
+type CommentSectionProps = {
   comments: CommentType[];
   postId: number;
   refresh: () => void;
 };
 
-const Comments = ({ comments, postId, refresh }: CommentsProps) => {
+const CommentSection = ({ comments, postId, refresh }: CommentSectionProps) => {
   const [curSelectedComment, setCurSelectedComment] = useState<number | null>(null);
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
 
@@ -70,7 +70,7 @@ const Comments = ({ comments, postId, refresh }: CommentsProps) => {
   );
 };
 
-export default Comments;
+export default CommentSection;
 
 type CommentProps = {
   comment: CommentType;

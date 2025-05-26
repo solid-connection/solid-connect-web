@@ -6,8 +6,7 @@ import { useEffect, useState } from "react";
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import CloudSpinnerPage from "@/components/loading/CloudSpinnerPage";
 
-import CommentWrite from "./CommentInput";
-import Comments from "./Comments";
+import CommentSection from "./CommentSection";
 import Content from "./Content";
 import KebabMenu from "./KebabMenu";
 
@@ -39,7 +38,7 @@ const PostPageContent = ({ boardCode, postId }: PostPageContentProps) => {
         icon={post.isOwner && <KebabMenu boardCode={boardCode} postId={postId} />}
       />
       <Content post={post} postId={postId} />
-      <Comments comments={post.postFindCommentResponses} postId={postId} refresh={refresh} />
+      <CommentSection comments={post.postFindCommentResponses} postId={postId} refresh={refresh} />
     </div>
   );
 };
