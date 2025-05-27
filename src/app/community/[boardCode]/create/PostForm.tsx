@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 
 import { createPostApi } from "@/api/community";
-import { IconArrowBackFilled, IconImage, IconPostCheckboxFilled, IconPostCheckboxOutlined } from "@/public/svgs";
+import { IconImage, IconPostCheckboxFilled, IconPostCheckboxOutlined } from "@/public/svgs";
 
 type PostFormProps = {
   boardCode: string;
