@@ -3,6 +3,8 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
+import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
+
 import { createPostApi } from "@/api/community";
 import { IconArrowBackFilled, IconImage, IconPostCheckboxFilled, IconPostCheckboxOutlined } from "@/public/svgs";
 
@@ -76,11 +78,23 @@ const PostForm = ({ boardCode }: PostFormProps) => {
 
   return (
     <>
-      <CustomTopDetailNavigation
+      {/* <CustomTopDetailNavigation
         routeBack={() => {
           router.back();
         }}
         submitPost={submitPost}
+      /> */}
+      <TopDetailNavigation
+        title="글쓰기"
+        icon={
+          <button
+            className="h-8 cursor-pointer rounded-full border-0 bg-primary px-3 py-[5px] font-serif text-sm font-medium leading-[160%] text-white"
+            onClick={submitPost}
+            type="button"
+          >
+            등록
+          </button>
+        }
       />
       <div>
         <div
