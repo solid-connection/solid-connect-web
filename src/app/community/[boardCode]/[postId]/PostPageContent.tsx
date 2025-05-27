@@ -6,10 +6,9 @@ import { useEffect, useState } from "react";
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import CloudSpinnerPage from "@/components/loading/CloudSpinnerPage";
 
-import CommentWrite from "./CommentWrite";
-import Comments from "./Comments";
+import CommentSection from "./CommentSection";
+import Content from "./Content";
 import KebabMenu from "./KebabMenu";
-import Post from "./Post";
 
 import { Post as PostType } from "@/types/community";
 
@@ -22,35 +21,8 @@ interface PostPageContentProps {
 
 const PostPageContent = ({ boardCode, postId }: PostPageContentProps) => {
   const router = useRouter();
-  const [post, setPost] = useState<PostType | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [curSelectedComment, setCurSelectedComment] = useState<number | null>(null);
 
-  const fetchPosts = async () => {
-    await getPostDetailApi(postId)
-      .then((res) => {
-        setPost(res.data);
-      })
-      .catch((err) => {
-        if (err.response) {
-          console.error("Axios response error", err.response);
-          if (err.response.status === 401 || err.response.status === 403) {
-            alert("로그인이 필요합니다");
-            document.location.href = "/login";
-          } else {
-            alert(err.response.data?.message);
-          }
-        } else {
-          console.error("Error", err.message);
-          alert(err.message);
-        }
-      });
-    setIsLoading(false);
-  };
-
-  useEffect(() => {
-    fetchPosts();
-  }, [postId]);
+  const { post, isLoading, refresh } = useFetchPost(postId);
 
   if (isLoading || post === null) {
     return <CloudSpinnerPage />;
@@ -65,21 +37,48 @@ const PostPageContent = ({ boardCode, postId }: PostPageContentProps) => {
         }}
         icon={post.isOwner && <KebabMenu boardCode={boardCode} postId={postId} />}
       />
-      <Post post={post} boardCode={boardCode} postId={postId} />
-      <Comments
-        comments={post.postFindCommentResponses}
-        postId={postId}
-        setCurSelectedComment={setCurSelectedComment}
-        onSuccess={fetchPosts}
-      />
-      <CommentWrite
-        postId={postId}
-        curSelectedComment={curSelectedComment}
-        setCurSelectedComment={setCurSelectedComment}
-        onSuccess={fetchPosts}
-      />
+      <Content post={post} postId={postId} />
+      <CommentSection comments={post.postFindCommentResponses} postId={postId} refresh={refresh} />
     </div>
   );
+};
+
+const useFetchPost = (postId: number) => {
+  const [post, setPost] = useState<PostType | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const fetchPost = async () => {
+    try {
+      const response = await getPostDetailApi(postId);
+      setPost(response.data);
+    } catch (err) {
+      if (err.response) {
+        console.error("Axios response error", err.response);
+        if (err.response.status === 401 || err.response.status === 403) {
+          alert("로그인이 필요합니다");
+          document.location.href = "/login";
+        } else {
+          alert(err.response.data?.message);
+        }
+      } else {
+        console.error("Error", err.message);
+        alert(err.message);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchPost();
+  }, [postId]);
+
+  const refresh = () => {
+    setIsLoading(true);
+    fetchPost();
+  };
+
+  return { post, isLoading, refresh };
 };
 
 export default PostPageContent;

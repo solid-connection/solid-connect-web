@@ -15,13 +15,12 @@ export const metadata: Metadata = {
   title: "글 상세보기",
 };
 
-type PostProps = {
+type ContentProps = {
   post: PostType;
-  boardCode: string;
   postId: number;
 };
 
-const Post = ({ post, boardCode, postId }: PostProps) => {
+const Content = ({ post, postId }: ContentProps) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   const [likeCount, setLikeCount] = useState<number>(0);
   const [isLiked, setIsLiked] = useState<boolean>(false);
@@ -145,7 +144,7 @@ const Post = ({ post, boardCode, postId }: PostProps) => {
   );
 };
 
-export default Post;
+export default Content;
 
 const PostImage = ({ images, onImageClick }: { images: PostImageType[]; onImageClick: (index: number) => void }) => {
   if (images.length === 1) {
