@@ -9,7 +9,6 @@ import { shortenLanguageTestName } from "@/utils/universityUtils";
 import ButtonTab from "@/components/ui/ButtonTab";
 import CheveronRightFilled from "@/components/ui/icon/ChevronRightFilled";
 
-import { languageTestShortMapping } from "@/types/score";
 import { ListUniversity, regionMapping } from "@/types/university";
 
 import { getUniversityListPublicApi } from "@/api/university";
