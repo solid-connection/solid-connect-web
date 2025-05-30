@@ -1,13 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-import { shortenLanguageTestName } from "@/utils/universityUtils";
-
 import ButtonTab from "@/components/ui/ButtonTab";
-import CheveronRightFilled from "@/components/ui/icon/ChevronRightFilled";
 
 import UniversityCards from "../college/UniversityCards";
 
