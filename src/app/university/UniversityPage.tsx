@@ -100,7 +100,7 @@ const UniversityPage = ({ universities }: { universities: ListUniversity[] }) =>
         color={{ deactiveBtn: "bg-[#f0f0f0]", deactiveBtnFont: "text-[#a2a2a2]", background: "white" }}
         style={{ marginTop: "14px", marginLeft: "18px" }}
       />
-      <UniversityCards colleges={filteredColleges} style={{ marginTop: "12px" }} />
+      <UniversityCards colleges={filteredColleges} className="mx-5 mt-3" />
     </>
   );
 };

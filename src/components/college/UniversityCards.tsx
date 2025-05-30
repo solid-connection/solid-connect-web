@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import clsx from "clsx";
+
 import { shortenLanguageTestName } from "@/utils/universityUtils";
 
 import CheveronRightFilled from "@/components/ui/icon/ChevronRightFilled";
@@ -10,11 +12,12 @@ import { ListUniversity } from "@/types/university";
 type UniversityCardsProps = {
   colleges: ListUniversity[];
   style?: React.CSSProperties;
+  className?: string;
   showCapacity?: boolean;
 };
 
-const UniversityCards = ({ colleges, style, showCapacity = true }: UniversityCardsProps) => (
-  <div className="flex flex-col gap-2.5" style={style}>
+const UniversityCards = ({ colleges, style, className, showCapacity = true }: UniversityCardsProps) => (
+  <div className={clsx("flex flex-col gap-2.5", className)} style={style}>
     {colleges.map((university) => (
       <UniversityCard key={university.id} university={university} showCapacity={showCapacity} />
     ))}
@@ -35,7 +38,7 @@ export const UniversityCard = ({ university, showCapacity = true }: UniversityCa
 
   return (
     <Link
-      className="relative mx-5 h-[91px] overflow-hidden rounded-lg border border-solid border-k-100 hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/10"
+      className="relative h-[91px] overflow-hidden rounded-lg border border-solid border-k-100 hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/10"
       href={`/university/${university.id}`}
     >
       <div className="flex justify-between px-5 py-3.5">
