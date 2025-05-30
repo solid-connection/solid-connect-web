@@ -44,10 +44,6 @@ const Home = ({ newsList }: HomeProps) => {
 
   return (
     <div className="">
-      {/* <div className="pl-5">
-        <CollegeSearch />
-      </div> */}
-
       <div
         className="flex h-[60px] cursor-pointer items-center justify-between border-b border-k-100 px-5 py-3"
         onClick={() => alert("해당 기능은 현재 준비중입니다.")}
