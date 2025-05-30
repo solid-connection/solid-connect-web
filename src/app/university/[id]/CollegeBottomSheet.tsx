@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import React, { forwardRef, useEffect, useRef, useState } from "react";
 
 import clsx from "clsx";
 
@@ -11,7 +11,7 @@ import CollegeReviews from "./CollegeReviews";
 import styles from "./college-bottomsheet.module.css";
 
 import { Review } from "@/types/review";
-import { University } from "@/types/university";
+import { LanguageRequirement, University } from "@/types/university";
 
 import {
   deleteUniversityFavoriteApi,
@@ -28,7 +28,7 @@ interface CollegeBottomSheetProps {
 }
 
 const CollegeBottomSheet = ({ collegeId, convertedKoreanName, reviewList, university }: CollegeBottomSheetProps) => {
-  const pages: string[] = ["학교정보", "어학성적", "지원전공", "위치", "파견후기"];
+  const pages: string[] = ["어학성적", "학교정보", "지원정보", "지역정보", "파견후기"];
   const [activeTab, setActiveTab] = useState<string>("학교정보");
   const sectionRefs = [
     useRef<HTMLDivElement>(null),
@@ -137,162 +137,83 @@ const CollegeBottomSheet = ({ collegeId, convertedKoreanName, reviewList, univer
           borderColor="var(--primary-2, #091F5B)"
         />
 
-        {/* 학교정보 */}
-        <div className={styles.scrollOffset} style={{ paddingTop: "123px" }} ref={sectionRefs[0]}>
-          <div className={styles.item}>
-            <div className={"ml-5 font-serif text-base font-semibold"}>홈페이지</div>
-            <div className="mx-5 mt-2.5 font-serif text-sm font-normal leading-normal">
-              <a className="break-words" href={university.homepageUrl || ""} target="_blank" rel="noreferrer">
-                {university.homepageUrl || "홈페이지 없음"}
-              </a>
-            </div>
-          </div>
-          <div className={styles.item}>
-            <div className={"ml-5 font-serif text-base font-semibold"}>기숙사</div>
-
-            <div className="mx-5 mt-2.5 font-serif text-sm font-normal leading-normal">
-              {university.accommodationUrl && (
-                <>
-                  <a
-                    href={university.accommodationUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="break-words font-serif text-sm font-normal leading-normal"
-                  >
-                    {university.accommodationUrl}
-                  </a>
-                  <br />
-                </>
-              )}
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: university.detailsForAccommodation || "기숙사 추가 정보 없음",
-                }}
-              />
-            </div>
-          </div>
-          <div className={styles.item}>
-            <div className={"ml-5 font-serif text-base font-semibold"}>파견 대학 위치</div>
-            <div className="mx-5 mt-2.5 font-serif text-sm font-normal leading-normal">
-              {university.region} {university.country}
-            </div>
-          </div>
-          <div className={styles.item}>
-            <div className={"ml-5 font-serif text-base font-semibold"}>지역정보</div>
-            <div className="mx-5 mt-2.5 font-serif text-sm font-normal leading-normal">
-              <div dangerouslySetInnerHTML={{ __html: university.detailsForLocal || "지역정보 없음" }} />
-            </div>
-          </div>
-        </div>
-
-        {/* 어학성적 */}
-        <div className={styles.bar}>
-          {university.languageRequirements.map((language) => (
-            <div key={language.languageTestType}>
-              {language.languageTestType.replace(/_/g, " ")} {language.minScore}
-            </div>
-          ))}
-        </div>
-        <div className={styles.scrollOffsetWithBar} ref={sectionRefs[1]}>
-          <div className={styles.item}>
-            <div className={"ml-5 font-serif text-base font-semibold"}>어학 세부요건</div>
-            <div className="mx-5 mt-2.5 font-serif text-sm font-normal leading-normal">
-              <div dangerouslySetInnerHTML={{ __html: university.detailsForLanguage || "어학 세부요건 없음" }} />
-            </div>
-          </div>
-        </div>
-
-        {/* 지원전공 */}
-        <div className={styles.scrollOffset} ref={sectionRefs[2]}>
-          <div className={styles.item}>
-            <div className={"ml-5 font-serif text-base font-semibold"}>선발 인원</div>
-            <div className="mx-5 mt-2.5 font-serif text-sm font-normal leading-normal">
-              {university.studentCapacity || "?"}명
-            </div>
-          </div>
-          <div className={styles.item}>
-            <div className={"ml-5 font-serif text-base font-semibold"}>등록금 납부 유형</div>
-            <div className="mx-5 mt-2.5 font-serif text-sm font-normal leading-normal">
-              {university.tuitionFeeType || "등록금 납부 유형 정보 없음"}
-            </div>
-          </div>
-          <div className={styles.item}>
-            <div className={"ml-5 font-serif text-base font-semibold"}>파견가능학기</div>
-            <div className="mx-5 mt-2.5 font-serif text-sm font-normal leading-normal">
-              {university.semesterAvailableForDispatch || "파견가능학기 정보 없음"}
-            </div>
-          </div>
-          <div className={styles.item}>
-            <div className={"ml-5 font-serif text-base font-semibold"}>최저이수학기</div>
-            <div className="mx-5 mt-2.5 font-serif text-sm font-normal leading-normal">
-              {university.semesterRequirement || "최저이수학기 정보 없음"}
-            </div>
-          </div>
-          <div className={styles.item}>
-            <div className={"ml-5 font-serif text-base font-semibold"}>최저성적 / 기준 성적</div>
-            <div className="mx-5 mt-2.5 font-serif text-sm font-normal leading-normal">
-              {university.gpaRequirement
-                ? `${university.gpaRequirement} / ${university.gpaRequirementCriteria}`
-                : "없음"}
-            </div>
-          </div>
-          <div className={styles.item}>
-            <div className={"ml-5 font-serif text-base font-semibold"}>전공 상세</div>
-            <div className="mx-5 mt-2.5 font-serif text-sm font-normal leading-normal">
-              <div dangerouslySetInnerHTML={{ __html: university.detailsForMajor || "전공 상세 정보 없음" }} />
-            </div>
-          </div>
-
-          <div className={styles.item}>
-            <div className={"ml-5 font-serif text-base font-semibold"}>영어강의 리스트</div>
-
-            <div className="mx-5 mt-2.5 font-serif text-sm font-normal leading-normal">
-              {university.englishCourseUrl && (
-                <>
-                  <a
-                    href={university.englishCourseUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="break-words font-serif text-sm font-normal leading-normal"
-                  >
-                    {university.englishCourseUrl}
-                  </a>
-                  <br />
-                </>
-              )}
-              <div
-                dangerouslySetInnerHTML={{ __html: university.detailsForEnglishCourse || "영어강의 추가 정보 없음" }}
-              />
-            </div>
-          </div>
-          <div className={styles.item}>
-            <div className={"ml-5 font-serif text-base font-semibold"}>비고</div>
-            <div className="mx-5 mt-2.5 font-serif text-sm font-normal leading-normal">
-              <div dangerouslySetInnerHTML={{ __html: university.details || "비고 없음" }} />
-            </div>
-          </div>
-        </div>
-
-        {/* 위치 */}
-        <div className={styles.scrollOffset} ref={sectionRefs[3]}>
-          <div className={styles.item}>
-            <div className={styles.title}>파견학교 위치</div>
-            <div className="mx-5 mt-2.5 font-serif text-sm font-normal leading-normal">
-              <GoogleEmbedMap width="100%" height="204" style={{ border: 0 }} name={university.englishName} />
-            </div>
-          </div>
-        </div>
-
-        {/* 파견후기 */}
-        <div className={styles.scrollOffset} ref={sectionRefs[4]}>
-          <div className={styles.item} style={{ marginBottom: "30px" }}>
-            <div className={styles.title}>생생한 후기</div>
-            <CollegeReviews style={{ marginTop: "10px" }} reviewList={reviewList} />
-          </div>
-        </div>
+        <LanguageSection ref={sectionRefs[0]} languageRequirements={university.languageRequirements || []} />
+        <BasicInfoSection ref={sectionRefs[1]} />
+        <MapSection />
+        <ApplyInfoSection ref={sectionRefs[2]} />
+        <RegionInfoSection ref={sectionRefs[3]} />
+        <ReviewSection ref={sectionRefs[4]} />
       </div>
     </>
   );
 };
 
 export default CollegeBottomSheet;
+
+const LanguageSection = forwardRef<HTMLDivElement, { languageRequirements: LanguageRequirement[] }>(
+  function LanguageSection({ languageRequirements }, ref) {
+    return (
+      <div ref={ref} className="mx-5 mt-5">
+        <div className="flex gap-2">
+          {languageRequirements.map((requirement, index) => (
+            <div key={index}>
+              {requirement.languageTestType}: {requirement.minScore}
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  },
+);
+
+const BasicInfoSection = forwardRef<
+  HTMLDivElement,
+  {
+    homepageUrl?: string;
+    region?: string;
+    country?: string;
+    studentCapacity?: number;
+  }
+>(function BasicInfoSection({ homepageUrl, region, country, studentCapacity }, ref) {
+  return (
+    <div ref={ref} className="px-5 pt-8">
+      <div className=""></div>
+    </div>
+  );
+});
+
+const MapSection = () => {
+  return (
+    <div className="px-5 pt-6">
+      <h2 className="mb-4 text-xl font-semibold">학교 위치</h2>
+      <GoogleEmbedMap />
+    </div>
+  );
+};
+
+const ApplyInfoSection = forwardRef<HTMLDivElement>((_, ref) => {
+  return (
+    <div ref={ref} className="px-5 pt-6">
+      <h2 className="mb-4 text-xl font-semibold">지원정보</h2>
+      <p className="text-base text-gray-700">지원정보가 없습니다.</p>
+    </div>
+  );
+});
+
+const RegionInfoSection = forwardRef<HTMLDivElement>((_, ref) => {
+  return (
+    <div ref={ref} className="px-5 pt-6">
+      <h2 className="mb-4 text-xl font-semibold">지역정보</h2>
+      <p className="text-base text-gray-700">지역정보가 없습니다.</p>
+    </div>
+  );
+});
+
+const ReviewSection = forwardRef<HTMLDivElement>((_, ref) => {
+  return (
+    <div ref={ref} className="px-5 pt-6">
+      <h2 className="mb-4 text-xl font-semibold">파견후기</h2>
+      <p className="text-base text-gray-700">파견후기가 없습니다.</p>
+    </div>
+  );
+});
