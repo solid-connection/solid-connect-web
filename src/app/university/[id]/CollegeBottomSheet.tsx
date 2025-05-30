@@ -138,9 +138,24 @@ const CollegeBottomSheet = ({ collegeId, convertedKoreanName, reviewList, univer
         />
 
         <LanguageSection ref={sectionRefs[0]} languageRequirements={university.languageRequirements || []} />
-        <BasicInfoSection ref={sectionRefs[1]} />
-        <MapSection />
-        <ApplyInfoSection ref={sectionRefs[2]} />
+        <BasicInfoSection
+          ref={sectionRefs[1]}
+          homepageUrl={university.homepageUrl}
+          region={university.region}
+          country={university.country}
+          studentCapacity={university.studentCapacity}
+          englishName={university.englishName}
+        />
+        <ApplyInfoSection
+          ref={sectionRefs[2]}
+          semesterAvailableForDispatch={university.semesterAvailableForDispatch}
+          semesterRequirement={university.semesterRequirement}
+          gpaRequirement={university.gpaRequirement}
+          gpaRequirementCriteria={university.gpaRequirementCriteria}
+          detailsForAccommodation={university.detailsForAccommodation}
+          detailsForMajor={university.detailsForMajor}
+          englishCourseUrl={university.englishCourseUrl}
+        />
         <RegionInfoSection ref={sectionRefs[3]} />
         <ReviewSection ref={sectionRefs[4]} />
       </div>
@@ -169,51 +184,116 @@ const LanguageSection = forwardRef<HTMLDivElement, { languageRequirements: Langu
 const BasicInfoSection = forwardRef<
   HTMLDivElement,
   {
-    homepageUrl?: string;
-    region?: string;
-    country?: string;
-    studentCapacity?: number;
+    homepageUrl: string;
+    region: string;
+    country: string;
+    studentCapacity: number;
+    englishName: string;
   }
->(function BasicInfoSection({ homepageUrl, region, country, studentCapacity }, ref) {
+>(function BasicInfoSection({ homepageUrl, region, country, studentCapacity, englishName }, ref) {
   return (
-    <div ref={ref} className="px-5 pt-8">
-      <div className=""></div>
+    <div ref={ref} className="flex flex-col gap-3 px-5 pt-8">
+      <BorderBox subject="홈페이지" content={homepageUrl || "정보 없음"} />
+      <div className="flex gap-2.5">
+        <BorderBox className="flex-1" subject="파견 대학 위치" content={region + " " + country || "정보 없음"} />
+        <BorderBox
+          className="flex-1"
+          subject="선발인원"
+          content={studentCapacity ? `${studentCapacity}명` : "정보 없음"}
+        />
+      </div>
+      <div className={clsx("flex flex-col gap-2.5 rounded-lg bg-k-50 p-2.5")}>
+        <span className="text-base font-semibold text-k-900">파견학교 위치</span>
+        <span className="text-sm font-medium leading-normal text-k-600">
+          <GoogleEmbedMap width="100%" height="300px" name={englishName} style={{ border: "0" }} />
+        </span>
+      </div>
     </div>
   );
 });
 
-const MapSection = () => {
+const ApplyInfoSection = forwardRef<
+  HTMLDivElement,
+  {
+    semesterAvailableForDispatch: string;
+    semesterRequirement: string;
+    gpaRequirement: string;
+    gpaRequirementCriteria: string;
+    detailsForAccommodation: string;
+    detailsForMajor: string;
+    englishCourseUrl: string;
+  }
+>(function ApplyInfoSection(
+  {
+    semesterAvailableForDispatch = "정보 없음",
+    semesterRequirement = "정보 없음",
+    gpaRequirement = "정보 없음",
+    gpaRequirementCriteria = "정보 없음",
+    detailsForAccommodation = "정보 없음",
+    detailsForMajor = "정보 없음",
+    englishCourseUrl = "정보 없음",
+  },
+  ref,
+) {
   return (
-    <div className="px-5 pt-6">
-      <h2 className="mb-4 text-xl font-semibold">학교 위치</h2>
-      <GoogleEmbedMap />
+    <div ref={ref} className="px-5 pt-8">
+      <div className="flex flex-col gap-4">
+        <div className="flex gap-2.5">
+          <BorderBox className="flex-1" subject="파견 가능 학기" content={semesterAvailableForDispatch} />
+          <BorderBox className="flex-1" subject="최저이수학기" content={semesterRequirement} />
+        </div>
+        <div className="flex gap-2.5">
+          <BorderBox
+            className="min-w-36 flex-1"
+            subject="최저성적/기준성적"
+            content={gpaRequirement + "/" + gpaRequirementCriteria}
+          />
+          <BorderBox className="flex-[2]" subject="기숙사" content={detailsForAccommodation} />
+        </div>
+        <BackgroundBox className="min-h-[150px]" subject="전공 상세" content={detailsForMajor} />
+        <BackgroundBox className="min-h-[150px]" subject="영어 강의 리스트" content={englishCourseUrl} />
+      </div>
+    </div>
+  );
+});
+
+const RegionInfoSection = forwardRef<
+  HTMLDivElement,
+  {
+    detailsForLocal: string;
+  }
+>(function RegionInfoSection({ detailsForLocal = "지역 정보가 없습니다." }, ref) {
+  return (
+    <div ref={ref} className="flex flex-col gap-4 px-5 pt-8">
+      <div>사진이 여기 들어갑니다</div>
+      <BackgroundBox className="min-h-[150px]" subject="지역 정보" content={detailsForLocal} />
+    </div>
+  );
+});
+
+const ReviewSection = forwardRef<HTMLDivElement, {}>(function ReviewSection({}, ref) {
+  return (
+    <div ref={ref} className="px-5 pt-8">
+      <span className="text-base font-semibold text-k-900">생생한 후기</span>
+      <div className="h-40"></div>
+    </div>
+  );
+});
+
+const BorderBox = ({ subject, content, className }: { subject: string; content: string; className?: string }) => {
+  return (
+    <div className={clsx("flex flex-col gap-2.5 rounded-lg border border-secondary p-2.5", className)}>
+      <span className="text-base font-semibold text-k-900">{subject}</span>
+      <span className="text-sm font-medium leading-normal text-k-600">{content}</span>
     </div>
   );
 };
 
-const ApplyInfoSection = forwardRef<HTMLDivElement>((_, ref) => {
+const BackgroundBox = ({ subject, content, className }: { subject: string; content: string; className?: string }) => {
   return (
-    <div ref={ref} className="px-5 pt-6">
-      <h2 className="mb-4 text-xl font-semibold">지원정보</h2>
-      <p className="text-base text-gray-700">지원정보가 없습니다.</p>
+    <div className={clsx("flex flex-col gap-2.5 rounded-lg bg-k-50 p-2.5", className)}>
+      <span className="text-base font-semibold text-k-900">{subject}</span>
+      <span className="text-sm font-medium leading-normal text-k-600">{content}</span>
     </div>
   );
-});
-
-const RegionInfoSection = forwardRef<HTMLDivElement>((_, ref) => {
-  return (
-    <div ref={ref} className="px-5 pt-6">
-      <h2 className="mb-4 text-xl font-semibold">지역정보</h2>
-      <p className="text-base text-gray-700">지역정보가 없습니다.</p>
-    </div>
-  );
-});
-
-const ReviewSection = forwardRef<HTMLDivElement>((_, ref) => {
-  return (
-    <div ref={ref} className="px-5 pt-6">
-      <h2 className="mb-4 text-xl font-semibold">파견후기</h2>
-      <p className="text-base text-gray-700">파견후기가 없습니다.</p>
-    </div>
-  );
-});
+};
