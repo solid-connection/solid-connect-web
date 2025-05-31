@@ -1,6 +1,7 @@
 "use client";
 
 import React, { forwardRef, useEffect, useRef, useState } from "react";
+import ReactLinkify from "react-linkify";
 
 import clsx from "clsx";
 
@@ -165,21 +166,25 @@ const CollegeBottomSheet = ({ collegeId, convertedKoreanName, reviewList, univer
 
 export default CollegeBottomSheet;
 
-const LanguageSection = forwardRef<HTMLDivElement, { languageRequirements: LanguageRequirement[] }>(
-  function LanguageSection({ languageRequirements }, ref) {
-    return (
-      <div ref={ref} className="mx-5 mt-5">
-        <div className="flex gap-2">
-          {languageRequirements.map((requirement, index) => (
-            <div key={index}>
-              {requirement.languageTestType}: {requirement.minScore}
-            </div>
-          ))}
-        </div>
+const LanguageSection = forwardRef<
+  HTMLDivElement,
+  { languageRequirements: LanguageRequirement[]; detailsForLanguage: string }
+>(function LanguageSection({ languageRequirements, detailsForLanguage }, ref) {
+  return (
+    <div ref={ref} className="mx-5 mt-5 flex flex-col gap-4">
+      <div className="flex gap-2">
+        {languageRequirements.map((requirement, index) => (
+          <div key={index} className="box-border flex h-[30px] flex-col justify-center rounded-sm bg-primary px-2">
+            <span className="text-[11px] font-semibold leading-normal text-k-0">
+              {requirement.languageTestType} {requirement.minScore}
+            </span>
+          </div>
+        ))}
       </div>
-    );
-  },
-);
+      <BackgroundBox subject="어학세부 요건" content={detailsForLanguage || "정보 없음"} linkify={true} />
+    </div>
+  );
+});
 
 const BasicInfoSection = forwardRef<
   HTMLDivElement,
@@ -193,7 +198,7 @@ const BasicInfoSection = forwardRef<
 >(function BasicInfoSection({ homepageUrl, region, country, studentCapacity, englishName }, ref) {
   return (
     <div ref={ref} className="flex flex-col gap-3 px-5 pt-8">
-      <BorderBox subject="홈페이지" content={homepageUrl || "정보 없음"} />
+      <BorderBox subject="홈페이지" content={homepageUrl || "정보 없음"} linkify={true} />
       <div className="flex gap-2.5">
         <BorderBox className="flex-1" subject="파견 대학 위치" content={region + " " + country || "정보 없음"} />
         <BorderBox
@@ -280,7 +285,27 @@ const ReviewSection = forwardRef<HTMLDivElement, {}>(function ReviewSection({}, 
   );
 });
 
-const BorderBox = ({ subject, content, className }: { subject: string; content: string; className?: string }) => {
+const BorderBox = ({
+  subject,
+  content,
+  linkify = false,
+  className,
+}: {
+  subject: string;
+  content: string;
+  linkify?: boolean;
+  className?: string;
+}) => {
+  if (linkify) {
+    return (
+      <ReactLinkify>
+        <div className={clsx("flex flex-col gap-2.5 rounded-lg border border-secondary p-2.5", className)}>
+          <span className="text-base font-semibold text-k-900">{subject}</span>
+          <span className="text-sm font-medium leading-normal text-k-600">{content}</span>
+        </div>
+      </ReactLinkify>
+    );
+  }
   return (
     <div className={clsx("flex flex-col gap-2.5 rounded-lg border border-secondary p-2.5", className)}>
       <span className="text-base font-semibold text-k-900">{subject}</span>
@@ -289,7 +314,27 @@ const BorderBox = ({ subject, content, className }: { subject: string; content: 
   );
 };
 
-const BackgroundBox = ({ subject, content, className }: { subject: string; content: string; className?: string }) => {
+const BackgroundBox = ({
+  subject,
+  content,
+  linkify = true,
+  className,
+}: {
+  subject: string;
+  content: string;
+  linkify?: boolean;
+  className?: string;
+}) => {
+  if (linkify) {
+    return (
+      <ReactLinkify>
+        <div className={clsx("flex flex-col gap-2.5 rounded-lg bg-k-50 p-2.5", className)}>
+          <span className="text-base font-semibold text-k-900">{subject}</span>
+          <span className="text-sm font-medium leading-normal text-k-600">{content}</span>
+        </div>
+      </ReactLinkify>
+    );
+  }
   return (
     <div className={clsx("flex flex-col gap-2.5 rounded-lg bg-k-50 p-2.5", className)}>
       <span className="text-base font-semibold text-k-900">{subject}</span>
