@@ -1,14 +1,12 @@
 import Image from "next/image";
 
-import styles from "./college-detail.module.css";
-
 interface CollegeDetailProps {
   imageUrl: string;
 }
 
 const CollegeDetail = ({ imageUrl }: CollegeDetailProps) => (
-  <div className={styles.wrapper}>
-    <div className={styles.imageWrapper}>
+  <div className="fixed top-14 -z-20 h-[100vw] w-full">
+    <div className="mac-w-[600px] absolute -z-10 h-[67vw] max-h-[400px] w-full">
       <Image
         className="h-full w-full object-cover"
         src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${imageUrl}`}

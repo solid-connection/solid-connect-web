@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import React, { forwardRef, useEffect, useRef, useState } from "react";
+import ReactLinkify from "react-linkify";
 
 import clsx from "clsx";
 
@@ -11,7 +12,7 @@ import CollegeReviews from "./CollegeReviews";
 import styles from "./college-bottomsheet.module.css";
 
 import { Review } from "@/types/review";
-import { University } from "@/types/university";
+import { LanguageRequirement, University } from "@/types/university";
 
 import {
   deleteUniversityFavoriteApi,
@@ -28,7 +29,7 @@ interface CollegeBottomSheetProps {
 }
 
 const CollegeBottomSheet = ({ collegeId, convertedKoreanName, reviewList, university }: CollegeBottomSheetProps) => {
-  const pages: string[] = ["학교정보", "어학성적", "지원전공", "위치", "파견후기"];
+  const pages: string[] = ["어학성적", "학교정보", "지원정보", "지역정보", "파견후기"];
   const [activeTab, setActiveTab] = useState<string>("학교정보");
   const sectionRefs = [
     useRef<HTMLDivElement>(null),
@@ -137,162 +138,211 @@ const CollegeBottomSheet = ({ collegeId, convertedKoreanName, reviewList, univer
           borderColor="var(--primary-2, #091F5B)"
         />
 
-        {/* 학교정보 */}
-        <div className={styles.scrollOffset} style={{ paddingTop: "123px" }} ref={sectionRefs[0]}>
-          <div className={styles.item}>
-            <div className={"ml-5 font-serif text-base font-semibold"}>홈페이지</div>
-            <div className="mx-5 mt-2.5 font-serif text-sm font-normal leading-normal">
-              <a className="break-words" href={university.homepageUrl || ""} target="_blank" rel="noreferrer">
-                {university.homepageUrl || "홈페이지 없음"}
-              </a>
-            </div>
-          </div>
-          <div className={styles.item}>
-            <div className={"ml-5 font-serif text-base font-semibold"}>기숙사</div>
-
-            <div className="mx-5 mt-2.5 font-serif text-sm font-normal leading-normal">
-              {university.accommodationUrl && (
-                <>
-                  <a
-                    href={university.accommodationUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="break-words font-serif text-sm font-normal leading-normal"
-                  >
-                    {university.accommodationUrl}
-                  </a>
-                  <br />
-                </>
-              )}
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: university.detailsForAccommodation || "기숙사 추가 정보 없음",
-                }}
-              />
-            </div>
-          </div>
-          <div className={styles.item}>
-            <div className={"ml-5 font-serif text-base font-semibold"}>파견 대학 위치</div>
-            <div className="mx-5 mt-2.5 font-serif text-sm font-normal leading-normal">
-              {university.region} {university.country}
-            </div>
-          </div>
-          <div className={styles.item}>
-            <div className={"ml-5 font-serif text-base font-semibold"}>지역정보</div>
-            <div className="mx-5 mt-2.5 font-serif text-sm font-normal leading-normal">
-              <div dangerouslySetInnerHTML={{ __html: university.detailsForLocal || "지역정보 없음" }} />
-            </div>
-          </div>
-        </div>
-
-        {/* 어학성적 */}
-        <div className={styles.bar}>
-          {university.languageRequirements.map((language) => (
-            <div key={language.languageTestType}>
-              {language.languageTestType.replace(/_/g, " ")} {language.minScore}
-            </div>
-          ))}
-        </div>
-        <div className={styles.scrollOffsetWithBar} ref={sectionRefs[1]}>
-          <div className={styles.item}>
-            <div className={"ml-5 font-serif text-base font-semibold"}>어학 세부요건</div>
-            <div className="mx-5 mt-2.5 font-serif text-sm font-normal leading-normal">
-              <div dangerouslySetInnerHTML={{ __html: university.detailsForLanguage || "어학 세부요건 없음" }} />
-            </div>
-          </div>
-        </div>
-
-        {/* 지원전공 */}
-        <div className={styles.scrollOffset} ref={sectionRefs[2]}>
-          <div className={styles.item}>
-            <div className={"ml-5 font-serif text-base font-semibold"}>선발 인원</div>
-            <div className="mx-5 mt-2.5 font-serif text-sm font-normal leading-normal">
-              {university.studentCapacity || "?"}명
-            </div>
-          </div>
-          <div className={styles.item}>
-            <div className={"ml-5 font-serif text-base font-semibold"}>등록금 납부 유형</div>
-            <div className="mx-5 mt-2.5 font-serif text-sm font-normal leading-normal">
-              {university.tuitionFeeType || "등록금 납부 유형 정보 없음"}
-            </div>
-          </div>
-          <div className={styles.item}>
-            <div className={"ml-5 font-serif text-base font-semibold"}>파견가능학기</div>
-            <div className="mx-5 mt-2.5 font-serif text-sm font-normal leading-normal">
-              {university.semesterAvailableForDispatch || "파견가능학기 정보 없음"}
-            </div>
-          </div>
-          <div className={styles.item}>
-            <div className={"ml-5 font-serif text-base font-semibold"}>최저이수학기</div>
-            <div className="mx-5 mt-2.5 font-serif text-sm font-normal leading-normal">
-              {university.semesterRequirement || "최저이수학기 정보 없음"}
-            </div>
-          </div>
-          <div className={styles.item}>
-            <div className={"ml-5 font-serif text-base font-semibold"}>최저성적 / 기준 성적</div>
-            <div className="mx-5 mt-2.5 font-serif text-sm font-normal leading-normal">
-              {university.gpaRequirement
-                ? `${university.gpaRequirement} / ${university.gpaRequirementCriteria}`
-                : "없음"}
-            </div>
-          </div>
-          <div className={styles.item}>
-            <div className={"ml-5 font-serif text-base font-semibold"}>전공 상세</div>
-            <div className="mx-5 mt-2.5 font-serif text-sm font-normal leading-normal">
-              <div dangerouslySetInnerHTML={{ __html: university.detailsForMajor || "전공 상세 정보 없음" }} />
-            </div>
-          </div>
-
-          <div className={styles.item}>
-            <div className={"ml-5 font-serif text-base font-semibold"}>영어강의 리스트</div>
-
-            <div className="mx-5 mt-2.5 font-serif text-sm font-normal leading-normal">
-              {university.englishCourseUrl && (
-                <>
-                  <a
-                    href={university.englishCourseUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="break-words font-serif text-sm font-normal leading-normal"
-                  >
-                    {university.englishCourseUrl}
-                  </a>
-                  <br />
-                </>
-              )}
-              <div
-                dangerouslySetInnerHTML={{ __html: university.detailsForEnglishCourse || "영어강의 추가 정보 없음" }}
-              />
-            </div>
-          </div>
-          <div className={styles.item}>
-            <div className={"ml-5 font-serif text-base font-semibold"}>비고</div>
-            <div className="mx-5 mt-2.5 font-serif text-sm font-normal leading-normal">
-              <div dangerouslySetInnerHTML={{ __html: university.details || "비고 없음" }} />
-            </div>
-          </div>
-        </div>
-
-        {/* 위치 */}
-        <div className={styles.scrollOffset} ref={sectionRefs[3]}>
-          <div className={styles.item}>
-            <div className={styles.title}>파견학교 위치</div>
-            <div className="mx-5 mt-2.5 font-serif text-sm font-normal leading-normal">
-              <GoogleEmbedMap width="100%" height="204" style={{ border: 0 }} name={university.englishName} />
-            </div>
-          </div>
-        </div>
-
-        {/* 파견후기 */}
-        <div className={styles.scrollOffset} ref={sectionRefs[4]}>
-          <div className={styles.item} style={{ marginBottom: "30px" }}>
-            <div className={styles.title}>생생한 후기</div>
-            <CollegeReviews style={{ marginTop: "10px" }} reviewList={reviewList} />
-          </div>
-        </div>
+        <LanguageSection
+          ref={sectionRefs[0]}
+          languageRequirements={university.languageRequirements || []}
+          detailsForLanguage={university.detailsForLanguage}
+        />
+        <BasicInfoSection
+          ref={sectionRefs[1]}
+          homepageUrl={university.homepageUrl}
+          region={university.region}
+          country={university.country}
+          studentCapacity={university.studentCapacity}
+          englishName={university.englishName}
+        />
+        <ApplyInfoSection
+          ref={sectionRefs[2]}
+          semesterAvailableForDispatch={university.semesterAvailableForDispatch}
+          semesterRequirement={university.semesterRequirement}
+          gpaRequirement={university.gpaRequirement}
+          gpaRequirementCriteria={university.gpaRequirementCriteria}
+          detailsForAccommodation={university.detailsForAccommodation}
+          detailsForMajor={university.detailsForMajor}
+          englishCourseUrl={university.englishCourseUrl}
+        />
+        <RegionInfoSection ref={sectionRefs[3]} detailsForLocal={university.detailsForLocal} />
+        <ReviewSection ref={sectionRefs[4]} />
       </div>
     </>
   );
 };
 
 export default CollegeBottomSheet;
+
+const LanguageSection = forwardRef<
+  HTMLDivElement,
+  { languageRequirements: LanguageRequirement[]; detailsForLanguage: string }
+>(function LanguageSection({ languageRequirements, detailsForLanguage }, ref) {
+  return (
+    <div ref={ref} className="mx-5 mt-5 flex flex-col gap-4">
+      <div className="flex gap-2">
+        {languageRequirements.map((requirement, index) => (
+          <div key={index} className="box-border flex h-[30px] flex-col justify-center rounded-sm bg-primary px-2">
+            <span className="text-[11px] font-semibold leading-normal text-k-0">
+              {requirement.languageTestType} {requirement.minScore}
+            </span>
+          </div>
+        ))}
+      </div>
+      <BackgroundBox subject="어학세부 요건" content={detailsForLanguage || "정보 없음"} linkify={true} />
+    </div>
+  );
+});
+
+const BasicInfoSection = forwardRef<
+  HTMLDivElement,
+  {
+    homepageUrl: string;
+    region: string;
+    country: string;
+    studentCapacity: number;
+    englishName: string;
+  }
+>(function BasicInfoSection({ homepageUrl, region, country, studentCapacity, englishName }, ref) {
+  return (
+    <div ref={ref} className="flex flex-col gap-3 px-5 pt-8">
+      <BorderBox subject="홈페이지" content={homepageUrl || "정보 없음"} linkify={true} />
+      <div className="flex gap-2.5">
+        <BorderBox className="flex-1" subject="파견 대학 위치" content={region + " " + country || "정보 없음"} />
+        <BorderBox
+          className="flex-1"
+          subject="선발인원"
+          content={studentCapacity ? `${studentCapacity}명` : "정보 없음"}
+        />
+      </div>
+      <div className={clsx("flex flex-col gap-2.5 rounded-lg bg-k-50 p-2.5")}>
+        <span className="text-base font-semibold text-k-900">파견학교 위치</span>
+        <span className="text-sm font-medium leading-normal text-k-600">
+          <GoogleEmbedMap width="100%" height="300px" name={englishName} style={{ border: "0" }} />
+        </span>
+      </div>
+    </div>
+  );
+});
+
+const ApplyInfoSection = forwardRef<
+  HTMLDivElement,
+  {
+    semesterAvailableForDispatch: string;
+    semesterRequirement: string;
+    gpaRequirement: string;
+    gpaRequirementCriteria: string;
+    detailsForAccommodation: string;
+    detailsForMajor: string;
+    englishCourseUrl: string;
+  }
+>(function ApplyInfoSection(
+  {
+    semesterAvailableForDispatch = "정보 없음",
+    semesterRequirement = "정보 없음",
+    gpaRequirement = "정보 없음",
+    gpaRequirementCriteria = "정보 없음",
+    detailsForAccommodation = "정보 없음",
+    detailsForMajor = "정보 없음",
+    englishCourseUrl = "정보 없음",
+  },
+  ref,
+) {
+  return (
+    <div ref={ref} className="px-5 pt-8">
+      <div className="flex flex-col gap-4">
+        <div className="flex gap-2.5">
+          <BorderBox className="flex-1" subject="파견 가능 학기" content={semesterAvailableForDispatch} />
+          <BorderBox className="flex-1" subject="최저이수학기" content={semesterRequirement} />
+        </div>
+        <div className="flex gap-2.5">
+          <BorderBox
+            className="min-w-36 flex-1"
+            subject="최저성적/기준성적"
+            content={gpaRequirement + "/" + gpaRequirementCriteria}
+          />
+          <BorderBox className="flex-[2]" subject="기숙사" content={detailsForAccommodation} />
+        </div>
+        <BackgroundBox className="min-h-[150px]" subject="전공 상세" content={detailsForMajor} />
+        <BackgroundBox className="min-h-[150px]" subject="영어 강의 리스트" content={englishCourseUrl} />
+      </div>
+    </div>
+  );
+});
+
+const RegionInfoSection = forwardRef<
+  HTMLDivElement,
+  {
+    detailsForLocal: string;
+  }
+>(function RegionInfoSection({ detailsForLocal = "지역 정보가 없습니다." }, ref) {
+  return (
+    <div ref={ref} className="flex flex-col gap-4 px-5 pt-8">
+      {/* <div>사진이 여기 들어갑니다</div> */}
+      <BackgroundBox className="min-h-[150px]" subject="지역 정보" content={detailsForLocal} />
+    </div>
+  );
+});
+
+const ReviewSection = forwardRef<HTMLDivElement, {}>(function ReviewSection({}, ref) {
+  return (
+    <div ref={ref} className="px-5 pt-8">
+      <span className="text-base font-semibold text-k-900">생생한 후기</span>
+      <div className="h-40"></div>
+    </div>
+  );
+});
+
+const BorderBox = ({
+  subject,
+  content,
+  linkify = false,
+  className,
+}: {
+  subject: string;
+  content: string;
+  linkify?: boolean;
+  className?: string;
+}) => {
+  if (linkify) {
+    return (
+      <ReactLinkify>
+        <div className={clsx("flex flex-col gap-2.5 rounded-lg border border-secondary p-2.5", className)}>
+          <span className="text-base font-semibold text-k-900">{subject}</span>
+          <span className="text-sm font-medium leading-normal text-k-600">{content}</span>
+        </div>
+      </ReactLinkify>
+    );
+  }
+  return (
+    <div className={clsx("flex flex-col gap-2.5 rounded-lg border border-secondary p-2.5", className)}>
+      <span className="text-base font-semibold text-k-900">{subject}</span>
+      <span className="text-sm font-medium leading-normal text-k-600">{content}</span>
+    </div>
+  );
+};
+
+const BackgroundBox = ({
+  subject,
+  content,
+  linkify = true,
+  className,
+}: {
+  subject: string;
+  content: string;
+  linkify?: boolean;
+  className?: string;
+}) => {
+  if (linkify) {
+    return (
+      <ReactLinkify>
+        <div className={clsx("flex flex-col gap-2.5 rounded-lg bg-k-50 p-2.5", className)}>
+          <span className="text-base font-semibold text-k-900">{subject}</span>
+          <span className="text-sm font-medium leading-normal text-k-600">{content}</span>
+        </div>
+      </ReactLinkify>
+    );
+  }
+  return (
+    <div className={clsx("flex flex-col gap-2.5 rounded-lg bg-k-50 p-2.5", className)}>
+      <span className="text-base font-semibold text-k-900">{subject}</span>
+      <span className="text-sm font-medium leading-normal text-k-600">{content}</span>
+    </div>
+  );
+};
