@@ -138,7 +138,11 @@ const CollegeBottomSheet = ({ collegeId, convertedKoreanName, reviewList, univer
           borderColor="var(--primary-2, #091F5B)"
         />
 
-        <LanguageSection ref={sectionRefs[0]} languageRequirements={university.languageRequirements || []} />
+        <LanguageSection
+          ref={sectionRefs[0]}
+          languageRequirements={university.languageRequirements || []}
+          detailsForLanguage={university.detailsForLanguage}
+        />
         <BasicInfoSection
           ref={sectionRefs[1]}
           homepageUrl={university.homepageUrl}
@@ -157,7 +161,7 @@ const CollegeBottomSheet = ({ collegeId, convertedKoreanName, reviewList, univer
           detailsForMajor={university.detailsForMajor}
           englishCourseUrl={university.englishCourseUrl}
         />
-        <RegionInfoSection ref={sectionRefs[3]} />
+        <RegionInfoSection ref={sectionRefs[3]} detailsForLocal={university.detailsForLocal} />
         <ReviewSection ref={sectionRefs[4]} />
       </div>
     </>
@@ -270,7 +274,7 @@ const RegionInfoSection = forwardRef<
 >(function RegionInfoSection({ detailsForLocal = "지역 정보가 없습니다." }, ref) {
   return (
     <div ref={ref} className="flex flex-col gap-4 px-5 pt-8">
-      <div>사진이 여기 들어갑니다</div>
+      {/* <div>사진이 여기 들어갑니다</div> */}
       <BackgroundBox className="min-h-[150px]" subject="지역 정보" content={detailsForLocal} />
     </div>
   );
