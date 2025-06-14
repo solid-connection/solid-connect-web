@@ -5,6 +5,7 @@ import { withSentryConfig } from "@sentry/nextjs";
 const nextConfig = {
   swcMinify: true,
   images: {
+    unoptimized: true,
     domains: [
       "solid-connection.s3.ap-northeast-2.amazonaws.com",
       "solid-connection-uploaded.s3.ap-northeast-2.amazonaws.com",
