@@ -4,8 +4,7 @@ import { notFound } from "next/navigation";
 
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 
-import CollegeBottomSheet from "./CollegeBottomSheet";
-import CollegeDetail from "./CollegeDetail";
+import UniversityDetail from "./UniversityDetail";
 
 import { Review } from "@/types/review";
 import { University } from "@/types/university";
@@ -66,8 +65,15 @@ const CollegeDetailPage = async ({ params }: CollegeDetailPageProps) => {
         <title>{convertedKoreanName || "대학명"}</title>
       </Head>
       <TopDetailNavigation title={convertedKoreanName || "대학명"} />
-      <CollegeDetail imageUrl={collegeData.backgroundImageUrl} />
+      {/* <CollegeDetail imageUrl={collegeData.backgroundImageUrl} />
       <CollegeBottomSheet
+        collegeId={collegeId}
+        university={collegeData}
+        convertedKoreanName={convertedKoreanName}
+        reviewList={reviewList}
+      /> */}
+      <UniversityDetail
+        imageUrl={collegeData.backgroundImageUrl}
         collegeId={collegeId}
         university={collegeData}
         convertedKoreanName={convertedKoreanName}
