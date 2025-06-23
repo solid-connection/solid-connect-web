@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import ReactLinkify from "react-linkify";
 
 import HeaderZone from "./HeaderZone";
 
@@ -18,7 +21,11 @@ const LanguageSection = () => {
       </div>
       <div className="h-1 bg-k-50" />
       <div className="my-7 px-3">
-        <HeaderZone title="어학세부 요건"></HeaderZone>
+        <HeaderZone title="어학세부 요건">
+          <span className="break-words text-sm font-medium leading-normal text-k-600">
+            <ReactLinkify>https://internationalcenter.inha.ac.kr/internationalcenter/index.do</ReactLinkify>
+          </span>
+        </HeaderZone>
       </div>
     </>
   );
