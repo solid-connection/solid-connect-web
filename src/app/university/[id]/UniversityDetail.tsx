@@ -4,6 +4,7 @@ import EnglishSection from "./EnglishSection";
 import InfoSection from "./InfoSection";
 import LanguageSection from "./LanguageSection";
 import MajorSection from "./MajorSection";
+import MapSection from "./MapSection";
 import SubTitleSection from "./SubTitleSection";
 import TitleSection from "./TitleSection";
 
@@ -28,13 +29,15 @@ const UniversityImage = ({ imageUrl }: { imageUrl: string }) => {
 
 const UniversityInfo = () => {
   return (
-    <div className="-mt-[66px] rounded-t-3xl px-5">
+    <div className="-mt-[66px] rounded-t-3xl bg-white px-5">
       <TitleSection title="보라스 대학교" subTitle="Boras Univ." logoUrl="/images/boras_univ_logo.png" />
       <SubTitleSection totalDispatchCount={21} country="스웨덴" studentCapacity={2} />
       <LanguageSection />
       <InfoSection />
       <MajorSection majorDetail="https://www.hb.se" />
       <EnglishSection englishDetail="https://www.hb.se/en/education/international-students/" />
+      <MapSection universityEnglishName="inha university" />
+      <div className="h-48" />
     </div>
   );
 };
