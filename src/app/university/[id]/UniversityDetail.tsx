@@ -1,6 +1,9 @@
 import Image from "next/image";
 
+import EnglishSection from "./EnglishSection";
+import InfoSection from "./InfoSection";
 import LanguageSection from "./LanguageSection";
+import MajorSection from "./MajorSection";
 import SubTitleSection from "./SubTitleSection";
 import TitleSection from "./TitleSection";
 
@@ -29,6 +32,9 @@ const UniversityInfo = () => {
       <TitleSection title="보라스 대학교" subTitle="Boras Univ." logoUrl="/images/boras_univ_logo.png" />
       <SubTitleSection totalDispatchCount={21} country="스웨덴" studentCapacity={2} />
       <LanguageSection />
+      <InfoSection />
+      <MajorSection majorDetail="https://www.hb.se" />
+      <EnglishSection englishDetail="https://www.hb.se/en/education/international-students/" />
     </div>
   );
 };
