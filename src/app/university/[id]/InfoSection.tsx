@@ -2,9 +2,19 @@
 
 import { useState } from "react";
 
-const InfoSection = () => {
-  const [detailForApplyFold, setDetailForApplyFold] = useState<boolean>(true);
-  const [detailForAccomodationFold, setDetailForAccommodationFold] = useState<boolean>(true);
+const InfoSection = ({
+  semesterRequirement,
+  semesterAvailableForDispatch,
+  detailsForApply,
+  detailsForAccommodation,
+}: {
+  semesterRequirement: string;
+  semesterAvailableForDispatch: string;
+  detailsForApply: string;
+  detailsForAccommodation: string;
+}) => {
+  const [detailsForApplyFold, setDetailsForApplyFold] = useState<boolean>(true);
+  const [detailsForAccomodationFold, setDetailsForAccommodationFold] = useState<boolean>(true);
 
   return (
     <div>
@@ -17,7 +27,7 @@ const InfoSection = () => {
             <span className="text-base font-semibold text-k-900">최저 이수학기</span>
           </div>
           <div className="flex h-7 w-[50px] items-center justify-center rounded-full bg-k-50">
-            <span className="text-[13px] font-semibold leading-normal text-primary">2학기</span>
+            <span className="text-[13px] font-semibold leading-normal text-primary">{semesterRequirement}</span>
           </div>
         </div>
         {/* 파견 가능학기 */}
@@ -27,23 +37,25 @@ const InfoSection = () => {
             <span className="text-base font-semibold text-k-900">파견 가능학기</span>
           </div>
           <div className="flex h-7 w-[50px] items-center justify-center rounded-full bg-k-50">
-            <span className="text-[13px] font-semibold leading-normal text-primary">2학기</span>
+            <span className="text-[13px] font-semibold leading-normal text-primary">
+              {semesterAvailableForDispatch}
+            </span>
           </div>
         </div>
         {/* 자격요건 */}
-        {detailForApplyFold ? (
+        {detailsForApplyFold ? (
           <div
             className="flex h-[50px] items-center justify-between rounded-sm bg-k-50 px-3"
-            onClick={() => setDetailForApplyFold(false)}
+            onClick={() => setDetailsForApplyFold(false)}
             role="button"
             onKeyDown={(e) => {
               if (e.key === "Enter" || e.key === " ") {
-                setDetailForApplyFold(false);
+                setDetailsForApplyFold(false);
               }
             }}
           >
             <div className="flex items-center gap-2.5">
-              <DetailForApplyIcon />
+              <DetailsForApplyIcon />
               <span className="text-base font-semibold text-k-900">자격요건</span>
             </div>
             <div className="flex h-7 w-[50px] items-center justify-center rounded-full bg-k-50">
@@ -53,17 +65,17 @@ const InfoSection = () => {
         ) : (
           <div
             className="flex flex-col gap-1.5 bg-k-50 px-3 pb-[18px] pt-2.5"
-            onClick={() => setDetailForApplyFold(true)}
+            onClick={() => setDetailsForApplyFold(true)}
             role="button"
             onKeyDown={(e) => {
               if (e.key === "Enter" || e.key === " ") {
-                setDetailForApplyFold(true);
+                setDetailsForApplyFold(true);
               }
             }}
           >
             <div className="flex items-center justify-between rounded-sm">
               <div className="flex items-center gap-2.5">
-                <DetailForApplyIcon />
+                <DetailsForApplyIcon />
                 <span className="text-base font-semibold text-k-900">자격요건</span>
               </div>
               <div className="flex h-7 w-[50px] items-center justify-center rounded-full bg-k-50">
@@ -71,26 +83,24 @@ const InfoSection = () => {
               </div>
             </div>
             <div className="pl-11">
-              <span className="text-sm font-medium leading-normal text-k-700">
-                파견시점의 학기가 8차인 경우 지원 불가. 본교에서 2학기 이상 수학한 학생만 파견 가능
-              </span>
+              <span className="text-sm font-medium leading-normal text-k-700">{detailsForApply}</span>
             </div>
           </div>
         )}
         {/* 기숙사 */}
-        {detailForAccomodationFold ? (
+        {detailsForAccomodationFold ? (
           <div
             className="flex h-[50px] items-center justify-between rounded-sm bg-k-50 px-3"
-            onClick={() => setDetailForAccommodationFold(false)}
+            onClick={() => setDetailsForAccommodationFold(false)}
             role="button"
             onKeyDown={(e) => {
               if (e.key === "Enter" || e.key === " ") {
-                setDetailForAccommodationFold(false);
+                setDetailsForAccommodationFold(false);
               }
             }}
           >
             <div className="flex items-center gap-2.5">
-              <DetailForAccommodationIcon />
+              <DetailsForAccommodationIcon />
               <span className="text-base font-semibold text-k-900">자격요건</span>
             </div>
             <div className="flex h-7 w-[50px] items-center justify-center rounded-full bg-k-50">
@@ -100,17 +110,17 @@ const InfoSection = () => {
         ) : (
           <div
             className="flex flex-col gap-1.5 bg-k-50 px-3 pb-[18px] pt-2.5"
-            onClick={() => setDetailForAccommodationFold(true)}
+            onClick={() => setDetailsForAccommodationFold(true)}
             role="button"
             onKeyDown={(e) => {
               if (e.key === "Enter" || e.key === " ") {
-                setDetailForAccommodationFold(true);
+                setDetailsForAccommodationFold(true);
               }
             }}
           >
             <div className="flex items-center justify-between rounded-sm">
               <div className="flex items-center gap-2.5">
-                <DetailForAccommodationIcon />
+                <DetailsForAccommodationIcon />
                 <span className="text-base font-semibold text-k-900">자격요건</span>
               </div>
               <div className="flex h-7 w-[50px] items-center justify-center rounded-full bg-k-50">
@@ -118,9 +128,7 @@ const InfoSection = () => {
               </div>
             </div>
             <div className="pl-11">
-              <span className="text-sm font-medium leading-normal text-k-700">
-                기숙사 미제공, 학생 아파트 중계 사이트 제공
-              </span>
+              <span className="text-sm font-medium leading-normal text-k-700">{detailsForAccommodation}</span>
             </div>
           </div>
         )}
@@ -173,7 +181,7 @@ const SemesterAvailableForDispatchIcon = () => {
   );
 };
 
-const DetailForApplyIcon = () => {
+const DetailsForApplyIcon = () => {
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect width="24" height="24" rx="12" fill="#FCEFFF" />
@@ -187,7 +195,7 @@ const DetailForApplyIcon = () => {
   );
 };
 
-const DetailForAccommodationIcon = () => {
+const DetailsForAccommodationIcon = () => {
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect width="24" height="24" rx="12" fill="#E4F7C0" />
