@@ -27,11 +27,11 @@ export async function generateMetadata(
 
   // fetch data
   const res = await getUniversityDetailPublicApi(Number(id));
-  const collegeData = res.data;
+  const universityData = res.data;
   const convertedKoreanName =
-    collegeData.term !== process.env.NEXT_PUBLIC_CURRENT_TERM
-      ? `${collegeData.koreanName}(${collegeData.term})`
-      : collegeData.koreanName;
+    universityData.term !== process.env.NEXT_PUBLIC_CURRENT_TERM
+      ? `${universityData.koreanName}(${universityData.term})`
+      : universityData.koreanName;
 
   return {
     title: convertedKoreanName,
@@ -53,11 +53,11 @@ const CollegeDetailPage = async ({ params }: CollegeDetailPageProps) => {
     notFound(); // 404 페이지로 이동
   }
 
-  const collegeData = res.data;
+  const universityData = res.data;
   const convertedKoreanName =
-    collegeData.term !== process.env.NEXT_PUBLIC_CURRENT_TERM
-      ? `${collegeData.koreanName}(${collegeData.term})`
-      : collegeData.koreanName;
+    universityData.term !== process.env.NEXT_PUBLIC_CURRENT_TERM
+      ? `${universityData.koreanName}(${universityData.term})`
+      : universityData.koreanName;
 
   return (
     <>
@@ -65,20 +65,7 @@ const CollegeDetailPage = async ({ params }: CollegeDetailPageProps) => {
         <title>{convertedKoreanName || "대학명"}</title>
       </Head>
       <TopDetailNavigation title={convertedKoreanName || "대학명"} />
-      {/* <CollegeDetail imageUrl={collegeData.backgroundImageUrl} />
-      <CollegeBottomSheet
-        collegeId={collegeId}
-        university={collegeData}
-        convertedKoreanName={convertedKoreanName}
-        reviewList={reviewList}
-      /> */}
-      <UniversityDetail
-        imageUrl={collegeData.backgroundImageUrl}
-        collegeId={collegeId}
-        university={collegeData}
-        convertedKoreanName={convertedKoreanName}
-        reviewList={reviewList}
-      />
+      <UniversityDetail />
     </>
   );
 };
