@@ -43,7 +43,10 @@ const UniversityInfo = ({ university }: { university: University }) => {
         country={university.country}
         studentCapacity={university.studentCapacity}
       />
-      <LanguageSection />
+      <LanguageSection
+        detailsForLanguage={university.detailsForLanguage}
+        languageRequirements={university.languageRequirements}
+      />
       <InfoSection
         semesterRequirement={university.semesterRequirement}
         semesterAvailableForDispatch={university.semesterAvailableForDispatch}

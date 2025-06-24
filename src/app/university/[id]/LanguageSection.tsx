@@ -3,19 +3,33 @@
 import Image from "next/image";
 import ReactLinkify from "react-linkify";
 
+import { getDisplayName, getLanguageLogo, logoMap } from "@/utils/languageUtils";
+
 import HeaderZone from "./HeaderZone";
 
-const LanguageSection = () => {
+import { LanguageRequirement } from "@/types/university";
+
+const LanguageSection = ({
+  languageRequirements,
+  detailsForLanguage,
+}: {
+  languageRequirements: LanguageRequirement[];
+  detailsForLanguage: string;
+}) => {
   return (
     <>
       <div className="h-1 bg-k-50" />
       <div className="my-7 px-3">
         <HeaderZone title="어학 성적">
           <div className="flex flex-col gap-5 pt-5">
-            <Language name="TOEIC" logoUrl="/images/language/toeic.png" score="990" />
-            <Language name="TOEFL IBT" logoUrl="/images/language/toefl_ibt.png" score="6.5" />
-            <Language name="TOEFL ITP" logoUrl="/images/language/toefl_itp.png" score="990" />
-            <Language name="IELTS" logoUrl="/images/language/ielts.png" score="6.5" />
+            {languageRequirements.map((req, idx) => (
+              <Language
+                key={`${req.languageTestType}-${idx}`}
+                name={getDisplayName(req.languageTestType)}
+                logoUrl={getLanguageLogo(req.languageTestType)}
+                score={req.minScore}
+              />
+            ))}
           </div>
         </HeaderZone>
       </div>
@@ -23,7 +37,7 @@ const LanguageSection = () => {
       <div className="my-7 px-3">
         <HeaderZone title="어학세부 요건">
           <span className="break-words text-sm font-medium leading-normal text-k-600">
-            <ReactLinkify>https://internationalcenter.inha.ac.kr/internationalcenter/index.do</ReactLinkify>
+            <ReactLinkify>{detailsForLanguage}</ReactLinkify>
           </span>
         </HeaderZone>
       </div>
