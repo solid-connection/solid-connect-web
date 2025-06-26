@@ -6,11 +6,11 @@ export const logoMap: Record<string, string> = {
   IELTS: "/images/language/ielts.png",
 };
 
-export const getLanguageLogo = (type: string): string => {
+export const getLanguageTestLogo = (type: string): string => {
   return logoMap[type] || "/images/language/default.png";
 };
 
 // UNDER_SCORE → "UNDER SCORE" 처리를 위한 헬퍼
-export function getDisplayName(type: string): string {
+export function formatLanguageTestName(type: string): string {
   return type.replace(/_/g, " ");
 }

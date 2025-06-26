@@ -3,7 +3,7 @@
 import Image from "next/image";
 import ReactLinkify from "react-linkify";
 
-import { getDisplayName, getLanguageLogo, logoMap } from "@/utils/languageUtils";
+import { formatLanguageTestName, getLanguageTestLogo } from "@/utils/languageUtils";
 
 import HeaderZone from "./HeaderZone";
 
@@ -25,8 +25,8 @@ const LanguageSection = ({
             {languageRequirements.map((req, idx) => (
               <Language
                 key={`${req.languageTestType}-${idx}`}
-                name={getDisplayName(req.languageTestType)}
-                logoUrl={getLanguageLogo(req.languageTestType)}
+                name={formatLanguageTestName(req.languageTestType)}
+                logoUrl={getLanguageTestLogo(req.languageTestType)}
                 score={req.minScore}
               />
             ))}
