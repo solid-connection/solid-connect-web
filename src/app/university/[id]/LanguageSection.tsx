@@ -17,7 +17,7 @@ const LanguageSection = ({
   detailsForLanguage: string;
 }) => {
   return (
-    <>
+    <div>
       <div className="h-1 bg-k-50" />
       <div className="my-7 px-3">
         <HeaderZone title="어학 성적">
@@ -41,7 +41,7 @@ const LanguageSection = ({
           </span>
         </HeaderZone>
       </div>
-    </>
+    </div>
   );
 };
 

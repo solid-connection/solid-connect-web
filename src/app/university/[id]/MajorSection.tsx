@@ -6,7 +6,7 @@ import HeaderZone from "./HeaderZone";
 
 const MajorSection = ({ majorDetail }: { majorDetail: string }) => {
   return (
-    <>
+    <div>
       <div className="h-1 bg-k-50" />
       <div className="my-7 px-3">
         <HeaderZone title="전공상세">
@@ -15,7 +15,7 @@ const MajorSection = ({ majorDetail }: { majorDetail: string }) => {
           </span>
         </HeaderZone>
       </div>
-    </>
+    </div>
   );
 };
 

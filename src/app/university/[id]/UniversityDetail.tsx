@@ -12,10 +12,10 @@ import { University } from "@/types/university";
 
 const UniversityDetail = ({ university }: { university: University }) => {
   return (
-    <>
+    <div>
       <UniversityImage imageUrl={university.backgroundImageUrl} />
       <UniversityInfo university={university} />
-    </>
+    </div>
   );
 };
 
