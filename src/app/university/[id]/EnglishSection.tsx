@@ -4,7 +4,11 @@ import Linkify from "react-linkify";
 
 import HeaderZone from "./HeaderZone";
 
-const EnglishSection = ({ englishDetail }: { englishDetail: string }) => {
+interface EnglishSectionProps {
+  englishDetail: string;
+}
+
+const EnglishSection = ({ englishDetail }: EnglishSectionProps) => {
   return (
     <div>
       <div className="h-1 bg-k-50" />

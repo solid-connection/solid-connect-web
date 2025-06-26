@@ -2,7 +2,11 @@ import GoogleEmbedMap from "@/components/ui/map/GoogleEmbedMap";
 
 import HeaderZone from "./HeaderZone";
 
-const MapSection = ({ universityEnglishName }: { universityEnglishName: string }) => {
+interface MapSectionProps {
+  universityEnglishName: string;
+}
+
+const MapSection = ({ universityEnglishName }: MapSectionProps) => {
   return (
     <div>
       <div className="h-1 bg-k-50" />

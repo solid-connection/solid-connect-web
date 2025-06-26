@@ -9,13 +9,12 @@ import HeaderZone from "./HeaderZone";
 
 import { LanguageRequirement } from "@/types/university";
 
-const LanguageSection = ({
-  languageRequirements,
-  detailsForLanguage,
-}: {
+interface LanguageSectionProps {
   languageRequirements: LanguageRequirement[];
   detailsForLanguage: string;
-}) => {
+}
+
+const LanguageSection = ({ languageRequirements, detailsForLanguage }: LanguageSectionProps) => {
   return (
     <div>
       <div className="h-1 bg-k-50" />

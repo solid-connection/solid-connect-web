@@ -10,7 +10,11 @@ import TitleSection from "./TitleSection";
 
 import { University } from "@/types/university";
 
-const UniversityDetail = ({ university }: { university: University }) => {
+interface UniversityDetailProps {
+  university: University;
+}
+
+const UniversityDetail = ({ university }: UniversityDetailProps) => {
   return (
     <div>
       <UniversityImage imageUrl={university.backgroundImageUrl} />

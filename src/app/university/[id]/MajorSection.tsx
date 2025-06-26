@@ -4,7 +4,11 @@ import ReactLinkify from "react-linkify";
 
 import HeaderZone from "./HeaderZone";
 
-const MajorSection = ({ majorDetail }: { majorDetail: string }) => {
+interface MajorSectionProps {
+  majorDetail: string;
+}
+
+const MajorSection = ({ majorDetail }: MajorSectionProps) => {
   return (
     <div>
       <div className="h-1 bg-k-50" />

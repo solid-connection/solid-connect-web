@@ -2,17 +2,19 @@
 
 import { useState } from "react";
 
+interface InfoSectionProps {
+  semesterRequirement: string;
+  semesterAvailableForDispatch: string;
+  detailsForApply: string;
+  detailsForAccommodation: string;
+}
+
 const InfoSection = ({
   semesterRequirement,
   semesterAvailableForDispatch,
   detailsForApply,
   detailsForAccommodation,
-}: {
-  semesterRequirement: string;
-  semesterAvailableForDispatch: string;
-  detailsForApply: string;
-  detailsForAccommodation: string;
-}) => {
+}: InfoSectionProps) => {
   const [detailsForApplyFold, setDetailsForApplyFold] = useState<boolean>(true);
   const [detailsForAccomodationFold, setDetailsForAccommodationFold] = useState<boolean>(true);
 
