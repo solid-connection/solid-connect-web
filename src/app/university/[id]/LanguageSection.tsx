@@ -1,11 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import ReactLinkify from "react-linkify";
+import Linkify from "react-linkify";
 
 import { formatLanguageTestName, getLanguageTestLogo } from "@/utils/languageUtils";
-
-import HeaderZone from "./HeaderZone";
 
 import { LanguageRequirement } from "@/types/university";
 
@@ -19,7 +17,8 @@ const LanguageSection = ({ languageRequirements, detailsForLanguage }: LanguageS
     <div>
       <div className="h-1 bg-k-50" />
       <div className="my-7 px-3">
-        <HeaderZone title="어학 성적">
+        <div className="mb-3 text-base font-semibold text-k-900">어학 성적</div>
+        <div>
           <div className="flex flex-col gap-5 pt-5">
             {languageRequirements.map((req, idx) => (
               <Language
@@ -30,15 +29,16 @@ const LanguageSection = ({ languageRequirements, detailsForLanguage }: LanguageS
               />
             ))}
           </div>
-        </HeaderZone>
+        </div>
       </div>
       <div className="h-1 bg-k-50" />
       <div className="my-7 px-3">
-        <HeaderZone title="어학세부 요건">
+        <div className="mb-3 text-base font-semibold text-k-900">어학세부 요건</div>
+        <div>
           <span className="break-words text-sm font-medium leading-normal text-k-600">
-            <ReactLinkify>{detailsForLanguage}</ReactLinkify>
+            <Linkify>{detailsForLanguage}</Linkify>
           </span>
-        </HeaderZone>
+        </div>
       </div>
     </div>
   );
