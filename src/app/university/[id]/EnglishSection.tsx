@@ -8,7 +8,7 @@ interface EnglishSectionProps {
 
 const EnglishSection = ({ englishDetail }: EnglishSectionProps) => {
   return (
-    <div>
+    <>
       <div className="h-1 bg-k-50" />
       <div className="my-7 px-3">
         <div className="mb-3 text-base font-semibold text-k-900">영어강의 리스트</div>
@@ -18,7 +18,7 @@ const EnglishSection = ({ englishDetail }: EnglishSectionProps) => {
           </span>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -8,7 +8,7 @@ interface MajorSectionProps {
 
 const MajorSection = ({ majorDetail }: MajorSectionProps) => {
   return (
-    <div>
+    <>
       <div className="h-1 bg-k-50" />
       <div className="my-7 px-3">
         <div className="mb-3 text-base font-semibold text-k-900">전공상세</div>
@@ -18,7 +18,7 @@ const MajorSection = ({ majorDetail }: MajorSectionProps) => {
           </span>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

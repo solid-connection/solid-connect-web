@@ -14,7 +14,7 @@ interface LanguageSectionProps {
 
 const LanguageSection = ({ languageRequirements, detailsForLanguage }: LanguageSectionProps) => {
   return (
-    <div>
+    <>
       <div className="h-1 bg-k-50" />
       <div className="my-7 px-3">
         <div className="mb-3 text-base font-semibold text-k-900">어학 성적</div>
@@ -40,7 +40,7 @@ const LanguageSection = ({ languageRequirements, detailsForLanguage }: LanguageS
           </span>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

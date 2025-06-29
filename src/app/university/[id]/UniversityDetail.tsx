@@ -16,10 +16,10 @@ interface UniversityDetailProps {
 
 const UniversityDetail = ({ university }: UniversityDetailProps) => {
   return (
-    <div>
+    <>
       <UniversityImage imageUrl={university.backgroundImageUrl} />
       <UniversityInfo university={university} />
-    </div>
+    </>
   );
 };
 
