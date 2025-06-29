@@ -6,7 +6,6 @@ import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 
 import UniversityDetail from "./UniversityDetail";
 
-import { Review } from "@/types/review";
 import { University } from "@/types/university";
 
 import { getUniversityDetailPublicApi } from "@/api/university";
@@ -44,7 +43,6 @@ type CollegeDetailPageProps = {
 
 const CollegeDetailPage = async ({ params }: CollegeDetailPageProps) => {
   const collegeId = Number(params.id);
-  const reviewList: Review[] = [];
 
   let res: { data: University };
   try {
@@ -61,9 +59,6 @@ const CollegeDetailPage = async ({ params }: CollegeDetailPageProps) => {
 
   return (
     <>
-      <Head>
-        <title>{convertedKoreanName}</title>
-      </Head>
       <TopDetailNavigation title={convertedKoreanName} />
       <UniversityDetail university={universityData} />
     </>
