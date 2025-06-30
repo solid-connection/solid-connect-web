@@ -138,7 +138,7 @@ const MyContent = () => {
         </div>
 
         <div className="mx-5 mb-5">
-          <MyInfoCard scrapCount={0} interestMentoCount={0} wishUniversityCount={0} />
+          <MyInfoCard scrapCount={0} interestMentoCount={0} wishUniversityCount={myInfo.likedUniversityCount} />
         </div>
         <div>
           <MyMenuGroup icon={<IconMyMenuPerson />} subject="내 정보">
