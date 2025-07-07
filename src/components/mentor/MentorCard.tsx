@@ -27,10 +27,9 @@ interface Mentor {
 
 interface MentorCardProps {
   mentor: Mentor;
-  index: number;
 }
 
-const MentorCard = ({ mentor, index }: MentorCardProps) => {
+const MentorCard = ({ mentor }: MentorCardProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   // 구조분해 할당
@@ -117,9 +116,6 @@ const MentorCard = ({ mentor, index }: MentorCardProps) => {
           {/* 액션 버튼 */}
           <div className="mb-4 flex gap-2">
             <button className="flex-1 rounded-lg bg-blue-600 px-4 py-2 font-medium text-white">채소드</button>
-            {index > 0 && (
-              <button className="flex-1 rounded-lg bg-blue-600 px-4 py-2 font-medium text-white">덕소드</button>
-            )}
           </div>
         </>
       )}

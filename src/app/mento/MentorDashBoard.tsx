@@ -2,9 +2,10 @@
 
 import React, { useState } from "react";
 
-import EmptyMentoCards from "@/components/mentor/EmptyMentoCards";
+import EmptyMentoChatCards from "@/components/mentor/EmptyMentoChatCards";
 import MentoChatCard from "@/components/mentor/MentoChatCard";
 import MentorDropDown from "@/components/mentor/MentoDropDown";
+import MentoFindSection from "@/components/mentor/MentoFindSection";
 import MentorCard from "@/components/mentor/MentorCard";
 
 import { IconDirectionDown, IconDirectionRight } from "@/public/svgs/mentor";
@@ -76,7 +77,7 @@ interface Channel {
   url: string;
 }
 
-interface Mentor {
+export interface Mentor {
   id: number;
   profileImageUrl?: string;
   nickname: string;
@@ -123,47 +124,32 @@ const MentorDashBoard = () => {
       {selectedTab === MentorTab.MY_MENTOR ? (
         <div className="min-h-screen">
           {/* 나의 멘토 섹션 */}
-          <div className="px-4">
+          <div className="mb-10 px-4">
             {mentors.length !== 0 ? (
-              <EmptyMentoCards message={"나와 매칭된 멘토입니다"} />
+              <EmptyMentoChatCards message={"나와 매칭된 멘토입니다"} />
             ) : (
               <div>
-                <MentoChatCard
-                  profileImageUrl={mentors[0].profileImageUrl}
-                  nickname={mentors[0].nickname}
-                  description={mentors[0].universityName}
-                  hasBadge={mentors[0].hasBadge}
-                  onClick={() => console.log("멘토 채팅 클릭")}
-                />
+                {mentors.map((mentor) => (
+                  <MentoChatCard
+                    key={mentor.id}
+                    profileImageUrl={mentor.profileImageUrl}
+                    nickname={mentor.nickname}
+                    description={mentor.universityName}
+                    hasBadge={mentor.hasBadge}
+                  />
+                ))}
               </div>
             )}
           </div>
 
           {/* 멘토찾기 섹션 */}
-          <div className="px-4">
-            <h2 className="text-lg font-bold text-gray-900">멘토 찾기</h2>
-
-            {/* 필터 탭 */}
-            <div className="flex gap-2">
-              <button className="rounded-full bg-blue-500 px-4 py-2 text-sm text-white">전체</button>
-              <button className="rounded-full bg-gray-200 px-4 py-2 text-sm text-gray-700">유럽권</button>
-              <button className="rounded-full bg-gray-200 px-4 py-2 text-sm text-gray-700">미주권</button>
-              <button className="rounded-full bg-gray-200 px-4 py-2 text-sm text-gray-700">아시아권</button>
-            </div>
-
-            {/* 멘토 리스트 */}
-            <div className="space-y-4">
-              {mentors.map((mentor, index) => (
-                <MentorCard key={mentor.id} mentor={mentor} index={index} />
-              ))}
-            </div>
-          </div>
+          <MentoFindSection />
         </div>
       ) : (
         <div className="min-h-screen">
           {/* 나의 멘티 탭 */}
           {mentees.length === 0 ? (
-            <EmptyMentoCards message={"나와 매칭된 멘토입니다"} />
+            <EmptyMentoChatCards message={"나와 매칭된 멘토입니다"} />
           ) : (
             <>
               {/* 상단 멘티 정보 섹션 */}
@@ -184,7 +170,7 @@ const MentorDashBoard = () => {
                 {/* 멘토 카드 */}
                 <div className="space-y-4">
                   {mentees.map((mentee) => (
-                    <MentorCard key={mentee.id} mentor={mentee} index={0} />
+                    <MentorCard key={mentee.id} mentor={mentee} />
                   ))}
                 </div>
               </div>
