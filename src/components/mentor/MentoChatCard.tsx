@@ -2,7 +2,7 @@ import React from "react";
 
 import MentoProfile from "./MentoProfile";
 
-interface MethChatCardProps {
+interface MentoChatCardProps {
   profileImageUrl?: string;
   nickname: string;
   description: string;
@@ -10,7 +10,7 @@ interface MethChatCardProps {
   onClick?: () => void;
 }
 
-const MethChatCard: React.FC<MethChatCardProps> = ({
+const MentoChatCard: React.FC<MentoChatCardProps> = ({
   profileImageUrl,
   nickname,
   description,
@@ -45,4 +45,4 @@ const MethChatCard: React.FC<MethChatCardProps> = ({
   );
 };
 
-export default MethChatCard;
+export default MentoChatCard;

@@ -118,6 +118,8 @@ const config: Config = {
       },
       boxShadow: {
         sdwA: "0px 4px 40px 0px rgba(26, 31, 39, 0.40)",
+        sdwB: "0px 0px 4px 0px var(--K100, #DDDDDF)",
+        sdwC: "0px 0px 4px 0px rgba(0, 0, 0, 0.25)",
       },
       spacing: {
         "13": "3.25rem", // 3.25rem = 13 = 52px

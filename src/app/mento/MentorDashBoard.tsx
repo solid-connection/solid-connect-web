@@ -2,9 +2,9 @@
 
 import React, { useState } from "react";
 
-import EmptyMentorState from "@/components/layout/EmptyMentorState";
+import EmptyMentoCards from "@/components/mentor/EmptyMentoCards";
+import MentoChatCard from "@/components/mentor/MentoChatCard";
 import MentorCard from "@/components/mentor/MentorCard";
-import MethChatCard from "@/components/mentor/MethChatCard";
 
 import { IconDirectionDown, IconDirectionRight } from "@/public/svgs/mentor";
 
@@ -132,10 +132,10 @@ const MentorDashBoard = () => {
           </button>
 
           {isDropdownOpen && (
-            <div className="absolute left-0 top-full z-10 rounded-t-[4px] border shadow-sm">
+            <div className="shadow-sdwC absolute left-0 top-full z-10 rounded-t-[4px] border bg-k-700">
               <button
                 onClick={() => handleTabSelect(MentorTab.MY_MENTOR)}
-                className={`h-[30px] w-[100px] px-[20px] text-sm leading-normal text-k-700 ${
+                className={`h-[30px] w-[100px] rounded-t-[4px] px-[20px] text-sm font-medium leading-normal text-k-700 ${
                   selectedTab === MentorTab.MY_MENTOR ? "bg-primary-100" : "bg-k-0"
                 }`}
               >
@@ -143,7 +143,7 @@ const MentorDashBoard = () => {
               </button>
               <button
                 onClick={() => handleTabSelect(MentorTab.MY_MENTEE)}
-                className={`h-[30px] w-[100px] px-[20px] text-sm leading-normal text-k-700 ${
+                className={`h-[30px] w-[100px] rounded-t-[4px] px-[20px] text-sm font-medium leading-normal text-k-700 ${
                   selectedTab === MentorTab.MY_MENTEE ? "bg-primary-100" : "bg-k-0"
                 }`}
               >
@@ -165,9 +165,19 @@ const MentorDashBoard = () => {
         <div className="min-h-screen">
           {/* 나의 멘토 섹션 */}
           <div className="px-4">
-            <div className="flex flex-col items-center justify-center rounded-lg bg-white p-8 text-center">
-              <div className="text-gray-500">나와 매칭된 멘토입니다</div>
-            </div>
+            {mentors.length !== 0 ? (
+              <EmptyMentoCards message={"나와 매칭된 멘토입니다"} />
+            ) : (
+              <div>
+                <MentoChatCard
+                  profileImageUrl={mentors[0].profileImageUrl}
+                  nickname={mentors[0].nickname}
+                  description={mentors[0].universityName}
+                  hasBadge={mentors[0].hasBadge}
+                  onClick={() => console.log("멘토 채팅 클릭")}
+                />
+              </div>
+            )}
           </div>
 
           {/* 멘토찾기 섹션 */}
@@ -194,12 +204,12 @@ const MentorDashBoard = () => {
         <div className="min-h-screen">
           {/* 나의 멘티 탭 */}
           {mentees.length === 0 ? (
-            <EmptyMentorState message="나와 매칭된 멘티입니다" />
+            <EmptyMentoCards message={"나와 매칭된 멘토입니다"} />
           ) : (
             <>
               {/* 상단 멘티 정보 섹션 */}
               <div className="px-4">
-                <MethChatCard
+                <MentoChatCard
                   profileImageUrl={mentees[0].profileImageUrl}
                   nickname={mentees[0].nickname}
                   description={mentees[0].universityName}
