@@ -4,6 +4,8 @@ import React, { useState } from "react";
 
 import MentoProfile from "./MentoProfile";
 
+import { IconDirectionDown, IconDirectionUp } from "@/public/svgs/mentor";
+
 interface Channel {
   type: string;
   url: string;
@@ -26,56 +28,62 @@ interface Mentor {
 interface MentorCardProps {
   mentor: Mentor;
   index: number;
-  isExpanded?: boolean;
-  onToggleExpansion?: (mentorId: number) => void;
 }
 
-const MentorCard: React.FC<MentorCardProps> = ({ mentor, index, isExpanded = false, onToggleExpansion }) => {
-  const [localExpanded, setLocalExpanded] = useState(isExpanded);
+const MentorCard = ({ mentor, index }: MentorCardProps) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  // 구조분해 할당
+  const {
+    profileImageUrl,
+    hasBadge,
+    menteeCount,
+    country,
+    nickname,
+    universityName,
+    introduction,
+    channels,
+    studyStatus,
+  } = mentor;
 
   const handleToggle = () => {
-    if (onToggleExpansion) {
-      onToggleExpansion(mentor.id);
-    } else {
-      setLocalExpanded(!localExpanded);
-    }
+    setIsExpanded(!isExpanded);
   };
-
-  const expanded = onToggleExpansion ? isExpanded : localExpanded;
 
   return (
     <div className="rounded-lg bg-white p-4 shadow-sm">
       {/* 멘토 프로필 헤더 */}
       <div className="mb-4 flex items-start gap-3">
-        <MentoProfile profileImageUrl={mentor.profileImageUrl} hasBadge={mentor.hasBadge} />
+        <div className="flex flex-col items-center">
+          <MentoProfile profileImageUrl={profileImageUrl} hasBadge={hasBadge} />
+          <span className="text-xs font-semibold text-primary-1">누적 멘티 {menteeCount}명</span>
+        </div>
+
         <div className="flex-1">
-          <div className="mb-1 flex items-center gap-2">
-            <span className="text-sm font-medium text-blue-600">{mentor.country}</span>
-          </div>
-          <h3 className="mb-1 text-lg font-bold text-gray-900">{mentor.nickname}</h3>
-          <p className="mb-2 text-sm text-gray-600">{mentor.universityName}</p>
-          <div className="flex items-center gap-4 text-sm">
-            <span className="text-blue-600">누적 멘티 {mentor.menteeCount}명</span>
+          <span className="text-base font-semibold leading-normal text-primary-1">{country}</span>
+          <h3 className="text-xl font-bold leading-normal text-k-800">{nickname}님</h3>
+          <div className="mt-1 flex flex-col">
+            <p className="text-sm font-medium leading-normal text-k-500">{universityName}</p>
             <span className="text-orange-500">수락 준비 완료</span>
           </div>
         </div>
       </div>
 
       {/* 확장된 내용 */}
-      {expanded && (
+      {isExpanded && (
         <>
           {/* 멘토 한마디 */}
           <div className="mb-4">
             <h4 className="mb-2 text-sm font-medium text-blue-600">멘토 한마디</h4>
-            <p className="text-sm leading-relaxed text-gray-700">{mentor.introduction}</p>
+            <p className="text-sm leading-relaxed text-gray-700">{introduction}</p>
           </div>
 
           {/* 멘토 채널 */}
           <div className="mb-4">
             <h4 className="mb-2 text-sm font-medium text-blue-600">멘토 채널</h4>
             <div className="grid grid-cols-2 gap-2">
-              {mentor.channels.length > 0 ? (
-                mentor.channels.map((channel, idx) => (
+              {channels.length > 0 ? (
+                channels.map((channel, idx) => (
                   <button
                     key={idx}
                     className={`rounded-lg px-3 py-2 text-sm font-medium ${
@@ -122,22 +130,9 @@ const MentorCard: React.FC<MentorCardProps> = ({ mentor, index, isExpanded = fal
           onClick={handleToggle}
           className="flex h-6 w-6 items-center justify-center rounded-full border border-gray-300"
         >
-          <svg
-            width="12"
-            height="12"
-            viewBox="0 0 12 12"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className={`transition-transform duration-200 ${expanded ? "rotate-180" : ""}`}
-          >
-            <path
-              d="M3 4.5L6 7.5L9 4.5"
-              stroke="#9CA3AF"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+          <div className="flex h-full w-full items-center justify-center">
+            {isExpanded ? <IconDirectionUp /> : <IconDirectionDown />}
+          </div>
         </button>
       </div>
     </div>

@@ -6,7 +6,7 @@ import EmptyMentorState from "@/components/layout/EmptyMentorState";
 import MentorCard from "@/components/mentor/MentorCard";
 import MethChatCard from "@/components/mentor/MethChatCard";
 
-import { IconDirection } from "@/public/svgs/mentor";
+import { IconDirectionDown, IconDirectionRight } from "@/public/svgs/mentor";
 
 // 임시 데이터 - 실제로는 API에서 가져올 데이터
 const mentors: Mentor[] = [
@@ -118,66 +118,64 @@ const MentorDashBoard = () => {
   };
 
   return (
-    <div className="relative min-h-screen bg-gray-50">
+    <div className="relative min-h-screen">
       <header className="flex items-center justify-between bg-white p-4">
-        <div className="relative">
-          <button onClick={toggleDropdown} className="flex items-center gap-1 text-lg font-medium text-k-900">
+        <div className="relative inline-flex">
+          <button
+            onClick={toggleDropdown}
+            className="flex items-center gap-1 whitespace-nowrap text-lg font-semibold leading-normal text-k-900"
+          >
             {selectedTab}
-            <IconDirection />
+            <span className="h-[30px] w-[30px]">
+              <IconDirectionDown />
+            </span>
           </button>
 
           {isDropdownOpen && (
-            <div className="absolute left-0 top-full z-10 mt-1 min-w-[120px] rounded-lg border border-gray-200 bg-white shadow-lg">
-              <button
-                onClick={() => handleTabSelect(MentorTab.MY_MENTEE)}
-                className={`block w-full px-4 py-2 text-left text-sm first:rounded-t-lg last:rounded-b-lg hover:bg-gray-50 ${
-                  selectedTab === MentorTab.MY_MENTEE ? "bg-blue-50 text-blue-600" : "text-gray-700"
-                }`}
-              >
-                {MentorTab.MY_MENTEE}
-              </button>
+            <div className="absolute left-0 top-full z-10 rounded-t-[4px] border shadow-sm">
               <button
                 onClick={() => handleTabSelect(MentorTab.MY_MENTOR)}
-                className={`block w-full px-4 py-2 text-left text-sm first:rounded-t-lg last:rounded-b-lg hover:bg-gray-50 ${
-                  selectedTab === MentorTab.MY_MENTOR ? "bg-blue-50 text-blue-600" : "text-gray-700"
+                className={`h-[30px] w-[100px] px-[20px] text-sm leading-normal text-k-700 ${
+                  selectedTab === MentorTab.MY_MENTOR ? "bg-primary-100" : "bg-k-0"
                 }`}
               >
                 {MentorTab.MY_MENTOR}
+              </button>
+              <button
+                onClick={() => handleTabSelect(MentorTab.MY_MENTEE)}
+                className={`h-[30px] w-[100px] px-[20px] text-sm leading-normal text-k-700 ${
+                  selectedTab === MentorTab.MY_MENTEE ? "bg-primary-100" : "bg-k-0"
+                }`}
+              >
+                {MentorTab.MY_MENTEE}
               </button>
             </div>
           )}
         </div>
 
-        <button onClick={handleViewAllClick} className="flex items-center gap-1 text-sm text-gray-600">
+        <button onClick={handleViewAllClick} className="flex items-center text-[13px] leading-normal text-k-500">
           전체보기
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M4 2L8 6L4 10"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+          <span className="flex h-[20px] w-[20px] items-center justify-center">
+            <IconDirectionRight />
+          </span>
         </button>
       </header>
 
       {selectedTab === MentorTab.MY_MENTOR ? (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen">
           {/* 나의 멘토 섹션 */}
-          <div className="px-4 py-6">
-            <h2 className="mb-4 text-lg font-bold text-gray-900">나의 멘토</h2>
-            <div className="mb-6 flex flex-col items-center justify-center rounded-lg bg-white p-8 text-center">
+          <div className="px-4">
+            <div className="flex flex-col items-center justify-center rounded-lg bg-white p-8 text-center">
               <div className="text-gray-500">나와 매칭된 멘토입니다</div>
             </div>
           </div>
 
           {/* 멘토찾기 섹션 */}
-          <div className="px-4 py-6">
-            <h2 className="mb-4 text-lg font-bold text-gray-900">멘토 찾기</h2>
+          <div className="px-4">
+            <h2 className="text-lg font-bold text-gray-900">멘토 찾기</h2>
 
             {/* 필터 탭 */}
-            <div className="mb-4 flex gap-2">
+            <div className="flex gap-2">
               <button className="rounded-full bg-blue-500 px-4 py-2 text-sm text-white">전체</button>
               <button className="rounded-full bg-gray-200 px-4 py-2 text-sm text-gray-700">유럽권</button>
               <button className="rounded-full bg-gray-200 px-4 py-2 text-sm text-gray-700">미주권</button>
@@ -193,14 +191,14 @@ const MentorDashBoard = () => {
           </div>
         </div>
       ) : (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen">
           {/* 나의 멘티 탭 */}
           {mentees.length === 0 ? (
             <EmptyMentorState message="나와 매칭된 멘티입니다" />
           ) : (
             <>
               {/* 상단 멘티 정보 섹션 */}
-              <div className="px-4 py-6">
+              <div className="px-4">
                 <MethChatCard
                   profileImageUrl={mentees[0].profileImageUrl}
                   nickname={mentees[0].nickname}
@@ -212,7 +210,7 @@ const MentorDashBoard = () => {
 
               {/* 나의 멘토 페이지 섹션 */}
               <div className="px-4 py-6">
-                <h2 className="mb-4 text-lg font-bold text-gray-900">나의 멘토 페이지</h2>
+                <h2 className="text-lg font-bold text-gray-900">나의 멘토 페이지</h2>
 
                 {/* 멘토 카드 */}
                 <div className="space-y-4">
