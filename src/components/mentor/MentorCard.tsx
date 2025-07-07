@@ -2,35 +2,20 @@
 
 import React, { useState } from "react";
 
+import MentoChanner from "./MentoChanner";
 import MentoProfile from "./MentoProfile";
+import MentoStudyStatusCard from "./MentoStudyStatusCard";
+
+import { ChannelType, Mentor } from "@/types/mentor";
 
 import { IconDirectionDown, IconDirectionUp } from "@/public/svgs/mentor";
-
-interface Channel {
-  type: string;
-  url: string;
-}
-
-interface Mentor {
-  id: number;
-  profileImageUrl?: string;
-  nickname: string;
-  country: string;
-  universityName: string;
-  studyStatus: string;
-  menteeCount: number;
-  hasBadge: boolean;
-  introduction: string;
-  channels: Channel[];
-  isApplied: boolean;
-}
 
 interface MentorCardProps {
   mentor: Mentor;
 }
 
 const MentorCard = ({ mentor }: MentorCardProps) => {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
 
   // 구조분해 할당
   const {
@@ -50,7 +35,7 @@ const MentorCard = ({ mentor }: MentorCardProps) => {
   };
 
   return (
-    <div className="rounded-lg bg-white p-4 shadow-sm">
+    <div className="shadow-sdwB rounded-lg bg-white p-4">
       {/* 멘토 프로필 헤더 */}
       <div className="mb-4 flex items-start gap-3">
         <div className="flex flex-col items-center">
@@ -63,7 +48,7 @@ const MentorCard = ({ mentor }: MentorCardProps) => {
           <h3 className="text-xl font-bold leading-normal text-k-800">{nickname}님</h3>
           <div className="mt-1 flex flex-col">
             <p className="text-sm font-medium leading-normal text-k-500">{universityName}</p>
-            <span className="text-orange-500">수락 준비 완료</span>
+            <MentoStudyStatusCard studyStatus={studyStatus} />
           </div>
         </div>
       </div>
@@ -80,42 +65,36 @@ const MentorCard = ({ mentor }: MentorCardProps) => {
           {/* 멘토 채널 */}
           <div className="mb-4">
             <h4 className="mb-2 text-sm font-medium text-blue-600">멘토 채널</h4>
-            <div className="grid grid-cols-2 gap-2">
-              {channels.length > 0 ? (
-                channels.map((channel, idx) => (
-                  <button
-                    key={idx}
-                    className={`rounded-lg px-3 py-2 text-sm font-medium ${
-                      channel.type === "Blog"
-                        ? "bg-green-100 text-green-700"
-                        : channel.type === "Brunch"
-                          ? "bg-orange-100 text-orange-700"
-                          : channel.type === "Instagram"
-                            ? "bg-pink-100 text-pink-700"
-                            : "bg-red-100 text-red-700"
-                    }`}
-                  >
-                    {channel.type}
-                  </button>
-                ))
-              ) : (
-                <>
-                  <button className="rounded-lg bg-orange-100 px-3 py-2 text-sm font-medium text-orange-700">
-                    Brunch
-                  </button>
-                  <button className="rounded-lg bg-green-100 px-3 py-2 text-sm font-medium text-green-700">Blog</button>
-                  <button className="rounded-lg bg-pink-100 px-3 py-2 text-sm font-medium text-pink-700">
-                    Instagram
-                  </button>
-                  <button className="rounded-lg bg-red-100 px-3 py-2 text-sm font-medium text-red-700">Youtube</button>
-                </>
-              )}
+            <div
+              className={`grid gap-2 ${
+                channels.length === 1
+                  ? "grid-cols-1"
+                  : channels.length === 2
+                    ? "grid-cols-2"
+                    : channels.length === 3
+                      ? "grid-cols-2"
+                      : "grid-cols-2"
+              }`}
+            >
+              {channels.map((channel, idx) => (
+                <div
+                  key={idx}
+                  className={`${channels.length === 1 ? "w-full" : channels.length === 3 && idx === 2 ? "col-span-2" : ""}`}
+                >
+                  <MentoChanner channerType={channel.type as ChannelType} />
+                </div>
+              ))}
             </div>
           </div>
 
           {/* 액션 버튼 */}
-          <div className="mb-4 flex gap-2">
-            <button className="flex-1 rounded-lg bg-blue-600 px-4 py-2 font-medium text-white">채소드</button>
+          <div className="mb-4 flex items-center justify-center gap-[10px] self-stretch">
+            <button className="flex h-[41px] w-1/2 flex-shrink-0 items-center justify-center gap-3 rounded-[20px] bg-primary px-5 py-[10px] font-medium text-white">
+              멘토 페이지
+            </button>
+            <button className="flex h-[41px] w-1/2 flex-shrink-0 items-center justify-center gap-3 rounded-[20px] bg-primary px-5 py-[10px] font-medium text-white">
+              멘토 신청하기
+            </button>
           </div>
         </>
       )}

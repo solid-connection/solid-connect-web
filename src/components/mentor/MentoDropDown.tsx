@@ -1,6 +1,7 @@
 import { useState } from "react";
 
-import { MentorTab } from "@/app/mento/MentorDashBoard";
+import { MentorTab } from "@/types/mentor";
+
 import { IconDirectionDown } from "@/public/svgs/mentor";
 
 type MentorDropDownProps = {

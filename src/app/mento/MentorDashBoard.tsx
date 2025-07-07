@@ -8,6 +8,8 @@ import MentorDropDown from "@/components/mentor/MentoDropDown";
 import MentoFindSection from "@/components/mentor/MentoFindSection";
 import MentorCard from "@/components/mentor/MentorCard";
 
+import { ChannelType, Mentor, MentorStudyStatus, MentorTab } from "@/types/mentor";
+
 import { IconDirectionDown, IconDirectionRight } from "@/public/svgs/mentor";
 
 // 임시 데이터 - 실제로는 API에서 가져올 데이터
@@ -18,13 +20,13 @@ const mentors: Mentor[] = [
     nickname: "김솔거너",
     country: "미국",
     universityName: "노스캐롤라이나 웨일런대학교(A성)",
-    studyStatus: "STUDYING_ABROAD",
+    studyStatus: MentorStudyStatus.STUDYING,
     menteeCount: 7,
     hasBadge: true,
     introduction: "안녕하세요! 저는 미국 노스캐롤라이나 웨일런대학교에서 교환학생을 3년간 재학중인 김솔거너입니다!",
     channels: [
-      { type: "Blog", url: "https://blog.example.com" },
-      { type: "Brunch", url: "https://brunch.example.com" },
+      { type: ChannelType.BLOG, url: "https://blog.example.com" },
+      { type: ChannelType.BRUNCH, url: "https://brunch.example.com" },
     ],
     isApplied: false,
   },
@@ -34,7 +36,7 @@ const mentors: Mentor[] = [
     nickname: "박솔거너",
     country: "스웨덴",
     universityName: "보라스대학",
-    studyStatus: "STUDYING_ABROAD",
+    studyStatus: MentorStudyStatus.SCHEDULED,
     menteeCount: 0,
     hasBadge: false,
     introduction: "안녕하세요! 스웨덴 교환학생입니다.",
@@ -47,7 +49,7 @@ const mentors: Mentor[] = [
     nickname: "정솔거너",
     country: "독일",
     universityName: "푸르트바겐스마르크 경영실무대학교",
-    studyStatus: "STUDYING_ABROAD",
+    studyStatus: MentorStudyStatus.COMPLETED,
     menteeCount: 7,
     hasBadge: true,
     introduction: "독일 교환학생 경험을 나누고 싶습니다.",
@@ -63,7 +65,7 @@ const mentees: Mentor[] = [
     nickname: "윤솔거",
     country: "미국",
     universityName: "안양하세요 교환학생에 대해 무엇이든 물어보세요...",
-    studyStatus: "STUDYING_ABROAD",
+    studyStatus: MentorStudyStatus.STUDYING,
     menteeCount: 0,
     hasBadge: false,
     introduction: "안녕하세요! 교환학생에 대해 무엇이든 물어보세요!",
@@ -71,35 +73,6 @@ const mentees: Mentor[] = [
     isApplied: false,
   },
 ];
-
-interface Channel {
-  type: string;
-  url: string;
-}
-
-export interface Mentor {
-  id: number;
-  profileImageUrl?: string;
-  nickname: string;
-  country: string;
-  universityName: string;
-  studyStatus: string;
-  menteeCount: number;
-  hasBadge: boolean;
-  introduction: string;
-  channels: Channel[];
-  isApplied: boolean;
-}
-
-interface MentorResponse {
-  nextPageNumber: number;
-  content: Mentor[];
-}
-
-export enum MentorTab {
-  MY_MENTOR = "나의 멘토",
-  MY_MENTEE = "나의 멘티",
-}
 
 const MentorDashBoard = () => {
   const [selectedTab, setSelectedTab] = useState<MentorTab>(MentorTab.MY_MENTOR);

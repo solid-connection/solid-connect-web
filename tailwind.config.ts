@@ -74,6 +74,20 @@ const config: Config = {
           "500": "#6AC0EB",
           DEFAULT: "#2AA4E2",
         },
+        "sub-c": {
+          "100": "#FFF2DD",
+          "500": "#FF934B",
+        },
+        "sub-d": {
+          "100": "#FCEFFF",
+          "500": "#B33BD4",
+        },
+        "sub-e": {
+          "100": "#E4F7C0",
+        },
+        "sub-f": {
+          "100": "#FFDEDF",
+        },
         background: {
           1: "#F8F8FA",
           2: "#F7F7F7",
