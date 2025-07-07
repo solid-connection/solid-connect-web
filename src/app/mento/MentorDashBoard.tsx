@@ -4,6 +4,7 @@ import React, { useState } from "react";
 
 import EmptyMentoCards from "@/components/mentor/EmptyMentoCards";
 import MentoChatCard from "@/components/mentor/MentoChatCard";
+import MentorDropDown from "@/components/mentor/MentoDropDown";
 import MentorCard from "@/components/mentor/MentorCard";
 
 import { IconDirectionDown, IconDirectionRight } from "@/public/svgs/mentor";
@@ -100,17 +101,7 @@ export enum MentorTab {
 }
 
 const MentorDashBoard = () => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
-  const [selectedTab, setSelectedTab] = useState<MentorTab>(MentorTab.MY_MENTEE);
-
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
-
-  const handleTabSelect = (tabValue: MentorTab) => {
-    setSelectedTab(tabValue);
-    setIsDropdownOpen(false);
-  };
+  const [selectedTab, setSelectedTab] = useState<MentorTab>(MentorTab.MY_MENTOR);
 
   const handleViewAllClick = () => {
     console.log("전체보기 클릭");
@@ -120,39 +111,7 @@ const MentorDashBoard = () => {
   return (
     <div className="relative min-h-screen">
       <header className="flex items-center justify-between bg-white p-4">
-        <div className="relative inline-flex">
-          <button
-            onClick={toggleDropdown}
-            className="flex items-center gap-1 whitespace-nowrap text-lg font-semibold leading-normal text-k-900"
-          >
-            {selectedTab}
-            <span className="h-[30px] w-[30px]">
-              <IconDirectionDown />
-            </span>
-          </button>
-
-          {isDropdownOpen && (
-            <div className="shadow-sdwC absolute left-0 top-full z-10 rounded-t-[4px] border bg-k-700">
-              <button
-                onClick={() => handleTabSelect(MentorTab.MY_MENTOR)}
-                className={`h-[30px] w-[100px] rounded-t-[4px] px-[20px] text-sm font-medium leading-normal text-k-700 ${
-                  selectedTab === MentorTab.MY_MENTOR ? "bg-primary-100" : "bg-k-0"
-                }`}
-              >
-                {MentorTab.MY_MENTOR}
-              </button>
-              <button
-                onClick={() => handleTabSelect(MentorTab.MY_MENTEE)}
-                className={`h-[30px] w-[100px] rounded-t-[4px] px-[20px] text-sm font-medium leading-normal text-k-700 ${
-                  selectedTab === MentorTab.MY_MENTEE ? "bg-primary-100" : "bg-k-0"
-                }`}
-              >
-                {MentorTab.MY_MENTEE}
-              </button>
-            </div>
-          )}
-        </div>
-
+        <MentorDropDown selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
         <button onClick={handleViewAllClick} className="flex items-center text-[13px] leading-normal text-k-500">
           전체보기
           <span className="flex h-[20px] w-[20px] items-center justify-center">
