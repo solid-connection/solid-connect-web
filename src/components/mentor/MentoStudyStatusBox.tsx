@@ -1,10 +1,10 @@
 import { MentorStudyStatus } from "@/types/mentor";
 
-interface MentoStudyStatusCardProps {
+interface MentoStudyStatusBoxProps {
   studyStatus: MentorStudyStatus;
 }
 
-const MentoStudyStatusCard = ({ studyStatus = MentorStudyStatus.STUDYING }: MentoStudyStatusCardProps) => {
+const MentoStudyStatusBox = ({ studyStatus }: MentoStudyStatusBoxProps) => {
   const getStatusStyle = () => {
     switch (studyStatus) {
       case MentorStudyStatus.STUDYING:
@@ -17,14 +17,15 @@ const MentoStudyStatusCard = ({ studyStatus = MentorStudyStatus.STUDYING }: Ment
         return "bg-gray-100 text-gray-700";
     }
   };
+  console.log("studyStatus", studyStatus);
 
   return (
     <div
-      className={`flex h-6 items-center justify-center gap-[10px] rounded px-2 py-[3px] text-center text-xs font-semibold leading-[150%] ${getStatusStyle()}`}
+      className={`flex h-6 w-fit items-center justify-center gap-[10px] rounded px-2 py-[3px] text-center text-xs font-semibold leading-[150%] ${getStatusStyle()}`}
     >
-      {MentorStudyStatus[studyStatus]}
+      {studyStatus}
     </div>
   );
 };
 
-export default MentoStudyStatusCard;
+export default MentoStudyStatusBox;

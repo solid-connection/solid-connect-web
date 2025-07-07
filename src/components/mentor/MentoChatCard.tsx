@@ -7,27 +7,18 @@ interface MentoChatCardProps {
   nickname: string;
   description: string;
   hasBadge?: boolean;
-  onClick?: () => void;
 }
 
-const MentoChatCard: React.FC<MentoChatCardProps> = ({
-  profileImageUrl,
-  nickname,
-  description,
-  hasBadge = false,
-  onClick,
-}) => {
+const MentoChatCard: React.FC<MentoChatCardProps> = ({ profileImageUrl, nickname, description, hasBadge = false }) => {
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
-      onClick?.();
     }
   };
 
   return (
     <div
       className="flex cursor-pointer items-center gap-3 rounded-lg bg-white p-4 shadow-sm transition-shadow hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-      onClick={onClick}
       onKeyDown={handleKeyDown}
       tabIndex={0}
       role="button"

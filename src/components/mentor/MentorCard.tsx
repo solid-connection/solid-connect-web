@@ -4,7 +4,7 @@ import React, { useState } from "react";
 
 import MentoChanner from "./MentoChanner";
 import MentoProfile from "./MentoProfile";
-import MentoStudyStatusCard from "./MentoStudyStatusCard";
+import MentoStudyStatusBox from "./MentoStudyStatusBox";
 
 import { ChannelType, Mentor } from "@/types/mentor";
 
@@ -48,7 +48,7 @@ const MentorCard = ({ mentor }: MentorCardProps) => {
           <h3 className="text-xl font-bold leading-normal text-k-800">{nickname}님</h3>
           <div className="mt-1 flex flex-col">
             <p className="text-sm font-medium leading-normal text-k-500">{universityName}</p>
-            <MentoStudyStatusCard studyStatus={studyStatus} />
+            <MentoStudyStatusBox studyStatus={studyStatus} />
           </div>
         </div>
       </div>
