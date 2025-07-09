@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 
+import BlockBtn from "@/components/button/BlockBtn";
 import UniversityFilterSection from "@/components/search/UniversityFilterSection";
 import UniversityRegionTabs from "@/components/search/UniversityRegionTabs";
 import UniversitySearchInput from "@/components/search/UniversitySearchInput";
@@ -43,13 +44,7 @@ const SearchContent = () => {
         countryOptions={["선택", "오스트레일리아", "체코", "캐나다"]}
       />
 
-      <button
-        onClick={handleSearch}
-        disabled={!searchQuery}
-        className="mt-4 w-full rounded bg-blue-600 py-3 text-white disabled:bg-gray-300"
-      >
-        학교 검색
-      </button>
+      <BlockBtn onClick={handleSearch}>학교 검색</BlockBtn>
     </div>
   );
 };
