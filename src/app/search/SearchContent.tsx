@@ -12,11 +12,21 @@ import { RegionKo } from "@/types/university";
 const SearchContent = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [region, setRegion] = useState<RegionKo | null>(null);
-  const [language, setLanguage] = useState<string>("선택");
-  const [country, setCountry] = useState<string>("선택");
+
+  // 어학/국가 필터링
+  const [languages, setLanguages] = useState<string[]>([]);
+  const [countries, setCountries] = useState<string[]>([]);
+
+  const addLanguage = () => setLanguages([...languages, "선택"]);
+  const changeLanguage = (idx: number, val: string) => setLanguages(languages.map((l, i) => (i === idx ? val : l)));
+  const removeLanguage = (idx: number) => setLanguages(languages.filter((_, i) => i !== idx));
+
+  const addCountry = () => setCountries([...countries, "선택"]);
+  const changeCountry = (idx: number, val: string) => setCountries(countries.map((c, i) => (i === idx ? val : c)));
+  const removeCountry = (idx: number) => setCountries(countries.filter((_, i) => i !== idx));
 
   const handleSearch = () => {
-    console.log({ searchQuery, region, language, country });
+    console.log({ searchQuery, region, languages, countries });
   };
 
   return (
@@ -34,14 +44,17 @@ const SearchContent = () => {
       />
 
       <UniversityFilterSection
-        // 어학 필터
-        language={language}
-        onLanguageChange={setLanguage}
-        languageOptions={["선택", "TOEIC", "TOEFL", "IELTS"]}
-        // 국가 필터
-        country={country}
-        onCountryChange={setCountry}
-        countryOptions={["선택", "오스트레일리아", "체코", "캐나다"]}
+        // 다중 선택이 가능하도록 배열+핸들러 전달
+        languages={languages}
+        onAddLanguage={addLanguage}
+        onLanguageChange={changeLanguage}
+        onRemoveLanguage={removeLanguage}
+        languageOptions={["TOEIC", "TOEFL", "IELTS"]}
+        countries={countries}
+        onAddCountry={addCountry}
+        onCountryChange={changeCountry}
+        onRemoveCountry={removeCountry}
+        countryOptions={["오스트레일리아", "체코", "캐나다"]}
       />
 
       <BlockBtn onClick={handleSearch}>학교 검색</BlockBtn>
