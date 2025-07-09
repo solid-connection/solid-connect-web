@@ -1,32 +1,47 @@
 import { Metadata } from "next";
 
-import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
-import MenteeMentoringTabs from "@/components/mentor/MenteeMentoringTabs";
-import MentoFindSection from "@/components/mentor/MentoFindSection";
+import { getMentorData } from "@/utils/mockingGetData";
 
-import MentorDashBoard from "./MentorDashBoard";
+import MenteeWatingMentoringTabs from "@/components/mentor/MenteeWatingMentoringTabs";
+import MentoFindSection from "@/components/mentor/MentoFindSection";
+import MentorCard from "@/components/mentor/MentorCard";
+
+import MyMentoMenteeTabs from "../../components/mentor/MyMentoMenteeTabs";
 
 export const metadata: Metadata = {
   title: "멘토",
-  description: "멘토 페이지",
+  description: "멘토 멘티 페이지",
 };
 
 const MentorPage = () => {
-  const isMentor = false; // This can be determined based on user role or context
+  const isMentor = false;
+  const myMentoData = getMentorData();
+
   return (
-    <>
-      <TopDetailNavigation title="멘토" />
+    <div className="min-h-screen px-5">
       {isMentor ? (
-        <MentorDashBoard />
+        <>
+          {/* 나의 멘토 - 멘티 탭 및 채팅카드 */}
+          <MyMentoMenteeTabs />
+          {/* 나의 멘토 페이지 */}
+          <h2 className="text-lg font-bold text-gray-900">나의 멘토 페이지</h2>
+          <div className="mt-[14px]">
+            {myMentoData.map((mentee) => (
+              <MentorCard key={mentee.id} isMine mentor={mentee} />
+            ))}
+          </div>
+        </>
       ) : (
-        <div className="min-h-screen px-4">
-          <MenteeMentoringTabs />
+        <>
+          {/* 탭 및 나의 멘토 , 멘티요청 리스트 채팅카드 */}
+          <MenteeWatingMentoringTabs />
+          {/* 중간 밑줄 */}
           <div className="mb-10 mt-10 h-1.5 w-full bg-k-50"></div>
           {/* 멘토찾기 섹션 */}
           <MentoFindSection />
-        </div>
+        </>
       )}
-    </>
+    </div>
   );
 };
 

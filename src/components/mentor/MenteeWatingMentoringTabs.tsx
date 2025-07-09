@@ -82,7 +82,7 @@ const getWatingMentoList = () => {
   return mentees;
 };
 
-const MenteeMentoringTabs = () => {
+const MenteeWatingMentoringTabs = () => {
   // api
   const mentoList = getMentoList();
   const waitingMentoList = getWatingMentoList();
@@ -162,4 +162,4 @@ const MenteeMentoringTabs = () => {
     </>
   );
 };
-export default MenteeMentoringTabs;
+export default MenteeWatingMentoringTabs;

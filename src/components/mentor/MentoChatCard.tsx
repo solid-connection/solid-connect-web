@@ -18,7 +18,7 @@ const MentoChatCard = ({ profileImageUrl, nickname, description, hasBadge = fals
 
   return (
     <div
-      className="flex cursor-pointer items-center gap-3 rounded-lg bg-white p-4 shadow-sm transition-shadow hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+      className="mb-2 flex h-[66px] w-full cursor-pointer items-center gap-3 rounded-lg bg-k-0 px-3 py-4 shadow-sdwB"
       onKeyDown={handleKeyDown}
       tabIndex={0}
       role="button"
