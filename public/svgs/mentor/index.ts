@@ -3,6 +3,7 @@ import IconDirectionDown from "./direction-down.svg";
 import IconDirectionRight from "./direction-right.svg";
 import IconDirectionUp from "./direction-up.svg";
 import IconGraduation from "./graduation.svg";
+import IconPencil from "./pencil.svg";
 import IconPoligon from "./poligon.svg";
 import IconUserPrimaryColor from "./user-primary-color.svg";
 
@@ -14,4 +15,5 @@ export {
   IconGraduation,
   IconPoligon,
   IconUserPrimaryColor,
+  IconPencil,
 };

@@ -40,7 +40,9 @@ const ChannelSelect = ({ name = "channel" }: ChannelSelectProps) => {
 
   return (
     <div className="relative h-[45px]" ref={dropdownRef}>
+      {/* 숨겨진 input */}
       <input type="hidden" name={name} value={selectedValue ? selectedValue : ""} />
+      {/* slect요소 */}
       <button
         type="button"
         onClick={toggleDropdown}
@@ -52,6 +54,7 @@ const ChannelSelect = ({ name = "channel" }: ChannelSelectProps) => {
         <span className="h-4 w-4 text-gray-400">{isOpen ? <IconDirectionUp /> : <IconDirectionDown />}</span>
       </button>
 
+      {/* option요소 */}
       {isOpen && (
         <div className="absolute left-0 right-0 top-full z-50 mt-1 rounded-lg border border-gray-300 bg-white shadow-lg">
           <button

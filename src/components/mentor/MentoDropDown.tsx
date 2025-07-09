@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+import ToolTipMessage from "../ui/TooltipMessage";
+
 import { MentorTab } from "@/types/mentor";
 
 import { IconDirectionDown, IconPoligon } from "@/public/svgs/mentor";
@@ -55,7 +57,7 @@ const MentorDropDown = ({ selectedTab, setSelectedTab }: MentorDropDownProps) =>
       </button>
 
       {isDropdownOpen && (
-        <div className="shadow-sdwC absolute left-0 top-full z-10 rounded-t-[4px] border bg-k-100">
+        <div className="absolute left-0 top-full z-10 rounded-t-[4px] border bg-k-100 shadow-sdwC">
           <button
             onClick={() => handleTabChange(MentorTab.MY_MENTOR)}
             className={`h-[30px] w-[100px] rounded-t-[4px] px-[20px] text-sm font-medium leading-normal text-k-700 ${
@@ -75,21 +77,13 @@ const MentorDropDown = ({ selectedTab, setSelectedTab }: MentorDropDownProps) =>
         </div>
       )}
       {/* 첫 방문 메시지 모달 */}
-      {isFirstVisit && (
-        <div className="absolute left-0 top-full z-50 mt-2">
-          {/* 폴리곤 (화살표) */}
-          <div className="flex h-[9px] justify-center object-cover pl-2">
-            <IconPoligon />
-          </div>
-
-          {/* 메시지 박스 */}
-          <div className="flex h-[58px] w-[166px] flex-shrink-0 items-center justify-center rounded-lg bg-secondary text-center text-white">
-            <div className="text-sm font-medium leading-tight">
-              탭을 클릭하여 나의 멘티를
-              <br />
-              확인할 수 있어요.
-            </div>
-          </div>
+      {!isFirstVisit && (
+        <div className="absolute left-0 top-full z-50 mt-2 h-[58px] w-[170px]">
+          <ToolTipMessage
+            message={`탭을 클릭하여 나의\n멘티를 확인할 수 있어요.`}
+            bgColor="secondary"
+            textColor="k-0"
+          />
         </div>
       )}
     </div>
