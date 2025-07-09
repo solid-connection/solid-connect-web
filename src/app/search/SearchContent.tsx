@@ -6,21 +6,15 @@ import UniversityFilterSection from "@/components/search/UniversityFilterSection
 import UniversityRegionTabs from "@/components/search/UniversityRegionTabs";
 import UniversitySearchInput from "@/components/search/UniversitySearchInput";
 
-type Region = "EU" | "AM" | "AS";
+import { RegionKo } from "@/types/university";
 
 const SearchContent = () => {
-  // 1) 검색어
   const [searchQuery, setSearchQuery] = useState<string>("");
-
-  // 2) 선택된 권역
-  const [region, setRegion] = useState<Region>("EU");
-
-  // 3) 필터: 어학 / 국가
+  const [region, setRegion] = useState<RegionKo | null>(null);
   const [language, setLanguage] = useState<string>("선택");
   const [country, setCountry] = useState<string>("선택");
 
   const handleSearch = () => {
-    // TODO: API 호출 or 라우팅
     console.log({ searchQuery, region, language, country });
   };
 
@@ -30,9 +24,9 @@ const SearchContent = () => {
 
       <UniversityRegionTabs
         regions={[
-          { label: "유럽권", value: "EU" },
-          { label: "미주권", value: "AM" },
-          { label: "아시아권", value: "AS" },
+          { label: "유럽권", value: "유럽권" },
+          { label: "미주권", value: "미주권" },
+          { label: "아시아권", value: "아시아권" },
         ]}
         selected={region}
         onSelect={setRegion}
