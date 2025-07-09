@@ -20,6 +20,7 @@ const MentorPage = () => {
   return (
     <div className="min-h-screen px-5">
       {isMentor ? (
+        // 멘토페이지
         <>
           {/* 나의 멘토 - 멘티 탭 및 채팅카드 */}
           <MyMentoMenteeTabs />
@@ -32,6 +33,7 @@ const MentorPage = () => {
           </div>
         </>
       ) : (
+        // 멘티페이지
         <>
           {/* 탭 및 나의 멘토 , 멘티요청 리스트 채팅카드 */}
           <MenteeWatingMentoringTabs />

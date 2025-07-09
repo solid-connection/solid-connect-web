@@ -92,3 +92,23 @@ export const getMenteeListData = () => {
   ];
   return mentees;
 };
+
+export const getMyData = () => {
+  const myData: Mentor = {
+    id: 1,
+    profileImageUrl: undefined,
+    nickname: "윤솔거",
+    country: "미국",
+    universityName: "노스캐롤라이나 윌컴턴대학교(A형)",
+    studyStatus: MentorStudyStatus.STUDYING,
+    menteeCount: 0,
+    hasBadge: false,
+    introduction: "안녕하세요! 교환학생에 대해 무엇이든 물어보세요!",
+    channels: [
+      { type: ChannelType.BLOG, url: "https://blog.example.com" },
+      { type: ChannelType.BRUNCH, url: "https://brunch.example.com" },
+    ],
+    isApplied: false,
+  };
+  return myData;
+};
