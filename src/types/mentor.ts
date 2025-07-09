@@ -46,3 +46,8 @@ export enum MentorTab {
   MY_MENTOR = "나의 멘토",
   MY_MENTEE = "나의 멘티",
 }
+
+export enum MenteeTab {
+  MY_MENTOR = "나의 멘토",
+  MY_APPLIED = "신청목록",
+}

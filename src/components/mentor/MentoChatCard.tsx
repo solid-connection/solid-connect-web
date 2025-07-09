@@ -9,7 +9,7 @@ interface MentoChatCardProps {
   hasBadge?: boolean;
 }
 
-const MentoChatCard: React.FC<MentoChatCardProps> = ({ profileImageUrl, nickname, description, hasBadge = false }) => {
+const MentoChatCard = ({ profileImageUrl, nickname, description, hasBadge = false }: MentoChatCardProps) => {
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
