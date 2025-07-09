@@ -4,12 +4,12 @@ import { useState } from "react";
 
 import { getMentorListData } from "@/utils/mockingGetData";
 
-import EmptyMentoChatCards from "./EmptyMentoChatCards";
-import MentorCard from "./MentorCard";
+import EmptyMentorChatCards from "../../components/mentor/EmptyMentorChatCards";
+import MentorCard from "../../components/mentor/MentorCard";
 
 import { FilterTab } from "@/types/mentor";
 
-const MentoFindSection = () => {
+const MentorFindSection = () => {
   const [selectedFilter, setSelectedFilter] = useState<FilterTab>(FilterTab.ALL);
   const filteredMentors = getMentorListData();
 
@@ -35,7 +35,7 @@ const MentoFindSection = () => {
       {/* 멘토 리스트 */}
       <div className="space-y-4">
         {filteredMentors.length === 0 ? (
-          <EmptyMentoChatCards message="멘토가 없습니다. 필터를 변경해보세요." />
+          <EmptyMentorChatCards message="멘토가 없습니다. 필터를 변경해보세요." />
         ) : (
           filteredMentors.map((mentor) => <MentorCard key={mentor.id} mentor={mentor} />)
         )}
@@ -44,4 +44,4 @@ const MentoFindSection = () => {
   );
 };
 
-export default MentoFindSection;
+export default MentorFindSection;

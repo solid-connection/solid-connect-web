@@ -2,9 +2,11 @@
 
 import React, { useState } from "react";
 
+import { Link } from "lucide-react";
+
+import MentoProfile from "../ui/ProfileWithBadge";
 import ChannelBadge from "./ChannelBadge";
-import MentoProfile from "./MentoProfile";
-import MentoStudyStatusBox from "./MentoStudyStatusBox";
+import MentoStudyStatusBox from "./MentorStudyStatusBox";
 
 import { ChannelType, Mentor } from "@/types/mentor";
 
@@ -36,7 +38,7 @@ const MentorCard = ({ mentor, isMine = false }: MentorCardProps) => {
   };
 
   return (
-    <div className="shadow-sdwB rounded-lg bg-white p-4">
+    <div className="rounded-lg bg-white p-4 shadow-sdwB">
       {/* 멘토 프로필 헤더 */}
       <div className="mb-4 flex items-start gap-3">
         <div className="flex flex-col items-center">
@@ -91,9 +93,12 @@ const MentorCard = ({ mentor, isMine = false }: MentorCardProps) => {
           {/* 액션 버튼 */}
           <div className="mb-4 flex items-center justify-center gap-[10px] self-stretch">
             {isMine ? (
-              <button className="flex h-[41px] w-[150px] flex-shrink-0 items-center justify-center gap-3 rounded-[20px] bg-primary px-5 py-[10px] font-medium text-white">
+              <Link
+                href="/mento/modify"
+                className="flex h-[41px] w-[150px] flex-shrink-0 items-center justify-center gap-3 rounded-[20px] bg-primary px-5 py-[10px] font-medium text-white"
+              >
                 수정하기
-              </button>
+              </Link>
             ) : (
               <>
                 <button className="flex h-[41px] w-1/2 flex-shrink-0 items-center justify-center gap-3 rounded-[20px] bg-primary px-5 py-[10px] font-medium text-white">

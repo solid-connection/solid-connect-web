@@ -1,10 +1,10 @@
 import { MentorStudyStatus } from "@/types/mentor";
 
-interface MentoStudyStatusBoxProps {
+interface MentorStudyStatusBoxProps {
   studyStatus: MentorStudyStatus;
 }
 
-const MentoStudyStatusBox = ({ studyStatus }: MentoStudyStatusBoxProps) => {
+const MentorStudyStatusBox = ({ studyStatus }: MentorStudyStatusBoxProps) => {
   const getStatusStyle = () => {
     switch (studyStatus) {
       case MentorStudyStatus.STUDYING:
@@ -27,4 +27,4 @@ const MentoStudyStatusBox = ({ studyStatus }: MentoStudyStatusBoxProps) => {
   );
 };
 
-export default MentoStudyStatusBox;
+export default MentorStudyStatusBox;

@@ -4,15 +4,15 @@ import React, { useState } from "react";
 
 import { getMenteeListData, getMentorListData } from "@/utils/mockingGetData";
 
-import EmptyMentoChatCards from "@/components/mentor/EmptyMentoChatCards";
-import MentoChatCard from "@/components/mentor/MentoChatCard";
-import MentorDropDown from "@/components/mentor/MentorDropDown";
+import EmptyMentoChatCards from "@/components/mentor/EmptyMentorChatCards";
+import MentoChatCard from "@/components/mentor/MentorChatCard";
 
 import { MentorTab } from "@/types/mentor";
 
+import MentorDropDown from "@/app/mento/MentorDropDown";
 import { IconDirectionRight } from "@/public/svgs/mentor";
 
-const MentorDashBoard = () => {
+const MentoPageTabs = () => {
   const [selectedTab, setSelectedTab] = useState<MentorTab>(MentorTab.MY_MENTOR);
 
   const mentorList = getMentorListData();
@@ -81,4 +81,4 @@ const MentorDashBoard = () => {
   );
 };
 
-export default MentorDashBoard;
+export default MentoPageTabs;

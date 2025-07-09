@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import ToolTipMessage from "../ui/TooltipMessage";
+import ToolTipMessage from "../../components/ui/TooltipMessage";
 
 import { MentorTab } from "@/types/mentor";
 

@@ -1,15 +1,15 @@
 import React from "react";
 
-import MentoProfile from "./MentoProfile";
+import MentorProfile from "../ui/ProfileWithBadge";
 
-interface MentoChatCardProps {
+interface MentorChatCardProps {
   profileImageUrl?: string;
   nickname: string;
   description: string;
   hasBadge?: boolean;
 }
 
-const MentoChatCard = ({ profileImageUrl, nickname, description, hasBadge = false }: MentoChatCardProps) => {
+const MentorChatCard = ({ profileImageUrl, nickname, description, hasBadge = false }: MentorChatCardProps) => {
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
@@ -25,7 +25,7 @@ const MentoChatCard = ({ profileImageUrl, nickname, description, hasBadge = fals
       aria-label={`${nickname}와의 채팅`}
     >
       {/* 프로필 이미지 */}
-      <MentoProfile profileImageUrl={profileImageUrl} hasBadge={hasBadge} width={40} height={40} />
+      <MentorProfile profileImageUrl={profileImageUrl} hasBadge={hasBadge} width={40} height={40} />
 
       {/* 정보 영역 */}
       <div className="min-w-0 flex-1">
@@ -36,4 +36,4 @@ const MentoChatCard = ({ profileImageUrl, nickname, description, hasBadge = fals
   );
 };
 
-export default MentoChatCard;
+export default MentorChatCard;

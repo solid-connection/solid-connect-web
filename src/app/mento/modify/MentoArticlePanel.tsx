@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import TextModal from "../modal/TextModal";
+import TextModal from "../../../components/modal/TextModal";
 
 import { IconPlus } from "@/public/svgs/mentor";
 

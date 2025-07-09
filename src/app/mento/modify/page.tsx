@@ -6,13 +6,13 @@ import { convertISODateToDate } from "@/utils/datetimeUtils";
 import { getMyData } from "@/utils/mockingGetData";
 
 import ChannelBadge from "@/components/mentor/ChannelBadge";
-import ChannelSelect from "@/components/mentor/ChannelSelect";
-import MentoArticle from "@/components/mentor/MentoArticlePanel";
-import MentoProfile from "@/components/mentor/MentoProfile";
-import MentoStudyStatusBox from "@/components/mentor/MentoStudyStatusBox";
+import MentoStudyStatusBox from "@/components/mentor/MentorStudyStatusBox";
+import MentoProfile from "@/components/ui/ProfileWithBadge";
 
 import { ChannelType } from "@/types/mentor";
 
+import ChannelSelect from "@/app/mento/modify/ChannelSelect";
+import MentoArticle from "@/app/mento/modify/MentoArticlePanel";
 import { IconUserPrimaryColor } from "@/public/svgs/mentor";
 
 const MentorModifyPage = () => {

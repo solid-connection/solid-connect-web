@@ -3,14 +3,21 @@ import React from "react";
 
 import { IconDefaultProfile, IconGraduation } from "@/public/svgs/mentor";
 
-interface MentoProfileProps {
+interface ProfileWithBadgeProps {
   profileImageUrl?: string;
   hasBadge?: boolean;
   width?: number;
   height?: number;
+  isBadgeUp?: boolean; // 배지 위치 조정 여부
 }
 
-const MentoProfile = ({ profileImageUrl, hasBadge = false, width = 86, height = 86 }: MentoProfileProps) => {
+const ProfileWithBadge = ({
+  profileImageUrl,
+  hasBadge = false,
+  width = 86,
+  height = 86,
+  isBadgeUp = true,
+}: ProfileWithBadgeProps) => {
   // 배지 크기를 전체 크기에 비례해서 계산
   const badgeSize = Math.round(width * 0.35);
   const iconSize = Math.round(badgeSize * 0.67);
@@ -39,7 +46,9 @@ const MentoProfile = ({ profileImageUrl, hasBadge = false, width = 86, height = 
       {/* 학습 상태 배지 */}
       {!hasBadge && (
         <div
-          className="absolute -right-1 -top-1 flex items-center justify-center rounded-full bg-primary-1"
+          className={`absolute -right-1 flex items-center justify-center rounded-full bg-primary-1 ${
+            isBadgeUp ? "-top-1" : "-bottom-1"
+          }`}
           style={{ width: `${badgeSize}px`, height: `${badgeSize}px` }}
         >
           <div style={{ width: `${iconSize}px`, height: `${iconSize}px` }}>
@@ -51,4 +60,4 @@ const MentoProfile = ({ profileImageUrl, hasBadge = false, width = 86, height = 
   );
 };
 
-export default MentoProfile;
+export default ProfileWithBadge;
