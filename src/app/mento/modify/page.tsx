@@ -1,6 +1,7 @@
 "use client";
 
 import ChannelBadge from "@/components/mentor/ChannelBadge";
+import ChannelSelect from "@/components/mentor/ChannelSelect";
 import MentoProfile from "@/components/mentor/MentoProfile";
 import MentoStudyStatusBox from "@/components/mentor/MentoStudyStatusBox";
 
@@ -31,6 +32,7 @@ const getMyData = () => {
 const MentorModifyPage = () => {
   const myData = getMyData();
   const { profileImageUrl, hasBadge, menteeCount, nickname, country, universityName, studyStatus } = myData;
+
   return (
     <div className="min-h-screen px-4">
       {/* Profile Header */}
@@ -56,31 +58,20 @@ const MentorModifyPage = () => {
       </div>
       <div className="mt-[40px]">
         <h2 className="text-lg leading-normal text-primary-1">내 채널 관리</h2>
+        {/* 채널타입으로 뱃지 색상 구분 */}
         {Object.values(ChannelType).map((channelType, index) => (
-          <div key={index}>
-            <div className="flex h-[26px] w-[70px] items-center justify-center overflow-hidden rounded-2xl">
+          <div key={index} className="mb-6">
+            <div className="mb-3 flex h-[26px] w-[70px] items-center justify-center overflow-hidden rounded-2xl">
               <ChannelBadge channerType={channelType} text={`내 채널${index + 1}`} />
             </div>
-            <h2 className="text-[16px] font-medium text-k-700">채널 선택</h2>
-            <select className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500">
-              <option value="youtube" className="text-gray-900">
-                없음
-              </option>
-              <option value="instagram" className="bg-blue-50 text-blue-600">
-                유튜브
-              </option>
-              <option value="linkedin" className="text-gray-900">
-                인스타그램
-              </option>
-              <option value="blog" className="text-gray-900">
-                네이버 블로그
-              </option>
-              <option value="brunch" className="text-gray-900">
-                브런치
-              </option>
-            </select>
-            <h2 className="text-[16px] font-medium text-k-700">링크 삽입</h2>
-            <input className="w-full" />
+
+            <ChannelSelect name={`channel-${index}`} />
+
+            <h2 className="mt-4 text-[16px] font-medium text-k-700">링크 삽입</h2>
+            <input
+              className="mt-2 w-full rounded-lg border border-gray-300 px-3 py-2"
+              placeholder="링크를 입력해주세요."
+            />
           </div>
         ))}
       </div>
