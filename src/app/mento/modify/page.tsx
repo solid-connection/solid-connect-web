@@ -10,7 +10,7 @@ import ToolTipMessage from "@/components/ui/TooltipMessage";
 
 import { ChannelType, Mentor, MentorStudyStatus } from "@/types/mentor";
 
-import { IconPencil, IconUserPrimaryColor } from "@/public/svgs/mentor";
+import { IconPencil, IconPlus, IconUserPrimaryColor } from "@/public/svgs/mentor";
 
 const myData: Mentor = {
   id: 1,
@@ -113,7 +113,11 @@ const MentorModifyPage = () => {
         <div className="mt-[10px] flex h-[160px] flex-col items-center justify-center bg-k-50">
           <div className="flex w-full flex-1 items-center justify-center">
             <div className="relative flex h-[39px] w-2/3 items-center justify-center gap-2 rounded-lg bg-k-100 text-sm font-medium text-k-500">
-              <span className="text-lg">+</span>
+              <span className="flex h-[14px] w-[14px] items-center justify-center rounded-full bg-k-500 text-lg">
+                <div className="h-[10px] w-[10px]">
+                  <IconPlus />
+                </div>
+              </span>
               새로운 아티클 추가하기
               <div className="absolute left-0 top-full mt-2 w-full">
                 <ToolTipMessage
@@ -124,6 +128,11 @@ const MentorModifyPage = () => {
               </div>
             </div>
           </div>
+        </div>
+        <div className="mt-10 flex justify-center">
+          <button className="mb-10 h-[40px] w-[150px] rounded-3xl bg-primary-1 px-5 py-[10px] text-k-0">
+            수정하기
+          </button>
         </div>
       </div>
     </div>
