@@ -3,5 +3,6 @@ import IconDirectionDown from "./direction-down.svg";
 import IconDirectionRight from "./direction-right.svg";
 import IconDirectionUp from "./direction-up.svg";
 import IconGraduation from "./graduation.svg";
+import IconPoligon from "./poligon.svg";
 
-export { IconDirectionDown, IconDefaultProfile, IconDirectionUp, IconDirectionRight, IconGraduation };
+export { IconDirectionDown, IconDefaultProfile, IconDirectionUp, IconDirectionRight, IconGraduation, IconPoligon };

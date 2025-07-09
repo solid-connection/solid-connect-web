@@ -1,19 +1,39 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { MentorTab } from "@/types/mentor";
 
-import { IconDirectionDown } from "@/public/svgs/mentor";
+import { IconDirectionDown, IconPoligon } from "@/public/svgs/mentor";
 
 type MentorDropDownProps = {
   selectedTab: string;
   setSelectedTab: React.Dispatch<React.SetStateAction<MentorTab>>;
 };
 
-const MentorDropDown = (props: MentorDropDownProps) => {
-  const { selectedTab, setSelectedTab } = props;
+// TO do 추후에 로컬 스토리지 키를 환경 변수로 관리하는 것이 좋습니다.
+// 현재는 간단한 예시로 로컬 스토리지 키를 상수로 정의합니다.
+// 또한 동일 디바이스에서 다른 유저 로그인 시에도 첫 방문 메시지가 표시되지 않도록 로컬 스토리지 키를 재설정하는 로직 필요합니다
+// 로컬스토리지 관련 로직 분리가필요 허나 비즈니스 로직 관련 폴더가 없어 논의 필요
+const MENTO_FIRST_VISIT_LOCAL_STORAGE_KEY = "mentor-dropdown-first-visit";
+
+const MentorDropDown = ({ selectedTab, setSelectedTab }: MentorDropDownProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
 
+  // 찾방문
+  const [isFirstVisit, setIsFirstVisit] = useState<boolean>(false);
+  // 첫 방문 확인 및 메시지 표시 로직
+  useEffect(() => {
+    const hasVisited = localStorage.getItem(MENTO_FIRST_VISIT_LOCAL_STORAGE_KEY);
+    if (!hasVisited) {
+      setIsFirstVisit(true);
+    }
+  }, []);
+
   const toggleDropdown = () => {
+    // 첫 방문 메시지 닫기
+    if (isFirstVisit) {
+      localStorage.setItem(MENTO_FIRST_VISIT_LOCAL_STORAGE_KEY, "true");
+      setIsFirstVisit(false);
+    }
     setIsDropdownOpen(!isDropdownOpen);
   };
 
@@ -21,6 +41,7 @@ const MentorDropDown = (props: MentorDropDownProps) => {
     setSelectedTab(tab);
     setIsDropdownOpen(false);
   };
+
   return (
     <div className="relative inline-flex">
       <button
@@ -51,6 +72,24 @@ const MentorDropDown = (props: MentorDropDownProps) => {
           >
             {MentorTab.MY_MENTEE}
           </button>
+        </div>
+      )}
+      {/* 첫 방문 메시지 모달 */}
+      {isFirstVisit && (
+        <div className="absolute left-0 top-full z-50 mt-2">
+          {/* 폴리곤 (화살표) */}
+          <div className="flex h-[9px] justify-center object-cover pl-2">
+            <IconPoligon />
+          </div>
+
+          {/* 메시지 박스 */}
+          <div className="flex h-[58px] w-[166px] flex-shrink-0 items-center justify-center rounded-lg bg-secondary text-center text-white">
+            <div className="text-sm font-medium leading-tight">
+              탭을 클릭하여 나의 멘티를
+              <br />
+              확인할 수 있어요.
+            </div>
+          </div>
         </div>
       )}
     </div>

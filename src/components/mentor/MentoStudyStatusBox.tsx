@@ -17,7 +17,6 @@ const MentoStudyStatusBox = ({ studyStatus }: MentoStudyStatusBoxProps) => {
         return "bg-gray-100 text-gray-700";
     }
   };
-  console.log("studyStatus", studyStatus);
 
   return (
     <div
