@@ -4,8 +4,8 @@ import React, { useState } from "react";
 
 import EmptyMentoChatCards from "@/components/mentor/EmptyMentoChatCards";
 import MentoChatCard from "@/components/mentor/MentoChatCard";
-import MentorDropDown from "@/components/mentor/MentoDropDown";
 import MentorCard from "@/components/mentor/MentorCard";
+import MentorDropDown from "@/components/mentor/MentorDropDown";
 
 import { ChannelType, Mentor, MentorStudyStatus, MentorTab } from "@/types/mentor";
 

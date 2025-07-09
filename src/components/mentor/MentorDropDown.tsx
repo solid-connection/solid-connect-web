@@ -4,7 +4,7 @@ import ToolTipMessage from "../ui/TooltipMessage";
 
 import { MentorTab } from "@/types/mentor";
 
-import { IconDirectionDown, IconPoligon } from "@/public/svgs/mentor";
+import { IconDirectionDown } from "@/public/svgs/mentor";
 
 type MentorDropDownProps = {
   selectedTab: string;
@@ -77,7 +77,7 @@ const MentorDropDown = ({ selectedTab, setSelectedTab }: MentorDropDownProps) =>
         </div>
       )}
       {/* 첫 방문 메시지 모달 */}
-      {!isFirstVisit && (
+      {isFirstVisit && (
         <div className="absolute left-0 top-full z-50 mt-2 h-[58px] w-[170px]">
           <ToolTipMessage
             message={`탭을 클릭하여 나의\n멘티를 확인할 수 있어요.`}
