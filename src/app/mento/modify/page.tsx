@@ -69,7 +69,7 @@ const MentorModifyPage = () => {
 
             <h2 className="mt-4 text-[16px] font-medium text-k-700">링크 삽입</h2>
             <input
-              className="mt-2 w-full rounded-lg border border-gray-300 px-3 py-2"
+              className="mt-2 h-[45px] w-full rounded-lg border border-gray-300 px-3 py-2 text-sm font-light text-k-300"
               placeholder="링크를 입력해주세요."
             />
           </div>

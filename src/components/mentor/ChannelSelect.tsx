@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { ChannelType } from "@/types/mentor";
 
@@ -11,6 +11,23 @@ interface ChannelSelectProps {
 const ChannelSelect = ({ name = "channel" }: ChannelSelectProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState<string | null>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
 
   const handleChannelChange = (value: string | null) => {
     setSelectedValue(value);
@@ -22,16 +39,16 @@ const ChannelSelect = ({ name = "channel" }: ChannelSelectProps) => {
   };
 
   return (
-    <div className="relative">
+    <div className="relative h-[45px]" ref={dropdownRef}>
       <input type="hidden" name={name} value={selectedValue ? selectedValue : ""} />
       <button
         type="button"
         onClick={toggleDropdown}
-        className={`flex w-full items-center justify-between rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm font-medium ${
-          selectedValue ? "text-secondary" : "text-gray-500"
-        } hover:border-gray-400 focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary`}
+        className={`flex w-full items-center justify-between rounded-lg border border-gray-300 px-4 py-3 focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary`}
       >
-        <span>{selectedValue || "채널 선택"}</span>
+        <span className={`text-sm font-light ${selectedValue ? "text-secondary" : "text-k-300"}`}>
+          {selectedValue || "채널을 선택해주세요."}
+        </span>
         <span className="h-4 w-4 text-gray-400">{isOpen ? <IconDirectionUp /> : <IconDirectionDown />}</span>
       </button>
 
