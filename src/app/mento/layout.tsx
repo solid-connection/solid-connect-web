@@ -1,0 +1,16 @@
+import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
+
+interface MentoLayoutProps {
+  children: React.ReactNode;
+}
+
+const MentoLayout = ({ children }: MentoLayoutProps) => {
+  return (
+    <div>
+      <TopDetailNavigation title="멘토" />
+      {children}
+    </div>
+  );
+};
+
+export default MentoLayout;

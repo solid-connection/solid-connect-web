@@ -4,5 +4,14 @@ import IconDirectionRight from "./direction-right.svg";
 import IconDirectionUp from "./direction-up.svg";
 import IconGraduation from "./graduation.svg";
 import IconPoligon from "./poligon.svg";
+import IconUserPrimaryColor from "./user-primary-color.svg";
 
-export { IconDirectionDown, IconDefaultProfile, IconDirectionUp, IconDirectionRight, IconGraduation, IconPoligon };
+export {
+  IconDirectionDown,
+  IconDefaultProfile,
+  IconDirectionUp,
+  IconDirectionRight,
+  IconGraduation,
+  IconPoligon,
+  IconUserPrimaryColor,
+};

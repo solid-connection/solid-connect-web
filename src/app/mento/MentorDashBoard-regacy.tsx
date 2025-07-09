@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import EmptyMentoChatCards from "@/components/mentor/EmptyMentoChatCards";
 import MentoChatCard from "@/components/mentor/MentoChatCard";
 import MentorDropDown from "@/components/mentor/MentoDropDown";
+import MentoFindSection from "@/components/mentor/MentoFindSection";
 import MentorCard from "@/components/mentor/MentorCard";
 
 import { ChannelType, Mentor, MentorStudyStatus, MentorTab } from "@/types/mentor";
@@ -68,10 +69,7 @@ const mentees: Mentor[] = [
     menteeCount: 0,
     hasBadge: false,
     introduction: "안녕하세요! 교환학생에 대해 무엇이든 물어보세요!",
-    channels: [
-      { type: ChannelType.BLOG, url: "https://blog.example.com" },
-      { type: ChannelType.BRUNCH, url: "https://brunch.example.com" },
-    ],
+    channels: [],
     isApplied: false,
   },
 ];
@@ -85,8 +83,8 @@ const MentorDashBoard = () => {
   };
 
   return (
-    <div className="relative p-4">
-      <header className="flex items-center justify-between">
+    <div className="min-h-screen px-4">
+      <header className="flex items-center justify-between bg-white p-4">
         <MentorDropDown selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
         <button onClick={handleViewAllClick} className="flex items-center text-[13px] leading-normal text-k-500">
           전체보기
@@ -97,48 +95,61 @@ const MentorDashBoard = () => {
       </header>
 
       {selectedTab === MentorTab.MY_MENTOR ? (
-        <div className="mb-10">
-          {mentors.length === 0 ? (
-            <EmptyMentoChatCards message={"나와 매칭된 멘토입니다"} />
-          ) : (
-            <div>
-              {mentors.slice(0, 2).map((mentor) => (
-                <MentoChatCard
-                  key={mentor.id}
-                  profileImageUrl={mentor.profileImageUrl}
-                  nickname={mentor.nickname}
-                  description={mentor.universityName}
-                  hasBadge={mentor.hasBadge}
-                />
-              ))}
-            </div>
-          )}
+        <div className="min-h-screen">
+          {/* 나의 멘토 섹션 */}
+          <div className="mb-10 px-4">
+            {mentors.length !== 0 ? (
+              <EmptyMentoChatCards message={"나와 매칭된 멘토입니다"} />
+            ) : (
+              <div>
+                {mentors.map((mentor) => (
+                  <MentoChatCard
+                    key={mentor.id}
+                    profileImageUrl={mentor.profileImageUrl}
+                    nickname={mentor.nickname}
+                    description={mentor.universityName}
+                    hasBadge={mentor.hasBadge}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* 멘토찾기 섹션 */}
+          <MentoFindSection />
         </div>
       ) : (
         <div className="min-h-screen">
           {/* 나의 멘티 탭 */}
           {mentees.length === 0 ? (
-            <EmptyMentoChatCards message={"나와 매칭된 멘티입니다"} />
+            <EmptyMentoChatCards message={"나와 매칭된 멘토입니다"} />
           ) : (
-            <div className="px-4">
-              <MentoChatCard
-                profileImageUrl={mentees[0].profileImageUrl}
-                nickname={mentees[0].nickname}
-                description={mentees[0].universityName}
-                hasBadge={mentees[0].hasBadge}
-              />
-            </div>
+            <>
+              {/* 상단 멘티 정보 섹션 */}
+              <div className="px-4">
+                <MentoChatCard
+                  profileImageUrl={mentees[0].profileImageUrl}
+                  nickname={mentees[0].nickname}
+                  description={mentees[0].universityName}
+                  hasBadge={mentees[0].hasBadge}
+                />
+              </div>
+
+              {/* 나의 멘토 페이지 섹션 */}
+              <div className="px-4 py-6">
+                <h2 className="text-lg font-bold text-gray-900">나의 멘토 페이지</h2>
+
+                {/* 멘토 카드 */}
+                <div className="space-y-4">
+                  {mentees.map((mentee) => (
+                    <MentorCard key={mentee.id} mentor={mentee} />
+                  ))}
+                </div>
+              </div>
+            </>
           )}
         </div>
       )}
-      <h2 className="text-lg font-bold text-gray-900">나의 멘토 페이지</h2>
-
-      {/* 멘토 카드 */}
-      <div className="space-y-4">
-        {mentees.map((mentee) => (
-          <MentorCard key={mentee.id} isMine mentor={mentee} />
-        ))}
-      </div>
     </div>
   );
 };

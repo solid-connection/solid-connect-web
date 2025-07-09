@@ -84,9 +84,11 @@ const config: Config = {
         },
         "sub-e": {
           "100": "#E4F7C0",
+          "500": "#7AB550",
         },
         "sub-f": {
           "100": "#FFDEDF",
+          "500": "#FF6B6B",
         },
         background: {
           1: "#F8F8FA",
