@@ -62,7 +62,7 @@ const Home = ({ newsList }: HomeProps) => {
 
       <div className="flex flex-col gap-2.5 px-5 py-3.5">
         <div className="flex gap-[7px]">
-          <Link className="flex h-[102px] flex-1 flex-col gap-2 rounded-lg bg-[#F0F5FF] p-2.5" href="/university">
+          <Link className="flex h-[102px] flex-1 flex-col gap-2 rounded-lg bg-[#F0F5FF] p-2.5" href="/search">
             <div className="flex flex-col">
               <span className="text-sm font-bold text-secondary-900">학교 검색하기</span>
               <span className="text-[11px] font-medium leading-[14px] text-k-700">모든 학교 목록을 확인해보세요</span>
