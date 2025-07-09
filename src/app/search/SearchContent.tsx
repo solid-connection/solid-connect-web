@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import UniversityFilterSection from "@/components/search/UniversityFilterSection";
 import UniversityRegionTabs from "@/components/search/UniversityRegionTabs";
-import UniversitySearchInput from "@/components/search/UniversitySearchInput.tsx";
+import UniversitySearchInput from "@/components/search/UniversitySearchInput";
 
 type Region = "EU" | "AM" | "AS";
 
