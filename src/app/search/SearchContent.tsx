@@ -44,7 +44,6 @@ const SearchContent = () => {
       />
 
       <UniversityFilterSection
-        // 다중 선택이 가능하도록 배열+핸들러 전달
         languages={languages}
         onAddLanguage={addLanguage}
         onLanguageChange={changeLanguage}

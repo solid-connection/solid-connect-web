@@ -4,6 +4,8 @@ import React from "react";
 
 import { GraduationCap, MapPin, Plus, X } from "lucide-react";
 
+import { IconDownArrow, IconHatGray, IconLocationGray } from "@/public/svgs/search";
+
 interface UniversityFilterSectionProps {
   // 어학
   languages: string[];
@@ -37,60 +39,30 @@ const UniversityFilterSection = ({
     <div className="flex flex-col gap-6 px-5">
       {/* 어학 필터 그룹 */}
       <div className="flex flex-col gap-2">
-        <div className="flex items-center space-x-2">
-          <GraduationCap className="h-5 w-5" />
-          <span className="font-semibold">어학</span>
-          <button onClick={onAddLanguage} className="ml-auto">
-            <Plus className="h-4 w-4" />
-          </button>
-        </div>
-        {languages.map((lang, i) => (
-          <div key={i} className="relative flex items-center">
-            <select
-              value={lang}
-              onChange={(e) => onLanguageChange(i, e.target.value)}
-              className="w-full rounded border border-gray-300 px-3 py-2 pr-8"
-            >
-              <option value="">선택</option>
-              {languageOptions.map((opt) => (
-                <option key={opt} value={opt}>
-                  {opt}
-                </option>
-              ))}
-            </select>
-            <button onClick={() => onRemoveLanguage(i)} className="absolute right-2">
-              <X className="h-4 w-4 text-gray-500" />
-            </button>
+        <div className="flex justify-between rounded-lg border border-k-100 py-3 pl-3.5 pr-5">
+          <div className="flex items-center gap-2.5">
+            <IconHatGray />
+            <span className="text-sm font-semibold leading-normal text-k-700">어학</span>
           </div>
-        ))}
+          <div className="flex items-center gap-2.5">
+            <span className="text-sm font-semibold leading-normal text-k-300">선택</span>
+            <IconDownArrow />
+          </div>
+        </div>
       </div>
 
       {/* 국가 필터 그룹 */}
       <div className="flex flex-col gap-2">
-        <div className="flex items-center space-x-2">
-          <MapPin className="h-5 w-5" />
-          <span className="font-semibold">관심있는 나라</span>
-          <button onClick={onAddCountry} className="ml-auto">
-            <Plus className="h-4 w-4" />
-          </button>
-        </div>
         {countries.map((cty, i) => (
-          <div key={i} className="relative flex items-center">
-            <select
-              value={cty}
-              onChange={(e) => onCountryChange(i, e.target.value)}
-              className="w-full rounded border border-gray-300 px-3 py-2 pr-8"
-            >
-              <option value="">선택</option>
-              {countryOptions.map((opt) => (
-                <option key={opt} value={opt}>
-                  {opt}
-                </option>
-              ))}
-            </select>
-            <button onClick={() => onRemoveCountry(i)} className="absolute right-2">
-              <X className="h-4 w-4 text-gray-500" />
-            </button>
+          <div key={i} className="flex justify-between rounded-lg border border-k-100 py-3 pl-3.5 pr-5">
+            <div className="flex items-center gap-2.5">
+              <IconLocationGray />
+              <span className="text-sm font-semibold leading-normal text-k-700">관심있는 나라</span>
+            </div>
+            <div className="flex items-center gap-2.5">
+              <span className="text-sm font-semibold leading-normal text-k-300">나라</span>
+              <IconDownArrow />
+            </div>
           </div>
         ))}
       </div>
