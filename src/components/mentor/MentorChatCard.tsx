@@ -1,6 +1,6 @@
 import React from "react";
 
-import MentorProfile from "../ui/ProfileWithBadge";
+import ProfileWithBadge from "../ui/ProfileWithBadge";
 
 interface MentorChatCardProps {
   profileImageUrl?: string;
@@ -25,7 +25,7 @@ const MentorChatCard = ({ profileImageUrl, nickname, description, hasBadge = fal
       aria-label={`${nickname}와의 채팅`}
     >
       {/* 프로필 이미지 */}
-      <MentorProfile profileImageUrl={profileImageUrl} hasBadge={hasBadge} width={40} height={40} />
+      <ProfileWithBadge profileImageUrl={profileImageUrl} hasBadge={hasBadge} width={40} height={40} />
 
       {/* 정보 영역 */}
       <div className="min-w-0 flex-1">

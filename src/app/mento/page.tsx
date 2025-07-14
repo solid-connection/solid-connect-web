@@ -4,10 +4,9 @@ import { getMentorData } from "@/utils/mockingGetData";
 
 import MentorCard from "@/components/mentor/MentorCard";
 
-import MentoPageTabs from "./MentoPageTabs";
-
-import MenteePageTabs from "@/app/mento/MenteePageTabs";
-import MentorFindSection from "@/app/mento/MentorFindSection";
+import MenteePageTabs from "./_components/MenteePageTabs";
+import MentorFindSection from "./_components/MentorFindSection";
+import MentoPageTabs from "./_components/MentorPageTabs";
 
 export const metadata: Metadata = {
   title: "멘토",
@@ -19,7 +18,7 @@ const MentorPage = () => {
   const myMentoData = getMentorData();
 
   return (
-    <div className="min-h-screen px-5">
+    <>
       {isMentor ? (
         // 멘토페이지
         <>
@@ -44,7 +43,7 @@ const MentorPage = () => {
           <MentorFindSection />
         </>
       )}
-    </div>
+    </>
   );
 };
 

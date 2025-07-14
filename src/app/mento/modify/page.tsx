@@ -1,19 +1,25 @@
 "use client";
 
 import Image from "next/image";
+import { Controller, useForm } from "react-hook-form";
 
 import { convertISODateToDate } from "@/utils/datetimeUtils";
 import { getMyData } from "@/utils/mockingGetData";
 
-import ChannelBadge from "@/components/mentor/ChannelBadge";
-import MentoStudyStatusBox from "@/components/mentor/MentorStudyStatusBox";
+import MentoStudyStatusBox from "@/components/mentor/StudyStatusBox";
+import ChannelBadge from "@/components/ui/ChannelBadge";
 import MentoProfile from "@/components/ui/ProfileWithBadge";
+
+import ChannelSelect from "./_components/ChannelSelct";
+import MentoArticlePanel from "./_components/MentoArticlePanel";
 
 import { ChannelType } from "@/types/mentor";
 
-import ChannelSelect from "@/app/mento/modify/ChannelSelect";
-import MentoArticle from "@/app/mento/modify/MentoArticlePanel";
+import { MentoModifyFormData, mentoModifySchema } from "@/lib/schema/mentoModifyScehma";
 import { IconUserPrimaryColor } from "@/public/svgs/mentor";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+// Yup 스키마 정의
 
 const MentorModifyPage = () => {
   const myData = getMyData();
@@ -21,16 +27,29 @@ const MentorModifyPage = () => {
 
   const formattedDate = convertISODateToDate(new Date().toISOString());
 
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<MentoModifyFormData>({
+    resolver: zodResolver(mentoModifySchema),
+    defaultValues: {
+      channels: Object.values(ChannelType).map(() => ({ type: "", link: "" })),
+      mentorMessage: "",
+      successRecipe: "",
+    },
+  });
+
   // 폼 제출 핸들러
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const onSubmit = (data: MentoModifyFormData) => {
     // TODO 여기에 폼 제출 로직을 추가
-    console.log("폼이 제출되었습니다.");
+    console.log("폼이 제출되었습니다.", data);
   };
 
   return (
     <div className="min-h-screen px-4">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         {/* Profile Header */}
         <div className="gap-4">
           <h1 className="text-lg font-semibold text-gray-900">나의 멘토</h1>
@@ -61,25 +80,60 @@ const MentorModifyPage = () => {
                 <ChannelBadge channerType={channelType} text={`내 채널${index + 1}`} />
               </div>
               <h2 className="mt-[10px] text-[16px] font-medium text-k-700">채널 선택</h2>
-              <ChannelSelect name={`channel-${index}`} />
+              <Controller
+                name={`channels.${index}.type`}
+                control={control}
+                render={({ field }) => <ChannelSelect {...field} name={`channel-${index}`} />}
+              />
+              {errors.channels?.[index]?.type && (
+                <p className="mt-1 text-sm text-red-500">
+                  {typeof errors.channels[index]?.type === "object" && errors.channels[index]?.type?.message
+                    ? errors.channels[index]?.type?.message
+                    : "채널을 선택해주세요"}
+                </p>
+              )}
 
               <h2 className="mt-5 text-[16px] font-medium text-k-700">링크 삽입</h2>
               <input
+                {...register(`channels.${index}.link`)}
                 className="mt-2 h-[45px] w-full rounded-lg border border-gray-300 px-4 py-3 text-sm font-light text-k-300"
                 placeholder="링크를 입력해주세요."
               />
+              {errors.channels?.[index]?.link && (
+                <p className="mt-1 text-sm text-red-500">
+                  {typeof errors.channels[index]?.link === "object" && errors.channels[index]?.link?.message
+                    ? errors.channels[index]?.link?.message
+                    : "링크를 입력해주세요"}
+                </p>
+              )}
             </div>
           ))}
           <h2 className="mt-[40px] text-lg leading-normal text-primary-1">멘토 한마디</h2>
           <textarea
+            {...register("mentorMessage")}
             className="mt-[10px] h-[120px] w-full rounded-lg bg-k-50 p-5 text-sm font-light text-k-300"
             placeholder="최대 200자 이내"
           />
+          {errors.mentorMessage && (
+            <p className="mt-1 text-sm text-red-500">
+              {typeof errors.mentorMessage === "object" && errors.mentorMessage.message
+                ? errors.mentorMessage.message
+                : "멘토 한마디를 입력해주세요"}
+            </p>
+          )}
           <h2 className="mt-[40px] text-lg leading-normal text-primary-1">합격 레시피</h2>
           <textarea
+            {...register("successRecipe")}
             className="mt-[10px] h-[120px] w-full rounded-lg bg-k-50 p-5 text-sm font-light text-k-300"
             placeholder="최대 200자 이내"
           />
+          {errors.successRecipe && (
+            <p className="mt-1 text-sm text-red-500">
+              {typeof errors.successRecipe === "object" && errors.successRecipe.message
+                ? errors.successRecipe.message
+                : "합격 레시피를 입력해주세요"}
+            </p>
+          )}
           <h2 className="mt-[40px] text-lg leading-normal text-primary-1">멘토 아티클</h2>
           <div className="relative h-[200px] w-full">
             <Image src="/images/article-thumb.png" alt="멘토 아티클 이미지" fill className="object-cover" />
@@ -91,10 +145,9 @@ const MentorModifyPage = () => {
           <p className="text-sm font-normal text-k-500">
             교환학생 경험의 진솔한 이야기와 꿀팁이 가득한 &apos;찐&apos; 후기를 영상에서 확인하세요!
           </p>
-          <MentoArticle />
-
+          <MentoArticlePanel />
           <div className="mt-10 flex justify-center">
-            <button className="mb-10 h-[40px] w-[150px] rounded-3xl bg-primary-1 px-5 py-[10px] text-k-0">
+            <button type="submit" className="mb-10 h-[40px] w-[150px] rounded-3xl bg-primary-1 px-5 py-[10px] text-k-0">
               수정하기
             </button>
           </div>
@@ -103,4 +156,5 @@ const MentorModifyPage = () => {
     </div>
   );
 };
+
 export default MentorModifyPage;

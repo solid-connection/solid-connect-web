@@ -4,15 +4,16 @@ import React, { useState } from "react";
 
 import { getMenteeListData, getMentorListData } from "@/utils/mockingGetData";
 
-import EmptyMentoChatCards from "@/components/mentor/EmptyMentorChatCards";
 import MentoChatCard from "@/components/mentor/MentorChatCard";
+import EmptySdwBCards from "@/components/ui/EmptySdwBCards";
+
+import MentorDropDown from "./MentorDropDown";
 
 import { MentorTab } from "@/types/mentor";
 
-import MentorDropDown from "@/app/mento/MentorDropDown";
 import { IconDirectionRight } from "@/public/svgs/mentor";
 
-const MentoPageTabs = () => {
+const MentorPageTabs = () => {
   const [selectedTab, setSelectedTab] = useState<MentorTab>(MentorTab.MY_MENTOR);
 
   const mentorList = getMentorListData();
@@ -43,7 +44,7 @@ const MentoPageTabs = () => {
       {selectedTab === MentorTab.MY_MENTOR ? (
         <div className="mb-10">
           {mentorList.length === 0 ? (
-            <EmptyMentoChatCards message={"나와 매칭된 멘토입니다"} />
+            <EmptySdwBCards message={"나와 매칭된 멘토입니다"} />
           ) : (
             mentorList
               .slice(0, 2)
@@ -61,7 +62,7 @@ const MentoPageTabs = () => {
       ) : (
         <div className="mb-10">
           {menteeList.length === 0 ? (
-            <EmptyMentoChatCards message={"나와 매칭된 멘토입니다"} />
+            <EmptySdwBCards message={"나와 매칭된 멘토입니다"} />
           ) : (
             menteeList
               .slice(0, 2)
@@ -81,4 +82,4 @@ const MentoPageTabs = () => {
   );
 };
 
-export default MentoPageTabs;
+export default MentorPageTabs;

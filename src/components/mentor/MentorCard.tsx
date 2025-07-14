@@ -4,9 +4,9 @@ import React, { useState } from "react";
 
 import { Link } from "lucide-react";
 
-import MentoProfile from "../ui/ProfileWithBadge";
-import ChannelBadge from "./ChannelBadge";
-import MentoStudyStatusBox from "./MentorStudyStatusBox";
+import ChannelBadge from "../ui/ChannelBadge";
+import ProfileWithBadge from "../ui/ProfileWithBadge";
+import StudyStatusBox from "./StudyStatusBox";
 
 import { ChannelType, Mentor } from "@/types/mentor";
 
@@ -42,7 +42,7 @@ const MentorCard = ({ mentor, isMine = false }: MentorCardProps) => {
       {/* 멘토 프로필 헤더 */}
       <div className="mb-4 flex items-start gap-3">
         <div className="flex flex-col items-center">
-          <MentoProfile profileImageUrl={profileImageUrl} hasBadge={hasBadge} />
+          <ProfileWithBadge profileImageUrl={profileImageUrl} hasBadge={hasBadge} />
           <span className="text-xs font-semibold text-primary-1">누적 멘티 {menteeCount}명</span>
         </div>
 
@@ -51,7 +51,7 @@ const MentorCard = ({ mentor, isMine = false }: MentorCardProps) => {
           <h3 className="text-xl font-bold leading-normal text-k-800">{nickname}님</h3>
           <div className="mt-1 flex flex-col">
             <p className="text-sm font-medium leading-normal text-k-500">{universityName}</p>
-            <MentoStudyStatusBox studyStatus={studyStatus} />
+            <StudyStatusBox studyStatus={studyStatus} />
           </div>
         </div>
       </div>

@@ -8,7 +8,7 @@ const MentoLayout = ({ children }: MentoLayoutProps) => {
   return (
     <div>
       <TopDetailNavigation title="멘토" />
-      {children}
+      <div className="min-h-screen px-5">{children}</div>
     </div>
   );
 };

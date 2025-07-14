@@ -4,8 +4,8 @@ import { useState } from "react";
 
 import { getMentorListData } from "@/utils/mockingGetData";
 
-import EmptyMentorChatCards from "../../components/mentor/EmptyMentorChatCards";
-import MentorCard from "../../components/mentor/MentorCard";
+import MentorCard from "../../../components/mentor/MentorCard";
+import EmptyMentorChatCards from "../../../components/ui/EmptySdwBCards";
 
 import { FilterTab } from "@/types/mentor";
 
