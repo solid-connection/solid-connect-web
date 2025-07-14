@@ -16,7 +16,7 @@ const SearchContent = () => {
 
   // 어학/국가 필터링
   const [language, setLanguage] = useState<string>("");
-  const [countries, setCountries] = useState<string[]>([]);
+  const [countries, setCountries] = useState<string[]>(["", "", ""]);
 
   const addCountry = () => setCountries([...countries, "선택"]);
   const changeCountry = (idx: number, val: string) => setCountries(countries.map((c, i) => (i === idx ? val : c)));
@@ -45,9 +45,7 @@ const SearchContent = () => {
         setLanguage={setLanguage}
         languageOptions={Object.values(LanguageTestEnum)}
         countries={countries}
-        onAddCountry={addCountry}
-        onCountryChange={changeCountry}
-        onRemoveCountry={removeCountry}
+        setCountries={setCountries}
         countryOptions={["오스트레일리아", "체코", "캐나다"]}
       />
 
