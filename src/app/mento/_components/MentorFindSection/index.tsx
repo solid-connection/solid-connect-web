@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 import { getMentorListData } from "@/utils/mockingGetData";
 
@@ -11,7 +11,21 @@ import { FilterTab } from "@/types/mentor";
 
 const MentorFindSection = () => {
   const [selectedFilter, setSelectedFilter] = useState<FilterTab>(FilterTab.ALL);
-  const filteredMentors = getMentorListData();
+  const mentorListData = getMentorListData();
+
+  const filteredMentors = useMemo(() => {
+    return mentorListData.filter((mentor) => {
+      if (selectedFilter === FilterTab.ALL) return true;
+      if (selectedFilter === FilterTab.EUROPE) return mentor.country === "유럽권";
+      if (selectedFilter === FilterTab.AMERICAS) return mentor.country === "미주권";
+      if (selectedFilter === FilterTab.ASIA) return mentor.country === "아시아권";
+      return false;
+    });
+  }, [mentorListData, selectedFilter]);
+
+  const handleFilterChange = (filter: FilterTab) => {
+    setSelectedFilter(filter);
+  };
 
   return (
     <div className="px-4">
@@ -22,7 +36,7 @@ const MentorFindSection = () => {
         {Object.values(FilterTab).map((tab) => (
           <button
             key={tab}
-            onClick={() => setSelectedFilter(tab)}
+            onClick={() => handleFilterChange(tab)}
             className={`flex items-center justify-center gap-[10px] rounded-2xl px-[14px] py-1 text-center text-xs font-semibold leading-[150%] ${
               selectedFilter === tab ? "bg-primary-100 text-primary" : "bg-k-50 text-k-300"
             }`}

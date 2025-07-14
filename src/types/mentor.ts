@@ -1,3 +1,13 @@
+export interface MentorResponse {
+  nextPageNumber: number;
+  content: Mentor[];
+}
+export interface MentorListParams {
+  region?: string;
+  size?: number;
+  page?: number;
+}
+
 export interface Mentor {
   id: number;
   profileImageUrl?: string;
@@ -15,11 +25,6 @@ export interface Mentor {
 export interface Channel {
   type: ChannelType;
   url: string;
-}
-
-export interface MentorResponse {
-  nextPageNumber: number;
-  content: Mentor[];
 }
 
 export enum MentorStudyStatus {
