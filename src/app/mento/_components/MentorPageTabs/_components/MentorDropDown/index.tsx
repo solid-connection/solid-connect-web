@@ -1,5 +1,5 @@
-import ReusableDropdown, { DropdownItem } from "../../../../components/ui/ReusableDropdown";
-import ToolTipMessage from "../../../../components/ui/TooltipMessage";
+import ReusableDropdown, { DropdownItem } from "@/components/ui/ReusableDropdown";
+import ToolTipMessage from "@/components/ui/TooltipMessage";
 
 import { MentorTab } from "@/types/mentor";
 
