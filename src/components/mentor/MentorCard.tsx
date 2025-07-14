@@ -82,7 +82,7 @@ const MentorCard = ({ mentor, isMine = false }: MentorCardProps) => {
               {channels.map((channel, idx) => (
                 <div
                   key={idx}
-                  className={`${channels.length === 1 ? "w-full" : channels.length === 3 && idx === 2 ? "col-span-2" : ""}`}
+                  className={`h-[40px] ${channels.length === 1 ? "w-full" : channels.length === 3 && idx === 2 ? "col-span-2" : ""}`}
                 >
                   <ChannelBadge channerType={channel.type as ChannelType} />
                 </div>
