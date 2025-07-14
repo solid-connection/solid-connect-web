@@ -1,17 +1,15 @@
 "use client";
 
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 
-import { GraduationCap, MapPin, Plus, X } from "lucide-react";
+import clsx from "clsx";
 
-import { IconDownArrow, IconHatGray, IconLocationGray } from "@/public/svgs/search";
+import { IconDownArrow, IconHatColor, IconHatGray, IconLocationGray } from "@/public/svgs/search";
 
 interface UniversityFilterSectionProps {
   // 어학
-  languages: string[];
-  onAddLanguage: () => void;
-  onLanguageChange: (idx: number, value: string) => void;
-  onRemoveLanguage: (idx: number) => void;
+  language: string;
+  setLanguage: Dispatch<SetStateAction<string>>;
   languageOptions: string[];
 
   // 국가
@@ -23,10 +21,8 @@ interface UniversityFilterSectionProps {
 }
 
 const UniversityFilterSection = ({
-  languages,
-  onAddLanguage,
-  onLanguageChange,
-  onRemoveLanguage,
+  language,
+  setLanguage,
   languageOptions,
 
   countries,
@@ -36,18 +32,34 @@ const UniversityFilterSection = ({
   countryOptions,
 }: UniversityFilterSectionProps) => {
   return (
-    <div className="flex flex-col gap-6 px-5">
-      {/* 어학 필터 그룹 */}
-      <div className="flex flex-col gap-2">
-        <div className="flex justify-between rounded-lg border border-k-100 py-3 pl-3.5 pr-5">
+    <div className="flex flex-col">
+      <div className="relative flex flex-col gap-2">
+        <div
+          className={clsx(
+            "relative flex justify-between rounded-lg border py-3 pl-3.5 pr-5",
+            language ? "border-primary-100 bg-primary-100" : "border-k-100",
+          )}
+        >
           <div className="flex items-center gap-2.5">
-            <IconHatGray />
+            {language ? <IconHatColor /> : <IconHatGray />}
             <span className="text-sm font-semibold leading-normal text-k-700">어학</span>
           </div>
-          <div className="flex items-center gap-2.5">
-            <span className="text-sm font-semibold leading-normal text-k-300">선택</span>
-            <IconDownArrow />
-          </div>
+          <select
+            className={clsx(
+              "appearance-none bg-transparent pr-2.5 text-right text-sm font-semibold focus:outline-none",
+              language ? "text-primary" : "text-k-300",
+            )}
+            value={language}
+            onChange={(e) => setLanguage(e.target.value)}
+          >
+            <option value="">선택</option>
+            {languageOptions.map((opt) => (
+              <option key={opt} value={opt}>
+                {opt}
+              </option>
+            ))}
+          </select>
+          <IconDownArrow className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-k-300" />
         </div>
       </div>
 

@@ -7,6 +7,7 @@ import UniversityFilterSection from "@/components/search/UniversityFilterSection
 import UniversityRegionTabs from "@/components/search/UniversityRegionTabs";
 import UniversitySearchInput from "@/components/search/UniversitySearchInput";
 
+import { LanguageTestEnum } from "@/types/score";
 import { RegionKo } from "@/types/university";
 
 const SearchContent = () => {
@@ -14,19 +15,15 @@ const SearchContent = () => {
   const [region, setRegion] = useState<RegionKo | null>(null);
 
   // 어학/국가 필터링
-  const [languages, setLanguages] = useState<string[]>([]);
+  const [language, setLanguage] = useState<string>("");
   const [countries, setCountries] = useState<string[]>([]);
-
-  const addLanguage = () => setLanguages([...languages, "선택"]);
-  const changeLanguage = (idx: number, val: string) => setLanguages(languages.map((l, i) => (i === idx ? val : l)));
-  const removeLanguage = (idx: number) => setLanguages(languages.filter((_, i) => i !== idx));
 
   const addCountry = () => setCountries([...countries, "선택"]);
   const changeCountry = (idx: number, val: string) => setCountries(countries.map((c, i) => (i === idx ? val : c)));
   const removeCountry = (idx: number) => setCountries(countries.filter((_, i) => i !== idx));
 
   const handleSearch = () => {
-    console.log({ searchQuery, region, languages, countries });
+    console.log({ searchQuery, region, language, countries });
   };
 
   return (
@@ -44,11 +41,9 @@ const SearchContent = () => {
       />
 
       <UniversityFilterSection
-        languages={languages}
-        onAddLanguage={addLanguage}
-        onLanguageChange={changeLanguage}
-        onRemoveLanguage={removeLanguage}
-        languageOptions={["TOEIC", "TOEFL", "IELTS"]}
+        language={language}
+        setLanguage={setLanguage}
+        languageOptions={Object.values(LanguageTestEnum)}
         countries={countries}
         onAddCountry={addCountry}
         onCountryChange={changeCountry}
