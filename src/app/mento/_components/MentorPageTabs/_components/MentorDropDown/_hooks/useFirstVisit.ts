@@ -6,7 +6,12 @@ import { useEffect, useState } from "react";
 // 로컬스토리지 관련 로직 분리가필요 허나 비즈니스 로직 관련 폴더가 없어 논의 필요
 const MENTO_FIRST_VISIT_LOCAL_STORAGE_KEY = "mentor-dropdown-first-visit";
 
-export default function useFirstVisit() {
+interface UseFirstVisitReturn {
+  isFirstVisit: boolean;
+  markAsVisited: () => void;
+}
+
+const useFirstVisit = (): UseFirstVisitReturn => {
   const [isFirstVisit, setIsFirstVisit] = useState<boolean>(false);
 
   // 첫 방문 확인 및 메시지 표시 로직
@@ -26,4 +31,6 @@ export default function useFirstVisit() {
     isFirstVisit,
     markAsVisited,
   };
-}
+};
+
+export default useFirstVisit;

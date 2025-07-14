@@ -1,4 +1,4 @@
-import useSelectHandler from "./_hooks/usedds";
+import useSelectHandler from "./_hooks/useSelectHandler";
 
 import { ChannelType } from "@/types/mentor";
 

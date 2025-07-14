@@ -2,13 +2,13 @@ import { useState } from "react";
 
 import { MenteeTab } from "@/types/mentor";
 
-interface MenteeHandler {
+interface UseSelectTabHandlerReturn {
   selectedTab: MenteeTab;
   handleTabChange: (tab: MenteeTab) => void;
   handleViewAllClick: () => void;
 }
 
-const useMenteeHandler = (): MenteeHandler => {
+const useSelectTabHandler = (): UseSelectTabHandlerReturn => {
   const [selectedTab, setSelectedTab] = useState<MenteeTab>(MenteeTab.MY_MENTOR);
 
   const handleViewAllClick = () => {
@@ -30,4 +30,4 @@ const useMenteeHandler = (): MenteeHandler => {
     handleViewAllClick,
   };
 };
-export default useMenteeHandler;
+export default useSelectTabHandler;

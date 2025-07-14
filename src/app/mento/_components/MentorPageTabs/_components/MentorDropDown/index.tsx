@@ -1,9 +1,9 @@
 import ReusableDropdown, { DropdownItem } from "@/components/ui/ReusableDropdown";
 import ToolTipMessage from "@/components/ui/TooltipMessage";
 
-import { MentorTab } from "@/types/mentor";
+import useFirstVisit from "./_hooks/useFirstVisit";
 
-import useFirstVisit from "@/app/mento/_components/MentorPageTabs/_components/MentorDropDown/hooks/useFirstVisit";
+import { MentorTab } from "@/types/mentor";
 
 const mentoDropdownItems: DropdownItem[] = [
   {
