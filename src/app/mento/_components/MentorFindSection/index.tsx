@@ -4,8 +4,8 @@ import { useState } from "react";
 
 import { getMentorListData } from "@/utils/mockingGetData";
 
-import MentorCard from "../../../components/mentor/MentorCard";
-import EmptyMentorChatCards from "../../../components/ui/EmptySdwBCards";
+import MentorCard from "@/components/mentor/MentorCard";
+import EmptySdwBCards from "@/components/ui/EmptySdwBCards";
 
 import { FilterTab } from "@/types/mentor";
 
@@ -35,7 +35,7 @@ const MentorFindSection = () => {
       {/* 멘토 리스트 */}
       <div className="space-y-4">
         {filteredMentors.length === 0 ? (
-          <EmptyMentorChatCards message="멘토가 없습니다. 필터를 변경해보세요." />
+          <EmptySdwBCards message="멘토가 없습니다. 필터를 변경해보세요." />
         ) : (
           filteredMentors.map((mentor) => <MentorCard key={mentor.id} mentor={mentor} />)
         )}

@@ -5,26 +5,26 @@ import { MentorTab } from "@/types/mentor";
 
 import useFirstVisit from "@/hooks/useFirstVisit";
 
-type MentorDropDownProps = {
+const mentoDropdownItems: DropdownItem[] = [
+  {
+    id: "my-mentor",
+    label: MentorTab.MY_MENTOR,
+    value: MentorTab.MY_MENTOR,
+  },
+  {
+    id: "my-mentee",
+    label: MentorTab.MY_MENTEE,
+    value: MentorTab.MY_MENTEE,
+  },
+];
+
+interface MentorDropDownProps {
   selectedTab: string;
   setSelectedTab: React.Dispatch<React.SetStateAction<MentorTab>>;
-};
+}
 
 const MentorDropDown = ({ selectedTab, setSelectedTab }: MentorDropDownProps) => {
   const { isFirstVisit } = useFirstVisit();
-
-  const dropdownItems: DropdownItem[] = [
-    {
-      id: "my-mentor",
-      label: MentorTab.MY_MENTOR,
-      value: MentorTab.MY_MENTOR,
-    },
-    {
-      id: "my-mentee",
-      label: MentorTab.MY_MENTEE,
-      value: MentorTab.MY_MENTEE,
-    },
-  ];
 
   const handleSelect = (value: string) => {
     setSelectedTab(value as MentorTab);
@@ -32,7 +32,7 @@ const MentorDropDown = ({ selectedTab, setSelectedTab }: MentorDropDownProps) =>
 
   return (
     <div className="relative h-[40px] w-[120px]">
-      <ReusableDropdown items={dropdownItems} selectedValue={selectedTab} onSelect={handleSelect} />
+      <ReusableDropdown items={mentoDropdownItems} selectedValue={selectedTab} onSelect={handleSelect} />
 
       {/* 첫 방문 메시지 모달 */}
       {isFirstVisit && (

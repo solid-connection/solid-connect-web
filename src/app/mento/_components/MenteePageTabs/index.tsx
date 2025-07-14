@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
-
 import { getMenteeListData, getMentorListData } from "@/utils/mockingGetData";
 
 import MentorChatCard from "@/components/mentor/MentorChatCard";
 import EmptyMentorChatCards from "@/components/ui/EmptySdwBCards";
+
+import useMenteeHandler from "./_hooks/useMenteeHandler";
 
 import { MenteeTab } from "@/types/mentor";
 
@@ -17,27 +17,16 @@ const MenteePageTabs = () => {
   const waitingMentoList = getMenteeListData();
 
   // state
-  const [selectedTab, setSelectedTab] = useState<MenteeTab>(MenteeTab.MY_MENTOR);
+  const { selectedTab, handleTabChange, handleViewAllClick } = useMenteeHandler();
 
-  // 현재 선택된 탭에 따른 데이터와 결정
   const currentData = selectedTab === MenteeTab.MY_MENTOR ? mentoList : waitingMentoList;
-
-  const handleViewAllClick = () => {
-    if (selectedTab === MenteeTab.MY_MENTOR) {
-      console.log("전체보기 클릭: 진행 중인 멘토링");
-      // 전체보기 페이지로 이동하는 로직
-    } else {
-      console.log("전체보기 클릭: 신청 목록");
-      // 전체보기 페이지로 이동하는 로직
-    }
-  };
 
   return (
     <>
       <header className="bg-white">
         <div className="flex border-b border-gray-200">
           <button
-            onClick={() => setSelectedTab(MenteeTab.MY_MENTOR)}
+            onClick={() => handleTabChange(MenteeTab.MY_MENTOR)}
             className={`flex-1 py-4 text-center text-base font-medium ${
               selectedTab === MenteeTab.MY_MENTOR ? "border-b-2 border-primary text-primary" : "text-k-500"
             }`}
@@ -45,7 +34,7 @@ const MenteePageTabs = () => {
             나의 멘토
           </button>
           <button
-            onClick={() => setSelectedTab(MenteeTab.MY_APPLIED)}
+            onClick={() => handleTabChange(MenteeTab.MY_APPLIED)}
             className={`flex-1 py-4 text-center text-base font-medium ${
               selectedTab === MenteeTab.MY_APPLIED ? "border-b-2 border-primary text-primary" : "text-k-500"
             }`}
