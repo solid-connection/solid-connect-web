@@ -18,7 +18,7 @@ const MentorPage = () => {
   const myMentoData = getMentorData();
 
   return (
-    <>
+    <div className="px-5">
       {isMentor ? (
         // 멘토페이지
         <>
@@ -43,7 +43,7 @@ const MentorPage = () => {
           <MentorFindSection />
         </>
       )}
-    </>
+    </div>
   );
 };
 

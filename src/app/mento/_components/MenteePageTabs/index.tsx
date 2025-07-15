@@ -47,7 +47,7 @@ const MenteePageTabs = () => {
       <div className="mb-3 mt-5 flex justify-between">
         <div className="flex items-center">
           <h2 className="mr-2 text-lg font-semibold text-k-900">
-            {selectedTab === MenteeTab.MY_MENTOR ? "진행 중인 멘토링" : "신청 목록"}
+            {selectedTab === MenteeTab.MY_MENTOR ? "진행 중인 멘토링" : "대기 중인 멘토링"}
           </h2>
           {currentData.length > 2 && (
             <span className="rounded-2xl bg-primary-1 px-2 text-k-0">{currentData.length - 2}+</span>

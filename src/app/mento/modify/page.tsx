@@ -48,7 +48,7 @@ const MentorModifyPage = () => {
   };
 
   return (
-    <div className="min-h-screen px-4">
+    <div className="px-5">
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* Profile Header */}
         <div className="gap-4">
