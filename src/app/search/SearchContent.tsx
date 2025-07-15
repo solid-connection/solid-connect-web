@@ -11,8 +11,20 @@ import { LanguageTestEnum } from "@/types/score";
 import { RegionKo } from "@/types/university";
 
 const SearchContent = () => {
+  // 권역 필터링
   const searchQueryRef = useRef<HTMLInputElement>(null);
   const [region, setRegion] = useState<RegionKo | null>(null);
+
+  const changeRegion = (value: string | null) => {
+    if (value === null) {
+      setRegion(null);
+      return;
+    }
+    if (!["유럽권", "미주권", "아시아권"].includes(value)) {
+      console.error("유효하지 않은 지역 선택");
+    }
+    setRegion(value as RegionKo);
+  };
 
   // 어학/국가 필터링
   const [language, setLanguage] = useState<string>("");
@@ -49,8 +61,8 @@ const SearchContent = () => {
           { label: "미주권", value: "미주권" },
           { label: "아시아권", value: "아시아권" },
         ]}
-        selected={region}
-        changeRegion={setRegion}
+        region={region}
+        changeRegion={changeRegion}
       />
 
       <UniversityFilterSection

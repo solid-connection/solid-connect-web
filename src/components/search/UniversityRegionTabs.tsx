@@ -12,7 +12,7 @@ interface RegionOption {
 interface UniversityRegionTabsProps {
   regions: RegionOption[];
   region: RegionKo | null;
-  changeRegion: (value: RegionKo | null) => void;
+  changeRegion: (value: string | null) => void;
 }
 
 const UniversityRegionTabs = ({ regions, region, changeRegion }: UniversityRegionTabsProps) => {
