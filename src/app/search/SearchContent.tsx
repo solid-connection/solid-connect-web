@@ -10,6 +10,17 @@ import UniversitySearchInput from "@/components/search/UniversitySearchInput";
 import { LanguageTestEnum } from "@/types/score";
 import { RegionKo } from "@/types/university";
 
+export interface RegionOption {
+  label: string;
+  value: RegionKo;
+}
+
+const regions: RegionOption[] = [
+  { label: "유럽권", value: "유럽권" },
+  { label: "미주권", value: "미주권" },
+  { label: "아시아권", value: "아시아권" },
+];
+
 const SearchContent = () => {
   // 권역 필터링
   const searchQueryRef = useRef<HTMLInputElement>(null);
@@ -39,7 +50,7 @@ const SearchContent = () => {
 
   const changeCountry = (index: number, newCountry: string) => {
     setCountries((prevCountries) => {
-      // 이후 나라 체크 로직 추가하기
+      // TODO: 이후 나라 체크 로직 추가하기
       const updatedCountries = [...prevCountries];
       updatedCountries[index] = newCountry;
       return updatedCountries;
@@ -55,15 +66,7 @@ const SearchContent = () => {
     <div className="flex flex-col gap-4 px-5 pb-8">
       <UniversitySearchInput ref={searchQueryRef} placeholder="해외 파견 학교를 검색하세요." />
 
-      <UniversityRegionTabs
-        regions={[
-          { label: "유럽권", value: "유럽권" },
-          { label: "미주권", value: "미주권" },
-          { label: "아시아권", value: "아시아권" },
-        ]}
-        region={region}
-        changeRegion={changeRegion}
-      />
+      <UniversityRegionTabs regions={regions} region={region} changeRegion={changeRegion} />
 
       <UniversityFilterSection
         language={language}
