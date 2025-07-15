@@ -6,6 +6,7 @@ import IconGraduation from "./graduation.svg";
 import IconPencil from "./pencil.svg";
 import IconPlus from "./plus.svg";
 import IconPoligon from "./poligon.svg";
+import IconSearchBlue from "./search-blue.svg";
 import IconSolidConnentionLogo from "./solid-connection-logo.svg";
 import IconUserPrimaryColor from "./user-primary-color.svg";
 
@@ -20,4 +21,5 @@ export {
   IconPencil,
   IconPlus,
   IconSolidConnentionLogo,
+  IconSearchBlue,
 };
