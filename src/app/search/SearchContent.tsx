@@ -50,7 +50,7 @@ const SearchContent = () => {
           { label: "아시아권", value: "아시아권" },
         ]}
         selected={region}
-        onSelect={setRegion}
+        changeRegion={setRegion}
       />
 
       <UniversityFilterSection

@@ -11,31 +11,31 @@ interface RegionOption {
 
 interface UniversityRegionTabsProps {
   regions: RegionOption[];
-  selected: string | null;
-  onSelect: (value: RegionKo | null) => void;
+  region: RegionKo | null;
+  changeRegion: (value: RegionKo | null) => void;
 }
 
-const UniversityRegionTabs = ({ regions, selected, onSelect }: UniversityRegionTabsProps) => {
+const UniversityRegionTabs = ({ regions, region, changeRegion }: UniversityRegionTabsProps) => {
   return (
     <div className="flex gap-2.5">
-      {regions.map((region) => (
+      {regions.map((r) => (
         <button
-          key={region.value}
+          key={r.value}
           onClick={() => {
-            if (selected === region.value) {
-              onSelect(null);
+            if (region === r.value) {
+              changeRegion(null);
               return;
             }
 
-            onSelect(region.value);
+            changeRegion(r.value);
           }}
           className={`rounded-full px-3 py-[5px] text-[11px] font-semibold leading-normal transition ${
-            selected === region.value
+            region === r.value
               ? "border border-primary bg-primary-100 text-primary-900"
               : "border border-k-50 bg-k-50 text-k-300"
           }`}
         >
-          {region.label}
+          {r.label}
         </button>
       ))}
     </div>
