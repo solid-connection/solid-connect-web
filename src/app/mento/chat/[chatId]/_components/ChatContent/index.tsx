@@ -141,7 +141,8 @@ const ChatContent = () => {
               type="text"
               className="flex-1 bg-transparent pl-3 text-[14px] text-k-800 outline-none placeholder:text-k-500"
               {...register("message", { required: true })}
-              placeholder="메시지를 입력하세요..."
+              placeholder={isDistributeTime ? "지금은 방해 금지 시간이에요. (00:00~08:00)" : "메시지를 입력하세요..."}
+              disabled={isDistributeTime}
               onKeyDown={(e) => {
                 if (e.key === "Enter" && !e.shiftKey) {
                   e.preventDefault();
