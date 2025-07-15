@@ -27,6 +27,13 @@ export interface Channel {
   url: string;
 }
 
+export interface ChatMessage {
+  id: number;
+  sender: "me" | "other";
+  senderName: string;
+  message: string;
+  time: Date;
+}
 export enum MentorStudyStatus {
   STUDYING = "수학 중인 멘토",
   SCHEDULED = "수학 예정 멘토",

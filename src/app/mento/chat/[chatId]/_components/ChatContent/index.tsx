@@ -5,20 +5,16 @@ import { useForm } from "react-hook-form";
 
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
 
-interface Message {
-  id: number;
-  sender: "me" | "other";
-  senderName: string;
-  message: string;
-  time: Date;
-}
+import ChatMessageBox from "./_components/ChatMessageBox";
+
+import { ChatMessage } from "@/types/mentor";
 
 interface MessageForm {
   message: string;
 }
 
 // 더미 채팅 데이터
-const messages: Message[] = [
+const messages: ChatMessage[] = [
   {
     id: 1,
     sender: "other",
@@ -70,11 +66,11 @@ const isSameDay = (date1: Date, date2: Date) => {
 
 const ChatContent = () => {
   const { register, handleSubmit, reset, watch } = useForm<MessageForm>();
-  const [submittedMessages, setSubmittedMessages] = useState<Message[]>(messages);
+  const [submittedMessages, setSubmittedMessages] = useState<ChatMessage[]>(messages);
 
   const onSubmit = (data: MessageForm) => {
     if (data.message.trim()) {
-      const newMessage: Message = {
+      const newMessage: ChatMessage = {
         id: submittedMessages.length + 1,
         sender: "me",
         senderName: "나",
@@ -91,8 +87,8 @@ const ChatContent = () => {
   return (
     <div className="relative flex h-[calc(100vh-112px)] flex-col px-5">
       {/* Floating 멘토 정보 영역 */}
-      <div className="z-10 mt-5 flex h-16 w-full items-center rounded bg-primary-100 px-2.5 py-2">
-        <div className="flex w-full items-center justify-between">
+      <div className="z-10 mt-5 h-16 w-full">
+        <div className="flex w-full items-center justify-between rounded bg-primary-100 px-2.5 py-2">
           <div className="flex items-center gap-2">
             <ProfileWithBadge width={24} height={24} />
             <div className="flex h-full items-center">
@@ -105,53 +101,31 @@ const ChatContent = () => {
           </div>
           <button className="rounded-3xl bg-primary px-4 py-2 text-sm font-semibold text-k-0">멘토 페이지</button>
         </div>
+        <div className="rounded bg-white px-4 py-2">
+          <p className="bg-gradient-to-r from-primary to-sub-a bg-clip-text text-center text-sm font-semibold text-transparent">
+            멘토링이 연결되었습니다! 채팅을 시작해보세요!
+          </p>
+        </div>
       </div>
 
       {/* 채팅 메시지 영역 */}
-      <div className="flex-1 overflow-y-auto p-4 pb-0 pt-28">
+      <div className="flex-1 overflow-y-auto p-4 pb-0">
         <div className="space-y-4">
-          {submittedMessages.map((msg, index) => {
-            const showDateSeparator = index === 0 || !isSameDay(submittedMessages[index - 1].time, msg.time);
+          {submittedMessages.map((message, index) => {
+            const showDateSeparator = index === 0 || !isSameDay(submittedMessages[index - 1].time, message.time);
 
             return (
-              <div key={msg.id}>
+              <div key={message.id}>
                 {/* 날짜 구분선 */}
                 {showDateSeparator && (
-                  <div className="my-4 flex items-center">
-                    <div className="flex-1 border-t border-gray-200"></div>
-                    <div className="rounded-full bg-gray-100 px-4 py-2">
-                      <span className="text-sm text-gray-600">{formatDateSeparator(msg.time)}</span>
-                    </div>
-                    <div className="flex-1 border-t border-gray-200"></div>
+                  <div className="my-4 mb-6 flex w-full justify-center">
+                    <span className="rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-600">
+                      {formatDateSeparator(message.time)}
+                    </span>
                   </div>
                 )}
-
                 {/* 일반 채팅 메시지 */}
-                <div className={`flex ${msg.sender === "me" ? "justify-end" : "justify-start"}`}>
-                  <div className={`flex max-w-xs gap-2 ${msg.sender === "me" ? "flex-row-reverse" : "flex-row"}`}>
-                    {msg.sender !== "me" && <ProfileWithBadge width={32} height={32} />}
-
-                    <div className={`flex flex-col ${msg.sender === "me" ? "items-end" : "items-start"}`}>
-                      {msg.sender !== "me" && (
-                        <span className="mb-1 text-xs font-medium text-k-900">{msg.senderName}</span>
-                      )}
-
-                      <div className="flex items-end gap-1">
-                        {msg.sender === "me" && <span className="text-xs text-k-500">{formatTime(msg.time)}</span>}
-
-                        <div
-                          className={`rounded-2xl px-3 py-2 ${
-                            msg.sender === "me" ? "bg-primary text-white" : "bg-k-100 text-k-900"
-                          }`}
-                        >
-                          <p className="whitespace-pre-line text-sm">{msg.message}</p>
-                        </div>
-
-                        {msg.sender !== "me" && <span className="text-xs text-k-500">{formatTime(msg.time)}</span>}
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <ChatMessageBox key={message.id} message={message} />
               </div>
             );
           })}
