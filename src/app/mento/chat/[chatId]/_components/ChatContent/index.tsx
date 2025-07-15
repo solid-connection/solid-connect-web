@@ -89,16 +89,21 @@ const ChatContent = () => {
   const messageValue = watch("message", "");
 
   return (
-    <div className="flex h-[calc(100vh-112px)] flex-col">
+    <div className="relative flex h-[calc(100vh-112px)] flex-col px-5">
       {/* Floating 멘토 정보 영역 */}
-      <div className="absolute left-1/2 top-20 z-10 -translate-x-1/2 transform">
-        <div className="flex h-16 w-[350px] items-center gap-[43px] rounded bg-primary-100 px-2.5 py-2 shadow-lg">
-          <ProfileWithBadge width={40} height={40} />
-          <div className="flex flex-col">
-            <span className="text-sm font-semibold text-k-900">김솔커 멘토</span>
-            <span className="text-xs text-k-600">스마트팜 / 뮌헨기술대학</span>
+      <div className="z-10 mt-5 flex h-16 w-full items-center rounded bg-primary-100 px-2.5 py-2">
+        <div className="flex w-full items-center justify-between">
+          <div className="flex items-center gap-2">
+            <ProfileWithBadge width={24} height={24} />
+            <div className="flex h-full items-center">
+              <span className="text-base font-semibold text-k-700">김솔커 멘토</span>
+              <div className="mx-4 h-10 w-[1px] bg-k-100"></div>
+              <div className="flex text-sm font-medium text-primary">
+                스웨덴 <br /> 대학교 컴퓨터공학과
+              </div>
+            </div>
           </div>
-          <button className="rounded-lg bg-primary px-3 py-1.5 text-xs font-medium text-white">멘토 페이지</button>
+          <button className="rounded-3xl bg-primary px-4 py-2 text-sm font-semibold text-k-0">멘토 페이지</button>
         </div>
       </div>
 
@@ -154,7 +159,7 @@ const ChatContent = () => {
       </div>
 
       {/* 메시지 입력 영역 - 하단 고정 */}
-      <div className="flex-shrink-0 border-t bg-white p-4">
+      <div className="border-t p-4">
         <form onSubmit={handleSubmit(onSubmit)} className="flex items-end gap-2">
           <button type="button" className="flex h-10 w-10 items-center justify-center rounded-full bg-k-100">
             <span className="text-k-600">📷</span>
@@ -166,7 +171,6 @@ const ChatContent = () => {
               placeholder="댓글을 입력해 주세요"
               className="w-full resize-none border-none text-sm outline-none placeholder:text-k-400"
               rows={1}
-              style={{ minHeight: "20px", maxHeight: "80px" }}
               onKeyDown={(e) => {
                 if (e.key === "Enter" && !e.shiftKey) {
                   e.preventDefault();
