@@ -1,5 +1,7 @@
 import IconAlert from "./alert.svg";
+import IconCamera from "./camera.svg";
 import IconDefaultProfile from "./default-profile.svg";
+import IconDirectMessage from "./direct-message.svg";
 import IconDirectionDown from "./direction-down.svg";
 import IconDirectionRight from "./direction-right.svg";
 import IconDirectionUp from "./direction-up.svg";
@@ -26,4 +28,6 @@ export {
   IconSolidConnentionLogo,
   IconSearchBlue,
   IconSetting,
+  IconCamera,
+  IconDirectMessage,
 };
