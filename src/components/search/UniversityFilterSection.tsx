@@ -9,22 +9,22 @@ import { IconDownArrow, IconHatColor, IconHatGray, IconLocationColor, IconLocati
 interface UniversityFilterSectionProps {
   // 어학
   language: string;
-  setLanguage: Dispatch<SetStateAction<string>>;
+  changeLanguage: (country: string) => void;
   languageOptions: string[];
 
   // 국가
   countries: string[];
-  setCountries: Dispatch<SetStateAction<string[]>>;
+  changeCountry: (index: number, country: string) => void;
   countryOptions: string[];
 }
 
 const UniversityFilterSection = ({
   language,
-  setLanguage,
+  changeLanguage,
   languageOptions,
 
   countries,
-  setCountries,
+  changeCountry,
   countryOptions,
 }: UniversityFilterSectionProps) => {
   return (
@@ -46,7 +46,7 @@ const UniversityFilterSection = ({
               language ? "text-primary" : "text-k-300",
             )}
             value={language}
-            onChange={(e) => setLanguage(e.target.value)}
+            onChange={(e) => changeLanguage(e.target.value)}
           >
             <option value="">선택</option>
             {languageOptions.map((opt) => (
@@ -80,7 +80,7 @@ const UniversityFilterSection = ({
                       countries[i] ? "text-primary" : "text-k-300",
                     )}
                     value={countries[i]}
-                    onChange={(e) => setCountries(countries.map((c, idx) => (idx === i ? e.target.value : c)))}
+                    onChange={(e) => changeCountry(i, e.target.value)}
                   >
                     <option value="">나라</option>
                     {countryOptions.map((opt) => (

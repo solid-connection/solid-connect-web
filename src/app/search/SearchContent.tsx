@@ -18,9 +18,21 @@ const SearchContent = () => {
   const [language, setLanguage] = useState<string>("");
   const [countries, setCountries] = useState<string[]>(["", "", ""]);
 
-  const addCountry = () => setCountries([...countries, "선택"]);
-  const changeCountry = (idx: number, val: string) => setCountries(countries.map((c, i) => (i === idx ? val : c)));
-  const removeCountry = (idx: number) => setCountries(countries.filter((_, i) => i !== idx));
+  const changeLanguage = (newLanguage: string) => {
+    if (!Object.values(LanguageTestEnum).includes(newLanguage as LanguageTestEnum)) {
+      console.error("유효하지 않은 어학 성적 선택");
+    }
+    setLanguage(newLanguage);
+  };
+
+  const changeCountry = (index: number, newCountry: string) => {
+    setCountries((prevCountries) => {
+      // 이후 나라 체크 로직 추가하기
+      const updatedCountries = [...prevCountries];
+      updatedCountries[index] = newCountry;
+      return updatedCountries;
+    });
+  };
 
   const handleSearch = () => {
     const query = searchQueryRef.current?.value ?? "";
@@ -43,10 +55,10 @@ const SearchContent = () => {
 
       <UniversityFilterSection
         language={language}
-        setLanguage={setLanguage}
+        changeLanguage={changeLanguage}
         languageOptions={Object.values(LanguageTestEnum)}
         countries={countries}
-        setCountries={setCountries}
+        changeCountry={changeCountry}
         countryOptions={["오스트레일리아", "체코", "캐나다"]}
       />
 
