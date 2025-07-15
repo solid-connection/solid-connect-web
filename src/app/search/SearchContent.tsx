@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import BlockBtn from "@/components/button/BlockBtn";
 import UniversityFilterSection from "@/components/search/UniversityFilterSection";
@@ -11,7 +11,7 @@ import { LanguageTestEnum } from "@/types/score";
 import { RegionKo } from "@/types/university";
 
 const SearchContent = () => {
-  const [searchQuery, setSearchQuery] = useState<string>("");
+  const searchQueryRef = useRef<HTMLInputElement>(null);
   const [region, setRegion] = useState<RegionKo | null>(null);
 
   // 어학/국가 필터링
@@ -23,12 +23,13 @@ const SearchContent = () => {
   const removeCountry = (idx: number) => setCountries(countries.filter((_, i) => i !== idx));
 
   const handleSearch = () => {
-    console.log({ searchQuery, region, language, countries });
+    const query = searchQueryRef.current?.value ?? "";
+    console.log({ query, region, language, countries });
   };
 
   return (
     <div className="flex flex-col gap-4 px-5 pb-8">
-      <UniversitySearchInput value={searchQuery} onChange={setSearchQuery} placeholder="해외 파견 학교를 검색하세요." />
+      <UniversitySearchInput ref={searchQueryRef} placeholder="해외 파견 학교를 검색하세요." />
 
       <UniversityRegionTabs
         regions={[
