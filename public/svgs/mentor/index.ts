@@ -1,3 +1,4 @@
+import IconAlert from "./alert.svg";
 import IconDefaultProfile from "./default-profile.svg";
 import IconDirectionDown from "./direction-down.svg";
 import IconDirectionRight from "./direction-right.svg";
@@ -7,10 +8,12 @@ import IconPencil from "./pencil.svg";
 import IconPlus from "./plus.svg";
 import IconPoligon from "./poligon.svg";
 import IconSearchBlue from "./search-blue.svg";
+import IconSetting from "./setting.svg";
 import IconSolidConnentionLogo from "./solid-connection-logo.svg";
 import IconUserPrimaryColor from "./user-primary-color.svg";
 
 export {
+  IconAlert,
   IconDirectionDown,
   IconDefaultProfile,
   IconDirectionUp,
@@ -22,4 +25,5 @@ export {
   IconPlus,
   IconSolidConnentionLogo,
   IconSearchBlue,
+  IconSetting,
 };
