@@ -44,8 +44,8 @@ const MenteePageTabs = () => {
         </div>
       </header>
 
-      <div className="flex justify-between">
-        <div className="mt-5 flex items-center">
+      <div className="mb-3 mt-5 flex justify-between">
+        <div className="flex items-center">
           <h2 className="mr-2 text-lg font-semibold text-k-900">
             {selectedTab === MenteeTab.MY_MENTOR ? "진행 중인 멘토링" : "신청 목록"}
           </h2>
