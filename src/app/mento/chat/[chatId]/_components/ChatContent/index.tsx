@@ -89,9 +89,9 @@ const ChatContent = () => {
   const messageValue = watch("message", "");
 
   return (
-    <div className="relative flex h-full flex-col">
+    <div className="flex h-[calc(100vh-112px)] flex-col">
       {/* Floating 멘토 정보 영역 */}
-      <div className="absolute left-1/2 top-4 z-10 -translate-x-1/2 transform">
+      <div className="absolute left-1/2 top-20 z-10 -translate-x-1/2 transform">
         <div className="flex h-16 w-[350px] items-center gap-[43px] rounded bg-primary-100 px-2.5 py-2 shadow-lg">
           <ProfileWithBadge width={40} height={40} />
           <div className="flex flex-col">
@@ -103,7 +103,7 @@ const ChatContent = () => {
       </div>
 
       {/* 채팅 메시지 영역 */}
-      <div className="flex-1 overflow-y-auto p-4 pt-24">
+      <div className="flex-1 overflow-y-auto p-4 pb-0 pt-28">
         <div className="space-y-4">
           {submittedMessages.map((msg, index) => {
             const showDateSeparator = index === 0 || !isSameDay(submittedMessages[index - 1].time, msg.time);
@@ -154,7 +154,7 @@ const ChatContent = () => {
       </div>
 
       {/* 메시지 입력 영역 - 하단 고정 */}
-      <div className="border-t bg-white p-4">
+      <div className="flex-shrink-0 border-t bg-white p-4">
         <form onSubmit={handleSubmit(onSubmit)} className="flex items-end gap-2">
           <button type="button" className="flex h-10 w-10 items-center justify-center rounded-full bg-k-100">
             <span className="text-k-600">📷</span>

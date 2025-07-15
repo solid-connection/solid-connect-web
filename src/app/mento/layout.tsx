@@ -13,10 +13,10 @@ const CHAT_NAVIGATION_TITLES = {
 
 const MentoLayout = ({ children }: MentoLayoutProps) => {
   return (
-    <div className="min-h-screen">
+    <>
       <PathBasedNavigation customTitles={CHAT_NAVIGATION_TITLES} />
       {children}
-    </div>
+    </>
   );
 };
 

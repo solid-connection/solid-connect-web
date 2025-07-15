@@ -8,10 +8,10 @@ interface ChatDetailPageProps {
 const ChatDetailPage = ({ params }: ChatDetailPageProps) => {
   const { chatId } = params;
   return (
-    <>
+    <div className="flex h-screen flex-col">
       <ChatNavBar />
       <ChatContent />
-    </>
+    </div>
   );
 };
 
