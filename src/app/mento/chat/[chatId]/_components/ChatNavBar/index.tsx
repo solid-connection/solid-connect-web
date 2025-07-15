@@ -40,9 +40,9 @@ const ChatNavBar = () => {
         <div className="fixed right-0 top-0 z-50 h-[100vh] w-80 overflow-y-auto rounded-l-2xl bg-white p-4">
           {/* 멘토 프로필 섹션 */}
           <div className="w-full">
-            <div className="h-[30px] w-[30px]">
+            <button className="h-[30px] w-[30px]" onClick={() => setIsExpanded(false)} aria-label="뒤로가기">
               <IconDirectionRight />
-            </div>
+            </button>
           </div>
           <div className="mb-6 flex flex-col items-center">
             <ProfileWithBadge width={64} height={64} />

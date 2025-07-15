@@ -1,3 +1,4 @@
+import ChatContent from "./_components/ChatContent";
 import ChatNavBar from "./_components/ChatNavBar";
 
 interface ChatDetailPageProps {
@@ -5,10 +6,11 @@ interface ChatDetailPageProps {
 }
 
 const ChatDetailPage = ({ params }: ChatDetailPageProps) => {
+  const { chatId } = params;
   return (
     <>
       <ChatNavBar />
-      Chat ID: {params.chatId}
+      <ChatContent />
     </>
   );
 };
