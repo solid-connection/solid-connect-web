@@ -9,6 +9,8 @@ type IconConfirmCancelModalProps = {
   handleCancel: () => void;
   cancelText?: string;
   approveText?: string;
+  isOneButton?: boolean; // 한 개 버튼 모드 추가
+  buttonText?: string; // 한 개 버튼일 때 텍스트
 };
 
 const IconConfirmCancelModal = ({
@@ -20,6 +22,8 @@ const IconConfirmCancelModal = ({
   handleCancel,
   cancelText = "취소",
   approveText = "확인",
+  isOneButton = false,
+  buttonText = "확인",
 }: IconConfirmCancelModalProps) => {
   if (!isOpen) return null;
 
@@ -39,22 +43,36 @@ const IconConfirmCancelModal = ({
             </span>
           </div>
           <div className="mt-5 flex items-center justify-center gap-1">
-            <button
-              className="flex h-11 w-36 cursor-pointer items-center justify-center rounded-3xl border border-[#c2c2c2] bg-white px-1.5 py-2"
-              onClick={handleCancel}
-              type="button"
-            >
-              <span className="text-center font-serif text-base font-normal leading-4 text-[#3c3c3c]">
-                {cancelText}
-              </span>
-            </button>
-            <button
-              className="flex h-11 w-36 cursor-pointer items-center justify-center rounded-3xl bg-primary px-1.5 py-2"
-              onClick={handleConfirm}
-              type="button"
-            >
-              <span className="text-center font-serif text-base font-normal leading-4 text-white">{approveText}</span>
-            </button>
+            {isOneButton ? (
+              <button
+                className="flex h-11 w-36 cursor-pointer items-center justify-center rounded-3xl bg-primary px-1.5 py-2"
+                onClick={handleConfirm}
+                type="button"
+              >
+                <span className="text-center font-serif text-base font-normal leading-4 text-white">{buttonText}</span>
+              </button>
+            ) : (
+              <>
+                <button
+                  className="flex h-11 w-36 cursor-pointer items-center justify-center rounded-3xl border border-[#c2c2c2] bg-white px-1.5 py-2"
+                  onClick={handleCancel}
+                  type="button"
+                >
+                  <span className="text-center font-serif text-base font-normal leading-4 text-[#3c3c3c]">
+                    {cancelText}
+                  </span>
+                </button>
+                <button
+                  className="flex h-11 w-36 cursor-pointer items-center justify-center rounded-3xl bg-primary px-1.5 py-2"
+                  onClick={handleConfirm}
+                  type="button"
+                >
+                  <span className="text-center font-serif text-base font-normal leading-4 text-white">
+                    {approveText}
+                  </span>
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>

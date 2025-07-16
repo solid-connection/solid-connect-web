@@ -2,6 +2,7 @@ import ChannelBadge from "@/components/ui/ChannelBadge";
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
 
 import MentoArticle from "./_components/MentoArticle";
+import MentorAppliePanel from "./_components/MentorAppliePanel";
 
 import { Article, ChannelType } from "@/types/mentor";
 
@@ -97,6 +98,11 @@ const MentorDetialContent = () => {
         {articles.map((article) => (
           <MentoArticle key={article.id} article={article} />
         ))}
+      </div>
+      <div className="pointer-events-none fixed bottom-20 left-0 right-0 flex justify-center">
+        <div className="pointer-events-auto">
+          <MentorAppliePanel isDistribute={false} isAleadyMatch={false} />
+        </div>
       </div>
     </>
   );
