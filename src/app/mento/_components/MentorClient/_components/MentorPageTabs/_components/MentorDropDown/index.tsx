@@ -5,6 +5,8 @@ import useFirstVisit from "./_hooks/useFirstVisit";
 
 import { MentorTab } from "@/types/mentor";
 
+import { IconDirectionDown } from "@/public/svgs/mentor";
+
 const mentoDropdownItems: DropdownItem[] = [
   {
     id: "my-mentor",
@@ -30,9 +32,19 @@ const MentorDropDown = ({ selectedTab, setSelectedTab }: MentorDropDownProps) =>
     setSelectedTab(value as MentorTab);
   };
 
+  const selectedItem = mentoDropdownItems.find((item) => item.value === selectedTab);
+  const displayText = selectedItem ? selectedItem.label : "";
+
   return (
-    <div className="relative h-[40px] w-[120px]">
-      <ReusableDropdown items={mentoDropdownItems} selectedValue={selectedTab} onSelect={handleSelect} />
+    <div className="relative h-[40px] w-[140px]">
+      <ReusableDropdown items={mentoDropdownItems} selectedValue={selectedTab} onSelect={handleSelect}>
+        <button className="flex h-full w-full items-center justify-between px-4 text-lg font-semibold leading-normal text-k-900">
+          {displayText}
+          <span className="h-[30px] w-[30px]">
+            <IconDirectionDown />
+          </span>
+        </button>
+      </ReusableDropdown>
 
       {/* 첫 방문 메시지 모달 */}
       {isFirstVisit && (

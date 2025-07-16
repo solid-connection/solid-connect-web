@@ -1,6 +1,4 @@
-import { useState } from "react";
-
-import { IconDirectionDown } from "@/public/svgs/mentor";
+import { useEffect, useRef, useState } from "react";
 
 export interface DropdownItem {
   id: string;
@@ -12,21 +10,14 @@ interface ReusableDropdownProps {
   items: DropdownItem[];
   selectedValue: string;
   onSelect: (value: string) => void;
-  placeholder?: string;
   className?: string;
+  children: React.ReactNode; // 버튼을 자식으로 받기
 }
 
-const ReusableDropdown = ({
-  items,
-  selectedValue,
-  onSelect,
-  placeholder = "선택하세요",
-  className = "",
-}: ReusableDropdownProps) => {
+const ReusableDropdown = ({ items, selectedValue, onSelect, className = "", children }: ReusableDropdownProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-
-  const selectedItem = items.find((item) => item.value === selectedValue);
-  const displayText = selectedItem ? selectedItem.label : placeholder;
+  const [dropdownPosition, setDropdownPosition] = useState<"left" | "right">("left");
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -37,20 +28,42 @@ const ReusableDropdown = ({
     setIsOpen(false);
   };
 
+  useEffect(() => {
+    if (isOpen && dropdownRef.current) {
+      const rect = dropdownRef.current.getBoundingClientRect();
+      const viewportWidth = window.innerWidth;
+
+      // 드롭다운의 너비를 고려해서 우측 여백이 부족하면 right 정렬
+      const dropdownWidth = 200; // 예상 드롭다운 너비
+      if (rect.right + dropdownWidth > viewportWidth) {
+        setDropdownPosition("right");
+      } else {
+        setDropdownPosition("left");
+      }
+    }
+  }, [isOpen]);
+
   return (
-    <div className={`relative h-full w-full ${className}`}>
-      <button
+    <div className={`relative h-full w-full ${className}`} ref={dropdownRef}>
+      <div
         onClick={toggleDropdown}
-        className="flex h-full w-full items-center justify-between px-4 text-lg font-semibold leading-normal text-k-900"
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            toggleDropdown();
+          }
+        }}
+        role="button"
+        tabIndex={0}
       >
-        {displayText}
-        <span className="h-[30px] w-[30px]">
-          <IconDirectionDown />
-        </span>
-      </button>
+        {children}
+      </div>
 
       {isOpen && (
-        <div className="absolute left-0 top-full z-10 w-full rounded-md border bg-k-100 shadow-sdwC">
+        <div
+          className={`absolute top-full z-10 min-w-[120px] rounded-md border bg-k-100 shadow-sdwC ${
+            dropdownPosition === "right" ? "right-0" : "left-0"
+          }`}
+        >
           {items.map((item, index) => (
             <button
               key={item.id}

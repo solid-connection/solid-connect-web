@@ -1,9 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import { Controller, useForm } from "react-hook-form";
 
-import { convertISODateToDate } from "@/utils/datetimeUtils";
 import { getMyData } from "@/utils/mockingGetData";
 
 import MentoStudyStatusBox from "@/components/mentor/StudyStatusBox";
@@ -23,8 +21,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 const ModifyContent = () => {
   const myData = getMyData();
   const { profileImageUrl, hasBadge, menteeCount, nickname, country, universityName, studyStatus } = myData;
-
-  const formattedDate = convertISODateToDate(new Date().toISOString());
 
   const {
     register,
@@ -134,16 +130,7 @@ const ModifyContent = () => {
             </p>
           )}
           <h2 className="mt-[40px] text-lg leading-normal text-primary-1">멘토 아티클</h2>
-          <div className="relative h-[200px] w-full">
-            <Image src="/images/article-thumb.png" alt="멘토 아티클 이미지" fill className="object-cover" />
-          </div>
-          <div className="mt-[10px] flex justify-between">
-            <div className="text-[13px] font-medium text-k-500">{formattedDate}</div>
-          </div>
-          <h2 className="mt-[6px] text-[17px] font-semibold leading-normal text-k-800">교환학생 찐 후기</h2>
-          <p className="text-sm font-normal text-k-500">
-            교환학생 경험의 진솔한 이야기와 꿀팁이 가득한 &apos;찐&apos; 후기를 영상에서 확인하세요!
-          </p>
+
           <MentoArticlePanel />
           <div className="mt-10 flex justify-center">
             <ModifyBtnPanel onSubmit={handleSubmit(onSubmit)} />
