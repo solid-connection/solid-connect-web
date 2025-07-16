@@ -9,6 +9,7 @@ const CHAT_NAVIGATION_TITLES = {
   "/mento": "멘토",
   "/mento/modify": "멘토 수정",
   "/mento/waiting": "멘토 대기",
+  "/mento/": "멘토 페이지",
 };
 
 const MentoLayout = ({ children }: MentoLayoutProps) => {

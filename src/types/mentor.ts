@@ -34,6 +34,15 @@ export interface ChatMessage {
   message: string;
   time: Date;
 }
+
+export interface Article {
+  id: number;
+  title: string;
+  description: string;
+  imageUrl: string;
+  isLiked: boolean;
+}
+
 export enum MentorStudyStatus {
   STUDYING = "수학 중인 멘토",
   SCHEDULED = "수학 예정 멘토",
