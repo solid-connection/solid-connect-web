@@ -1,5 +1,6 @@
 import ChannelBadge from "@/components/ui/ChannelBadge";
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
+import ToolTipMessage from "@/components/ui/TooltipMessage";
 
 import MentoArticle from "./_components/MentoArticle";
 import MentorAppliePanel from "./_components/MentorAppliePanel";

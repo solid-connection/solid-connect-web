@@ -18,6 +18,39 @@ import { MentoModifyFormData, mentoModifySchema } from "@/lib/schema/mentoModify
 import { IconUserPrimaryColor } from "@/public/svgs/mentor";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+// 멘토 아티클 더미 데이터
+interface ArticleData {
+  id: string;
+  imageUrl: string;
+  date: string;
+  title: string;
+  description: string;
+}
+
+const dummyArticles: ArticleData[] = [
+  {
+    id: "1",
+    imageUrl: "/images/article-thumb.png",
+    date: "2024-10-23",
+    title: "교환학생 찐 후기",
+    description: "교환학생 경험의 진솔한 이야기와 꿀팁이 가득한 '찐' 후기를 영상에서 확인하세요!",
+  },
+  {
+    id: "2",
+    imageUrl: "/images/article-thumb.png",
+    date: "2024-09-15",
+    title: "유럽 교환학생 준비 가이드",
+    description: "유럽 교환학생을 준비하는 모든 과정과 팁을 상세히 알려드립니다.",
+  },
+  {
+    id: "3",
+    imageUrl: "/images/article-thumb.png",
+    date: "2024-08-20",
+    title: "언어 능력 향상 비법",
+    description: "현지에서 빠르게 언어 실력을 늘리는 나만의 학습법을 공유합니다.",
+  },
+];
+
 const ModifyContent = () => {
   const myData = getMyData();
   const { profileImageUrl, hasBadge, menteeCount, nickname, country, universityName, studyStatus } = myData;
@@ -128,11 +161,18 @@ const ModifyContent = () => {
                 ? errors.successRecipe.message
                 : "합격 레시피를 입력해주세요"}
             </p>
-          )}
+          )}{" "}
           <h2 className="mt-[40px] text-lg leading-normal text-primary-1">멘토 아티클</h2>
-
-          <MentoArticlePanel />
-          <div className="mt-10 flex justify-center">
+          {dummyArticles.map((article) => (
+            <div key={article.id} className="mb-6">
+              <MentoArticlePanel articleData={article} />
+            </div>
+          ))}
+          {/* 새 아티클 추가 버튼 */}
+          <div className="mb-6">
+            <MentoArticlePanel />
+          </div>
+          <div className="mt-20 flex justify-center">
             <ModifyBtnPanel onSubmit={handleSubmit(onSubmit)} />
           </div>
         </div>
