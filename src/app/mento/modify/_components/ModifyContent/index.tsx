@@ -12,14 +12,13 @@ import MentoProfile from "@/components/ui/ProfileWithBadge";
 
 import ChannelSelect from "./_components/ChannelSelct";
 import MentoArticlePanel from "./_components/MentoArticlePanel";
+import ModifyBtnPanel from "./_components/ModalBtnPanel";
 
 import { ChannelType } from "@/types/mentor";
 
 import { MentoModifyFormData, mentoModifySchema } from "@/lib/schema/mentoModifyScehma";
 import { IconUserPrimaryColor } from "@/public/svgs/mentor";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-// Yup 스키마 정의
 
 const ModifyContent = () => {
   const myData = getMyData();
@@ -147,9 +146,7 @@ const ModifyContent = () => {
           </p>
           <MentoArticlePanel />
           <div className="mt-10 flex justify-center">
-            <button type="submit" className="mb-10 h-[40px] w-[150px] rounded-3xl bg-primary-1 px-5 py-[10px] text-k-0">
-              수정하기
-            </button>
+            <ModifyBtnPanel onSubmit={handleSubmit(onSubmit)} />
           </div>
         </div>
       </form>
