@@ -3,8 +3,9 @@ import { Metadata } from "next";
 import ModifyContent from "./_components/ModifyContent";
 
 export const metadata: Metadata = {
-  title: "멘토",
-  description: "멘토 멘티 페이지",
+  title: "멘토 정보 수정 | Solid Connect",
+  description: "멘토 프로필과 정보를 수정하여 더 나은 멘토링을 제공하세요.",
+  keywords: ["멘토", "정보수정", "프로필", "멘토링", "설정"],
 };
 
 const ModifyPage = () => {
