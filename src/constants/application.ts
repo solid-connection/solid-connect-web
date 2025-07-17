@@ -1,35 +1,35 @@
-export const LANGUAGE_TEST = {
-  TOEIC: "toeic",
-  TOEFL_IBT: "toefl ibt",
-  TOEFL_ITP: "toefl itp",
-  NEW_HSK: "new hsk",
-  IELTS: "ielts",
-  JLPT: "jlpt",
-  OTHER: "other",
-};
+export enum LanguageTest {
+  TOEIC = "toeic",
+  TOEFL_IBT = "toefl ibt",
+  TOEFL_ITP = "toefl itp",
+  NEW_HSK = "new hsk",
+  IELTS = "ielts",
+  JLPT = "jlpt",
+  OTHER = "other",
+}
 
-export const LANGUAGE_TEST_CONVERSE = {
-  toeic: "TOEIC",
-  ibt: "TOEFL_IBT",
-  itp: "TOEFL_ITP",
-  ielts: "IELTS",
-  jlpt: "JLPT",
-  others: "DUOLINGO",
-};
+export enum LanguageTestConverse {
+  TOEIC = "TOEIC",
+  IBT = "TOEFL_IBT",
+  ITP = "TOEFL_ITP",
+  IELTS = "IELTS",
+  JLPT = "JLPT",
+  OTHERS = "DUOLINGO",
+}
 
-export const LANGUAGE_TEST_INVERSE = {
-  TOEIC: "TOEIC",
-  "TOEFL IBT": "TOEFL_IBT",
-  "TOEFL ITP": "TOEFL_ITP",
-  IELTS: "IELTS",
-  JLPT: "JLPT",
-};
+export enum LanguageTestInverse {
+  TOEIC = "TOEIC",
+  TOEFL_IBT = "TOEFL IBT",
+  TOEFL_ITP = "TOEFL ITP",
+  IELTS = "IELTS",
+  JLPT = "JLPT",
+}
 
-export const SHORT_LANGUAGE_TEST = {
-  TOEIC: "TOEIC",
-  TOEFL_IBT: "IBT",
-  TOEFL_ITP: "ITP",
-  IELTS: "IELTS",
-  JLPT: "JLPT",
-  OTHER: "기타",
-};
+export enum ShortLanguageTest {
+  TOEIC = "TOEIC",
+  TOEFL_IBT = "IBT",
+  TOEFL_ITP = "ITP",
+  IELTS = "IELTS",
+  JLPT = "JLPT",
+  OTHER = "기타",
+}
