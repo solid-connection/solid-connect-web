@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useState } from "react";
 
-import TextModal from "@/components/modal/TextModal";
+import ArticleModal from "@/components/mentor/ArticleModal";
 import ReusableDropdown from "@/components/ui/ReusableDropdown";
 import ToolTipMessage from "@/components/ui/TooltipMessage";
 
@@ -62,11 +62,13 @@ const MentoArticlePanel = ({ articleData }: MentoArticlePanelProps) => {
           </div>
         </div>
 
-        <TextModal
+        <ArticleModal
           isOpen={isArticleModalOpen}
           handleClose={() => setIsArticleModalOpen(false)}
-          title="새 아티클 추가"
-          content="새로운 아티클을 추가합니다"
+          onSubmit={(data) => {
+            console.log("새 아티클:", data);
+            // 여기서 아티클 추가 로직 처리
+          }}
         />
       </>
     );
@@ -90,11 +92,17 @@ const MentoArticlePanel = ({ articleData }: MentoArticlePanelProps) => {
       <h2 className="mt-[6px] text-[17px] font-semibold leading-normal text-k-800">{articleData.title}</h2>
       <p className="text-sm font-normal text-k-500">{articleData.description}</p>
 
-      <TextModal
+      <ArticleModal
         isOpen={isArticleModalOpen}
         handleClose={() => setIsArticleModalOpen(false)}
-        title={articleData.title}
-        content={articleData.description}
+        initialData={{
+          title: articleData.title,
+          content: articleData.description,
+        }}
+        onSubmit={(data) => {
+          console.log("아티클 수정:", data);
+          // 여기서 아티클 수정 로직 처리
+        }}
       />
     </>
   );
