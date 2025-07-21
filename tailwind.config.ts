@@ -74,6 +74,22 @@ const config: Config = {
           "500": "#6AC0EB",
           DEFAULT: "#2AA4E2",
         },
+        "sub-c": {
+          "100": "#FFF2DD",
+          "500": "#FF934B",
+        },
+        "sub-d": {
+          "100": "#FCEFFF",
+          "500": "#B33BD4",
+        },
+        "sub-e": {
+          "100": "#E4F7C0",
+          "500": "#7AB550",
+        },
+        "sub-f": {
+          "100": "#FFDEDF",
+          "500": "#FF6B6B",
+        },
         background: {
           1: "#F8F8FA",
           2: "#F7F7F7",
@@ -118,6 +134,8 @@ const config: Config = {
       },
       boxShadow: {
         sdwA: "0px 4px 40px 0px rgba(26, 31, 39, 0.40)",
+        sdwB: "0px 0px 4px 0px var(--K100, #DDDDDF)",
+        sdwC: "0px 0px 4px 0px rgba(0, 0, 0, 0.25)",
       },
       spacing: {
         "13": "3.25rem", // 3.25rem = 13 = 52px
