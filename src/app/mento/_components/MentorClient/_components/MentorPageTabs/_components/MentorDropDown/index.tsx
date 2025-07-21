@@ -7,16 +7,20 @@ import { MentorTab } from "@/types/mentor";
 
 import { IconDirectionDown } from "@/public/svgs/mentor";
 
+// enum 선언 (컴포넌트 상단)
+enum MentorDropdownType {
+  MY_MENTOR = "my-mentor",
+  MY_MENTEE = "my-mentee",
+}
+
 const mentoDropdownItems: DropdownItem[] = [
   {
-    id: "my-mentor",
-    label: MentorTab.MY_MENTOR,
-    value: MentorTab.MY_MENTOR,
+    value: MentorDropdownType.MY_MENTOR,
+    label: "나의 멘토",
   },
   {
-    id: "my-mentee",
-    label: MentorTab.MY_MENTEE,
-    value: MentorTab.MY_MENTEE,
+    value: MentorDropdownType.MY_MENTEE,
+    label: "나의 멘티",
   },
 ];
 

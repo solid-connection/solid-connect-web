@@ -23,16 +23,27 @@ const MentoArticlePanel = ({ articleData }: MentoArticlePanelProps) => {
   // state
   const [isArticleModalOpen, setIsArticleModalOpen] = useState<boolean>(false);
 
+  // enum 선언 (컴포넌트 상단)
+  enum ArticleDropdownType {
+    EDIT = "edit",
+    DELETE = "delete",
+  }
+
   const dropdownOptions = [
-    { id: "edit", label: "수정하기", value: "edit" },
-    { id: "delete", label: "삭제하기", value: "delete" },
+    { value: ArticleDropdownType.EDIT, label: "수정하기" },
+    { value: ArticleDropdownType.DELETE, label: "삭제하기" },
   ];
 
   const handleDropdownSelect = (value: string) => {
-    console.log("Selected:", value);
-    // 여기서 수정/삭제 로직 처리
-    if (value === "edit") {
-      setIsArticleModalOpen(true);
+    switch (value) {
+      case ArticleDropdownType.EDIT:
+        setIsArticleModalOpen(true);
+        break;
+      case ArticleDropdownType.DELETE:
+        // 삭제 로직
+        break;
+      default:
+        break;
     }
   };
 
