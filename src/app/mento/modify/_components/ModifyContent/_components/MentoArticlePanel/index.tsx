@@ -19,22 +19,19 @@ interface MentoArticlePanelProps {
   articleData?: ArticleData;
 }
 
+// enum 선언 (컴포넌트 상단)
+enum ArticleDropdownType {
+  EDIT = "수정하기",
+  DELETE = "삭제하기",
+}
+
+const dropdownOptions: ArticleDropdownType[] = [ArticleDropdownType.EDIT, ArticleDropdownType.DELETE];
+
 const MentoArticlePanel = ({ articleData }: MentoArticlePanelProps) => {
   // state
   const [isArticleModalOpen, setIsArticleModalOpen] = useState<boolean>(false);
 
-  // enum 선언 (컴포넌트 상단)
-  enum ArticleDropdownType {
-    EDIT = "edit",
-    DELETE = "delete",
-  }
-
-  const dropdownOptions = [
-    { value: ArticleDropdownType.EDIT, label: "수정하기" },
-    { value: ArticleDropdownType.DELETE, label: "삭제하기" },
-  ];
-
-  const handleDropdownSelect = (value: string) => {
+  const handleDropdownSelect = (value: ArticleDropdownType) => {
     switch (value) {
       case ArticleDropdownType.EDIT:
         setIsArticleModalOpen(true);
@@ -93,7 +90,11 @@ const MentoArticlePanel = ({ articleData }: MentoArticlePanelProps) => {
       <div className="mt-[10px] flex justify-between">
         <div className="text-[13px] font-medium text-k-500">{articleData.date}</div>
         <div className="relative">
-          <ReusableDropdown items={dropdownOptions} selectedValue="" onSelect={handleDropdownSelect}>
+          <ReusableDropdown<ArticleDropdownType>
+            items={dropdownOptions}
+            selectedValue={"" as ArticleDropdownType}
+            onSelect={handleDropdownSelect}
+          >
             <button className="h-5 w-5 rounded-full bg-secondary-500 px-1 py-1">
               <IconPencil />
             </button>

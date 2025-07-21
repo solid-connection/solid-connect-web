@@ -1,4 +1,4 @@
-import ReusableDropdown, { DropdownItem } from "@/components/ui/ReusableDropdown";
+import ReusableDropdown from "@/components/ui/ReusableDropdown";
 import ToolTipMessage from "@/components/ui/TooltipMessage";
 
 import useFirstVisit from "./_hooks/useFirstVisit";
@@ -7,43 +7,25 @@ import { MentorTab } from "@/types/mentor";
 
 import { IconDirectionDown } from "@/public/svgs/mentor";
 
-// enum 선언 (컴포넌트 상단)
-enum MentorDropdownType {
-  MY_MENTOR = "my-mentor",
-  MY_MENTEE = "my-mentee",
-}
-
-const mentoDropdownItems: DropdownItem[] = [
-  {
-    value: MentorDropdownType.MY_MENTOR,
-    label: "나의 멘토",
-  },
-  {
-    value: MentorDropdownType.MY_MENTEE,
-    label: "나의 멘티",
-  },
-];
+const mentoDropdownItems: MentorTab[] = [MentorTab.MY_MENTOR, MentorTab.MY_MENTEE];
 
 interface MentorDropDownProps {
-  selectedTab: string;
+  selectedTab: MentorTab;
   setSelectedTab: React.Dispatch<React.SetStateAction<MentorTab>>;
 }
 
 const MentorDropDown = ({ selectedTab, setSelectedTab }: MentorDropDownProps) => {
   const { isFirstVisit } = useFirstVisit();
 
-  const handleSelect = (value: string) => {
-    setSelectedTab(value as MentorTab);
+  const handleSelect = (value: MentorTab) => {
+    setSelectedTab(value);
   };
-
-  const selectedItem = mentoDropdownItems.find((item) => item.value === selectedTab);
-  const displayText = selectedItem ? selectedItem.label : "";
 
   return (
     <div className="relative h-[40px] w-[140px]">
-      <ReusableDropdown items={mentoDropdownItems} selectedValue={selectedTab} onSelect={handleSelect}>
+      <ReusableDropdown<MentorTab> items={mentoDropdownItems} selectedValue={selectedTab} onSelect={handleSelect}>
         <button className="flex h-full w-full items-center justify-between px-4 text-lg font-semibold leading-normal text-k-900">
-          {displayText}
+          {selectedTab}
           <span className="h-[30px] w-[30px]">
             <IconDirectionDown />
           </span>

@@ -1,19 +1,21 @@
 import useDropDownHandler from "./hooks/useDropDownHandler";
 
-export interface DropdownItem {
-  value: string;
-  label: string;
-}
-interface ReusableDropdownProps {
-  items: DropdownItem[];
-  selectedValue: string;
-  onSelect: (value: string) => void;
+interface ReusableDropdownProps<T extends string | number> {
+  items: T[];
+  selectedValue: T;
+  onSelect: (value: T) => void;
   className?: string;
   children: React.ReactNode;
 }
 
-const ReusableDropdown = ({ items, selectedValue, onSelect, className = "", children }: ReusableDropdownProps) => {
-  const { isOpen, toggleDropdown, handleSelect, dropdownPosition, dropdownRef } = useDropDownHandler({ onSelect });
+const ReusableDropdown = <T extends string | number>({
+  items,
+  selectedValue,
+  onSelect,
+  className = "",
+  children,
+}: ReusableDropdownProps<T>) => {
+  const { isOpen, toggleDropdown, dropdownPosition, dropdownRef } = useDropDownHandler<T>({ onSelect });
   return (
     <div className={`relative h-full w-full ${className}`} ref={dropdownRef}>
       <div
@@ -34,15 +36,15 @@ const ReusableDropdown = ({ items, selectedValue, onSelect, className = "", chil
         >
           {items.map((item, index) => (
             <button
-              key={item.value}
-              onClick={() => handleSelect(item)}
+              key={item}
+              onClick={() => onSelect(item)}
               className={`h-[40px] w-full px-4 text-left text-sm font-medium text-k-700 hover:bg-primary-100 ${
                 index === 0 ? "rounded-t-md" : ""
               } ${index === items.length - 1 ? "rounded-b-md" : ""} ${
-                selectedValue === item.value ? "bg-primary-100" : "bg-k-0"
+                selectedValue === item ? "bg-primary-100" : "bg-k-0"
               }`}
             >
-              {item.label}
+              {item}
             </button>
           ))}
         </div>
