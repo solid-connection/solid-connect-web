@@ -5,6 +5,8 @@ import ArticleModal from "@/components/mentor/ArticleModal";
 import ReusableDropdown from "@/components/ui/ReusableDropdown";
 import ToolTipMessage from "@/components/ui/TooltipMessage";
 
+import { ArticleDropdownType } from "@/types/mentor";
+
 import { IconPencil, IconPlus } from "@/public/svgs/mentor";
 
 interface ArticleData {
@@ -17,12 +19,6 @@ interface ArticleData {
 
 interface MentoArticlePanelProps {
   articleData?: ArticleData;
-}
-
-// enum 선언 (컴포넌트 상단)
-enum ArticleDropdownType {
-  EDIT = "수정하기",
-  DELETE = "삭제하기",
 }
 
 const dropdownOptions: ArticleDropdownType[] = [ArticleDropdownType.EDIT, ArticleDropdownType.DELETE];

@@ -72,3 +72,8 @@ export enum MenteeTab {
   MY_MENTOR = "나의 멘토",
   MY_APPLIED = "신청목록",
 }
+
+export enum ArticleDropdownType {
+  EDIT = "수정하기",
+  DELETE = "삭제하기",
+}

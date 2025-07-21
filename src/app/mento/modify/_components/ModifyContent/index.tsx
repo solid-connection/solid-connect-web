@@ -14,7 +14,10 @@ import ModifyBtnPanel from "./_components/ModalBtnPanel";
 
 import { ChannelType } from "@/types/mentor";
 
-import { MentoModifyFormData, mentoModifySchema } from "@/lib/schema/mentoModifyScehma";
+import {
+  MentoModifyFormData,
+  mentoModifySchema,
+} from "@/app/mento/modify/_components/ModifyContent/_lib/mentoModifyScehma";
 import { IconUserPrimaryColor } from "@/public/svgs/mentor";
 import { zodResolver } from "@hookform/resolvers/zod";
 

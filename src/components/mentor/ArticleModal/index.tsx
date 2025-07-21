@@ -1,12 +1,9 @@
 import Image from "next/image";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
 
 import BottomSheet from "@/components/ui/BottomSheet";
 
-import { ArticleFormData, articleSchema } from "./lib/schema";
-
-import { zodResolver } from "@hookform/resolvers/zod";
+import useArticleSchema from "./hooks/useArticleSchema";
+import { ArticleFormData } from "./lib/schema";
 
 interface ArticleModalProps {
   isOpen: boolean;
@@ -16,52 +13,17 @@ interface ArticleModalProps {
 }
 
 const ArticleModal = ({ isOpen, handleClose, onSubmit, initialData }: ArticleModalProps) => {
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-
+  const { methods, imagePreview, handleImageChange, handleFormSubmit, handleModalClose, handleSetImageDelete } =
+    useArticleSchema({
+      initialData,
+      onSubmit,
+      handleClose,
+    });
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors },
-    reset,
-  } = useForm<ArticleFormData>({
-    resolver: zodResolver(articleSchema),
-    defaultValues: {
-      title: initialData?.title || "",
-      content: initialData?.content || "",
-      link: initialData?.link || "",
-      image: undefined,
-    },
-  });
-
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (files && files.length > 0) {
-      const file = files[0];
-      setValue("image", file);
-
-      // 미리보기 설정
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handleFormSubmit = (data: ArticleFormData) => {
-    if (onSubmit) {
-      onSubmit(data);
-    }
-    handleClose();
-    reset();
-  };
-
-  const handleModalClose = () => {
-    handleClose();
-    reset();
-    setImagePreview(null);
-  };
+  } = methods;
 
   if (!isOpen) return null;
 
@@ -69,7 +31,22 @@ const ArticleModal = ({ isOpen, handleClose, onSubmit, initialData }: ArticleMod
     <BottomSheet
       isOpen={isOpen}
       onClose={handleModalClose}
-      title="아티클 추가하기"
+      titleChild={
+        <div className="relative flex h-10 w-full items-center">
+          <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-lg font-semibold">
+            아티클 추가하기
+          </span>
+          <button
+            type="button"
+            className="absolute right-0 top-1/2 -translate-y-1/2 rounded-lg px-3 py-1 text-sm font-semibold text-secondary"
+            onClick={() => {
+              /* TODO: Add your button logic here */
+            }}
+          >
+            저장
+          </button>
+        </div>
+      }
       snap={[0.3, 0.6]} // 30%, 60% 높이에서 스냅
     >
       <div className="flex h-full flex-col">
@@ -77,22 +54,18 @@ const ArticleModal = ({ isOpen, handleClose, onSubmit, initialData }: ArticleMod
           <div className="scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-gray-300 flex-1 space-y-6 overflow-y-auto px-2">
             {/* 제목 */}
             <div>
-              <label className="mb-3 block text-base font-semibold text-gray-900">제목</label>
               <input
                 type="text"
                 {...register("title")}
                 placeholder="제목을 입력해주세요. (최대 20자)"
                 maxLength={20}
-                className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-4 text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-100"
+                className="w-full border-b border-k-100 py-4 text-gray-900 placeholder-k-100 focus:border-secondary-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-100"
               />
               {errors.title && <p className="mt-2 text-sm text-red-600">{errors.title.message}</p>}
             </div>
 
             {/* 내용 */}
             <div>
-              <label className="mb-3 block text-base font-semibold text-gray-900">
-                아티클의 내용을 간단히 남겨주세요. (최대 300자)
-              </label>
               <textarea
                 {...register("content")}
                 placeholder="아티클의 내용을 간단히 남겨주세요."
@@ -130,10 +103,7 @@ const ArticleModal = ({ isOpen, handleClose, onSubmit, initialData }: ArticleMod
                     />
                     <button
                       type="button"
-                      onClick={() => {
-                        setImagePreview(null);
-                        setValue("image", undefined);
-                      }}
+                      onClick={handleSetImageDelete}
                       className="absolute -right-2 -top-2 flex h-7 w-7 items-center justify-center rounded-full bg-red-500 text-white shadow-lg"
                     >
                       ×

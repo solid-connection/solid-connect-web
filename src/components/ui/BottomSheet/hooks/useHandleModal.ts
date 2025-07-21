@@ -1,5 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
+// 드래그 핸들에서 제외해야 하는 인터랙티브 엘리먼트 판별
+const isInteractiveElement = (el: EventTarget | null): boolean => {
+  return el instanceof HTMLElement && ["INPUT", "TEXTAREA", "SELECT", "BUTTON", "A", "LABEL"].includes(el.tagName);
+};
+
 interface UseHandleModalReturn {
   elementRef: React.RefObject<HTMLDivElement>;
   isVisible: boolean;
@@ -50,9 +55,13 @@ const useHandleModal = (onClose: () => void, snap: number[] = [0]): UseHandleMod
 
   const handleTouchStart = useCallback(
     (e: React.TouchEvent | React.MouseEvent): void => {
+      // input·textarea 등은 기본 동작(포커스) 유지
+      if (isInteractiveElement(e.target)) {
+        return;
+      }
+
       if (!isVisible) return;
 
-      // 기본 동작 방지 (스크롤 등)
       e.preventDefault();
 
       isDraggingRef.current = true;

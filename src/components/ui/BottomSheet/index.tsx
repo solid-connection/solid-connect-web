@@ -8,13 +8,13 @@ interface BottomSheetProps {
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
-  title?: string;
+  titleChild?: React.ReactNode;
   snap?: number[]; // 스냅 포인트 배열
 }
 
 const DEFAULT_SNAP = [0];
 
-const BottomSheet = ({ isOpen, onClose, children, title, snap = DEFAULT_SNAP }: BottomSheetProps) => {
+const BottomSheet = ({ isOpen, onClose, children, titleChild, snap = DEFAULT_SNAP }: BottomSheetProps) => {
   const {
     elementRef,
     isVisible,
@@ -58,35 +58,40 @@ const BottomSheet = ({ isOpen, onClose, children, title, snap = DEFAULT_SNAP }: 
             ? { transform: `translateY(${isVisible ? translateY : 600}px)` }
             : {}
         }
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-        onMouseDown={handleTouchStart}
-        onMouseMove={handleTouchMove}
-        onMouseUp={handleTouchEnd}
-        onMouseLeave={() => {
-          if (isDraggingRef.current) {
-            handleTouchEnd();
-          }
-        }}
         role="dialog"
         aria-modal="true"
-        aria-labelledby={title ? "bottom-sheet-title" : undefined}
+        aria-labelledby={titleChild ? "bottom-sheet-title" : undefined}
       >
         {/* 확장된 배경 (바텀시트 아래 영역을 흰색으로 채우기) */}
         <div className="absolute left-0 top-full h-screen w-full bg-white" />
 
-        {/* 드래그 핸들 */}
-        <div className="flex justify-center py-4">
-          <div className="h-1 w-12 cursor-grab rounded-full bg-gray-300 transition-colors hover:bg-gray-400 active:cursor-grabbing" />
-        </div>
+        {/* 드래그 핸들 (드래그 전용 이벤트 바인딩) */}
+        <button
+          className="flex justify-center py-4"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+          onMouseDown={handleTouchStart}
+          onMouseMove={handleTouchMove}
+          onMouseUp={handleTouchEnd}
+          onMouseLeave={() => {
+            if (isDraggingRef.current) {
+              handleTouchEnd();
+            }
+          }}
+        >
+          <span className="h-1 w-12 cursor-grab rounded-full bg-gray-300 transition-colors hover:bg-gray-400 active:cursor-grabbing" />
+        </button>
 
         {/* 헤더 (옵션) */}
-        {title && (
+        {titleChild && (
           <div className="flex-shrink-0 px-6 pb-4">
-            <h2 id="bottom-sheet-title" className="text-center text-lg font-semibold text-gray-800">
-              {title}
-            </h2>
+            <div
+              id="bottom-sheet-title"
+              className="flex items-center justify-between text-lg font-semibold text-gray-800"
+            >
+              {titleChild}
+            </div>
           </div>
         )}
 
