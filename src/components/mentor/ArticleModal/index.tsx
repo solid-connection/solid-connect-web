@@ -5,6 +5,8 @@ import BottomSheet from "@/components/ui/BottomSheet";
 import useArticleSchema from "./hooks/useArticleSchema";
 import { ArticleFormData } from "./lib/schema";
 
+import { IconCamera } from "@/public/svgs/mentor";
+
 interface ArticleModalProps {
   isOpen: boolean;
   handleClose: () => void;
@@ -47,7 +49,6 @@ const ArticleModal = ({ isOpen, handleClose, onSubmit, initialData }: ArticleMod
           </button>
         </div>
       }
-      snap={[0.3, 0.6]} // 30%, 60% 높이에서 스냅
     >
       <div className="flex h-full flex-col">
         <form onSubmit={handleSubmit(handleFormSubmit)} className="flex h-full flex-col overflow-hidden">
@@ -59,7 +60,7 @@ const ArticleModal = ({ isOpen, handleClose, onSubmit, initialData }: ArticleMod
                 {...register("title")}
                 placeholder="제목을 입력해주세요. (최대 20자)"
                 maxLength={20}
-                className="w-full border-b border-k-100 py-4 text-gray-900 placeholder-k-100 focus:border-secondary-200 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-100"
+                className="w-full border-b border-k-100 py-4 text-k-900 placeholder-k-100 focus:border-b focus:border-secondary-200 focus:outline-none"
               />
               {errors.title && <p className="mt-2 text-sm text-red-600">{errors.title.message}</p>}
             </div>
@@ -71,27 +72,27 @@ const ArticleModal = ({ isOpen, handleClose, onSubmit, initialData }: ArticleMod
                 placeholder="아티클의 내용을 간단히 남겨주세요."
                 maxLength={300}
                 rows={6}
-                className="w-full resize-none rounded-xl border border-gray-200 bg-gray-50 px-4 py-4 text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-100"
+                className="w-full border-b border-k-100 py-4 text-k-900 placeholder-k-100 focus:border-b focus:border-secondary-200 focus:outline-none"
               />
               {errors.content && <p className="mt-2 text-sm text-red-600">{errors.content.message}</p>}
             </div>
 
             {/* 아티클 링크 */}
             <div>
-              <label className="mb-3 block text-base font-semibold text-blue-600">아티클 링크</label>
+              <label className="mb-3 block text-lg font-normal text-primary">아티클 링크</label>
               <input
                 type="url"
                 {...register("link")}
                 placeholder="링크주소"
-                className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-4 text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-100"
+                className="w-full rounded-xl bg-k-50 p-4 text-sm placeholder-k-500 focus:border-secondary-200 focus:outline-none focus:ring-secondary-100"
               />
               {errors.link && <p className="mt-2 text-sm text-red-600">{errors.link.message}</p>}
             </div>
 
             {/* 썸네일 등록 */}
             <div>
-              <label className="mb-3 block text-base font-semibold text-blue-600">썸네일 등록</label>
-              <div className="rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 p-12 text-center">
+              <label className="mb-3 block text-lg font-normal text-primary">썸네일 등록</label>
+              <div className="rounded-xl bg-k-50 p-12 text-center">
                 {imagePreview ? (
                   <div className="relative">
                     <Image
@@ -110,26 +111,14 @@ const ArticleModal = ({ isOpen, handleClose, onSubmit, initialData }: ArticleMod
                     </button>
                   </div>
                 ) : (
-                  <>
-                    <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gray-200">
-                      <svg className="h-8 w-8 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path
-                          fillRule="evenodd"
-                          d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
+                  <label htmlFor="image-upload" className="flex cursor-pointer flex-col items-center">
+                    <div className="mx-auto mb-4 flex h-6 w-6 items-center justify-center rounded-full">
+                      <IconCamera />
                     </div>
-                    <p className="mb-4 text-sm text-gray-500">아티클 썸네일을 등록해주세요</p>
-                  </>
+                    <p className="mb-4 text-sm text-k-500">아티클 썸네일을 등록해주세요</p>
+                  </label>
                 )}
                 <input type="file" accept="image/*" onChange={handleImageChange} className="hidden" id="image-upload" />
-                <label
-                  htmlFor="image-upload"
-                  className="inline-flex cursor-pointer items-center rounded-lg border border-gray-300 bg-white px-6 py-3 text-gray-700 shadow-sm transition-colors hover:border-gray-400 hover:bg-gray-50"
-                >
-                  파일 선택
-                </label>
               </div>
             </div>
           </div>
