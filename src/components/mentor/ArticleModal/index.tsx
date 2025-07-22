@@ -122,16 +122,6 @@ const ArticleModal = ({ isOpen, handleClose, onSubmit, initialData }: ArticleMod
               </div>
             </div>
           </div>
-
-          {/* 버튼 */}
-          <div className="flex-shrink-0 border-t border-gray-100 bg-white pb-4 pt-6">
-            <button
-              type="submit"
-              className="w-full rounded-xl bg-blue-600 py-4 text-lg font-semibold text-white shadow-sm transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-            >
-              저장
-            </button>
-          </div>
         </form>
       </div>
     </BottomSheet>
