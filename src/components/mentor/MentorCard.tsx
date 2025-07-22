@@ -49,11 +49,14 @@ const MentorCard = ({ mentor, isMine = false, isDistribute = false }: MentorCard
         </div>
 
         <div className="flex-1">
-          <span className="text-base font-semibold leading-normal text-primary-1">{country}</span>
+          <div className="mb-1 flex items-center justify-between">
+            <span className="text-base font-semibold leading-normal text-primary-1">{country}</span>
+
+            <StudyStatusBox studyStatus={studyStatus} />
+          </div>
           <h3 className="text-xl font-bold leading-normal text-k-800">{nickname}님</h3>
           <div className="mt-1 flex flex-col">
             <p className="text-sm font-medium leading-normal text-k-500">{universityName}</p>
-            <StudyStatusBox studyStatus={studyStatus} />
           </div>
         </div>
       </div>
