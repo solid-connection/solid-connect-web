@@ -35,10 +35,10 @@ const BottomNavigation = () => {
       icon: <Home color={!isSpecificRouteActive ? "#5950F6" : "#707070"} />,
     },
     {
-      route: "/mento",
+      route: "/mentor",
       text: "멘토",
-      isActive: pathname?.startsWith("/mento"),
-      icon: <WhatsNew color={pathname?.startsWith("/mento") ? "#5950F6" : "#707070"} />,
+      isActive: pathname?.startsWith("/mentor"),
+      icon: <WhatsNew color={pathname?.startsWith("/mentor") ? "#5950F6" : "#707070"} />,
     },
     {
       route: "/my",

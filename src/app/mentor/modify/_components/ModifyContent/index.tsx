@@ -17,7 +17,7 @@ import { ChannelType } from "@/types/mentor";
 import {
   MentoModifyFormData,
   mentoModifySchema,
-} from "@/app/mento/modify/_components/ModifyContent/_lib/mentoModifyScehma";
+} from "@/app/mentor/modify/_components/ModifyContent/_lib/mentoModifyScehma";
 import { IconUserPrimaryColor } from "@/public/svgs/mentor";
 import { zodResolver } from "@hookform/resolvers/zod";
 
