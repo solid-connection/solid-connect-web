@@ -87,7 +87,7 @@ const MentorCard = ({ mentor, isMine = false, isDistribute = false }: MentorCard
               {channels.map((channel, idx) => (
                 <div
                   key={idx}
-                  className={`h-[40px] ${channels.length === 1 ? "w-full" : channels.length === 3 && idx === 2 ? "col-span-2" : ""}`}
+                  className={`h-10 ${channels.length === 1 ? "w-full" : channels.length === 3 && idx === 2 ? "col-span-2" : ""}`}
                 >
                   <ChannelBadge channerType={channel.type as ChannelType} />
                 </div>
@@ -96,17 +96,17 @@ const MentorCard = ({ mentor, isMine = false, isDistribute = false }: MentorCard
           </div>
 
           {/* 액션 버튼 */}
-          <div className="mb-4 flex items-center justify-center gap-[10px] self-stretch">
+          <div className="mb-4 flex items-center justify-center gap-2.5 self-stretch">
             {isMine ? (
               <Link
                 href="/mento/modify"
-                className="flex h-[41px] w-[150px] flex-shrink-0 items-center justify-center gap-3 rounded-[20px] bg-primary px-5 py-[10px] font-medium text-white"
+                className="flex h-10 w-[150px] flex-shrink-0 items-center justify-center gap-3 rounded-[20px] bg-primary px-5 py-2.5 font-medium text-white"
               >
                 수정하기
               </Link>
             ) : (
               <>
-                <button className="flex h-[41px] w-1/2 flex-shrink-0 items-center justify-center gap-3 rounded-[20px] bg-primary px-5 py-[10px] font-medium text-white">
+                <button className="flex h-10 w-1/2 flex-shrink-0 items-center justify-center gap-3 rounded-[20px] bg-primary px-5 py-2.5 font-medium text-white">
                   멘토 페이지
                 </button>
                 <MentoAppliePanel isDistribute={isDistribute} />
@@ -153,7 +153,7 @@ const MentoAppliePanel = ({ isDistribute }: { isDistribute: boolean }) => {
     <>
       <button
         onClick={() => setIsModalOpen(true)}
-        className="flex h-[41px] w-1/2 flex-shrink-0 items-center justify-center gap-3 rounded-[20px] bg-primary px-5 py-[10px] font-medium text-white"
+        className="flex h-10 w-1/2 flex-shrink-0 items-center justify-center gap-3 rounded-[20px] bg-primary px-5 py-2.5 font-medium text-white"
       >
         멘토 신청하기
       </button>
