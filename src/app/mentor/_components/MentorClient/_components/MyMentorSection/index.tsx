@@ -2,7 +2,7 @@ import { getMentorData } from "@/utils/mockingGetData";
 
 import MentorCard from "@/components/mentor/MentorCard";
 
-const MyMentoSection = () => {
+const MyMentorSection = () => {
   const myMentoData = getMentorData();
 
   return (
@@ -16,4 +16,4 @@ const MyMentoSection = () => {
     </>
   );
 };
-export default MyMentoSection;
+export default MyMentorSection;

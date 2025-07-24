@@ -1,7 +1,7 @@
 import MenteePageTabs from "./_components/MenteePageTabs";
 import MentorFindSection from "./_components/MentorFindSection";
 import MentoPageTabs from "./_components/MentorPageTabs";
-import MyMentoSection from "./_components/MyMentoSection";
+import MyMentorSection from "./_components/MyMentorSection";
 
 const MentorClient = () => {
   const isMentor = false;
@@ -13,7 +13,7 @@ const MentorClient = () => {
           {/* 나의 멘토 - 멘티 탭 및 채팅카드 */}
           <MentoPageTabs />
           {/* 나의 멘토 페이지 */}
-          <MyMentoSection />
+          <MyMentorSection />
         </>
       ) : (
         // 멘티페이지
