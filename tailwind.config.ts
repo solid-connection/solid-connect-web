@@ -136,6 +136,7 @@ const config: Config = {
         sdwA: "0px 4px 40px 0px rgba(26, 31, 39, 0.40)",
         sdwB: "0px 0px 4px 0px var(--K100, #DDDDDF)",
         sdwC: "0px 0px 4px 0px rgba(0, 0, 0, 0.25)",
+        top: "0px -4px 10px 0px #F5F5F5",
       },
       spacing: {
         "13": "3.25rem", // 3.25rem = 13 = 52px
@@ -148,6 +149,20 @@ const config: Config = {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      animation: {
+        "slide-up": "slideUp 0.3s ease-out",
+        "slide-down": "slideDown 0.3s ease-in",
+      },
+      keyframes: {
+        slideUp: {
+          "0%": { transform: "translateY(100%)" },
+          "100%": { transform: "translateY(0)" },
+        },
+        slideDown: {
+          "0%": { transform: "translateY(0)" },
+          "100%": { transform: "translateY(100%)" },
+        },
       },
     },
   },

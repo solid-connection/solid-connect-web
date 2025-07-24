@@ -27,6 +27,22 @@ export interface Channel {
   url: string;
 }
 
+export interface ChatMessage {
+  id: number;
+  sender: "me" | "other";
+  senderName: string;
+  message: string;
+  time: Date;
+}
+
+export interface Article {
+  id: number;
+  title: string;
+  description: string;
+  imageUrl: string;
+  isLiked: boolean;
+}
+
 export enum MentorStudyStatus {
   STUDYING = "수학 중인 멘토",
   SCHEDULED = "수학 예정 멘토",
@@ -55,4 +71,9 @@ export enum MentorTab {
 export enum MenteeTab {
   MY_MENTOR = "나의 멘토",
   MY_APPLIED = "신청목록",
+}
+
+export enum ArticleDropdownType {
+  EDIT = "수정하기",
+  DELETE = "삭제하기",
 }
