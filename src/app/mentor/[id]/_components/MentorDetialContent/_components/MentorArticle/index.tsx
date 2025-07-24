@@ -7,11 +7,11 @@ import { Article } from "@/types/mentor";
 
 import { IconLikeFill, IconLkieNotFill } from "@/public/svgs/mentor";
 
-interface MentoArticleProps {
+interface MentorArticleProps {
   article: Article;
 }
 
-const MentoArticle = ({ article }: MentoArticleProps) => {
+const MentorArticle = ({ article }: MentorArticleProps) => {
   const [isLiked, setIsLiked] = useState<boolean>(article.isLiked);
 
   return (
@@ -33,4 +33,4 @@ const MentoArticle = ({ article }: MentoArticleProps) => {
     </div>
   );
 };
-export default MentoArticle;
+export default MentorArticle;
