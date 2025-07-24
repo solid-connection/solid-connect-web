@@ -16,16 +16,12 @@ const MentorFindSection = () => {
   const filteredMentors = useMemo(() => {
     return mentorListData.filter((mentor) => {
       if (selectedFilter === FilterTab.ALL) return true;
-      if (selectedFilter === FilterTab.EUROPE) return mentor.country === "유럽권";
-      if (selectedFilter === FilterTab.AMERICAS) return mentor.country === "미주권";
-      if (selectedFilter === FilterTab.ASIA) return mentor.country === "아시아권";
+      if (selectedFilter === FilterTab.EUROPE) return mentor.country === FilterTab.EUROPE;
+      if (selectedFilter === FilterTab.AMERICAS) return mentor.country === FilterTab.AMERICAS;
+      if (selectedFilter === FilterTab.ASIA) return mentor.country === FilterTab.ASIA;
       return false;
     });
   }, [mentorListData, selectedFilter]);
-
-  const handleFilterChange = (filter: FilterTab) => {
-    setSelectedFilter(filter);
-  };
 
   return (
     <div className="px-4">
@@ -36,7 +32,7 @@ const MentorFindSection = () => {
         {Object.values(FilterTab).map((tab) => (
           <button
             key={tab}
-            onClick={() => handleFilterChange(tab)}
+            onClick={() => setSelectedFilter(tab)}
             className={`flex items-center justify-center gap-[10px] rounded-2xl px-[14px] py-1 text-center text-xs font-semibold leading-[150%] ${
               selectedFilter === tab ? "bg-primary-100 text-primary" : "bg-k-50 text-k-300"
             }`}

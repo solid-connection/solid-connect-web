@@ -77,6 +77,8 @@ const MenteePageTabs = () => {
           hasBadge={mentor.hasBadge}
         />
       ))}
+      {/* 중간 밑줄 */}
+      <div className="mb-10 mt-10 h-1.5 w-full bg-k-50"></div>
     </>
   );
 };

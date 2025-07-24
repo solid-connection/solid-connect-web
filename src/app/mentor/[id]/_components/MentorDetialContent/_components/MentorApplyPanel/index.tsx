@@ -6,12 +6,12 @@ import IconConfirmCancelModal from "@/components/modal/IconConfirmCancelModal";
 
 import { IconCheck, IconTime } from "@/public/svgs/mentor";
 
-interface MentorAppliePanelProps {
+interface MentorApplyPanelProps {
   isDistribute?: boolean;
   isAleadyMatch?: boolean;
 }
 
-const MentorAppliePanel = ({ isDistribute = false, isAleadyMatch = false }: MentorAppliePanelProps) => {
+const MentorApplyPanel = ({ isDistribute = false, isAleadyMatch = false }: MentorApplyPanelProps) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   // 버튼 텍스트 설정
@@ -66,4 +66,4 @@ const MentorAppliePanel = ({ isDistribute = false, isAleadyMatch = false }: Ment
     </>
   );
 };
-export default MentorAppliePanel;
+export default MentorApplyPanel;
