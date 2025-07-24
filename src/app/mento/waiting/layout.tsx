@@ -1,16 +1,16 @@
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 
-interface MentoLayoutProps {
+interface MentoWaitingLayoutProps {
   children: React.ReactNode;
 }
 
-const MentoLayout = ({ children }: MentoLayoutProps) => {
+const MentoWaitingLayout = ({ children }: MentoWaitingLayoutProps) => {
   return (
     <div>
-      <TopDetailNavigation title="멘토" />
+      <TopDetailNavigation title="멘토 채팅" />
       <div className="min-h-screen">{children}</div>
     </div>
   );
 };
 
-export default MentoLayout;
+export default MentoWaitingLayout;

@@ -27,7 +27,7 @@ const ProfileWithBadge = ({
       {/* 프로필 이미지 */}
       <div
         className={`h-full w-full overflow-hidden rounded-full ${
-          !hasBadge ? "border-2 border-primary-1" : "border border-gray-200"
+          hasBadge ? "border-2 border-primary-1" : "border border-gray-200"
         }`}
       >
         {profileImageUrl ? (
@@ -44,7 +44,7 @@ const ProfileWithBadge = ({
       </div>
 
       {/* 학습 상태 배지 */}
-      {!hasBadge && (
+      {hasBadge && (
         <div
           className={`absolute -right-1 flex items-center justify-center rounded-full bg-primary-1 ${
             isBadgeUp ? "-top-1" : "-bottom-1"

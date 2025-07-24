@@ -16,9 +16,8 @@ export const metadata: Metadata = {
 const MentorPage = () => {
   const isMentor = false;
   const myMentoData = getMentorData();
-
   return (
-    <>
+    <div className="px-5">
       {isMentor ? (
         // 멘토페이지
         <>
@@ -43,8 +42,9 @@ const MentorPage = () => {
           <MentorFindSection />
         </>
       )}
-    </>
+    </div>
   );
 };
+
 
 export default MentorPage;
