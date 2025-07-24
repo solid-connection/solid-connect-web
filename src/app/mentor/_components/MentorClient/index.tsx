@@ -1,14 +1,10 @@
-import { getMentorData } from "@/utils/mockingGetData";
-
-import MentorCard from "@/components/mentor/MentorCard";
-
 import MenteePageTabs from "./_components/MenteePageTabs";
 import MentorFindSection from "./_components/MentorFindSection";
 import MentoPageTabs from "./_components/MentorPageTabs";
+import MyMentoSection from "./_components/MyMentoSection";
 
 const MentorClient = () => {
   const isMentor = false;
-  const myMentoData = getMentorData();
   return (
     <>
       {!isMentor ? (
@@ -17,12 +13,7 @@ const MentorClient = () => {
           {/* 나의 멘토 - 멘티 탭 및 채팅카드 */}
           <MentoPageTabs />
           {/* 나의 멘토 페이지 */}
-          <h2 className="text-lg font-bold text-gray-900">나의 멘토 페이지</h2>
-          <div className="mt-[14px]">
-            {myMentoData.map((mentee) => (
-              <MentorCard key={mentee.id} isMine mentor={mentee} />
-            ))}
-          </div>
+          <MyMentoSection />
         </>
       ) : (
         // 멘티페이지
