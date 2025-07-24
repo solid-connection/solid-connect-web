@@ -17,13 +17,9 @@ interface MentorDropDownProps {
 const MentorDropDown = ({ selectedTab, setSelectedTab }: MentorDropDownProps) => {
   const { isFirstVisit } = useFirstVisit();
 
-  const handleSelect = (value: MentorTab) => {
-    setSelectedTab(value);
-  };
-
   return (
     <div className="relative h-[40px] w-[140px]">
-      <ReusableDropdown<MentorTab> items={mentoDropdownItems} selectedValue={selectedTab} onSelect={handleSelect}>
+      <ReusableDropdown<MentorTab> items={mentoDropdownItems} selectedValue={selectedTab} onSelect={setSelectedTab}>
         <button className="flex h-full w-full items-center justify-between px-4 text-lg font-semibold leading-normal text-k-900">
           {selectedTab}
           <span className="h-[30px] w-[30px]">
