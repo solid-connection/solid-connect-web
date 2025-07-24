@@ -1,4 +1,4 @@
-export type RegionKo = "아시아권" | "미주권" | "유럽권" | "중국권";
+export type RegionKo = "유럽권" | "미주권" | "아시아권";
 
 export enum RegionEnum {
   ASIA = "ASIA", // 아시아권
