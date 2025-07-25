@@ -20,3 +20,13 @@ export const isTokenExpired = (token: string): boolean => {
     return true;
   }
 };
+
+export const decodeExp = (token: string) => {
+  try {
+    const payload = JSON.parse(atob(token.split(".")[1]));
+    const { exp } = payload;
+    return exp * 1000; // → ms
+  } catch {
+    return 0;
+  }
+};
