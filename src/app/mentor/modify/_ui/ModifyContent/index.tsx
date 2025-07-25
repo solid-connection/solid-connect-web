@@ -10,7 +10,7 @@ import { MentoModifyFormData, mentoModifySchema } from "./_lib/mentoModifyScehma
 import AddArticleCard from "./_ui/AddArticleCard";
 import MentoArticlePanel from "./_ui/ArticlePanel";
 import ChannelSelect from "./_ui/ChannelSelct";
-import ModifyBtnPanel from "./_ui/ModalBtnPanel";
+import ModifyBtnPanel from "./_ui/ModifyBtnPanel";
 
 import { ChannelType } from "@/types/mentor";
 

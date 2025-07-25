@@ -1,6 +1,6 @@
 import EmptySdwBCards from "@/components/ui/EmptySdwBCards";
 
-import MentorExpandChatCard from "./_components/MentorExpandChatCard";
+import MentorExpandChatCard from "./_ui/MentorExpandChatCard";
 
 const request = {
   requests: [
@@ -68,10 +68,11 @@ const WatingContent = () => {
         ) : (
           completeWatingList.map((item) => (
             <MentorExpandChatCard
+              isWating={false}
               key={item.mentoringId}
               profileImageUrl={item.profileImageUrl}
               nickname={item.nickname}
-              message={`님이 멘토링을 신청했습니다 `}
+              message={`님이 멘티 신청을 수락했어요.`}
               date={item.createAt}
             />
           ))
@@ -84,10 +85,11 @@ const WatingContent = () => {
         ) : (
           abroadWatingList.map((item) => (
             <MentorExpandChatCard
+              isWating
               key={item.mentoringId}
               profileImageUrl={item.profileImageUrl}
               nickname={item.nickname}
-              message={`님이 멘토링을 수락했습니다 `}
+              message={`님이 멘티 신청을 보냈어요.`}
               date={item.createAt}
             />
           ))

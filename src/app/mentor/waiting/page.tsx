@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-import WatingContent from "./_components/WatingContent";
+import WatingContent from "./_ui/WatingContent";
 
 export const metadata: Metadata = {
   title: "멘토 승인 대기 | Solid Connect",
