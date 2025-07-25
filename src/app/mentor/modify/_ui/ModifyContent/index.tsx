@@ -8,16 +8,13 @@ import MentoStudyStatusBox from "@/components/mentor/StudyStatusBox";
 import ChannelBadge from "@/components/ui/ChannelBadge";
 import MentoProfile from "@/components/ui/ProfileWithBadge";
 
-import ChannelSelect from "./_components/ChannelSelct";
-import MentoArticlePanel from "./_components/MentoArticlePanel";
-import ModifyBtnPanel from "./_components/ModalBtnPanel";
+import { MentoModifyFormData, mentoModifySchema } from "./_lib/mentoModifyScehma";
+import ChannelSelect from "./_ui/ChannelSelct";
+import MentoArticlePanel from "./_ui/MentoArticlePanel";
+import ModifyBtnPanel from "./_ui/ModalBtnPanel";
 
 import { ChannelType } from "@/types/mentor";
 
-import {
-  MentoModifyFormData,
-  mentoModifySchema,
-} from "@/app/mentor/modify/_components/ModifyContent/_lib/mentoModifyScehma";
 import { IconUserPrimaryColor } from "@/public/svgs/mentor";
 import { zodResolver } from "@hookform/resolvers/zod";
 
