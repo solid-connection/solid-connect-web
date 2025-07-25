@@ -9,8 +9,9 @@ import ChannelBadge from "@/components/ui/ChannelBadge";
 import MentoProfile from "@/components/ui/ProfileWithBadge";
 
 import { MentoModifyFormData, mentoModifySchema } from "./_lib/mentoModifyScehma";
+import AddArticleCard from "./_ui/AddArticleCard";
+import MentoArticlePanel from "./_ui/ArticlePanel";
 import ChannelSelect from "./_ui/ChannelSelct";
-import MentoArticlePanel from "./_ui/MentoArticlePanel";
 import ModifyBtnPanel from "./_ui/ModalBtnPanel";
 
 import { ChannelType } from "@/types/mentor";
@@ -170,7 +171,7 @@ const ModifyContent = () => {
           ))}
           {/* 새 아티클 추가 버튼 */}
           <div className="mb-6">
-            <MentoArticlePanel />
+            <AddArticleCard />
           </div>
           <div className="mt-20 flex justify-center">
             <ModifyBtnPanel onSubmit={handleSubmit(onSubmit)} />

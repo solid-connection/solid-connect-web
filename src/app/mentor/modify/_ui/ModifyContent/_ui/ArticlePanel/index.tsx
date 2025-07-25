@@ -17,13 +17,13 @@ interface ArticleData {
   description: string;
 }
 
-interface MentoArticlePanelProps {
+interface ArticlePanelProps {
   articleData?: ArticleData;
 }
 
 const dropdownOptions: ArticleDropdownType[] = [ArticleDropdownType.EDIT, ArticleDropdownType.DELETE];
 
-const MentoArticlePanel = ({ articleData }: MentoArticlePanelProps) => {
+const ArticlePanel = ({ articleData }: ArticlePanelProps) => {
   // state
   const [isArticleModalOpen, setIsArticleModalOpen] = useState<boolean>(false);
 
@@ -116,4 +116,4 @@ const MentoArticlePanel = ({ articleData }: MentoArticlePanelProps) => {
   );
 };
 
-export default MentoArticlePanel;
+export default ArticlePanel;
