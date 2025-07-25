@@ -9,14 +9,13 @@ import IconConfirmCancelModalWrapper from "@/components/modal/IconConfirmCancelM
 import ChannelBadge from "@/components/ui/ChannelBadge";
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
 
-import StudyStatusBox from "../StudyStatusBox";
+import StudyDate from "../StudyDate";
 
-import { ChannelType, Mentor } from "@/types/mentor";
-
+import { ChannelType, MentorCardResponse } from "@/api/mentor/type/response";
 import { IconCheck, IconDirectionDown, IconDirectionUp } from "@/public/svgs/mentor";
 
 interface MentorCardProps {
-  mentor: Mentor;
+  mentor: MentorCardResponse;
   isMine?: boolean; // isMine prop 추가
 }
 
@@ -49,7 +48,7 @@ const MentorCard = ({ mentor, isMine = false }: MentorCardProps) => {
           <div className="mb-1 flex items-center justify-between">
             <span className="text-base font-semibold leading-normal text-primary-1">{country}</span>
 
-            <StudyStatusBox studyStatus={studyStatus} />
+            <StudyDate studyStatus={studyStatus} />
           </div>
           <h3 className="text-xl font-bold leading-normal text-k-800">{nickname}님</h3>
           <div className="mt-1 flex flex-col">

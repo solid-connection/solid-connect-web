@@ -2,26 +2,22 @@
 
 import { useMemo, useState } from "react";
 
-import { getMentorListData } from "@/utils/mockingGetData";
+import useInfinityScroll from "@/utils/useInfinityScroll";
 
 import MentorCard from "@/components/mentor/MentorCard";
 import EmptySdwBCards from "@/components/ui/EmptySdwBCards";
 
 import { FilterTab } from "@/types/mentor";
 
+import useGetMentorList from "@/api/mentor/client/useGetMentorList";
+
 const MentorFindSection = () => {
   const [selectedFilter, setSelectedFilter] = useState<FilterTab>(FilterTab.ALL);
-  const mentorListData = getMentorListData();
-
-  const filteredMentors = useMemo(() => {
-    return mentorListData.filter((mentor) => {
-      if (selectedFilter === FilterTab.ALL) return true;
-      if (selectedFilter === FilterTab.EUROPE) return mentor.country === FilterTab.EUROPE;
-      if (selectedFilter === FilterTab.AMERICAS) return mentor.country === FilterTab.AMERICAS;
-      if (selectedFilter === FilterTab.ASIA) return mentor.country === FilterTab.ASIA;
-      return false;
-    });
-  }, [mentorListData, selectedFilter]);
+  const { page, lastElementRef } = useInfinityScroll();
+  const { mentorList, loading, error } = useGetMentorList({
+    page,
+    region: selectedFilter !== FilterTab.ALL ? selectedFilter : undefined,
+  });
 
   return (
     <div className="px-4">
@@ -44,10 +40,10 @@ const MentorFindSection = () => {
 
       {/* 멘토 리스트 */}
       <div className="space-y-4">
-        {filteredMentors.length === 0 ? (
+        {mentorList.length === 0 ? (
           <EmptySdwBCards message="멘토가 없습니다. 필터를 변경해보세요." />
         ) : (
-          filteredMentors.map((mentor) => <MentorCard key={mentor.id} mentor={mentor} />)
+          mentorList.map((mentor) => <MentorCard key={mentor.id} mentor={mentor} />)
         )}
       </div>
     </div>

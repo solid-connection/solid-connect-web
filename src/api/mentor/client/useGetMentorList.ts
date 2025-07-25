@@ -1,0 +1,49 @@
+import { useEffect, useState } from "react";
+
+import useFetch from "@/utils/apiUtils";
+
+import { MentorCard, MentorListResponse } from "../type/response";
+
+interface UseGetMentorListProps {
+  region?: string;
+  page?: number;
+}
+
+interface UseGetMentorListReturn {
+  mentorList: MentorCard[];
+  loading: boolean;
+  error: unknown;
+}
+
+const OFFSET = 10; // 기본 페이지 크기
+
+const useGetMentorList = ({ region = "전체", page = 0 }: UseGetMentorListProps = {}): UseGetMentorListReturn => {
+  const { result, loading, error, fetchData } = useFetch<MentorListResponse>("/mentors", {
+    params: { region, size: OFFSET, page },
+  });
+  const [mentorList, setMentorList] = useState<MentorCard[]>([]);
+  const [nextPageNumber, setNextPageNumber] = useState<number>(0);
+
+  useEffect(() => {
+    // nextPageNumber가 -1이면 더 이상 호출하지 않음
+    if (nextPageNumber === -1) return;
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [region, page, nextPageNumber, fetchData]);
+
+  useEffect(() => {
+    if (result) {
+      // 추가 로딩된 콘텐츠를 기존 배열에 병합
+      setMentorList((prev) => [...prev, ...result.data.content]);
+      setNextPageNumber(result.data.nextPageNumber);
+    }
+  }, [result]);
+
+  return {
+    mentorList,
+    loading,
+    error,
+  };
+};
+
+export default useGetMentorList;
