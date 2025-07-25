@@ -4,6 +4,8 @@ import { useState } from "react";
 import ArticleModal from "@/components/mentor/ArticleModal";
 import ReusableDropdown from "@/components/ui/ReusableDropdown";
 
+import useDeleteDropDownHandler from "./_hooks/useDropDownHandler";
+
 import { ArticleDropdownType } from "@/types/mentor";
 
 import { ArticleResponse } from "@/api/article/type/response";
@@ -18,19 +20,10 @@ const dropdownOptions: ArticleDropdownType[] = [ArticleDropdownType.EDIT, Articl
 const ArticlePanel = ({ article }: ArticlePanelProps) => {
   // state
   const [isArticleModalOpen, setIsArticleModalOpen] = useState<boolean>(false);
-
-  const handleDropdownSelect = (value: ArticleDropdownType) => {
-    switch (value) {
-      case ArticleDropdownType.EDIT:
-        setIsArticleModalOpen(true);
-        break;
-      case ArticleDropdownType.DELETE:
-        // 삭제 로직
-        break;
-      default:
-        break;
-    }
-  };
+  const { handleDropdownSelect } = useDeleteDropDownHandler({
+    articleId: 0,
+    setIsArticleModalOpen,
+  });
 
   return (
     <>
