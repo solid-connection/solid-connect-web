@@ -30,7 +30,7 @@ export interface MentorCardBase {
 }
 
 /** 리스트(미리보기) 용 – passTip / isApplied 없이 사용 */
-export type MentorCardPreview = MentorCardBase;
+export type MentorCardPreview = MentorCardBase & { studyStatus: "24-1" | "24-2" }; // 학업 상태 (예: "24-1")
 
 /** 상세 뷰 용 – 추가 정보 포함 */
 export interface MentorCardDetail extends MentorCardBase {

@@ -8,38 +8,21 @@ import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
 
 import MentorArticle from "./_ui/MentorArticle";
 
-import { Article, ChannelType } from "@/types/mentor";
-
+import useGetArticleList from "@/api/article/client/useGetAriticleList";
 import useGetMentorDetailPage from "@/api/mentor/client/useGetMentorDetailPage";
+import { ChannelType } from "@/api/mentor/type/response";
 import { IconCheck } from "@/public/svgs/mentor";
 
 interface MentorDetailContentProps {
   mentorId: number;
 }
 
-// 더미 아티클 데이터
-const articles: Article[] = [
-  {
-    id: 1,
-    title: "교환학생 '찐' 후기",
-    description: "교환학생 경험의 진솔한 이야기와 꿀팁이 가득한 '찐' 후기를 영상에서 확인하세요!",
-    imageUrl: "/images/placeholder/europe-city.jpg",
-    isLiked: false,
-  },
-  {
-    id: 2,
-    title: "미국 대학 준비 가이드",
-    description: "미국 대학 지원을 위한 필수 준비사항과 노하우를 공유합니다.",
-    imageUrl: "/images/placeholder/university.jpg",
-    isLiked: true,
-  },
-];
 const MentorDetialContent = ({ mentorId }: MentorDetailContentProps) => {
-  const { mentorDetail, loading } = useGetMentorDetailPage(mentorId);
-
-  if (loading || !mentorDetail) return null; // TODO: skeleton 처리
+  const { mentorDetail } = useGetMentorDetailPage(mentorId);
+  const { articleList } = useGetArticleList(mentorId);
 
   if (!mentorDetail) return null; // type guard
+
   const {
     country,
     studyStatus,
@@ -130,8 +113,8 @@ const MentorDetialContent = ({ mentorId }: MentorDetailContentProps) => {
       {/* 멘토의 아티클 */}
       <h3 className="mb-2 text-[18px] font-normal text-secondary">멘토의 아티클</h3>
       <div className="mb-6 space-y-4">
-        {articles.map((article) => (
-          <MentorArticle key={article.id} article={article} />
+        {articleList.map((article) => (
+          <MentorArticle key={article.title} article={article} />
         ))}
       </div>
       <div className="pointer-events-none fixed bottom-20 left-0 right-0 flex justify-center">

@@ -3,22 +3,21 @@
 import Image from "next/image";
 import { useState } from "react";
 
-import { Article } from "@/types/mentor";
-
+import { ArticleResponse } from "@/api/article/type/response";
 import { IconLikeFill, IconLkieNotFill } from "@/public/svgs/mentor";
 
 interface MentorArticleProps {
-  article: Article;
+  article: ArticleResponse;
 }
 
 const MentorArticle = ({ article }: MentorArticleProps) => {
   const [isLiked, setIsLiked] = useState<boolean>(article.isLiked);
 
   return (
-    <div key={article.id} className="overflow-hidden">
+    <div key={article.description} className="overflow-hidden">
       {/* 아티클 이미지 */}
       <div className="relative mb-2 h-48 w-full rounded-lg bg-gradient-to-br from-blue-400 to-blue-600">
-        <Image src={article.imageUrl} alt={article.title} fill className="object-cover" />
+        <Image src={article.thumbnailUrl} alt={article.title} fill className="object-cover" />
       </div>
 
       {/* 아티클 내용 */}
