@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 // protectedFetch.ts
 import { redirect } from "next/navigation";
 
-import { isTokenExpired } from "./jwtUtils";
+import { decodeExp, isTokenExpired } from "./jwtUtils";
 
 import { reissueAccessTokenPublicApi } from "@/api/auth";
 
@@ -35,14 +35,6 @@ if (!globalSemaphore.__accessCache) {
 // 전역 캐시 객체
 const accessCache: AccessCache = globalSemaphore.__accessCache;
 
-const decodeExp = (jwt: string) => {
-  try {
-    const { exp = 0 } = JSON.parse(Buffer.from(jwt.split(".")[1], "base64").toString("utf8"));
-    return exp * 1000; // → ms
-  } catch {
-    return 0;
-  }
-};
 const getAccessToken = async (refresh: string) => {
   // 만료 30초 전까지는 재발급하지 않고 캐싱
   if (accessCache.token && Date.now() < accessCache.exp - 30000) return accessCache.token;

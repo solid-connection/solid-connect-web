@@ -20,3 +20,12 @@ export const isTokenExpired = (token: string): boolean => {
     return true;
   }
 };
+
+export const decodeExp = (jwt: string) => {
+  try {
+    const { exp = 0 } = JSON.parse(Buffer.from(jwt.split(".")[1], "base64").toString("utf8"));
+    return exp * 1000; // → ms
+  } catch {
+    return 0;
+  }
+};
