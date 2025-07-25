@@ -16,6 +16,7 @@ import { ChannelType } from "@/types/mentor";
 
 import useGetArticleList from "@/api/article/client/useGetAriticleList";
 import useGetMyMentorProfile from "@/api/mentor/client/useGetMyMentorProfile";
+import usePutMyMentorProfile, { PutMyMentorProfileBody } from "@/api/mentor/client/usePutMyMentorProfile";
 import { IconUserPrimaryColor } from "@/public/svgs/mentor";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -33,16 +34,22 @@ const ModifyContent = () => {
   } = useForm<MentoModifyFormData>({
     resolver: zodResolver(mentoModifySchema),
     defaultValues: {
-      channels: Object.values(ChannelType).map(() => ({ type: "", link: "" })),
-      mentorMessage: "",
-      successRecipe: "",
+      channels: Object.values(ChannelType).map(() => ({ type: "", url: "" })),
+      introduction: "",
+      passTip: "",
     },
   });
 
+  const { putMyMentorProfile } = usePutMyMentorProfile();
+
   // 폼 제출 핸들러
   const onSubmit = (data: MentoModifyFormData) => {
-    // TODO 여기에 폼 제출 로직을 추가
-    console.log("폼이 제출되었습니다.", data);
+    const payload: PutMyMentorProfileBody = {
+      channels: data.channels ?? [],
+      introduction: data.introduction ?? "",
+      passTip: data.passTip ?? "",
+    };
+    putMyMentorProfile(payload);
   };
 
   return (
@@ -89,42 +96,42 @@ const ModifyContent = () => {
 
               <h2 className="mt-5 text-[16px] font-medium text-k-700">링크 삽입</h2>
               <input
-                {...register(`channels.${index}.link`)}
+                {...register(`channels.${index}.url`)}
                 className="mt-2 h-[45px] w-full rounded-lg border border-gray-300 px-4 py-3 text-sm font-light text-k-300"
-                placeholder="링크를 입력해주세요."
+                placeholder="URL을 입력해주세요."
               />
-              {errors.channels?.[index]?.link && (
+              {errors.channels?.[index]?.url && (
                 <p className="mt-1 text-sm text-red-500">
-                  {typeof errors.channels[index]?.link === "object" && errors.channels[index]?.link?.message
-                    ? errors.channels[index]?.link?.message
-                    : "링크를 입력해주세요"}
+                  {typeof errors.channels[index]?.url === "object" && errors.channels[index]?.url?.message
+                    ? errors.channels[index]?.url?.message
+                    : "URL을 입력해주세요"}
                 </p>
               )}
             </div>
           ))}
           <h2 className="mt-[40px] text-lg leading-normal text-primary-1">멘토 한마디</h2>
           <textarea
-            {...register("mentorMessage")}
+            {...register("introduction")}
             className="mt-[10px] h-[120px] w-full rounded-lg bg-k-50 p-5 text-sm font-light text-k-300"
             placeholder="최대 200자 이내"
           />
-          {errors.mentorMessage && (
+          {errors.introduction && (
             <p className="mt-1 text-sm text-red-500">
-              {typeof errors.mentorMessage === "object" && errors.mentorMessage.message
-                ? errors.mentorMessage.message
+              {typeof errors.introduction === "object" && errors.introduction.message
+                ? errors.introduction.message
                 : "멘토 한마디를 입력해주세요"}
             </p>
           )}
           <h2 className="mt-[40px] text-lg leading-normal text-primary-1">합격 레시피</h2>
           <textarea
-            {...register("successRecipe")}
+            {...register("passTip")}
             className="mt-[10px] h-[120px] w-full rounded-lg bg-k-50 p-5 text-sm font-light text-k-300"
             placeholder="최대 200자 이내"
           />
-          {errors.successRecipe && (
+          {errors.passTip && (
             <p className="mt-1 text-sm text-red-500">
-              {typeof errors.successRecipe === "object" && errors.successRecipe.message
-                ? errors.successRecipe.message
+              {typeof errors.passTip === "object" && errors.passTip.message
+                ? errors.passTip.message
                 : "합격 레시피를 입력해주세요"}
             </p>
           )}{" "}
