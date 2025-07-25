@@ -9,11 +9,11 @@ import ChannelBadge from "../ui/ChannelBadge";
 import ProfileWithBadge from "../ui/ProfileWithBadge";
 import StudyDate from "./StudyDate";
 
-import { ChannelType, MentorCardDetail } from "@/api/mentor/type/response";
+import { ChannelType, MentorCardDetail, MentorCardPreview } from "@/api/mentor/type/response";
 import { IconCheck, IconDirectionDown, IconDirectionUp, IconTime } from "@/public/svgs/mentor";
 
 interface MentorCardProps {
-  mentor: MentorCardDetail;
+  mentor: MentorCardDetail | MentorCardPreview;
   observeRef?: React.RefCallback<HTMLDivElement>;
   isMine?: boolean; // isMine prop 추가
   isDistribute?: boolean; // isDistribute prop 추가
@@ -23,21 +23,10 @@ const MentorCard = ({ mentor, observeRef, isMine = false, isDistribute = false }
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
 
   // 구조분해 할당
-  const {
-    profileImageUrl,
-    hasBadge,
-    menteeCount,
-    country,
-    nickname,
-    universityName,
-    introduction,
-    channels,
-    studyStatus,
-  } = mentor;
+  const { profileImageUrl, hasBadge, menteeCount, country, nickname, universityName, introduction, channels } = mentor;
 
-  const handleToggle = () => {
-    setIsExpanded(!isExpanded);
-  };
+  // 타입 가드: 상세 타입인지 확인
+  const isDetail = "studyStatus" in mentor;
 
   return (
     <div
@@ -54,8 +43,7 @@ const MentorCard = ({ mentor, observeRef, isMine = false, isDistribute = false }
         <div className="flex-1">
           <div className="mb-1 flex items-center justify-between">
             <span className="text-base font-semibold leading-normal text-primary-1">{country}</span>
-
-            <StudyDate studyStatus={studyStatus} />
+            {isDetail && <StudyDate studyStatus={mentor.studyStatus} />}
           </div>
           <h3 className="text-xl font-bold leading-normal text-k-800">{nickname}님</h3>
           <div className="mt-1 flex flex-col">
@@ -122,7 +110,7 @@ const MentorCard = ({ mentor, observeRef, isMine = false, isDistribute = false }
       {/* 접기/펼치기 버튼 */}
       <div className="flex justify-center">
         <button
-          onClick={handleToggle}
+          onClick={() => setIsExpanded(!isExpanded)}
           className="flex h-6 w-6 items-center justify-center rounded-full border border-gray-300"
         >
           <div className="flex h-full w-full items-center justify-center">
