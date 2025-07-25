@@ -5,7 +5,7 @@ import localFont from "next/font/local";
 import AppleScriptLoader from "@/components/layout/AppleScriptLoader";
 import KakaoScriptLoader from "@/components/layout/KakaoScriptLoader";
 import Layout from "@/components/layout/Layout";
-import MentorApplyCountModal from "@/components/mentor/MentorApplyCountModal";
+import RootModal from "@/components/layout/RootModal";
 
 import "../styles/globals.css";
 
@@ -53,7 +53,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => (
         <GoogleAnalytics gaId="G-V1KLYZC1DS" />
         <body className={`${pretendard.className} ${inter.className}`}>
           <Layout>{children}</Layout>
-          <MentorApplyCountModal />
+          <RootModal />
         </body>
       </html>
     </LayoutProvider>
