@@ -109,11 +109,7 @@ const ModifyContent = () => {
                 <ChannelBadge channerType={channelType} text={`내 채널${index + 1}`} />
               </div>
               <h2 className="mt-[10px] text-[16px] font-medium text-k-700">채널 선택</h2>
-              <Controller
-                name={`channels.${index}.type`}
-                control={control}
-                render={({ field }) => <ChannelSelect {...field} name={`channel-${index}`} />}
-              />
+              <ChannelSelect control={control} name={`channels.${index}.type`} />
               {errors.channels?.[index]?.type && (
                 <p className="mt-1 text-sm text-red-500">
                   {typeof errors.channels[index]?.type === "object" && errors.channels[index]?.type?.message

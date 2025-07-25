@@ -1,4 +1,7 @@
 import { useEffect, useRef, useState } from "react";
+import { Control, FieldValues, useController } from "react-hook-form";
+
+import { ChannelType } from "@/types/mentor";
 
 interface useSelectHandlerReturn {
   isOpen: boolean;
@@ -8,10 +11,16 @@ interface useSelectHandlerReturn {
   toggleDropdown: () => void;
 }
 
-const useSelectHandler = (): useSelectHandlerReturn => {
+interface UseSelectHandlerProps {
+  name?: string;
+  control: Control<FieldValues>;
+}
+const useSelectHandler = ({ name = "channel", control }: UseSelectHandlerProps): useSelectHandlerReturn => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState<string | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const { field } = useController({ name, control, defaultValue: null });
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -29,11 +38,11 @@ const useSelectHandler = (): useSelectHandlerReturn => {
     };
   }, [isOpen]);
 
-  const handleChannelChange = (value: string | null) => {
+  const handleChannelChange = (value: ChannelType | null) => {
     setSelectedValue(value);
     setIsOpen(false);
+    field.onChange(value); // react‑hook‑form state
   };
-
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
