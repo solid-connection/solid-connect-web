@@ -38,3 +38,7 @@ export interface MentorCardDetail extends MentorCardBase {
   isApplied: boolean;
   studyStatus: "24-1" | "24-2"; // 학업 상태 (예: "24-1")
 }
+
+export interface MentoringNewCountResponse {
+  count: number;
+}
