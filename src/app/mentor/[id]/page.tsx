@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-import MentorDetialContent from "./_components/MentorDetialContent";
+import MentorDetialContent from "./_ui/MentorDetialContent";
 
 export const metadata: Metadata = {
   title: "멘토 상세 정보 | Solid Connect",
