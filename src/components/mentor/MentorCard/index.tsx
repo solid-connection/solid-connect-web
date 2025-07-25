@@ -2,17 +2,18 @@
 
 import React, { useState } from "react";
 
+import clsx from "clsx";
 import { Link } from "lucide-react";
 
+import IconConfirmCancelModalWrapper from "@/components/modal/IconConfirmCancelModalWrapper";
 import ChannelBadge from "@/components/ui/ChannelBadge";
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
 
 import StudyStatusBox from "../StudyStatusBox";
-import MentorApplyPanel from "./ui/MentorApplyPanel";
 
 import { ChannelType, Mentor } from "@/types/mentor";
 
-import { IconDirectionDown, IconDirectionUp } from "@/public/svgs/mentor";
+import { IconCheck, IconDirectionDown, IconDirectionUp } from "@/public/svgs/mentor";
 
 interface MentorCardProps {
   mentor: Mentor;
@@ -70,20 +71,18 @@ const MentorCard = ({ mentor, isMine = false }: MentorCardProps) => {
           <div className="mb-4">
             <h4 className="mb-2 text-sm font-medium text-blue-600">멘토 채널</h4>
             <div
-              className={`grid gap-2 ${
-                channels.length === 1
-                  ? "grid-cols-1"
-                  : channels.length === 2
-                    ? "grid-cols-2"
-                    : channels.length === 3
-                      ? "grid-cols-2"
-                      : "grid-cols-2"
-              }`}
+              className={clsx("grid gap-2", {
+                "grid-cols-1": channels.length === 1,
+                "grid-cols-2": channels.length !== 1,
+              })}
             >
               {channels.map((channel, idx) => (
                 <div
                   key={idx}
-                  className={`h-10 ${channels.length === 1 ? "w-full" : channels.length === 3 && idx === 2 ? "col-span-2" : ""}`}
+                  className={clsx("h-10", {
+                    "w-full": channels.length === 1,
+                    "col-span-2": channels.length === 3 && idx === 2,
+                  })}
                 >
                   <ChannelBadge channerType={channel.type as ChannelType} />
                 </div>
@@ -105,7 +104,17 @@ const MentorCard = ({ mentor, isMine = false }: MentorCardProps) => {
                 <button className="flex h-10 w-1/2 flex-shrink-0 items-center justify-center gap-3 rounded-[20px] bg-primary px-5 py-2.5 font-medium text-white">
                   멘토 페이지
                 </button>
-                <MentorApplyPanel />
+                <IconConfirmCancelModalWrapper
+                  icon={IconCheck}
+                  title={"멘토 신청이 완료되었어요!"}
+                  content={"멘토가 신청을 수락하면 대화를 시작할 수 있어요.\n대화 수락까지 조금만 기다려주세요."}
+                  cancelText="홈으로"
+                  approveText="다른 멘토 찾기"
+                >
+                  <button className="flex h-[41px] w-1/2 flex-shrink-0 items-center justify-center gap-3 rounded-[20px] bg-primary px-5 py-[10px] font-medium text-white">
+                    멘토 신청하기
+                  </button>
+                </IconConfirmCancelModalWrapper>
               </>
             )}
           </div>

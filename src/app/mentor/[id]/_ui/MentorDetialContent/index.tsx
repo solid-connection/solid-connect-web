@@ -1,10 +1,14 @@
+import clsx from "clsx";
+
+import IconConfirmCancelModalWrapper from "@/components/modal/IconConfirmCancelModalWrapper";
 import ChannelBadge from "@/components/ui/ChannelBadge";
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
 
-import MentorApplyPanel from "./_components/MentorApplyPanel";
-import MentorArticle from "./_components/MentorArticle";
+import MentorArticle from "./_ui/MentorArticle";
 
 import { Article, ChannelType } from "@/types/mentor";
+
+import { IconCheck } from "@/public/svgs/mentor";
 
 // 더미 채널 데이터
 const channels = [{ type: ChannelType.BLOG }, { type: ChannelType.BRUNCH }];
@@ -27,6 +31,7 @@ const articles: Article[] = [
   },
 ];
 const MentorDetialContent = () => {
+  const isAleadyMatch = false; // 이미 매칭된 멘토인지 여부
   return (
     <>
       {/* 멘토 프로필 섹션 */}
@@ -93,7 +98,6 @@ const MentorDetialContent = () => {
 
       {/* 멘토의 아티클 */}
       <h3 className="mb-2 text-[18px] font-normal text-secondary">멘토의 아티클</h3>
-
       <div className="mb-6 space-y-4">
         {articles.map((article) => (
           <MentorArticle key={article.id} article={article} />
@@ -101,7 +105,27 @@ const MentorDetialContent = () => {
       </div>
       <div className="pointer-events-none fixed bottom-20 left-0 right-0 flex justify-center">
         <div className="pointer-events-auto">
-          <MentorApplyPanel isDistribute={false} isAleadyMatch={false} />
+          <IconConfirmCancelModalWrapper
+            icon={<IconCheck />}
+            title="멘토 신청이 완료되었어요!"
+            content="멘토가 신청을 수락하면 대화를 시작할 수 있어요.\n대화 수락까지 조금만 기다려주세요."
+            isOneButton={false}
+            cancelText="홈으로"
+            approveText="다른멘토 찾기"
+            disabled={isAleadyMatch}
+          >
+            <button
+              className={clsx(
+                "flex h-[41px] w-full items-center justify-center gap-3 rounded-[20px] px-5 py-[10px] font-medium",
+                {
+                  "cursor-not-allowed bg-k-100 text-k-400": isAleadyMatch,
+                  "bg-primary text-white": !isAleadyMatch,
+                },
+              )}
+            >
+              {isAleadyMatch ? "매칭완료된 멘토" : "멘토 신청하기"}
+            </button>
+          </IconConfirmCancelModalWrapper>
         </div>
       </div>
     </>

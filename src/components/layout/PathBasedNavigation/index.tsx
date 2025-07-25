@@ -2,6 +2,8 @@
 
 import { usePathname, useRouter } from "next/navigation";
 
+import getTitle from "./lib/getTitle";
+
 import { IconArrowBackFilled } from "@/public/svgs";
 
 interface PathBasedNavigationProps {
@@ -26,35 +28,13 @@ const PathBasedNavigation = ({
   const routeBack = () => {
     router.back(); // 라우터의 back 함수를 사용하여 이전 페이지로 이동
   };
-  const getTitle = (): string => {
-    if (!pathname) return "";
 
-    // 1. 정확한 매칭만 확인
-    if (pathname in customTitles) {
-      return customTitles[pathname];
-    }
-
-    // 2. 부분 매칭 확인 (예: /mento/chat/123 -> /mento/chat/) - 키가 /로 끝나는 경우만
-    const matchingKeys = Object.keys(customTitles)
-      .filter((key) => key.endsWith("/") && pathname.startsWith(key))
-      .sort((a, b) => b.length - a.length); // 가장 긴 매칭 우선
-
-    if (matchingKeys.length > 0) {
-      return customTitles[matchingKeys[0]];
-    }
-
-    // 3. 커스텀 동적 라우트 패턴 매칭
-    for (const { pattern, titleKey } of dynamicRoutePatterns) {
-      if (pattern.test(pathname) && titleKey in customTitles) {
-        return customTitles[titleKey];
-      }
-    }
-
-    // 4. customTitles에 없으면 빈 문자열 반환
-    return "";
-  };
-
-  const title = getTitle();
+  // 최상단의 layout.tsx에서 커스텀 타이틀과 동적 라우트 패턴을 사용하여 제목을 가져옴
+  const title = getTitle({
+    pathname,
+    customTitles,
+    dynamicRoutePatterns,
+  });
 
   // title이 없으면 헤더를 렌더링하지 않음
   if (!title) {
