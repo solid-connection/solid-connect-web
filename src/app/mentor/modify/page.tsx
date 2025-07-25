@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-import ModifyContent from "./_components/ModifyContent";
+import ModifyContent from "./_ui/ModifyContent";
 
 export const metadata: Metadata = {
   title: "멘토 정보 수정 | Solid Connect",

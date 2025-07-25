@@ -7,7 +7,7 @@ interface StudyStatusBoxProps {
 const StudyStatusBox = ({ studyStatus }: StudyStatusBoxProps) => {
   return (
     <div
-      className={`flex h-6 w-fit items-center justify-center gap-[10px] rounded px-2 py-[3px] text-center text-xs font-semibold leading-[150%] ${
+      className={`flex h-6 w-fit items-center justify-center gap-2.5 rounded px-2 py-px text-center text-xs font-semibold leading-[150%] ${
         studyStatus === MentorStudyStatus.STUDYING
           ? "bg-secondary-100 text-secondary"
           : studyStatus === MentorStudyStatus.SCHEDULED

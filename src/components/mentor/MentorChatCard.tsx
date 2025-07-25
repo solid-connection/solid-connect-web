@@ -18,7 +18,7 @@ const MentorChatCard = ({ profileImageUrl, nickname, description, hasBadge = fal
 
   return (
     <div
-      className="mb-2 flex h-[66px] w-full cursor-pointer items-center gap-3 rounded-lg bg-k-0 px-3 py-4 shadow-sdwB"
+      className="mb-2 flex h-16 w-full cursor-pointer items-center gap-3 rounded-lg bg-k-0 px-3 py-4 shadow-sdwB"
       onKeyDown={handleKeyDown}
       tabIndex={0}
       role="button"

@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-import MentorClient from "./_components/MentorClient";
+import MentorClient from "./_ui/MentorClient";
 
 export const metadata: Metadata = {
   title: "멘토 찾기 | Solid Connect",
