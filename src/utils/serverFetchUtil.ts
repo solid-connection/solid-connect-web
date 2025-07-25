@@ -9,6 +9,17 @@ import { reissueAccessTokenPublicApi } from "@/api/auth";
 
 const AUTH_EXPIRED = "AUTH_EXPIRED";
 
+/** 커스텀 HTTP 에러: any 캐스팅 없이 status · body 보존 */
+class HttpError extends Error {
+  status: number;
+  body: string;
+  constructor(status: number, body: string) {
+    super(`HTTP ${status}`);
+    this.status = status;
+    this.body = body;
+  }
+}
+
 /* ---------- 전역 캐시 ---------- */
 interface AccessCache {
   token: string | null;
@@ -33,8 +44,8 @@ const decodeExp = (jwt: string) => {
   }
 };
 const getAccessToken = async (refresh: string) => {
-  // 만료 이전 5초까지만 캐싱
-  if (accessCache.token && Date.now() < accessCache.exp - 5000) return accessCache.token;
+  // 만료 30초 전까지는 재발급하지 않고 캐싱
+  if (accessCache.token && Date.now() < accessCache.exp - 30000) return accessCache.token;
   if (accessCache.refreshing) return accessCache.refreshing;
 
   accessCache.refreshing = reissueAccessTokenPublicApi(refresh)
@@ -45,7 +56,10 @@ const getAccessToken = async (refresh: string) => {
       return data.accessToken;
     })
     .catch((e) => {
+      // 토큰 재발급 실패 시 캐시 전부 초기화
       accessCache.refreshing = null;
+      accessCache.token = null;
+      accessCache.exp = 0;
       throw e;
     });
 
@@ -58,20 +72,26 @@ type NextCacheOpt =
   | undefined;
 
 interface ServerFetchOptions extends Omit<RequestInit, "body"> {
-  /** JSON 바디를 넘기고 싶을 때 */
-  json?: unknown;
+  /** 요청 바디.
+   *  - 객체/배열 → JSON.stringify 후 `Content-Type: application/json`
+   *  - string, Blob, FormData 등 → 그대로 전송
+   */
+  body?: unknown;
   /** 로그인 필요 여부 (기본 true) */
   isAuth?: boolean;
   /** Next.js 캐시 옵션 */
   next?: NextCacheOpt;
 }
 
-const BASE = process.env.NEXT_PUBLIC_API_SERVER_URL!;
+const BASE = process.env.NEXT_PUBLIC_API_SERVER_URL;
+if (!BASE) {
+  throw new Error("NEXT_PUBLIC_API_SERVER_URL is not defined");
+}
 
 /** SSR-only fetch (App Router) */
 async function internalFetch<T = unknown>(
   input: string,
-  { json, isAuth = false, next, headers, ...init }: ServerFetchOptions = {},
+  { body, isAuth = false, next, headers, ...init }: ServerFetchOptions = {},
 ): Promise<T> {
   /* 쿠키 & 토큰 */
   const cookieStore = cookies();
@@ -87,38 +107,46 @@ async function internalFetch<T = unknown>(
   const reqHeaders = new Headers(headers);
   if (accessToken) reqHeaders.set("Authorization", `Bearer ${accessToken}`);
 
-  let body: RequestInit["body"] = undefined;
-  if (json !== undefined) {
-    reqHeaders.set("Content-Type", "application/json");
-    body = JSON.stringify(json);
+  let requestBody: RequestInit["body"] = undefined;
+  if (body !== undefined) {
+    // JSON 직렬화 여부 판단
+    if (typeof body === "string" || body instanceof Blob || body instanceof FormData || body instanceof ArrayBuffer) {
+      requestBody = body as BodyInit;
+    } else {
+      reqHeaders.set("Content-Type", "application/json");
+      requestBody = JSON.stringify(body);
+    }
   }
 
   const response = await fetch(`${BASE}${input}`, {
     ...init,
-    body,
+    body: requestBody,
     headers: reqHeaders,
     credentials: "omit", // refresh 쿠키는 전달X 서버에서만 사용
     next, // revalidate / tags 옵션 그대로 전달
   });
 
-  if (!response.ok) throw new Error(`FETCH_ERROR_${response.status}`);
-  // JSON 외 형식이 필요하면 호출부에서 Response 자체를 반환받도록 제네릭을 수정
-  return response.json() as Promise<T>;
+  if (!response.ok) {
+    const errorBody = await response.text();
+    throw new HttpError(response.status, errorBody);
+  }
+
+  const contentType = response.headers.get("content-type") ?? "";
+  if (contentType.includes("application/json")) {
+    return response.json() as Promise<T>;
+  }
+
+  // JSON 이 아닌 경우 텍스트로 반환
+  const textBody = await response.text();
+  return textBody as unknown as T;
 }
 
-/** Unified fetch: (url, body, isAuth, otherOptions) */
-async function serverFetch<T = unknown>(
-  url: string,
-  body?: unknown,
-  isAuth: boolean = false,
-  otherOptions: Omit<ServerFetchOptions, "json" | "auth"> = {},
-): Promise<T> {
+/** 옵션 객체 기반 Unified fetch */
+async function serverFetch<T = unknown>(url: string, options: ServerFetchOptions = {}): Promise<T> {
+  const { isAuth = false } = options;
+
   try {
-    return await internalFetch<T>(url, {
-      ...otherOptions,
-      json: body,
-      isAuth: isAuth,
-    });
+    return await internalFetch<T>(url, options);
   } catch (e: unknown) {
     const err = e as Error;
     if (isAuth && err.message === AUTH_EXPIRED) {
