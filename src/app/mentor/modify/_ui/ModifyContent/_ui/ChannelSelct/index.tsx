@@ -1,3 +1,5 @@
+import { Control, FieldValues } from "react-hook-form";
+
 import useSelectHandler from "./_hooks/useSelectHandler";
 
 import { ChannelType } from "@/types/mentor";
@@ -6,14 +8,17 @@ import { IconDirectionDown, IconDirectionUp } from "@/public/svgs/mentor";
 
 interface ChannelSelectProps {
   name?: string;
+  control: Control<FieldValues>;
 }
 
-const ChannelSelect = ({ name = "channel" }: ChannelSelectProps) => {
-  const { isOpen, selectedValue, dropdownRef, handleChannelChange, toggleDropdown } = useSelectHandler();
+const ChannelSelect = ({ name = "channel", control }: ChannelSelectProps) => {
+  const { isOpen, selectedValue, dropdownRef, handleChannelChange, toggleDropdown } = useSelectHandler({
+    name,
+    control,
+  });
+
   return (
     <div className="relative h-[45px]" ref={dropdownRef}>
-      {/* 숨겨진 input */}
-      <input type="hidden" name={name} value={selectedValue ? selectedValue : ""} />
       {/* slect요소 */}
       <button
         type="button"
