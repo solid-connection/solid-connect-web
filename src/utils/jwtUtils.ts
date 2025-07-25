@@ -21,9 +21,10 @@ export const isTokenExpired = (token: string): boolean => {
   }
 };
 
-export const decodeExp = (jwt: string) => {
+export const decodeExp = (token: string) => {
   try {
-    const { exp = 0 } = JSON.parse(Buffer.from(jwt.split(".")[1], "base64").toString("utf8"));
+    const payload = JSON.parse(atob(token.split(".")[1]));
+    const { exp } = payload;
     return exp * 1000; // → ms
   } catch {
     return 0;
