@@ -4,10 +4,10 @@ import { useState } from "react";
 
 const MentorApplyCountContent = ({ count }) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(true);
-
+  if (count === 0) return null; // 신규 신청 없으면 표시 X
   if (!isModalOpen) return null; // 모달이 열려있지 않으면 표시 X
   return (
-    <div className="relative w-full max-w-md rounded-xl bg-blue-500 px-6 py-4 text-white shadow-md">
+    <div className="fixed left-1/2 top-10 z-50 w-[80%] max-w-md -translate-x-1/2 rounded-xl bg-secondary px-6 py-4 text-white shadow-md">
       {/* close button */}
       <button
         type="button"
