@@ -15,7 +15,8 @@ export interface MentorChannel {
   url: string;
 }
 
-export interface MentorCardResponse {
+/** 멘토 카드 공통 필드 (리스트·상세 공용) */
+export interface MentorCardBase {
   id: number; // 멘토 아이디
   profileImageUrl: string;
   nickname: string;
@@ -26,12 +27,14 @@ export interface MentorCardResponse {
   hasBadge: boolean;
   introduction: string;
   channels: MentorChannel[];
-  isApplied: boolean; // 신청 여부
-  studyStatus: "24-1" | "24-2"; // 학업 상태 (예: "21-1")
 }
 
-export interface MentorListResponse {
-  /** 다음 페이지 번호. 다음 페이지가 없으면 -1 */
-  nextPageNumber: number;
-  content: MentorCardResponse[];
+/** 리스트(미리보기) 용 – passTip / isApplied 없이 사용 */
+export type MentorCardPreview = MentorCardBase;
+
+/** 상세 뷰 용 – 추가 정보 포함 */
+export interface MentorCardDetail extends MentorCardBase {
+  passTip: string;
+  isApplied: boolean;
+  studyStatus: "24-1" | "24-2"; // 학업 상태 (예: "24-1")
 }

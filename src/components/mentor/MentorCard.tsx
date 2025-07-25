@@ -2,24 +2,24 @@
 
 import React, { useState } from "react";
 
-import clsx from "clsx";
 import { Link } from "lucide-react";
 
-import IconConfirmCancelModalWrapper from "@/components/modal/IconConfirmCancelModalWrapper";
-import ChannelBadge from "@/components/ui/ChannelBadge";
-import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
-
-import StudyDate from "../StudyDate";
+import IconConfirmCancelModal from "../modal/IconConfirmCancelModal";
+import ChannelBadge from "../ui/ChannelBadge";
+import ProfileWithBadge from "../ui/ProfileWithBadge";
+import StudyDate from "./StudyDate";
 
 import { ChannelType, MentorCardDetail } from "@/api/mentor/type/response";
-import { IconCheck, IconDirectionDown, IconDirectionUp } from "@/public/svgs/mentor";
+import { IconCheck, IconDirectionDown, IconDirectionUp, IconTime } from "@/public/svgs/mentor";
 
 interface MentorCardProps {
   mentor: MentorCardDetail;
+  observeRef?: React.RefCallback<HTMLDivElement>;
   isMine?: boolean; // isMine prop 추가
+  isDistribute?: boolean; // isDistribute prop 추가
 }
 
-const MentorCard = ({ mentor, isMine = false }: MentorCardProps) => {
+const MentorCard = ({ mentor, observeRef, isMine = false, isDistribute = false }: MentorCardProps) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
 
   // 구조분해 할당
@@ -35,8 +35,15 @@ const MentorCard = ({ mentor, isMine = false }: MentorCardProps) => {
     studyStatus,
   } = mentor;
 
+  const handleToggle = () => {
+    setIsExpanded(!isExpanded);
+  };
+
   return (
-    <div className="rounded-lg bg-white p-4 shadow-sdwB">
+    <div
+      className="rounded-lg bg-white p-4 shadow-sdwB"
+      ref={observeRef} // observeRef를 div에 연결
+    >
       {/* 멘토 프로필 헤더 */}
       <div className="mb-4 flex items-start gap-3">
         <div className="flex flex-col items-center">
@@ -70,18 +77,20 @@ const MentorCard = ({ mentor, isMine = false }: MentorCardProps) => {
           <div className="mb-4">
             <h4 className="mb-2 text-sm font-medium text-blue-600">멘토 채널</h4>
             <div
-              className={clsx("grid gap-2", {
-                "grid-cols-1": channels.length === 1,
-                "grid-cols-2": channels.length !== 1,
-              })}
+              className={`grid gap-2 ${
+                channels.length === 1
+                  ? "grid-cols-1"
+                  : channels.length === 2
+                    ? "grid-cols-2"
+                    : channels.length === 3
+                      ? "grid-cols-2"
+                      : "grid-cols-2"
+              }`}
             >
               {channels.map((channel, idx) => (
                 <div
                   key={idx}
-                  className={clsx("h-10", {
-                    "w-full": channels.length === 1,
-                    "col-span-2": channels.length === 3 && idx === 2,
-                  })}
+                  className={`h-10 ${channels.length === 1 ? "w-full" : channels.length === 3 && idx === 2 ? "col-span-2" : ""}`}
                 >
                   <ChannelBadge channerType={channel.type as ChannelType} />
                 </div>
@@ -103,17 +112,7 @@ const MentorCard = ({ mentor, isMine = false }: MentorCardProps) => {
                 <button className="flex h-10 w-1/2 flex-shrink-0 items-center justify-center gap-3 rounded-[20px] bg-primary px-5 py-2.5 font-medium text-white">
                   멘토 페이지
                 </button>
-                <IconConfirmCancelModalWrapper
-                  icon={IconCheck}
-                  title={"멘토 신청이 완료되었어요!"}
-                  content={"멘토가 신청을 수락하면 대화를 시작할 수 있어요.\n대화 수락까지 조금만 기다려주세요."}
-                  cancelText="홈으로"
-                  approveText="다른 멘토 찾기"
-                >
-                  <button className="flex h-[41px] w-1/2 flex-shrink-0 items-center justify-center gap-3 rounded-[20px] bg-primary px-5 py-[10px] font-medium text-white">
-                    멘토 신청하기
-                  </button>
-                </IconConfirmCancelModalWrapper>
+                <MentoAppliePanel isDistribute={isDistribute} />
               </>
             )}
           </div>
@@ -123,7 +122,7 @@ const MentorCard = ({ mentor, isMine = false }: MentorCardProps) => {
       {/* 접기/펼치기 버튼 */}
       <div className="flex justify-center">
         <button
-          onClick={() => setIsExpanded(!isExpanded)}
+          onClick={handleToggle}
           className="flex h-6 w-6 items-center justify-center rounded-full border border-gray-300"
         >
           <div className="flex h-full w-full items-center justify-center">
@@ -136,3 +135,41 @@ const MentorCard = ({ mentor, isMine = false }: MentorCardProps) => {
 };
 
 export default MentorCard;
+
+const MentoAppliePanel = ({ isDistribute }: { isDistribute: boolean }) => {
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  // isDistribute에 따른 모달 내용 설정
+  const modalConfig = isDistribute
+    ? {
+        icon: <IconTime />,
+        title: "지금은 방해금지 시간이에요.",
+        content: "방해 금지 시간이 지난 후 멘티 신청을 할 수 있어요.\n내일 아침 다시 신청해주세요.",
+      }
+    : {
+        icon: <IconCheck />,
+        title: "멘토 신청이 완료되었어요!",
+        content: "멘토가 신청을 수락하면 대화를 시작할 수 있어요.\n대화 수락까지 조금만 기다려주세요.",
+      };
+
+  return (
+    <>
+      <button
+        onClick={() => setIsModalOpen(true)}
+        className="flex h-10 w-1/2 flex-shrink-0 items-center justify-center gap-3 rounded-[20px] bg-primary px-5 py-2.5 font-medium text-white"
+      >
+        멘토 신청하기
+      </button>
+      <IconConfirmCancelModal
+        icon={modalConfig.icon}
+        isOpen={isModalOpen}
+        title={modalConfig.title}
+        content={modalConfig.content}
+        handleCancel={() => setIsModalOpen(false)}
+        handleConfirm={() => setIsModalOpen(false)}
+        cancelText="홈으로"
+        approveText="다른 멘토 찾기"
+      />
+    </>
+  );
+};

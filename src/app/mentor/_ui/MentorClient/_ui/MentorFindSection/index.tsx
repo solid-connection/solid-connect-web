@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 import useInfinityScroll from "@/utils/useInfinityScroll";
 
@@ -14,7 +14,7 @@ import useGetMentorList from "@/api/mentor/client/useGetMentorList";
 const MentorFindSection = () => {
   const [selectedFilter, setSelectedFilter] = useState<FilterTab>(FilterTab.ALL);
   const { page, lastElementRef } = useInfinityScroll();
-  const { mentorList, loading, error } = useGetMentorList({
+  const { mentorList } = useGetMentorList({
     page,
     region: selectedFilter !== FilterTab.ALL ? selectedFilter : undefined,
   });
@@ -43,7 +43,13 @@ const MentorFindSection = () => {
         {mentorList.length === 0 ? (
           <EmptySdwBCards message="멘토가 없습니다. 필터를 변경해보세요." />
         ) : (
-          mentorList.map((mentor) => <MentorCard key={mentor.id} mentor={mentor} />)
+          mentorList.map((mentor) => (
+            <MentorCard
+              observeRef={mentorList.length === mentorList.indexOf(mentor) + 1 ? lastElementRef : undefined}
+              key={mentor.id}
+              mentor={mentor}
+            />
+          ))
         )}
       </div>
     </div>

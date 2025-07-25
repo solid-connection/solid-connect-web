@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import useFetch from "@/utils/apiUtils";
 
-import { MentorCard, MentorListResponse } from "../type/response";
+import { MentorCardDetail } from "../type/response";
 
 interface UseGetMentorListProps {
   region?: string;
@@ -10,9 +10,15 @@ interface UseGetMentorListProps {
 }
 
 interface UseGetMentorListReturn {
-  mentorList: MentorCard[];
+  mentorList: MentorCardDetail[];
   loading: boolean;
   error: unknown;
+}
+
+interface MentorListResponse {
+  /** 다음 페이지 번호. 다음 페이지가 없으면 -1 */
+  nextPageNumber: number;
+  content: MentorCardDetail[];
 }
 
 const OFFSET = 10; // 기본 페이지 크기
@@ -21,7 +27,7 @@ const useGetMentorList = ({ region = "전체", page = 0 }: UseGetMentorListProps
   const { result, loading, error, fetchData } = useFetch<MentorListResponse>("/mentors", {
     params: { region, size: OFFSET, page },
   });
-  const [mentorList, setMentorList] = useState<MentorCard[]>([]);
+  const [mentorList, setMentorList] = useState<MentorCardDetail[]>([]);
   const [nextPageNumber, setNextPageNumber] = useState<number>(0);
 
   useEffect(() => {
