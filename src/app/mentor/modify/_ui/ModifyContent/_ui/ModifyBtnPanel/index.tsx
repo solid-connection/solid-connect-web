@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import IconConfirmCancelModal from "@/components/modal/IconConfirmCancelModal";
+import IconConfirmCancelModal from "@/components/modal/IconConfirmModal";
 
 import { IconModify } from "@/public/svgs/mentor";
 

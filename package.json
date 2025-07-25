@@ -30,7 +30,8 @@
     "react-linkify": "^1.0.0-alpha",
     "tailwind-merge": "^3.0.2",
     "tailwindcss-animate": "^1.0.7",
-    "zod": "^4.0.5"
+    "zod": "^4.0.5",
+    "zustand": "^5.0.6"
   },
   "devDependencies": {
     "@svgr/webpack": "^8.1.0",

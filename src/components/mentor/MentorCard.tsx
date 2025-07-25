@@ -4,7 +4,7 @@ import React, { useState } from "react";
 
 import { Link } from "lucide-react";
 
-import IconConfirmCancelModal from "../modal/IconConfirmCancelModal";
+import IconConfirmCancelModal from "../modal/IconConfirmModal";
 import ChannelBadge from "../ui/ChannelBadge";
 import ProfileWithBadge from "../ui/ProfileWithBadge";
 import StudyDate from "./StudyDate";
