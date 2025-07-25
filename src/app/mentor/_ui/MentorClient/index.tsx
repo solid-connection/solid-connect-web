@@ -1,7 +1,7 @@
-import MenteePageTabs from "./_components/MenteePageTabs";
-import MentorFindSection from "./_components/MentorFindSection";
-import MentorPageTabs from "./_components/MentorPageTabs";
-import MyMentorSection from "./_components/MyMentorSection";
+import MenteePageTabs from "./_ui/MenteePageTabs";
+import MentorFindSection from "./_ui/MentorFindSection";
+import MentorPageTabs from "./_ui/MentorPageTabs";
+import MyMentorSection from "./_ui/MyMentorSection";
 
 const MentorClient = () => {
   const isMentor = false;

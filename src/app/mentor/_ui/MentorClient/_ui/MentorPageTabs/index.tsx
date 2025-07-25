@@ -7,7 +7,7 @@ import { getMenteeListData, getMentorListData } from "@/utils/mockingGetData";
 import MentoChatCard from "@/components/mentor/MentorChatCard";
 import EmptySdwBCards from "@/components/ui/EmptySdwBCards";
 
-import MentorDropDown from "./_components/MentorDropDown";
+import MentorDropDown from "./_ui/MentorDropDown";
 
 import { MentorTab } from "@/types/mentor";
 
