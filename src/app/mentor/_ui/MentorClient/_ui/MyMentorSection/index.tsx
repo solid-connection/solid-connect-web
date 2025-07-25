@@ -1,3 +1,5 @@
+"use client";
+
 import MentorCard from "@/components/mentor/MentorCard";
 
 import useGetMyMentorProfile from "@/api/mentor/client/useGetMyMentorProfile";
