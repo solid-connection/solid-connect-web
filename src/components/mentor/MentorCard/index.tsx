@@ -1,9 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import React, { useState } from "react";
 
 import clsx from "clsx";
-import { Link } from "lucide-react";
 
 import ChannelBadge from "@/components/ui/ChannelBadge";
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
