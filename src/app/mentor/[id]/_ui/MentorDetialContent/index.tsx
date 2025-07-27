@@ -2,7 +2,7 @@
 
 import clsx from "clsx";
 
-import IconConfirmCancelModalWrapper from "@/components/modal/IconConfirmCancelModalWrapper";
+import IconConfirmModal from "@/components/modal/IconConfirmModal";
 import ChannelBadge from "@/components/ui/ChannelBadge";
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
 
