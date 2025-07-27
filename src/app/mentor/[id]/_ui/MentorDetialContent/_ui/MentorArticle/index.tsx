@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 
 import { ArticleResponse } from "@/api/article/type/response";
-import { IconLikeFill, IconLkieNotFill } from "@/public/svgs/mentor";
+import { IconLikeFill, IconLikeNotFill } from "@/public/svgs/mentor";
 
 interface MentorArticleProps {
   article: ArticleResponse;
@@ -25,7 +25,7 @@ const MentorArticle = ({ article }: MentorArticleProps) => {
       <div className="mb-2 flex items-center justify-between">
         <h3 className="text-base font-semibold text-k-800">{article.title}</h3>
         <button className="h-5 w-5" onClick={() => setIsLiked(!isLiked)}>
-          {isLiked ? <IconLikeFill /> : <IconLkieNotFill />}
+          {isLiked ? <IconLikeFill /> : <IconLikeNotFill />}
         </button>
       </div>
       <p className="text-sm text-k-500">{article.description}</p>
