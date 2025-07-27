@@ -1,4 +1,3 @@
-// src/utils/serverFetch.ts
 import { cookies } from "next/headers";
 // protectedFetch.ts
 import { redirect } from "next/navigation";
@@ -8,6 +7,7 @@ import { decodeExp, isTokenExpired } from "./jwtUtils";
 import { reissueAccessTokenPublicApi } from "@/api/auth";
 
 const AUTH_EXPIRED = "AUTH_EXPIRED";
+const TIME_LIMIT = 30 * 1000; // 30초
 
 /** 커스텀 HTTP 에러: any 캐스팅 없이 status · body 보존 */
 class HttpError extends Error {
@@ -37,7 +37,7 @@ const accessCache: AccessCache = globalSemaphore.__accessCache;
 
 const getAccessToken = async (refresh: string) => {
   // 만료 30초 전까지는 재발급하지 않고 캐싱
-  if (accessCache.token && Date.now() < accessCache.exp - 30000) return accessCache.token;
+  if (accessCache.token && Date.now() < accessCache.exp - TIME_LIMIT) return accessCache.token;
   if (accessCache.refreshing) return accessCache.refreshing;
 
   accessCache.refreshing = reissueAccessTokenPublicApi(refresh)
