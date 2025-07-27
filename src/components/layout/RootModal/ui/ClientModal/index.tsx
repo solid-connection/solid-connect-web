@@ -12,7 +12,8 @@ const ClientModal = () => {
         title={payload?.title || "확인"}
         content={payload?.content || "정말로 이 작업을 진행하시겠습니까?"}
         icon={payload?.icon}
-        buttonText={payload?.buttonText}
+        approveMessage={payload?.approveMessage || "확인"}
+        rejectMessage={payload?.rejectMessage || "취소"}
         onConfirm={confirm}
         onClose={reject}
       />

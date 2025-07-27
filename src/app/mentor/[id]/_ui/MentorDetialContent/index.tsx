@@ -2,7 +2,6 @@
 
 import clsx from "clsx";
 
-import IconConfirmModal from "@/components/modal/IconConfirmModal";
 import ChannelBadge from "@/components/ui/ChannelBadge";
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
 
@@ -11,6 +10,7 @@ import MentorArticle from "./_ui/MentorArticle";
 import useGetArticleList from "@/api/article/client/useGetAriticleList";
 import useGetMentorDetailPage from "@/api/mentor/client/useGetMentorDetailPage";
 import { ChannelType } from "@/api/mentor/type/response";
+import { customConfirm } from "@/lib/zustand/useConfirmModalStore";
 import { IconCheck } from "@/public/svgs/mentor";
 
 interface MentorDetailContentProps {
@@ -20,6 +20,16 @@ interface MentorDetailContentProps {
 const MentorDetialContent = ({ mentorId }: MentorDetailContentProps) => {
   const { mentorDetail } = useGetMentorDetailPage(mentorId);
   const { articleList } = useGetArticleList(mentorId);
+  const onClick = async () => {
+    const ok = await customConfirm({
+      title: "멘토 신청",
+      content: "멘토 신청을 하시겠습니까?",
+      icon: <IconCheck />,
+      rejectMessage: "취소",
+      approveMessage: "멘토 신청",
+    });
+    if (!ok) return;
+  };
 
   if (!mentorDetail) return null; // type guard
 
@@ -118,28 +128,21 @@ const MentorDetialContent = ({ mentorId }: MentorDetailContentProps) => {
         ))}
       </div>
       <div className="pointer-events-none fixed bottom-20 left-0 right-0 flex justify-center">
-        <div className="pointer-events-auto">
-          <IconConfirmCancelModalWrapper
-            icon={<IconCheck />}
-            title="멘토 신청이 완료되었어요!"
-            content="멘토가 신청을 수락하면 대화를 시작할 수 있어요.\n대화 수락까지 조금만 기다려주세요."
-            isOneButton={false}
-            cancelText="홈으로"
-            approveText="다른멘토 찾기"
+        <div className="pointer-events-auto w-full max-w-md px-4">
+          <button
+            type="button"
+            onClick={onClick}
             disabled={isApplied}
+            className={clsx(
+              "flex h-[41px] w-full items-center justify-center gap-3 rounded-[20px] px-5 py-[10px] font-medium",
+              {
+                "cursor-not-allowed bg-k-100 text-k-400": isApplied,
+                "bg-primary text-white": !isApplied,
+              },
+            )}
           >
-            <button
-              className={clsx(
-                "flex h-[41px] w-full items-center justify-center gap-3 rounded-[20px] px-5 py-[10px] font-medium",
-                {
-                  "cursor-not-allowed bg-k-100 text-k-400": isApplied,
-                  "bg-primary text-white": !isApplied,
-                },
-              )}
-            >
-              {isApplied ? "매칭완료된 멘토" : "멘토 신청하기"}
-            </button>
-          </IconConfirmCancelModalWrapper>
+            {isApplied ? "매칭완료된 멘토" : "멘토 신청하기"}
+          </button>
         </div>
       </div>
     </>

@@ -6,7 +6,10 @@ export type ConfirmModalPayload = {
   icon?: React.ReactNode;
   title: string;
   content: string;
-  buttonText?: string; // default "확인"
+  // approveMessage: text for the confirm/approve button (default "확인")
+  approveMessage?: string; // default "확인"
+  // rejectMessage: text for the reject/cancel button (default "취소")
+  rejectMessage?: string; // default "취소"
 };
 
 interface ConfirmModalState {
@@ -51,3 +54,7 @@ export const useConfirmModalStore = create<ConfirmModalState>((set, get) => ({
     set({ isOpen: false, payload: undefined, _resolver: null });
   },
 }));
+
+// 커스텀 confirm 함수
+export const customConfirm = (payload: ConfirmModalPayload): Promise<boolean> =>
+  useConfirmModalStore.getState().ask(payload);

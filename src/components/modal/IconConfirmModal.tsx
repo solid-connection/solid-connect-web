@@ -9,7 +9,8 @@ type IconConfirmModalProps = {
   content: string;
   onConfirm: () => void;
   onClose: () => void;
-  buttonText?: string; // default "확인"
+  approveMessage?: string; // default "확인"
+  rejectMessage?: string; // default "취소"
 };
 
 const IconConfirmModal = ({
@@ -19,7 +20,8 @@ const IconConfirmModal = ({
   content,
   onConfirm,
   onClose,
-  buttonText = "확인",
+  approveMessage = "확인",
+  rejectMessage = "취소",
 }: IconConfirmModalProps) => {
   if (!isOpen) return null;
 
@@ -38,14 +40,21 @@ const IconConfirmModal = ({
               {content}
             </span>
           </div>
-          <div className="mt-5 flex items-center justify-center gap-1">
+          <div className="mt-5 flex items-center justify-center gap-2">
+            <button
+              className="flex h-11 w-36 items-center justify-center rounded-3xl border border-k-200 px-1.5 py-2"
+              onClick={onClose}
+              type="button"
+            >
+              <span className="text-center font-serif text-base font-normal leading-4 text-k-500">{rejectMessage}</span>
+            </button>
             <button
               className="flex h-11 w-36 items-center justify-center rounded-3xl bg-primary px-1.5 py-2"
               onClick={onConfirm}
               type="button"
             >
               <span className="text-center font-serif text-base font-normal leading-4 text-white">
-                {buttonText ?? "확인"}
+                {approveMessage}
               </span>
             </button>
           </div>
