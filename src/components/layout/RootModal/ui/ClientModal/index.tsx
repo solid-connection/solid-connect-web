@@ -1,3 +1,5 @@
+"use client";
+
 import IconConfirmModal from "@/components/modal/IconConfirmModal";
 
 import { useConfirmModalStore } from "@/lib/zustand/useConfirmModalStore";
