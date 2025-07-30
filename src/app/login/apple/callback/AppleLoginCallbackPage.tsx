@@ -11,7 +11,6 @@ import CloudSpinnerPage from "@/components/loading/CloudSpinnerPage";
 import SignupSurvey from "@/components/login/signup/SignupSurvey";
 
 import { appleAuthApi } from "@/api/auth";
-import { useLayout } from "@/context/LayoutContext";
 
 const AppleLoginCallbackPage = () => {
   const router = useRouter();
@@ -19,13 +18,6 @@ const AppleLoginCallbackPage = () => {
 
   // const [signUpToken, setSignUpToken] = useState<string>("");
   // const [email, setEmail] = useState<string>("");
-
-  const { setHideBottomNavigation } = useLayout();
-
-  useEffect(() => {
-    setHideBottomNavigation(true);
-    return () => setHideBottomNavigation(false); // 컴포넌트 언마운트 시 다시 보이게 설정
-  }, [setHideBottomNavigation]);
 
   useEffect(() => {
     const code = searchParams?.get("code");

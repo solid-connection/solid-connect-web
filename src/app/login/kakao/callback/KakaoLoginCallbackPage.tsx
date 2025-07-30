@@ -11,7 +11,6 @@ import CloudSpinnerPage from "@/components/loading/CloudSpinnerPage";
 import SignupSurvey from "@/components/login/signup/SignupSurvey";
 
 import { kakaoAuthApi } from "@/api/auth";
-import { useLayout } from "@/context/LayoutContext";
 
 const KakaoLoginCallbackPage = () => {
   const router = useRouter();
@@ -21,13 +20,6 @@ const KakaoLoginCallbackPage = () => {
   // const [kakaoNickname, setKakaoNickname] = useState<string>("");
   // const [kakaoEmail, setKakaoEmail] = useState<string>("");
   // const [kakaoProfileImageUrl, setKakaoProfileImageUrl] = useState<string>("");
-
-  const { setHideBottomNavigation } = useLayout();
-
-  useEffect(() => {
-    setHideBottomNavigation(true);
-    return () => setHideBottomNavigation(false); // 컴포넌트 언마운트 시 다시 보이게 설정
-  }, [setHideBottomNavigation]);
 
   useEffect(() => {
     const code = searchParams?.get("code");

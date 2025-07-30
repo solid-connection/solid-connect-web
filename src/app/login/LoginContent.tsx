@@ -15,20 +15,13 @@ import KakaoLoginButton from "./KakaoLoginButton";
 import { appleOAuth2CodeResponse } from "@/types/auth";
 
 import { emailAuthApi } from "@/api/auth";
-import { useLayout } from "@/context/LayoutContext";
 import { IconSolidConnectionFullBlackLogo } from "@/public/svgs";
 
 const LoginContent = () => {
   const router = useRouter();
-  const { setHideBottomNavigation } = useLayout();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  useEffect(() => {
-    setHideBottomNavigation(true);
-    return () => setHideBottomNavigation(false);
-  }, [setHideBottomNavigation]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {

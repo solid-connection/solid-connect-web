@@ -3,13 +3,12 @@ import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 
 import AppleScriptLoader from "@/components/layout/AppleScriptLoader";
+import GlobalLayout from "@/components/layout/GlobalLayout";
 import KakaoScriptLoader from "@/components/layout/KakaoScriptLoader";
-import Layout from "@/components/layout/Layout";
 
 import "../styles/globals.css";
 
 import { AlertProvider } from "@/context/AlertContext";
-import { LayoutProvider } from "@/context/LayoutContext";
 import { GoogleAnalytics } from "@next/third-parties/google";
 
 export const metadata: Metadata = {
@@ -45,16 +44,14 @@ export const viewport: Viewport = {
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => (
   <AlertProvider>
-    <LayoutProvider>
-      <html lang="ko" className="font-serif">
-        <KakaoScriptLoader />
-        <AppleScriptLoader />
-        <GoogleAnalytics gaId="G-V1KLYZC1DS" />
-        <body className={`${pretendard.className} ${inter.className}`}>
-          <Layout>{children}</Layout>
-        </body>
-      </html>
-    </LayoutProvider>
+    <html lang="ko" className="font-serif">
+      <KakaoScriptLoader />
+      <AppleScriptLoader />
+      <GoogleAnalytics gaId="G-V1KLYZC1DS" />
+      <body className={`${pretendard.className} ${inter.className}`}>
+        <GlobalLayout>{children}</GlobalLayout>
+      </body>
+    </html>
   </AlertProvider>
 );
 
