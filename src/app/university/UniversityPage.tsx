@@ -4,7 +4,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import UniversityCards from "@/components/college/UniversityCards";
-import TopNavigation from "@/components/layout/TopNavigation";
+import TopLogoBar from "@/components/layout/TopLogoBar";
 import ButtonTab from "@/components/ui/ButtonTab";
 
 import UniversitySearch from "./UniversitySearch";
@@ -85,7 +85,7 @@ const UniversityPage = ({ universities }: { universities: ListUniversity[] }) =>
 
   return (
     <>
-      <TopNavigation />
+      <TopLogoBar />
       <UniversitySearch
         searchHandler={(e) => {
           searchHandler(e);

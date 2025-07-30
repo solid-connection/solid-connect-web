@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-import TopNavigation from "@/components/layout/TopNavigation";
+import TopLogoBar from "@/components/layout/TopLogoBar";
 
 import Home from "./Home";
 
@@ -20,7 +20,7 @@ const HomePage = async () => {
 
   return (
     <div>
-      <TopNavigation />
+      <TopLogoBar />
       <Home newsList={newsList} />
     </div>
   );
