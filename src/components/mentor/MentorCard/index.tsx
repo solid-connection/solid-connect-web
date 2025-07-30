@@ -1,26 +1,41 @@
 "use client";
 
+import Link from "next/link";
 import React, { useState } from "react";
 
-import { Link } from "lucide-react";
+import clsx from "clsx";
 
 import ChannelBadge from "@/components/ui/ChannelBadge";
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
 
-import StudyStatusBox from "../StudyStatusBox";
-import MentorApplyPanel from "./ui/MentorApplyPanel";
+import StudyDate from "../StudyDate";
 
-import { ChannelType, Mentor } from "@/types/mentor";
-
-import { IconDirectionDown, IconDirectionUp } from "@/public/svgs/mentor";
+import { ChannelType, MentorCardDetail } from "@/api/mentor/type/response";
+import { customConfirm } from "@/lib/zustand/useConfirmModalStore";
+import { IconCheck, IconDirectionDown, IconDirectionUp } from "@/public/svgs/mentor";
 
 interface MentorCardProps {
-  mentor: Mentor;
+  mentor: MentorCardDetail;
   isMine?: boolean; // isMine prop 추가
 }
 
 const MentorCard = ({ mentor, isMine = false }: MentorCardProps) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
+
+  const onClick = async () => {
+    const ok = await customConfirm({
+      icon: <IconCheck />,
+      title: "멘토 신청이 완료되었어요!",
+      content: "멘토가 신청을 수락하면 대화를 시작할 수 있어요.\n대화 수락까지 조금만 기다려주세요.",
+      rejectMessage: "홈으로",
+      approveMessage: "다른 멘토 찾기",
+    });
+    if (ok) {
+      // 승인 후 행동 (필요 시 추가)
+    } else {
+      // 취소 후 행동 (필요 시 추가)
+    }
+  };
 
   // 구조분해 할당
   const {
@@ -48,7 +63,7 @@ const MentorCard = ({ mentor, isMine = false }: MentorCardProps) => {
           <div className="mb-1 flex items-center justify-between">
             <span className="text-base font-semibold leading-normal text-primary-1">{country}</span>
 
-            <StudyStatusBox studyStatus={studyStatus} />
+            <StudyDate studyStatus={studyStatus} />
           </div>
           <h3 className="text-xl font-bold leading-normal text-k-800">{nickname}님</h3>
           <div className="mt-1 flex flex-col">
@@ -70,20 +85,18 @@ const MentorCard = ({ mentor, isMine = false }: MentorCardProps) => {
           <div className="mb-4">
             <h4 className="mb-2 text-sm font-medium text-blue-600">멘토 채널</h4>
             <div
-              className={`grid gap-2 ${
-                channels.length === 1
-                  ? "grid-cols-1"
-                  : channels.length === 2
-                    ? "grid-cols-2"
-                    : channels.length === 3
-                      ? "grid-cols-2"
-                      : "grid-cols-2"
-              }`}
+              className={clsx("grid gap-2", {
+                "grid-cols-1": channels.length === 1,
+                "grid-cols-2": channels.length !== 1,
+              })}
             >
               {channels.map((channel, idx) => (
                 <div
                   key={idx}
-                  className={`h-[40px] ${channels.length === 1 ? "w-full" : channels.length === 3 && idx === 2 ? "col-span-2" : ""}`}
+                  className={clsx("h-10", {
+                    "w-full": channels.length === 1,
+                    "col-span-2": channels.length === 3 && idx === 2,
+                  })}
                 >
                   <ChannelBadge channerType={channel.type as ChannelType} />
                 </div>
@@ -92,20 +105,26 @@ const MentorCard = ({ mentor, isMine = false }: MentorCardProps) => {
           </div>
 
           {/* 액션 버튼 */}
-          <div className="mb-4 flex items-center justify-center gap-[10px] self-stretch">
+          <div className="mb-4 flex items-center justify-center gap-2.5 self-stretch">
             {isMine ? (
               <Link
                 href="/mento/modify"
-                className="flex h-[41px] w-[150px] flex-shrink-0 items-center justify-center gap-3 rounded-[20px] bg-primary px-5 py-[10px] font-medium text-white"
+                className="flex h-10 w-[150px] flex-shrink-0 items-center justify-center gap-3 rounded-[20px] bg-primary px-5 py-2.5 font-medium text-white"
               >
                 수정하기
               </Link>
             ) : (
               <>
-                <button className="flex h-[41px] w-1/2 flex-shrink-0 items-center justify-center gap-3 rounded-[20px] bg-primary px-5 py-[10px] font-medium text-white">
+                <button className="flex h-10 w-1/2 flex-shrink-0 items-center justify-center gap-3 rounded-[20px] bg-primary px-5 py-2.5 font-medium text-white">
                   멘토 페이지
                 </button>
-                <MentorApplyPanel />
+                <button
+                  type="button"
+                  onClick={onClick}
+                  className="flex h-[41px] w-1/2 flex-shrink-0 items-center justify-center gap-3 rounded-[20px] bg-primary px-5 py-[10px] font-medium text-white"
+                >
+                  멘토 신청하기
+                </button>
               </>
             )}
           </div>

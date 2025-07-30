@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-import MentorDetialContent from "./_components/MentorDetialContent";
+import MentorDetialContent from "./_ui/MentorDetialContent";
 
 export const metadata: Metadata = {
   title: "멘토 상세 정보 | Solid Connect",
@@ -8,12 +8,18 @@ export const metadata: Metadata = {
   keywords: ["멘토", "멘토링", "유학", "상세정보", "교환학생"],
 };
 
-const MentoDetailPage = () => {
+interface MentorDetailPageProps {
+  params: { id: string };
+}
+
+const MentorDetailPage = ({ params }: MentorDetailPageProps) => {
+  const mentorId = Number(params.id);
+
   return (
     <div className="flex w-full flex-col px-5">
-      <MentorDetialContent />
+      <MentorDetialContent mentorId={mentorId} />
     </div>
   );
 };
 
-export default MentoDetailPage;
+export default MentorDetailPage;
