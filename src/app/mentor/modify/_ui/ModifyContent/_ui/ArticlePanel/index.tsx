@@ -4,6 +4,7 @@ import { useState } from "react";
 import ArticleModal from "@/components/mentor/ArticleModal";
 import ReusableDropdown from "@/components/ui/ReusableDropdown";
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 import useDeleteDropDownHandler from "./_hooks/useDropDownHandler";
 
@@ -16,26 +17,28 @@ interface ArticlePanelProps {
   article: ArticleResponse;
 =======
 import ToolTipMessage from "@/components/ui/TooltipMessage";
+=======
+
+import useDeleteDropDownHandler from "./_hooks/useDropDownHandler";
+>>>>>>> main
 
 import { ArticleDropdownType } from "@/types/mentor";
 
-import { IconPencil, IconPlus } from "@/public/svgs/mentor";
-
-interface ArticleData {
-  id: string;
-  imageUrl: string;
-  date: string;
-  title: string;
-  description: string;
-}
+import { ArticleResponse } from "@/api/article/type/response";
+import { IconPencil } from "@/public/svgs/mentor";
 
 interface ArticlePanelProps {
+<<<<<<< HEAD
   articleData?: ArticleData;
 >>>>>>> upstream/main
+=======
+  article: ArticleResponse;
+>>>>>>> main
 }
 
 const dropdownOptions: ArticleDropdownType[] = [ArticleDropdownType.EDIT, ArticleDropdownType.DELETE];
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 const ArticlePanel = ({ article }: ArticlePanelProps) => {
   // state
@@ -100,10 +103,20 @@ const ArticlePanel = ({ articleData }: ArticlePanelProps) => {
     );
   }
 >>>>>>> upstream/main
+=======
+const ArticlePanel = ({ article }: ArticlePanelProps) => {
+  // state
+  const [isArticleModalOpen, setIsArticleModalOpen] = useState<boolean>(false);
+  const { handleDropdownSelect } = useDeleteDropDownHandler({
+    articleId: 0,
+    setIsArticleModalOpen,
+  });
+>>>>>>> main
 
   return (
     <>
       <div className="relative h-[200px] w-full">
+<<<<<<< HEAD
 <<<<<<< HEAD
         <Image src={article.thumbnailUrl} alt="멘토 아티클 이미지" fill className="object-cover" />
       </div>
@@ -115,6 +128,12 @@ const ArticlePanel = ({ articleData }: ArticlePanelProps) => {
       <div className="mt-[10px] flex justify-between">
         <div className="text-[13px] font-medium text-k-500">{articleData.date}</div>
 >>>>>>> upstream/main
+=======
+        <Image src={article.thumbnailUrl} alt="멘토 아티클 이미지" fill className="object-cover" />
+      </div>
+      <div className="mt-[10px] flex justify-between">
+        <div className="text-[13px] font-medium text-k-500">{article.updatedAt}</div>
+>>>>>>> main
         <div className="relative">
           <ReusableDropdown<ArticleDropdownType>
             items={dropdownOptions}
@@ -128,17 +147,23 @@ const ArticlePanel = ({ articleData }: ArticlePanelProps) => {
         </div>
       </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
       <h2 className="mt-[6px] text-[17px] font-semibold leading-normal text-k-800">{article.title}</h2>
       <p className="text-sm font-normal text-k-500">{article.description}</p>
 =======
       <h2 className="mt-[6px] text-[17px] font-semibold leading-normal text-k-800">{articleData.title}</h2>
       <p className="text-sm font-normal text-k-500">{articleData.description}</p>
 >>>>>>> upstream/main
+=======
+      <h2 className="mt-[6px] text-[17px] font-semibold leading-normal text-k-800">{article.title}</h2>
+      <p className="text-sm font-normal text-k-500">{article.description}</p>
+>>>>>>> main
 
       <ArticleModal
         isOpen={isArticleModalOpen}
         handleClose={() => setIsArticleModalOpen(false)}
         initialData={{
+<<<<<<< HEAD
 <<<<<<< HEAD
           title: article.title,
           content: article.description,
@@ -146,6 +171,10 @@ const ArticlePanel = ({ articleData }: ArticlePanelProps) => {
           title: articleData.title,
           content: articleData.description,
 >>>>>>> upstream/main
+=======
+          title: article.title,
+          content: article.description,
+>>>>>>> main
         }}
         onSubmit={(data) => {
           console.log("아티클 수정:", data);

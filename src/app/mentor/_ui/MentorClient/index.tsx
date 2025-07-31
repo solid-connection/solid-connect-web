@@ -8,10 +8,14 @@ const MentorClient = () => {
   return (
     <>
 <<<<<<< HEAD
+<<<<<<< HEAD
       {isMentor ? (
 =======
       {!isMentor ? (
 >>>>>>> upstream/main
+=======
+      {isMentor ? (
+>>>>>>> main
         // 멘토페이지
         <>
           {/* 나의 멘토 - 멘티 탭 및 채팅카드 */}

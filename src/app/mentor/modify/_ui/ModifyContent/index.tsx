@@ -11,6 +11,7 @@ import AddArticleCard from "./_ui/AddArticleCard";
 import MentoArticlePanel from "./_ui/ArticlePanel";
 import ChannelSelect from "./_ui/ChannelSelct";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import ModifyBtnPanel from "./_ui/ModifyBtnPanel";
 
 import { ChannelType } from "@/types/mentor";
@@ -19,18 +20,38 @@ import useGetArticleList from "@/api/article/client/useGetArticleList";
 import useGetMyMentorProfile from "@/api/mentor/client/useGetMyMentorProfile";
 import usePutMyMentorProfile, { PutMyMentorProfileBody } from "@/api/mentor/client/usePutMyMentorProfile";
 =======
+=======
+>>>>>>> main
 import ModifyBtnPanel from "./_ui/ModalBtnPanel";
 
 import { ChannelType } from "@/types/mentor";
 
+<<<<<<< HEAD
 >>>>>>> upstream/main
+=======
+=======
+import ModifyBtnPanel from "./_ui/ModifyBtnPanel";
+
+import { ChannelType } from "@/types/mentor";
+
+import useGetArticleList from "@/api/article/client/useGetAriticleList";
+import useGetMyMentorProfile from "@/api/mentor/client/useGetMyMentorProfile";
+import usePutMyMentorProfile, { PutMyMentorProfileBody } from "@/api/mentor/client/usePutMyMentorProfile";
+>>>>>>> feature/mentor_api
+>>>>>>> main
 import { IconUserPrimaryColor } from "@/public/svgs/mentor";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const ModifyContent = () => {
   const { myMentorProfile } = useGetMyMentorProfile();
+<<<<<<< HEAD
   const userId = myMentorProfile ? myMentorProfile.id : null;
   const { articleList } = useGetArticleList(userId);
+=======
+  const { articleList } = useGetArticleList(myMentorProfile.id);
+
+  const { profileImageUrl, hasBadge, menteeCount, nickname, country, universityName, studyStatus } = myMentorProfile;
+>>>>>>> main
 
   const {
     register,
