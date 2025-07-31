@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
-import tabStyles from "@/components/ui/tab.module.css";
+import tabStyles from "@/components/ui/Tab/tab.module.css";
 
 import GpaSubmitForm from "./GpaSubmitForm";
 

@@ -3,8 +3,8 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import CloudSpinnerPage from "@/components/loading/CloudSpinnerPage";
 import ButtonTab from "@/components/ui/ButtonTab";
+import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 
 import CommunityRegionSelector from "./CommunityRegionSelector";
 import PostCards from "./PostCards";

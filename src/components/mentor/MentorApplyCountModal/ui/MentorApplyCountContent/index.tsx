@@ -2,7 +2,11 @@
 
 import { useState } from "react";
 
-const MentorApplyCountContent = ({ count }) => {
+interface MentorApplyCountContentProps {
+  count: number; // 신규 신청 수
+}
+
+const MentorApplyCountContent = ({ count }: MentorApplyCountContentProps) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(true);
   if (count === 0) return null; // 신규 신청 없으면 표시 X
   if (!isModalOpen) return null; // 모달이 열려있지 않으면 표시 X

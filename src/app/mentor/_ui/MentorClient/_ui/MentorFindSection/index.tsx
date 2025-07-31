@@ -13,11 +13,31 @@ import useGetMentorList from "@/api/mentor/client/useGetMentorList";
 
 const MentorFindSection = () => {
   const [selectedFilter, setSelectedFilter] = useState<FilterTab>(FilterTab.ALL);
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> main
   const { page, lastElementRef } = useInfinityScroll();
   const { mentorList } = useGetMentorList({
     page,
     region: selectedFilter !== FilterTab.ALL ? selectedFilter : undefined,
   });
+<<<<<<< HEAD
+=======
+  const mentorListData = getMentorListData();
+
+  const filteredMentors = useMemo(() => {
+    return mentorListData.filter((mentor) => {
+      if (selectedFilter === FilterTab.ALL) return true;
+      if (selectedFilter === FilterTab.EUROPE) return mentor.country === FilterTab.EUROPE;
+      if (selectedFilter === FilterTab.AMERICAS) return mentor.country === FilterTab.AMERICAS;
+      if (selectedFilter === FilterTab.ASIA) return mentor.country === FilterTab.ASIA;
+      return false;
+    });
+  }, [mentorListData, selectedFilter]);
+>>>>>>> upstream/main
+=======
+>>>>>>> main
 
   return (
     <div className="px-4">

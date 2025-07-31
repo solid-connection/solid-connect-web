@@ -1,4 +1,4 @@
-import CloudSpinner from "./CloudSpinner";
+import CloudSpinner from "../CloudSpinner";
 
 const CloudSpinnerPage = () => (
   <div className="flex h-screen items-center justify-center pb-40">

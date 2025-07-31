@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
-import ChatContent from "./_components/ChatContent";
-import ChatNavBar from "./_components/ChatNavBar";
+import ChatContent from "./_ui/ChatContent";
+import ChatNavBar from "./_ui/ChatNavBar";
 
 export const metadata: Metadata = {
   title: "멘토와 채팅 | Solid Connect",

@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
-import CloudSpinnerPage from "@/components/loading/CloudSpinnerPage";
+import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 
 import CommentSection from "./CommentSection";
 import Content from "./Content";

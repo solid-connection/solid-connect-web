@@ -7,7 +7,7 @@ import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
 
 import MentorArticle from "./_ui/MentorArticle";
 
-import useGetArticleList from "@/api/article/client/useGetAriticleList";
+import useGetArticleList from "@/api/article/client/useGetArticleList";
 import useGetMentorDetailPage from "@/api/mentor/client/useGetMentorDetailPage";
 import { ChannelType } from "@/api/mentor/type/response";
 import { customConfirm } from "@/lib/zustand/useConfirmModalStore";

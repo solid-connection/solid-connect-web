@@ -5,9 +5,22 @@ import { useState } from "react";
 
 import { ArticleResponse } from "@/api/article/type/response";
 import { IconLikeFill, IconLikeNotFill } from "@/public/svgs/mentor";
+<<<<<<< HEAD
+
+<<<<<<< HEAD
+interface MentorArticleProps {
+  article: ArticleResponse;
+=======
+import { IconLikeFill, IconLkieNotFill } from "@/public/svgs/mentor";
+
+interface MentorArticleProps {
+  article: Article;
+>>>>>>> upstream/main
+=======
 
 interface MentorArticleProps {
   article: ArticleResponse;
+>>>>>>> main
 }
 
 const MentorArticle = ({ article }: MentorArticleProps) => {

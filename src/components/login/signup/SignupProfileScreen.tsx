@@ -3,7 +3,7 @@
 import { Dispatch, SetStateAction, useRef, useState } from "react";
 
 import BlockBtn from "@/components/button/BlockBtn";
-import { Input } from "@/components/ui/Input";
+import { Input } from "@/components/ui/Inputa";
 
 import { IconSignupProfileImage } from "@/public/svgs/auth";
 
