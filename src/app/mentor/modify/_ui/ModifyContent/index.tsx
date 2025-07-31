@@ -1,10 +1,8 @@
 "use client";
 
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
-import { getMyData } from "@/utils/mockingGetData";
-
-import MentoStudyStatusBox from "@/components/mentor/StudyStatusBox";
+import StudyDate from "@/components/mentor/StudyDate";
 import ChannelBadge from "@/components/ui/ChannelBadge";
 import MentoProfile from "@/components/ui/ProfileWithBadge";
 
@@ -12,49 +10,28 @@ import { MentoModifyFormData, mentoModifySchema } from "./_lib/mentoModifyScehma
 import AddArticleCard from "./_ui/AddArticleCard";
 import MentoArticlePanel from "./_ui/ArticlePanel";
 import ChannelSelect from "./_ui/ChannelSelct";
+<<<<<<< HEAD
 import ModifyBtnPanel from "./_ui/ModalBtnPanel";
 
 import { ChannelType } from "@/types/mentor";
 
+=======
+import ModifyBtnPanel from "./_ui/ModifyBtnPanel";
+
+import { ChannelType } from "@/types/mentor";
+
+import useGetArticleList from "@/api/article/client/useGetAriticleList";
+import useGetMyMentorProfile from "@/api/mentor/client/useGetMyMentorProfile";
+import usePutMyMentorProfile, { PutMyMentorProfileBody } from "@/api/mentor/client/usePutMyMentorProfile";
+>>>>>>> feature/mentor_api
 import { IconUserPrimaryColor } from "@/public/svgs/mentor";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-// 멘토 아티클 더미 데이터
-interface ArticleData {
-  id: string;
-  imageUrl: string;
-  date: string;
-  title: string;
-  description: string;
-}
-
-const dummyArticles: ArticleData[] = [
-  {
-    id: "1",
-    imageUrl: "/images/article-thumb.png",
-    date: "2024-10-23",
-    title: "교환학생 찐 후기",
-    description: "교환학생 경험의 진솔한 이야기와 꿀팁이 가득한 '찐' 후기를 영상에서 확인하세요!",
-  },
-  {
-    id: "2",
-    imageUrl: "/images/article-thumb.png",
-    date: "2024-09-15",
-    title: "유럽 교환학생 준비 가이드",
-    description: "유럽 교환학생을 준비하는 모든 과정과 팁을 상세히 알려드립니다.",
-  },
-  {
-    id: "3",
-    imageUrl: "/images/article-thumb.png",
-    date: "2024-08-20",
-    title: "언어 능력 향상 비법",
-    description: "현지에서 빠르게 언어 실력을 늘리는 나만의 학습법을 공유합니다.",
-  },
-];
-
 const ModifyContent = () => {
-  const myData = getMyData();
-  const { profileImageUrl, hasBadge, menteeCount, nickname, country, universityName, studyStatus } = myData;
+  const { myMentorProfile } = useGetMyMentorProfile();
+  const { articleList } = useGetArticleList(myMentorProfile.id);
+
+  const { profileImageUrl, hasBadge, menteeCount, nickname, country, universityName, studyStatus } = myMentorProfile;
 
   const {
     register,
@@ -64,16 +41,22 @@ const ModifyContent = () => {
   } = useForm<MentoModifyFormData>({
     resolver: zodResolver(mentoModifySchema),
     defaultValues: {
-      channels: Object.values(ChannelType).map(() => ({ type: "", link: "" })),
-      mentorMessage: "",
-      successRecipe: "",
+      channels: Object.values(ChannelType).map(() => ({ type: "", url: "" })),
+      introduction: "",
+      passTip: "",
     },
   });
 
+  const { putMyMentorProfile } = usePutMyMentorProfile();
+
   // 폼 제출 핸들러
   const onSubmit = (data: MentoModifyFormData) => {
-    // TODO 여기에 폼 제출 로직을 추가
-    console.log("폼이 제출되었습니다.", data);
+    const payload: PutMyMentorProfileBody = {
+      channels: data.channels ?? [],
+      introduction: data.introduction ?? "",
+      passTip: data.passTip ?? "",
+    };
+    putMyMentorProfile(payload);
   };
 
   return (
@@ -96,7 +79,7 @@ const ModifyContent = () => {
               <div className="text-sm text-gray-500">{country}</div>
               <div className="text-lg font-semibold text-gray-900">{nickname}</div>
               <div className="text-sm text-gray-500">{universityName}</div>
-              <MentoStudyStatusBox studyStatus={studyStatus} />
+              <StudyDate studyStatus={studyStatus} />
             </div>
           </div>
         </div>
@@ -120,49 +103,49 @@ const ModifyContent = () => {
 
               <h2 className="mt-5 text-[16px] font-medium text-k-700">링크 삽입</h2>
               <input
-                {...register(`channels.${index}.link`)}
+                {...register(`channels.${index}.url`)}
                 className="mt-2 h-[45px] w-full rounded-lg border border-gray-300 px-4 py-3 text-sm font-light text-k-300"
-                placeholder="링크를 입력해주세요."
+                placeholder="URL을 입력해주세요."
               />
-              {errors.channels?.[index]?.link && (
+              {errors.channels?.[index]?.url && (
                 <p className="mt-1 text-sm text-red-500">
-                  {typeof errors.channels[index]?.link === "object" && errors.channels[index]?.link?.message
-                    ? errors.channels[index]?.link?.message
-                    : "링크를 입력해주세요"}
+                  {typeof errors.channels[index]?.url === "object" && errors.channels[index]?.url?.message
+                    ? errors.channels[index]?.url?.message
+                    : "URL을 입력해주세요"}
                 </p>
               )}
             </div>
           ))}
           <h2 className="mt-[40px] text-lg leading-normal text-primary-1">멘토 한마디</h2>
           <textarea
-            {...register("mentorMessage")}
+            {...register("introduction")}
             className="mt-[10px] h-[120px] w-full rounded-lg bg-k-50 p-5 text-sm font-light text-k-300"
             placeholder="최대 200자 이내"
           />
-          {errors.mentorMessage && (
+          {errors.introduction && (
             <p className="mt-1 text-sm text-red-500">
-              {typeof errors.mentorMessage === "object" && errors.mentorMessage.message
-                ? errors.mentorMessage.message
+              {typeof errors.introduction === "object" && errors.introduction.message
+                ? errors.introduction.message
                 : "멘토 한마디를 입력해주세요"}
             </p>
           )}
           <h2 className="mt-[40px] text-lg leading-normal text-primary-1">합격 레시피</h2>
           <textarea
-            {...register("successRecipe")}
+            {...register("passTip")}
             className="mt-[10px] h-[120px] w-full rounded-lg bg-k-50 p-5 text-sm font-light text-k-300"
             placeholder="최대 200자 이내"
           />
-          {errors.successRecipe && (
+          {errors.passTip && (
             <p className="mt-1 text-sm text-red-500">
-              {typeof errors.successRecipe === "object" && errors.successRecipe.message
-                ? errors.successRecipe.message
+              {typeof errors.passTip === "object" && errors.passTip.message
+                ? errors.passTip.message
                 : "합격 레시피를 입력해주세요"}
             </p>
           )}{" "}
           <h2 className="mt-[40px] text-lg leading-normal text-primary-1">멘토 아티클</h2>
-          {dummyArticles.map((article) => (
-            <div key={article.id} className="mb-6">
-              <MentoArticlePanel articleData={article} />
+          {articleList.map((article) => (
+            <div key={article.title} className="mb-6">
+              <MentoArticlePanel article={article} />
             </div>
           ))}
           {/* 새 아티클 추가 버튼 */}

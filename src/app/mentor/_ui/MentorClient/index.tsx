@@ -7,7 +7,7 @@ const MentorClient = () => {
   const isMentor = false;
   return (
     <>
-      {!isMentor ? (
+      {isMentor ? (
         // 멘토페이지
         <>
           {/* 나의 멘토 - 멘티 탭 및 채팅카드 */}

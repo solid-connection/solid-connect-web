@@ -1,4 +1,4 @@
-import { Control, FieldValues } from "react-hook-form";
+import { Control, FieldValues, useController } from "react-hook-form";
 
 import useSelectHandler from "./_hooks/useSelectHandler";
 
@@ -12,10 +12,14 @@ interface ChannelSelectProps {
 }
 
 const ChannelSelect = ({ name = "channel", control }: ChannelSelectProps) => {
-  const { isOpen, selectedValue, dropdownRef, handleChannelChange, toggleDropdown } = useSelectHandler({
+  const { isOpen, dropdownRef, handleChannelChange, toggleDropdown } = useSelectHandler({
     name,
     control,
   });
+
+  const {
+    field: { value },
+  } = useController({ name, control });
 
   return (
     <div className="relative h-[45px]" ref={dropdownRef}>
@@ -25,8 +29,8 @@ const ChannelSelect = ({ name = "channel", control }: ChannelSelectProps) => {
         onClick={toggleDropdown}
         className={`flex w-full items-center justify-between rounded-lg border border-gray-300 px-4 py-3 focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary`}
       >
-        <span className={`text-sm font-light ${selectedValue ? "text-secondary" : "text-k-300"}`}>
-          {selectedValue || "채널을 선택해주세요."}
+        <span className={`text-sm font-light ${value ? "text-secondary" : "text-k-300"}`}>
+          {value || "채널을 선택해주세요."}
         </span>
         <span className="h-4 w-4 text-gray-400">{isOpen ? <IconDirectionUp /> : <IconDirectionDown />}</span>
       </button>

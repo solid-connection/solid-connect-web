@@ -8,7 +8,7 @@ import IconDirectionRight from "./direction-right.svg";
 import IconDirectionUp from "./direction-up.svg";
 import IconGraduation from "./graduation.svg";
 import IconLikeFill from "./like-fill.svg";
-import IconLkieNotFill from "./like-not-fill.svg";
+import IconLikeNotFill from "./like-not-fill.svg";
 import IconModify from "./modify.svg";
 import IconPencil from "./pencil.svg";
 import IconPlus from "./plus.svg";
@@ -37,7 +37,7 @@ export {
   IconSetting,
   IconCamera,
   IconDirectMessage,
-  IconLkieNotFill,
+  IconLikeNotFill,
   IconLikeFill,
   IconUnSmile,
   IconSmile,
