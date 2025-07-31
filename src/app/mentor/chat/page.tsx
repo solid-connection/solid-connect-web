@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-import ChatPageClient from "./_components/ChatPageClient";
+import ChatPageClient from "./_ui/ChatPageClient";
 
 export const metadata: Metadata = {
   title: "멘토 채팅 목록 | Solid Connect",

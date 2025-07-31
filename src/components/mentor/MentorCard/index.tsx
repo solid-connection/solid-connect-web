@@ -1,27 +1,42 @@
 "use client";
 
+import Link from "next/link";
 import React, { useState } from "react";
 
 import clsx from "clsx";
-import { Link } from "lucide-react";
 
 import IconConfirmCancelModalWrapper from "@/components/modal/IconConfirmCancelModalWrapper";
 import ChannelBadge from "@/components/ui/ChannelBadge";
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
 
-import StudyStatusBox from "../StudyStatusBox";
+import StudyDate from "../StudyDate";
 
-import { ChannelType, Mentor } from "@/types/mentor";
-
+import { ChannelType, MentorCardDetail } from "@/api/mentor/type/response";
+import { customConfirm } from "@/lib/zustand/useConfirmModalStore";
 import { IconCheck, IconDirectionDown, IconDirectionUp } from "@/public/svgs/mentor";
 
 interface MentorCardProps {
-  mentor: Mentor;
+  mentor: MentorCardDetail;
   isMine?: boolean; // isMine prop 추가
 }
 
 const MentorCard = ({ mentor, isMine = false }: MentorCardProps) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
+
+  const onClick = async () => {
+    const ok = await customConfirm({
+      icon: <IconCheck />,
+      title: "멘토 신청이 완료되었어요!",
+      content: "멘토가 신청을 수락하면 대화를 시작할 수 있어요.\n대화 수락까지 조금만 기다려주세요.",
+      rejectMessage: "홈으로",
+      approveMessage: "다른 멘토 찾기",
+    });
+    if (ok) {
+      // 승인 후 행동 (필요 시 추가)
+    } else {
+      // 취소 후 행동 (필요 시 추가)
+    }
+  };
 
   // 구조분해 할당
   const {
@@ -49,7 +64,7 @@ const MentorCard = ({ mentor, isMine = false }: MentorCardProps) => {
           <div className="mb-1 flex items-center justify-between">
             <span className="text-base font-semibold leading-normal text-primary-1">{country}</span>
 
-            <StudyStatusBox studyStatus={studyStatus} />
+            <StudyDate studyStatus={studyStatus} />
           </div>
           <h3 className="text-xl font-bold leading-normal text-k-800">{nickname}님</h3>
           <div className="mt-1 flex flex-col">
@@ -104,17 +119,13 @@ const MentorCard = ({ mentor, isMine = false }: MentorCardProps) => {
                 <button className="flex h-10 w-1/2 flex-shrink-0 items-center justify-center gap-3 rounded-[20px] bg-primary px-5 py-2.5 font-medium text-white">
                   멘토 페이지
                 </button>
-                <IconConfirmCancelModalWrapper
-                  icon={IconCheck}
-                  title={"멘토 신청이 완료되었어요!"}
-                  content={"멘토가 신청을 수락하면 대화를 시작할 수 있어요.\n대화 수락까지 조금만 기다려주세요."}
-                  cancelText="홈으로"
-                  approveText="다른 멘토 찾기"
+                <button
+                  type="button"
+                  onClick={onClick}
+                  className="flex h-[41px] w-1/2 flex-shrink-0 items-center justify-center gap-3 rounded-[20px] bg-primary px-5 py-[10px] font-medium text-white"
                 >
-                  <button className="flex h-[41px] w-1/2 flex-shrink-0 items-center justify-center gap-3 rounded-[20px] bg-primary px-5 py-[10px] font-medium text-white">
-                    멘토 신청하기
-                  </button>
-                </IconConfirmCancelModalWrapper>
+                  멘토 신청하기
+                </button>
               </>
             )}
           </div>

@@ -7,6 +7,7 @@ import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
 import { IconDirectionDown, IconDirectionUp } from "@/public/svgs/mentor";
 
 interface MentorExpandChatCardProps {
+  isWating: boolean; // true면 대기 중, false면 완료
   profileImageUrl?: string;
   message: string;
   nickname: string;
@@ -15,6 +16,7 @@ interface MentorExpandChatCardProps {
 }
 
 const MentorExpandChatCard = ({
+  isWating,
   profileImageUrl,
   message,
   nickname,
@@ -36,7 +38,6 @@ const MentorExpandChatCard = ({
       return date.toLocaleDateString("ko-KR", { month: "long", day: "numeric" });
     }
   };
-
   return (
     <div className="w-full overflow-hidden border-b border-k-50">
       <button className="flex w-full items-center gap-3 p-4" onClick={() => setIsExpanded(!isExpanded)}>
@@ -56,8 +57,12 @@ const MentorExpandChatCard = ({
 
         {/* Unread Count & Expand Icon */}
         <div className="flex flex-shrink-0 items-center gap-2">
-          <div className="h-2 w-2 rounded-full bg-secondary"></div>
-          <div className="h-5 w-5">{isExpanded ? <IconDirectionUp /> : <IconDirectionDown />}</div>
+          {isWating ? (
+            <div className="h-2 w-2 rounded-full bg-sub-d-500"></div>
+          ) : (
+            <div className="h-2 w-2 rounded-full bg-secondary"></div>
+          )}
+          <div className="h-5 w-5">{!isWating && (isExpanded ? <IconDirectionUp /> : <IconDirectionDown />)}</div>
         </div>
       </button>
 

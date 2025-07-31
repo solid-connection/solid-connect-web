@@ -21,41 +21,76 @@ class HttpError extends Error {
 }
 
 /* ---------- 전역 캐시 ---------- */
-interface AccessCache {
+interface AccessCacheItem {
   token: string | null;
   exp: number; // ms
   refreshing: Promise<string> | null;
+  lastAccess: number; // 마지막 접근 시각
 }
-// 전역 객체에 캐시 추가
-const globalSemaphore = globalThis as typeof globalThis & { __accessCache?: AccessCache };
-// 값 초기화
-if (!globalSemaphore.__accessCache) {
-  globalSemaphore.__accessCache = { token: null, exp: 0, refreshing: null };
+
+type AccessCacheMap = Record<string, AccessCacheItem>;
+
+const MAX_CACHE_ENTRIES = 1000;
+const CLEANUP_EVERY = 100; // getCache 호출 N회마다 정리
+let _cleanupCounter = 0;
+
+// 전역 객체에 캐시 맵 추가 (리프레시 토큰을 key 로 사용)
+const globalSemaphore = globalThis as typeof globalThis & {
+  __accessCacheMap?: AccessCacheMap;
+};
+
+if (!globalSemaphore.__accessCacheMap) {
+  globalSemaphore.__accessCacheMap = {};
 }
-// 전역 캐시 객체
-const accessCache: AccessCache = globalSemaphore.__accessCache;
+
+/** 필요 시 새로 할당하여 캐시 항목 반환 + 주기적 정리 */
+const getCache = (refreshToken: string): AccessCacheItem => {
+  const map = globalSemaphore.__accessCacheMap!;
+  let item = map[refreshToken];
+  if (!item) {
+    item = { token: null, exp: 0, refreshing: null, lastAccess: Date.now() };
+    map[refreshToken] = item;
+  } else {
+    item.lastAccess = Date.now();
+  }
+
+  // 주기적 캐시 정리
+  if (++_cleanupCounter >= CLEANUP_EVERY && Object.keys(map).length > MAX_CACHE_ENTRIES) {
+    _cleanupCounter = 0;
+    const now = Date.now();
+    for (const [key, value] of Object.entries(map)) {
+      // 만료된 토큰이거나 1시간 이상 접근이 없으면 제거
+      if (now - value.lastAccess > 60 * 60 * 1000 || now > value.exp + TIME_LIMIT) {
+        delete map[key];
+      }
+    }
+  }
+  return item;
+};
 
 const getAccessToken = async (refresh: string) => {
-  // 만료 30초 전까지는 재발급하지 않고 캐싱
-  if (accessCache.token && Date.now() < accessCache.exp - TIME_LIMIT) return accessCache.token;
-  if (accessCache.refreshing) return accessCache.refreshing;
+  const cache = getCache(refresh);
 
-  accessCache.refreshing = reissueAccessTokenPublicApi(refresh)
+  // 만료 30초 전까지는 재발급하지 않고 캐싱
+  if (cache.token && Date.now() < cache.exp - TIME_LIMIT) return cache.token;
+  if (cache.refreshing) return cache.refreshing;
+
+  cache.refreshing = reissueAccessTokenPublicApi(refresh)
     .then(({ data }) => {
-      accessCache.token = data.accessToken;
-      accessCache.exp = decodeExp(data.accessToken);
-      accessCache.refreshing = null;
+      cache.token = data.accessToken;
+      cache.exp = decodeExp(data.accessToken);
+      cache.refreshing = null;
       return data.accessToken;
     })
     .catch((e) => {
-      // 토큰 재발급 실패 시 캐시 전부 초기화
-      accessCache.refreshing = null;
-      accessCache.token = null;
-      accessCache.exp = 0;
+      // 토큰 재발급 실패 시 캐시 초기화
+      cache.refreshing = null;
+      // 실패한 토큰은 캐시에서 제거하여 메모리 누수 방지
+      delete globalSemaphore.__accessCacheMap![refresh];
       throw e;
     });
 
-  return accessCache.refreshing;
+  return cache.refreshing;
 };
 
 /* ---------- fetch 래퍼 ---------- */
