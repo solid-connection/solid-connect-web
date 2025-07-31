@@ -10,7 +10,7 @@ import CommunityRegionSelector from "./CommunityRegionSelector";
 import PostCards from "./PostCards";
 import PostWriteButton from "./PostWriteButton";
 
-import { COMMUNITY_BOARDS, COMMUNITY_CATEGORIES } from "@/constants/commnunity";
+import { COMMUNITY_BOARDS, COMMUNITY_CATEGORIES } from "@/constants/community";
 import { ListPost } from "@/types/community";
 
 import { getPostListApi } from "@/api/community";
