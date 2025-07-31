@@ -12,11 +12,7 @@ interface UseGetMyMentorDataReturn {
 
 const useGetMyMentorProfile = (): UseGetMyMentorDataReturn => {
   const { result, loading, error, fetchData } = useFetch<MentorCardPreview>();
-<<<<<<< HEAD
   const [myMentorProfile, setMyMentorProfile] = useState<MentorCardPreview>(null);
-=======
-  const [myMentorProfile, setMyMentorProfile] = useState<MentorCardPreview>({} as MentorCardPreview);
->>>>>>> main
 
   useEffect(() => {
     fetchData({
