@@ -10,6 +10,7 @@ import { MentoModifyFormData, mentoModifySchema } from "./_lib/mentoModifyScehma
 import AddArticleCard from "./_ui/AddArticleCard";
 import MentoArticlePanel from "./_ui/ArticlePanel";
 import ChannelSelect from "./_ui/ChannelSelct";
+<<<<<<< HEAD
 import ModifyBtnPanel from "./_ui/ModifyBtnPanel";
 
 import { ChannelType } from "@/types/mentor";
@@ -17,6 +18,12 @@ import { ChannelType } from "@/types/mentor";
 import useGetArticleList from "@/api/article/client/useGetArticleList";
 import useGetMyMentorProfile from "@/api/mentor/client/useGetMyMentorProfile";
 import usePutMyMentorProfile, { PutMyMentorProfileBody } from "@/api/mentor/client/usePutMyMentorProfile";
+=======
+import ModifyBtnPanel from "./_ui/ModalBtnPanel";
+
+import { ChannelType } from "@/types/mentor";
+
+>>>>>>> upstream/main
 import { IconUserPrimaryColor } from "@/public/svgs/mentor";
 import { zodResolver } from "@hookform/resolvers/zod";
 
