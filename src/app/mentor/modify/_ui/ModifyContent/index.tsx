@@ -14,7 +14,7 @@ import ModifyBtnPanel from "./_ui/ModifyBtnPanel";
 
 import { ChannelType } from "@/types/mentor";
 
-import useGetArticleList from "@/api/article/client/useGetArticleList.ts";
+import useGetArticleList from "@/api/article/client/useGetArticleList";
 import useGetMyMentorProfile from "@/api/mentor/client/useGetMyMentorProfile";
 import usePutMyMentorProfile, { PutMyMentorProfileBody } from "@/api/mentor/client/usePutMyMentorProfile";
 import { IconUserPrimaryColor } from "@/public/svgs/mentor";
@@ -22,9 +22,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 const ModifyContent = () => {
   const { myMentorProfile } = useGetMyMentorProfile();
-  const { articleList } = useGetArticleList(myMentorProfile.id);
-
-  const { profileImageUrl, hasBadge, menteeCount, nickname, country, universityName, studyStatus } = myMentorProfile;
+  const userId = myMentorProfile ? myMentorProfile.id : null;
+  const { articleList } = useGetArticleList(userId);
 
   const {
     register,
@@ -51,6 +50,9 @@ const ModifyContent = () => {
     };
     putMyMentorProfile(payload);
   };
+
+  if (!myMentorProfile) return null;
+  const { profileImageUrl, hasBadge, menteeCount, nickname, country, universityName, studyStatus } = myMentorProfile;
 
   return (
     <div className="px-5">

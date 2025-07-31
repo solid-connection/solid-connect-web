@@ -108,7 +108,7 @@ const MentorCard = ({ mentor, isMine = false }: MentorCardProps) => {
           <div className="mb-4 flex items-center justify-center gap-2.5 self-stretch">
             {isMine ? (
               <Link
-                href="/mento/modify"
+                href="/mentor/modify"
                 className="flex h-10 w-[150px] flex-shrink-0 items-center justify-center gap-3 rounded-[20px] bg-primary px-5 py-2.5 font-medium text-white"
               >
                 수정하기
@@ -121,7 +121,7 @@ const MentorCard = ({ mentor, isMine = false }: MentorCardProps) => {
                 <button
                   type="button"
                   onClick={onClick}
-                  className="flex h-[41px] w-1/2 flex-shrink-0 items-center justify-center gap-3 rounded-[20px] bg-primary px-5 py-[10px] font-medium text-white"
+                  className="flex h-10 w-1/2 flex-shrink-0 items-center justify-center gap-3 rounded-[20px] bg-primary px-5 py-[10px] font-medium text-white"
                 >
                   멘토 신청하기
                 </button>
