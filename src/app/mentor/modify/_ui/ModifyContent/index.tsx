@@ -22,9 +22,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 const ModifyContent = () => {
   const { myMentorProfile } = useGetMyMentorProfile();
-  const { articleList } = useGetArticleList(myMentorProfile.id);
 
-  const { profileImageUrl, hasBadge, menteeCount, nickname, country, universityName, studyStatus } = myMentorProfile;
+  const myId = myMentorProfile?.id || 0;
+  const { articleList } = useGetArticleList(myId);
 
   const {
     register,
@@ -51,6 +51,10 @@ const ModifyContent = () => {
     };
     putMyMentorProfile(payload);
   };
+
+
+  if (!myMentorProfile) return null; // myMentorProfile가 없으면 아무것도 렌더링하지 않음
+  const { profileImageUrl, hasBadge, menteeCount, nickname, country, universityName, studyStatus } = myMentorProfile;
 
   return (
     <div className="px-5">
