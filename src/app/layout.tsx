@@ -2,13 +2,13 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 
-import AppleScriptLoader from "@/components/layout/AppleScriptLoader";
 import GlobalLayout from "@/components/layout/GlobalLayout";
-import KakaoScriptLoader from "@/components/layout/KakaoScriptLoader";
 
 import "../styles/globals.css";
 
 import { AlertProvider } from "@/context/AlertContext";
+import AppleScriptLoader from "@/lib/ScriptLoader/AppleScriptLoader";
+import KakaoScriptLoader from "@/lib/ScriptLoader/KakaoScriptLoader";
 import { GoogleAnalytics } from "@next/third-parties/google";
 
 export const metadata: Metadata = {

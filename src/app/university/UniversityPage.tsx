@@ -4,8 +4,8 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import UniversityCards from "@/components/college/UniversityCards";
-import TopLogoBar from "@/components/layout/TopLogoBar";
 import ButtonTab from "@/components/ui/ButtonTab";
+import TopLogoBar from "@/components/ui/TopLogoBar";
 
 import UniversitySearch from "./UniversitySearch";
 

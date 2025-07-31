@@ -7,8 +7,8 @@ import axios from "axios";
 
 import { saveAccessToken, saveRefreshToken } from "@/utils/localStorage";
 
-import CloudSpinnerPage from "@/components/loading/CloudSpinnerPage";
 import SignupSurvey from "@/components/login/signup/SignupSurvey";
+import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 
 import { kakaoAuthApi } from "@/api/auth";
 

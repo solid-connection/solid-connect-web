@@ -3,9 +3,9 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
-import CloudSpinnerPage from "@/components/loading/CloudSpinnerPage";
 import ConfirmCancelModal from "@/components/modal/ConfirmCancelModal";
 import ButtonTab from "@/components/ui/ButtonTab";
+import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 import Tab from "@/components/ui/Tab";
 
 import ScoreSearchBar from "./ScoreSearchBar";

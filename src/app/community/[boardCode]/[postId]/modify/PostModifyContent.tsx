@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import CloudSpinnerPage from "@/components/loading/CloudSpinnerPage";
+import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 
 import PostModifyForm from "./PostModifyForm";
 

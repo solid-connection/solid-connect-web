@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import BlockBtn from "@/components/button/BlockBtn";
-import { Input } from "@/components/ui/Input";
+import { Input } from "@/components/ui/Inputa";
 import { Label } from "@/components/ui/Label";
 import { Progress } from "@/components/ui/Progress";
 

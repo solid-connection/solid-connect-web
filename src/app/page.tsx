@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-import TopLogoBar from "@/components/layout/TopLogoBar";
+import TopLogoBar from "@/components/ui/TopLogoBar";
 
 import Home from "./Home";
 

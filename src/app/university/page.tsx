@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import React, { Suspense } from "react";
 
-import CloudSpinner from "@/components/loading/CloudSpinner";
+import CloudSpinner from "@/components/ui/CloudSpinner";
 
 import UniversityPage from "./UniversityPage";
 
