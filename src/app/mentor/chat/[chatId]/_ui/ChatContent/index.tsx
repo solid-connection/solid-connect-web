@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
 
-import ChatMessageBox from "./_components/ChatMessageBox";
+import ChatMessageBox from "./_ui/ChatMessageBox";
 
 import { ChatMessage } from "@/types/mentor";
 
@@ -131,7 +131,7 @@ const ChatContent = () => {
       </div>
 
       {/* 메시지 입력 영역 - 하단 고정 */}
-      <div className="shadow-top w-full border-b border-t border-k-50 bg-k-0">
+      <div className="w-full border-b border-t border-k-50 bg-k-0 shadow-top">
         <form onSubmit={handleSubmit(onSubmit)} className="flex items-center gap-2 p-4">
           <button className="h-[18px] w-5">
             <IconCamera />

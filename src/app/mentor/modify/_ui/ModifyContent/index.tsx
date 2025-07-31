@@ -14,7 +14,7 @@ import ModifyBtnPanel from "./_ui/ModifyBtnPanel";
 
 import { ChannelType } from "@/types/mentor";
 
-import useGetArticleList from "@/api/article/client/useGetAriticleList";
+import useGetArticleList from "@/api/article/client/useGetArticleList.ts";
 import useGetMyMentorProfile from "@/api/mentor/client/useGetMyMentorProfile";
 import usePutMyMentorProfile, { PutMyMentorProfileBody } from "@/api/mentor/client/usePutMyMentorProfile";
 import { IconUserPrimaryColor } from "@/public/svgs/mentor";
