@@ -22,7 +22,7 @@ const Home = async ({ newsList, recommendedColleges }: HomeProps) => {
       <FindLastYearScoreBar />
       <div className="flex flex-col gap-2.5 px-5 py-3.5">
         <div className="flex gap-2">
-          <Link className="flex h-26 flex-1 flex-col gap-2 rounded-lg bg-primary-100 p-2.5" href="/search">
+          <Link className="h-26 flex flex-1 flex-col gap-2 rounded-lg bg-primary-100 p-2.5" href="/search">
             <div className="flex flex-col">
               <span className="text-sm font-bold text-secondary-900">학교 검색하기</span>
               <span className="text-xs font-medium leading-tight text-k-700">모든 학교 목록을 확인해보세요</span>
@@ -31,7 +31,7 @@ const Home = async ({ newsList, recommendedColleges }: HomeProps) => {
               <IconMagnifyingGlass />
             </div>
           </Link>
-          <Link className="flex h-26 flex-1 flex-col gap-2 rounded-lg bg-sub-b-100 p-2.5" href="/score">
+          <Link className="h-26 flex flex-1 flex-col gap-2 rounded-lg bg-sub-b-100 p-2.5" href="/score">
             <div className="flex flex-col">
               <span className="text-sm font-bold text-secondary-900">성적 입력하기</span>
               <span className="text-xs font-medium leading-tight text-k-700">성적을 입력해보세요</span>
@@ -42,10 +42,7 @@ const Home = async ({ newsList, recommendedColleges }: HomeProps) => {
           </Link>
         </div>
         <div className="flex gap-2">
-          <Link
-            className="flex h-26 flex-1 flex-col gap-2 rounded-lg bg-sub-c-100 p-2.5"
-            href="/application/apply"
-          >
+          <Link className="h-26 flex flex-1 flex-col gap-2 rounded-lg bg-sub-c-100 p-2.5" href="/application/apply">
             <div className="flex flex-col">
               <span className="text-sm font-bold text-secondary-900">학교 지원하기</span>
               <span className="text-xs font-medium leading-tight text-k-700">학교를 지원해주세요</span>
@@ -54,7 +51,7 @@ const Home = async ({ newsList, recommendedColleges }: HomeProps) => {
               <IconMuseum />
             </div>
           </Link>
-          <Link className="flex h-26 flex-1 flex-col gap-2 rounded-lg bg-sub-e-100 p-2.5" href="/application">
+          <Link className="h-26 flex flex-1 flex-col gap-2 rounded-lg bg-sub-e-100 p-2.5" href="/application">
             <div className="flex flex-col">
               <span className="text-sm font-bold text-secondary-900">지원자 현황 확인</span>
               <span className="text-xs font-medium leading-tight text-k-700">경쟁률을 바로 분석해드려요</span>
@@ -95,9 +92,7 @@ const Home = async ({ newsList, recommendedColleges }: HomeProps) => {
                 />
                 <div className="mr-5 flex flex-col gap-0.5">
                   <div className="text-serif text-sm font-semibold leading-normal text-k-700">{news.title}</div>
-                  <div className="font-serif text-xs font-normal leading-normal text-k-500">
-                    {news.description}
-                  </div>
+                  <div className="font-serif text-xs font-normal leading-normal text-k-500">{news.description}</div>
                 </div>
               </div>
             </a>
