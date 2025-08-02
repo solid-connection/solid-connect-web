@@ -32,7 +32,6 @@ const UniversityList = ({ allRegionsUniversityList }: UniversityListProps) => {
     isLogin && !error ? clientFetchedRecommendedUniversities : region ? (allRegionsUniversityList[region] ?? []) : [];
   // 홈 카드 영역에는 최대 3개만 노출
   const previewUniversities: ListUniversity[] = useMemo(() => universities.slice(0, 3), [universities]);
-
   return (
     <div className="flex flex-col gap-2">
       <div className="flex justify-between">
@@ -55,7 +54,13 @@ const UniversityList = ({ allRegionsUniversityList }: UniversityListProps) => {
           background: "white",
         }}
       />
-      <UniversityCards colleges={previewUniversities} showCapacity={false} />
+      <UniversityCards
+        colleges={previewUniversities.map((college) => ({
+          ...college,
+          logoImageUrl: college.logoImageUrl?.replace(/^\/+/, ""),
+        }))}
+        showCapacity={false}
+      />
     </div>
   );
 };

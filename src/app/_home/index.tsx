@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import FindLastYearScoreBar from "./_ui/FindLastYearScoreBar";
-import PopularCollegeSection from "./_ui/PopularCollegeSection";
+import PopularUniversitySection from "./_ui/PopularUniversitySection";
 import UniversityList from "./_ui/UniversityList";
 
 import getRecommendedUniversity from "@/api/university/server/getRecommendedUniversity";
@@ -16,7 +16,7 @@ const Home = async () => {
 
   // 추천 대학 정보를 가져옵니다
   const { data } = await getRecommendedUniversity();
-  const recommendedColleges = data?.recommendedUniversities || [];
+  const recommendedUniversities = data?.recommendedUniversities || [];
 
   // 권역별 전체 대학 리스트를 미리 가져와 빌드합니다
   const allRegionsUniversityList = await getAllRegionsUniversityList();
@@ -71,7 +71,7 @@ const Home = async () => {
         <div className="mb-2 flex items-center gap-1.5 font-serif text-base font-semibold text-k-700">
           실시간 인기있는 파견학교
         </div>
-        <PopularCollegeSection colleges={recommendedColleges} />
+        <PopularUniversitySection universities={recommendedUniversities} />
       </div>
 
       <div className="p-5">
@@ -89,7 +89,6 @@ const Home = async () => {
               <div className="flex gap-4">
                 <Image
                   loading="lazy"
-                  placeholder="blur"
                   className="h-24 w-44 shrink-0 rounded-xl object-cover"
                   src={news.imageUrl}
                   alt={news.title}
