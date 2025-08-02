@@ -20,7 +20,8 @@ interface SearchParams {
  * - 필요 시 query string 을 동적으로 붙인다.
  */
 const getSearchUniversityList = async ({ region, keyword, testType, testScore }: SearchParams = {}) => {
-  const basePath = "/univ-apply-infos/search";
+  const endpoint = process.env.NODE_ENV === "development" ? "/univ-apply-infos/search" : "/universities/search";
+
   const params = new URLSearchParams();
 
   if (region) params.append("region", region);
@@ -28,7 +29,7 @@ const getSearchUniversityList = async ({ region, keyword, testType, testScore }:
   if (testType) params.append("testType", testType);
   if (testScore) params.append("testScore", testScore);
 
-  const url = params.size ? `${basePath}?${params.toString()}` : basePath;
+  const url = params.size ? `${endpoint}?${params.toString()}` : endpoint;
 
   return serverFetch<SearchUniversityListResponse>(url, { isAuth: false });
 };

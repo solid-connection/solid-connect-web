@@ -9,9 +9,11 @@ const getRecommendedUniversity = async ({
 }: {
   queryKey: [string, boolean];
 }): Promise<RecommendedUniversityResponse> => {
+  const endpoint = process.env.NODE_ENV === "development" ? "/univ-apply-infos/recommend" : "/universities/recommend";
+
   const [, isLogin] = queryKey;
   const instance = isLogin ? axiosInstance : publicAxiosInstance;
-  const res = await instance.get("/api/university/recommended");
+  const res = await instance.get(endpoint);
   return res.data;
 };
 
