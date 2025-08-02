@@ -14,6 +14,15 @@ const nextConfig = {
       "d23lwokhcc3r0c.cloudfront.net",
     ],
   },
+  // 폰트 최적화 설정
+  optimizeFonts: true,
+  // 압축 활성화
+  compress: true,
+  // 정적 리소스 최적화
+  experimental: {
+    optimizeCss: true,
+    gzipSize: true,
+  },
   eslint: {
     // Warning: This allows production builds to successfully complete even if
     // your project has ESLint errors.
@@ -23,6 +32,24 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   webpack: (config) => {
+    // CSS 최적화 - ensure nested objects exist
+    if (!config.optimization) {
+      config.optimization = {};
+    }
+    if (!config.optimization.splitChunks) {
+      config.optimization.splitChunks = {};
+    }
+    if (!config.optimization.splitChunks.cacheGroups) {
+      config.optimization.splitChunks.cacheGroups = {};
+    }
+
+    config.optimization.splitChunks.cacheGroups.styles = {
+      name: "styles",
+      test: /\.(css|scss)$/,
+      chunks: "all",
+      enforce: true,
+    };
+
     config.module.rules.push({
       test: /\.svg$/,
       use: ["@svgr/webpack"],
