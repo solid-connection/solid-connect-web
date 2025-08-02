@@ -22,6 +22,7 @@
     "axios": "^1.6.7",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "critters": "^0.0.23",
     "firebase": "^10.7.2",
     "firebase-admin": "^12.0.0",
     "lucide-react": "^0.479.0",

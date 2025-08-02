@@ -32,7 +32,17 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   webpack: (config) => {
-    // CSS 최적화
+    // CSS 최적화 - ensure nested objects exist
+    if (!config.optimization) {
+      config.optimization = {};
+    }
+    if (!config.optimization.splitChunks) {
+      config.optimization.splitChunks = {};
+    }
+    if (!config.optimization.splitChunks.cacheGroups) {
+      config.optimization.splitChunks.cacheGroups = {};
+    }
+
     config.optimization.splitChunks.cacheGroups.styles = {
       name: "styles",
       test: /\.(css|scss)$/,
