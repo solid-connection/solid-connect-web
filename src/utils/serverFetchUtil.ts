@@ -21,7 +21,7 @@ class HttpError extends Error {
 }
 
 type ServerFetchSuccess<T> = { ok: true; status: number; data: T };
-type ServerFetchFailure = { ok: false; status: number; error: string };
+type ServerFetchFailure = { ok: false; status: number; error: string; data: undefined };
 export type ServerFetchResult<T> = ServerFetchSuccess<T> | ServerFetchFailure;
 
 /* ---------- 전역 캐시 ---------- */
@@ -185,14 +185,14 @@ async function serverFetch<T = unknown>(url: string, options: ServerFetchOptions
       redirect(`/login?next=${encodeURIComponent(url)}`);
     }
     if (e instanceof HttpError) {
-      return { ok: false, status: e.status, error: e.body };
+      return { ok: false, status: e.status, error: e.body, data: undefined };
     }
     const err = e as Error;
     // 예외 메시지 기반 토큰 만료 처리
     if (isAuth && err.message === AUTH_EXPIRED) {
       redirect(`/login?next=${encodeURIComponent(url)}`);
     }
-    return { ok: false, status: 500, error: err.message ?? "Unknown error" };
+    return { ok: false, status: 500, error: err.message ?? "Unknown error", data: undefined };
   }
 }
 

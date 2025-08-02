@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 
@@ -5,9 +7,8 @@ import UniversityList from "../../components/home/UniversityList";
 import PopularCollegeSection from "./_ui/PopularCollegeSection";
 
 import { News } from "@/types/news";
+import { ListUniversity } from "@/types/university";
 
-import getRecommendedColleges from "@/api/home/server/getRecommendedColleges";
-import { fetchAllNews } from "@/lib/firebaseNews";
 import { IconSpeaker } from "@/public/svgs";
 import {
   IconGraduationCap,
@@ -20,12 +21,10 @@ import {
 
 type HomeProps = {
   newsList: News[];
+  recommendedColleges: ListUniversity[];
 };
 
-const Home = async ({ newsList }: HomeProps) => {
-  const recommendedColleges = await getRecommendedColleges();
-  const newsListResponse = await fetchAllNews();
-
+const Home = ({ newsList, recommendedColleges }: HomeProps) => {
   return (
     <div className="">
       <div

@@ -1,6 +1,10 @@
 import serverFetch from "@/utils/serverFetchUtil";
 
-import { MentoringNewCountResponse } from "../type/response";
+// import { MentoringNewCountResponse } from "../type/response";
+
+export interface MentoringNewCountResponse {
+  count: number;
+}
 
 const getMentoringNewCount = () => {
   return serverFetch<MentoringNewCountResponse>("/mentorings/check", {
