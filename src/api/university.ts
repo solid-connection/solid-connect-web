@@ -4,7 +4,6 @@ import { axiosInstance, publicAxiosInstance } from "@/utils/axiosInstance";
 
 import {
   ListUniversity,
-  RecommendedUniversitiesResponse,
   RegionEnum,
   University,
   UniversityFavoriteResponse,
@@ -37,6 +36,3 @@ export const deleteUniversityFavoriteApi = (
   universityInfoForApplyId: number,
 ): Promise<AxiosResponse<UniversityFavoriteResponse>> =>
   axiosInstance.delete(`/universities/${universityInfoForApplyId}/like`);
-
-export const getRecommendedUniversitiesApi = (): Promise<AxiosResponse<RecommendedUniversitiesResponse>> =>
-  axiosInstance.get("/universities/recommend");

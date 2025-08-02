@@ -1,18 +1,14 @@
-"use client";
-
+import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 
-import HomeCollegeCards from "../components/home/HomeCollegeCards";
-import NewsCards from "../components/home/NewsCards";
-import UniversityList from "../components/home/UniversityList";
+import UniversityList from "../../components/home/UniversityList";
+import PopularCollegeSection from "./_ui/PopularCollegeSection";
 
 import { News } from "@/types/news";
-import { ListUniversity } from "@/types/university";
 
-import { getRecommendedUniversitiesApi } from "@/api/university";
-import { IconSpeaker, IconTablerSearch } from "@/public/svgs";
+import getRecommendedColleges from "@/api/home/server/getRecommendedColleges";
+import { fetchAllNews } from "@/lib/firebaseNews";
+import { IconSpeaker } from "@/public/svgs";
 import {
   IconGraduationCap,
   IconIdCard,
@@ -26,21 +22,9 @@ type HomeProps = {
   newsList: News[];
 };
 
-const Home = ({ newsList }: HomeProps) => {
-  const [recommendedColleges, setRecommendedColleges] = useState<ListUniversity[]>([]);
-
-  useEffect(() => {
-    const fetchRecommendedColleges = async () => {
-      try {
-        const response = await getRecommendedUniversitiesApi();
-        setRecommendedColleges(response.data.recommendedUniversities);
-      } catch {
-        setRecommendedColleges([]);
-      }
-    };
-
-    fetchRecommendedColleges();
-  }, []);
+const Home = async ({ newsList }: HomeProps) => {
+  const recommendedColleges = await getRecommendedColleges();
+  const newsListResponse = await fetchAllNews();
 
   return (
     <div className="">
@@ -110,7 +94,7 @@ const Home = ({ newsList }: HomeProps) => {
         <div className="mb-2 flex items-center gap-[6px] font-serif text-[16px] font-semibold text-[#44413D]">
           실시간 인기있는 파견학교
         </div>
-        <HomeCollegeCards colleges={recommendedColleges} />
+        <PopularCollegeSection colleges={recommendedColleges} />
       </div>
 
       <div className="p-5">
@@ -122,37 +106,30 @@ const Home = ({ newsList }: HomeProps) => {
           솔커에서 맛보는 소식
           <IconSpeaker />
         </div>
-        <NewsCards newsList={newsList} />
+        <div className="flex flex-col gap-4">
+          {newsList.map((news) => (
+            <a key={news.id} target="_blank" href={news.url} rel="noreferrer">
+              <div className="flex gap-4">
+                <Image
+                  className="h-[90px] w-[170px] shrink-0 rounded-xl object-cover"
+                  src={news.imageUrl}
+                  alt={news.title}
+                  width={170}
+                  height={90}
+                />
+                <div className="mr-5 flex flex-col gap-0.5">
+                  <div className="text-serif text-sm font-semibold leading-normal text-[#44413d]">{news.title}</div>
+                  <div className="font-serif text-[10px] font-normal leading-normal text-[#808080]">
+                    {news.description}
+                  </div>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
       </div>
     </div>
   );
 };
 
 export default Home;
-
-const CollegeSearch = () => {
-  const [searchText, setSearchText] = useState<string>("");
-  const router = useRouter();
-
-  const onSearch = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    router.push(`/college?keyword=${searchText}`);
-  };
-
-  return (
-    <div className="mr-5">
-      <form className="flex items-center rounded-[8px] bg-[#f7f7f7] pr-[16px]" onSubmit={onSearch}>
-        <input
-          className="box-border w-full rounded-[8px] border-none bg-[#f7f7f7] p-[12px_16px] font-serif text-[14px] font-normal uppercase leading-[150%] tracking-[-0.35px] text-black outline-none placeholder:text-[#a8a8a8]"
-          type="text"
-          placeholder="원하는 해외 학교를 검색해보세요"
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-        />
-        <button className="cursor-pointer border-0 bg-transparent" type="submit" aria-label="대학 검색하기">
-          <IconTablerSearch />
-        </button>
-      </form>
-    </div>
-  );
-};

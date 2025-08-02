@@ -2,7 +2,7 @@ import { Metadata } from "next";
 
 import TopLogoBar from "@/components/ui/TopLogoBar";
 
-import Home from "./Home";
+import Home from "./_home";
 
 import { News } from "@/types/news";
 
@@ -19,13 +19,13 @@ const HomePage = async () => {
   const newsList: News[] = newsListResponse;
 
   return (
-    <div>
+    <>
       <TopLogoBar />
       <Home newsList={newsList} />
-    </div>
+    </>
   );
 };
 
 export default HomePage;
 
-export const revalidate = 3600; // 1 hour
+export const revalidate = 60 * 60 * 24; // 1 day
