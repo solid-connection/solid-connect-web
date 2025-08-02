@@ -4,11 +4,11 @@ import dynamic from "next/dynamic";
 import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 
-import "@/styles/globals.css";
 import GlobalLayout from "@/components/layout/GlobalLayout";
 
 import { AlertProvider } from "@/context/AlertContext";
 import QueryProvider from "@/lib/react-query/QueryProvider";
+import "@/styles/globals.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
 
 export const metadata: Metadata = {
@@ -85,7 +85,6 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => (
         <link rel="dns-prefetch" href="//connect.facebook.net" />
         <link rel="dns-prefetch" href="//t1.kakaocdn.net" />
       </head>
-
       <body className={`${pretendard.className} ${inter.className}`}>
         <KakaoScriptLoader />
         <AppleScriptLoader />
