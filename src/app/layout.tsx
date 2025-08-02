@@ -33,6 +33,7 @@ const KakaoScriptLoader = dynamic(() => import("@/lib/ScriptLoader/KakaoScriptLo
   ssr: false,
   loading: () => null,
 });
+
 const AppleScriptLoader = dynamic(() => import("@/lib/ScriptLoader/AppleScriptLoader"), {
   ssr: false,
   loading: () => null,
