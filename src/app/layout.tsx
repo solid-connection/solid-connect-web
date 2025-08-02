@@ -1,14 +1,12 @@
+/* eslint-disable @next/next/no-css-tags */
 import type { Metadata, Viewport } from "next";
+import dynamic from "next/dynamic";
 import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 
 import GlobalLayout from "@/components/layout/GlobalLayout";
 
-import "../styles/globals.css";
-
 import { AlertProvider } from "@/context/AlertContext";
-import AppleScriptLoader from "@/lib/ScriptLoader/AppleScriptLoader";
-import KakaoScriptLoader from "@/lib/ScriptLoader/KakaoScriptLoader";
 import QueryProvider from "@/lib/react-query/QueryProvider";
 import { GoogleAnalytics } from "@next/third-parties/google";
 
@@ -29,6 +27,15 @@ const pretendard = localFont({
   variable: "--font-pretendard",
 });
 
+const KakaoScriptLoader = dynamic(() => import("@/lib/ScriptLoader/KakaoScriptLoader"), {
+  ssr: false,
+  loading: () => null,
+});
+const AppleScriptLoader = dynamic(() => import("@/lib/ScriptLoader/AppleScriptLoader"), {
+  ssr: false,
+  loading: () => null,
+});
+
 declare global {
   interface Window {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -46,6 +53,20 @@ export const viewport: Viewport = {
 const RootLayout = ({ children }: { children: React.ReactNode }) => (
   <AlertProvider>
     <html lang="ko">
+      <head>
+        <link rel="preload" href="/_next/static/css/globals.css" as="style" />
+        <link
+          rel="stylesheet"
+          href="/_next/static/css/globals.css"
+          media="print"
+          onLoad={(e) => {
+            (e.currentTarget as HTMLLinkElement).media = "all";
+          }}
+        />
+        <noscript>
+          <link rel="stylesheet" href="/_next/static/css/globals.css" />
+        </noscript>
+      </head>
       <KakaoScriptLoader />
       <AppleScriptLoader />
       <GoogleAnalytics gaId="G-V1KLYZC1DS" />
