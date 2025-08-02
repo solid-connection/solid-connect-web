@@ -7,7 +7,13 @@ Sentry.init({
 
   integrations: [
     Sentry.browserTracingIntegration({
-      tracePropagationTargets: ["localhost", /^https:\/\/(www\.)?solid\-connection\.com/],
+      tracePropagationTargets: [
+        "localhost",
+        "solid-connection.com",
+        "solid-connect-web",
+        "solid-connect",
+        /^https:\/\/(www\.)?solid[\-]?connection\.com/,
+      ],
     }),
     Sentry.replayIntegration({
       maskAllText: true,
