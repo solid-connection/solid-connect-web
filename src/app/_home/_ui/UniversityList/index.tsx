@@ -1,22 +1,35 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
+
+import { isAuthenticated } from "@/utils/authUtils";
 
 import ButtonTab from "@/components/ui/ButtonTab";
-import UniversityCards from "@/components/ui/UniversityCards";
+import UniversityCards from "@/components/university/UniversityCards";
+
+import useRegionHandler from "./_hooks/useRegionHandler";
 
 import { AllRegionsUniversityList, ListUniversity, RegionEnumExtend } from "@/types/university";
+
+import useGetRecommendedUniversity from "@/api/university/client/useGetRecommendedUniversity";
 
 interface UniversityListProps {
   allRegionsUniversityList: AllRegionsUniversityList;
 }
 
 const UniversityList = ({ allRegionsUniversityList }: UniversityListProps) => {
-  const [region, setRegion] = useState<RegionEnumExtend>(RegionEnumExtend.ALL);
+  // 로그인 시에는 추천 대학 정보를 가져오고, 비로그인 시에는 isr로 가져온 데이터를 사용합니다
+  const isLogin = isAuthenticated();
+  const { data, error } = useGetRecommendedUniversity(isLogin);
+  const clientFetchedRecommendedUniversities = data?.recommendedUniversities || [];
+
+  const { region, handleRegionChange } = useRegionHandler();
   const choices = Object.values(RegionEnumExtend);
   // 권역별 전체 리스트
-  const universities: ListUniversity[] = allRegionsUniversityList[region] ?? [];
+  // 로그인 상태에 따라 추천 대학 리스트를 가져오거나, 권역별 리스트를 사용합니다
+  const universities: ListUniversity[] =
+    isLogin && !error ? clientFetchedRecommendedUniversities : region ? (allRegionsUniversityList[region] ?? []) : [];
   // 홈 카드 영역에는 최대 3개만 노출
   const previewUniversities: ListUniversity[] = useMemo(() => universities.slice(0, 3), [universities]);
 
@@ -30,10 +43,10 @@ const UniversityList = ({ allRegionsUniversityList }: UniversityListProps) => {
           </span>
         </Link>
       </div>
-      <ButtonTab // TODO: 디자인 변경
+      <ButtonTab
         choices={choices}
         choice={region}
-        setChoice={setRegion}
+        setChoice={handleRegionChange}
         color={{
           activeBtn: "bg-secondary-100",
           deactiveBtn: "bg-k-50",

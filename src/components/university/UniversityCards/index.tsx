@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-import UniversityCard from "../UniverSityCard";
+import UniversityCard from "../../ui/UniverSityCard";
 
 import { ListUniversity } from "@/types/university";
 

@@ -37,6 +37,21 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const HomePage = async () => {
+  return (
+    <>
+      <Head />
+      <TopLogoBar />
+      <Home />
+    </>
+  );
+};
+
+export default HomePage;
+
+export const revalidate = 60 * 60 * 24; // 1 day
+
+// src/app/head.tsx
+const Head = async () => {
   const newsList: News[] = await fetchAllNews();
   const structuredData = {
     "@context": "https://schema.org",
@@ -50,25 +65,14 @@ const HomePage = async () => {
       image: n.imageUrl,
     })),
   };
-
   return (
-    <>
-      <Script
-        id="ld-json-homepage"
-        type="application/ld+json"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(structuredData),
-        }}
-      />
-      <TopLogoBar />
-      <Home />
-    </>
+    <Script
+      id="ld-json-homepage"
+      type="application/ld+json"
+      strategy="afterInteractive"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(structuredData),
+      }}
+    />
   );
 };
-
-export default HomePage;
-
-export const revalidate = 60 * 60 * 24; // 1 day
-
-// src/app/head.tsx

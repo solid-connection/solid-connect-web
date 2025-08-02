@@ -1,4 +1,4 @@
-import { isServerStateLogin } from "@/utils/authUtils";
+import isServerStateLogin from "@/utils/isServerStateLogin";
 
 import MentorApplyCountModal from "@/components/mentor/MentorApplyCountModal";
 

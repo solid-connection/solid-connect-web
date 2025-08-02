@@ -1,13 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { isServerStateLogin } from "@/utils/authUtils";
-
 import FindLastYearScoreBar from "./_ui/FindLastYearScoreBar";
 import PopularCollegeSection from "./_ui/PopularCollegeSection";
 import UniversityList from "./_ui/UniversityList";
-
-import { News } from "@/types/news";
 
 import getRecommendedUniversity from "@/api/university/server/getRecommendedUniversity";
 import { getAllRegionsUniversityList } from "@/api/university/server/getSearchUniversityList";
@@ -16,13 +12,10 @@ import { IconSpeaker } from "@/public/svgs";
 import { IconIdCard, IconMagnifyingGlass, IconMuseum, IconPaper } from "@/public/svgs/home";
 
 const Home = async () => {
-  // Fetch newsList on the server side
-  const newsListResponse = await fetchAllNews();
-  const newsList: News[] = newsListResponse;
+  const newsList = await fetchAllNews();
 
-  // 로그인 여부에 따라 추천 대학 정보를 가져옵니다
-  const isServerLogin = isServerStateLogin();
-  const { data } = await getRecommendedUniversity(isServerLogin);
+  // 추천 대학 정보를 가져옵니다
+  const { data } = await getRecommendedUniversity();
   const recommendedColleges = data?.recommendedUniversities || [];
 
   // 권역별 전체 대학 리스트를 미리 가져와 빌드합니다
