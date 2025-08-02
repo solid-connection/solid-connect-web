@@ -13,6 +13,7 @@ type PopularUniversitySectionProps = {
 
 const PopularUniversitySection = ({ universities }: PopularUniversitySectionProps) => {
   const { containerRef } = useWheelHandler();
+  console.log(universities);
   return (
     <div ref={containerRef} className="overflow-x-auto">
       <div className="flex gap-2">
