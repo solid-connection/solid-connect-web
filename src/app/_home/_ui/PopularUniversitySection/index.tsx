@@ -16,7 +16,7 @@ const PopularUniversitySection = ({ universities }: PopularUniversitySectionProp
   return (
     <div ref={containerRef} className="overflow-x-auto">
       <div className="flex gap-2">
-        {universities.map((university) => (
+        {universities.map((university, index) => (
           <Link key={university.id} href={`/university/${university.id}`}>
             <div className="relative w-[153px]">
               <div className="relative w-[153px]">
@@ -31,6 +31,7 @@ const PopularUniversitySection = ({ universities }: PopularUniversitySectionProp
                   width={153}
                   height={120}
                   alt={`${university.koreanName || "대학교"} 배경 이미지`}
+                  priority={index < 3}
                 />
               </div>
               <div className="absolute bottom-[9px] left-[10px] z-10 text-sm font-semibold leading-[160%] tracking-[0.15px] text-white">
