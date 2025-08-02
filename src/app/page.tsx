@@ -2,30 +2,51 @@ import { Metadata } from "next";
 
 import TopLogoBar from "@/components/ui/TopLogoBar";
 
-import Home from "./Home";
+import Home from "./_home";
+import Head from "./_home/Head";
 
 import { News } from "@/types/news";
 
+import getRecommendedColleges from "@/api/university/server/getRecommendedUniversity";
 import { fetchAllNews } from "@/lib/firebaseNews";
 
-export const metadata: Metadata = {
-  title: "솔리드 커넥션",
-  description: "솔리드 커넥션. 교환학생의 첫 걸음",
-};
+// 동적 메타데이터 생성
+export async function generateMetadata(): Promise<Metadata> {
+  // 최신 뉴스 및 추천 대학 정보를 서버에서 가져옵니다.
+  const newsList: News[] = await fetchAllNews();
+  const { data } = await getRecommendedColleges();
+  const universities = data?.recommendedUniversities ?? [];
+
+  // 대표 뉴스(첫 번째 항목)를 선택해 OG 이미지 등에 활용
+  const mainNews = newsList[0];
+
+  // 추천 대학 한글명을 최대 10개까지 keywords로 사용
+  const keywords = universities
+    .slice(0, 10)
+    .map((u) => u.koreanName)
+    .join(", ");
+
+  return {
+    title: "솔리드 커넥션 – 교환학생의 첫 걸음",
+    description: mainNews?.description ?? "교환학생 준비를 위한 모든 정보가 여기에!",
+    keywords,
+    alternates: {
+      canonical: "https://solid-connection.com/",
+    },
+  };
+}
 
 const HomePage = async () => {
-  // Fetch newsList on the server side
-  const newsListResponse = await fetchAllNews();
-  const newsList: News[] = newsListResponse;
-
+  const newsList = await fetchAllNews();
   return (
-    <div>
+    <>
+      <Head newsList={newsList} />
       <TopLogoBar />
-      <Home newsList={newsList} />
-    </div>
+      <Home />
+    </>
   );
 };
 
 export default HomePage;
 
-export const revalidate = 3600; // 1 hour
+export const revalidate = 60 * 60 * 24; // 1 day

@@ -1,5 +1,13 @@
 export type RegionKo = "유럽권" | "미주권" | "아시아권";
 
+export enum RegionEnumExtend {
+  ALL = "전체",
+  AMERICAS = "미주권", // 미주권
+  EUROPE = "유럽권", // 유럽권
+  ASIA = "아시아권", // 아시아권
+  CHINA = "중국권", // 중국권
+}
+
 export enum RegionEnum {
   ASIA = "ASIA", // 아시아권
   AMERICAS = "AMERICAS", // 미주권
@@ -65,6 +73,12 @@ export interface ListUniversity {
   studentCapacity: number;
   languageRequirements: LanguageRequirement[];
 }
+
+/**
+ * 권역별 대학 리스트 응답 타입
+ * - Enum 값(전체·미주·유럽·아시아·중국)을 key 로 사용한다.
+ */
+export type AllRegionsUniversityList = Record<RegionEnumExtend, ListUniversity[]>;
 
 export interface UniversityFavoriteStatusResponse {
   isLike: boolean;

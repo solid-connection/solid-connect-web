@@ -9,6 +9,7 @@ import "../styles/globals.css";
 import { AlertProvider } from "@/context/AlertContext";
 import AppleScriptLoader from "@/lib/ScriptLoader/AppleScriptLoader";
 import KakaoScriptLoader from "@/lib/ScriptLoader/KakaoScriptLoader";
+import QueryProvider from "@/lib/react-query/QueryProvider";
 import { GoogleAnalytics } from "@next/third-parties/google";
 
 export const metadata: Metadata = {
@@ -49,7 +50,9 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => (
       <AppleScriptLoader />
       <GoogleAnalytics gaId="G-V1KLYZC1DS" />
       <body className={`${pretendard.className} ${inter.className}`}>
-        <GlobalLayout>{children}</GlobalLayout>
+        <QueryProvider>
+          <GlobalLayout>{children}</GlobalLayout>
+        </QueryProvider>
       </body>
     </html>
   </AlertProvider>

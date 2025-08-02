@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
-// protectedFetch.ts
 import { redirect } from "next/navigation";
 
+// protectedFetch.ts
 import { decodeExp, isTokenExpired } from "./jwtUtils";
 
 import { reissueAccessTokenPublicApi } from "@/api/auth";
@@ -19,6 +19,10 @@ class HttpError extends Error {
     this.body = body;
   }
 }
+
+type ServerFetchSuccess<T> = { ok: true; status: number; data: T };
+type ServerFetchFailure = { ok: false; status: number; error: string; data: undefined };
+export type ServerFetchResult<T> = ServerFetchSuccess<T> | ServerFetchFailure;
 
 /* ---------- 전역 캐시 ---------- */
 interface AccessCacheItem {
@@ -169,17 +173,26 @@ async function internalFetch<T = unknown>(
 }
 
 /** 옵션 객체 기반 Unified fetch */
-async function serverFetch<T = unknown>(url: string, options: ServerFetchOptions = {}): Promise<T> {
+async function serverFetch<T = unknown>(url: string, options: ServerFetchOptions = {}): Promise<ServerFetchResult<T>> {
   const { isAuth = false } = options;
 
   try {
-    return await internalFetch<T>(url, options);
+    const data = await internalFetch<T>(url, options);
+    return { ok: true, status: 200, data };
   } catch (e: unknown) {
-    const err = e as Error;
-    if (isAuth && err.message === AUTH_EXPIRED) {
-      redirect(`/login?next=${url}`);
+    // 중앙집중 인증 실패 처리 → 로그인 페이지로 리다이렉트
+    if (isAuth && e instanceof HttpError && (e.status === 401 || e.status === 403)) {
+      redirect(`/login?next=${encodeURIComponent(url)}`);
     }
-    throw err;
+    if (e instanceof HttpError) {
+      return { ok: false, status: e.status, error: e.body, data: undefined };
+    }
+    const err = e as Error;
+    // 예외 메시지 기반 토큰 만료 처리
+    if (isAuth && err.message === AUTH_EXPIRED) {
+      redirect(`/login?next=${encodeURIComponent(url)}`);
+    }
+    return { ok: false, status: 500, error: err.message ?? "Unknown error", data: undefined };
   }
 }
 
