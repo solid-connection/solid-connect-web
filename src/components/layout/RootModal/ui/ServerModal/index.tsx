@@ -1,14 +1,10 @@
-import { cookies } from "next/headers";
-
-import { isTokenExpired } from "@/utils/jwtUtils";
+import { isServerStateLogin } from "@/utils/authUtils";
 
 import MentorApplyCountModal from "@/components/mentor/MentorApplyCountModal";
 
 const ServerModal = () => {
   // 서버에서 로그인 상태 확인
-  const cookieStore = cookies();
-  const refreshToken = cookieStore.get("refreshToken")?.value;
-  const isNeededLogin = !refreshToken || isTokenExpired(refreshToken);
-  return <>{isNeededLogin ? null : <MentorApplyCountModal />}</>;
+  const isServerLogin = isServerStateLogin();
+  return <>{isServerLogin ? <MentorApplyCountModal /> : null}</>;
 };
 export default ServerModal;

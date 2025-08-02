@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 
-import UniversityCards from "@/components/college/UniversityCards";
 import ScrollTab from "@/components/ui/ScrollTab";
+import UniversityCards from "@/components/university/UniversityCards";
 
 import { ListUniversity } from "@/types/university";
 

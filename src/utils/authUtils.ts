@@ -1,3 +1,5 @@
+import { cookies } from "next/headers";
+
 import { isTokenExpired } from "./jwtUtils";
 import { loadAccessToken, loadRefreshToken } from "./localStorage";
 
@@ -18,4 +20,11 @@ export const authProviderName = (provider: "KAKAO" | "APPLE" | "EMAIL"): string 
   } else {
     return "";
   }
+};
+
+export const isServerStateLogin = (): boolean => {
+  const cookieStore = cookies();
+  const refreshToken = cookieStore.get("refreshToken")?.value;
+  const isLogin = refreshToken ? isTokenExpired(refreshToken) : false;
+  return isLogin;
 };
