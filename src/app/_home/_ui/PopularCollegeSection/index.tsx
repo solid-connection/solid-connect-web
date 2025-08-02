@@ -24,10 +24,14 @@ const PopularCollegeSection = ({ colleges }: PopularCollegeSectionProps) => {
                 <div className="absolute inset-0 h-[120px] rounded-lg bg-gradient-to-b from-transparent via-black/35 to-black/70" />
                 <Image
                   className="h-[120px] rounded-lg object-cover"
-                  src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${college.backgroundImageUrl || ""}`}
+                  src={
+                    college.backgroundImageUrl
+                      ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/${college.backgroundImageUrl}`
+                      : "/images/default-university.jpg"
+                  }
                   width={153}
                   height={120}
-                  alt={college.koreanName || "대학 없음"}
+                  alt={`${college.koreanName || "대학교"} 배경 이미지`}
                 />
               </div>
               <div className="absolute bottom-[9px] left-[10px] z-10 text-sm font-semibold leading-[160%] tracking-[0.15px] text-white">

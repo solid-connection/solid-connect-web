@@ -59,7 +59,8 @@ export async function getAllRegionsUniversityList(): Promise<AllRegionsUniversit
   ];
 
   return regionEnumExtendedOrder.reduce((acc, key, idx) => {
-    acc[key] = responses[idx].data ?? [];
+    const response = responses[idx];
+    acc[key] = response.ok ? response.data : [];
     return acc;
   }, {} as AllRegionsUniversityList);
 }

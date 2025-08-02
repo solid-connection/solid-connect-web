@@ -1,9 +1,9 @@
 import { Metadata } from "next";
-import Script from "next/script";
 
 import TopLogoBar from "@/components/ui/TopLogoBar";
 
 import Home from "./_home";
+import Head from "./_home/Head";
 
 import { News } from "@/types/news";
 
@@ -37,9 +37,10 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const HomePage = async () => {
+  const newsList = await fetchAllNews();
   return (
     <>
-      <Head />
+      <Head newsList={newsList} />
       <TopLogoBar />
       <Home />
     </>
@@ -49,30 +50,3 @@ const HomePage = async () => {
 export default HomePage;
 
 export const revalidate = 60 * 60 * 24; // 1 day
-
-// src/app/head.tsx
-const Head = async () => {
-  const newsList: News[] = await fetchAllNews();
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
-    itemListElement: newsList.slice(0, 3).map((n, idx) => ({
-      "@type": "NewsArticle",
-      position: idx + 1,
-      headline: n.title,
-      description: n.description,
-      url: n.url,
-      image: n.imageUrl,
-    })),
-  };
-  return (
-    <Script
-      id="ld-json-homepage"
-      type="application/ld+json"
-      strategy="afterInteractive"
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify(structuredData),
-      }}
-    />
-  );
-};
