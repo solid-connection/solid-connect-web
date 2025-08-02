@@ -85,6 +85,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => (
         <link rel="dns-prefetch" href="//connect.facebook.net" />
         <link rel="dns-prefetch" href="//t1.kakaocdn.net" />
       </head>
+
       <body className={`${pretendard.className} ${inter.className}`}>
         <KakaoScriptLoader />
         <AppleScriptLoader />
