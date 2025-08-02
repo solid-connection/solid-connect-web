@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 
+import "@/styles/globals.css";
 import GlobalLayout from "@/components/layout/GlobalLayout";
 
 import { AlertProvider } from "@/context/AlertContext";
