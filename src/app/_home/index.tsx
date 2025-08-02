@@ -13,11 +13,8 @@ import { IconIdCard, IconMagnifyingGlass, IconMuseum, IconPaper } from "@/public
 
 const Home = async () => {
   const newsList = await fetchAllNews();
-
-  // 추천 대학 정보를 가져옵니다
   const { data } = await getRecommendedUniversity();
-  const recommendedUniversities = data?.recommendedUniversities || [];
-
+  const recommendedColleges = data?.recommendedUniversities || [];
   // 권역별 전체 대학 리스트를 미리 가져와 빌드합니다
   const allRegionsUniversityList = await getAllRegionsUniversityList();
 
@@ -71,7 +68,7 @@ const Home = async () => {
         <div className="mb-2 flex items-center gap-1.5 font-serif text-base font-semibold text-k-700">
           실시간 인기있는 파견학교
         </div>
-        <PopularUniversitySection universities={recommendedUniversities} />
+        <PopularUniversitySection universities={recommendedColleges} />
       </div>
 
       <div className="p-5">

@@ -17,14 +17,16 @@ export const metadata: Metadata = {
 
 const inter = Inter({
   subsets: ["latin"],
-  display: "swap",
+  display: "swap", // FOUT 방지
+  preload: true,
 });
 
 const pretendard = localFont({
   src: "../../public/fonts/PretendardVariable.woff2",
-  display: "swap",
+  display: "swap", // FOUT 방지를 위한 swap 설정
   weight: "45 920",
   variable: "--font-pretendard",
+  preload: true, // 폰트 우선 로딩
 });
 
 const KakaoScriptLoader = dynamic(() => import("@/lib/ScriptLoader/KakaoScriptLoader"), {
@@ -54,23 +56,37 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => (
   <AlertProvider>
     <html lang="ko">
       <head>
-        <link rel="preload" href="/_next/static/css/globals.css" as="style" />
+        {/* Critical 폰트 preload with high priority */}
         <link
-          rel="stylesheet"
-          href="/_next/static/css/globals.css"
-          media="print"
-          onLoad={(e) => {
-            (e.currentTarget as HTMLLinkElement).media = "all";
+          rel="preload"
+          href="/fonts/PretendardVariable.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        {/* Prevent layout shift with font-display: swap */}
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
+              @font-face {
+                font-family: 'Pretendard';
+                src: url('/fonts/PretendardVariable.woff2') format('woff2');
+                font-weight: 45 920;
+                font-display: swap;
+                font-style: normal;
+              }
+            `,
           }}
         />
-        <noscript>
-          <link rel="stylesheet" href="/_next/static/css/globals.css" />
-        </noscript>
+        {/* DNS prefetch for external resources */}
+        <link rel="dns-prefetch" href="//www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="//connect.facebook.net" />
+        <link rel="dns-prefetch" href="//t1.kakaocdn.net" />
       </head>
-      <KakaoScriptLoader />
-      <AppleScriptLoader />
-      <GoogleAnalytics gaId="G-V1KLYZC1DS" />
       <body className={`${pretendard.className} ${inter.className}`}>
+        <KakaoScriptLoader />
+        <AppleScriptLoader />
+        <GoogleAnalytics gaId="G-V1KLYZC1DS" />
         <QueryProvider>
           <GlobalLayout>{children}</GlobalLayout>
         </QueryProvider>
