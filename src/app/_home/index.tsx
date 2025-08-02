@@ -88,6 +88,8 @@ const Home = async () => {
             <a key={news.id} target="_blank" href={news.url} rel="noreferrer">
               <div className="flex gap-4">
                 <Image
+                  loading="lazy"
+                  placeholder="blur"
                   className="h-24 w-44 shrink-0 rounded-xl object-cover"
                   src={news.imageUrl}
                   alt={news.title}

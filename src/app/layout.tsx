@@ -45,7 +45,7 @@ export const viewport: Viewport = {
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => (
   <AlertProvider>
-    <html lang="ko" className="font-serif">
+    <html lang="ko">
       <KakaoScriptLoader />
       <AppleScriptLoader />
       <GoogleAnalytics gaId="G-V1KLYZC1DS" />
