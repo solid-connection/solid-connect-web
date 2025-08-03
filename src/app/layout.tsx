@@ -34,11 +34,6 @@ const pretendard = localFont({
   ],
 });
 
-const KakaoScriptLoader = dynamic(() => import("@/lib/ScriptLoader/KakaoScriptLoader"), {
-  ssr: false,
-  loading: () => null,
-});
-
 const AppleScriptLoader = dynamic(() => import("@/lib/ScriptLoader/AppleScriptLoader"), {
   ssr: false,
   loading: () => null,
@@ -95,7 +90,6 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => (
         <link rel="dns-prefetch" href="//t1.kakaocdn.net" />
       </head>
       <body className={pretendard.className}>
-        <KakaoScriptLoader />
         <AppleScriptLoader />
         <GoogleAnalytics gaId="G-V1KLYZC1DS" />
         <QueryProvider>
