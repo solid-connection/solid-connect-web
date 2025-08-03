@@ -114,7 +114,8 @@ interface ServerFetchOptions extends Omit<RequestInit, "body"> {
   next?: NextCacheOpt;
 }
 
-const BASE = process.env.NEXT_PUBLIC_API_SERVER_URL;
+// const BASE = process.env.NEXT_PUBLIC_API_SERVER_URL;
+const BASE = "https://www.stage.solid-connection.com"; // 예시 URL, 실제 환경에 맞게 변경
 if (!BASE) {
   throw new Error("NEXT_PUBLIC_API_SERVER_URL is not defined");
 }
