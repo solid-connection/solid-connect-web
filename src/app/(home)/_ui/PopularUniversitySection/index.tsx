@@ -1,8 +1,19 @@
-import Image from "next/image";
-import Link from "next/link";
+import dynamic from "next/dynamic";
 import { Suspense } from "react";
 
+import PopularUniversityCard from "./_ui/PopularUniversityCard";
+
 import { ListUniversity } from "@/types/university";
+
+// PopularUniversityCard를 동적 임포트
+const PopularUniversityCardDynamic = dynamic(() => import("./_ui/PopularUniversityCard"), {
+  ssr: false,
+  loading: () => (
+    <div className="relative w-[153px]">
+      <div className="h-[120px] w-[153px] animate-pulse rounded-lg bg-gray-200" />
+    </div>
+  ),
+});
 
 type PopularUniversitySectionProps = {
   universities: ListUniversity[];
@@ -17,77 +28,30 @@ const PopularUniversitySection = ({ universities }: PopularUniversitySectionProp
       <div className="flex gap-2">
         {/* 첫 3장은 즉시 전송 – LCP 후보 */}
         {aboveFold.map((university, index) => (
-          <Link key={university.id} href={`/university/${university.id}`}>
-            <div className="relative w-[153px]">
-              <div className="relative h-[120px] w-[153px] overflow-hidden rounded-lg bg-gray-200">
-                <Image
-                  className="h-[120px] rounded-lg object-cover"
-                  src={
-                    university.backgroundImageUrl
-                      ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/${university.backgroundImageUrl}`
-                      : "/images/default-university.jpg"
-                  }
-                  width={153}
-                  height={120}
-                  alt={`${university.koreanName || "대학교"} 배경 이미지`}
-                  priority={index === 0}
-                  loading={index === 0 ? "eager" : "lazy"}
-                  fetchPriority={index === 0 ? "high" : "low"}
-                  sizes="153px"
-                  unoptimized={false}
-                />
-              </div>
-              <div className="absolute bottom-[9px] left-[10px] z-10 text-sm font-semibold leading-[160%] tracking-[0.15px] text-white">
-                {university.koreanName}
-              </div>
-            </div>
-          </Link>
+          <PopularUniversityCard
+            priority={index === 0} // 첫 번째만 priority
+            loading="eager" // 즉시 로딩
+            fetchPriority="high" // 높은 우선순위
+            key={university.id}
+            university={university}
+          />
         ))}
 
-        {/* 나머지는 뒤늦게 HTML 스트림으로 전송 */}
-        {belowFold.length > 0 && (
-          <Suspense fallback={null}>
-            <PopularUniversitiesBelowFold universities={belowFold} />
+        {/* 나머지는 동적 렌더링으로 위임 */}
+        {belowFold.map((university) => (
+          <Suspense
+            key={university.id}
+            fallback={
+              <div className="relative w-[153px]">
+                <div className="h-[120px] w-[153px] animate-pulse rounded-lg bg-gray-200" />
+              </div>
+            }
+          >
+            <PopularUniversityCardDynamic university={university} priority={false} loading="lazy" fetchPriority="low" />
           </Suspense>
-        )}
+        ))}
       </div>
     </div>
-  );
-};
-
-const PopularUniversitiesBelowFold = ({ universities }: { universities: ListUniversity[] }) => {
-  return (
-    <>
-      {universities.map((university) => (
-        <Link key={university.id} href={`/university/${university.id}`}>
-          <div className="relative w-[153px]">
-            <div className="relative h-[120px] w-[153px] overflow-hidden rounded-lg bg-gray-200">
-              <Image
-                className="h-[120px] rounded-lg object-cover"
-                src={
-                  university.backgroundImageUrl
-                    ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/${university.backgroundImageUrl}`
-                    : "/images/default-university.jpg"
-                }
-                width={153}
-                height={120}
-                alt={`${university.koreanName || "대학교"} 배경 이미지`}
-                priority={false}
-                loading="lazy"
-                fetchPriority="low"
-                sizes="153px"
-                placeholder="blur"
-                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkrHB0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
-                unoptimized={false}
-              />
-            </div>
-            <div className="absolute bottom-[9px] left-[10px] z-10 text-sm font-semibold leading-[160%] tracking-[0.15px] text-white">
-              {university.koreanName}
-            </div>
-          </div>
-        </Link>
-      ))}
-    </>
   );
 };
 
