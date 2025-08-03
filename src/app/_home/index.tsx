@@ -11,7 +11,7 @@ import { getAllRegionsUniversityList } from "@/api/university/server/getSearchUn
 import { fetchAllNews } from "@/lib/firebaseNews";
 import { IconIdCard, IconMagnifyingGlass, IconMuseum, IconPaper } from "@/public/svgs/home";
 
-const NewsSection = dynamic(() => import("./_ui/NewsSection"), {
+const NewsSectionDynamic = dynamic(() => import("./_ui/NewsSection"), {
   ssr: false,
   loading: () => <NewsSectionSkeleton />,
 });
@@ -85,7 +85,7 @@ const Home = async () => {
         <UniversityListDynamic allRegionsUniversityList={allRegionsUniversityList} />
       </div>
 
-      <NewsSection newsList={newsList} />
+      <NewsSectionDynamic newsList={newsList} />
     </>
   );
 };

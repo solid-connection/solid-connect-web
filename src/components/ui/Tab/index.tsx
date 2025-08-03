@@ -1,5 +1,3 @@
-import styles from "./tab.module.css";
-
 type TabProps = {
   choices: string[];
   choice: string;
@@ -18,15 +16,16 @@ const Tab = ({ choices, choice, setChoice, color }: TabProps) => {
     deactiveBtnFont: "#7D7D7D",
   };
   const combinedColor = { ...defaultColor, ...color };
+
   return (
-    <div className={styles.tabContainer}>
+    <div className="flex h-9 w-full cursor-pointer flex-row text-sm font-medium">
       {choices.map((c) => (
         <button
           key={c}
           style={{
             color: choice === c ? combinedColor.activeBtnFont : combinedColor.deactiveBtnFont,
           }}
-          className={choice === c ? styles.tabButtonActive : styles.tabButton}
+          className={`flex w-full items-center justify-center bg-white ${choice === c ? "border-b-2 border-secondary" : ""} `}
           onClick={() => setChoice(c)}
           type="button"
         >
