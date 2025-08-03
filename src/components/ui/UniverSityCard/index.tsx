@@ -22,6 +22,7 @@ const UniversityCard = ({ university, showCapacity = true }: UniversityCardProps
     <Link
       className="relative h-[91px] overflow-hidden rounded-lg border border-solid border-k-100 hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/10"
       href={`/university/${university.id}`}
+      aria-labelledby={`university-name-${university.id}`}
     >
       <div className="flex justify-between px-5 py-3.5">
         <div className="flex gap-[23.5px]">
@@ -32,12 +33,17 @@ const UniversityCard = ({ university, showCapacity = true }: UniversityCardProps
               width={62}
               height={62}
               alt="대학 이미지"
-              priority={true}
             />
           </div>
 
           <div className="flex flex-col">
-            <span className="truncate text-base font-bold leading-normal text-k-700">{convertedKoreanName}</span>
+            <span
+              id={`university-name-${university.id}`}
+              className="truncate text-base font-bold leading-normal text-k-700"
+              aria-label={convertedKoreanName}
+            >
+              {convertedKoreanName}
+            </span>
             <div className="flex items-center gap-2.5">
               <span className="text-xs font-medium leading-normal text-k-500">
                 {university.country} | {university.region}
