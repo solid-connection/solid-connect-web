@@ -15,10 +15,10 @@ export const metadata: Metadata = {
   description: "솔리드 커넥션. 교환학생의 첫 걸음",
 };
 
-// 🎯 폰트 최적화: 하나의 폰트만 사용
+// 🎯 폰트 최적화: 하나의 폰트만 사용 + 즉시 로딩
 const pretendard = localFont({
   src: "../../public/fonts/PretendardVariable.woff2",
-  display: "swap", // optional → swap으로 변경 (preload와 호환)
+  display: "optional", // swap → optional로 변경 (3초 후 fallback)
   weight: "45 920",
   variable: "--font-pretendard",
   preload: true,
@@ -70,7 +70,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => (
         <style
           dangerouslySetInnerHTML={{
             __html: `
-              /* 폰트 즉시 렌더링 - swap과 호환 */
+              /* 폰트 즉시 렌더링 */
               html {
                 font-family: var(--font-pretendard), system-ui, -apple-system, sans-serif;
                 font-synthesis: none;
@@ -83,12 +83,6 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => (
                 margin: 0;
                 background: white;
                 font-family: system-ui, -apple-system, sans-serif; /* 폰트 로딩 전 즉시 렌더링 */
-              }
-              
-              /* 폰트 로딩 시 깜빡임 최소화 */
-              @font-face {
-                font-family: 'Pretendard Variable';
-                font-display: swap;
               }
               
               /* LCP 이미지만 최적화 */
