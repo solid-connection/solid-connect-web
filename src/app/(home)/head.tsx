@@ -12,7 +12,6 @@ const Head = async () => {
       ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/${recommendedColleges[0].backgroundImageUrl}`
       : "/images/default-university.jpg";
 
-  const preloadLink = <link rel="preload" as="image" href={lcpImage} fetchPriority="high" />;
 
   /** ───── JSON‑LD 구조화 데이터 ───── */
   const structuredData =
@@ -33,9 +32,6 @@ const Head = async () => {
 
   return (
     <>
-      {/* LCP 이미지 Preload */}
-      {preloadLink}
-
       {/* JSON‑LD (뉴스 3개) */}
       {structuredData && (
         <script
