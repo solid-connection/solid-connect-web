@@ -6,17 +6,13 @@ const Head = async () => {
   const { data } = await getRecommendedUniversity();
   const recommendedColleges = data?.recommendedUniversities || [];
 
-  /** ───── preload 링크 ───── */
-  const preloadUrls = recommendedColleges
-    .slice(0, 3)
-    .map((u) =>
-      u.backgroundImageUrl
-        ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/${u.backgroundImageUrl}`
-        : "/images/default-university.jpg",
-    );
-  const preloadLinks = preloadUrls
-    .slice(0, 3)
-    .map((url, idx) => <link key={idx} rel="preload" as="image" href={url} fetchPriority="high" />);
+  // ─── LCP 이미지 Preload ───
+  const lcpImage =
+    recommendedColleges.length > 0 && recommendedColleges[0].backgroundImageUrl
+      ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/${recommendedColleges[0].backgroundImageUrl}`
+      : "/images/default-university.jpg";
+
+  const preloadLink = <link rel="preload" as="image" href={lcpImage} fetchPriority="high" />;
 
   /** ───── JSON‑LD 구조화 데이터 ───── */
   const structuredData =
@@ -38,7 +34,7 @@ const Head = async () => {
   return (
     <>
       {/* LCP 이미지 Preload */}
-      {preloadLinks}
+      {preloadLink}
 
       {/* JSON‑LD (뉴스 3개) */}
       {structuredData && (
