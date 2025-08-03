@@ -32,6 +32,7 @@ const UniversityCard = ({ university, showCapacity = true }: UniversityCardProps
               width={62}
               height={62}
               alt="대학 이미지"
+              priority={true}
             />
           </div>
 

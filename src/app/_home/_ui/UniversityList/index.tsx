@@ -54,13 +54,7 @@ const UniversityList = ({ allRegionsUniversityList }: UniversityListProps) => {
           background: "white",
         }}
       />
-      <UniversityCards
-        colleges={previewUniversities.map((college) => ({
-          ...college,
-          logoImageUrl: college.logoImageUrl?.replace(/^\/+/, ""),
-        }))}
-        showCapacity={false}
-      />
+      <UniversityCards colleges={previewUniversities} showCapacity={false} />
     </div>
   );
 };
