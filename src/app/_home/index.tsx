@@ -4,7 +4,7 @@ import Link from "next/link";
 import FindLastYearScoreBar from "./_ui/FindLastYearScoreBar";
 import NewsSectionSkeleton from "./_ui/NewsSection/skeleton";
 import PopularUniversitySection from "./_ui/PopularUniversitySection";
-import UniversityListSkeleton from "./_ui/UniversityList/skeleton";
+import UniversityList from "./_ui/UniversityList";
 
 import getRecommendedUniversity from "@/api/university/server/getRecommendedUniversity";
 import { getAllRegionsUniversityList } from "@/api/university/server/getSearchUniversityList";
@@ -14,11 +14,6 @@ import { IconIdCard, IconMagnifyingGlass, IconMuseum, IconPaper } from "@/public
 const NewsSectionDynamic = dynamic(() => import("./_ui/NewsSection"), {
   ssr: false,
   loading: () => <NewsSectionSkeleton />,
-});
-
-const UniversityListDynamic = dynamic(() => import("./_ui/UniversityList"), {
-  ssr: false,
-  loading: () => <UniversityListSkeleton />,
 });
 
 const Home = async () => {
@@ -82,7 +77,7 @@ const Home = async () => {
       </div>
 
       <div className="p-5">
-        <UniversityListDynamic allRegionsUniversityList={allRegionsUniversityList} />
+        <UniversityList allRegionsUniversityList={allRegionsUniversityList} />
       </div>
 
       <NewsSectionDynamic newsList={newsList} />

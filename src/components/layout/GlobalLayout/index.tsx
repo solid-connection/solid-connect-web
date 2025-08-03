@@ -1,9 +1,10 @@
 import dynamic from "next/dynamic";
 import React from "react";
 
+import BottomNavigation from "./ui/BottomNavigation";
 import ServerModal from "./ui/ServerModal";
 
-const BottomNavigation = dynamic(() => import("./ui/BottomNavigation"), { ssr: false, loading: () => null });
+// const BottomNavigationDynamic = dynamic(() => import("./ui/BottomNavigation"), { ssr: false, loading: () => null });
 const ClientModal = dynamic(() => import("./ui/ClientModal"), { ssr: false, loading: () => null });
 
 type LayoutProps = {
