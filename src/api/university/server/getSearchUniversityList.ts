@@ -31,7 +31,7 @@ const getSearchUniversityList = async ({ region, keyword, testType, testScore }:
 
   const url = params.size ? `${endpoint}?${params.toString()}` : endpoint;
 
-  return serverFetch<SearchUniversityListResponse>(url, { isAuth: false });
+  return serverFetch<SearchUniversityListResponse>(url);
 };
 
 /**
