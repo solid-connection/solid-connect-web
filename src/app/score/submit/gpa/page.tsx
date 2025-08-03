@@ -2,7 +2,6 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
-import tabStyles from "@/components/ui/Tab/tab.module.css";
 
 import GpaSubmitForm from "./GpaSubmitForm";
 
@@ -36,15 +35,18 @@ const Tab = ({ color }: TabProps) => {
   };
   const combinedColor = { ...defaultColor, ...color };
   return (
-    <div className={tabStyles.tabContainer}>
+    <div className="flex h-9 w-full cursor-pointer flex-row text-sm font-medium">
       <Link
         href="/score/submit/language-test"
         style={{ color: combinedColor.deactiveBtnFont }}
-        className={tabStyles.tabButton}
+        className="flex w-full items-center justify-center bg-white"
       >
         <div>공인어학</div>
       </Link>
-      <span style={{ color: combinedColor.activeBtnFont }} className={tabStyles.tabButtonActive}>
+      <span
+        style={{ color: combinedColor.activeBtnFont }}
+        className="flex w-full items-center justify-center border-b-2 border-secondary bg-white"
+      >
         <div>학점</div>
       </span>
     </div>

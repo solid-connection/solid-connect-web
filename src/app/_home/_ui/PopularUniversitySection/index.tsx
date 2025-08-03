@@ -27,7 +27,9 @@ const PopularUniversitySection = ({ universities }: PopularUniversitySectionProp
                   alt={`${university.koreanName || "대학교"} 배경 이미지`}
                   priority={index < 3} // 상위 3개는 우선 로딩
                   loading={index >= 3 ? "lazy" : "eager"}
-                  fetchPriority={index < 3 ? "high" : "auto"}
+                  fetchPriority={index === 0 ? "high" : index < 3 ? "high" : "auto"}
+                  sizes="153px"
+                  unoptimized={false}
                 />
               </div>
               <div className="absolute bottom-[9px] left-[10px] z-10 text-sm font-semibold leading-[160%] tracking-[0.15px] text-white">

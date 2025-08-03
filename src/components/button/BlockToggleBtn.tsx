@@ -12,7 +12,7 @@ type BlockToggleBtnProps = {
 
 const BlockToggleBtn = ({
   children,
-  className,
+  className = "",
   style,
   backgroundColor,
   textColor,
@@ -21,34 +21,24 @@ const BlockToggleBtn = ({
   onClick,
   isToggled = true,
 }: BlockToggleBtnProps) => {
-  let defaultStyle = {
-    backgroundColor: backgroundColor || "var(--primary-1, #6F90D1)",
-    color: textColor || "white",
+  // CSS 변수 대신 Tailwind 클래스 사용
+  const baseClasses =
+    "w-full h-11 border-none rounded-lg cursor-pointer transition-all duration-500 font-medium text-base font-serif";
+  const enabledClasses = isToggled ? "bg-primary text-white" : "bg-gray-200 text-gray-500";
 
-    width: "100%",
-    height: "44px",
-    border: "none",
-    borderRadius: "8px",
-    cursor: "pointer",
-    transition: "background-color 0.5s, color 0.5s",
-
-    fontFamily: "Pretendard",
-    fontSize: "16px",
-    fontStyle: "normal",
-    fontWeight: 500,
-    lineHeight: "normal",
+  const customStyles = {
+    backgroundColor: isToggled ? backgroundColor : disableBackgroundColor,
+    color: isToggled ? textColor : disableTextColor,
+    ...style,
   };
 
-  if (!isToggled) {
-    defaultStyle = {
-      ...defaultStyle,
-      backgroundColor: disableBackgroundColor || "#EDEDED",
-      color: disableTextColor || "#888",
-    };
-  }
-
   return (
-    <button className={className} style={{ ...defaultStyle, ...style }} onClick={onClick} type="button">
+    <button
+      className={`${baseClasses} ${enabledClasses} ${className}`}
+      style={customStyles}
+      onClick={onClick}
+      type="button"
+    >
       {children}
     </button>
   );

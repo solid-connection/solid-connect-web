@@ -14,8 +14,10 @@ const ScrollTab = ({ choices, choice, setChoice, borderColor, style }: ScrollTab
     {choices.map((c) => (
       <button
         key={c}
-        className="flex items-center justify-center border-b-2 border-secondary-2 px-5 py-3.5"
-        style={choice === c ? { borderColor: borderColor || "var(--primary-1, #6f90d1)" } : {}}
+        className={`flex items-center justify-center border-b-2 px-5 py-3.5 ${
+          choice === c ? "border-primary" : "border-secondary-2"
+        }`}
+        style={choice === c && borderColor ? { borderColor } : {}}
         onClick={() => setChoice(c)}
         type="button"
       >

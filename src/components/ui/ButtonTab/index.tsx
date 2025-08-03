@@ -22,7 +22,7 @@ const ButtonTab = ({ choices, choice, setChoice, style, color }: ButtonTabProps)
     deactiveBtn: "bg-white",
     activeBtnFont: "text-white",
     deactiveBtnFont: "text-black",
-    background: "bg-background-1",
+    background: "bg-[#F8F8FA]", // background-1 색상값 직접 사용
   };
 
   const resultColor = { ...defaultColor, ...color };
