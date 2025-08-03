@@ -9,9 +9,9 @@ type PopularUniversitySectionProps = {
   universities: ListUniversity[];
 };
 
-const PopularUniversitySection = async ({ universities }: PopularUniversitySectionProps) => {
+const PopularUniversitySection = ({ universities }: PopularUniversitySectionProps) => {
   return (
-    <div className="overflow-x-auto">
+    <div className="">
       <div className="flex gap-2">
         {universities.map((university, index) => (
           <Link key={university.id} href={`/university/${university.id}`}>
@@ -29,6 +29,7 @@ const PopularUniversitySection = async ({ universities }: PopularUniversitySecti
                   alt={`${university.koreanName || "대학교"} 배경 이미지`}
                   priority={index < 3} // 상위 3개는 우선 로딩
                   loading={index >= 3 ? "lazy" : "eager"}
+                  fetchPriority={index < 3 ? "high" : "auto"}
                 />
               </div>
               <div className="absolute bottom-[9px] left-[10px] z-10 text-sm font-semibold leading-[160%] tracking-[0.15px] text-white">
