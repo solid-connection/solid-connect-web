@@ -8,6 +8,7 @@ type PopularUniversityCardProps = {
   priority?: boolean;
   loading?: "eager" | "lazy";
   fetchPriority?: "high" | "low";
+  quality?: number;
 };
 
 const PopularUniversityCard = ({
@@ -15,6 +16,7 @@ const PopularUniversityCard = ({
   priority = false,
   loading = "lazy",
   fetchPriority = "low",
+  quality = 75,
 }: PopularUniversityCardProps) => {
   return (
     <Link key={university.id} href={`/university/${university.id}`}>
@@ -33,7 +35,8 @@ const PopularUniversityCard = ({
             priority={priority}
             loading={loading}
             fetchPriority={fetchPriority}
-            sizes="153px"
+            sizes="(max-width: 600px) 100vw, 153px"
+            quality={quality}
             placeholder={!priority ? "blur" : undefined}
             blurDataURL={
               !priority
