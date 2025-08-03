@@ -15,11 +15,11 @@ const PopularUniversitySection = ({ universities }: PopularUniversitySectionProp
   return (
     <div className="overflow-x-auto">
       <div className="flex gap-2">
-        {/* 첫 4장은 즉시 전송 – LCP 후보 */}
+        {/* 첫 3장은 즉시 전송 – LCP 후보 */}
         {aboveFold.map((university, index) => (
           <Link key={university.id} href={`/university/${university.id}`}>
             <div className="relative w-[153px]">
-              <div className="relative w-[153px]">
+              <div className="relative h-[120px] w-[153px] overflow-hidden rounded-lg bg-gray-200">
                 <Image
                   className="h-[120px] rounded-lg object-cover"
                   src={
@@ -30,7 +30,7 @@ const PopularUniversitySection = ({ universities }: PopularUniversitySectionProp
                   width={153}
                   height={120}
                   alt={`${university.koreanName || "대학교"} 배경 이미지`}
-                  priority={index === 0} // 첫 카드만 LCP 후보
+                  priority={index === 0}
                   loading={index === 0 ? "eager" : "lazy"}
                   fetchPriority={index === 0 ? "high" : "low"}
                   sizes="153px"
@@ -61,7 +61,7 @@ const PopularUniversitiesBelowFold = ({ universities }: { universities: ListUniv
       {universities.map((university) => (
         <Link key={university.id} href={`/university/${university.id}`}>
           <div className="relative w-[153px]">
-            <div className="relative w-[153px]">
+            <div className="relative h-[120px] w-[153px] overflow-hidden rounded-lg bg-gray-200">
               <Image
                 className="h-[120px] rounded-lg object-cover"
                 src={
@@ -76,6 +76,8 @@ const PopularUniversitiesBelowFold = ({ universities }: { universities: ListUniv
                 loading="lazy"
                 fetchPriority="low"
                 sizes="153px"
+                placeholder="blur"
+                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkrHB0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
                 unoptimized={false}
               />
             </div>
