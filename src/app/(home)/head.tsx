@@ -1,17 +1,7 @@
-import getRecommendedUniversity from "@/api/university/server/getRecommendedUniversity";
 import { fetchAllNews } from "@/lib/firebaseNews";
 
 const Head = async () => {
   const newsList = await fetchAllNews();
-  const { data } = await getRecommendedUniversity();
-  const recommendedColleges = data?.recommendedUniversities || [];
-
-  // ─── LCP 이미지 Preload ───
-  const lcpImage =
-    recommendedColleges.length > 0 && recommendedColleges[0].backgroundImageUrl
-      ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/${recommendedColleges[0].backgroundImageUrl}`
-      : "/images/default-university.jpg";
-
 
   /** ───── JSON‑LD 구조화 데이터 ───── */
   const structuredData =
