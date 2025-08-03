@@ -1,18 +1,24 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useMemo } from "react";
 
 import { isAuthenticated } from "@/utils/authUtils";
 
 import ButtonTab from "@/components/ui/ButtonTab";
-import UniversityCards from "@/components/university/UniversityCards";
+import UniversityCardsSkeleton from "@/components/university/UniversityCards/skeleton";
 
 import useRegionHandler from "./_hooks/useRegionHandler";
 
 import { AllRegionsUniversityList, ListUniversity, RegionEnumExtend } from "@/types/university";
 
 import useGetRecommendedUniversity from "@/api/university/client/useGetRecommendedUniversity";
+
+const UniversityCards = dynamic(() => import("@/components/university/UniversityCards"), {
+  ssr: false,
+  loading: () => <UniversityCardsSkeleton />,
+});
 
 interface UniversityListProps {
   allRegionsUniversityList: AllRegionsUniversityList;
