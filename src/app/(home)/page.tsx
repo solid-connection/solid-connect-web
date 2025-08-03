@@ -2,7 +2,7 @@ import { Metadata } from "next";
 
 import TopLogoBar from "@/components/ui/TopLogoBar";
 
-import Home from "./_home";
+import Home from ".";
 
 import { News } from "@/types/news";
 
