@@ -66,11 +66,11 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => (
           crossOrigin="anonymous"
         />
 
-        {/* Critical CSS 대폭 확장 - CSS 파일 블로킹 제거 */}
+        {/* 최소한의 Critical CSS - 폰트 최적화만 */}
         <style
           dangerouslySetInnerHTML={{
             __html: `
-              /* 폰트 최적화 */
+              /* 폰트 즉시 렌더링 */
               html {
                 font-family: var(--font-pretendard), system-ui, -apple-system, sans-serif;
                 font-synthesis: none;
@@ -79,86 +79,17 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => (
                 -moz-osx-font-smoothing: grayscale;
               }
               
-              /* 기본 레이아웃 - CSS 블로킹 방지 */
-              * {
-                box-sizing: border-box;
-                margin: 0;
-                padding: 0;
-              }
-              
               body {
                 margin: 0;
                 background: white;
-                line-height: 1.6;
-                font-family: system-ui, -apple-system, sans-serif; /* 즉시 렌더링 */
+                font-family: system-ui, -apple-system, sans-serif; /* 폰트 로딩 전 즉시 렌더링 */
               }
               
-              /* 이미지 최적화 */
-              img {
-                max-width: 100%;
-                height: auto;
-              }
-              
-              /* LCP 이미지 클래스들 - 즉시 렌더링 */
-              .relative { position: relative; }
+              /* LCP 이미지만 최적화 */
               .w-\\[153px\\] { width: 153px; }
               .h-\\[120px\\] { height: 120px; }
-              .rounded-lg { 
-                border-radius: 0.5rem;
-                transform: translateZ(0);
-                backface-visibility: hidden;
-                contain: layout;
-              }
+              .rounded-lg { border-radius: 0.5rem; }
               .object-cover { object-fit: cover; }
-              .overflow-hidden { overflow: hidden; }
-              .bg-gray-200 { background-color: #e5e7eb; }
-              
-              /* Flex 레이아웃 */
-              .flex { display: flex; }
-              .gap-2 { gap: 0.5rem; }
-              .overflow-x-auto { 
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-              }
-              
-              /* 폰트 관련 */
-              .font-semibold { font-weight: 600; }
-              .text-sm { font-size: 0.875rem; }
-              .text-lg { font-size: 1.125rem; }
-              .text-white { color: white; }
-              .text-gray-700 { color: #374151; }
-              .text-gray-500 { color: #6b7280; }
-              .text-k-700 { color: #374151; }
-              .text-k-500 { color: #6b7280; }
-              
-              /* 위치 관련 */
-              .absolute { position: absolute; }
-              .bottom-\\[9px\\] { bottom: 9px; }
-              .left-\\[10px\\] { left: 10px; }
-              .z-10 { z-index: 10; }
-              
-              /* 링크 */
-              .underline { text-decoration: underline; }
-              
-              /* 컨테이너 */
-              .container { 
-                width: 100%;
-                max-width: 1200px;
-                margin: 0 auto;
-                padding: 0 1rem;
-              }
-              
-              /* 버튼 기본 */
-              button {
-                cursor: pointer;
-                border: none;
-                background: none;
-              }
-              
-              /* 폰트 로딩 완료 후 적용 */
-              .font-loaded {
-                font-family: var(--font-pretendard), system-ui, -apple-system, sans-serif;
-              }
             `,
           }}
         />
