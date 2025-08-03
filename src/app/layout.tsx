@@ -57,15 +57,6 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => (
   <AlertProvider>
     <html lang="ko" className={pretendard.variable}>
       <head>
-        {/* 🚀 최우선 폰트 preload */}
-        <link
-          rel="preload"
-          href="/fonts/PretendardVariable.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
-
         {/* 폰트 로딩 최적화를 위한 Critical CSS */}
         <style
           dangerouslySetInnerHTML={{
