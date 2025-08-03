@@ -2,7 +2,8 @@ import dynamic from "next/dynamic";
 import React from "react";
 
 import BottomNavigation from "./ui/BottomNavigation";
-import ServerModal from "./ui/ServerModal";
+
+// import ServerModal from "./ui/ServerModal";
 
 // const BottomNavigationDynamic = dynamic(() => import("./ui/BottomNavigation"), { ssr: false, loading: () => null });
 const ClientModal = dynamic(() => import("./ui/ClientModal"), { ssr: false, loading: () => null });
@@ -17,7 +18,7 @@ const GlobalLayout = ({ children }: LayoutProps) => {
       {children}
       <BottomNavigation />
       <ClientModal />
-      <ServerModal />
+      {/* <ServerModal /> */}
     </div>
   );
 };

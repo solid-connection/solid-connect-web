@@ -15,10 +15,10 @@ export const metadata: Metadata = {
   description: "솔리드 커넥션. 교환학생의 첫 걸음",
 };
 
-// 🎯 폰트 최적화: 하나의 폰트만 사용
+// 🎯 폰트 최적화: 하나의 폰트만 사용 + 즉시 로딩
 const pretendard = localFont({
   src: "../../public/fonts/PretendardVariable.woff2",
-  display: "swap",
+  display: "optional", // swap → optional로 변경 (3초 후 fallback)
   weight: "45 920",
   variable: "--font-pretendard",
   preload: true,
@@ -57,10 +57,20 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => (
   <AlertProvider>
     <html lang="ko" className={pretendard.variable}>
       <head>
-        {/* 폰트 로딩 최적화를 위한 Critical CSS */}
+        {/* 폰트 preload - CSS 블로킹 방지 */}
+        <link
+          rel="preload"
+          href="/fonts/PretendardVariable.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+
+        {/* 최소한의 Critical CSS - 폰트 최적화만 */}
         <style
           dangerouslySetInnerHTML={{
             __html: `
+              /* 폰트 즉시 렌더링 */
               html {
                 font-family: var(--font-pretendard), system-ui, -apple-system, sans-serif;
                 font-synthesis: none;
@@ -68,17 +78,21 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => (
                 -webkit-font-smoothing: antialiased;
                 -moz-osx-font-smoothing: grayscale;
               }
-              .font-loading {
-                font-family: system-ui, -apple-system, sans-serif;
+              
+              body {
+                margin: 0;
+                background: white;
+                font-family: system-ui, -apple-system, sans-serif; /* 폰트 로딩 전 즉시 렌더링 */
               }
+              
+              /* LCP 이미지만 최적화 */
+              .w-\\[153px\\] { width: 153px; }
+              .h-\\[120px\\] { height: 120px; }
+              .rounded-lg { border-radius: 0.5rem; }
+              .object-cover { object-fit: cover; }
             `,
           }}
         />
-
-        {/* DNS prefetch for external resources */}
-        <link rel="dns-prefetch" href="//www.googletagmanager.com" />
-        <link rel="dns-prefetch" href="//connect.facebook.net" />
-        <link rel="dns-prefetch" href="//t1.kakaocdn.net" />
       </head>
       <body className={pretendard.className}>
         <AppleScriptLoader />

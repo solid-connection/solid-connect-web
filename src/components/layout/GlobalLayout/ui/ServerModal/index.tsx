@@ -1,8 +1,13 @@
+import dynamic from "next/dynamic";
 import { cookies } from "next/headers";
 
 import { isTokenExpired } from "@/utils/jwtUtils";
 
-import MentorApplyCountModal from "@/components/mentor/MentorApplyCountModal";
+// 🎯 Critical Path에서 제외하기 위해 지연 로딩
+const MentorApplyCountModal = dynamic(() => import("@/components/mentor/MentorApplyCountModal"), {
+  ssr: false, // 클라이언트에서만 로딩
+  loading: () => null, // 로딩 중에는 아무것도 표시하지 않음
+});
 
 const ServerModal = () => {
   // 서버에서 로그인 상태 확인
