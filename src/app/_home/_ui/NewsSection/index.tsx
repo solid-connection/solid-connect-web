@@ -14,7 +14,6 @@ export type NewsSectionProps = {
 const NewsSection = ({ newsList }: NewsSectionProps) => {
   const [visible, setVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement | null>(null);
-
   useEffect(() => {
     if (!sectionRef.current) return;
 

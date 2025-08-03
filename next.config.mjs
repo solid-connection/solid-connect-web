@@ -13,6 +13,8 @@ const nextConfig = {
       "d1q5o8tzvz4j3d.cloudfront.net",
       "d23lwokhcc3r0c.cloudfront.net",
     ],
+    formats: ["image/avif", "image/webp"],
+    deviceSizes: [360, 640, 768, 1024, 1280],
   },
   // 폰트 최적화 설정
   optimizeFonts: true,
