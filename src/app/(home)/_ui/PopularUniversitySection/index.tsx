@@ -32,6 +32,7 @@ const PopularUniversitySection = ({ universities }: PopularUniversitySectionProp
             priority={index === 0} // 첫 번째만 priority
             loading="eager" // 즉시 로딩
             fetchPriority="high" // 높은 우선순위
+            quality={index === 0 ? 65 : 60} // 첫 번째는 65, 나머지는 60으로 최적화
             key={university.id}
             university={university}
           />
@@ -47,7 +48,13 @@ const PopularUniversitySection = ({ universities }: PopularUniversitySectionProp
               </div>
             }
           >
-            <PopularUniversityCardDynamic university={university} priority={false} loading="lazy" fetchPriority="low" />
+            <PopularUniversityCardDynamic
+              university={university}
+              priority={false}
+              loading="lazy"
+              fetchPriority="low"
+              quality={55} // 동적 로딩 이미지는 가장 낮은 품질로 최적화
+            />
           </Suspense>
         ))}
       </div>
