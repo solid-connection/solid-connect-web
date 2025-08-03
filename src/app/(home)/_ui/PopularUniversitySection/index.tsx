@@ -1,12 +1,12 @@
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
 
-import PopularUniversityCard from "./ui/PopularUniversityCard";
+import PopularUniversityCard from "./_ui/PopularUniversityCard";
 
 import { ListUniversity } from "@/types/university";
 
 // PopularUniversityCard를 동적 임포트
-const PopularUniversityCardDynamic = dynamic(() => import("./ui/PopularUniversityCard"), {
+const PopularUniversityCardDynamic = dynamic(() => import("./_ui/PopularUniversityCard"), {
   ssr: false,
   loading: () => (
     <div className="relative w-[153px]">
