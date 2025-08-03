@@ -32,7 +32,7 @@ const PopularUniversitySection = ({ universities }: PopularUniversitySectionProp
             priority={index === 0} // 첫 번째만 priority
             loading="eager" // 즉시 로딩
             fetchPriority="high" // 높은 우선순위
-            quality={index === 0 ? 65 : 60} // 첫 번째는 65, 나머지는 60으로 최적화
+            quality={index === 0 ? 60 : 55} // LCP는 60, 나머지는 55로 최적화
             key={university.id}
             university={university}
           />
@@ -53,7 +53,7 @@ const PopularUniversitySection = ({ universities }: PopularUniversitySectionProp
               priority={false}
               loading="lazy"
               fetchPriority="low"
-              quality={55} // 동적 로딩 이미지는 가장 낮은 품질로 최적화
+              quality={50} // 동적 로딩 이미지는 50으로 최대 압축
             />
           </Suspense>
         ))}
