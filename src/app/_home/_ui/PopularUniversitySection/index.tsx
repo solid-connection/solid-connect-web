@@ -1,8 +1,6 @@
-//. "use client";
 import Image from "next/image";
 import Link from "next/link";
 
-// import useWheelHandler from "./_hooks/useWheelHandler";
 import { ListUniversity } from "@/types/university";
 
 type PopularUniversitySectionProps = {
@@ -11,7 +9,7 @@ type PopularUniversitySectionProps = {
 
 const PopularUniversitySection = ({ universities }: PopularUniversitySectionProps) => {
   return (
-    <div className="">
+    <div className="overflow-x-auto">
       <div className="flex gap-2">
         {universities.map((university, index) => (
           <Link key={university.id} href={`/university/${university.id}`}>
