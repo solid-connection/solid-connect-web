@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-css-tags */
 import type { Metadata, Viewport } from "next";
 import dynamic from "next/dynamic";
-import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 
 import GlobalLayout from "@/components/layout/GlobalLayout";
@@ -16,18 +15,23 @@ export const metadata: Metadata = {
   description: "솔리드 커넥션. 교환학생의 첫 걸음",
 };
 
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap", // FOUT 방지
-  preload: true,
-});
-
+// 🎯 폰트 최적화: 하나의 폰트만 사용
 const pretendard = localFont({
   src: "../../public/fonts/PretendardVariable.woff2",
-  display: "swap", // FOUT 방지를 위한 swap 설정
+  display: "swap",
   weight: "45 920",
   variable: "--font-pretendard",
-  preload: true, // 폰트 우선 로딩
+  preload: true,
+  // 폰트 로딩 실패 시 fallback 폰트 체인
+  fallback: [
+    "system-ui",
+    "-apple-system",
+    "BlinkMacSystemFont",
+    "Apple SD Gothic Neo",
+    "Malgun Gothic",
+    "맑은 고딕",
+    "sans-serif",
+  ],
 });
 
 const KakaoScriptLoader = dynamic(() => import("@/lib/ScriptLoader/KakaoScriptLoader"), {
@@ -56,9 +60,9 @@ export const viewport: Viewport = {
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => (
   <AlertProvider>
-    <html lang="ko">
+    <html lang="ko" className={pretendard.variable}>
       <head>
-        {/* Critical 폰트 preload with high priority */}
+        {/* 🚀 최우선 폰트 preload */}
         <link
           rel="preload"
           href="/fonts/PretendardVariable.woff2"
@@ -66,26 +70,31 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => (
           type="font/woff2"
           crossOrigin="anonymous"
         />
-        {/* Prevent layout shift with font-display: swap */}
+
+        {/* 폰트 로딩 최적화를 위한 Critical CSS */}
         <style
           dangerouslySetInnerHTML={{
             __html: `
-              @font-face {
-                font-family: 'Pretendard';
-                src: url('/fonts/PretendardVariable.woff2') format('woff2');
-                font-weight: 45 920;
-                font-display: swap;
-                font-style: normal;
+              html {
+                font-family: var(--font-pretendard), system-ui, -apple-system, sans-serif;
+                font-synthesis: none;
+                text-rendering: optimizeLegibility;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+              }
+              .font-loading {
+                font-family: system-ui, -apple-system, sans-serif;
               }
             `,
           }}
         />
+
         {/* DNS prefetch for external resources */}
         <link rel="dns-prefetch" href="//www.googletagmanager.com" />
         <link rel="dns-prefetch" href="//connect.facebook.net" />
         <link rel="dns-prefetch" href="//t1.kakaocdn.net" />
       </head>
-      <body className={`${pretendard.className} ${inter.className}`}>
+      <body className={pretendard.className}>
         <KakaoScriptLoader />
         <AppleScriptLoader />
         <GoogleAnalytics gaId="G-V1KLYZC1DS" />

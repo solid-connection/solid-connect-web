@@ -1,24 +1,18 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useMemo } from "react";
 
 import { isAuthenticated } from "@/utils/authUtils";
 
 import ButtonTab from "@/components/ui/ButtonTab";
-import UniversityCardsSkeleton from "@/components/university/UniversityCards/skeleton";
+import UniversityCards from "@/components/university/UniversityCards";
 
 import useRegionHandler from "./_hooks/useRegionHandler";
 
 import { AllRegionsUniversityList, ListUniversity, RegionEnumExtend } from "@/types/university";
 
 import useGetRecommendedUniversity from "@/api/university/client/useGetRecommendedUniversity";
-
-const UniversityCards = dynamic(() => import("@/components/university/UniversityCards"), {
-  ssr: false,
-  loading: () => <UniversityCardsSkeleton />,
-});
 
 interface UniversityListProps {
   allRegionsUniversityList: AllRegionsUniversityList;
@@ -60,13 +54,7 @@ const UniversityList = ({ allRegionsUniversityList }: UniversityListProps) => {
           background: "white",
         }}
       />
-      <UniversityCards
-        colleges={previewUniversities.map((college) => ({
-          ...college,
-          logoImageUrl: college.logoImageUrl?.replace(/^\/+/, ""),
-        }))}
-        showCapacity={false}
-      />
+      <UniversityCards colleges={previewUniversities} showCapacity={false} />
     </div>
   );
 };
