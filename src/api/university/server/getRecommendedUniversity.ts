@@ -5,7 +5,9 @@ import { RecommendedUniversityResponse } from "../type/response";
 const getRecommendedUniversity = async () => {
   const endpoint = "/universities/recommend";
 
-  const res = await serverFetch<RecommendedUniversityResponse>(endpoint);
+  const res = await serverFetch<RecommendedUniversityResponse>(endpoint, {
+    isAuth: false, // 인증이 필요 없는 API로 설정
+  });
   return res;
 };
 
