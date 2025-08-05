@@ -20,7 +20,7 @@ interface SearchParams {
  * - 필요 시 query string 을 동적으로 붙인다.
  */
 const getSearchUniversityList = async ({ region, keyword, testType, testScore }: SearchParams = {}) => {
-  const endpoint = "/universities/search";
+  const endpoint = "/univ-apply-infos/search";
 
   const params = new URLSearchParams();
 
