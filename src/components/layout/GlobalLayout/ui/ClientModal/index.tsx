@@ -1,5 +1,6 @@
 "use client";
 
+import MentorApplyCountContent from "@/components/mentor/MentorApplyCountContent";
 import IconConfirmModal from "@/components/modal/IconConfirmModal";
 
 import { useConfirmModalStore } from "@/lib/zustand/useConfirmModalStore";
@@ -9,6 +10,7 @@ const ClientModal = () => {
 
   return (
     <>
+      <MentorApplyCountContent />
       <IconConfirmModal
         isOpen={isOpen}
         title={payload?.title || "확인"}

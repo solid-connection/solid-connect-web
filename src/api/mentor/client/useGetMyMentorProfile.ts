@@ -1,39 +1,20 @@
-import { useEffect, useState } from "react";
-
-import useFetch from "@/utils/apiUtils";
+import { axiosInstance } from "@/utils/axiosInstance";
 
 import { MentorCardPreview } from "../type/response";
 
-interface UseGetMyMentorDataReturn {
-  myMentorProfile: MentorCardPreview;
-  loading: boolean;
-  error: unknown;
-}
+import { useQuery } from "@tanstack/react-query";
 
-const useGetMyMentorProfile = (): UseGetMyMentorDataReturn => {
-  const { result, loading, error, fetchData } = useFetch<MentorCardPreview>();
-  const [myMentorProfile, setMyMentorProfile] = useState<MentorCardPreview>(null);
+const getMyMentorProfile = async (): Promise<MentorCardPreview> => {
+  const res = await axiosInstance.get<MentorCardPreview>("/mentor/my");
+  return res.data;
+};
 
-  useEffect(() => {
-    fetchData({
-      method: "get",
-      url: "/mentor/my",
-      body: undefined,
-      isToken: true,
-    });
-  }, [fetchData]);
-
-  useEffect(() => {
-    if (result) {
-      setMyMentorProfile(result.data);
-    }
-  }, [result]);
-
-  return {
-    myMentorProfile,
-    loading,
-    error,
-  };
+const useGetMyMentorProfile = () => {
+  return useQuery({
+    queryKey: ["my-mentor-profile"],
+    queryFn: getMyMentorProfile,
+    staleTime: 1000 * 60 * 5, // 5분간 캐시
+  });
 };
 
 export default useGetMyMentorProfile;

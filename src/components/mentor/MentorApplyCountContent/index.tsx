@@ -2,14 +2,20 @@
 
 import { useState } from "react";
 
-interface MentorApplyCountContentProps {
-  count: number; // 신규 신청 수
-}
+import { isAuthenticated } from "@/utils/authUtils";
 
-const MentorApplyCountContent = ({ count }: MentorApplyCountContentProps) => {
+import useGetMentoringNewCount from "@/api/mentor/client/useGetMentoringNewCount";
+
+const MentorApplyCountContent = () => {
+  // 로그인 된경우에만 신규 신청 카운트 모달 표시
+  const isLogin = isAuthenticated();
+  const { data } = useGetMentoringNewCount(isLogin);
+
+  const count = data?.count || 0;
   const [isModalOpen, setIsModalOpen] = useState<boolean>(true);
-  if (count === 0) return null; // 신규 신청 없으면 표시 X
-  if (!isModalOpen) return null; // 모달이 열려있지 않으면 표시 X
+
+  // 신규 신청 없으면 표시
+  if (isLogin || count === 0 || isModalOpen) return null;
   return (
     <div className="fixed left-1/2 top-10 z-50 w-[80%] max-w-md -translate-x-1/2 rounded-xl bg-secondary px-6 py-4 text-white shadow-md">
       {/* close button */}
@@ -31,7 +37,7 @@ const MentorApplyCountContent = ({ count }: MentorApplyCountContentProps) => {
         </div>
 
         {/* divider */}
-        <div className="mx-4 h-12 w-px bg-white/40" />
+        <div className="mx-4 h-12 w-px bg-k-300" />
 
         {/* right: count */}
         <div className="min-w-[80px] text-center">
