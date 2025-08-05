@@ -1,11 +1,13 @@
 import serverFetch from "@/utils/serverFetchUtil";
 
-import { RecommendedUniversityResponse } from "../type/response";
+import { ListUniversity } from "@/types/university";
+
+type GetRecommendedUniversityResponse = { recommendedUniversities: ListUniversity[] };
 
 const getRecommendedUniversity = async () => {
   const endpoint = "/universities/recommend";
 
-  const res = await serverFetch<RecommendedUniversityResponse>(endpoint);
+  const res = await serverFetch<GetRecommendedUniversityResponse>(endpoint);
   return res;
 };
 

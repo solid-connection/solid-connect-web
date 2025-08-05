@@ -4,7 +4,7 @@ import React from "react";
 import { IconDefaultProfile, IconGraduation } from "@/public/svgs/mentor";
 
 interface ProfileWithBadgeProps {
-  profileImageUrl?: string;
+  profileImageUrl?: string | null;
   hasBadge?: boolean;
   width?: number;
   height?: number;

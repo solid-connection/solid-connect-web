@@ -7,9 +7,10 @@ import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
 
 import MentorArticle from "./_ui/MentorArticle";
 
+import { ChannelType } from "@/types/mentor";
+
 import useGetArticleList from "@/api/article/client/useGetArticleList";
-import useGetMentorDetailPage from "@/api/mentor/client/useGetMentorDetailPage";
-import { ChannelType } from "@/api/mentor/type/response";
+import useGetMentorDetail from "@/api/mentors/client/useGetMentorDetail";
 import { customConfirm } from "@/lib/zustand/useConfirmModalStore";
 import { IconCheck } from "@/public/svgs/mentor";
 
@@ -18,8 +19,9 @@ interface MentorDetailContentProps {
 }
 
 const MentorDetialContent = ({ mentorId }: MentorDetailContentProps) => {
-  const { mentorDetail } = useGetMentorDetailPage(mentorId);
+  const { data } = useGetMentorDetail(mentorId);
   const { articleList } = useGetArticleList(mentorId);
+
   const onClick = async () => {
     const ok = await customConfirm({
       title: "멘토 신청",
@@ -31,7 +33,7 @@ const MentorDetialContent = ({ mentorId }: MentorDetailContentProps) => {
     if (!ok) return;
   };
 
-  if (!mentorDetail) return null; // type guard
+  if (!data) return null; // type guard
 
   const {
     country,
@@ -43,9 +45,9 @@ const MentorDetialContent = ({ mentorId }: MentorDetailContentProps) => {
     passTip,
     hasBadge,
     profileImageUrl,
-    // menteeCount, 현재 멘티 카운트는 보여주지 않음
+    menteeCount, //현재 멘티 카운트는 보여주지 않음
     isApplied,
-  } = mentorDetail;
+  } = data;
 
   return (
     <>

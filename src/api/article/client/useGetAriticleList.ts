@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import useFetch from "@/utils/apiUtils";
 
-import { ArticleResponse } from "../type/response";
+import { ArticleResponse } from "../types/response";
 
 /* ---------- 타입 ---------- */
 

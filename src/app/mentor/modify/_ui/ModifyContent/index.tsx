@@ -15,7 +15,7 @@ import ModifyBtnPanel from "./_ui/ModifyBtnPanel";
 import { ChannelType } from "@/types/mentor";
 
 import useGetArticleList from "@/api/article/client/useGetAriticleList";
-import useGetMyMentorProfile from "@/api/mentor/client/useGetMyMentorProfile";
+import useGetMyMentorProfile from "@/api/mentor/client/useGetMentorMyProfile";
 import usePutMyMentorProfile, { PutMyMentorProfileBody } from "@/api/mentor/client/usePutMyMentorProfile";
 import { IconUserPrimaryColor } from "@/public/svgs/mentor";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -51,7 +51,6 @@ const ModifyContent = () => {
     };
     putMyMentorProfile(payload);
   };
-
 
   if (!myMentorProfile) return null; // myMentorProfile가 없으면 아무것도 렌더링하지 않음
   const { profileImageUrl, hasBadge, menteeCount, nickname, country, universityName, studyStatus } = myMentorProfile;

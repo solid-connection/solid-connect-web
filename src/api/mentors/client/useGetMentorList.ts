@@ -1,16 +1,17 @@
 import { axiosInstance } from "@/utils/axiosInstance";
 
-import { MentorCardDetail } from "../type/response";
 import { queryKey } from "./queryKey";
+
+import { MentorCardDetail } from "@/types/mentor";
 
 import { useQuery } from "@tanstack/react-query";
 
-interface UseGetMentorListProps {
+interface UseGetMentorListRequest {
   region?: string;
   page?: number;
 }
 
-interface MentorListResponse {
+interface GetMentorListResponse {
   /** 다음 페이지 번호. 다음 페이지가 없으면 -1 */
   nextPageNumber: number;
   content: MentorCardDetail[];
@@ -18,13 +19,13 @@ interface MentorListResponse {
 
 const OFFSET = 10; // 기본 페이지 크기
 
-const getMentorList = async ({ queryKey }: { queryKey: [string, string, number] }): Promise<MentorListResponse> => {
+const getMentorList = async ({ queryKey }: { queryKey: [string, string, number] }): Promise<GetMentorListResponse> => {
   const [, region, page] = queryKey;
-  const res = await axiosInstance.get<MentorListResponse>(`/mentor?region=${region}&page=${page}&size=${OFFSET}`);
+  const res = await axiosInstance.get<GetMentorListResponse>(`/mentor?region=${region}&page=${page}&size=${OFFSET}`);
   return res.data;
 };
 
-const useGetMentorList = ({ region = "전체", page = 0 }: UseGetMentorListProps = {}) => {
+const useGetMentorList = ({ region = "전체", page = 0 }: UseGetMentorListRequest = {}) => {
   return useQuery({
     queryKey: [queryKey.mentorList, region, page],
     queryFn: getMentorList,
