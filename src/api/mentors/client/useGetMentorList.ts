@@ -4,11 +4,11 @@ import { queryKey } from "./queryKey";
 
 import { MentorCardDetail } from "@/types/mentor";
 
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
+import type { QueryFunctionContext } from "@tanstack/react-query";
 
 interface UseGetMentorListRequest {
   region?: string;
-  page?: number;
 }
 
 interface GetMentorListResponse {
@@ -19,18 +19,41 @@ interface GetMentorListResponse {
 
 const OFFSET = 10; // 기본 페이지 크기
 
-const getMentorList = async ({ queryKey }: { queryKey: [string, string, number] }): Promise<GetMentorListResponse> => {
-  const [, region, page] = queryKey;
-  const res = await axiosInstance.get<GetMentorListResponse>(`/mentor?region=${region}&page=${page}&size=${OFFSET}`);
+const getMentorList = async ({
+  queryKey,
+  pageParam,
+}: QueryFunctionContext<[string, string], number>): Promise<GetMentorListResponse> => {
+  const [, region] = queryKey;
+  const res = await axiosInstance.get<GetMentorListResponse>(
+    `/mentors?region=${region}&page=${pageParam}&size=${OFFSET}`,
+  );
   return res.data;
 };
 
-const useGetMentorList = ({ region = "전체", page = 0 }: UseGetMentorListRequest = {}) => {
-  return useQuery({
-    queryKey: [queryKey.mentorList, region, page],
+const useGetMentorList = ({ region = "" }: UseGetMentorListRequest = {}) =>
+  useInfiniteQuery<GetMentorListResponse, Error, MentorCardDetail[], [string, string], number>({
+    queryKey: [queryKey.mentorList, region],
     queryFn: getMentorList,
-    staleTime: 1000 * 60 * 5, // 5분간 캐시
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => (lastPage.nextPageNumber === -1 ? undefined : lastPage.nextPageNumber),
+    staleTime: 1000 * 60 * 5,
+    select: (data) => data.pages.flatMap((p) => p.content),
   });
+
+// 탭 프리페치용 훅
+export const usePrefetchMentorList = () => {
+  const queryClient = useQueryClient();
+
+  const prefetchMentorList = (region: string) => {
+    queryClient.prefetchInfiniteQuery({
+      queryKey: [queryKey.mentorList, region],
+      queryFn: getMentorList,
+      initialPageParam: 0,
+      staleTime: 1000 * 60 * 5,
+    });
+  };
+
+  return { prefetchMentorList };
 };
 
 export default useGetMentorList;

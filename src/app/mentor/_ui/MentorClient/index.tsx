@@ -24,7 +24,7 @@ const MentorClient = () => {
           {/* 탭 및 나의 멘토 , 멘티요청 리스트 채팅카드 */}
           <MenteePageTabs />
           {/* 멘토찾기 섹션 */}
-          {/* <MentorFindSection /> */}
+          <MentorFindSection />
         </>
       )}
     </>

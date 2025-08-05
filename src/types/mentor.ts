@@ -57,6 +57,7 @@ export enum FilterTab {
   EUROPE = "유럽권",
   AMERICAS = "미주권",
   ASIA = "아시아권",
+  CHINA = "중국권",
 }
 
 export enum ChannelType {

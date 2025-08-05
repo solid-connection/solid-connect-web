@@ -9,16 +9,19 @@ import EmptySdwBCards from "@/components/ui/EmptySdwBCards";
 
 import { FilterTab } from "@/types/mentor";
 
-import useGetMentorList from "@/api/mentor/client/useGetMentorList";
+import useGetMentorList from "@/api/mentors/client/useGetMentorList";
 
 const MentorFindSection = () => {
   const [selectedFilter, setSelectedFilter] = useState<FilterTab>(FilterTab.ALL);
-  const { page, lastElementRef } = useInfinityScroll();
-  const { data } = useGetMentorList({
-    page,
-    region: selectedFilter !== FilterTab.ALL ? selectedFilter : undefined,
+
+  const {
+    data: mentorList = [],
+    fetchNextPage,
+    hasNextPage,
+  } = useGetMentorList({
+    region: selectedFilter !== FilterTab.ALL ? selectedFilter : "",
   });
-  const mentorList = data?.content || [];
+  const { lastElementRef } = useInfinityScroll(fetchNextPage);
 
   return (
     <div className="px-4">
@@ -40,13 +43,15 @@ const MentorFindSection = () => {
       </div>
 
       {/* 멘토 리스트 */}
-      <div className="space-y-4">
+      <div className="h-[calc(100vh-200px)] space-y-4 overflow-y-auto">
         {mentorList.length === 0 ? (
           <EmptySdwBCards message="멘토가 없습니다. 필터를 변경해보세요." />
         ) : (
           mentorList.map((mentor) => (
             <MentorCard
-              observeRef={mentorList.length === mentorList.indexOf(mentor) + 1 ? lastElementRef : undefined}
+              observeRef={
+                hasNextPage && mentorList.length === mentorList.indexOf(mentor) + 1 ? lastElementRef : undefined
+              }
               key={mentor.id}
               mentor={mentor}
             />
