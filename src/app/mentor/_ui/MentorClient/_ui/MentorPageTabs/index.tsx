@@ -1,6 +1,9 @@
 "use client";
 
+import { useRouter } from "next/router";
 import React, { useState } from "react";
+
+import { Link } from "lucide-react";
 
 import { getMenteeListData, getMentorListData } from "@/utils/mockingGetData";
 
@@ -15,16 +18,10 @@ import { IconDirectionRight } from "@/public/svgs/mentor";
 
 const MentorPageTabs = () => {
   const [selectedTab, setSelectedTab] = useState<MentorTab>(MentorTab.MY_MENTOR);
-
   const mentorList = getMentorListData();
   const menteeList = getMenteeListData();
 
   const selectedCount = selectedTab === MentorTab.MY_MENTOR ? mentorList.length : menteeList.length;
-
-  const handleViewAllClick = () => {
-    console.log("전체보기 클릭");
-    // 전체보기 페이지로 이동하는 로직
-  };
 
   return (
     <>
@@ -32,12 +29,12 @@ const MentorPageTabs = () => {
         <MentorDropDown selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
 
         {selectedCount > 2 && (
-          <button onClick={handleViewAllClick} className="flex items-center text-[13px] leading-normal text-k-500">
+          <Link href={""} className="flex items-center text-[13px] leading-normal text-k-500">
             전체보기
             <span className="flex h-[20px] w-[20px] items-center justify-center">
               <IconDirectionRight />
             </span>
-          </button>
+          </Link>
         )}
       </header>
 

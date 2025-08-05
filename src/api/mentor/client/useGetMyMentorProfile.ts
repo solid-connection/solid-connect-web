@@ -1,6 +1,7 @@
 import { axiosInstance } from "@/utils/axiosInstance";
 
 import { MentorCardPreview } from "../type/response";
+import { queryKey } from "./queryKey";
 
 import { useQuery } from "@tanstack/react-query";
 
@@ -11,7 +12,7 @@ const getMyMentorProfile = async (): Promise<MentorCardPreview> => {
 
 const useGetMyMentorProfile = () => {
   return useQuery({
-    queryKey: ["my-mentor-profile"],
+    queryKey: [queryKey.myMentorProfile],
     queryFn: getMyMentorProfile,
     staleTime: 1000 * 60 * 5, // 5분간 캐시
   });

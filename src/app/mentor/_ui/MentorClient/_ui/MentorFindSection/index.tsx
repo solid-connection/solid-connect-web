@@ -14,10 +14,11 @@ import useGetMentorList from "@/api/mentor/client/useGetMentorList";
 const MentorFindSection = () => {
   const [selectedFilter, setSelectedFilter] = useState<FilterTab>(FilterTab.ALL);
   const { page, lastElementRef } = useInfinityScroll();
-  const { mentorList } = useGetMentorList({
+  const { data } = useGetMentorList({
     page,
     region: selectedFilter !== FilterTab.ALL ? selectedFilter : undefined,
   });
+  const mentorList = data?.content || [];
 
   return (
     <div className="px-4">

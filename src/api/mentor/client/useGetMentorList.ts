@@ -1,6 +1,7 @@
 import { axiosInstance } from "@/utils/axiosInstance";
 
 import { MentorCardDetail } from "../type/response";
+import { queryKey } from "./queryKey";
 
 import { useQuery } from "@tanstack/react-query";
 
@@ -25,7 +26,7 @@ const getMentorList = async ({ queryKey }: { queryKey: [string, string, number] 
 
 const useGetMentorList = ({ region = "전체", page = 0 }: UseGetMentorListProps = {}) => {
   return useQuery({
-    queryKey: ["mentor-list", region, page],
+    queryKey: [queryKey.mentorList, region, page],
     queryFn: getMentorList,
     staleTime: 1000 * 60 * 5, // 5분간 캐시
   });

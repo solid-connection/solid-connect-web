@@ -77,3 +77,8 @@ export enum ArticleDropdownType {
   EDIT = "수정하기",
   DELETE = "삭제하기",
 }
+
+export enum UserRole {
+  MENTOR = "MENTOR",
+  MENTEE = "MENTEE",
+}

@@ -30,3 +30,21 @@ export const decodeExp = (token: string) => {
     return 0;
   }
 };
+
+const parseJwt = (token: string) => {
+  try {
+    const base64Payload = token.split(".")[1];
+    const payload = Buffer.from(base64Payload, "base64").toString("utf8");
+    return JSON.parse(payload);
+  } catch {
+    return null;
+  }
+};
+
+export const getUserRoleFromJwt = (): string | null => {
+  const token = localStorage.getItem("accessToken");
+  if (!token) return null;
+
+  const decoded = parseJwt(token);
+  return decoded?.role ?? null;
+};

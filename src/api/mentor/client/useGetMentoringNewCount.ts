@@ -1,6 +1,7 @@
 import { axiosInstance, publicAxiosInstance } from "@/utils/axiosInstance";
 
 import type { MentoringNewCountResponse } from "../type/response";
+import { queryKey } from "./queryKey";
 
 import { useQuery } from "@tanstack/react-query";
 
@@ -20,7 +21,7 @@ const getMentoringNewCount = async ({
 // ISR 의도(10분) 유지: staleTime 10분
 const useGetMentoringNewCount = (isLogin: boolean) =>
   useQuery({
-    queryKey: ["mentoring-new-count", isLogin],
+    queryKey: [queryKey.mentoringNewCount, isLogin],
     queryFn: getMentoringNewCount,
     enabled: isLogin,
     refetchInterval: 1000 * 60 * 10, // ⏱️ 10분마다 자동 재요청
