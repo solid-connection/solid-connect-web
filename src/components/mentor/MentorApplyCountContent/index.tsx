@@ -3,18 +3,23 @@
 import { useState } from "react";
 
 import { isAuthenticated } from "@/utils/authUtils";
+import { getUserRoleFromJwt } from "@/utils/jwtUtils";
+
+import { UserRole } from "@/types/mentor";
 
 import useGetMentoringUncheckedCount from "@/api/mentor/client/useGetMentoringUncheckedCount";
 
 const MentorApplyCountContent = () => {
   // 로그인 된경우에만 신규 신청 카운트 모달 표시
   const isLogin = isAuthenticated();
-  const { data: count } = useGetMentoringUncheckedCount(isLogin);
+  const userRole = getUserRoleFromJwt();
+  const isUserMentor = userRole === UserRole.MENTOR;
+  const { data: count, isSuccess } = useGetMentoringUncheckedCount(isLogin && isUserMentor);
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(true);
 
   // 신규 신청 없으면 표시
-  if (!isLogin || count === 0 || !isModalOpen) return null;
+  if (!isLogin || count === 0 || !isModalOpen || !isSuccess) return null;
   return (
     <div className="fixed left-1/2 top-10 z-50 w-[80%] max-w-md -translate-x-1/2 rounded-xl bg-secondary px-6 py-4 text-white shadow-md">
       {/* close button */}

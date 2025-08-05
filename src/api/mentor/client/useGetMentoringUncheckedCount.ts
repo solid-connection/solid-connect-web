@@ -8,25 +8,18 @@ interface GetMentoringNewCountResponse {
   uncheckedCount: number; // 멘토링 신규 요청 수
 }
 
-const getMentoringUncheckedCount = async ({
-  queryKey,
-}: {
-  queryKey: [string, boolean];
-}): Promise<GetMentoringNewCountResponse> => {
-  const [, isLogin] = queryKey;
+const getMentoringUncheckedCount = async (): Promise<GetMentoringNewCountResponse> => {
   const endpoint = "/mentorings/check";
-
-  const instance = isLogin ? axiosInstance : publicAxiosInstance;
-  const res = await instance.get<GetMentoringNewCountResponse>(endpoint);
+  const res = await axiosInstance.get<GetMentoringNewCountResponse>(endpoint);
   return res.data;
 };
 
 // ISR 의도(10분) 유지: staleTime 10분
-const useGetMentoringUncheckedCount = (isLogin: boolean) =>
+const useGetMentoringUncheckedCount = (isEnable: boolean) =>
   useQuery({
-    queryKey: [queryKey.mentoringNewCount, isLogin],
+    queryKey: [queryKey.mentoringNewCount, isEnable],
     queryFn: getMentoringUncheckedCount,
-    enabled: isLogin,
+    enabled: isEnable,
     refetchInterval: 1000 * 60 * 10, // ⏱️ 10분마다 자동 재요청
     refetchOnWindowFocus: true, // 탭 돌아올 때도 최신화
     staleTime: 1000 * 60 * 5, // fresh 상태 유지
