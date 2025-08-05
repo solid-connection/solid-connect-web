@@ -7,7 +7,6 @@ import MentorChatCard from "@/components/mentor/MentorChatCard";
 import EmptyMentorChatCards from "@/components/ui/EmptySdwBCards";
 
 import usePrefetchMenteeMentoringListTab from "./_hooks/usePrefetchMenteeMentoringListTab";
-import usePrefetchMentorFindTab from "./_hooks/usePrefetchMentorFindTab";
 
 import { VerifyStatus } from "@/types/mentee";
 import { MenteeTab } from "@/types/mentor";
@@ -20,7 +19,6 @@ const MenteePageTabs = () => {
   // api
   const { data: mentoList = [] } = useGetChatRooms();
   const { data: menteeWatingMentoringList = [] } = useGetMenteeMentoringList(VerifyStatus.PENDING);
-  usePrefetchMentorFindTab();
   usePrefetchMenteeMentoringListTab();
 
   // state

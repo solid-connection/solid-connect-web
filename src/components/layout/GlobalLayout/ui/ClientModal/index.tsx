@@ -2,14 +2,22 @@
 
 import MentorApplyCountContent from "@/components/mentor/MentorApplyCountContent";
 import IconConfirmModal from "@/components/modal/IconConfirmModal";
+import CloudSpinner from "@/components/ui/CloudSpinner";
 
 import { useConfirmModalStore } from "@/lib/zustand/useConfirmModalStore";
+import { useIsFetching } from "@tanstack/react-query";
 
 const ClientModal = () => {
   const { isOpen, payload, confirm, reject } = useConfirmModalStore();
+  const isFetching = useIsFetching();
 
   return (
     <>
+      {isFetching ? (
+        <div aria-live="polite" aria-busy="true" className="fixed bottom-20 left-1/2 z-50 -translate-x-1/2">
+          <CloudSpinner />
+        </div>
+      ) : null}
       <MentorApplyCountContent />
       <IconConfirmModal
         isOpen={isOpen}
