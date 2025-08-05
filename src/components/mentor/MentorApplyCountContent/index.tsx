@@ -4,14 +4,13 @@ import { useState } from "react";
 
 import { isAuthenticated } from "@/utils/authUtils";
 
-import useGetMentoringNewCount from "@/api/mentor/client/useGetMentoringNewCount";
+import useGetMentoringUncheckedCount from "@/api/mentor/client/useGetMentoringUncheckedCount";
 
 const MentorApplyCountContent = () => {
   // 로그인 된경우에만 신규 신청 카운트 모달 표시
   const isLogin = isAuthenticated();
-  const { data } = useGetMentoringNewCount(isLogin);
+  const { data: count } = useGetMentoringUncheckedCount(isLogin);
 
-  const count = data?.count || 0;
   const [isModalOpen, setIsModalOpen] = useState<boolean>(true);
 
   // 신규 신청 없으면 표시

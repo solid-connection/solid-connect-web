@@ -8,7 +8,7 @@ interface GetMentoringNewCountResponse {
   uncheckedCount: number; // 멘토링 신규 요청 수
 }
 
-const getMentoringNewCount = async ({
+const getMentoringUncheckedCount = async ({
   queryKey,
 }: {
   queryKey: [string, boolean];
@@ -22,10 +22,10 @@ const getMentoringNewCount = async ({
 };
 
 // ISR 의도(10분) 유지: staleTime 10분
-const useGetMentoringNewCount = (isLogin: boolean) =>
+const useGetMentoringUncheckedCount = (isLogin: boolean) =>
   useQuery({
     queryKey: [queryKey.mentoringNewCount, isLogin],
-    queryFn: getMentoringNewCount,
+    queryFn: getMentoringUncheckedCount,
     enabled: isLogin,
     refetchInterval: 1000 * 60 * 10, // ⏱️ 10분마다 자동 재요청
     refetchOnWindowFocus: true, // 탭 돌아올 때도 최신화
@@ -33,4 +33,4 @@ const useGetMentoringNewCount = (isLogin: boolean) =>
     select: (data) => data.uncheckedCount, // 필요한 데이터만 반환
   });
 
-export default useGetMentoringNewCount;
+export default useGetMentoringUncheckedCount;
