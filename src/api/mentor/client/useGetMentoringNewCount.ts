@@ -22,8 +22,10 @@ const useGetMentoringNewCount = (isLogin: boolean) =>
   useQuery({
     queryKey: ["mentoring-new-count", isLogin],
     queryFn: getMentoringNewCount,
-    enabled: isLogin, // 로그인 상태일 때만 활성화
-    staleTime: 1000 * 60 * 10,
+    enabled: isLogin,
+    refetchInterval: 1000 * 60 * 10, // ⏱️ 10분마다 자동 재요청
+    refetchOnWindowFocus: true, // 탭 돌아올 때도 최신화
+    staleTime: 1000 * 60 * 5, // fresh 상태 유지
   });
 
 export default useGetMentoringNewCount;

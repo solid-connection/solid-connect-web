@@ -15,13 +15,15 @@ const MentorApplyCountContent = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(true);
 
   // 신규 신청 없으면 표시
-  if (isLogin || count === 0 || isModalOpen) return null;
+  if (!isLogin || count === 0 || !isModalOpen) return null;
   return (
     <div className="fixed left-1/2 top-10 z-50 w-[80%] max-w-md -translate-x-1/2 rounded-xl bg-secondary px-6 py-4 text-white shadow-md">
       {/* close button */}
       <button
         type="button"
-        onClick={() => setIsModalOpen(false)}
+        onClick={() => {
+          setIsModalOpen(false);
+        }}
         className="absolute right-3 top-3 text-white/80 hover:text-white"
         aria-label="닫기"
       >
