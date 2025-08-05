@@ -5,7 +5,7 @@ import { queryKey } from "./queryKey";
 import { MentoringListItem } from "@/types/mentee";
 import { VerifyStatus } from "@/types/mentee";
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 interface UseGetMenteeMentoringListResponse {
   content: MentoringListItem[];
@@ -30,4 +30,20 @@ const useGetMenteeMentoringList = (verifyStatus: UseGetMenteeMentoringListReques
     select: (data) => data.content,
   });
 };
+
+// 멘토링 리스트 프리페치용 훅
+export const usePrefetchMenteeMentoringList = () => {
+  const queryClient = useQueryClient();
+
+  const prefetchMenteeMentoringList = (verifyStatus: UseGetMenteeMentoringListRequest) => {
+    queryClient.prefetchQuery({
+      queryKey: [queryKey.menteeMentoringList, verifyStatus],
+      queryFn: () => getMenteeMentoringList(verifyStatus),
+      staleTime: 1000 * 60 * 5,
+    });
+  };
+
+  return { prefetchMenteeMentoringList };
+};
+
 export default useGetMenteeMentoringList;

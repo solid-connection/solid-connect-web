@@ -6,7 +6,8 @@ import { useState } from "react";
 import MentorChatCard from "@/components/mentor/MentorChatCard";
 import EmptyMentorChatCards from "@/components/ui/EmptySdwBCards";
 
-import usePrefetchMentorFindTab from "../MentorFindSection/_hooks/usePrefetchMentorFindTab";
+import usePrefetchMenteeMentoringListTab from "./_hooks/usePrefetchMenteeMentoringListTab";
+import usePrefetchMentorFindTab from "./_hooks/usePrefetchMentorFindTab";
 
 import { VerifyStatus } from "@/types/mentee";
 import { MenteeTab } from "@/types/mentor";
@@ -20,8 +21,11 @@ const MenteePageTabs = () => {
   const { data: mentoList = [] } = useGetChatRooms();
   const { data: menteeWatingMentoringList = [] } = useGetMenteeMentoringList(VerifyStatus.PENDING);
   usePrefetchMentorFindTab();
+  usePrefetchMenteeMentoringListTab();
+
   // state
   const [selectedTab, setSelectedTab] = useState<MenteeTab>(MenteeTab.MY_MENTOR);
+
   // 현재 탭에 따라 보여줄 데이터의 길이
   const currentDataLength = selectedTab === MenteeTab.MY_MENTOR ? mentoList.length : menteeWatingMentoringList.length;
 
