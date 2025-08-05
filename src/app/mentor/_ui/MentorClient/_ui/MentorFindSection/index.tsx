@@ -4,6 +4,7 @@ import useInfinityScroll from "@/utils/useInfinityScroll";
 
 import MentorCard from "@/components/mentor/MentorCard";
 import EmptySdwBCards from "@/components/ui/EmptySdwBCards";
+import FloatingUpBtn from "@/components/ui/FloatingUpBtn";
 
 import usePrefetchMentorFindTab from "./_hooks/usePrefetchMentorFindTab";
 import useSelectedTab from "./_hooks/useSelectedTab";
@@ -45,7 +46,7 @@ const MentorFindSection = () => {
       </div>
 
       {/* 멘토 리스트 */}
-      <div ref={listRef} className="h-[calc(100vh-200px)] space-y-4 overflow-y-auto">
+      <div ref={listRef} className="space-y-4">
         {mentorList.length === 0 ? (
           <EmptySdwBCards message="멘토가 없습니다. 필터를 변경해보세요." />
         ) : (
@@ -60,6 +61,8 @@ const MentorFindSection = () => {
           ))
         )}
       </div>
+
+      <FloatingUpBtn />
     </div>
   );
 };
