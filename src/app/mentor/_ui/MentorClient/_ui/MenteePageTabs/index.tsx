@@ -61,7 +61,7 @@ const MenteePageTabs = () => {
         </div>
         {currentDataLength > 2 && (
           <Link
-            href={selectedTab === MenteeTab.MY_MENTOR ? "/mentor/my" : "/mentor/apply"}
+            href={selectedTab === MenteeTab.MY_MENTOR ? "/mentor/chat" : "/mentor/wating"}
             className="flex items-center text-[13px] leading-normal text-k-500"
           >
             전체보기
