@@ -92,9 +92,9 @@ const MenteePageTabs = () => {
       {selectedTab === MenteeTab.MY_APPLIED &&
         menteeWatingMentoringList
           .slice(0, 2)
-          .map((mentor, index) => (
+          .map((mentor) => (
             <MentorChatCard
-              key={`MentoChatCard-${index}`}
+              key={mentor.mentoringId}
               profileImageUrl={mentor.profileImageUrl}
               nickname={mentor.nickname}
               description={"안녕하세요! 교환학생에 대해 무엇이든 물어보세요!"}

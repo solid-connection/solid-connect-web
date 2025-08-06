@@ -1,4 +1,5 @@
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 import { getUserRoleFromJwt } from "@/utils/jwtUtils";
 
@@ -9,10 +10,13 @@ const useRouterHandler = (): boolean => {
 
   const router = useRouter();
 
-  if (!userRole) {
-    alert("로그인이 필요합니다.");
-    router.push("/login");
-  }
+  useEffect(() => {
+    if (!userRole) {
+      alert("로그인이 필요합니다.");
+      router.push("/login");
+    }
+  }, [userRole, router]);
+
   const isMentor = userRole === UserRole.MENTOR;
   return isMentor;
 };

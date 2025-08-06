@@ -1,4 +1,4 @@
-import { axiosInstance, publicAxiosInstance } from "@/utils/axiosInstance";
+import { axiosInstance } from "@/utils/axiosInstance";
 
 import { queryKey } from "./queryKey";
 
@@ -17,7 +17,7 @@ const getMentoringUncheckedCount = async (): Promise<GetMentoringNewCountRespons
 // ISR 의도(10분) 유지: staleTime 10분
 const useGetMentoringUncheckedCount = (isEnable: boolean) =>
   useQuery({
-    queryKey: [queryKey.mentoringNewCount, isEnable],
+    queryKey: [queryKey.mentoringNewCount],
     queryFn: getMentoringUncheckedCount,
     enabled: isEnable,
     refetchInterval: 1000 * 60 * 10, // ⏱️ 10분마다 자동 재요청

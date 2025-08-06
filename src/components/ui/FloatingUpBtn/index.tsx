@@ -4,7 +4,7 @@ interface FloatingUpBtnProps {
   scrollYThreshold?: number;
 }
 
-const FloatingUpBtn = ({ scrollYThreshold = 300 }: FloatingUpBtnProps) => {
+const FloatingUpBtn = ({ scrollYThreshold }: FloatingUpBtnProps) => {
   const { isVisible, handleClick } = useFloatingUpHandler(scrollYThreshold);
   if (!isVisible) return null;
   return (

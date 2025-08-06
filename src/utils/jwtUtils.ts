@@ -31,10 +31,10 @@ export const decodeExp = (token: string) => {
   }
 };
 
-const parseJwt = (token: string) => {
+export const parseJwt = (token: string) => {
   try {
     const base64Payload = token.split(".")[1];
-    const payload = Buffer.from(base64Payload, "base64").toString("utf8");
+    const payload = atob(base64Payload);
     return JSON.parse(payload);
   } catch {
     return null;
