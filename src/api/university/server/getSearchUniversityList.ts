@@ -21,7 +21,7 @@ const getSearchUniversityList = async ({
   testType,
   testScore,
 }: GetSearchUniversityListRequest = {}) => {
-  const endpoint = "/universities/search";
+  const endpoint = "/univ-apply-infos/search";
 
   const params = new URLSearchParams();
 
