@@ -9,7 +9,7 @@ const FloatingUpBtn = ({ scrollYThreshold }: FloatingUpBtnProps) => {
   if (!isVisible) return null;
   return (
     <button
-      className="fixed bottom-20 left-1/2 z-50 h-10 w-10 -translate-x-1/2 transform rounded-full bg-primary-100 p-3 text-primary shadow-lg"
+      className="fixed bottom-20 left-1/2 flex h-10 w-10 -translate-x-1/2 transform items-center justify-center rounded-full bg-primary-100 p-0 text-primary shadow-lg"
       onClick={handleClick}
       aria-label="Scroll to top"
     >
