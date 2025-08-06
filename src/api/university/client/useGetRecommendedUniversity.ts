@@ -1,19 +1,21 @@
 import { axiosInstance, publicAxiosInstance } from "@/utils/axiosInstance";
 
-import { RecommendedUniversityResponse } from "../type/response";
+import { ListUniversity } from "@/types/university";
 
 import { useQuery } from "@tanstack/react-query";
+
+export type GetRecommendedUniversityResponse = { recommendedUniversities: ListUniversity[] };
 
 const getRecommendedUniversity = async ({
   queryKey,
 }: {
   queryKey: [string, boolean];
-}): Promise<RecommendedUniversityResponse> => {
+}): Promise<GetRecommendedUniversityResponse> => {
   const endpoint = "/univ-apply-infos/recommend";
 
   const [, isLogin] = queryKey;
   const instance = isLogin ? axiosInstance : publicAxiosInstance;
-  const res = await instance.get(endpoint);
+  const res = await instance.get<GetRecommendedUniversityResponse>(endpoint);
   return res.data;
 };
 

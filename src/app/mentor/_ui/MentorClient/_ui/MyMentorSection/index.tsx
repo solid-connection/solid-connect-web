@@ -2,7 +2,7 @@
 
 import MentorCard from "@/components/mentor/MentorCard";
 
-import useGetMyMentorProfile from "@/api/mentor/client/useGetMyMentorProfile";
+import useGetMyMentorProfile from "@/api/mentor/client/useGetMentorMyProfile";
 
 const MyMentorSection = () => {
   const { myMentorProfile } = useGetMyMentorProfile();

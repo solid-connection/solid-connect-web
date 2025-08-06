@@ -39,6 +39,7 @@ export const getMentorListData = () => {
         { type: ChannelType.BRUNCH, url: "https://brunch.example.com" },
       ],
       isApplied: false,
+      time: "2023-10-01",
     },
     {
       id: 2,
@@ -52,6 +53,7 @@ export const getMentorListData = () => {
       introduction: "안녕하세요! 스웨덴 교환학생입니다.",
       channels: [],
       isApplied: false,
+      time: "2023-10-01",
     },
     {
       id: 3,
@@ -65,6 +67,7 @@ export const getMentorListData = () => {
       introduction: "독일 교환학생 경험을 나누고 싶습니다.",
       channels: [],
       isApplied: false,
+      time: "2023-10-01",
     },
   ];
 
@@ -75,11 +78,11 @@ export const getMenteeListData = () => {
   const mentees: Mentor[] = [
     {
       id: 1,
-      profileImageUrl: undefined,
+      profileImageUrl: null,
       nickname: "윤솔거",
       country: "미국",
       universityName: "안양하세요 교환학생에 대해 무엇이든 물어보세요...",
-      studyStatus: MentorStudyStatus.STUDYING,
+      studyStatus: MentorStudyStatus,
       menteeCount: 0,
       hasBadge: false,
       introduction: "안녕하세요! 교환학생에 대해 무엇이든 물어보세요!",
@@ -88,6 +91,7 @@ export const getMenteeListData = () => {
         { type: ChannelType.BRUNCH, url: "https://brunch.example.com" },
       ],
       isApplied: false,
+      time: "2023-10-01-00-00",
     },
   ];
   return mentees;

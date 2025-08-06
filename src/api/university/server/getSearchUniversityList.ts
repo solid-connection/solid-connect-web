@@ -1,25 +1,26 @@
 import serverFetch from "@/utils/serverFetchUtil";
 
-import { SearchUniversityListResponse } from "../type/response";
-
 import { AllRegionsUniversityList, RegionEnum, RegionEnumExtend } from "@/types/university";
+import { ListUniversity } from "@/types/university";
+
+type GetSearchUniversityListResponse = ListUniversity[];
 
 /**
  * 검색 파라미터 정의
  */
-interface SearchParams {
+interface GetSearchUniversityListRequest {
   region?: RegionEnum | null;
   keyword?: string;
   testType?: string;
   testScore?: string;
 }
 
-/**
- * 단일 권역 또는 조건별 대학 검색 API
- * - 기본 경로: /univ-apply-infos/search
- * - 필요 시 query string 을 동적으로 붙인다.
- */
-const getSearchUniversityList = async ({ region, keyword, testType, testScore }: SearchParams = {}) => {
+const getSearchUniversityList = async ({
+  region,
+  keyword,
+  testType,
+  testScore,
+}: GetSearchUniversityListRequest = {}) => {
   const endpoint = "/univ-apply-infos/search";
 
   const params = new URLSearchParams();
@@ -31,7 +32,7 @@ const getSearchUniversityList = async ({ region, keyword, testType, testScore }:
 
   const url = params.size ? `${endpoint}?${params.toString()}` : endpoint;
 
-  return serverFetch<SearchUniversityListResponse>(url);
+  return serverFetch<GetSearchUniversityListResponse>(url);
 };
 
 /**

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 
-import { ArticleResponse } from "@/api/article/type/response";
+import { ArticleResponse } from "@/api/article/types/response";
 import { IconLikeFill, IconLikeNotFill } from "@/public/svgs/mentor";
 
 interface MentorArticleProps {

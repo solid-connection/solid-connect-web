@@ -1,7 +1,6 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
-const useInfinityScroll = () => {
-  const [page, setPage] = useState(1);
+const useInfinityScroll = (fetchNextPage: () => void) => {
   const observerRef = useRef<IntersectionObserver | null>(null);
 
   /** 마지막 요소에 부착할 ref */
@@ -12,7 +11,7 @@ const useInfinityScroll = () => {
     observerRef.current = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setPage((prev) => prev + 1);
+          fetchNextPage();
         }
       },
       {
@@ -31,7 +30,7 @@ const useInfinityScroll = () => {
     };
   }, []);
 
-  return { page, lastElementRef };
+  return { lastElementRef };
 };
 
 export default useInfinityScroll;

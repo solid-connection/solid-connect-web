@@ -8,7 +8,7 @@ import useDeleteDropDownHandler from "./_hooks/useDropDownHandler";
 
 import { ArticleDropdownType } from "@/types/mentor";
 
-import { ArticleResponse } from "@/api/article/type/response";
+import { ArticleResponse } from "@/api/article/types/response";
 import { IconPencil } from "@/public/svgs/mentor";
 
 interface ArticlePanelProps {

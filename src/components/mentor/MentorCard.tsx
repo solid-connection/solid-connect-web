@@ -9,7 +9,7 @@ import ChannelBadge from "../ui/ChannelBadge";
 import ProfileWithBadge from "../ui/ProfileWithBadge";
 import StudyDate from "./StudyDate";
 
-import { ChannelType, MentorCardDetail, MentorCardPreview } from "@/api/mentor/type/response";
+import { ChannelType, MentorCardDetail, MentorCardPreview } from "@/api/mentor/types/response";
 import { IconCheck, IconDirectionDown, IconDirectionUp, IconTime } from "@/public/svgs/mentor";
 
 interface MentorCardProps {

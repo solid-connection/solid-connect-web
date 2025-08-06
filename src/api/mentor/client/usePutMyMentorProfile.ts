@@ -1,30 +1,27 @@
-import useFetch from "@/utils/apiUtils";
+import { axiosInstance } from "@/utils/axiosInstance";
 
-/* ---------- 타입 ---------- */
-export interface ChannelPayload {
+import { useMutation } from "@tanstack/react-query";
+
+interface ChannelPayload {
   type: string;
   url: string;
 }
 
-export interface PutMyMentorProfileBody {
+interface PutMyMentorProfileRequest {
   channels: ChannelPayload[];
   passTip: string;
   introduction: string;
 }
 
+const putMyMentorProfile = async (body: PutMyMentorProfileRequest): Promise<void> => {
+  const res = await axiosInstance.put<void>("/mentors/me", body);
+  return res.data;
+};
+
 const usePutMyMentorProfile = () => {
-  const { loading, error, fetchData } = useFetch<void>();
-
-  const putMyMentorProfile = (body: PutMyMentorProfileBody) => {
-    fetchData({
-      method: "put",
-      url: "/mentors/me",
-      body,
-      isToken: true,
-    });
-  };
-
-  return { putMyMentorProfile, loading, error };
+  return useMutation({
+    mutationFn: putMyMentorProfile,
+  });
 };
 
 export default usePutMyMentorProfile;

@@ -22,4 +22,4 @@ export const updateMyInfoApi = (request: MyInfoPatchRequest): Promise<AxiosRespo
 };
 
 export const getMyWishUniversityApi = (): Promise<AxiosResponse<ListUniversity[]>> =>
-  axiosInstance.get("/universities/like");
+  axiosInstance.get("/univ-apply-infos/like");

@@ -10,7 +10,7 @@ import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
 
 import StudyDate from "../StudyDate";
 
-import { ChannelType, MentorCardDetail } from "@/api/mentor/type/response";
+import { ChannelType, MentorCardDetail } from "@/api/mentor/types/response";
 import { customConfirm } from "@/lib/zustand/useConfirmModalStore";
 import { IconCheck, IconDirectionDown, IconDirectionUp } from "@/public/svgs/mentor";
 
