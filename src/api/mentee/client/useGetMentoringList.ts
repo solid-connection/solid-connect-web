@@ -1,3 +1,5 @@
+import { AxiosError } from "axios";
+
 import { axiosInstance } from "@/utils/axiosInstance";
 
 import { queryKey } from "./queryKey";
@@ -40,6 +42,11 @@ export const usePrefetchMenteeMentoringList = () => {
       queryKey: [queryKey.menteeMentoringList, verifyStatus],
       queryFn: () => getMenteeMentoringList(verifyStatus),
       staleTime: 1000 * 60 * 5,
+      retry: (failureCount, error) => {
+        const status = (error as AxiosError).response?.status;
+        if (status === 401) return false;
+        return failureCount < 3;
+      },
     });
   };
 
