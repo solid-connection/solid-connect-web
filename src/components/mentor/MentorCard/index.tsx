@@ -5,39 +5,25 @@ import React, { useState } from "react";
 
 import clsx from "clsx";
 
-import ChannelBadge from "@/components/ui/ChannelBadge";
-import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
-
+import ChannelBadge from "../../ui/ChannelBadge";
+import ProfileWithBadge from "../../ui/ProfileWithBadge";
 import StudyDate from "../StudyDate";
+import usePostApplyMentorHandler from "./hooks/usePostApplyMentorHandler";
 
-import { ChannelType, MentorCardDetail } from "@/api/mentor/types/response";
-import { customConfirm } from "@/lib/zustand/useConfirmModalStore";
-import { IconCheck, IconDirectionDown, IconDirectionUp } from "@/public/svgs/mentor";
+import { ChannelType, MentorCardDetail, MentorCardPreview } from "@/types/mentor";
+
+import { IconDirectionDown, IconDirectionUp } from "@/public/svgs/mentor";
 
 interface MentorCardProps {
-  mentor: MentorCardDetail;
+  mentor: MentorCardDetail & MentorCardPreview;
+  observeRef?: React.RefCallback<HTMLDivElement>;
   isMine?: boolean; // isMine prop 추가
 }
 
-const MentorCard = ({ mentor, isMine = false }: MentorCardProps) => {
+const MentorCard = ({ mentor, observeRef, isMine = false }: MentorCardProps) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
+  const { handlePostApplyMentor } = usePostApplyMentorHandler();
 
-  const onClick = async () => {
-    const ok = await customConfirm({
-      icon: <IconCheck />,
-      title: "멘토 신청이 완료되었어요!",
-      content: "멘토가 신청을 수락하면 대화를 시작할 수 있어요.\n대화 수락까지 조금만 기다려주세요.",
-      rejectMessage: "홈으로",
-      approveMessage: "다른 멘토 찾기",
-    });
-    if (ok) {
-      // 승인 후 행동 (필요 시 추가)
-    } else {
-      // 취소 후 행동 (필요 시 추가)
-    }
-  };
-
-  // 구조분해 할당
   const {
     profileImageUrl,
     hasBadge,
@@ -47,23 +33,28 @@ const MentorCard = ({ mentor, isMine = false }: MentorCardProps) => {
     universityName,
     introduction,
     channels,
-    studyStatus,
-  } = mentor;
+    term,
+    id,
+  } = mentor ?? {};
+
+  const isDetail = !!term;
 
   return (
-    <div className="rounded-lg bg-white p-4 shadow-sdwB">
+    <div
+      className="rounded-lg bg-white p-4 shadow-sdwB"
+      ref={observeRef} // observeRef를 div에 연결
+    >
       {/* 멘토 프로필 헤더 */}
-      <div className="mb-4 flex items-start gap-3">
+      <div className="flex items-start gap-3">
         <div className="flex flex-col items-center">
           <ProfileWithBadge profileImageUrl={profileImageUrl} hasBadge={hasBadge} />
           <span className="text-xs font-semibold text-primary-1">누적 멘티 {menteeCount}명</span>
         </div>
 
-        <div className="flex-1">
+        <div className="flex flex-1 flex-col items-stretch gap-3">
           <div className="mb-1 flex items-center justify-between">
             <span className="text-base font-semibold leading-normal text-primary-1">{country}</span>
-
-            <StudyDate studyStatus={studyStatus} />
+            {isDetail && <StudyDate term={term} />}
           </div>
           <h3 className="text-xl font-bold leading-normal text-k-800">{nickname}님</h3>
           <div className="mt-1 flex flex-col">
@@ -76,30 +67,30 @@ const MentorCard = ({ mentor, isMine = false }: MentorCardProps) => {
       {isExpanded && (
         <>
           {/* 멘토 한마디 */}
-          <div className="mb-4">
-            <h4 className="mb-2 text-sm font-medium text-blue-600">멘토 한마디</h4>
-            <p className="text-sm leading-relaxed text-gray-700">{introduction}</p>
+          <div className="mb-4 mt-5">
+            <h4 className="mb-2 text-[18px] font-medium text-blue-600">멘토 한마디</h4>
+            <p className="text-sm leading-relaxed text-k-500">{introduction}</p>
           </div>
 
           {/* 멘토 채널 */}
           <div className="mb-4">
-            <h4 className="mb-2 text-sm font-medium text-blue-600">멘토 채널</h4>
+            <h4 className="mb-2 text-[18px] font-medium text-blue-600">멘토 채널</h4>
             <div
               className={clsx("grid gap-2", {
                 "grid-cols-1": channels.length === 1,
-                "grid-cols-2": channels.length !== 1,
+                "grid-cols-2": channels.length >= 2,
               })}
             >
               {channels.map((channel, idx) => (
-                <div
+                <a
                   key={idx}
-                  className={clsx("h-10", {
-                    "w-full": channels.length === 1,
-                    "col-span-2": channels.length === 3 && idx === 2,
-                  })}
+                  className={`h-10 ${channels.length === 1 ? "w-full" : channels.length === 3 && idx === 2 ? "col-span-2" : ""}`}
+                  href={channel.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <ChannelBadge channerType={channel.type as ChannelType} />
-                </div>
+                </a>
               ))}
             </div>
           </div>
@@ -108,22 +99,24 @@ const MentorCard = ({ mentor, isMine = false }: MentorCardProps) => {
           <div className="mb-4 flex items-center justify-center gap-2.5 self-stretch">
             {isMine ? (
               <Link
-                href="/mentor/modify"
+                href="/mento/modify"
                 className="flex h-10 w-[150px] flex-shrink-0 items-center justify-center gap-3 rounded-[20px] bg-primary px-5 py-2.5 font-medium text-white"
               >
                 수정하기
               </Link>
             ) : (
               <>
-                <button className="flex h-10 w-1/2 flex-shrink-0 items-center justify-center gap-3 rounded-[20px] bg-primary px-5 py-2.5 font-medium text-white">
-                  멘토 페이지
-                </button>
-                <button
-                  type="button"
-                  onClick={onClick}
-                  className="flex h-10 w-1/2 flex-shrink-0 items-center justify-center gap-3 rounded-[20px] bg-primary px-5 py-[10px] font-medium text-white"
+                <Link
+                  href={`mentor/${id}`}
+                  className="flex h-10 w-1/2 flex-shrink-0 items-center justify-center gap-3 rounded-[20px] bg-primary px-5 py-2.5 font-medium text-white"
                 >
-                  멘토 신청하기
+                  멘토 페이지
+                </Link>
+                <button
+                  onClick={() => handlePostApplyMentor(id)}
+                  className="flex h-10 w-1/2 flex-shrink-0 items-center justify-center gap-3 rounded-[20px] bg-primary px-5 py-2.5 font-medium text-white"
+                >
+                  멘티 신청하기
                 </button>
               </>
             )}
@@ -132,14 +125,9 @@ const MentorCard = ({ mentor, isMine = false }: MentorCardProps) => {
       )}
 
       {/* 접기/펼치기 버튼 */}
-      <div className="flex justify-center">
-        <button
-          onClick={() => setIsExpanded(!isExpanded)}
-          className="flex h-6 w-6 items-center justify-center rounded-full border border-gray-300"
-        >
-          <div className="flex h-full w-full items-center justify-center">
-            {isExpanded ? <IconDirectionUp /> : <IconDirectionDown />}
-          </div>
+      <div className="mt-1 flex justify-center border-t border-t-k-50 pt-2">
+        <button onClick={() => setIsExpanded(!isExpanded)} className="flex h-6 w-6 items-center justify-center">
+          {isExpanded ? <IconDirectionUp /> : <IconDirectionDown />}
         </button>
       </div>
     </div>
