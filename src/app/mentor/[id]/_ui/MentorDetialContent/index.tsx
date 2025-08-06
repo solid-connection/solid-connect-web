@@ -26,7 +26,7 @@ const MentorDetialContent = ({ mentorId }: MentorDetailContentProps) => {
     const ok = await customConfirm({
       title: "멘토 신청",
       content: "멘토 신청을 하시겠습니까?",
-      icon: <IconCheck />,
+      icon: IconCheck,
       rejectMessage: "취소",
       approveMessage: "멘토 신청",
     });

@@ -1,9 +1,9 @@
-import React from "react";
+import { ComponentType, SVGProps } from "react";
 
 import { create } from "zustand";
 
 export type AlertModalPayload = {
-  icon?: React.ReactNode | string; // 아이콘 컴포넌트 또는 URL
+  icon?: ComponentType<SVGProps<SVGSVGElement>>; // SVG 컴포넌트만 허용
   title: string;
   content: string;
   /** 단일 버튼 텍스트 (기본값: "확인") */

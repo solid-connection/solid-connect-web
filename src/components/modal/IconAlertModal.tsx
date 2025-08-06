@@ -1,10 +1,9 @@
-import Image from "next/image";
-import React from "react";
+import React, { ComponentType, SVGProps } from "react";
 
 import ModalBase from "./ModalBase";
 
 type IconAlertModalProps = {
-  icon?: React.ReactNode | string;
+  icon?: ComponentType<SVGProps<SVGSVGElement>>;
   isOpen: boolean;
   title: string;
   content: string;
@@ -30,17 +29,7 @@ const IconAlertModal = ({
         <div className="rounded-xl bg-white px-5 py-6 shadow-sdwA">
           {icon && (
             <div className="mb-4 flex w-full justify-center">
-              <div className="h-[60px] w-[60px]">
-                {typeof icon === "string" ? (
-                  <Image
-                    src={icon.startsWith("/") ? icon : `/assets/${icon}`}
-                    alt="icon"
-                    className="h-full w-full object-contain"
-                  />
-                ) : (
-                  icon
-                )}
-              </div>
+              <div className="h-[60px] w-[60px]">{React.createElement(icon, { className: "h-full w-full" })}</div>
             </div>
           )}
           <div className="flex flex-col items-center gap-2">

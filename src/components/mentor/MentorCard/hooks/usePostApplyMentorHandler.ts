@@ -1,4 +1,4 @@
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 import usePostApplyMentoring from "@/api/mentee/client/usePostApplyMentoring";
 import { customConfirm } from "@/lib/zustand/useConfirmModalStore";
@@ -20,7 +20,7 @@ const usePostApplyMentorHandler = (): UsePostApplyMentorHandlerReturn => {
           const ok = await customConfirm({
             title: "멘티 신청이 완료되었어요!",
             content: "멘토가 신청을 수락하면 대화를 시작할 수 있어요.\n조금만 기다려주세요.",
-            icon: IconCheck as string,
+            icon: IconCheck,
             approveMessage: "다른 멘토 찾기",
             rejectMessage: "홈으로",
           });
