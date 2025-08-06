@@ -1,33 +1,44 @@
 "use client";
 
+import Link from "next/link";
 import React, { useState } from "react";
 
-import { Link } from "lucide-react";
+import clsx from "clsx";
 
-import IconConfirmCancelModal from "../modal/IconConfirmModal";
 import ChannelBadge from "../ui/ChannelBadge";
 import ProfileWithBadge from "../ui/ProfileWithBadge";
 import StudyDate from "./StudyDate";
 
-import { ChannelType, MentorCardDetail, MentorCardPreview } from "@/api/mentor/types/response";
-import { IconCheck, IconDirectionDown, IconDirectionUp, IconTime } from "@/public/svgs/mentor";
+import { ChannelType, MentorCardDetail, MentorCardPreview } from "@/types/mentor";
+
+import usePostApplyMentoring from "@/api/mentee/client/usePostApplyMentoring";
+import { IconDirectionDown, IconDirectionUp } from "@/public/svgs/mentor";
 
 interface MentorCardProps {
-  mentor: MentorCardDetail | MentorCardPreview;
+  mentor: MentorCardDetail & MentorCardPreview;
   observeRef?: React.RefCallback<HTMLDivElement>;
   isMine?: boolean; // isMine prop 추가
-  isDistribute?: boolean; // isDistribute prop 추가
 }
 
-const MentorCard = ({ mentor, observeRef, isMine = false, isDistribute = false }: MentorCardProps) => {
+const MentorCard = ({ mentor, observeRef, isMine = false }: MentorCardProps) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
 
-  if (!mentor) return null; // mentor가 없으면 아무것도 렌더링하지 않음
-  // 구조분해 할당
-  const { profileImageUrl, hasBadge, menteeCount, country, nickname, universityName, introduction, channels } = mentor;
+  const { mutate: postApplyMentoring } = usePostApplyMentoring();
 
-  // 타입 가드: 상세 타입인지 확인
-  const isDetail = "studyStatus" in mentor;
+  const {
+    profileImageUrl,
+    hasBadge,
+    menteeCount,
+    country,
+    nickname,
+    universityName,
+    introduction,
+    channels,
+    term,
+    id,
+  } = mentor ?? {};
+
+  const isDetail = !!term;
 
   return (
     <div
@@ -35,16 +46,16 @@ const MentorCard = ({ mentor, observeRef, isMine = false, isDistribute = false }
       ref={observeRef} // observeRef를 div에 연결
     >
       {/* 멘토 프로필 헤더 */}
-      <div className="mb-4 flex items-start gap-3">
+      <div className="flex items-start gap-3">
         <div className="flex flex-col items-center">
           <ProfileWithBadge profileImageUrl={profileImageUrl} hasBadge={hasBadge} />
           <span className="text-xs font-semibold text-primary-1">누적 멘티 {menteeCount}명</span>
         </div>
 
-        <div className="flex-1">
+        <div className="flex flex-1 flex-col items-stretch gap-3">
           <div className="mb-1 flex items-center justify-between">
             <span className="text-base font-semibold leading-normal text-primary-1">{country}</span>
-            {isDetail && <StudyDate studyStatus={mentor.studyStatus} />}
+            {isDetail && <StudyDate term={term} />}
           </div>
           <h3 className="text-xl font-bold leading-normal text-k-800">{nickname}님</h3>
           <div className="mt-1 flex flex-col">
@@ -57,32 +68,30 @@ const MentorCard = ({ mentor, observeRef, isMine = false, isDistribute = false }
       {isExpanded && (
         <>
           {/* 멘토 한마디 */}
-          <div className="mb-4">
-            <h4 className="mb-2 text-sm font-medium text-blue-600">멘토 한마디</h4>
-            <p className="text-sm leading-relaxed text-gray-700">{introduction}</p>
+          <div className="mb-4 mt-5">
+            <h4 className="mb-2 text-[18px] font-medium text-blue-600">멘토 한마디</h4>
+            <p className="text-sm leading-relaxed text-k-500">{introduction}</p>
           </div>
 
           {/* 멘토 채널 */}
           <div className="mb-4">
-            <h4 className="mb-2 text-sm font-medium text-blue-600">멘토 채널</h4>
+            <h4 className="mb-2 text-[18px] font-medium text-blue-600">멘토 채널</h4>
             <div
-              className={`grid gap-2 ${
-                channels.length === 1
-                  ? "grid-cols-1"
-                  : channels.length === 2
-                    ? "grid-cols-2"
-                    : channels.length === 3
-                      ? "grid-cols-2"
-                      : "grid-cols-2"
-              }`}
+              className={clsx("grid gap-2", {
+                "grid-cols-1": channels.length === 1,
+                "grid-cols-2": channels.length >= 2,
+              })}
             >
               {channels.map((channel, idx) => (
-                <div
+                <a
                   key={idx}
                   className={`h-10 ${channels.length === 1 ? "w-full" : channels.length === 3 && idx === 2 ? "col-span-2" : ""}`}
+                  href={channel.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <ChannelBadge channerType={channel.type as ChannelType} />
-                </div>
+                </a>
               ))}
             </div>
           </div>
@@ -98,8 +107,17 @@ const MentorCard = ({ mentor, observeRef, isMine = false, isDistribute = false }
               </Link>
             ) : (
               <>
-                <button className="flex h-10 w-1/2 flex-shrink-0 items-center justify-center gap-3 rounded-[20px] bg-primary px-5 py-2.5 font-medium text-white">
+                <Link
+                  href={`mentor/${id}`}
+                  className="flex h-10 w-1/2 flex-shrink-0 items-center justify-center gap-3 rounded-[20px] bg-primary px-5 py-2.5 font-medium text-white"
+                >
                   멘토 페이지
+                </Link>
+                <button
+                  onClick={() => postApplyMentoring({ mentorId: id })}
+                  className="flex h-10 w-1/2 flex-shrink-0 items-center justify-center gap-3 rounded-[20px] bg-primary px-5 py-2.5 font-medium text-white"
+                >
+                  멘티 신청하기
                 </button>
               </>
             )}
@@ -108,14 +126,9 @@ const MentorCard = ({ mentor, observeRef, isMine = false, isDistribute = false }
       )}
 
       {/* 접기/펼치기 버튼 */}
-      <div className="flex justify-center">
-        <button
-          onClick={() => setIsExpanded(!isExpanded)}
-          className="flex h-6 w-6 items-center justify-center rounded-full border border-gray-300"
-        >
-          <div className="flex h-full w-full items-center justify-center">
-            {isExpanded ? <IconDirectionUp /> : <IconDirectionDown />}
-          </div>
+      <div className="mt-1 flex justify-center border-t border-t-k-50 pt-2">
+        <button onClick={() => setIsExpanded(!isExpanded)} className="flex h-6 w-6 items-center justify-center">
+          {isExpanded ? <IconDirectionUp /> : <IconDirectionDown />}
         </button>
       </div>
     </div>

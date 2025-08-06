@@ -3,7 +3,7 @@ import React from "react";
 import { create } from "zustand";
 
 export type ConfirmModalPayload = {
-  icon?: React.ReactNode;
+  icon?: React.ReactNode | string; // 아이콘 컴포넌트 또는 URL
   title: string;
   content: string;
   // approveMessage: text for the confirm/approve button (default "확인")

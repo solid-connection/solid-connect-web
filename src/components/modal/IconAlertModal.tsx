@@ -3,27 +3,25 @@ import React from "react";
 
 import ModalBase from "./ModalBase";
 
-type IconConfirmModalProps = {
+type IconAlertModalProps = {
   icon?: React.ReactNode | string;
   isOpen: boolean;
   title: string;
   content: string;
-  onConfirm: () => void;
+  onAcknowledge: () => void;
   onClose: () => void;
-  approveMessage?: string; // default "확인"
-  rejectMessage?: string; // default "취소"
+  buttonText?: string; // default "확인"
 };
 
-const IconConfirmModal = ({
+const IconAlertModal = ({
   icon,
   isOpen,
   title,
   content,
-  onConfirm,
+  onAcknowledge,
   onClose,
-  approveMessage = "확인",
-  rejectMessage = "취소",
-}: IconConfirmModalProps) => {
+  buttonText = "확인",
+}: IconAlertModalProps) => {
   if (!isOpen) return null;
 
   return (
@@ -51,22 +49,13 @@ const IconConfirmModal = ({
               {content}
             </span>
           </div>
-          <div className="mt-5 flex items-center justify-center gap-2">
-            <button
-              className="flex h-11 w-36 items-center justify-center rounded-3xl border border-k-200 px-1.5 py-2"
-              onClick={onClose}
-              type="button"
-            >
-              <span className="text-center font-serif text-base font-normal leading-4 text-k-500">{rejectMessage}</span>
-            </button>
+          <div className="mt-5 flex items-center justify-center">
             <button
               className="flex h-11 w-36 items-center justify-center rounded-3xl bg-primary px-1.5 py-2"
-              onClick={onConfirm}
+              onClick={onAcknowledge}
               type="button"
             >
-              <span className="text-center font-serif text-base font-normal leading-4 text-white">
-                {approveMessage}
-              </span>
+              <span className="text-center font-serif text-base font-normal leading-4 text-white">{buttonText}</span>
             </button>
           </div>
         </div>
@@ -75,4 +64,4 @@ const IconConfirmModal = ({
   );
 };
 
-export default IconConfirmModal;
+export default IconAlertModal;
