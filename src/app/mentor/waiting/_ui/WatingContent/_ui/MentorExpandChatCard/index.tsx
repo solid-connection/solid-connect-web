@@ -1,46 +1,68 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
+
+import { convertISODateToKoreanTime } from "@/utils/datetimeUtils";
 
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
 
 import { IconDirectionDown, IconDirectionUp } from "@/public/svgs/mentor";
 
-interface MentorExpandChatCardProps {
-  isWating: boolean; // true면 대기 중, false면 완료
-  profileImageUrl?: string;
+/* eslint-disable @typescript-eslint/no-unused-vars */
+// 확장 가능한 카드 타입
+interface ExpandableChatCardProps {
+  hasExpend: true;
+  isChecked?: boolean;
+  profileImageUrl?: string | null;
+  mentoringId?: number;
   message: string;
   nickname: string;
-  date: string;
-  onStartMentoring?: () => void;
+  date?: string;
+  patchCheckMentorings?: (payload: { checkedMentoringIds: number[] }) => void;
 }
 
+// 확장 불가능한 카드 타입
+interface NonExpandableChatCardProps {
+  hasExpend: false;
+  profileImageUrl?: string | null;
+  mentoringId?: number;
+  message: string;
+  nickname: string;
+  // isChecked, date, patchCheckMentorings는 사용 불가
+}
+/* eslint-enable @typescript-eslint/no-unused-vars */
+
+type MentorExpandChatCardProps = ExpandableChatCardProps | NonExpandableChatCardProps;
+
 const MentorExpandChatCard = ({
-  isWating,
+  hasExpend,
   profileImageUrl,
   message,
   nickname,
-  date,
-  onStartMentoring,
+  mentoringId,
+  ...props
 }: MentorExpandChatCardProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffInDays = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24));
+  // 타입 가드: hasExpend가 true인 경우에만 확장 관련 props 사용
+  const isChecked = hasExpend ? (props as ExpandableChatCardProps).isChecked : undefined;
+  const date = hasExpend ? (props as ExpandableChatCardProps).date || "" : "";
+  const patchCheckMentorings = hasExpend ? (props as ExpandableChatCardProps).patchCheckMentorings : undefined;
 
-    if (diffInDays === 0) {
-      return date.toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit" });
-    } else if (diffInDays < 7) {
-      return `${diffInDays}일 전`;
-    } else {
-      return date.toLocaleDateString("ko-KR", { month: "long", day: "numeric" });
-    }
-  };
   return (
     <div className="w-full overflow-hidden border-b border-k-50">
-      <button className="flex w-full items-center gap-3 p-4" onClick={() => setIsExpanded(!isExpanded)}>
+      <button
+        className="flex w-full items-center gap-3 p-4"
+        onClick={() => {
+          if (hasExpend) {
+            setIsExpanded(!isExpanded);
+            if (patchCheckMentorings && !isChecked && mentoringId) {
+              patchCheckMentorings({ checkedMentoringIds: [mentoringId] });
+            }
+          }
+        }}
+      >
         {/* Profile Image */}
         <div className="relative h-12 w-12 flex-shrink-0">
           <ProfileWithBadge profileImageUrl={profileImageUrl} width={54} height={54} />
@@ -48,7 +70,7 @@ const MentorExpandChatCard = ({
 
         {/* Content */}
         <div className="flex min-w-0 flex-1 flex-col items-start">
-          <span className="text-xs text-gray-500">{formatDate(date)}</span>
+          {hasExpend && date && <span className="text-xs text-gray-500">{convertISODateToKoreanTime(date)}</span>}
           <div className="text-left font-normal text-gray-900">
             <span className="font-medium">{nickname}</span>
             {message}
@@ -57,25 +79,24 @@ const MentorExpandChatCard = ({
 
         {/* Unread Count & Expand Icon */}
         <div className="flex flex-shrink-0 items-center gap-2">
-          {isWating ? (
-            <div className="h-2 w-2 rounded-full bg-sub-d-500"></div>
-          ) : (
-            <div className="h-2 w-2 rounded-full bg-secondary"></div>
+          {/* 안읽은 상태만 - hasExpend가 true일 때만 표시 */}
+          {hasExpend && !isChecked && <div className="h-2 w-2 rounded-full bg-secondary"></div>}
+          {hasExpend && (
+            <div className="h-5 w-5">{!isChecked && (isExpanded ? <IconDirectionUp /> : <IconDirectionDown />)}</div>
           )}
-          <div className="h-5 w-5">{!isWating && (isExpanded ? <IconDirectionUp /> : <IconDirectionDown />)}</div>
         </div>
       </button>
 
-      {/* Expanded Content */}
-      {isExpanded && (
+      {/* Expanded Content - hasExpend가 true일 때만 표시 */}
+      {hasExpend && isExpanded && (
         <div className="px-4 pb-4">
           <div className="mt-3 flex justify-center">
-            <button
-              onClick={onStartMentoring}
+            <Link
+              href={`/mentor/chat/${mentoringId}`}
               className="rounded-full bg-primary-1 px-6 py-2 text-sm font-medium text-white transition-colors hover:bg-primary-2"
             >
               멘토링 시작하기
-            </button>
+            </Link>
           </div>
         </div>
       )}

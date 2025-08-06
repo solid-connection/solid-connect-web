@@ -2,10 +2,10 @@ import { useEffect } from "react";
 
 import { VerifyStatus } from "@/types/mentee";
 
-import { usePrefetchMenteeMentoringList } from "@/api/mentee/client/useGetMentoringList";
+import { usePrefetchApplyMentoringList } from "@/api/mentee/client/useGetApplyMentoringList";
 
 const usePrefetchMenteeMentoringListTab = () => {
-  const { prefetchMenteeMentoringList } = usePrefetchMenteeMentoringList();
+  const { prefetchMenteeMentoringList } = usePrefetchApplyMentoringList();
 
   // 컴포넌트 마운트 시 프리페치
   useEffect(() => {
