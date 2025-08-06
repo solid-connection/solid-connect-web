@@ -9,7 +9,7 @@ const getRecommendedUniversity = async ({
 }: {
   queryKey: [string, boolean];
 }): Promise<RecommendedUniversityResponse> => {
-  const endpoint = "/universities/recommend";
+  const endpoint = "/univ-apply-infos/recommend";
 
   const [, isLogin] = queryKey;
   const instance = isLogin ? axiosInstance : publicAxiosInstance;
