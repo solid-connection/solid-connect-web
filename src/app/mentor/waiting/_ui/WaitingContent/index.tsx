@@ -41,7 +41,7 @@ const WaitingContent = () => {
               ) : (
                 (isExpanded ? approveList : approveList.slice(0, DEFAULT_VISIBLE_ITEMS)).map((item) => (
                   <MentorExpandChatCard
-                    hasExpend
+                    hasExpand
                     patchCheckMentorings={patchCheckMentorings}
                     isChecked={item.isChecked}
                     mentoringId={item.mentoringId}
@@ -70,7 +70,7 @@ const WaitingContent = () => {
               ) : (
                 (isExpanded ? pendingList : pendingList.slice(0, DEFAULT_VISIBLE_ITEMS)).map((item) => (
                   <MentorExpandChatCard
-                    hasExpend={false}
+                    hasExpand={false}
                     key={item.mentoringId}
                     mentoringId={item.mentoringId}
                     profileImageUrl={item.profileImageUrl}

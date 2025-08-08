@@ -12,7 +12,7 @@ import { IconDirectionDown, IconDirectionUp } from "@/public/svgs/mentor";
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // 확장 가능한 카드 타입
 interface ExpandableChatCardProps {
-  hasExpend: true;
+  hasExpand: true;
   isChecked?: boolean;
   profileImageUrl?: string | null;
   mentoringId?: number;
@@ -24,7 +24,7 @@ interface ExpandableChatCardProps {
 
 // 확장 불가능한 카드 타입
 interface NonExpandableChatCardProps {
-  hasExpend: false;
+  hasExpand: false;
   profileImageUrl?: string | null;
   mentoringId?: number;
   message: string;
@@ -36,7 +36,7 @@ interface NonExpandableChatCardProps {
 type MentorExpandChatCardProps = ExpandableChatCardProps | NonExpandableChatCardProps;
 
 const MentorExpandChatCard = ({
-  hasExpend,
+  hasExpand,
   profileImageUrl,
   message,
   nickname,
@@ -45,17 +45,17 @@ const MentorExpandChatCard = ({
 }: MentorExpandChatCardProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  // 타입 가드: hasExpend가 true인 경우에만 확장 관련 props 사용
-  const isChecked = hasExpend ? (props as ExpandableChatCardProps).isChecked : undefined;
-  const date = hasExpend ? (props as ExpandableChatCardProps).date || "" : "";
-  const patchCheckMentorings = hasExpend ? (props as ExpandableChatCardProps).patchCheckMentorings : undefined;
+  // 타입 가드: hasExpand가 true인 경우에만 확장 관련 props 사용
+  const isChecked = hasExpand ? (props as ExpandableChatCardProps).isChecked : undefined;
+  const date = hasExpand ? (props as ExpandableChatCardProps).date || "" : "";
+  const patchCheckMentorings = hasExpand ? (props as ExpandableChatCardProps).patchCheckMentorings : undefined;
 
   return (
     <div className="w-full overflow-hidden border-b border-k-50">
       <button
         className="flex w-full items-center gap-3 p-4"
         onClick={() => {
-          if (hasExpend) {
+          if (hasExpand) {
             setIsExpanded(!isExpanded);
             if (patchCheckMentorings && !isChecked && mentoringId) {
               patchCheckMentorings({ checkedMentoringIds: [mentoringId] });
@@ -70,7 +70,7 @@ const MentorExpandChatCard = ({
 
         {/* Content */}
         <div className="flex min-w-0 flex-1 flex-col items-start">
-          {hasExpend && date && <span className="text-xs text-gray-500">{convertISODateToKoreanTime(date)}</span>}
+          {hasExpand && date && <span className="text-xs text-gray-500">{convertISODateToKoreanTime(date)}</span>}
           <div className="text-left font-normal text-gray-900">
             <span className="font-medium">{nickname}</span>
             {message}
@@ -79,16 +79,16 @@ const MentorExpandChatCard = ({
 
         {/* Unread Count & Expand Icon */}
         <div className="flex flex-shrink-0 items-center gap-2">
-          {/* 안읽은 상태만 - hasExpend가 true일 때만 표시 */}
-          {hasExpend && !isChecked && <div className="h-2 w-2 rounded-full bg-secondary"></div>}
-          {hasExpend && (
+          {/* 안읽은 상태만 - hasExpand가 true일 때만 표시 */}
+          {hasExpand && !isChecked && <div className="h-2 w-2 rounded-full bg-secondary"></div>}
+          {hasExpand && (
             <div className="h-5 w-5">{!isChecked && (isExpanded ? <IconDirectionUp /> : <IconDirectionDown />)}</div>
           )}
         </div>
       </button>
 
-      {/* Expanded Content - hasExpend가 true일 때만 표시 */}
-      {hasExpend && isExpanded && (
+      {/* Expanded Content - hasExpand가 true일 때만 표시 */}
+      {hasExpand && isExpanded && (
         <div className="px-4 pb-4">
           <div className="mt-3 flex justify-center">
             {mentoringId ? (
