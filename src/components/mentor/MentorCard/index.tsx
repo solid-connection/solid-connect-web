@@ -10,7 +10,7 @@ import ProfileWithBadge from "../../ui/ProfileWithBadge";
 import StudyDate from "../StudyDate";
 import usePostApplyMentorHandler from "./hooks/usePostApplyMentorHandler";
 
-import { ChannelType, MentorCardDetail, MentorCardPreview } from "@/types/mentor";
+import { MentorCardDetail, MentorCardPreview } from "@/types/mentor";
 
 import { IconDirectionDown, IconDirectionUp } from "@/public/svgs/mentor";
 
@@ -89,7 +89,7 @@ const MentorCard = ({ mentor, observeRef, isMine = false }: MentorCardProps) => 
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <ChannelBadge channerType={channel.type as ChannelType} />
+                  <ChannelBadge channelType={channel.type} />
                 </a>
               ))}
             </div>
