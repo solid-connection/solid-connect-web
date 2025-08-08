@@ -75,14 +75,15 @@ axiosInstance.interceptors.response.use(
         const newAccessToken = await reissueAccessTokenPublicApi(refreshToken).then((res) => res.data.accessToken);
         saveAccessToken(newAccessToken);
 
-        if (error.config && error.config.headers === undefined) {
-          newError.config!.headers = new AxiosHeaders();
-        }
-        if (newError.config) {
-          newError.config.headers!.Authorization = convertToBearer(newAccessToken);
+        // Safely check if error.config exists and initialize headers if missing
+        if (error.config) {
+          if (!error.config.headers) {
+            error.config.headers = new AxiosHeaders();
+          }
+          error.config.headers.Authorization = convertToBearer(newAccessToken);
 
           // 중단된 요청 새로운 토큰으로 재전송
-          return await axios.request(newError.config);
+          return await axios.request(error.config);
         }
         // eslint-disable-next-line
       } catch (err) {
