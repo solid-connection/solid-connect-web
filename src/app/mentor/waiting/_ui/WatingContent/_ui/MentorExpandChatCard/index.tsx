@@ -91,12 +91,21 @@ const MentorExpandChatCard = ({
       {hasExpend && isExpanded && (
         <div className="px-4 pb-4">
           <div className="mt-3 flex justify-center">
-            <Link
-              href={`/mentor/chat/${mentoringId}`}
-              className="rounded-full bg-primary-1 px-6 py-2 text-sm font-medium text-white transition-colors hover:bg-primary-2"
-            >
-              멘토링 시작하기
-            </Link>
+            {mentoringId ? (
+              <Link
+                href={`/mentor/chat/${mentoringId}`}
+                className="rounded-full bg-primary-1 px-6 py-2 text-sm font-medium text-white transition-colors hover:bg-primary-2"
+              >
+                멘토링 시작하기
+              </Link>
+            ) : (
+              <button
+                disabled
+                className="cursor-not-allowed rounded-full bg-gray-300 px-6 py-2 text-sm font-medium text-white"
+              >
+                멘토링 ID 없음
+              </button>
+            )}
           </div>
         </div>
       )}
