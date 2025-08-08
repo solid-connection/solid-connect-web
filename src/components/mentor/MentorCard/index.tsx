@@ -15,7 +15,7 @@ import { ChannelType, MentorCardDetail, MentorCardPreview } from "@/types/mentor
 import { IconDirectionDown, IconDirectionUp } from "@/public/svgs/mentor";
 
 interface MentorCardProps {
-  mentor: MentorCardDetail & MentorCardPreview;
+  mentor: MentorCardDetail | MentorCardPreview;
   observeRef?: React.RefCallback<HTMLDivElement>;
   isMine?: boolean; // isMine prop 추가
 }
@@ -77,14 +77,14 @@ const MentorCard = ({ mentor, observeRef, isMine = false }: MentorCardProps) => 
             <h4 className="mb-2 text-[18px] font-medium text-blue-600">멘토 채널</h4>
             <div
               className={clsx("grid gap-2", {
-                "grid-cols-1": channels.length === 1,
-                "grid-cols-2": channels.length >= 2,
+                "grid-cols-1": channels?.length === 1,
+                "grid-cols-2": channels && channels.length >= 2,
               })}
             >
-              {channels.map((channel, idx) => (
+              {channels?.map((channel, idx) => (
                 <a
                   key={idx}
-                  className={`h-10 ${channels.length === 1 ? "w-full" : channels.length === 3 && idx === 2 ? "col-span-2" : ""}`}
+                  className={`h-10 ${channels && channels.length === 1 ? "w-full" : channels && channels.length === 3 && idx === 2 ? "col-span-2" : ""}`}
                   href={channel.url}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -113,7 +113,7 @@ const MentorCard = ({ mentor, observeRef, isMine = false }: MentorCardProps) => 
                   멘토 페이지
                 </Link>
                 <button
-                  onClick={() => handlePostApplyMentor(id)}
+                  onClick={() => id && handlePostApplyMentor(id)}
                   className="flex h-10 w-1/2 flex-shrink-0 items-center justify-center gap-3 rounded-[20px] bg-primary px-5 py-2.5 font-medium text-white"
                 >
                   멘티 신청하기
