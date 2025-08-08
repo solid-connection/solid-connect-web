@@ -4,13 +4,13 @@ import React from "react";
 
 import { IconDirectionDown, IconDirectionUp } from "@/public/svgs/mentor";
 
-type MentorWatingListBoxProps = {
+type MentorWaitingListBoxProps = {
   hasExpand?: boolean;
   className?: string;
   children: React.ReactNode | ((args: { isExpanded: boolean; toggle: () => void }) => React.ReactNode);
 };
 
-const MentorWatingListBox = ({ hasExpand = false, className = "", children }: MentorWatingListBoxProps) => {
+const MentorWaitingListBox = ({ hasExpand = false, className = "", children }: MentorWaitingListBoxProps) => {
   const [isExpanded, setIsExpanded] = React.useState(false);
   const toggle = React.useCallback(() => setIsExpanded((p) => !p), []);
 
@@ -39,4 +39,4 @@ const MentorWatingListBox = ({ hasExpand = false, className = "", children }: Me
   );
 };
 
-export default MentorWatingListBox;
+export default MentorWaitingListBox;

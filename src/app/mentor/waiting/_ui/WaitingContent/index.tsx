@@ -3,14 +3,14 @@
 import EmptySdwBCards from "@/components/ui/EmptySdwBCards";
 
 import MentorExpandChatCard from "./_ui/MentorExpandChatCard";
-import MentorWatingListBox from "./_ui/MentorWatingListBox";
+import MentorWaitingListBox from "./_ui/MentorWaitingListBox";
 
 import { VerifyStatus } from "@/types/mentee";
 
 import useGetApplyMentoringList from "@/api/mentee/client/useGetApplyMentoringList";
 import usePatchCheckMentorings from "@/api/mentee/client/usePatchCheckMentorings";
 
-const WatingContent = () => {
+const WaitingContent = () => {
   const { data: approveList = [] } = useGetApplyMentoringList(VerifyStatus.APPROVED);
   const { data: pendingList = [] } = useGetApplyMentoringList(VerifyStatus.PENDING);
   const totalLength = approveList.length + pendingList.length;
@@ -25,7 +25,7 @@ const WatingContent = () => {
           {totalLength > 2 && <span className="rounded-2xl bg-primary-1 px-2 text-k-0">{totalLength - 2}+</span>}
         </div>
       </div>
-      <MentorWatingListBox hasExpand={approveList.length > 2} className="mx-5 mt-2">
+      <MentorWaitingListBox hasExpand={approveList.length > 2} className="mx-5 mt-2">
         {({ isExpanded }) => (
           <div className="space-y-2">
             <h3 className="mt-3 px-5 text-[18px] font-semibold text-k-900">수락 완료</h3>
@@ -52,9 +52,9 @@ const WatingContent = () => {
             </div>
           </div>
         )}
-      </MentorWatingListBox>
+      </MentorWaitingListBox>
 
-      <MentorWatingListBox hasExpand={pendingList.length > 2} className="mx-5 mt-2">
+      <MentorWaitingListBox hasExpand={pendingList.length > 2} className="mx-5 mt-2">
         {({ isExpanded }) => (
           <div className="space-y-2">
             <h3 className="mt-3 px-5 text-[18px] font-semibold text-k-900">수락 대기중</h3>
@@ -78,8 +78,8 @@ const WatingContent = () => {
             </div>
           </div>
         )}
-      </MentorWatingListBox>
+      </MentorWaitingListBox>
     </div>
   );
 };
-export default WatingContent;
+export default WaitingContent;
