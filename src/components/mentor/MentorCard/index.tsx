@@ -37,7 +37,7 @@ const MentorCard = ({ mentor, observeRef, isMine = false }: MentorCardProps) => 
     id,
   } = mentor ?? {};
 
-  const isDetail = !!term;
+  const isDetail = mentor && "passTip" in mentor;
 
   return (
     <div
@@ -54,7 +54,7 @@ const MentorCard = ({ mentor, observeRef, isMine = false }: MentorCardProps) => 
         <div className="flex flex-1 flex-col items-stretch gap-3">
           <div className="mb-1 flex items-center justify-between">
             <span className="text-base font-semibold leading-normal text-primary-1">{country}</span>
-            {isDetail && <StudyDate term={term} />}
+            {isDetail && <StudyDate term={term!} />}
           </div>
           <h3 className="text-xl font-bold leading-normal text-k-800">{nickname}님</h3>
           <div className="mt-1 flex flex-col">
