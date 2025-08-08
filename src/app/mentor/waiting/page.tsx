@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-import WatingContent from "./_ui/WatingContent";
+import WaitingContent from "./_ui/WaitingContent";
 
 export const metadata: Metadata = {
   title: "멘토 승인 대기 | Solid Connect",
@@ -8,11 +8,11 @@ export const metadata: Metadata = {
   keywords: ["멘토", "승인", "대기", "신청", "멘토링"],
 };
 
-const WatingPage = () => {
+const WaitingPage = () => {
   return (
     <div className="flex h-full w-full flex-col">
-      <WatingContent />
+      <WaitingContent />
     </div>
   );
 };
-export default WatingPage;
+export default WaitingPage;

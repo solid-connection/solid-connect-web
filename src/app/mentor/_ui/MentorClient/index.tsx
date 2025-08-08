@@ -14,9 +14,9 @@ const MentorClient = () => {
         // 멘토페이지
         <>
           {/* 나의 멘토 - 멘티 탭 및 채팅카드 */}
-          <MentorPageTabs />
+          {/* <MentorPageTabs /> */}
           {/* 나의 멘토 페이지 */}
-          <MyMentorSection />
+          {/* <MyMentorSection /> */}
         </>
       ) : (
         // 멘티페이지

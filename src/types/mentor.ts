@@ -61,10 +61,10 @@ export enum FilterTab {
 }
 
 export enum ChannelType {
-  BLOG = "Blog",
-  BRUNCH = "Brunch",
-  INSTAGRAM = "Instagram",
-  YOUTUBE = "Youtube",
+  BLOG = "BLOG",
+  BRUNCH = "BRUNCH",
+  INSTAGRAM = "INSTAGRAM",
+  YOUTUBE = "YOUTUBE",
 }
 
 export enum MentorTab {
