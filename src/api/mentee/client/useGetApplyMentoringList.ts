@@ -16,7 +16,7 @@ interface UseGetApplyMentoringListResponse {
 }
 type UseGetApplyMentoringListRequest = VerifyStatus;
 
-const OFFSET = 10; // 기본 페이지 크기
+const OFFSET = 3; // 기본 페이지 크기
 
 const getApplyMentoringList = async ({
   queryKey,
@@ -24,8 +24,7 @@ const getApplyMentoringList = async ({
 }: QueryFunctionContext<[string, VerifyStatus], number>): Promise<UseGetApplyMentoringListResponse> => {
   const [, verifyStatus] = queryKey;
   const res = await axiosInstance.get<UseGetApplyMentoringListResponse>(
-    // `/mentee/mentorings?verify-status=${verifyStatus}&page=${pageParam}&size=${OFFSET}`,
-    `/mentee/mentorings?verify-status=${verifyStatus}`,
+    `/mentee/mentorings?verify-status=${verifyStatus}&size=${OFFSET}&page=${pageParam}`,
   );
   return res.data;
 };
