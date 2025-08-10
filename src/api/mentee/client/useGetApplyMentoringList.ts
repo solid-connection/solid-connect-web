@@ -30,16 +30,20 @@ const getApplyMentoringList = async ({
 };
 
 const useGetApplyMentoringList = (verifyStatus: UseGetApplyMentoringListRequest) => {
-  return useInfiniteQuery<UseGetApplyMentoringListResponse, Error, MentoringListItem[], [string, VerifyStatus], number>(
-    {
-      queryKey: [queryKey.menteeMentoringList, verifyStatus],
-      queryFn: getApplyMentoringList,
-      initialPageParam: 0,
-      getNextPageParam: (lastPage) => (lastPage.nextPageNumber === -1 ? undefined : lastPage.nextPageNumber),
-      staleTime: 1000 * 60 * 5, // 5분간 캐시
-      select: (data) => data.pages.flatMap((p) => p.content),
-    },
-  );
+  return useInfiniteQuery<
+    UseGetApplyMentoringListResponse,
+    AxiosError,
+    MentoringListItem[],
+    [string, VerifyStatus],
+    number
+  >({
+    queryKey: [queryKey.menteeMentoringList, verifyStatus],
+    queryFn: getApplyMentoringList,
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => (lastPage.nextPageNumber === -1 ? undefined : lastPage.nextPageNumber),
+    staleTime: 1000 * 60 * 5, // 5분간 캐시
+    select: (data) => data.pages.flatMap((p) => p.content),
+  });
 };
 
 // 멘토링 리스트 프리페치용 훅
