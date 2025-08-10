@@ -1,6 +1,6 @@
 import { useRouter } from "next/navigation";
 
-import { useTokenStore } from "@/stores/tokenStore";
+import { useTokenStore } from "@/lib/zustand/useTokenStore";
 
 export const useAuth = () => {
   const { accessToken, setAccessToken, clearAccessToken } = useTokenStore();

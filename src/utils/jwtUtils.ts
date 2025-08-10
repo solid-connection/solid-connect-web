@@ -1,4 +1,4 @@
-import { getAccessToken } from "@/stores/tokenStore";
+import { getAccessToken } from "@/lib/zustand/useTokenStore";
 
 interface JwtPayload {
   exp: number;

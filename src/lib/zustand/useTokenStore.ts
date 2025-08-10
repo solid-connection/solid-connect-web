@@ -21,12 +21,18 @@ export const useTokenStore = create<TokenStore>((set, get) => ({
 
   hasToken: () => {
     const { accessToken } = get();
-    return !!accessToken;
+    const hasToken = !!accessToken;
+    return hasToken;
   },
 }));
 
 // 컴포넌트 외부에서 사용할 수 있는 헬퍼 함수들
-export const getAccessToken = () => useTokenStore.getState().accessToken;
-export const setAccessToken = (token: string) => useTokenStore.getState().setAccessToken(token);
+export const getAccessToken = () => {
+  const token = useTokenStore.getState().accessToken;
+  return token;
+};
+export const setAccessToken = (token: string) => {
+  useTokenStore.getState().setAccessToken(token);
+};
 export const clearAccessToken = () => useTokenStore.getState().clearAccessToken();
 export const hasToken = () => useTokenStore.getState().hasToken();

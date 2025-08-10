@@ -1,49 +1,31 @@
-export const loadRefreshToken = () => {
-  try {
-    return localStorage.getItem("refreshToken");
-  } catch (err) {
-    console.error("Could not load refresh token", err);
-    return null;
-  }
-};
+// 리프레시 토큰은 HTTP-only 쿠키로 관리되므로 이 파일에서는 제거됨
+// 액세스 토큰은 Zustand 스토어로 관리
+import { clearAccessToken, getAccessToken, setAccessToken } from "@/lib/zustand/useTokenStore";
 
-export const saveRefreshToken = (token: string) => {
-  try {
-    localStorage.setItem("refreshToken", token);
-  } catch (err) {
-    console.error("Could not save refresh token", err);
-  }
-};
-
-export const removeRefreshToken = () => {
-  try {
-    localStorage.removeItem("refreshToken");
-  } catch (err) {
-    console.error("Could not remove refresh token", err);
-  }
-};
-
+// 기존 코드와의 호환성을 위한 래퍼 함수들
 export const loadAccessToken = () => {
-  try {
-    return localStorage.getItem("accessToken");
-  } catch (err) {
-    console.error("Could not load access token", err);
-    return null;
-  }
+  return getAccessToken();
 };
 
 export const saveAccessToken = (token: string) => {
-  try {
-    localStorage.setItem("accessToken", token);
-  } catch (err) {
-    console.error("Could not save access token", err);
-  }
+  setAccessToken(token);
 };
 
 export const removeAccessToken = () => {
-  try {
-    localStorage.removeItem("accessToken");
-  } catch (err) {
-    console.error("Could not remove access token", err);
-  }
+  clearAccessToken();
+};
+
+// 리프레시 토큰 관련 함수들은 더 이상 사용하지 않음
+// (HTTP-only 쿠키로 서버에서 관리)
+export const loadRefreshToken = () => {
+  console.warn("리프레시 토큰은 HTTP-only 쿠키로 관리됩니다.");
+  return null;
+};
+
+export const saveRefreshToken = (token: string) => {
+  console.warn("리프레시 토큰은 HTTP-only 쿠키로 관리됩니다. 저장이 무시됩니다.");
+};
+
+export const removeRefreshToken = () => {
+  console.warn("리프레시 토큰은 HTTP-only 쿠키로 관리됩니다. 제거가 무시됩니다.");
 };
