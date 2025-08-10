@@ -1,9 +1,9 @@
-import React from "react";
+import { ComponentType, SVGProps } from "react";
 
 import { create } from "zustand";
 
 export type ConfirmModalPayload = {
-  icon?: React.ReactNode;
+  icon?: ComponentType<SVGProps<SVGSVGElement>>; // SVG 컴포넌트만 허용
   title: string;
   content: string;
   // approveMessage: text for the confirm/approve button (default "확인")

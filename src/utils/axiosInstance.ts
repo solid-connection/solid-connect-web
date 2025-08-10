@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from "axios";
+import axios, { AxiosError, AxiosHeaders, AxiosInstance } from "axios";
 
 import { isTokenExpired } from "./jwtUtils";
 import {
@@ -11,6 +11,12 @@ import {
 
 // eslint-disable-next-line import/no-cycle
 import { reissueAccessTokenPublicApi } from "@/api/auth";
+
+const redirectToLogin = () => {
+  if (typeof window !== "undefined") {
+    window.location.href = "/login";
+  }
+};
 
 const convertToBearer = (token: string) => `Bearer ${token}`;
 
@@ -39,6 +45,7 @@ axiosInstance.interceptors.request.use(
           removeAccessToken();
           removeRefreshToken();
           console.error("인증 토큰 갱신중 오류가 발생했습니다", err);
+          redirectToLogin();
         });
     }
 
@@ -52,7 +59,7 @@ axiosInstance.interceptors.request.use(
 
 axiosInstance.interceptors.response.use(
   (response) => response,
-  async (error) => {
+  async (error: AxiosError) => {
     const newError = { ...error };
     if (error.response?.status === 401 || error.response?.status === 403) {
       const refreshToken = loadRefreshToken();
@@ -60,6 +67,7 @@ axiosInstance.interceptors.response.use(
       if (refreshToken === null || isTokenExpired(refreshToken)) {
         removeAccessToken();
         removeRefreshToken();
+        redirectToLogin();
         throw newError;
       }
 
@@ -67,17 +75,21 @@ axiosInstance.interceptors.response.use(
         const newAccessToken = await reissueAccessTokenPublicApi(refreshToken).then((res) => res.data.accessToken);
         saveAccessToken(newAccessToken);
 
-        if (error?.config.headers === undefined) {
-          newError.config.headers = {};
-        }
-        newError.config.headers.Authorization = convertToBearer(newAccessToken);
+        // Safely check if error.config exists and initialize headers if missing
+        if (error.config) {
+          if (!error.config.headers) {
+            error.config.headers = new AxiosHeaders();
+          }
+          error.config.headers.Authorization = convertToBearer(newAccessToken);
 
-        // 중단된 요청 새로운 토큰으로 재전송
-        return await axios.request(newError.config);
+          // 중단된 요청 새로운 토큰으로 재전송
+          return await axios.request(error.config);
+        }
         // eslint-disable-next-line
       } catch (err) {
         removeAccessToken();
         removeRefreshToken();
+        redirectToLogin();
         throw Error("로그인이 필요합니다");
       }
     } else {

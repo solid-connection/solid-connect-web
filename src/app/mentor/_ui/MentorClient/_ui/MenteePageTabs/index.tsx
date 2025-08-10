@@ -12,20 +12,20 @@ import { VerifyStatus } from "@/types/mentee";
 import { MenteeTab } from "@/types/mentor";
 
 import useGetChatRooms from "@/api/chats/clients/useGetChatsRooms";
-import useGetMenteeMentoringList from "@/api/mentee/client/useGetMentoringList";
+import useGetMenteeMentoringList from "@/api/mentee/client/useGetApplyMentoringList";
 import { IconDirectionRight } from "@/public/svgs/mentor";
 
 const MenteePageTabs = () => {
   // api
   const { data: mentoList = [] } = useGetChatRooms();
-  const { data: menteeWatingMentoringList = [] } = useGetMenteeMentoringList(VerifyStatus.PENDING);
+  const { data: menteeWaitingMentoringList = [] } = useGetMenteeMentoringList(VerifyStatus.PENDING);
   usePrefetchMenteeMentoringListTab();
 
   // state
   const [selectedTab, setSelectedTab] = useState<MenteeTab>(MenteeTab.MY_MENTOR);
 
   // 현재 탭에 따라 보여줄 데이터의 길이
-  const currentDataLength = selectedTab === MenteeTab.MY_MENTOR ? mentoList.length : menteeWatingMentoringList.length;
+  const currentDataLength = selectedTab === MenteeTab.MY_MENTOR ? mentoList.length : menteeWaitingMentoringList.length;
 
   return (
     <>
@@ -61,7 +61,7 @@ const MenteePageTabs = () => {
         </div>
         {currentDataLength > 2 && (
           <Link
-            href={selectedTab === MenteeTab.MY_MENTOR ? "/mentor/my" : "/mentor/apply"}
+            href={selectedTab === MenteeTab.MY_MENTOR ? "/mentor/chat" : "/mentor/waiting"}
             className="flex items-center text-[13px] leading-normal text-k-500"
           >
             전체보기
@@ -90,7 +90,7 @@ const MenteePageTabs = () => {
             />
           ))}
       {selectedTab === MenteeTab.MY_APPLIED &&
-        menteeWatingMentoringList
+        menteeWaitingMentoringList
           .slice(0, 2)
           .map((mentor) => (
             <MentorChatCard

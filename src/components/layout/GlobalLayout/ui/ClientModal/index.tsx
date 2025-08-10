@@ -1,14 +1,18 @@
 "use client";
 
 import MentorApplyCountContent from "@/components/mentor/MentorApplyCountContent";
+import IconAlertModal from "@/components/modal/IconAlertModal";
 import IconConfirmModal from "@/components/modal/IconConfirmModal";
 import CloudSpinner from "@/components/ui/CloudSpinner";
 
+import { useAlertModalStore } from "@/lib/zustand/useAlertModalStore";
 import { useConfirmModalStore } from "@/lib/zustand/useConfirmModalStore";
 import { useIsFetching } from "@tanstack/react-query";
 
 const ClientModal = () => {
   const { isOpen, payload, confirm, reject } = useConfirmModalStore();
+  const { isOpen: alertOpen, payload: alertPayload, acknowledge, close } = useAlertModalStore();
+
   const isFetching = useIsFetching();
 
   return (
@@ -19,6 +23,16 @@ const ClientModal = () => {
         </div>
       ) : null}
       <MentorApplyCountContent />
+
+      <IconAlertModal
+        isOpen={alertOpen}
+        title={alertPayload?.title || "확인"}
+        content={alertPayload?.content || ""}
+        icon={alertPayload?.icon}
+        buttonText={alertPayload?.buttonText || "확인"}
+        onAcknowledge={acknowledge}
+        onClose={close}
+      />
       <IconConfirmModal
         isOpen={isOpen}
         title={payload?.title || "확인"}
