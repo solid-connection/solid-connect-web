@@ -12,7 +12,8 @@ export const useTokenStore = create<TokenStore>((set, get) => ({
   accessToken: null,
 
   setAccessToken: (token: string) => {
-    set({ accessToken: token });
+    const next = token?.trim();
+    set({ accessToken: next && next.length > 0 ? next : null });
   },
 
   clearAccessToken: () => {
