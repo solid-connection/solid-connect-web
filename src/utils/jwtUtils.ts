@@ -1,3 +1,5 @@
+import { UserRole } from "@/types/mentor";
+
 import { getAccessToken } from "@/lib/zustand/useTokenStore";
 
 interface JwtPayload {
@@ -90,10 +92,16 @@ export const isCurrentTokenExpiredSync = (): boolean => {
   return isTokenExpired(token || "");
 };
 
-export const getUserRoleFromJwt = (): string | null => {
+const toUserRole = (role: unknown): UserRole | null => {
+  if (typeof role !== "string") return null;
+  const upper = role.toUpperCase();
+  return Object.values(UserRole).includes(upper as UserRole) ? (upper as UserRole) : null;
+};
+
+export const getUserRoleFromJwt = (): UserRole | null => {
   const token = getAccessToken();
   if (!token) return null;
 
   const decoded = parseJwt(token);
-  return decoded?.role ?? null;
+  return toUserRole(decoded?.role);
 };

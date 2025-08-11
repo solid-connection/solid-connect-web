@@ -12,8 +12,7 @@ import { UserRole } from "@/types/mentor";
 
 const MentorClient = () => {
   const userRole = getUserRoleFromJwt();
-  const isMentor = userRole === UserRole.MENTOR;
-
+  const isMentor = userRole?.toUpperCase() === UserRole.MENTOR;
   return (
     <>
       {isMentor ? (
