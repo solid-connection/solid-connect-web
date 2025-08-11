@@ -7,7 +7,7 @@ interface ChannelPayload {
   url: string;
 }
 
-interface PutMyMentorProfileRequest {
+export interface PutMyMentorProfileRequest {
   channels: ChannelPayload[];
   passTip: string;
   introduction: string;

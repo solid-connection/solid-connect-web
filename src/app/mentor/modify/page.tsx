@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 const ModifyPage = () => {
-  return <div className="px-5">{/* <ModifyContent /> */}</div>;
+  return <div className="px-5">{<ModifyContent />}</div>;
 };
 
 export default ModifyPage;

@@ -68,8 +68,8 @@ export enum ChannelType {
 }
 
 export enum MentorTab {
-  MY_MENTOR = "나의 멘토",
   MY_MENTEE = "나의 멘티",
+  APPLY_LIST = "신청 목록",
 }
 
 export enum MenteeTab {
@@ -109,4 +109,12 @@ export interface MentorCardBase {
   hasBadge: boolean;
   introduction: string;
   channels: MentorChannel[];
+}
+
+export interface MentoringItem {
+  mentoringId: number;
+  profileImageUrl: string | null;
+  nickname: string;
+  isChecked: boolean;
+  createdAt: string;
 }
