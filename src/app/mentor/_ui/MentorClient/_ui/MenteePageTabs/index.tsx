@@ -79,16 +79,16 @@ const MenteePageTabs = () => {
       )}
 
       {selectedTab === MenteeTab.MY_MENTOR &&
-        mentoList
-          .slice(0, 2)
-          .map((mentor) => (
+        mentoList.slice(0, 2).map((mentor) => (
+          <Link href={`mentor/chat/${mentor.id}`} key={mentor.id}>
             <MentorChatCard
               key={mentor.id}
               nickname={mentor.partner.nickname}
               profileImageUrl={mentor.partner.profileUrl}
               description={mentor.lastChatMessage}
             />
-          ))}
+          </Link>
+        ))}
       {selectedTab === MenteeTab.MY_APPLIED &&
         menteeWaitingMentoringList
           .slice(0, 2)

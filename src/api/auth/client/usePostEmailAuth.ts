@@ -1,3 +1,5 @@
+import { useRouter } from "next/navigation";
+
 import { AxiosResponse } from "axios";
 
 import { publicAxiosInstance } from "@/utils/axiosInstance";
@@ -19,11 +21,13 @@ const postEmailAuth = ({ email, password }: LoginRequest): Promise<AxiosResponse
   publicAxiosInstance.post("/auth/email/sign-in", { email, password });
 
 const usePostEmailAuth = () => {
+  const router = useRouter();
   return useMutation({
     mutationFn: postEmailAuth,
     onSuccess: (data) => {
       const { accessToken } = data.data;
       setAccessToken(accessToken);
+      router.push("/"); // 로그인 성공 후 홈으로 리다이렉트
     },
   });
 };
