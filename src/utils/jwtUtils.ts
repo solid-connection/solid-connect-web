@@ -26,7 +26,7 @@ const base64UrlDecode = (input: string): string => {
   }
 };
 
-export const isTokenExpired = (token: string): boolean => {
+export const isTokenExpired = (token: string | null): boolean => {
   if (!token) {
     return true;
   }
@@ -91,7 +91,7 @@ export const isCurrentTokenExpiredSync = (): boolean => {
 };
 
 export const getUserRoleFromJwt = (): string | null => {
-  const token = localStorage.getItem("accessToken");
+  const token = getAccessToken();
   if (!token) return null;
 
   const decoded = parseJwt(token);

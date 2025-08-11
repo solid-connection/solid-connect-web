@@ -3,8 +3,9 @@
 import useRouterHandler from "./_hooks/useRouterHandler";
 import MenteePageTabs from "./_ui/MenteePageTabs";
 import MentorFindSection from "./_ui/MentorFindSection";
-import MentorPageTabs from "./_ui/MentorPageTabs";
-import MyMentorSection from "./_ui/MyMentorSection";
+
+// import MentorPageTabs from "./_ui/MentorPageTabs";
+// import MyMentorSection from "./_ui/MyMentorSection";
 
 const MentorClient = () => {
   const isMentor = useRouterHandler();
