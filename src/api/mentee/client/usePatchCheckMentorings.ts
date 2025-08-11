@@ -1,3 +1,5 @@
+import { AxiosError } from "axios";
+
 import { axiosInstance } from "@/utils/axiosInstance";
 
 import { useMutation } from "@tanstack/react-query";
@@ -16,7 +18,7 @@ const patchCheckMentorings = async (body: UsePatchCheckMentoringsRequest): Promi
 };
 
 const usePatchCheckMentorings = () =>
-  useMutation<UsePatchCheckMentoringsResponse, Error, UsePatchCheckMentoringsRequest>({
+  useMutation<UsePatchCheckMentoringsResponse, AxiosError, UsePatchCheckMentoringsRequest>({
     mutationFn: patchCheckMentorings,
   });
 

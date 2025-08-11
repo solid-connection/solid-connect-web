@@ -1,3 +1,3 @@
-export enum queryKey {
+export enum QueryKeys {
   menteeMentoringList = "menteeMentoringList",
 }

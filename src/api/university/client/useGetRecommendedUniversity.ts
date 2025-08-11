@@ -1,5 +1,7 @@
 import { axiosInstance, publicAxiosInstance } from "@/utils/axiosInstance";
 
+import { QueryKeys } from "./queryKey";
+
 import { ListUniversity } from "@/types/university";
 
 import { useQuery } from "@tanstack/react-query";
@@ -21,7 +23,7 @@ const getRecommendedUniversity = async ({
 
 const useGetRecommendedUniversity = (isLogin: boolean) =>
   useQuery({
-    queryKey: ["recommended-university", isLogin],
+    queryKey: [QueryKeys.recommendedUniversity, isLogin],
     queryFn: getRecommendedUniversity,
     enabled: isLogin, // 쿼리는 로그인 상태일 때만 활성화
     staleTime: 1000 * 60 * 5,

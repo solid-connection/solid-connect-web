@@ -1,4 +1,4 @@
-export enum queryKey {
+export enum QueryKeys {
   mentoringNewCount = "mentoringNewCount",
   myMentorProfile = "myMentorProfile",
 }
