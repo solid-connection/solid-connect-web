@@ -20,7 +20,7 @@ interface MentorDetailContentProps {
 
 const MentorDetialContent = ({ mentorId }: MentorDetailContentProps) => {
   const { data: mentorDetail } = useGetMentorDetail(mentorId);
-  const { articleList } = useGetArticleList(mentorId);
+  const { data: articleList = [] } = useGetArticleList(mentorId);
 
   const onClick = async () => {
     const ok = await customConfirm({
@@ -82,8 +82,8 @@ const MentorDetialContent = ({ mentorId }: MentorDetailContentProps) => {
           <p className="mb-2 text-center text-base text-k-500">{universityName}</p>
 
           {/* 연락 가능 시간 */}
-          <p className="text-sm font-semibold text-k-800">방해 금지 시간</p>
-          <p className="text-sm font-normal text-k-500">0:00 ~ 8:00</p>
+          {/* <p className="text-sm font-semibold text-k-800">방해 금지 시간</p> */}
+          {/* <p className="text-sm font-normal text-k-500">0:00 ~ 8:00</p> */}
         </div>
       </div>
       <hr className="mb-[30px] mt-[30px]" />
@@ -107,12 +107,14 @@ const MentorDetialContent = ({ mentorId }: MentorDetailContentProps) => {
           }`}
         >
           {channels.map((channel, idx) => (
-            <div
+            <a
+              href={channel.url}
+              target="_blank"
               key={idx}
               className={`h-[40px] ${channels.length === 1 ? "w-full" : channels.length === 3 && idx === 2 ? "col-span-2" : ""}`}
             >
               <ChannelBadge channelType={channel.type as ChannelType} />
-            </div>
+            </a>
           ))}
         </div>
       </div>
@@ -132,8 +134,9 @@ const MentorDetialContent = ({ mentorId }: MentorDetailContentProps) => {
         {articleList.map((article) => (
           <MentorArticle key={article.title} article={article} />
         ))}
+        {articleList.length === 0 && <p className="mb-7 text-[14px] font-normal text-k-500">정보가 없습니다.</p>}
       </div>
-      <div className="pointer-events-none fixed bottom-20 left-0 right-0 flex justify-center">
+      <div className="pointer-events-none fixed bottom-20 left-1/2 flex w-1/3 -translate-x-1/2 justify-center">
         <div className="pointer-events-auto w-full max-w-md px-4">
           <button
             type="button"
@@ -147,7 +150,7 @@ const MentorDetialContent = ({ mentorId }: MentorDetailContentProps) => {
               },
             )}
           >
-            {isApplied ? "매칭완료된 멘토" : "멘토 신청하기"}
+            {"멘토 신청하기"}
           </button>
         </div>
       </div>
