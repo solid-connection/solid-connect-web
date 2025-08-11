@@ -1,65 +1,24 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
-import axios from "axios";
-
-import { saveAccessToken, saveRefreshToken } from "@/utils/localStorage";
-
-import SignupSurvey from "@/components/login/signup/SignupSurvey";
 import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 
-import { appleAuthApi } from "@/api/auth";
+import usePostAppleAuth from "@/api/auth/client/usePostAppleAuth";
 
 const AppleLoginCallbackPage = () => {
-  const router = useRouter();
   const searchParams = useSearchParams();
-
-  // const [signUpToken, setSignUpToken] = useState<string>("");
-  // const [email, setEmail] = useState<string>("");
+  const { mutate: postAppleAuth } = usePostAppleAuth();
 
   useEffect(() => {
     const code = searchParams?.get("code");
     if (code) {
-      sendCodeToBackend(code);
+      postAppleAuth({ code });
     }
-  }, [searchParams]);
+  }, [searchParams, postAppleAuth]);
 
-  const sendCodeToBackend = async (code: string) => {
-    try {
-      const res = await appleAuthApi(code);
-      const { data } = res;
-      if (data.isRegistered) {
-        // 기존 회원일 시
-        saveAccessToken(data.accessToken);
-        saveRefreshToken(data.refreshToken);
-        router.push("/");
-      } else if (data.isRegistered === false) {
-        // 새로운 회원일 시
-        // setSignUpToken(data.signUpToken);
-        // setEmail(data.email);
-        router.push(`/sign-up?token=${data.signUpToken}`);
-      }
-    } catch (err: unknown) {
-      if (axios.isAxiosError(err) && err.response) {
-        console.error("Axios response error", err.response.data);
-        alert(err.response.data?.message);
-      } else if (err instanceof Error) {
-        console.error("Error", err.message);
-        alert(err.message);
-      } else {
-        console.error("Unexpected error", err);
-        alert("예상치 못한 에러가 발생했습니다.");
-      }
-    }
-  };
-
-  // if (!signUpToken) {
   return <CloudSpinnerPage />;
-  // }
-
-  // return <SignupSurvey signUpToken={signUpToken} baseNickname={""} baseEmail={email} baseProfileImageUrl={""} />;
 };
 
 export default AppleLoginCallbackPage;
