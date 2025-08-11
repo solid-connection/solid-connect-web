@@ -14,10 +14,10 @@ const usePutMyMentorProfileHandler = (): UsePutMyMentorProfileHandlerReturn => {
   // 폼 제출 핸들러
   const onSubmit = async (data: MentoModifyFormData) => {
     const ok = await customConfirm({
-      title: "멘토 정보 수정",
+      title: "변경 사항을 저장 하시겠어요?",
       content: "멘토 정보를 수정하시겠습니까?",
-      approveMessage: "수정하기",
-      rejectMessage: "취소",
+      approveMessage: "저장할게요",
+      rejectMessage: "아니요",
       icon: IconModify,
     });
     if (!ok) return;
