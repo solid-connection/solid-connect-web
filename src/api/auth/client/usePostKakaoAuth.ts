@@ -8,7 +8,7 @@ import { setAccessToken } from "@/lib/zustand/useTokenStore";
 import { useMutation } from "@tanstack/react-query";
 
 // Kakao
-interface RegisteredKakaoAuthReponse {
+interface RegisteredKakaoAuthResponse {
   isRegistered: true;
   accessToken: string;
   refreshToken: string;
@@ -28,7 +28,7 @@ interface KakaoAuthRequest {
 
 const postKakaoAuth = ({
   code,
-}: KakaoAuthRequest): Promise<AxiosResponse<RegisteredKakaoAuthReponse | UnregisteredKakaoAuthReponse>> =>
+}: KakaoAuthRequest): Promise<AxiosResponse<RegisteredKakaoAuthResponse | UnregisteredKakaoAuthReponse>> =>
   publicAxiosInstance.post("/auth/kakao", { code });
 
 const usePostKakaoAuth = () => {
