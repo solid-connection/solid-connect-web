@@ -1,6 +1,6 @@
 import { axiosInstance } from "@/utils/axiosInstance";
 
-import { queryKey } from "./queryKey";
+import { QueryKeys } from "./queryKey";
 
 import { MentorCardDetail } from "@/types/mentor";
 
@@ -32,7 +32,7 @@ const getMentorList = async ({
 
 const useGetMentorList = ({ region = "" }: UseGetMentorListRequest = {}) =>
   useInfiniteQuery<GetMentorListResponse, Error, MentorCardDetail[], [string, string], number>({
-    queryKey: [queryKey.mentorList, region],
+    queryKey: [QueryKeys.mentorList, region],
     queryFn: getMentorList,
     initialPageParam: 0,
     getNextPageParam: (lastPage) => (lastPage.nextPageNumber === -1 ? undefined : lastPage.nextPageNumber),
@@ -46,7 +46,7 @@ export const usePrefetchMentorList = () => {
 
   const prefetchMentorList = (region: string) => {
     queryClient.prefetchInfiniteQuery({
-      queryKey: [queryKey.mentorList, region],
+      queryKey: [QueryKeys.mentorList, region],
       queryFn: getMentorList,
       initialPageParam: 0,
       staleTime: 1000 * 60 * 5,

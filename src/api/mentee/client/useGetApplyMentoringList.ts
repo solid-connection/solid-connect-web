@@ -2,7 +2,7 @@ import { AxiosError } from "axios";
 
 import { axiosInstance } from "@/utils/axiosInstance";
 
-import { queryKey } from "./queryKey";
+import { QueryKeys } from "./queryKey";
 
 import { MentoringListItem } from "@/types/mentee";
 import { VerifyStatus } from "@/types/mentee";
@@ -37,7 +37,7 @@ const useGetApplyMentoringList = (verifyStatus: UseGetApplyMentoringListRequest)
     [string, VerifyStatus],
     number
   >({
-    queryKey: [queryKey.menteeMentoringList, verifyStatus],
+    queryKey: [QueryKeys.menteeMentoringList, verifyStatus],
     queryFn: getApplyMentoringList,
     initialPageParam: 0,
     getNextPageParam: (lastPage) => (lastPage.nextPageNumber === -1 ? undefined : lastPage.nextPageNumber),
@@ -52,7 +52,7 @@ export const usePrefetchApplyMentoringList = () => {
 
   const prefetchMenteeMentoringList = (verifyStatus: UseGetApplyMentoringListRequest) => {
     queryClient.prefetchInfiniteQuery({
-      queryKey: [queryKey.menteeMentoringList, verifyStatus],
+      queryKey: [QueryKeys.menteeMentoringList, verifyStatus],
       queryFn: getApplyMentoringList,
       initialPageParam: 0,
       staleTime: 1000 * 60 * 5,

@@ -1,6 +1,6 @@
 import { axiosInstance } from "@/utils/axiosInstance";
 
-import { queryKey } from "./queryKey";
+import { QueryKeys } from "./queryKey";
 
 import { MentorCardDetail } from "@/types/mentor";
 
@@ -16,7 +16,7 @@ const getMentorDetail = async ({ queryKey }: { queryKey: [string, number] }): Pr
 
 const useGetMentorDetail = (mentorId: number | null) => {
   return useQuery({
-    queryKey: [queryKey.mentorDetail, mentorId!],
+    queryKey: [QueryKeys.mentorDetail, mentorId!],
     queryFn: getMentorDetail,
     enabled: mentorId !== null,
     staleTime: 1000 * 60 * 5, // 5분간 캐시
