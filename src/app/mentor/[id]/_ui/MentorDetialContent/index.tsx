@@ -1,7 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-
 import clsx from "clsx";
 
 import StudyDate from "@/components/mentor/StudyDate";
@@ -15,8 +13,6 @@ import { ChannelType } from "@/types/mentor";
 import useGetArticleList from "@/api/article/client/useGetArticleList";
 import usePostApplyMentoring from "@/api/mentee/client/usePostApplyMentoring";
 import useGetMentorDetail from "@/api/mentors/client/useGetMentorDetail";
-import { customConfirm } from "@/lib/zustand/useConfirmModalStore";
-import { IconCheck } from "@/public/svgs/mentor";
 
 interface MentorDetailContentProps {
   mentorId: number;
@@ -25,8 +21,7 @@ interface MentorDetailContentProps {
 const MentorDetialContent = ({ mentorId }: MentorDetailContentProps) => {
   const { data: mentorDetail } = useGetMentorDetail(mentorId);
   const { data: articleList = [] } = useGetArticleList(mentorId);
-  const { mutate: postApplyMentoring, isSuccess } = usePostApplyMentoring();
-  const router = useRouter();
+  const { mutate: postApplyMentoring } = usePostApplyMentoring();
 
   if (!mentorDetail) return null; // type guard
 
@@ -44,22 +39,6 @@ const MentorDetialContent = ({ mentorId }: MentorDetailContentProps) => {
     term,
   } = mentorDetail;
 
-  const onClick = async () => {
-    await postApplyMentoring({ mentorId: id });
-    if (!isSuccess) return;
-    const ok = await customConfirm({
-      title: "멘토 신청",
-      content: "멘토 신청이 완료되었습니다.",
-      icon: IconCheck,
-      rejectMessage: "홈으로",
-      approveMessage: "다른 멘토 찾기",
-    });
-    if (ok) {
-      router.push("/mentor");
-      return;
-    }
-    router.push("/");
-  };
   return (
     <>
       {/* 멘토 프로필 섹션 */}
@@ -144,7 +123,7 @@ const MentorDetialContent = ({ mentorId }: MentorDetailContentProps) => {
         <div className="pointer-events-auto w-full max-w-md px-4">
           <button
             type="button"
-            onClick={onClick}
+            onClick={() => postApplyMentoring({ mentorId: id })}
             disabled={isApplied}
             className={clsx(
               "flex h-[41px] w-full items-center justify-center gap-3 rounded-[20px] px-5 py-[10px] font-medium",
