@@ -1,5 +1,7 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 import clsx from "clsx";
 
 import StudyDate from "@/components/mentor/StudyDate";
@@ -23,7 +25,8 @@ interface MentorDetailContentProps {
 const MentorDetialContent = ({ mentorId }: MentorDetailContentProps) => {
   const { data: mentorDetail } = useGetMentorDetail(mentorId);
   const { data: articleList = [] } = useGetArticleList(mentorId);
-  const { mutate: postApplyMentoring } = usePostApplyMentoring();
+  const { mutate: postApplyMentoring, isSuccess } = usePostApplyMentoring();
+  const router = useRouter();
 
   if (!mentorDetail) return null; // type guard
 
@@ -42,15 +45,20 @@ const MentorDetialContent = ({ mentorId }: MentorDetailContentProps) => {
   } = mentorDetail;
 
   const onClick = async () => {
+    await postApplyMentoring({ mentorId: id });
+    if (!isSuccess) return;
     const ok = await customConfirm({
       title: "멘토 신청",
-      content: "멘토 신청을 하시겠습니까?",
+      content: "멘토 신청이 완료되었습니다.",
       icon: IconCheck,
-      rejectMessage: "취소",
-      approveMessage: "멘토 신청",
+      rejectMessage: "홈으로",
+      approveMessage: "다른 멘토 찾기",
     });
-    if (!ok) return;
-    postApplyMentoring({ mentorId: id });
+    if (ok) {
+      router.push("/mentor");
+      return;
+    }
+    router.push("/");
   };
   return (
     <>

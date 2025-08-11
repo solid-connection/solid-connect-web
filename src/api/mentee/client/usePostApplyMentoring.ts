@@ -17,6 +17,9 @@ const postApplyMentoring = async (body: UsePostApplyMentoringRequest): Promise<U
 const usePostApplyMentoring = () => {
   return useMutation({
     mutationFn: postApplyMentoring,
+    onError: (error) => {
+      alert("멘토 신청에 실패했습니다. 다시 시도해주세요.");
+    },
   });
 };
 

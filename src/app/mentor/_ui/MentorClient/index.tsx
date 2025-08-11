@@ -4,10 +4,10 @@ import { getUserRoleFromJwt } from "@/utils/jwtUtils";
 
 import MenteePageTabs from "./_ui/MenteePageTabs";
 import MentorFindSection from "./_ui/MentorFindSection";
+import MentorPageTabs from "./_ui/MentorPageTabs";
 
 import { UserRole } from "@/types/mentor";
 
-// import MentorPageTabs from "./_ui/MentorPageTabs";
 // import MyMentorSection from "./_ui/MyMentorSection";
 
 const MentorClient = () => {
@@ -19,7 +19,7 @@ const MentorClient = () => {
         // 멘토페이지
         <>
           {/* 나의 멘토 - 멘티 탭 및 채팅카드 */}
-          {/* <MentorPageTabs /> */}
+          <MentorPageTabs />
           {/* 나의 멘토 페이지 */}
           {/* <MyMentorSection /> */}
         </>
