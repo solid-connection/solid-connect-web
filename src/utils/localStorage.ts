@@ -3,7 +3,7 @@
 import { clearAccessToken, getAccessToken, setAccessToken } from "@/lib/zustand/useTokenStore";
 
 // 기존 코드와의 호환성을 위한 래퍼 함수들
-export const loadAccessToken = () => {
+export const loadAccessToken = (): string | null => {
   return getAccessToken();
 };
 

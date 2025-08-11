@@ -28,7 +28,7 @@ export const useTokenStore = create<TokenStore>((set, get) => ({
 }));
 
 // 컴포넌트 외부에서 사용할 수 있는 헬퍼 함수들
-export const getAccessToken = () => {
+export const getAccessToken = (): string | null => {
   const token = useTokenStore.getState().accessToken;
   return token;
 };
