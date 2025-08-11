@@ -87,6 +87,12 @@ export enum UserRole {
   MENTEE = "MENTEE",
 }
 
+export enum MentorStudyStatus {
+  STUDYING = "STUDYING", // 현재 연수 중
+  COMPLETED = "COMPLETED", // 연수 종료
+  SCHEDULED = "SCHEDULED", // 연수 예정
+}
+
 export type ExchangeStatus =
   | "STUDYING_ABROAD" // 현재 연수 중
   | "FINISHED" // 연수 종료
@@ -99,7 +105,6 @@ export interface MentorCardBase {
   nickname: string;
   country: string; // 국가 (한국어 표기)
   universityName: string;
-  exchangeStatus: ExchangeStatus;
   menteeCount: number;
   hasBadge: boolean;
   introduction: string;

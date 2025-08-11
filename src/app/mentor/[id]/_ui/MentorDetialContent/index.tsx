@@ -2,6 +2,7 @@
 
 import clsx from "clsx";
 
+import StudyDate from "@/components/mentor/StudyDate";
 import ChannelBadge from "@/components/ui/ChannelBadge";
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
 
@@ -10,6 +11,7 @@ import MentorArticle from "./_ui/MentorArticle";
 import { ChannelType } from "@/types/mentor";
 
 import useGetArticleList from "@/api/article/client/useGetArticleList";
+import usePostApplyMentoring from "@/api/mentee/client/usePostApplyMentoring";
 import useGetMentorDetail from "@/api/mentors/client/useGetMentorDetail";
 import { customConfirm } from "@/lib/zustand/useConfirmModalStore";
 import { IconCheck } from "@/public/svgs/mentor";
@@ -21,6 +23,23 @@ interface MentorDetailContentProps {
 const MentorDetialContent = ({ mentorId }: MentorDetailContentProps) => {
   const { data: mentorDetail } = useGetMentorDetail(mentorId);
   const { data: articleList = [] } = useGetArticleList(mentorId);
+  const { mutate: postApplyMentoring } = usePostApplyMentoring();
+
+  if (!mentorDetail) return null; // type guard
+
+  const {
+    id,
+    profileImageUrl,
+    nickname,
+    country,
+    universityName,
+    hasBadge,
+    introduction,
+    channels,
+    passTip,
+    isApplied,
+    term,
+  } = mentorDetail;
 
   const onClick = async () => {
     const ok = await customConfirm({
@@ -31,26 +50,8 @@ const MentorDetialContent = ({ mentorId }: MentorDetailContentProps) => {
       approveMessage: "멘토 신청",
     });
     if (!ok) return;
+    postApplyMentoring({ mentorId: id });
   };
-
-  if (!mentorDetail) return null; // type guard
-
-  const {
-    id,
-    profileImageUrl,
-    nickname,
-    country,
-    universityName,
-    exchangeStatus,
-    menteeCount,
-    hasBadge,
-    introduction,
-    channels,
-    passTip,
-    isApplied,
-    term,
-  } = mentorDetail;
-
   return (
     <>
       {/* 멘토 프로필 섹션 */}
@@ -65,21 +66,16 @@ const MentorDetialContent = ({ mentorId }: MentorDetailContentProps) => {
         />
         <div className="ml-6 flex flex-col justify-start">
           {/* 국가 및 학교 정보 */}
-          <div className="mb-2 flex items-center gap-2">
+          <div className="mb-2 flex items-center gap-4">
             <span className="text-[14px] font-semibold text-primary">{country}</span>
-            {exchangeStatus && (
-              <span className="text-[14px] font-medium text-secondary-500">{exchangeStatus} 멘토</span>
-            )}
-            {!exchangeStatus &&
-              // TODO: exchangeStatus 없을 때 처리 필요
-              null}
+            <StudyDate term={term} />
           </div>
 
           {/* 멘토 이름 */}
           <h1 className="mb-2 text-xl font-semibold text-k-900">{nickname}님</h1>
 
-          {/* 학교 및 전공 */}
-          <p className="mb-2 text-center text-base text-k-500">{universityName}</p>
+          {/* 학교  */}
+          <p className="mb-2 text-base text-k-500">{universityName}</p>
 
           {/* 연락 가능 시간 */}
           {/* <p className="text-sm font-semibold text-k-800">방해 금지 시간</p> */}
