@@ -6,13 +6,33 @@ interface JwtPayload {
   [key: string]: unknown;
 }
 
+// 안전한 Base64URL 디코더 (브라우저/Node 양쪽 지원)
+const base64UrlDecode = (input: string): string => {
+  const base64 = input.replace(/-/g, "+").replace(/_/g, "/");
+  const padding = "=".repeat((4 - (base64.length % 4)) % 4);
+  const normalized = base64 + padding;
+
+  if (typeof window !== "undefined" && typeof atob === "function") {
+    const binary = atob(normalized);
+    try {
+      return decodeURIComponent(
+        Array.prototype.map.call(binary, (c: string) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2)).join(""),
+      );
+    } catch {
+      return binary;
+    }
+  } else {
+    return Buffer.from(normalized, "base64").toString("utf-8");
+  }
+};
+
 export const isTokenExpired = (token: string): boolean => {
   if (!token) {
     return true;
   }
   try {
     // JWT의 payload 부분을 디코딩합니다 (Base64URL 디코딩)
-    const payload = JSON.parse(atob(token.split(".")[1])) as JwtPayload;
+    const payload = JSON.parse(base64UrlDecode(token.split(".")[1])) as JwtPayload;
 
     // 현재 시간 (초 단위로)
     const currentTime = Math.floor(Date.now() / 1000);
@@ -31,7 +51,7 @@ export const isTokenExpired = (token: string): boolean => {
 
 export const decodeExp = (token: string): number => {
   try {
-    const payload = JSON.parse(atob(token.split(".")[1])) as JwtPayload;
+    const payload = JSON.parse(base64UrlDecode(token.split(".")[1])) as JwtPayload;
     const { exp } = payload;
     return exp * 1000; // → ms
   } catch {
@@ -42,7 +62,7 @@ export const decodeExp = (token: string): number => {
 export const parseJwt = (token: string): JwtPayload | null => {
   try {
     const base64Payload = token.split(".")[1];
-    const payload = atob(base64Payload);
+    const payload = base64UrlDecode(base64Payload);
     return JSON.parse(payload) as JwtPayload;
   } catch {
     return null;
