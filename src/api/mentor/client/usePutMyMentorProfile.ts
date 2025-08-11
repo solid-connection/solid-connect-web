@@ -14,7 +14,7 @@ export interface PutMyMentorProfileRequest {
 }
 
 const putMyMentorProfile = async (body: PutMyMentorProfileRequest): Promise<void> => {
-  const res = await axiosInstance.put<void>("/mentors/me", body);
+  const res = await axiosInstance.put<void>("/mentor/me", body);
   return res.data;
 };
 

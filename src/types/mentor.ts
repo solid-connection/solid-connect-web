@@ -118,3 +118,8 @@ export interface MentoringItem {
   isChecked: boolean;
   createdAt: string;
 }
+
+export enum MentoringApprovalStatus {
+  APPROVE = "APPROVE",
+  REJECT = "REJECT",
+}

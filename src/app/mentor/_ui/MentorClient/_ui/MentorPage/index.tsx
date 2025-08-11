@@ -22,13 +22,15 @@ const MentorPage = () => {
 
   const isMyMenteeTab = selectedTab === MentorTab.MY_MENTEE;
 
-  const tabs = [MentorTab.APPLY_LIST, MentorTab.MY_MENTEE];
+  const tabs = [MentorTab.MY_MENTEE, MentorTab.APPLY_LIST];
 
   return (
     <>
       <header className="flex items-center justify-between">
         {/* 탭 */}
-        <TabSelector tabs={tabs} selectedTab={selectedTab} onTabChange={(tab) => setSelectedTab(tab as MentorTab)} />
+        <div className="w-full">
+          <TabSelector tabs={tabs} selectedTab={selectedTab} onTabChange={(tab) => setSelectedTab(tab as MentorTab)} />
+        </div>
 
         {/* 전체보기 버튼 */}
         {isMyMenteeTab && myMenteeList.length > 2 && (
@@ -41,7 +43,7 @@ const MentorPage = () => {
         )}
       </header>
 
-      <div className="mb-10">
+      <div className="mb-10 mt-4">
         {/* 멘티 보기 탭일때 */}
         {isMyMenteeTab ? (
           <>
