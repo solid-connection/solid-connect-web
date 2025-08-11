@@ -1,6 +1,8 @@
 import { isTokenExpired } from "./jwtUtils";
 import { loadAccessToken, loadRefreshToken } from "./localStorage";
 
+import { appleOAuth2CodeResponse } from "@/types/auth";
+
 export const isAuthenticated = () => {
   if (!isTokenExpired(loadAccessToken()) || !isTokenExpired(loadRefreshToken())) {
     return true;
@@ -46,7 +48,7 @@ export const appleLogin = async () => {
   try {
     const res: appleOAuth2CodeResponse = await window.AppleID.auth.signIn();
     if (res.authorization) {
-      router.push(`/login/apple/callback?code=${res.authorization.code}`);
+      window.location.href = `/login/apple/callback?code=${encodeURIComponent(res.authorization.code)}`;
     }
   } catch (error) {
     console.log(error);
