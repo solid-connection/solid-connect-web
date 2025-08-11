@@ -1,14 +1,19 @@
 "use client";
 
-import useRouterHandler from "./_hooks/useRouterHandler";
+import { getUserRoleFromJwt } from "@/utils/jwtUtils";
+
 import MenteePageTabs from "./_ui/MenteePageTabs";
 import MentorFindSection from "./_ui/MentorFindSection";
+
+import { UserRole } from "@/types/mentor";
 
 // import MentorPageTabs from "./_ui/MentorPageTabs";
 // import MyMentorSection from "./_ui/MyMentorSection";
 
 const MentorClient = () => {
-  const isMentor = useRouterHandler();
+  const userRole = getUserRoleFromJwt();
+  const isMentor = userRole === UserRole.MENTOR;
+
   return (
     <>
       {isMentor ? (

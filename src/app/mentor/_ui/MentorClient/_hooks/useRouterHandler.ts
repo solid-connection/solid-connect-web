@@ -8,15 +8,6 @@ import { UserRole } from "@/types/mentor";
 const useRouterHandler = (): boolean => {
   const userRole = getUserRoleFromJwt();
 
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!userRole) {
-      alert("로그인이 필요합니다.");
-      router.push("/login");
-    }
-  }, [userRole, router]);
-
   const isMentor = userRole === UserRole.MENTOR;
   return isMentor;
 };
