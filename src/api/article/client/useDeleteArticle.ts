@@ -2,6 +2,8 @@ import { AxiosResponse } from "axios";
 
 import { axiosInstance } from "@/utils/axiosInstance";
 
+import { QueryKeys } from "./queryKey";
+
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const deleteArticle = async (articleId: number): Promise<void> => {
@@ -16,7 +18,7 @@ const useDeleteArticle = () => {
     mutationFn: deleteArticle,
     onSuccess: () => {
       // 아티클 목록 쿼리를 무효화하여 새로 고침
-      queryClient.invalidateQueries({ queryKey: ["articleList"] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.articleList] });
     },
     onError: (error) => {
       console.error("Failed to delete article:", error);

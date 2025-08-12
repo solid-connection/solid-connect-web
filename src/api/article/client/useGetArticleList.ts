@@ -3,6 +3,7 @@ import { AxiosResponse } from "axios";
 import { axiosInstance } from "@/utils/axiosInstance";
 
 import { ArticleResponse } from "../types/response";
+import { QueryKeys } from "./queryKey";
 
 import { useQuery } from "@tanstack/react-query";
 
@@ -19,7 +20,7 @@ const getArticleList = async (userId: number): Promise<ArticleListResponse> => {
 
 const useGetArticleList = (userId: number | null) => {
   return useQuery({
-    queryKey: ["articleList", userId],
+    queryKey: [QueryKeys.articleList, userId],
     queryFn: () => getArticleList(userId!),
     enabled: userId !== null,
     select: (data: ArticleListResponse) => data.news,

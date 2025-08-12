@@ -1,13 +1,11 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-
 import StudyDate from "@/components/mentor/StudyDate";
 import ChannelBadge from "@/components/ui/ChannelBadge";
 import MentoProfile from "@/components/ui/ProfileWithBadge";
 
+import useModifyHookForm from "./_hooks/useModifyHookForm";
 import usePutMyMentorProfileHandler from "./_hooks/usePutMyMentorProfileHandler";
-import { MentoModifyFormData, mentoModifySchema } from "./_lib/mentoModifyScehma";
 import AddArticleCard from "./_ui/AddArticleCard";
 import MentoArticlePanel from "./_ui/ArticlePanel";
 import ChannelSelect from "./_ui/ChannelSelct";
@@ -15,29 +13,19 @@ import ChannelSelect from "./_ui/ChannelSelct";
 import useGetArticleList from "@/api/article/client/useGetArticleList";
 import useGetMyMentorProfile from "@/api/mentor/client/useGetMentorMyProfile";
 import { IconUserPrimaryColor } from "@/public/svgs/mentor";
-import { zodResolver } from "@hookform/resolvers/zod";
 
 const ModifyContent = () => {
-  const { data: myMentorProfile } = useGetMyMentorProfile();
+  const { data: myMentorProfile = null } = useGetMyMentorProfile();
   const myId = myMentorProfile?.id || 0;
   const { data: articleList = [] } = useGetArticleList(myId);
 
   const {
-    register,
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm<MentoModifyFormData>({
-    resolver: zodResolver(mentoModifySchema),
-    defaultValues: {
-      channels: Array.from({ length: 4 }, (_, index) => ({
-        type: myMentorProfile?.channels?.[index]?.type || "",
-        url: myMentorProfile?.channels?.[index]?.url || "",
-      })),
-      introduction: myMentorProfile?.introduction || "",
-      passTip: "",
-    },
-  });
+    register,
+  } = useModifyHookForm(myMentorProfile);
+
   const { onSubmit } = usePutMyMentorProfileHandler();
 
   if (!myMentorProfile) return null; // myMentorProfile가 없으면 아무것도 렌더링하지 않음
