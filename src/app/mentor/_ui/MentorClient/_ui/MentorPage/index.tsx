@@ -13,7 +13,7 @@ import MyMentorSection from "./_ui/MyMentorSection";
 
 import { MentorTab } from "@/types/mentor";
 
-import useGetChatRooms from "@/api/chats/clients/useGetChatsRooms";
+import useGetChatRooms from "@/api/chat/clients/useGetChatRooms";
 import { IconDirectionRight } from "@/public/svgs/mentor";
 
 const MentorPage = () => {

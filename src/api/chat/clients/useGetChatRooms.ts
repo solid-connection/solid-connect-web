@@ -1,8 +1,8 @@
 import { axiosInstance } from "@/utils/axiosInstance";
 
-import { queryKey } from "./queryKey";
+import { QueryKeys } from "./queryKey";
 
-import { ChatRoom } from "@/types/chats";
+import { ChatRoom } from "@/types/chat";
 
 import { useQuery } from "@tanstack/react-query";
 
@@ -16,7 +16,7 @@ const getChatRooms = async () => {
 };
 const useGetChatRooms = () => {
   return useQuery({
-    queryKey: [queryKey.chatRooms],
+    queryKey: [QueryKeys.chatRooms],
     queryFn: getChatRooms,
     staleTime: 1000 * 60 * 5, // 5분간 캐시
     select: (data) => data.chatRooms,

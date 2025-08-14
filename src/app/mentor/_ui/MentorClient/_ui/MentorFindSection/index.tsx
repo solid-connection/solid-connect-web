@@ -23,7 +23,7 @@ const MentorFindSection = () => {
   } = useGetMentorList({
     region: selectedTab !== FilterTab.ALL ? selectedTab : "",
   });
-  const { lastElementRef } = useInfinityScroll(fetchNextPage);
+  const { lastElementRef } = useInfinityScroll({ fetchNextPage, hasNextPage });
   usePrefetchMentorFindTab();
 
   return (
@@ -52,9 +52,7 @@ const MentorFindSection = () => {
         ) : (
           mentorList.map((mentor) => (
             <MentorCard
-              observeRef={
-                hasNextPage && mentorList.length === mentorList.indexOf(mentor) + 1 ? lastElementRef : undefined
-              }
+              observeRef={mentorList.length === mentorList.indexOf(mentor) + 1 ? lastElementRef : undefined}
               key={mentor.id}
               mentor={mentor}
             />

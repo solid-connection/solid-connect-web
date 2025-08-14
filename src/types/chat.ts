@@ -11,3 +11,19 @@ export interface ChatPartner {
   nickname: string;
   profileUrl: string | null;
 }
+
+export interface ChatAttachment {
+  id: number;
+  isImage: boolean;
+  url: string;
+  thumbnailUrl: string;
+  createdAt: string;
+}
+
+export interface ChatMessage {
+  id: number;
+  content: string;
+  senderId: number;
+  createdAt: string;
+  attachments: ChatAttachment[];
+}

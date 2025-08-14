@@ -18,7 +18,7 @@ const ChatDetailPage = ({ params }: ChatDetailPageProps) => {
   return (
     <div className="flex flex-col">
       <ChatNavBar />
-      <ChatContent />
+      <ChatContent chatId={chatId} />
     </div>
   );
 };

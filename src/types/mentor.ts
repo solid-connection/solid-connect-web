@@ -36,14 +36,6 @@ export interface MentorChannel {
   url: string;
 }
 
-export interface ChatMessage {
-  id: number;
-  sender: "me" | "other";
-  senderName: string;
-  message: string;
-  time: Date;
-}
-
 export enum FilterTab {
   ALL = "전체",
   EUROPE = "유럽권",

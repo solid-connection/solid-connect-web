@@ -13,6 +13,7 @@ import IconModify from "./modify.svg";
 import IconPencil from "./pencil.svg";
 import IconPlus from "./plus.svg";
 import IconPoligon from "./poligon.svg";
+import IconPlusK200 from "./puls-k-200.svg";
 import IconSearchBlue from "./search-blue.svg";
 import IconSetting from "./setting.svg";
 import IconSmile from "./smile.svg";
@@ -44,4 +45,5 @@ export {
   IconTime,
   IconCheck,
   IconModify,
+  IconPlusK200,
 };

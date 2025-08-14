@@ -6,7 +6,7 @@ import { convertISODateToKoreanTime } from "@/utils/datetimeUtils";
 
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
 
-import useGetChatRooms from "@/api/chats/clients/useGetChatsRooms";
+import useGetChatRooms from "@/api/chat/clients/useGetChatRooms";
 import { IconSearchBlue, IconSolidConnentionLogo } from "@/public/svgs/mentor";
 
 const ChatPageClient = () => {
