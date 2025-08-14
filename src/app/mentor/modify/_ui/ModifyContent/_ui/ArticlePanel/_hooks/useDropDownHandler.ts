@@ -14,7 +14,7 @@ const useDeleteDropDownHandler = ({
   articleId,
   setIsArticleModalOpen,
 }: UseDeleteDropDownHandlerProps): UseDeleteDropDownHandlerReturn => {
-  const { deleteArticle } = useDeleteArticle(articleId);
+  const deleteArticleMutation = useDeleteArticle();
 
   const handleDropdownSelect = (value: ArticleDropdownType) => {
     switch (value) {
@@ -23,8 +23,7 @@ const useDeleteDropDownHandler = ({
         break;
       case ArticleDropdownType.DELETE:
         if (!confirm("정말로 이 아티클을 삭제하시겠습니까?")) return;
-        deleteArticle();
-        // 삭제 로직
+        deleteArticleMutation.mutate(articleId);
         break;
       default:
         break;

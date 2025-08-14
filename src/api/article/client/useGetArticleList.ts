@@ -1,8 +1,11 @@
-import { useEffect, useState } from "react";
+import { AxiosResponse } from "axios";
 
-import useFetch from "@/utils/apiUtils";
+import { axiosInstance } from "@/utils/axiosInstance";
 
 import { ArticleResponse } from "../types/response";
+import { QueryKeys } from "./queryKey";
+
+import { useQuery } from "@tanstack/react-query";
 
 /* ---------- 타입 ---------- */
 
@@ -10,31 +13,18 @@ interface ArticleListResponse {
   news: ArticleResponse[]; // 최대 5개
 }
 
+const getArticleList = async (userId: number): Promise<ArticleListResponse> => {
+  const response: AxiosResponse<ArticleListResponse> = await axiosInstance.get(`/news?site-user-id=${userId}`);
+  return response.data;
+};
+
 const useGetArticleList = (userId: number | null) => {
-  const { result, loading, error, fetchData } = useFetch<ArticleListResponse>();
-
-  const [articleList, setArticleList] = useState<ArticleResponse[]>([]);
-
-  /* 페이지 변경 시 데이터 요청 */
-  useEffect(() => {
-    if (userId === null) return;
-
-    fetchData({
-      method: "get",
-      url: `/news?site-user-id=${userId}`,
-      body: undefined,
-      isToken: true,
-    });
-  }, [userId, fetchData]);
-
-  /* 응답 처리 */
-  useEffect(() => {
-    if (result) {
-      setArticleList(result.data.news);
-    }
-  }, [result]);
-
-  return { articleList, loading, error };
+  return useQuery({
+    queryKey: [QueryKeys.articleList, userId],
+    queryFn: () => getArticleList(userId!),
+    enabled: userId !== null,
+    select: (data: ArticleListResponse) => data.news,
+  });
 };
 
 export default useGetArticleList;

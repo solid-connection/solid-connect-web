@@ -2,7 +2,7 @@
 
 import EmptySdwBCards from "@/components/ui/EmptySdwBCards";
 
-import MentorExpandChatCard from "./_ui/MentorExpandChatCard";
+import MentorExpandChatCard from "../../../../../components/mentor/MentorExpandChatCard";
 import MentorWaitingListBox from "./_ui/MentorWaitingListBox";
 
 import { VerifyStatus } from "@/types/mentee";
@@ -40,17 +40,21 @@ const WaitingContent = () => {
                 </div>
               ) : (
                 (isExpanded ? approveList : approveList.slice(0, DEFAULT_VISIBLE_ITEMS)).map((item) => (
-                  <MentorExpandChatCard
-                    hasExpand
-                    patchCheckMentorings={patchCheckMentorings}
-                    isChecked={item.isChecked}
-                    mentoringId={item.mentoringId}
+                  <button
                     key={item.mentoringId}
-                    profileImageUrl={item.profileImageUrl}
-                    nickname={item.nickname}
-                    message={`님이 멘티 신청을 수락했어요.`}
-                    date={item.createdAt}
-                  />
+                    onClick={() => patchCheckMentorings({ checkedMentoringIds: [item.mentoringId] })}
+                  >
+                    <MentorExpandChatCard
+                      hasExpand
+                      isChecked={item.isChecked}
+                      mentoringId={item.mentoringId}
+                      key={item.mentoringId}
+                      profileImageUrl={item.profileImageUrl}
+                      nickname={item.nickname}
+                      message={`님이 멘티 신청을 수락했어요.`}
+                      date={item.createdAt}
+                    />
+                  </button>
                 ))
               )}
             </div>

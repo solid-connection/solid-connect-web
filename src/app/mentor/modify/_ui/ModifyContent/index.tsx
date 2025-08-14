@@ -1,59 +1,35 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-
 import StudyDate from "@/components/mentor/StudyDate";
 import ChannelBadge from "@/components/ui/ChannelBadge";
 import MentoProfile from "@/components/ui/ProfileWithBadge";
 
-import { MentoModifyFormData, mentoModifySchema } from "./_lib/mentoModifyScehma";
+import useModifyHookForm from "./_hooks/useModifyHookForm";
+import usePutMyMentorProfileHandler from "./_hooks/usePutMyMentorProfileHandler";
 import AddArticleCard from "./_ui/AddArticleCard";
 import MentoArticlePanel from "./_ui/ArticlePanel";
 import ChannelSelect from "./_ui/ChannelSelct";
-import ModifyBtnPanel from "./_ui/ModifyBtnPanel";
 
-import { ChannelType } from "@/types/mentor";
-
-import useGetArticleList from "@/api/article/client/useGetAriticleList";
+import useGetArticleList from "@/api/article/client/useGetArticleList";
 import useGetMyMentorProfile from "@/api/mentor/client/useGetMentorMyProfile";
-import usePutMyMentorProfile, { PutMyMentorProfileBody } from "@/api/mentor/client/usePutMyMentorProfile";
 import { IconUserPrimaryColor } from "@/public/svgs/mentor";
-import { zodResolver } from "@hookform/resolvers/zod";
 
 const ModifyContent = () => {
-  const { myMentorProfile } = useGetMyMentorProfile();
-
+  const { data: myMentorProfile = null } = useGetMyMentorProfile();
   const myId = myMentorProfile?.id || 0;
-  const { articleList } = useGetArticleList(myId);
+  const { data: articleList = [] } = useGetArticleList(myId);
 
   const {
-    register,
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm<MentoModifyFormData>({
-    resolver: zodResolver(mentoModifySchema),
-    defaultValues: {
-      channels: Object.values(ChannelType).map(() => ({ type: "", url: "" })),
-      introduction: "",
-      passTip: "",
-    },
-  });
+    register,
+  } = useModifyHookForm(myMentorProfile);
 
-  const { putMyMentorProfile } = usePutMyMentorProfile();
-
-  // 폼 제출 핸들러
-  const onSubmit = (data: MentoModifyFormData) => {
-    const payload: PutMyMentorProfileBody = {
-      channels: data.channels ?? [],
-      introduction: data.introduction ?? "",
-      passTip: data.passTip ?? "",
-    };
-    putMyMentorProfile(payload);
-  };
+  const { onSubmit } = usePutMyMentorProfileHandler();
 
   if (!myMentorProfile) return null; // myMentorProfile가 없으면 아무것도 렌더링하지 않음
-  const { profileImageUrl, hasBadge, menteeCount, nickname, country, universityName, studyStatus } = myMentorProfile;
+  const { profileImageUrl, hasBadge, menteeCount, nickname, country, universityName, term, channels } = myMentorProfile;
 
   return (
     <div className="px-5">
@@ -75,19 +51,19 @@ const ModifyContent = () => {
               <div className="text-sm text-gray-500">{country}</div>
               <div className="text-lg font-semibold text-gray-900">{nickname}</div>
               <div className="text-sm text-gray-500">{universityName}</div>
-              <StudyDate studyStatus={studyStatus} />
+              <StudyDate term={term} />
             </div>
           </div>
         </div>
         <div className="mt-[40px]">
           <h2 className="mb-[10px] text-lg leading-normal text-primary-1">내 채널 관리</h2>
-          {/* 채널타입으로 뱃지 색상 구분 */}
-          {Object.values(ChannelType).map((channelType, index) => (
+          {/* 4개의 고정된 채널 입력 필드 */}
+          {Array.from({ length: 4 }, (_, index) => (
             <div key={index} className="mb-6">
               <div className="flex h-[26px] w-[70px] items-center justify-center overflow-hidden rounded-2xl">
-                <ChannelBadge channerType={channelType} text={`내 채널${index + 1}`} />
+                <ChannelBadge channelType={channels[index]?.type || ""} text={`내 채널${index + 1}`} />
               </div>
-              <h2 className="mt-[10px] text-[16px] font-medium text-k-700">채널 선택</h2>
+              <h2 className="mt-[10px] text-base font-medium text-k-700">채널 선택</h2>
               <ChannelSelect control={control} name={`channels.${index}.type`} />
               {errors.channels?.[index]?.type && (
                 <p className="mt-1 text-sm text-red-500">
@@ -149,7 +125,9 @@ const ModifyContent = () => {
             <AddArticleCard />
           </div>
           <div className="mt-20 flex justify-center">
-            <ModifyBtnPanel onSubmit={handleSubmit(onSubmit)} />
+            <button type="submit" className="mb-10 h-[40px] w-[150px] rounded-3xl bg-primary-1 px-5 py-[10px] text-k-0">
+              수정하기
+            </button>
           </div>
         </div>
       </form>

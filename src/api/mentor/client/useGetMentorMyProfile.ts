@@ -7,10 +7,10 @@ import { MentorCardPreview } from "@/types/mentor";
 // 학업 학기 (예: "2026-1")
 import { useQuery } from "@tanstack/react-query";
 
-type GetMyMentorProfileResponse = MentorCardPreview;
+type UseGetMyMentorProfileResponse = MentorCardPreview;
 
-const getMentorMyProfile = async (): Promise<GetMyMentorProfileResponse> => {
-  const res = await axiosInstance.get<GetMyMentorProfileResponse>("/mentor/my");
+const getMentorMyProfile = async (): Promise<UseGetMyMentorProfileResponse> => {
+  const res = await axiosInstance.get<UseGetMyMentorProfileResponse>("/mentor/my");
   return res.data;
 };
 

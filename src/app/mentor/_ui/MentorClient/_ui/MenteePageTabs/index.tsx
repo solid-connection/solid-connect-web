@@ -5,8 +5,7 @@ import { useState } from "react";
 
 import MentorChatCard from "@/components/mentor/MentorChatCard";
 import EmptyMentorChatCards from "@/components/ui/EmptySdwBCards";
-
-import usePrefetchMenteeMentoringListTab from "./_hooks/usePrefetchMenteeMentoringListTab";
+import TabSelector from "@/components/ui/TabSelector";
 
 import { VerifyStatus } from "@/types/mentee";
 import { MenteeTab } from "@/types/mentor";
@@ -19,35 +18,18 @@ const MenteePageTabs = () => {
   // api
   const { data: mentoList = [] } = useGetChatRooms();
   const { data: menteeWaitingMentoringList = [] } = useGetMenteeMentoringList(VerifyStatus.PENDING);
-  usePrefetchMenteeMentoringListTab();
 
   // state
   const [selectedTab, setSelectedTab] = useState<MenteeTab>(MenteeTab.MY_MENTOR);
+  const tabs = [MenteeTab.MY_MENTOR, MenteeTab.MY_APPLIED];
 
   // 현재 탭에 따라 보여줄 데이터의 길이
   const currentDataLength = selectedTab === MenteeTab.MY_MENTOR ? mentoList.length : menteeWaitingMentoringList.length;
 
   return (
     <>
-      <header className="bg-white">
-        <div className="flex border-b border-gray-200">
-          <button
-            onClick={() => setSelectedTab(MenteeTab.MY_MENTOR)}
-            className={`flex-1 py-4 text-center text-base font-medium ${
-              selectedTab === MenteeTab.MY_MENTOR ? "border-b-2 border-primary text-primary" : "text-k-500"
-            }`}
-          >
-            나의 멘토
-          </button>
-          <button
-            onClick={() => setSelectedTab(MenteeTab.MY_APPLIED)}
-            className={`flex-1 py-4 text-center text-base font-medium ${
-              selectedTab === MenteeTab.MY_APPLIED ? "border-b-2 border-primary text-primary" : "text-k-500"
-            }`}
-          >
-            신청 목록
-          </button>
-        </div>
+      <header className="">
+        <TabSelector tabs={tabs} selectedTab={selectedTab} onTabChange={(tab) => setSelectedTab(tab as MenteeTab)} />
       </header>
 
       <div className="mb-3 mt-5 flex justify-between">
@@ -79,16 +61,16 @@ const MenteePageTabs = () => {
       )}
 
       {selectedTab === MenteeTab.MY_MENTOR &&
-        mentoList
-          .slice(0, 2)
-          .map((mentor) => (
+        mentoList.slice(0, 2).map((mentor) => (
+          <Link href={`mentor/chat/${mentor.id}`} key={mentor.id}>
             <MentorChatCard
               key={mentor.id}
               nickname={mentor.partner.nickname}
               profileImageUrl={mentor.partner.profileUrl}
               description={mentor.lastChatMessage}
             />
-          ))}
+          </Link>
+        ))}
       {selectedTab === MenteeTab.MY_APPLIED &&
         menteeWaitingMentoringList
           .slice(0, 2)

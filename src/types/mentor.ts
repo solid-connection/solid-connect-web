@@ -68,8 +68,8 @@ export enum ChannelType {
 }
 
 export enum MentorTab {
-  MY_MENTOR = "나의 멘토",
   MY_MENTEE = "나의 멘티",
+  APPLY_LIST = "신청 목록",
 }
 
 export enum MenteeTab {
@@ -87,6 +87,12 @@ export enum UserRole {
   MENTEE = "MENTEE",
 }
 
+export enum MentorStudyStatus {
+  STUDYING = "STUDYING", // 현재 연수 중
+  COMPLETED = "COMPLETED", // 연수 종료
+  SCHEDULED = "SCHEDULED", // 연수 예정
+}
+
 export type ExchangeStatus =
   | "STUDYING_ABROAD" // 현재 연수 중
   | "FINISHED" // 연수 종료
@@ -99,9 +105,21 @@ export interface MentorCardBase {
   nickname: string;
   country: string; // 국가 (한국어 표기)
   universityName: string;
-  exchangeStatus: ExchangeStatus;
   menteeCount: number;
   hasBadge: boolean;
   introduction: string;
   channels: MentorChannel[];
+}
+
+export interface MentoringItem {
+  mentoringId: number;
+  profileImageUrl: string | null;
+  nickname: string;
+  isChecked: boolean;
+  createdAt: string;
+}
+
+export enum MentoringApprovalStatus {
+  APPROVE = "APPROVE",
+  REJECT = "REJECT",
 }

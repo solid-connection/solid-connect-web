@@ -6,11 +6,11 @@ import { MentorCardDetail } from "@/types/mentor";
 
 import { useQuery } from "@tanstack/react-query";
 
-type GetMentorDetailResponse = MentorCardDetail;
+type UseGetMentorDetailResponse = MentorCardDetail;
 
-const getMentorDetail = async ({ queryKey }: { queryKey: [string, number] }): Promise<GetMentorDetailResponse> => {
+const getMentorDetail = async ({ queryKey }: { queryKey: [string, number] }): Promise<UseGetMentorDetailResponse> => {
   const [, mentorId] = queryKey;
-  const res = await axiosInstance.get<GetMentorDetailResponse>(`/mentors/${mentorId}`);
+  const res = await axiosInstance.get<UseGetMentorDetailResponse>(`/mentors/${mentorId}`);
   return res.data;
 };
 
