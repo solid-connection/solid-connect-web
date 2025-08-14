@@ -1,30 +1,11 @@
 import Image from "next/image";
-import { useRef, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useState } from "react";
 
 import clsx from "clsx";
-import { z } from "zod";
 
-import { IconDirectMessage, IconPlus, IconPlusK200, IconXWhite } from "@/public/svgs/mentor";
-import { zodResolver } from "@hookform/resolvers/zod";
+import useChatInputHandler from "./_hooks/useChatInputHandler";
 
-// Zod 스키마 정의
-const messageSchema = z.object({
-  message: z.string().min(1, "메시지를 입력해주세요").trim(),
-});
-
-const imageSchema = z.object({
-  images: z.array(z.instanceof(File)).min(1, "이미지를 선택해주세요"),
-});
-
-const fileSchema = z.object({
-  files: z.array(z.instanceof(File)).min(1, "파일을 선택해주세요"),
-});
-
-// 타입 정의
-type MessageForm = z.infer<typeof messageSchema>;
-type ImageForm = z.infer<typeof imageSchema>;
-type FileForm = z.infer<typeof fileSchema>;
+import { IconDirectMessage, IconPlusK200, IconXWhite } from "@/public/svgs/mentor";
 
 interface ChatInputBarProps {
   onSendMessage: (data: { message: string }) => void;
@@ -33,104 +14,33 @@ interface ChatInputBarProps {
 }
 
 const ChatInputBar = ({ onSendMessage, onSendImages, onSendFiles }: ChatInputBarProps) => {
-  // 텍스트 메시지용 폼
-  const messageForm = useForm<MessageForm>({
-    resolver: zodResolver(messageSchema),
-    defaultValues: { message: "" },
+  const [isAttachmentOptionsOpen, setIsAttachmentOptionsOpen] = useState(false);
+
+  const {
+    imageInputRef,
+    fileInputRef,
+    handleImageChange,
+    selectedImages,
+    selectedFiles,
+    setSelectedFiles,
+    setSelectedImages,
+    messageForm,
+    onSubmit,
+    isEmpty,
+    hasAttachments,
+    handleAlbumClick,
+    handleFileClick,
+    handleFileChange,
+  } = useChatInputHandler({
+    onSendMessage,
+    onSendImages,
+    onSendFiles,
+    setIsAttachmentOptionsOpen,
   });
-
-  // 이미지용 폼
-  const imageForm = useForm<ImageForm>({
-    resolver: zodResolver(imageSchema),
-  });
-
-  // 파일용 폼
-  const fileForm = useForm<FileForm>({
-    resolver: zodResolver(fileSchema),
-  });
-
-  const [showAttachmentOptions, setShowAttachmentOptions] = useState(false);
-  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-  const [selectedImages, setSelectedImages] = useState<File[]>([]);
-
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const imageInputRef = useRef<HTMLInputElement>(null);
-
-  const watchedMessage = messageForm.watch("message", "");
-  const isEmpty = !watchedMessage?.trim() && selectedFiles.length === 0 && selectedImages.length === 0;
-  const hasAttachments = selectedFiles.length > 0 || selectedImages.length > 0;
-
-  const handleAttachmentClick = () => {
-    // 첨부파일이 있으면 첨부파일 옵션을 열지 않음
-    if (hasAttachments) return;
-
-    const newShowState = !showAttachmentOptions;
-    setShowAttachmentOptions(newShowState);
-  };
-
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (files) {
-      const fileArray = Array.from(files);
-      setSelectedImages(fileArray);
-      // 이미지 선택 시 첨부파일 옵션 닫기
-      setShowAttachmentOptions(false);
-    }
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (files) {
-      const fileArray = Array.from(files);
-      setSelectedFiles(fileArray);
-      // 파일 선택 시 첨부파일 옵션 닫기
-      setShowAttachmentOptions(false);
-    }
-  };
-
-  const handleAlbumClick = () => {
-    // 이미지 파일 선택 트리거
-    imageInputRef.current?.click();
-  };
-
-  const handleFileClick = () => {
-    // 파일 선택 트리거
-    fileInputRef.current?.click();
-  };
-
-  const onSubmit = (data: MessageForm) => {
-    // 메시지가 있으면 텍스트 메시지 전송
-    if (data.message.trim()) {
-      onSendMessage({
-        message: data.message,
-      });
-      messageForm.reset();
-    }
-
-    // 선택된 이미지가 있으면 이미지 전송
-    if (selectedImages.length > 0) {
-      imageForm.setValue("images", selectedImages);
-      imageForm.handleSubmit((imageData) => {
-        onSendImages(imageData);
-      })();
-      setSelectedImages([]);
-      if (imageInputRef.current) imageInputRef.current.value = "";
-    }
-
-    // 선택된 파일이 있으면 파일 전송
-    if (selectedFiles.length > 0) {
-      fileForm.setValue("files", selectedFiles);
-      fileForm.handleSubmit((fileData) => {
-        onSendFiles(fileData);
-      })();
-      setSelectedFiles([]);
-      if (fileInputRef.current) fileInputRef.current.value = "";
-    }
-  };
 
   return (
     <div
-      className={`flex-shrink-0 transition-all duration-300 ${showAttachmentOptions ? "bg-primary-100 pb-28" : "pb-0"}`}
+      className={`flex-shrink-0 transition-all duration-300 ${isAttachmentOptionsOpen ? "bg-primary-100 pb-28" : "pb-0"}`}
     >
       {/* 숨겨진 파일 입력 요소들 */}
       <input
@@ -189,21 +99,21 @@ const ChatInputBar = ({ onSendMessage, onSendImages, onSendFiles }: ChatInputBar
           onSubmit={messageForm.handleSubmit(onSubmit)}
           className={clsx(
             "flex items-center gap-2 p-4",
-            isEmpty && !showAttachmentOptions ? "bg-white" : "bg-primary-100",
+            isEmpty && !isAttachmentOptionsOpen ? "bg-white" : "bg-primary-100",
           )}
         >
           {/* + 버튼을 좌측에 배치 */}
           <button
             type="button"
-            onClick={handleAttachmentClick}
+            onClick={() => setIsAttachmentOptionsOpen((prev) => !prev)}
             disabled={hasAttachments}
             className={clsx(
               "h-7 w-7 rounded-full p-1 transition-colors",
-              hasAttachments ? "cursor-not-allowed bg-k-100" : showAttachmentOptions ? "bg-primary-200" : "bg-k-50",
+              hasAttachments ? "cursor-not-allowed bg-k-100" : isAttachmentOptionsOpen ? "bg-primary-200" : "bg-k-50",
             )}
           >
             <span className="h-4 w-4">
-              {showAttachmentOptions ? (
+              {isAttachmentOptionsOpen ? (
                 // X 아이콘 (임시로 텍스트 사용)
                 <div className="flex h-full w-full items-center justify-center text-xs font-bold text-k-600">
                   <IconXWhite />
@@ -220,7 +130,7 @@ const ChatInputBar = ({ onSendMessage, onSendImages, onSendFiles }: ChatInputBar
               "transition-al flex h-10 flex-1 justify-between rounded-3xl",
               hasAttachments
                 ? "bg-k-100"
-                : isEmpty && !showAttachmentOptions
+                : isEmpty && !isAttachmentOptionsOpen
                   ? "border-transparent bg-k-50"
                   : "bg-white",
             )}
@@ -232,7 +142,7 @@ const ChatInputBar = ({ onSendMessage, onSendImages, onSendFiles }: ChatInputBar
                 "flex-1 rounded-2xl py-2 pl-3 pr-2 text-[14px] text-k-800 outline-none transition-colors placeholder:text-k-500",
                 hasAttachments
                   ? "cursor-not-allowed bg-k-100 text-k-400"
-                  : isEmpty && !showAttachmentOptions
+                  : isEmpty && !isAttachmentOptionsOpen
                     ? "bg-k-50"
                     : "bg-white",
               )}
@@ -263,7 +173,7 @@ const ChatInputBar = ({ onSendMessage, onSendImages, onSendFiles }: ChatInputBar
       </div>
 
       {/* 첨부파일 옵션 - 카카오톡 스타일 */}
-      {showAttachmentOptions && !hasAttachments && (
+      {isAttachmentOptionsOpen && !hasAttachments && (
         <div className="w-full">
           <div className="flex gap-2 p-4">
             {/* 앨범 버튼 */}
