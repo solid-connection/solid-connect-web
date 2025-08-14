@@ -21,6 +21,7 @@ import IconSolidConnentionLogo from "./solid-connection-logo.svg";
 import IconTime from "./time.svg";
 import IconUnSmile from "./un-smile.svg";
 import IconUserPrimaryColor from "./user-primary-color.svg";
+import IconXWhite from "./x-white.svg";
 
 export {
   IconAlert,
@@ -46,4 +47,5 @@ export {
   IconCheck,
   IconModify,
   IconPlusK200,
+  IconXWhite,
 };
