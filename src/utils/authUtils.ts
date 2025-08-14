@@ -4,9 +4,17 @@ import { loadAccessToken, loadRefreshToken } from "./localStorage";
 import { appleOAuth2CodeResponse } from "@/types/auth";
 
 export const isAuthenticated = () => {
-  if (!isTokenExpired(loadAccessToken()) || !isTokenExpired(loadRefreshToken())) {
+  const accessToken = loadAccessToken();
+  const refreshToken = loadRefreshToken();
+
+  if (accessToken && !isTokenExpired(accessToken)) {
     return true;
   }
+
+  if (refreshToken && !isTokenExpired(refreshToken)) {
+    return true;
+  }
+
   return false;
 };
 

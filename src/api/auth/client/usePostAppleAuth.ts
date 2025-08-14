@@ -3,9 +3,15 @@ import { useRouter } from "next/navigation";
 import { AxiosResponse } from "axios";
 
 import { publicAxiosInstance } from "@/utils/axiosInstance";
+import { saveRefreshTokenToLS } from "@/utils/localStorageUtils";
 
 import { setAccessToken } from "@/lib/zustand/useTokenStore";
 import { useMutation } from "@tanstack/react-query";
+
+// 쿠키 로그인 활성화 여부 확인
+const isCookieLoginEnabled = () => {
+  return process.env.NEXT_PUBLIC_COOKIE_LOGIN_ENABLED === "true";
+};
 
 // Apple
 export interface RegisteredAppleAuthResponse {
@@ -42,6 +48,12 @@ const usePostAppleAuth = () => {
       if (data.isRegistered) {
         // 기존 회원일 시 - 토큰 저장하고 홈으로 이동
         setAccessToken(data.accessToken);
+
+        // 로컬스토리지 모드일 때만 리프레시 토큰을 로컬스토리지에 저장
+        if (!isCookieLoginEnabled() && data.refreshToken) {
+          saveRefreshTokenToLS(data.refreshToken);
+        }
+
         router.push("/");
       } else {
         // 새로운 회원일 시 - 회원가입 페이지로 이동
