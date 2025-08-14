@@ -1,18 +1,19 @@
 import Image from "next/image";
 import { useState } from "react";
 
-import ArticleModal from "@/components/mentor/ArticleModal";
+import ArticleBottomSheetModal from "@/components/mentor/ArticleBottomSheetModal";
 import ReusableDropdown from "@/components/ui/ReusableDropdown";
 
 import useDeleteDropDownHandler from "./_hooks/useDropDownHandler";
 
-import { ArticleDropdownType } from "@/types/mentor";
+import { ArticleDropdownType } from "@/types/news";
+import { Article } from "@/types/news";
 
-import { ArticleResponse } from "@/api/news/types/response";
+import usePutModifyArticle from "@/api/news/client/usePutModifyArticle";
 import { IconPencil } from "@/public/svgs/mentor";
 
 interface ArticlePanelProps {
-  article: ArticleResponse;
+  article: Article;
 }
 
 const dropdownOptions: ArticleDropdownType[] = [ArticleDropdownType.EDIT, ArticleDropdownType.DELETE];
@@ -20,6 +21,7 @@ const dropdownOptions: ArticleDropdownType[] = [ArticleDropdownType.EDIT, Articl
 const ArticlePanel = ({ article }: ArticlePanelProps) => {
   // state
   const [isArticleModalOpen, setIsArticleModalOpen] = useState<boolean>(false);
+  const { mutate: putModifyArticle } = usePutModifyArticle();
   const { handleDropdownSelect } = useDeleteDropDownHandler({
     articleId: 0,
     setIsArticleModalOpen,
@@ -47,15 +49,18 @@ const ArticlePanel = ({ article }: ArticlePanelProps) => {
       <h2 className="mt-[6px] text-[17px] font-semibold leading-normal text-k-800">{article.title}</h2>
       <p className="text-sm font-normal text-k-500">{article.description}</p>
 
-      <ArticleModal
+      <ArticleBottomSheetModal
         isOpen={isArticleModalOpen}
-        handleClose={() => setIsArticleModalOpen(false)}
+        mode="수정하기"
+        handleClose={() => {
+          setIsArticleModalOpen(false);
+        }}
         initialData={{
           title: article.title,
-          content: article.description,
+          description: article.description,
         }}
         onSubmit={(data) => {
-          console.log("아티클 수정:", data);
+          putModifyArticle(data);
           // 여기서 아티클 수정 로직 처리
         }}
       />

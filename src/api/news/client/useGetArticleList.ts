@@ -2,15 +2,16 @@ import { AxiosResponse } from "axios";
 
 import { axiosInstance } from "@/utils/axiosInstance";
 
-import { ArticleResponse } from "../types/response";
 import { QueryKeys } from "./queryKey";
+
+import { Article } from "@/types/news";
 
 import { useQuery } from "@tanstack/react-query";
 
 /* ---------- 타입 ---------- */
 
 interface ArticleListResponse {
-  news: ArticleResponse[]; // 최대 5개
+  newsResponseList: Article[]; // 최대 5개
 }
 
 const getArticleList = async (userId: number): Promise<ArticleListResponse> => {
@@ -23,7 +24,7 @@ const useGetArticleList = (userId: number | null) => {
     queryKey: [QueryKeys.articleList, userId],
     queryFn: () => getArticleList(userId!),
     enabled: userId !== null,
-    select: (data: ArticleListResponse) => data.news,
+    select: (data: ArticleListResponse) => data.newsResponseList,
   });
 };
 

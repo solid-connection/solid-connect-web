@@ -27,9 +27,9 @@ const useArticleSchema = ({ initialData, onSubmit, handleClose }: UseArticleSche
     resolver: zodResolver(articleSchema),
     defaultValues: {
       title: initialData?.title || "",
-      content: initialData?.content || "",
-      link: initialData?.link || "",
-      image: undefined,
+      description: initialData?.description || "",
+      url: initialData?.url || "",
+      file: undefined,
     },
   });
 
@@ -39,7 +39,7 @@ const useArticleSchema = ({ initialData, onSubmit, handleClose }: UseArticleSche
     const files = e.target.files;
     if (files && files.length > 0) {
       const file = files[0];
-      setValue("image", file);
+      setValue("file", file);
 
       // 미리보기 설정
       const reader = new FileReader();
@@ -66,7 +66,7 @@ const useArticleSchema = ({ initialData, onSubmit, handleClose }: UseArticleSche
 
   const handleSetImageDelete = () => {
     setImagePreview(null);
-    setValue("image", undefined);
+    setValue("file", undefined);
   };
   return {
     methods,

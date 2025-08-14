@@ -44,14 +44,6 @@ export interface ChatMessage {
   time: Date;
 }
 
-export interface Article {
-  id: number;
-  title: string;
-  description: string;
-  imageUrl: string;
-  isLiked: boolean;
-}
-
 export enum FilterTab {
   ALL = "전체",
   EUROPE = "유럽권",
@@ -75,11 +67,6 @@ export enum MentorTab {
 export enum MenteeTab {
   MY_MENTOR = "나의 멘토",
   MY_APPLIED = "신청목록",
-}
-
-export enum ArticleDropdownType {
-  EDIT = "수정하기",
-  DELETE = "삭제하기",
 }
 
 export enum UserRole {

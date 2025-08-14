@@ -8,13 +8,13 @@ import { QueryKeys } from "./queryKey";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-type UsePostAddArticleRequest = ArticleFormData;
+type UsePutAddArticleRequest = ArticleFormData;
 
-interface UsePostAddArticleResponse {
+interface UsePutAddArticleResponse {
   id: number;
 }
 
-const postAddArticle = async (body: UsePostAddArticleRequest): Promise<UsePostAddArticleResponse> => {
+const putModifyArticle = async (body: UsePutAddArticleRequest): Promise<UsePutAddArticleResponse> => {
   const newsCreateRequest = {
     title: body.title,
     description: body.description,
@@ -27,31 +27,31 @@ const postAddArticle = async (body: UsePostAddArticleRequest): Promise<UsePostAd
     formData.append("newsCreateRequest", new Blob([JSON.stringify(newsCreateRequest)], { type: "application/json" }));
     formData.append("file", body.file);
 
-    const response: AxiosResponse<UsePostAddArticleResponse> = await axiosInstance.post("/news", formData, {
+    const response: AxiosResponse<UsePutAddArticleResponse> = await axiosInstance.put("/news", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
     return response.data;
   } else {
-    const response: AxiosResponse<UsePostAddArticleResponse> = await axiosInstance.post("/news", newsCreateRequest);
+    const response: AxiosResponse<UsePutAddArticleResponse> = await axiosInstance.put("/news", newsCreateRequest);
     return response.data;
   }
 };
 
-const usePostAddArticle = () => {
+const usePutModifyArticle = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: postAddArticle,
+    mutationFn: putModifyArticle,
     onSuccess: () => {
       // 아티클 목록 쿼리를 무효화하여 새로 고침
       queryClient.invalidateQueries({ queryKey: [QueryKeys.articleList] });
     },
     onError: () => {
-      alert("아티클 추가에 실패했습니다. 다시 시도해주세요.");
+      alert("아티클 수정에 실패했습니다. 다시 시도해주세요.");
     },
   });
 };
 
-export default usePostAddArticle;
+export default usePutModifyArticle;
