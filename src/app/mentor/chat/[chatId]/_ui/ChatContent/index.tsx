@@ -35,7 +35,15 @@ const ChatContent = ({ chatId, currentUserId = 1 }: ChatContentProps) => {
   usePutChatReadHandler(chatId);
 
   // 채팅 리스트 관리 훅
-  const { messages: submittedMessages, firstRef, isLoading, isFetchingNextPage } = useChatListHandler(chatId);
+  const {
+    submittedMessages,
+    firstRef,
+    isLoading,
+    isFetchingNextPage,
+    addTextMessage,
+    addImageMessage,
+    addFileMessage,
+  } = useChatListHandler(chatId);
 
   // 메시지가 변경될 때마다 스크롤을 맨 아래로
   useEffect(() => {
@@ -143,14 +151,38 @@ const ChatContent = ({ chatId, currentUserId = 1 }: ChatContentProps) => {
 
       {/* 메시지 입력 영역 - 항상 하단 고정 */}
       <ChatInputBar
-        onSendMessage={(messageContent) => {
-          // 메시지 전송 로직
-          console.log("메시지 전송:", messageContent);
+        onSendMessage={(data) => {
+          // 훅의 텍스트 메시지 추가 함수 사용
+          addTextMessage(data.message, currentUserId || 1);
+
+          console.log("메시지 전송:", data);
           // 메시지 전송 후 스크롤을 맨 아래로
           setTimeout(() => {
             scrollToBottom();
           }, 100);
           // 여기에 메시지 전송 API 호출 등을 추가할 수 있습니다.
+        }}
+        onSendImages={(data) => {
+          // 훅의 이미지 메시지 추가 함수 사용
+          addImageMessage(data.images, currentUserId || 1);
+
+          console.log("이미지 전송:", data);
+          // 이미지 전송 후 스크롤을 맨 아래로
+          setTimeout(() => {
+            scrollToBottom();
+          }, 100);
+          // 여기에 이미지 전송 API 호출 등을 추가할 수 있습니다.
+        }}
+        onSendFiles={(data) => {
+          // 훅의 파일 메시지 추가 함수 사용
+          addFileMessage(data.files, currentUserId || 1);
+
+          console.log("파일 전송:", data);
+          // 파일 전송 후 스크롤을 맨 아래로
+          setTimeout(() => {
+            scrollToBottom();
+          }, 100);
+          // 여기에 파일 전송 API 호출 등을 추가할 수 있습니다.
         }}
       />
     </div>

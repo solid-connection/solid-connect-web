@@ -4,6 +4,9 @@ import { useState } from "react";
 import clsx from "clsx";
 
 import useChatInputHandler from "./_hooks/useChatInputHandler";
+import useFileHandler from "./_hooks/useFileHandler";
+import useImageHandler from "./_hooks/useImageHandler";
+import useMessageHandler from "./_hooks/useMessageHandler";
 
 import { IconDirectMessage, IconPlusK200, IconXWhite } from "@/public/svgs/mentor";
 
@@ -16,27 +19,28 @@ interface ChatInputBarProps {
 const ChatInputBar = ({ onSendMessage, onSendImages, onSendFiles }: ChatInputBarProps) => {
   const [isAttachmentOptionsOpen, setIsAttachmentOptionsOpen] = useState(false);
 
+  const { messageForm, onSubmitMessage, isMessageEmpty } = useMessageHandler({ onSendMessage });
   const {
     imageInputRef,
-    fileInputRef,
-    handleImageChange,
     selectedImages,
+    setSelectedImages,
+    imageForm,
+    onSubmitImages,
+    hasImages,
+    handleImageChange,
+    handleAlbumClick,
+  } = useImageHandler({ onSendImages, setIsAttachmentOptionsOpen });
+  const {
+    fileInputRef,
     selectedFiles,
     setSelectedFiles,
-    setSelectedImages,
-    messageForm,
-    onSubmit,
-    isEmpty,
-    hasAttachments,
-    handleAlbumClick,
-    handleFileClick,
+    fileForm,
+    onSubmitFiles,
+    hasFiles,
     handleFileChange,
-  } = useChatInputHandler({
-    onSendMessage,
-    onSendImages,
-    onSendFiles,
-    setIsAttachmentOptionsOpen,
-  });
+    handleFileClick,
+  } = useFileHandler({ onSendFiles, setIsAttachmentOptionsOpen });
+  const hasAttachments = hasImages || hasFiles;
 
   return (
     <div
@@ -92,14 +96,43 @@ const ChatInputBar = ({ onSendMessage, onSendImages, onSendFiles }: ChatInputBar
                 </button>
               </div>
             ))}
+
+            {/* 첨부파일 전송 버튼 */}
+            <div className="ml-2 flex items-center">
+              {hasImages && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    imageForm.setValue("images", selectedImages);
+                    imageForm.handleSubmit(onSubmitImages)();
+                  }}
+                  className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary-600"
+                >
+                  이미지 전송
+                </button>
+              )}
+              {hasFiles && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    fileForm.setValue("files", selectedFiles);
+                    fileForm.handleSubmit(onSubmitFiles)();
+                  }}
+                  className="ml-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary-600"
+                >
+                  파일 전송
+                </button>
+              )}
+            </div>
           </div>
         )}
 
+        {/* 메시지 폼 */}
         <form
-          onSubmit={messageForm.handleSubmit(onSubmit)}
+          onSubmit={messageForm.handleSubmit(onSubmitMessage)}
           className={clsx(
             "flex items-center gap-2 p-4",
-            isEmpty && !isAttachmentOptionsOpen ? "bg-white" : "bg-primary-100",
+            isMessageEmpty && !isAttachmentOptionsOpen ? "bg-white" : "bg-primary-100",
           )}
         >
           {/* + 버튼을 좌측에 배치 */}
@@ -129,8 +162,8 @@ const ChatInputBar = ({ onSendMessage, onSendImages, onSendFiles }: ChatInputBar
             className={clsx(
               "transition-al flex h-10 flex-1 justify-between rounded-3xl",
               hasAttachments
-                ? "bg-k-100"
-                : isEmpty && !isAttachmentOptionsOpen
+                ? "bg-k-50"
+                : isMessageEmpty && !isAttachmentOptionsOpen
                   ? "border-transparent bg-k-50"
                   : "bg-white",
             )}
@@ -141,29 +174,31 @@ const ChatInputBar = ({ onSendMessage, onSendImages, onSendFiles }: ChatInputBar
               className={clsx(
                 "flex-1 rounded-2xl py-2 pl-3 pr-2 text-[14px] text-k-800 outline-none transition-colors placeholder:text-k-500",
                 hasAttachments
-                  ? "cursor-not-allowed bg-k-100 text-k-400"
-                  : isEmpty && !isAttachmentOptionsOpen
+                  ? "cursor-not-allowed bg-k-50 text-k-400"
+                  : isMessageEmpty && !isAttachmentOptionsOpen
                     ? "bg-k-50"
                     : "bg-white",
               )}
-              {...messageForm.register("message", {
-                required: !hasAttachments,
-              })}
+              {...messageForm.register("message")}
               placeholder={hasAttachments ? "파일을 보내시려면 버튼을 클릭하세요." : "메시지를 입력하세요..."}
               onKeyDown={(e) => {
                 if (hasAttachments) return;
                 if (e.key === "Enter" && !e.shiftKey) {
                   e.preventDefault();
-                  messageForm.handleSubmit(onSubmit)();
+                  messageForm.handleSubmit(onSubmitMessage)();
                 }
               }}
             />
             <button
               type="submit"
-              disabled={isEmpty}
+              disabled={isMessageEmpty}
+              onClick={() => {
+                console.log("메시지 전송 버튼 클릭됨");
+                console.log("isMessageEmpty:", isMessageEmpty);
+              }}
               className={clsx(
                 "flex h-10 w-10 items-center justify-center rounded-full transition-colors",
-                isEmpty ? "bg-k-100" : "bg-primary",
+                isMessageEmpty ? "bg-k-100" : "bg-primary",
               )}
             >
               <IconDirectMessage />
@@ -194,6 +229,91 @@ const ChatInputBar = ({ onSendMessage, onSendImages, onSendFiles }: ChatInputBar
             >
               <div className="text-sm">📁</div>
               <span className="text-[10px] font-medium text-k-700">파일</span>
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* 이미지 프리뷰 */}
+      {hasImages && (
+        <div className="mt-3 space-y-2">
+          <div className="grid grid-cols-4 gap-2">
+            {selectedImages.map((image, index) => (
+              <div key={index} className="relative">
+                <Image
+                  src={URL.createObjectURL(image)}
+                  alt={`preview-${index}`}
+                  width={80}
+                  height={80}
+                  className="h-20 w-20 rounded-lg object-cover"
+                  unoptimized
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    const newImages = selectedImages.filter((_, i) => i !== index);
+                    setSelectedImages(newImages);
+                  }}
+                  className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white"
+                >
+                  ×
+                </button>
+              </div>
+            ))}
+          </div>
+          <div className="flex justify-end">
+            <button
+              type="button"
+              onClick={() => {
+                console.log("이미지 전송 버튼 클릭됨");
+                imageForm.setValue("images", selectedImages);
+                imageForm.handleSubmit(onSubmitImages)();
+              }}
+              className="flex items-center justify-center rounded-lg bg-[#6366f1] px-3 py-1.5 text-sm font-medium text-white transition-colors duration-200 hover:bg-[#5855eb]"
+            >
+              전송
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* 파일 프리뷰 */}
+      {hasFiles && (
+        <div className="mt-3 space-y-2">
+          <div className="space-y-2">
+            {selectedFiles.map((file, index) => (
+              <div key={index} className="flex items-center justify-between rounded-lg bg-gray-100 p-2">
+                <div className="flex items-center space-x-2">
+                  <div className="text-lg">📄</div>
+                  <div>
+                    <div className="text-sm font-medium">{file.name}</div>
+                    <div className="text-xs text-gray-500">{(file.size / 1024 / 1024).toFixed(1)} MB</div>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const newFiles = selectedFiles.filter((_, i) => i !== index);
+                    setSelectedFiles(newFiles);
+                  }}
+                  className="flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white"
+                >
+                  ×
+                </button>
+              </div>
+            ))}
+          </div>
+          <div className="flex justify-end">
+            <button
+              type="button"
+              onClick={() => {
+                console.log("파일 전송 버튼 클릭됨");
+                fileForm.setValue("files", selectedFiles);
+                fileForm.handleSubmit(onSubmitFiles)();
+              }}
+              className="flex items-center justify-center rounded-lg bg-[#6366f1] px-3 py-1.5 text-sm font-medium text-white transition-colors duration-200 hover:bg-[#5855eb]"
+            >
+              전송
             </button>
           </div>
         </div>

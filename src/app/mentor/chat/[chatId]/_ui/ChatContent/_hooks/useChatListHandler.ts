@@ -91,9 +91,64 @@ const useChatListHandler = (roomId: number) => {
     setSubmittedMessages((prev) => [...prev, newMessage]);
   };
 
+  // 텍스트 메시지 추가 함수
+  const addTextMessage = (content: string, senderId: number) => {
+    const newMessage: ChatMessage = {
+      id: Date.now(), // 임시 ID
+      content,
+      senderId,
+      createdAt: new Date().toISOString(),
+      attachments: [],
+    };
+    addMessage(newMessage);
+  };
+
+  // 이미지 메시지 추가 함수
+  const addImageMessage = (images: File[], senderId: number) => {
+    const imageAttachments = images.map((image) => ({
+      id: Date.now() + Math.random(), // 임시 ID
+      isImage: true,
+      url: URL.createObjectURL(image),
+      thumbnailUrl: URL.createObjectURL(image),
+      createdAt: new Date().toISOString(),
+    }));
+
+    const newMessage: ChatMessage = {
+      id: Date.now(), // 임시 ID
+      content: `${images.length}개의 이미지를 전송했습니다.`,
+      senderId,
+      createdAt: new Date().toISOString(),
+      attachments: imageAttachments,
+    };
+    addMessage(newMessage);
+  };
+
+  // 파일 메시지 추가 함수
+  const addFileMessage = (files: File[], senderId: number) => {
+    const fileAttachments = files.map((file) => ({
+      id: Date.now() + Math.random(), // 임시 ID
+      isImage: false,
+      url: URL.createObjectURL(file),
+      thumbnailUrl: "", // 파일은 썸네일이 없음
+      createdAt: new Date().toISOString(),
+    }));
+
+    const newMessage: ChatMessage = {
+      id: Date.now(), // 임시 ID
+      content: `${files.length}개의 파일을 전송했습니다.`,
+      senderId,
+      createdAt: new Date().toISOString(),
+      attachments: fileAttachments,
+    };
+    addMessage(newMessage);
+  };
+
   return {
-    messages: submittedMessages,
+    submittedMessages,
     addMessage,
+    addTextMessage,
+    addImageMessage,
+    addFileMessage,
     firstRef,
     hasNextPage,
     isFetchingNextPage,
