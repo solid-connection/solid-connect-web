@@ -21,6 +21,7 @@ const useDeleteArticle = () => {
       queryClient.invalidateQueries({ queryKey: [QueryKeys.articleList] });
     },
     onError: (error) => {
+      alert("아티클 삭제에 실패했습니다. 다시 시도해주세요.");
       console.error("Failed to delete article:", error);
     },
   });
