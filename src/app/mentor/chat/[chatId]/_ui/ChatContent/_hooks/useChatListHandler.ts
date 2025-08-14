@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import useInfinityScroll from "@/utils/useInfinityScroll";
 
@@ -60,7 +60,22 @@ const messages: ChatMessage[] = [
 ];
 
 const useChatListHandler = (roomId: number) => {
-  const [submittedMessages, setSubmittedMessages] = useState<ChatMessage[]>(messages);
+  const [submittedMessages, setSubmittedMessages] = useState<ChatMessage[]>([]);
+  // 채팅 메시지 영역 스크롤 참조
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // 초기 메시지 설정
+    setSubmittedMessages(messages);
+  }, []);
+
+  // 메시지가 변경될 때마다 스크롤을 맨 아래로
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [submittedMessages]);
 
   const {
     data: chatHistoryData,
@@ -154,6 +169,8 @@ const useChatListHandler = (roomId: number) => {
     isFetchingNextPage,
     isLoading,
     setSubmittedMessages,
+    messagesEndRef,
+    chatContainerRef,
   };
 };
 export default useChatListHandler;

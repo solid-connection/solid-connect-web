@@ -1,3 +1,4 @@
+import IconAlbum from "./album.svg";
 import IconAlert from "./alert.svg";
 import IconCamera from "./camera.svg";
 import IconCheck from "./check.svg";
@@ -6,6 +7,7 @@ import IconDirectMessage from "./direct-message.svg";
 import IconDirectionDown from "./direction-down.svg";
 import IconDirectionRight from "./direction-right.svg";
 import IconDirectionUp from "./direction-up.svg";
+import IconFile from "./file.svg";
 import IconGraduation from "./graduation.svg";
 import IconLikeFill from "./like-fill.svg";
 import IconLikeNotFill from "./like-not-fill.svg";
@@ -48,4 +50,6 @@ export {
   IconModify,
   IconPlusK200,
   IconXWhite,
+  IconFile,
+  IconAlbum,
 };

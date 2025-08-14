@@ -4,8 +4,10 @@ const config: Config = {
   darkMode: ["class"],
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   safelist: [
+    "ml-0",
+    "ml-12",
     {
-      pattern: /pb-(28|32|36|40|)/,
+      pattern: /pb-(28|32|36|40)/,
     },
   ],
   theme: {

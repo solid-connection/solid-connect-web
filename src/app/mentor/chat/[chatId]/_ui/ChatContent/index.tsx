@@ -27,10 +27,6 @@ interface ChatContentProps {
 const ChatContent = ({ chatId, currentUserId = 1 }: ChatContentProps) => {
   // 첨부파일 옵션 상태
 
-  // 채팅 메시지 영역 스크롤 참조
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-  const chatContainerRef = useRef<HTMLDivElement>(null);
-
   // 채팅 읽음 상태 업데이트 훅 진입시 자동으로
   usePutChatReadHandler(chatId);
 
@@ -43,21 +39,9 @@ const ChatContent = ({ chatId, currentUserId = 1 }: ChatContentProps) => {
     addTextMessage,
     addImageMessage,
     addFileMessage,
+    messagesEndRef,
+    chatContainerRef,
   } = useChatListHandler(chatId);
-
-  // 메시지가 변경될 때마다 스크롤을 맨 아래로
-  useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [submittedMessages]);
-
-  // 메시지 전송 시 스크롤 처리 함수
-  const scrollToBottom = () => {
-    if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-    }
-  };
 
   return (
     <div className="relative flex h-[calc(100vh-112px)] flex-col">
@@ -96,55 +80,51 @@ const ChatContent = ({ chatId, currentUserId = 1 }: ChatContentProps) => {
               msOverflowStyle: "none" /* Internet Explorer 10+ */,
             }}
           >
-            <style jsx>{`
-              .scrollbar-hide::-webkit-scrollbar {
-                display: none; /* Safari and Chrome */
-              }
-            `}</style>
-            {isLoading ? (
+            {/* 초기 로딩 표시 - 상단 고정 */}
+            {isLoading && (
               <div className="flex justify-center py-4">
                 <span className="text-k-500">채팅 기록을 불러오는 중...</span>
               </div>
-            ) : (
-              <div className="space-y-4">
-                {/* 상단 무한 스크롤 로딩 표시 */}
-                {isFetchingNextPage && (
-                  <div className="flex justify-center py-2">
-                    <div className="flex items-center gap-2">
-                      <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent"></div>
-                      <span className="text-sm text-k-500">이전 메시지를 불러오는 중...</span>
-                    </div>
-                  </div>
-                )}
-
-                {/* 첫 번째 메시지에 ref 부착하여 위로 스크롤 시 더 오래된 메시지 로드 */}
-                {submittedMessages.map((message, index) => {
-                  const showDateSeparator =
-                    index === 0 || !isSameDay(submittedMessages[index - 1].createdAt, message.createdAt);
-
-                  return (
-                    <div
-                      key={message.id}
-                      ref={index === 0 ? firstRef : null} // 첫 번째 메시지에 ref 부착
-                    >
-                      {/* 날짜 구분선 */}
-                      {showDateSeparator && (
-                        <div className="my-4 mb-6 flex w-full justify-center">
-                          <span className="rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-600">
-                            {formatDateSeparator(message.createdAt)}
-                          </span>
-                        </div>
-                      )}
-                      {/* 일반 채팅 메시지 */}
-                      <ChatMessageBox key={message.id} message={message} currentUserId={currentUserId} />
-                    </div>
-                  );
-                })}
-
-                {/* 스크롤 타겟 - 메시지 목록 끝 */}
-                <div ref={messagesEndRef} />
-              </div>
             )}
+
+            <div className="space-y-4">
+              {/* 상단 무한 스크롤 로딩 표시 */}
+              {isFetchingNextPage && (
+                <div className="flex justify-center py-2">
+                  <div className="flex items-center gap-2">
+                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent"></div>
+                    <span className="text-sm text-k-500">이전 메시지를 불러오는 중...</span>
+                  </div>
+                </div>
+              )}
+
+              {/* 첫 번째 메시지에 ref 부착하여 위로 스크롤 시 더 오래된 메시지 로드 */}
+              {submittedMessages.map((message, index) => {
+                const showDateSeparator =
+                  index === 0 || !isSameDay(submittedMessages[index - 1].createdAt, message.createdAt);
+
+                return (
+                  <div
+                    key={message.id}
+                    ref={index === 0 ? firstRef : null} // 첫 번째 메시지에 ref 부착
+                  >
+                    {/* 날짜 구분선 */}
+                    {showDateSeparator && (
+                      <div className="my-4 mb-6 flex w-full justify-center">
+                        <span className="rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-600">
+                          {formatDateSeparator(message.createdAt)}
+                        </span>
+                      </div>
+                    )}
+                    {/* 일반 채팅 메시지 */}
+                    <ChatMessageBox key={message.id} message={message} currentUserId={currentUserId} />
+                  </div>
+                );
+              })}
+
+              {/* 스크롤 타겟 - 메시지 목록 끝 */}
+              <div ref={messagesEndRef} />
+            </div>
           </div>
         </div>
       </div>
@@ -152,37 +132,13 @@ const ChatContent = ({ chatId, currentUserId = 1 }: ChatContentProps) => {
       {/* 메시지 입력 영역 - 항상 하단 고정 */}
       <ChatInputBar
         onSendMessage={(data) => {
-          // 훅의 텍스트 메시지 추가 함수 사용
           addTextMessage(data.message, currentUserId || 1);
-
-          console.log("메시지 전송:", data);
-          // 메시지 전송 후 스크롤을 맨 아래로
-          setTimeout(() => {
-            scrollToBottom();
-          }, 100);
-          // 여기에 메시지 전송 API 호출 등을 추가할 수 있습니다.
         }}
         onSendImages={(data) => {
-          // 훅의 이미지 메시지 추가 함수 사용
           addImageMessage(data.images, currentUserId || 1);
-
-          console.log("이미지 전송:", data);
-          // 이미지 전송 후 스크롤을 맨 아래로
-          setTimeout(() => {
-            scrollToBottom();
-          }, 100);
-          // 여기에 이미지 전송 API 호출 등을 추가할 수 있습니다.
         }}
         onSendFiles={(data) => {
-          // 훅의 파일 메시지 추가 함수 사용
           addFileMessage(data.files, currentUserId || 1);
-
-          console.log("파일 전송:", data);
-          // 파일 전송 후 스크롤을 맨 아래로
-          setTimeout(() => {
-            scrollToBottom();
-          }, 100);
-          // 여기에 파일 전송 API 호출 등을 추가할 수 있습니다.
         }}
       />
     </div>
