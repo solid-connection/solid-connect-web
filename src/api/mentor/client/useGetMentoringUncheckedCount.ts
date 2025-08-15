@@ -9,7 +9,7 @@ interface GetMentoringNewCountResponse {
 }
 
 const getMentoringUncheckedCount = async (): Promise<GetMentoringNewCountResponse> => {
-  const endpoint = "/mentorings/check";
+  const endpoint = "/mentor/mentorings/check";
   const res = await axiosInstance.get<GetMentoringNewCountResponse>(endpoint);
   return res.data;
 };

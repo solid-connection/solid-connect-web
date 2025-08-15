@@ -7,14 +7,21 @@ import { ArticleFormData } from "./lib/schema";
 
 import { IconCamera } from "@/public/svgs/mentor";
 
-interface ArticleModalProps {
+interface ArticleBottomSheetModalProps {
+  mode: "수정하기" | "추가하기";
   isOpen: boolean;
   handleClose: () => void;
   onSubmit?: (data: ArticleFormData) => void;
   initialData?: Partial<ArticleFormData>;
 }
 
-const ArticleModal = ({ isOpen, handleClose, onSubmit, initialData }: ArticleModalProps) => {
+const ArticleBottomSheetModal = ({
+  isOpen,
+  mode,
+  handleClose,
+  onSubmit,
+  initialData,
+}: ArticleBottomSheetModalProps) => {
   const { methods, imagePreview, handleImageChange, handleFormSubmit, handleModalClose, handleSetImageDelete } =
     useArticleSchema({
       initialData,
@@ -36,7 +43,7 @@ const ArticleModal = ({ isOpen, handleClose, onSubmit, initialData }: ArticleMod
       titleChild={
         <div className="relative flex h-10 w-full items-center">
           <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-lg font-semibold">
-            아티클 추가하기
+            아티클 {mode}
           </span>
           <button
             type="button"
@@ -68,13 +75,13 @@ const ArticleModal = ({ isOpen, handleClose, onSubmit, initialData }: ArticleMod
             {/* 내용 */}
             <div>
               <textarea
-                {...register("content")}
+                {...register("description")}
                 placeholder="아티클의 내용을 간단히 남겨주세요."
                 maxLength={300}
                 rows={6}
                 className="w-full border-b border-k-100 py-4 text-k-900 placeholder-k-100 focus:border-b focus:border-secondary-200 focus:outline-none"
               />
-              {errors.content && <p className="mt-2 text-sm text-red-600">{errors.content.message}</p>}
+              {errors.description && <p className="mt-2 text-sm text-red-600">{errors.description.message}</p>}
             </div>
 
             {/* 아티클 링크 */}
@@ -82,11 +89,11 @@ const ArticleModal = ({ isOpen, handleClose, onSubmit, initialData }: ArticleMod
               <label className="mb-3 block text-lg font-normal text-primary">아티클 링크</label>
               <input
                 type="url"
-                {...register("link")}
+                {...register("url")}
                 placeholder="링크주소"
                 className="w-full rounded-xl bg-k-50 p-4 text-sm placeholder-k-500 focus:border-secondary-200 focus:outline-none focus:ring-secondary-100"
               />
-              {errors.link && <p className="mt-2 text-sm text-red-600">{errors.link.message}</p>}
+              {errors.url && <p className="mt-2 text-sm text-red-600">{errors.url.message}</p>}
             </div>
 
             {/* 썸네일 등록 */}
@@ -128,4 +135,4 @@ const ArticleModal = ({ isOpen, handleClose, onSubmit, initialData }: ArticleMod
   );
 };
 
-export default ArticleModal;
+export default ArticleBottomSheetModal;

@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { authProviderName } from "@/utils/authUtils";
+import { isCookieLoginEnabled } from "@/utils/localStorage";
+import { clearAllTokensFromLS } from "@/utils/localStorageUtils";
 
 import ConfirmCancelModal from "@/components/modal/ConfirmCancelModal";
 
@@ -15,6 +17,7 @@ import { getMyInfoApi } from "@/api/myInfo";
 import MyInfoCard from "@/app/my/MyInfoCard";
 import MyMenu from "@/app/my/MyMenu";
 import MyMenuGroup from "@/app/my/MyMenuGroup";
+import { clearAccessToken } from "@/lib/zustand/useTokenStore";
 import { IconMyMenuCalendar, IconMyMenuLock, IconMyMenuPerson } from "@/public/svgs/my";
 
 const roleDisplay = {
@@ -50,6 +53,8 @@ const MyContent = () => {
     fetchMyData();
   }, []);
 
+  // 쿠키 로그인 활성화 여부 확인
+
   const handleLogout = async () => {
     await signOutApi()
       .then(() => {})
@@ -67,8 +72,15 @@ const MyContent = () => {
         }
       })
       .finally(() => {
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
+        // 환경에 따라 토큰 정리 방식 분기
+        if (isCookieLoginEnabled()) {
+          // 쿠키 모드: Zustand 스토어만 정리 (HTTP-only 쿠키는 서버에서 처리)
+          clearAccessToken();
+        } else {
+          // 로컬스토리지 모드: 로컬스토리지와 Zustand 스토어 모두 정리
+          clearAllTokensFromLS();
+          clearAccessToken();
+        }
         router.push("/");
       });
   };
@@ -76,8 +88,15 @@ const MyContent = () => {
   const handleWithdraw = async () => {
     await deleteAccountApi()
       .then(() => {
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
+        // 환경에 따라 토큰 정리 방식 분기
+        if (isCookieLoginEnabled()) {
+          // 쿠키 모드: Zustand 스토어만 정리 (HTTP-only 쿠키는 서버에서 처리)
+          clearAccessToken();
+        } else {
+          // 로컬스토리지 모드: 로컬스토리지와 Zustand 스토어 모두 정리
+          clearAllTokensFromLS();
+          clearAccessToken();
+        }
         window.confirm("탈퇴 신청이 완료되었습니다. 30일 후 계정이 삭제됩니다.");
         router.push("/");
       })

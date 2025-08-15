@@ -1,18 +1,19 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
 
-import { ArticleResponse } from "@/api/article/types/response";
+import useGetIsLikedHandler from "./_hooks/useGetIsLikedHandler";
+
+import { Article } from "@/types/news";
+
 import { IconLikeFill, IconLikeNotFill } from "@/public/svgs/mentor";
 
 interface MentorArticleProps {
-  article: ArticleResponse;
+  article: Article;
 }
 
 const MentorArticle = ({ article }: MentorArticleProps) => {
-  const [isLiked, setIsLiked] = useState<boolean>(article.isLiked);
-
+  const { isLiked, handleToggleLike } = useGetIsLikedHandler(article.id);
   return (
     <div key={article.description} className="overflow-hidden">
       {/* 아티클 이미지 */}
@@ -24,7 +25,7 @@ const MentorArticle = ({ article }: MentorArticleProps) => {
 
       <div className="mb-2 flex items-center justify-between">
         <h3 className="text-base font-semibold text-k-800">{article.title}</h3>
-        <button className="h-5 w-5" onClick={() => setIsLiked(!isLiked)}>
+        <button className="h-5 w-5" onClick={handleToggleLike}>
           {isLiked ? <IconLikeFill /> : <IconLikeNotFill />}
         </button>
       </div>

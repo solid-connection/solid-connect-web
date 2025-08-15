@@ -22,6 +22,7 @@ const ClientModal = () => {
           <CloudSpinner />
         </div>
       ) : null}
+
       <MentorApplyCountContent />
 
       <IconAlertModal

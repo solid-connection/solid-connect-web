@@ -9,8 +9,8 @@ import useGetMentoringList from "@/api/mentor/client/useGetMentoringList";
 import usePatchMentoring from "@/api/mentor/client/usePatchMentoring";
 
 const ApplicantListSection = () => {
-  const { data: mentoringApplicantList = [], fetchNextPage } = useGetMentoringList({ size: 6 });
-  const { lastElementRef } = useInfinityScroll(fetchNextPage);
+  const { data: mentoringApplicantList = [], fetchNextPage, hasNextPage } = useGetMentoringList({ size: 6 });
+  const { lastElementRef } = useInfinityScroll({ fetchNextPage, hasNextPage });
   const { mutate: patchMentoring } = usePatchMentoring();
 
   const { handleAccept, handleReject } = usePatchApprovalStatusHandler();

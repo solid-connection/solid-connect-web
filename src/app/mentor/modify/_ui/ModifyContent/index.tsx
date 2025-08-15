@@ -10,8 +10,8 @@ import AddArticleCard from "./_ui/AddArticleCard";
 import MentoArticlePanel from "./_ui/ArticlePanel";
 import ChannelSelect from "./_ui/ChannelSelct";
 
-import useGetArticleList from "@/api/article/client/useGetArticleList";
 import useGetMyMentorProfile from "@/api/mentor/client/useGetMentorMyProfile";
+import useGetArticleList from "@/api/news/client/useGetArticleList";
 import { IconUserPrimaryColor } from "@/public/svgs/mentor";
 
 const ModifyContent = () => {

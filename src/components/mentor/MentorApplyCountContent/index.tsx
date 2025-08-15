@@ -14,6 +14,8 @@ const MentorApplyCountContent = () => {
   const isLogin = isAuthenticated();
   const userRole = getUserRoleFromJwt();
   const isUserMentor = userRole === UserRole.MENTOR;
+  console.log("userRole", userRole);
+  console.log("isLogin", isLogin);
   const { data: count, isSuccess } = useGetMentoringUncheckedCount(isLogin && isUserMentor);
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(true);

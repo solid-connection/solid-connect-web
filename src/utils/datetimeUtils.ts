@@ -46,3 +46,13 @@ export const convertISODateToKoreanTime = (isoDate: string) => {
 
   return `${period} ${String(hour).padStart(2, "0")}:${minute}`;
 };
+
+// 날짜 포맷팅 함수 - ISO8601 문자열을 받아서 시간 포맷팅
+export const formatTime = (dateString: string) => {
+  const date = new Date(dateString);
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const period = hours >= 12 ? "오후" : "오전";
+  const displayHours = hours > 12 ? hours - 12 : hours === 0 ? 12 : hours;
+  return `${period} ${displayHours}:${minutes.toString().padStart(2, "0")}`;
+};

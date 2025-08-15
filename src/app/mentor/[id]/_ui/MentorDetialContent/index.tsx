@@ -10,9 +10,9 @@ import MentorArticle from "./_ui/MentorArticle";
 
 import { ChannelType } from "@/types/mentor";
 
-import useGetArticleList from "@/api/article/client/useGetArticleList";
 import usePostApplyMentoring from "@/api/mentee/client/usePostApplyMentoring";
 import useGetMentorDetail from "@/api/mentors/client/useGetMentorDetail";
+import useGetArticleList from "@/api/news/client/useGetArticleList";
 
 interface MentorDetailContentProps {
   mentorId: number;

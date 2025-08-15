@@ -4,29 +4,37 @@ import { QueryKeys } from "./queryKey";
 
 import { ListUniversity } from "@/types/university";
 
+import { getAccessTokenWithReissue } from "@/lib/zustand/useTokenStore";
 import { useQuery } from "@tanstack/react-query";
 
-export type GetRecommendedUniversityResponse = { recommendedUniversities: ListUniversity[] };
+type UseGetRecommendedUniversityResponse = { recommendedUniversities: ListUniversity[] };
+type UseGetRecommendedUniversityRequest = {
+  isLogin: boolean;
+};
 
 const getRecommendedUniversity = async ({
   queryKey,
 }: {
   queryKey: [string, boolean];
-}): Promise<GetRecommendedUniversityResponse> => {
+}): Promise<UseGetRecommendedUniversityResponse> => {
   const endpoint = "/univ-apply-infos/recommend";
 
   const [, isLogin] = queryKey;
-  const instance = isLogin ? axiosInstance : publicAxiosInstance;
-  const res = await instance.get<GetRecommendedUniversityResponse>(endpoint);
+  let instance = publicAxiosInstance;
+  if (isLogin) {
+    const isLoginState = await getAccessTokenWithReissue();
+    instance = isLoginState ? axiosInstance : publicAxiosInstance;
+  }
+  const res = await instance.get<UseGetRecommendedUniversityResponse>(endpoint);
   return res.data;
 };
 
-const useGetRecommendedUniversity = (isLogin: boolean) =>
+const useGetRecommendedUniversity = ({ isLogin }: UseGetRecommendedUniversityRequest) =>
   useQuery({
     queryKey: [QueryKeys.recommendedUniversity, isLogin],
     queryFn: getRecommendedUniversity,
-    enabled: isLogin, // 쿼리는 로그인 상태일 때만 활성화
     staleTime: 1000 * 60 * 5,
+    select: (data) => data.recommendedUniversities, // 필요한 데이터만 반환
   });
 
 export default useGetRecommendedUniversity;

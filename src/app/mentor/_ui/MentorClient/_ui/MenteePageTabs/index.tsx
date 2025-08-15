@@ -10,7 +10,7 @@ import TabSelector from "@/components/ui/TabSelector";
 import { VerifyStatus } from "@/types/mentee";
 import { MenteeTab } from "@/types/mentor";
 
-import useGetChatRooms from "@/api/chats/clients/useGetChatsRooms";
+import useGetChatRooms from "@/api/chat/clients/useGetChatRooms";
 import useGetMenteeMentoringList from "@/api/mentee/client/useGetApplyMentoringList";
 import { IconDirectionRight } from "@/public/svgs/mentor";
 

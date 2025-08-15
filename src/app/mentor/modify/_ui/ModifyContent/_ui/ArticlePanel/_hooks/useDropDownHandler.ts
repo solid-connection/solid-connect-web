@@ -1,6 +1,6 @@
 import { ArticleDropdownType } from "@/types/mentor";
 
-import useDeleteArticle from "@/api/article/client/useDeleteArticle";
+import useDeleteArticle from "@/api/news/client/useDeleteArticle";
 
 interface UseDeleteDropDownHandlerProps {
   articleId: number;
@@ -14,7 +14,7 @@ const useDeleteDropDownHandler = ({
   articleId,
   setIsArticleModalOpen,
 }: UseDeleteDropDownHandlerProps): UseDeleteDropDownHandlerReturn => {
-  const deleteArticleMutation = useDeleteArticle();
+  const { mutate: deleteArticle } = useDeleteArticle();
 
   const handleDropdownSelect = (value: ArticleDropdownType) => {
     switch (value) {
@@ -23,7 +23,7 @@ const useDeleteDropDownHandler = ({
         break;
       case ArticleDropdownType.DELETE:
         if (!confirm("정말로 이 아티클을 삭제하시겠습니까?")) return;
-        deleteArticleMutation.mutate(articleId);
+        deleteArticle(articleId);
         break;
       default:
         break;

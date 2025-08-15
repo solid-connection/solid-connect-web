@@ -1,3 +1,4 @@
+import IconAlbum from "./album.svg";
 import IconAlert from "./alert.svg";
 import IconCamera from "./camera.svg";
 import IconCheck from "./check.svg";
@@ -6,11 +7,13 @@ import IconDirectMessage from "./direct-message.svg";
 import IconDirectionDown from "./direction-down.svg";
 import IconDirectionRight from "./direction-right.svg";
 import IconDirectionUp from "./direction-up.svg";
+import IconFile from "./file.svg";
 import IconGraduation from "./graduation.svg";
 import IconLikeFill from "./like-fill.svg";
 import IconLikeNotFill from "./like-not-fill.svg";
 import IconModify from "./modify.svg";
 import IconPencil from "./pencil.svg";
+import IconPlusK200 from "./plus-k-200.svg";
 import IconPlus from "./plus.svg";
 import IconPoligon from "./poligon.svg";
 import IconSearchBlue from "./search-blue.svg";
@@ -20,6 +23,7 @@ import IconSolidConnentionLogo from "./solid-connection-logo.svg";
 import IconTime from "./time.svg";
 import IconUnSmile from "./un-smile.svg";
 import IconUserPrimaryColor from "./user-primary-color.svg";
+import IconXWhite from "./x-white.svg";
 
 export {
   IconAlert,
@@ -44,4 +48,8 @@ export {
   IconTime,
   IconCheck,
   IconModify,
+  IconPlusK200,
+  IconXWhite,
+  IconFile,
+  IconAlbum,
 };

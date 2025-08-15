@@ -1,6 +1,8 @@
 import axios, { AxiosError, AxiosHeaders, AxiosInstance } from "axios";
 
 import { isTokenExpired } from "./jwtUtils";
+import { isCookieLoginEnabled } from "./localStorage";
+import { clearAllTokensFromLS, loadRefreshTokenFromLS } from "./localStorageUtils";
 
 import { clearAccessToken, getAccessToken, setAccessToken } from "@/lib/zustand/useTokenStore";
 
@@ -53,6 +55,15 @@ const redirectToLogin = (message?: string) => {
     if (message) {
       alert(message);
     }
+
+    // 로그아웃 시 토큰 정리
+    if (isCookieLoginEnabled()) {
+      clearAccessToken();
+    } else {
+      clearAllTokensFromLS();
+      clearAccessToken();
+    }
+
     setTimeout(() => {
       window.location.href = "/login";
     }, 100);
@@ -92,9 +103,30 @@ const reissueAccessToken = async (): Promise<string | null> => {
       return currentToken;
     }
 
-    const response = await publicAxiosInstance.post<{ accessToken: string }>("/auth/reissue");
-    const newToken = response.data.accessToken;
+    let response;
 
+    if (isCookieLoginEnabled()) {
+      // 쿠키 모드: HTTP-only 쿠키를 통해 리프레시 토큰 자동 전송
+      response = await publicAxiosInstance.post<{ accessToken: string }>("/auth/reissue");
+    } else {
+      // 로컬스토리지 모드: 리프레시 토큰을 헤더에 포함하여 전송
+      const refreshToken = loadRefreshTokenFromLS();
+      if (!refreshToken) {
+        throw new Error("리프레시 토큰이 없습니다");
+      }
+
+      response = (await axios.post<{ accessToken: string }>(
+        `${process.env.NEXT_PUBLIC_API_SERVER_URL}/auth/reissue`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${refreshToken}`,
+          },
+        },
+      )) as { data: { accessToken: string } };
+    }
+
+    const newToken = response.data.accessToken;
     setAccessToken(newToken);
     lastRefreshFailed = false;
     return newToken;
@@ -109,7 +141,7 @@ const reissueAccessToken = async (): Promise<string | null> => {
 
 export const axiosInstance: AxiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_SERVER_URL,
-  withCredentials: true,
+  withCredentials: isCookieLoginEnabled(), // 쿠키 모드일 때만 true
 });
 
 axiosInstance.interceptors.request.use(
@@ -182,5 +214,5 @@ axiosInstance.interceptors.response.use(
 
 export const publicAxiosInstance: AxiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_SERVER_URL,
-  withCredentials: true, // HTTP-only 쿠키 포함
+  withCredentials: isCookieLoginEnabled(), // 쿠키 모드일 때만 HTTP-only 쿠키 포함
 });
