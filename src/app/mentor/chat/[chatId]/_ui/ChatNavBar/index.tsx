@@ -2,14 +2,24 @@
 
 import { useState } from "react";
 
+import clsx from "clsx";
+
+import { getUserRoleFromJwt } from "@/utils/jwtUtils";
+
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
 
-import { IconAlert, IconDirectionRight, IconSetting } from "@/public/svgs/mentor";
+import ReportPanel from "./_ui/ReportPanel";
+
+import { UserRole } from "@/types/mentor";
+
+import { IconAlert, IconAlertSubC, IconDirectionRight, IconSetting } from "@/public/svgs/mentor";
 
 const ChatNavBar = () => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
+  const isMentor = getUserRoleFromJwt() === UserRole.MENTOR;
 
+  console.log("isMentor", isMentor);
   const handleSettingsClick = () => {
     setIsExpanded(!isExpanded);
   };
@@ -47,9 +57,16 @@ const ChatNavBar = () => {
           <div className="mb-6 flex flex-col items-center">
             <ProfileWithBadge width={64} height={64} />
             <h3 className="text-lg font-semibold text-gray-800">김솔커 멘토</h3>
-            <p className="text-sm font-medium text-primary">스마트팜 / 뮌헨기술대학</p>
+            <p className={clsx("text-sm font-medium", { "text-sub-c-500": isMentor, "text-primary-500": !isMentor })}>
+              스마트팜 / 뮌헨기술대학
+            </p>
 
-            <button className="mt-3 w-full rounded-3xl bg-primary px-4 py-2 font-medium text-white">
+            <button
+              className={clsx("mt-3 w-full rounded-3xl px-4 py-2 font-medium text-white", {
+                "bg-sub-c-500": isMentor,
+                "bg-primary": !isMentor,
+              })}
+            >
               멘토 페이지 가기
             </button>
           </div>
@@ -58,14 +75,20 @@ const ChatNavBar = () => {
           {/* 알림 설정 */}
           <div className="mb-4 flex items-center justify-between py-2">
             <div className="flex items-center gap-1">
-              <span className="h-[18px] w-[18px]">
-                <IconAlert />
-              </span>
+              <span className="h-[18px] w-[18px]">{isMentor ? <IconAlertSubC /> : <IconAlert />}</span>
               <span className="text-[13px] font-medium text-k-800">알림</span>
             </div>
             <label className="relative inline-flex cursor-pointer items-center">
               <input type="checkbox" className="peer sr-only" defaultChecked />
-              <div className="peer h-6 w-11 rounded-full bg-primary-300 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-all after:content-[''] peer-checked:bg-primary-500 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none"></div>
+              <div
+                className={clsx(
+                  "peer h-6 w-11 rounded-full after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none",
+                  {
+                    "bg-primary-300 peer-checked:bg-primary-500": !isMentor,
+                    "bg-sub-c-300 peer-checked:bg-sub-c-500": isMentor,
+                  },
+                )}
+              ></div>
             </label>
           </div>
           <hr className="mb-6 mt-6" />
@@ -87,6 +110,9 @@ const ChatNavBar = () => {
               <ProfileWithBadge width={24} height={24} />
               <span className="text-sm font-medium text-k-800">김솔커 (멘토)</span>
             </div>
+          </div>
+          <div className="absolute bottom-0 left-0 flex w-full items-center rounded-bl-2xl bg-white px-[10px] py-[22px] shadow-top">
+            <ReportPanel />
           </div>
         </div>
       )}

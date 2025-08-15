@@ -2,6 +2,8 @@
 
 import React, { useEffect, useRef, useState } from "react";
 
+import { getUserIdFromJwt, getUserRoleFromJwt } from "@/utils/jwtUtils";
+
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
 
 import useChatListHandler from "./_hooks/useChatListHandler";
@@ -11,21 +13,23 @@ import ChatInputBar from "./_ui/ChatInputBar";
 import ChatMessageBox from "./_ui/ChatMessageBox";
 
 import { ChatPartner } from "@/types/chat";
+import { UserRole } from "@/types/mentor";
 
 // 더미 파트너 정보
 const dummyPartner: ChatPartner = {
   partnerId: 2,
-  nickname: "김솔커 멘토",
+  nickname: "김솔커",
   profileUrl: null,
 };
 
 interface ChatContentProps {
   chatId: number;
-  currentUserId?: number; // 현재 사용자 ID
 }
 
-const ChatContent = ({ chatId, currentUserId = 1 }: ChatContentProps) => {
+const ChatContent = ({ chatId }: ChatContentProps) => {
   // 첨부파일 옵션 상태
+  const isMentor = getUserRoleFromJwt() === UserRole.MENTOR;
+  const currentUserId = getUserIdFromJwt();
 
   // 채팅 읽음 상태 업데이트 훅 진입시 자동으로
   usePutChatReadHandler(chatId);

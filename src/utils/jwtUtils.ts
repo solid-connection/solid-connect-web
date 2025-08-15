@@ -105,3 +105,11 @@ export const getUserRoleFromJwt = (): UserRole | null => {
   const decoded = parseJwt(token);
   return toUserRole(decoded?.role);
 };
+
+export const getUserIdFromJwt = (): number | null => {
+  const token = getAccessToken();
+  if (!token) return null;
+
+  const decoded = parseJwt(token);
+  return typeof decoded?.userId === "number" ? decoded.userId : null;
+};
