@@ -3,6 +3,8 @@ import { useState } from "react";
 
 import clsx from "clsx";
 
+import { downloadLocalFile } from "@/utils/fileUtils";
+
 import useFileHandler from "./_hooks/useFileHandler";
 import useImageHandler from "./_hooks/useImageHandler";
 import useMessageHandler from "./_hooks/useMessageHandler";
@@ -17,18 +19,6 @@ interface ChatInputBarProps {
 
 const ChatInputBar = ({ onSendMessage, onSendImages, onSendFiles }: ChatInputBarProps) => {
   const [isAttachmentOptionsOpen, setIsAttachmentOptionsOpen] = useState(false);
-
-  // 파일 다운로드 함수
-  const downloadFile = (file: File) => {
-    const url = URL.createObjectURL(file);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = file.name;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-  };
 
   const { messageForm, onSubmitMessage, isMessageEmpty } = useMessageHandler({ onSendMessage });
   const {
@@ -89,7 +79,7 @@ const ChatInputBar = ({ onSendMessage, onSendImages, onSendFiles }: ChatInputBar
               <div key={`image-${index}`} className="relative">
                 <button
                   type="button"
-                  onClick={() => downloadFile(file)}
+                  onClick={() => downloadLocalFile(file)}
                   className="h-16 w-16 overflow-hidden rounded-lg border transition-opacity hover:opacity-80"
                 >
                   <Image
@@ -114,7 +104,7 @@ const ChatInputBar = ({ onSendMessage, onSendImages, onSendFiles }: ChatInputBar
               <div key={`file-${index}`} className="relative">
                 <button
                   type="button"
-                  onClick={() => downloadFile(file)}
+                  onClick={() => downloadLocalFile(file)}
                   className="flex h-16 w-16 items-center justify-center rounded-lg bg-blue-200 transition-colors"
                 >
                   <span className="text-xs text-blue-600">📁 {file.name.slice(0, 8)}...</span>

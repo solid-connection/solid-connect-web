@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { authProviderName } from "@/utils/authUtils";
+import { isCookieLoginEnabled } from "@/utils/localStorage";
 import { clearAllTokensFromLS } from "@/utils/localStorageUtils";
 
 import ConfirmCancelModal from "@/components/modal/ConfirmCancelModal";
@@ -53,7 +54,6 @@ const MyContent = () => {
   }, []);
 
   // 쿠키 로그인 활성화 여부 확인
-  const isCookieLoginEnabled = process.env.NEXT_PUBLIC_COOKIE_LOGIN_ENABLED === "true";
 
   const handleLogout = async () => {
     await signOutApi()
@@ -73,7 +73,7 @@ const MyContent = () => {
       })
       .finally(() => {
         // 환경에 따라 토큰 정리 방식 분기
-        if (isCookieLoginEnabled) {
+        if (isCookieLoginEnabled()) {
           // 쿠키 모드: Zustand 스토어만 정리 (HTTP-only 쿠키는 서버에서 처리)
           clearAccessToken();
         } else {
@@ -89,7 +89,7 @@ const MyContent = () => {
     await deleteAccountApi()
       .then(() => {
         // 환경에 따라 토큰 정리 방식 분기
-        if (isCookieLoginEnabled) {
+        if (isCookieLoginEnabled()) {
           // 쿠키 모드: Zustand 스토어만 정리 (HTTP-only 쿠키는 서버에서 처리)
           clearAccessToken();
         } else {

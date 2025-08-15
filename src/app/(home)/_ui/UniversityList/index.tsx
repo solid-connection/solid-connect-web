@@ -3,8 +3,6 @@
 import Link from "next/link";
 import { useMemo } from "react";
 
-import { isAuthenticated } from "@/utils/authUtils";
-
 import ButtonTab from "@/components/ui/ButtonTab";
 import UniversityCards from "@/components/university/UniversityCards";
 
@@ -12,24 +10,18 @@ import useRegionHandler from "./_hooks/useRegionHandler";
 
 import { AllRegionsUniversityList, ListUniversity, RegionEnumExtend } from "@/types/university";
 
-import useGetRecommendedUniversity from "@/api/university/client/useGetRecommendedUniversity";
-
 interface UniversityListProps {
   allRegionsUniversityList: AllRegionsUniversityList;
 }
 
 const UniversityList = ({ allRegionsUniversityList }: UniversityListProps) => {
-  // 로그인 시에는 추천 대학 정보를 가져오고, 비로그인 시에는 isr로 가져온 데이터를 사용합니다
-  const isLogin = isAuthenticated();
-  const { data, error } = useGetRecommendedUniversity(isLogin);
-  const clientFetchedRecommendedUniversities = data?.recommendedUniversities || [];
-
   const { region, handleRegionChange } = useRegionHandler();
   const choices = Object.values(RegionEnumExtend);
-  // 권역별 전체 리스트
-  // 로그인 상태에 따라 추천 대학 리스트를 가져오거나, 권역별 리스트를 사용합니다
-  const universities: ListUniversity[] =
-    isLogin && !error ? clientFetchedRecommendedUniversities : region ? (allRegionsUniversityList[region] ?? []) : [];
+
+  const universities: ListUniversity[] = useMemo(
+    () => allRegionsUniversityList[region || RegionEnumExtend.ALL] ?? [],
+    [allRegionsUniversityList, region],
+  );
   // 홈 카드 영역에는 최대 3개만 노출
   const previewUniversities: ListUniversity[] = useMemo(() => universities.slice(0, 3), [universities]);
   return (

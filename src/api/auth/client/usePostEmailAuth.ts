@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { AxiosResponse } from "axios";
 
 import { publicAxiosInstance } from "@/utils/axiosInstance";
+import { isCookieLoginEnabled } from "@/utils/localStorage";
 import { saveRefreshTokenToLS } from "@/utils/localStorageUtils";
 
 import { setAccessToken } from "@/lib/zustand/useTokenStore";
@@ -17,11 +18,6 @@ interface LoginRequest {
   email: string;
   password: string;
 }
-
-// 쿠키 로그인 활성화 여부 확인
-const isCookieLoginEnabled = () => {
-  return process.env.NEXT_PUBLIC_COOKIE_LOGIN_ENABLED === "true";
-};
 
 const postEmailAuth = ({ email, password }: LoginRequest): Promise<AxiosResponse<UsePostEmailSignInResponse>> =>
   publicAxiosInstance.post("/auth/email/sign-in", { email, password });

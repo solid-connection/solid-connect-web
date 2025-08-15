@@ -6,24 +6,57 @@ export const getFileExtension = (url: string) => {
 // 파일명의 앞 8글자 추출
 export const getFileNamePrefix = (url: string) => {
   const fileName = url.split("/").pop()?.split("?")[0] || "파일";
-  const nameWithoutExtension = fileName.split(".")[0];
+  const lastDotIndex = fileName.lastIndexOf(".");
+  const nameWithoutExtension = lastDotIndex > 0 ? fileName.substring(0, lastDotIndex) : fileName;
 
   // URL 디코딩 시도
   try {
     const decoded = decodeURIComponent(nameWithoutExtension);
-    return decoded.length >= 8 ? decoded.substring(0, 8) : decoded;
+    return decoded.length > 8 ? decoded.substring(0, 8) : decoded;
   } catch {
-    return nameWithoutExtension.length >= 8 ? nameWithoutExtension.substring(0, 8) : nameWithoutExtension;
+    return nameWithoutExtension.length > 8 ? nameWithoutExtension.substring(0, 8) : nameWithoutExtension;
   }
 };
 
-// 파일 다운로드 함수
-export const downloadFile = (url: string, fileName?: string) => {
+// 파일 다운로드 함수 (URL용)
+export const downloadFile = async (url: string, fileName?: string) => {
+  try {
+    new URL(url);
+  } catch (error) {
+    console.error("유효하지 않은 URL입니다:", error);
+    return;
+  }
+
+  try {
+    const res = await fetch(url, { credentials: "include" });
+    if (!res.ok) {
+      console.error("파일을 가져오지 못했습니다:", res.status);
+      return;
+    }
+    const blob = await res.blob();
+    const blobUrl = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = blobUrl;
+    link.download = fileName || "download";
+    link.rel = "noopener noreferrer";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(blobUrl);
+  } catch (err) {
+    console.error("다운로드 중 오류:", err);
+  }
+};
+
+// 로컬 파일 다운로드 함수 (File 객체용)
+export const downloadLocalFile = (file: File, fileName?: string) => {
+  const blobUrl = URL.createObjectURL(file);
   const link = document.createElement("a");
-  link.href = url;
-  link.download = fileName || "download";
-  link.target = "_blank";
+  link.href = blobUrl;
+  link.download = fileName || file.name;
+  link.rel = "noopener noreferrer";
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
+  URL.revokeObjectURL(blobUrl);
 };

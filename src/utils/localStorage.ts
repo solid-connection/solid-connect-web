@@ -16,13 +16,19 @@ export const isCookieLoginEnabled = () => {
 
 // 기존 코드와의 호환성을 위한 래퍼 함수들
 export const loadAccessToken = (): string | null => {
+  // no redirect here — allow caller to attempt reissue
+  let token: string | null = null;
+
   if (isCookieLoginEnabled()) {
     // 쿠키 모드: Zustand 스토어에서 가져오기
-    return getAccessToken();
+    token = getAccessToken();
   } else {
     // 로컬스토리지 모드: 로컬스토리지에서 가져오기
-    return loadAccessTokenFromLS();
+    token = loadAccessTokenFromLS();
   }
+
+  // 토큰이 문자열이고 공백이 아닌 경우에만 반환
+  return typeof token === "string" && token.trim() !== "" ? token : null;
 };
 
 export const saveAccessToken = (token: string) => {
