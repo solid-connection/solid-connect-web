@@ -28,3 +28,9 @@ export interface ChatMessage {
   createdAt: string;
   attachments: ChatAttachment[];
 }
+
+export enum ConnectionStatus {
+  Connected = "Connected",
+  Disconnected = "Disconnected",
+  Error = "Error",
+}

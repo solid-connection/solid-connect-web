@@ -14,6 +14,8 @@ import { formatDateSeparator, isSameDay } from "./_lib/dateUtils";
 import ChatInputBar from "./_ui/ChatInputBar";
 import ChatMessageBox from "./_ui/ChatMessageBox";
 
+import { ConnectionStatus } from "@/types/chat";
+
 import useGetPartnerInfo from "@/api/chat/clients/useGetPartnerInfo";
 
 interface ChatContentProps {
@@ -28,22 +30,26 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
   // 채팅 리스트 관리 훅
   const {
     submittedMessages,
+    connectionStatus,
     firstRef,
     isLoading,
     isFetchingNextPage,
-    addTextMessage,
+    sendTextMessage,
     addImageMessage,
     addFileMessage,
     messagesEndRef,
     chatContainerRef,
   } = useChatListHandler(chatId);
+
   const { data: partnerInfo } = useGetPartnerInfo(chatId);
 
   const { partnerId, nickname, profileUrl, university } = partnerInfo ?? {};
 
   return (
     <div className="relative flex h-[calc(100vh-112px)] flex-col">
-      {/* 채팅 메시지 영역 - 스크롤 가능한 영역 */}
+      {/* 채팅 메시지 영역 - 스크롤 가능한 영
+      {/* 연결 상태 표시 */}
+
       <div className="flex-1 overflow-hidden">
         <div className="flex h-full flex-col px-5 pb-2">
           {/* 하단 여백 추가 */}
@@ -73,15 +79,19 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
                 멘토 페이지
               </Link>
             </div>
-            <div className="rounded bg-white px-4 py-2">
-              <p
-                className={clsx(
-                  "bg-gradient-to-r bg-clip-text text-center text-sm font-semibold text-transparent",
-                  isMentor ? "from-sub-c-500 to-primary-600" : "from-primary to-sub-a",
-                )}
-              >
-                멘토링이 연결되었습니다! 채팅을 시작해보세요!
-              </p>
+            <div className="rounded bg-white px-4 py-2 text-center">
+              {connectionStatus === ConnectionStatus.Connected ? (
+                <p
+                  className={clsx(
+                    "bg-gradient-to-r bg-clip-text text-sm font-semibold text-transparent",
+                    isMentor ? "from-sub-c-500 to-primary-600" : "from-primary to-sub-a",
+                  )}
+                >
+                  멘토링이 연결되었습니다! 채팅을 시작해보세요!
+                </p>
+              ) : (
+                <p className="text-sm font-semibold text-gray-500">연결이 끊어졌습니다. 잠시 후 다시 시도해주세요.</p>
+              )}
             </div>
           </div>
           {/* 채팅 메시지 영역 - 항상 스크롤 가능, 스크롤바 숨김 */}
@@ -145,7 +155,7 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
       {/* 메시지 입력 영역 - 항상 하단 고정 */}
       <ChatInputBar
         onSendMessage={(data) => {
-          addTextMessage(data.message, currentUserId);
+          sendTextMessage(data.message, currentUserId);
         }}
         onSendImages={(data) => {
           addImageMessage(data.images, currentUserId);

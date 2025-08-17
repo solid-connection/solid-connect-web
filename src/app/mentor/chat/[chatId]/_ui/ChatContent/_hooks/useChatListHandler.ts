@@ -2,88 +2,29 @@ import { useEffect, useRef, useState } from "react";
 
 import useInfinityScroll from "@/utils/useInfinityScroll";
 
-import { ChatMessage } from "@/types/chat";
+import { ChatMessage, ConnectionStatus } from "@/types/chat";
 
 import useGetChatHistories from "@/api/chat/clients/useGetChatHistories";
+import connectWebSocket from "@/lib/web-socket/connectWebSocket";
+import { Client } from "@stomp/stompjs";
 
-// 더미 채팅 데이터
-const messages: ChatMessage[] = [
-  {
-    id: 1,
-    content: "안녕하세요!\n질문이 있어서 연락드렸습니다!",
-    senderId: 2,
-    createdAt: "2025-06-12T12:02:00Z",
-    attachments: [],
-  },
-  {
-    id: 2,
-    content: "안녕하세요! 무엇이든 물어보세요!",
-    senderId: 1,
-    createdAt: "2025-06-12T12:06:00Z",
-    attachments: [],
-  },
-  {
-    id: 3,
-    content: "감사합니다! 도움이 많이 됐어요!",
-    senderId: 2,
-    createdAt: "2025-06-13T12:07:00Z",
-    attachments: [],
-  },
-  {
-    id: 3,
-    content: "감사합니다! 도움이 많이 됐어요!",
-    senderId: 2,
-    createdAt: "2025-06-13T12:07:00Z",
-    attachments: [],
-  },
-  {
-    id: 3,
-    content: "감사합니다! 도움이 많이 됐어요!",
-    senderId: 2,
-    createdAt: "2025-06-13T12:07:00Z",
-    attachments: [],
-  },
-  {
-    id: 3,
-    content: "감사합니다! 도움이 많이 됐어요!",
-    senderId: 2,
-    createdAt: "2025-06-13T12:07:00Z",
-    attachments: [],
-  },
-  {
-    id: 3,
-    content: "감사합니다! 도움이 많이 됐어요!",
-    senderId: 2,
-    createdAt: "2025-06-13T12:07:00Z",
-    attachments: [],
-  },
-];
-
-const useChatListHandler = (roomId: number) => {
+const useChatListHandler = (chatId: number) => {
   const [submittedMessages, setSubmittedMessages] = useState<ChatMessage[]>([]);
+  const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>(ConnectionStatus.Disconnected);
+
   // 채팅 메시지 영역 스크롤 참조
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
+  const clientRef = useRef<Client | null>(null);
 
-  useEffect(() => {
-    // 초기 메시지 설정
-    setSubmittedMessages(messages);
-  }, []);
-
-  // 메시지가 변경될 때마다 스크롤을 맨 아래로
-  useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [submittedMessages]);
-
+  // API로부터 채팅 히스토리 가져오기
   const {
     data: chatHistoryData,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
     isLoading,
-  } = useGetChatHistories(roomId);
+  } = useGetChatHistories(chatId);
 
   // 무한 스크롤을 위한 ref (첫 번째 메시지에 부착하여 위로 스크롤 시 더 오래된 메시지 로드)
   const { lastElementRef: firstRef } = useInfinityScroll({ fetchNextPage, hasNextPage, isDirectionTop: true });
@@ -101,21 +42,48 @@ const useChatListHandler = (roomId: number) => {
     }
   }, [chatHistoryData]);
 
+  // WebSocket 연결 및 실시간 메시지 수신
+  useEffect(() => {
+    connectWebSocket({ roomId: chatId, setConnectionStatus, setSubmittedMessages, clientRef });
+    return () => {
+      if (clientRef.current?.connected) {
+        clientRef.current.deactivate();
+      }
+    };
+  }, [chatId]);
+
+  // 메시지가 변경될 때마다 스크롤을 맨 아래로
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [submittedMessages]);
+
   // 새 메시지 추가 함수
   const addMessage = (newMessage: ChatMessage) => {
     setSubmittedMessages((prev) => [...prev, newMessage]);
   };
 
-  // 텍스트 메시지 추가 함수
-  const addTextMessage = (content: string, senderId: number) => {
-    const newMessage: ChatMessage = {
-      id: Date.now(), // 임시 ID
-      content,
-      senderId,
-      createdAt: new Date().toISOString(),
-      attachments: [],
-    };
-    addMessage(newMessage);
+  // 텍스트 메시지 전송 함수
+  const sendTextMessage = (content: string, senderId: number) => {
+    if (clientRef.current && clientRef.current.connected) {
+      // WebSocket으로 메시지 전송
+      clientRef.current.publish({
+        destination: `/publish/chat/${chatId}`,
+        body: JSON.stringify({ content, senderId }),
+      });
+    } else {
+      console.error("Cannot send message, stomp client is not connected.");
+      // WebSocket이 연결되지 않은 경우 로컬에만 추가 (임시)
+      const newMessage: ChatMessage = {
+        id: Date.now(),
+        content,
+        senderId,
+        createdAt: new Date().toISOString(),
+        attachments: [],
+      };
+      addMessage(newMessage);
+    }
   };
 
   // 이미지 메시지 추가 함수
@@ -160,15 +128,13 @@ const useChatListHandler = (roomId: number) => {
 
   return {
     submittedMessages,
-    addMessage,
-    addTextMessage,
+    connectionStatus,
+    firstRef,
+    isLoading,
+    isFetchingNextPage,
+    sendTextMessage,
     addImageMessage,
     addFileMessage,
-    firstRef,
-    hasNextPage,
-    isFetchingNextPage,
-    isLoading,
-    setSubmittedMessages,
     messagesEndRef,
     chatContainerRef,
   };

@@ -60,8 +60,7 @@ const useGetChatHistories = (roomId: number, size: number = 20) => {
     select: (data) => ({
       pages: data.pages,
       pageParams: data.pageParams,
-      // 모든 페이지의 메시지를 하나의 배열로 합침
-      messages: data.pages.flatMap((page: ChatHistoriesResponse) => page.content),
+      messages: data.pages.flatMap((page) => page.content),
     }),
   });
 };
