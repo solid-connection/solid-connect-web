@@ -17,8 +17,8 @@ import { IconUserPrimaryColor } from "@/public/svgs/mentor";
 
 const ModifyContent = () => {
   const { data: myMentorProfile = null } = useGetMyMentorProfile();
-  const myId = myMentorProfile?.id || 0;
-  const { data: articleList = [] } = useGetArticleList(myId);
+
+  const { data: articleList = [] } = useGetArticleList(myMentorProfile?.id || null);
 
   const method = useModifyHookForm(myMentorProfile);
   const {

@@ -21,8 +21,21 @@ const usePutMyMentorProfileHandler = (): UsePutMyMentorProfileHandlerReturn => {
       icon: IconModify,
     });
     if (!ok) return;
+
+    // 채널 데이터 필터링: type이 있고 url이 있는 것만 포함
+    const filteredChannels = (data.channels ?? [])
+      .filter((channel) => {
+        const hasType = channel.type && channel.type.trim().length > 0;
+        const hasUrl = channel.url && channel.url.trim().length > 0;
+        return hasType && hasUrl;
+      })
+      .map((channel) => ({
+        type: channel.type as string, // null이 아님을 보장
+        url: channel.url,
+      }));
+
     const payload: PutMyMentorProfileRequest = {
-      channels: data.channels ?? [],
+      channels: filteredChannels,
       introduction: data.introduction ?? "",
       passTip: data.passTip ?? "",
     };

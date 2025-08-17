@@ -1,14 +1,14 @@
 "use client";
 
+import MentorChatCard from "@/components/mentor/MentorChatCard/index";
+import MentorExpandChatCard from "@/components/mentor/MentorExpandChatCard";
 import EmptySdwBCards from "@/components/ui/EmptySdwBCards";
 
-import MentorExpandChatCard from "../../../../../components/mentor/MentorExpandChatCard";
 import MentorWaitingListBox from "./_ui/MentorWaitingListBox";
 
 import { VerifyStatus } from "@/types/mentee";
 
 import useGetApplyMentoringList from "@/api/mentee/client/useGetApplyMentoringList";
-import usePatchCheckMentorings from "@/api/mentee/client/usePatchCheckMentorings";
 
 const DEFAULT_VISIBLE_ITEMS = 2;
 
@@ -16,8 +16,6 @@ const WaitingContent = () => {
   const { data: approveList = [] } = useGetApplyMentoringList(VerifyStatus.APPROVED);
   const { data: pendingList = [] } = useGetApplyMentoringList(VerifyStatus.PENDING);
   const totalLength = approveList.length + pendingList.length;
-
-  const { mutate: patchCheckMentorings } = usePatchCheckMentorings();
 
   return (
     <div className="flex h-full w-full flex-col">
@@ -40,21 +38,15 @@ const WaitingContent = () => {
                 </div>
               ) : (
                 (isExpanded ? approveList : approveList.slice(0, DEFAULT_VISIBLE_ITEMS)).map((item) => (
-                  <button
+                  <MentorExpandChatCard
                     key={item.mentoringId}
-                    onClick={() => patchCheckMentorings({ checkedMentoringIds: [item.mentoringId] })}
-                  >
-                    <MentorExpandChatCard
-                      hasExpand
-                      isChecked={item.isChecked}
-                      mentoringId={item.mentoringId}
-                      key={item.mentoringId}
-                      profileImageUrl={item.profileImageUrl}
-                      nickname={item.nickname}
-                      message={`님이 멘티 신청을 수락했어요.`}
-                      date={item.createdAt}
-                    />
-                  </button>
+                    isChecked={item.isChecked}
+                    mentoringId={item.mentoringId}
+                    profileImageUrl={item.profileImageUrl}
+                    nickname={item.nickname}
+                    message={`님이 멘티 신청을 수락했어요.`}
+                    date={item.createdAt}
+                  />
                 ))
               )}
             </div>
@@ -73,8 +65,7 @@ const WaitingContent = () => {
                 </div>
               ) : (
                 (isExpanded ? pendingList : pendingList.slice(0, DEFAULT_VISIBLE_ITEMS)).map((item) => (
-                  <MentorExpandChatCard
-                    hasExpand={false}
+                  <MentorChatCard
                     key={item.mentoringId}
                     mentoringId={item.mentoringId}
                     profileImageUrl={item.profileImageUrl}

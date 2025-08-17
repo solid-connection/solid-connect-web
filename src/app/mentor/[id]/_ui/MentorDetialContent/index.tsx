@@ -119,14 +119,14 @@ const MentorDetialContent = ({ mentorId }: MentorDetailContentProps) => {
         ))}
         {articleList.length === 0 && <p className="mb-7 text-[14px] font-normal text-k-500">정보가 없습니다.</p>}
       </div>
-      <div className="pointer-events-none fixed bottom-20 left-1/2 flex w-1/3 -translate-x-1/2 justify-center">
+      <div className="w-30 pointer-events-none fixed bottom-20 left-1/2 flex -translate-x-1/2 justify-center">
         <div className="pointer-events-auto w-full max-w-md px-4">
           <button
             type="button"
             onClick={() => postApplyMentoring({ mentorId: id })}
             disabled={isApplied}
             className={clsx(
-              "flex h-[41px] w-full items-center justify-center gap-3 rounded-[20px] px-5 py-[10px] font-medium",
+              "flex h-10 w-full items-center justify-center gap-3 rounded-[20px] px-5 py-[10px] font-medium",
               {
                 "cursor-not-allowed bg-k-100 text-k-400": isApplied,
                 "bg-primary text-white": !isApplied,

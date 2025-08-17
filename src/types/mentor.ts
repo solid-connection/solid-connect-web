@@ -96,6 +96,7 @@ export interface MentoringItem {
   nickname: string;
   isChecked: boolean;
   createdAt: string;
+  isConfirmed: boolean;
 }
 
 export enum MentoringApprovalStatus {
