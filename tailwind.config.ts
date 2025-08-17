@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import tailwindcssAnimate from "tailwindcss-animate";
 
 const config: Config = {
   darkMode: ["class"],
@@ -148,6 +149,10 @@ const config: Config = {
       spacing: {
         "13": "3.25rem", // 3.25rem = 13 = 52px
         "90": "22.5rem",
+        "6.5": "1.625rem", // 26px
+        "17.5": "4.375rem", // 70px
+        "30": "7.5rem", // 120px
+        "37.5": "9.375rem", // 150px
       },
       transitionProperty: {
         height: "height",
@@ -173,6 +178,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [tailwindcssAnimate],
 };
 export default config;

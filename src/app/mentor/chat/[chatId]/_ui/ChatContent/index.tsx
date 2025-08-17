@@ -66,7 +66,7 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
               <Link
                 className={clsx(
                   "rounded-3xl px-4 py-2 text-sm font-semibold text-k-0",
-                  isMentor ? "ㅅㄷ bg-sub-c-500" : "bg-primary",
+                  isMentor ? "bg-sub-c-500" : "bg-primary",
                 )}
                 href={`/mentor/${partnerId}`}
               >

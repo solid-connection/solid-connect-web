@@ -17,12 +17,22 @@ const useModifyHookForm = (myMentorProfile: MentorCardPreview | null): UseModify
 
   useEffect(() => {
     if (myMentorProfile) {
+      // 4개의 채널 슬롯을 만들고 기존 데이터로 채움
+      const channels = Array.from({ length: 4 }, (_, index) => {
+        const existingChannel = myMentorProfile.channels[index];
+        return existingChannel ? { type: existingChannel.type, url: existingChannel.url } : { type: null, url: "" };
+      });
+
       reset({
-        channels: myMentorProfile.channels.map((channel) => ({
-          type: channel.type,
-          url: channel.url,
-        })),
+        channels,
         introduction: myMentorProfile.introduction,
+        passTip: "",
+      });
+    } else {
+      // myMentorProfile이 없을 때도 4개의 빈 채널 슬롯 제공
+      reset({
+        channels: Array.from({ length: 4 }, () => ({ type: null, url: "" })),
+        introduction: "",
         passTip: "",
       });
     }

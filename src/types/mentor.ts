@@ -99,6 +99,6 @@ export interface MentoringItem {
 }
 
 export enum MentoringApprovalStatus {
-  APPROVE = "APPROVE",
-  REJECT = "REJECT",
+  APPROVED = "APPROVED",
+  REJECTED = "REJECTED",
 }

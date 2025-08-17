@@ -6,15 +6,20 @@ import { ChannelType } from "@/types/mentor";
 interface useSelectHandlerReturn {
   isOpen: boolean;
   dropdownRef: React.RefObject<HTMLDivElement>;
-  handleChannelChange: (value: string | null) => void;
+  handleChannelChange: (val: string | null) => void;
   toggleDropdown: () => void;
 }
 
 interface UseSelectHandlerProps {
   name?: string;
   control: Control<FieldValues>;
+  onChannelChange?: (val: string | null) => void;
 }
-const useSelectHandler = ({ name = "channel", control }: UseSelectHandlerProps): useSelectHandlerReturn => {
+const useSelectHandler = ({
+  name = "channel",
+  control,
+  onChannelChange,
+}: UseSelectHandlerProps): useSelectHandlerReturn => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -39,6 +44,7 @@ const useSelectHandler = ({ name = "channel", control }: UseSelectHandlerProps):
   const handleChannelChange = (value: ChannelType | null) => {
     setIsOpen(false);
     field.onChange(value); // react‑hook‑form state
+    onChannelChange?.(value); // 외부 콜백 호출
   };
   const toggleDropdown = () => {
     setIsOpen(!isOpen);

@@ -1,8 +1,7 @@
 "use client";
 
+import Link from "next/link";
 import React, { useState } from "react";
-
-import { Link } from "lucide-react";
 
 import MentorChatCard from "@/components/mentor/MentorChatCard";
 import EmptySdwBCards from "@/components/ui/EmptySdwBCards";
@@ -18,11 +17,10 @@ import { IconDirectionRight } from "@/public/svgs/mentor";
 
 const MentorPage = () => {
   const [selectedTab, setSelectedTab] = useState<MentorTab>(MentorTab.MY_MENTEE);
-  const { data: myMenteeList = [] } = useGetChatRooms();
-
   const isMyMenteeTab = selectedTab === MentorTab.MY_MENTEE;
-
   const tabs = [MentorTab.MY_MENTEE, MentorTab.APPLY_LIST];
+
+  const { data: myMenteeList = [] } = useGetChatRooms();
 
   return (
     <>
@@ -51,9 +49,9 @@ const MentorPage = () => {
               <EmptySdwBCards message={"나와 매칭된 멘토입니다"} />
             ) : (
               myMenteeList.slice(0, 2).map((mentor) => {
-                const { partnerId, profileUrl, nickname } = mentor.partner;
+                const { profileUrl, nickname } = mentor.partner;
                 return (
-                  <Link href={`/mentor/chat/${partnerId}`} key={partnerId}>
+                  <Link href={`/mentor/chat/${mentor.id}`} key={mentor.id}>
                     <MentorChatCard
                       key={mentor.id}
                       profileImageUrl={profileUrl}

@@ -29,7 +29,7 @@ interface ExpandableChatCardProps {
 interface NonExpandableChatCardProps {
   hasExpand: false;
   profileImageUrl?: string | null;
-  mentoringId?: number;
+  mentoringId: number;
   message: string;
   nickname: string;
   // isChecked, date, patchCheckMentorings는 사용 불가

@@ -31,13 +31,13 @@ const ApplicantListSection = () => {
               hasExpand={true}
               profileImageUrl={mentor.profileImageUrl}
               nickname={mentor.nickname}
+              mentoringId={mentor.mentoringId}
               date={mentor.createdAt}
               message="님이 멘티 신청을 보냈어요"
-              mentoringId={mentor.mentoringId}
               isChecked={mentor.isChecked}
               showApprovalButtons={true}
-              onAccept={handleAccept}
-              onReject={handleReject}
+              onAccept={() => handleAccept(mentor.mentoringId)}
+              onReject={() => handleReject(mentor.mentoringId)}
             />
           </button>
         ))
