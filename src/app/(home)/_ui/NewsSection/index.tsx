@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+
+import useSectionHandler from "./_hooks/useSectionHadnler";
 
 import { News } from "@/types/news";
 
@@ -12,28 +13,7 @@ export type NewsSectionProps = {
 };
 
 const NewsSection = ({ newsList }: NewsSectionProps) => {
-  const [visible, setVisible] = useState(false);
-  const sectionRef = useRef<HTMLDivElement | null>(null);
-  useEffect(() => {
-    if (!sectionRef.current) return;
-
-    const observer = new window.IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.disconnect();
-        }
-      },
-      {
-        rootMargin: "0px",
-        threshold: 0,
-      },
-    );
-
-    observer.observe(sectionRef.current);
-
-    return () => observer.disconnect();
-  }, []);
+  const { sectionRef, visible } = useSectionHandler();
 
   return (
     <div ref={sectionRef} className="mt-6 pl-5">

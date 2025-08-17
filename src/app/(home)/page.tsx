@@ -28,7 +28,7 @@ export const metadata: Metadata = {
 const HomePage = async () => {
   const newsList = await fetchAllNews();
   const { data } = await getRecommendedUniversity();
-  const recommendedColleges = data?.recommendedUniversities || [];
+  const recommendedUniversities = data?.recommendedUniversities || [];
   // 권역별 전체 대학 리스트를 미리 가져와 빌드합니다
   const allRegionsUniversityList = await getAllRegionsUniversityList();
 
@@ -82,7 +82,7 @@ const HomePage = async () => {
         <div className="mb-2 flex items-center gap-1.5 font-serif text-base font-semibold text-k-700">
           실시간 인기있는 파견학교
         </div>
-        <PopularUniversitySection universities={recommendedColleges} />
+        <PopularUniversitySection universities={recommendedUniversities} />
       </div>
 
       <div className="p-5">

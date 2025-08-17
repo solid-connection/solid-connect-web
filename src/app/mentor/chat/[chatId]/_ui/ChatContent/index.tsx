@@ -1,6 +1,10 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import React from "react";
+
+import clsx from "clsx";
 
 import { getUserIdFromJwt, getUserRoleFromJwt } from "@/utils/jwtUtils";
 
@@ -47,30 +51,50 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
     chatContainerRef,
   } = useChatListHandler(chatId);
 
+  // 현재 사용자 ID가 없으면 404 페이지로 이동
+  if (!currentUserId) notFound();
+
   return (
     <div className="relative flex h-[calc(100vh-112px)] flex-col">
       {/* 채팅 메시지 영역 - 스크롤 가능한 영역 */}
       <div className="flex-1 overflow-hidden">
         <div className="flex h-full flex-col px-5 pb-2">
-          {" "}
           {/* 하단 여백 추가 */}
           {/* Floating 멘토 정보 영역 */}
           <div className="z-10 mt-5 h-16 w-full flex-shrink-0">
-            <div className="flex w-full items-center justify-between rounded bg-primary-100 px-2.5 py-2">
+            <div
+              className={clsx(
+                "flex w-full items-center justify-between rounded px-2.5 py-2",
+                isMentor ? "bg-sub-c-100 text-sub-c-500" : "bg-primary-100 text-primary",
+              )}
+            >
               <div className="flex items-center gap-2">
                 <ProfileWithBadge width={24} height={24} />
                 <div className="flex h-full items-center">
                   <span className="text-base font-semibold text-k-700">{dummyPartner.nickname}</span>
                   <div className="mx-4 h-10 w-[1px] bg-k-100"></div>
-                  <div className="flex text-sm font-medium text-primary">
+                  <div className="flex text-sm font-medium">
                     스웨덴 <br /> 대학교 컴퓨터공학과
                   </div>
                 </div>
               </div>
-              <button className="rounded-3xl bg-primary px-4 py-2 text-sm font-semibold text-k-0">멘토 페이지</button>
+              <Link
+                className={clsx(
+                  "rounded-3xl px-4 py-2 text-sm font-semibold text-k-0",
+                  isMentor ? "ㅅㄷ bg-sub-c-500" : "bg-primary",
+                )}
+                href={`/mentor/${dummyPartner.partnerId}`}
+              >
+                멘토 페이지
+              </Link>
             </div>
             <div className="rounded bg-white px-4 py-2">
-              <p className="bg-gradient-to-r from-primary to-sub-a bg-clip-text text-center text-sm font-semibold text-transparent">
+              <p
+                className={clsx(
+                  "bg-gradient-to-r bg-clip-text text-center text-sm font-semibold text-transparent",
+                  isMentor ? "from-sub-c-500 to-primary-600" : "from-primary to-sub-a",
+                )}
+              >
                 멘토링이 연결되었습니다! 채팅을 시작해보세요!
               </p>
             </div>
@@ -136,13 +160,13 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
       {/* 메시지 입력 영역 - 항상 하단 고정 */}
       <ChatInputBar
         onSendMessage={(data) => {
-          addTextMessage(data.message, currentUserId || 1);
+          addTextMessage(data.message, currentUserId);
         }}
         onSendImages={(data) => {
-          addImageMessage(data.images, currentUserId || 1);
+          addImageMessage(data.images, currentUserId);
         }}
         onSendFiles={(data) => {
-          addFileMessage(data.files, currentUserId || 1);
+          addFileMessage(data.files, currentUserId);
         }}
       />
     </div>
