@@ -7,6 +7,12 @@ const config: Config = {
   safelist: [
     "ml-0",
     "ml-12",
+    "bg-secondary",
+    "text-white",
+    "border-b-secondary",
+    "bg-primary",
+    "text-k-0",
+    "border-b-primary",
     {
       pattern: /pb-(28|32|36|40)/,
     },

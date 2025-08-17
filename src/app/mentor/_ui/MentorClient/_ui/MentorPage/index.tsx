@@ -56,7 +56,8 @@ const MentorPage = () => {
                       key={mentor.id}
                       profileImageUrl={profileUrl}
                       nickname={nickname}
-                      description={mentor.lastChatMessage}
+                      description={mentor.lastChatMessage || "새로운 멘토링이 시작되었어요!"}
+                      time={mentor.lastReceivedTime}
                     />
                   </Link>
                 );
