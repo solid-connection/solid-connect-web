@@ -1,23 +1,20 @@
 "use client";
 
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import React from "react";
 
 import clsx from "clsx";
 
-import { getUserIdFromJwt, getUserRoleFromJwt } from "@/utils/jwtUtils";
-
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
 
 import useChatListHandler from "./_hooks/useChatListHandler";
+import useJwtRouteHandler from "./_hooks/useJwtRouteHandler";
 import usePutChatReadHandler from "./_hooks/usePutChatReadHandler";
 import { formatDateSeparator, isSameDay } from "./_lib/dateUtils";
 import ChatInputBar from "./_ui/ChatInputBar";
 import ChatMessageBox from "./_ui/ChatMessageBox";
 
 import { ChatPartner } from "@/types/chat";
-import { UserRole } from "@/types/mentor";
 
 // 더미 파트너 정보
 const dummyPartner: ChatPartner = {
@@ -31,10 +28,7 @@ interface ChatContentProps {
 }
 
 const ChatContent = ({ chatId }: ChatContentProps) => {
-  // 첨부파일 옵션 상태
-  const isMentor = getUserRoleFromJwt() === UserRole.MENTOR;
-  const currentUserId = getUserIdFromJwt();
-
+  const { isMentor, currentUserId } = useJwtRouteHandler();
   // 채팅 읽음 상태 업데이트 훅 진입시 자동으로
   usePutChatReadHandler(chatId);
 
@@ -50,9 +44,6 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
     messagesEndRef,
     chatContainerRef,
   } = useChatListHandler(chatId);
-
-  // 현재 사용자 ID가 없으면 404 페이지로 이동
-  if (!currentUserId) notFound();
 
   return (
     <div className="relative flex h-[calc(100vh-112px)] flex-col">

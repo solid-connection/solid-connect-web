@@ -1,12 +1,12 @@
 import { ReasonType } from "@/types/reports";
 
-export const reportReasons: { label: string; value: ReasonType }[] = [
-  { label: "상업적 광고 및 판매", value: ReasonType.ADVERTISEMENT },
-  { label: "낚시/놀림/도배", value: ReasonType.SPAM },
-  { label: "개인정보 노출", value: ReasonType.PERSONAL_INFO_EXPOSURE },
-  { label: "음란/선정성", value: ReasonType.PORNOGRAPHY },
-  { label: "저작권 침해", value: ReasonType.COPYRIGHT_INFRINGEMENT },
-  { label: "불법 행위", value: ReasonType.ILLEGAL_ACTIVITY },
-  { label: "사칭/도용", value: ReasonType.IMPERSONATION },
-  { label: "욕설/비하", value: ReasonType.INSULT },
-];
+export const reportReasons: { [key in ReasonType]: string } = {
+  [ReasonType.ADVERTISEMENT]: "상업적 광고 및 판매",
+  [ReasonType.SPAM]: "낚시/놀림/도배",
+  [ReasonType.PERSONAL_INFO_EXPOSURE]: "개인정보 노출",
+  [ReasonType.PORNOGRAPHY]: "음란/선정성",
+  [ReasonType.COPYRIGHT_INFRINGEMENT]: "저작권 침해",
+  [ReasonType.ILLEGAL_ACTIVITY]: "불법 행위",
+  [ReasonType.IMPERSONATION]: "사칭/도용",
+  [ReasonType.INSULT]: "욕설/비하",
+};

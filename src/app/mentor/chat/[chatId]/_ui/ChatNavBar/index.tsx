@@ -15,11 +15,14 @@ import { UserRole } from "@/types/mentor";
 
 import { IconAlert, IconAlertSubC, IconDirectionRight, IconSetting } from "@/public/svgs/mentor";
 
-const ChatNavBar = () => {
+interface ChatNavBarProps {
+  chatId: number;
+}
+
+const ChatNavBar = ({ chatId }: ChatNavBarProps) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const isMentor = getUserRoleFromJwt() === UserRole.MENTOR;
 
-  console.log("isMentor", isMentor);
   const handleSettingsClick = () => {
     setIsExpanded(!isExpanded);
   };
@@ -30,7 +33,7 @@ const ChatNavBar = () => {
         <TopDetailNavigation
           title={"멘토 채팅"}
           icon={
-            <button className="h-3 w-4" onClick={handleSettingsClick}>
+            <button className="h-4 w-4" onClick={handleSettingsClick}>
               <IconSetting />
             </button>
           }
@@ -40,14 +43,14 @@ const ChatNavBar = () => {
       {/* 오버레이 (패널 외부 클릭 시 닫기) */}
       {isExpanded && (
         <button
-          className="fixed inset-0 right-0 top-0 z-50 bg-black bg-opacity-20"
+          className="fixed inset-0 right-0 top-0 z-30 bg-black bg-opacity-20"
           onClick={() => setIsExpanded(false)}
           aria-label="설정 패널 닫기"
         />
       )}
       {/* 확장된 설정 패널 */}
       {isExpanded && (
-        <div className="fixed right-0 top-0 z-50 h-[100vh] w-80 overflow-y-auto rounded-l-2xl bg-white p-4">
+        <div className="fixed right-0 top-0 z-30 h-[100vh] w-80 overflow-y-auto rounded-l-2xl bg-white p-4">
           {/* 멘토 프로필 섹션 */}
           <div className="w-full">
             <button className="h-[30px] w-[30px]" onClick={() => setIsExpanded(false)} aria-label="뒤로가기">
@@ -112,7 +115,7 @@ const ChatNavBar = () => {
             </div>
           </div>
           <div className="absolute bottom-0 left-0 flex w-full items-center rounded-bl-2xl bg-white px-[10px] py-[22px] shadow-top">
-            <ReportPanel />
+            <ReportPanel chatId={chatId} />
           </div>
         </div>
       )}
