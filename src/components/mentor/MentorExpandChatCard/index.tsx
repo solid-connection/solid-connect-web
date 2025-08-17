@@ -1,17 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
 
 import { convertISODateToKoreanTime } from "@/utils/datetimeUtils";
 
 import usePatchApprovalStatusHandler from "@/components/mentor/MentorExpandChatCard/hooks/usePatchApprovalStatusHandler";
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
 
-import useRouterHandler from "../../../lib/hooks/useRouterHandler";
+import useExpandCardClickHandler from "./hooks/useExpandCardClickHandler";
 
-import usePatchMenteeCheckMentorings from "@/api/mentee/client/usePatchMenteeCheckMentorings";
-import usePatchMentorCheckMentoring from "@/api/mentor/client/usePatchMentorCheckMentoring";
 import { IconDirectionDown, IconDirectionUp } from "@/public/svgs/mentor";
 
 interface MentorExpandChatCardProps {
@@ -22,9 +19,6 @@ interface MentorExpandChatCardProps {
   message: string;
   nickname: string;
   date?: string;
-  // 수락/거절 기능을 위한 추가 props
-  showApprovalButtons?: boolean;
-
   lastElementRef?: (node: Element | null) => void;
 }
 
@@ -36,34 +30,17 @@ const MentorExpandChatCard = ({
   nickname,
   mentoringId,
   date = "",
-  showApprovalButtons = false,
   lastElementRef,
 }: MentorExpandChatCardProps) => {
-  const { isLoaded, isMentor } = useRouterHandler();
-  const [isExpanded, setIsExpanded] = useState<boolean>(false);
-  const [isCheckedState, setIsCheckedState] = useState<boolean>(isChecked || false);
-  const { mutate: patchCheckMentorings } = usePatchMentorCheckMentoring();
-  const { mutate: patchMenteeCheckMentorings } = usePatchMenteeCheckMentorings();
+  const { isExpanded, isCheckedState, handleExpandClick } = useExpandCardClickHandler({
+    mentoringId,
+    initChecked: isChecked,
+  });
   const { handleAccept, handleReject } = usePatchApprovalStatusHandler();
 
   return (
     <div className="w-full overflow-hidden border-b border-k-50" ref={lastElementRef}>
-      <button
-        className="flex w-full items-start gap-3 p-4"
-        onClick={() => {
-          setIsExpanded(!isExpanded);
-          if (!isCheckedState) {
-            setIsCheckedState(true);
-          }
-          if (!isCheckedState || !isLoaded) {
-            if (isMentor) {
-              patchCheckMentorings({ checkedMentoringIds: [mentoringId] });
-            } else {
-              patchMenteeCheckMentorings({ checkedMentoringIds: [mentoringId] });
-            }
-          }
-        }}
-      >
+      <button className="flex w-full items-start gap-3 p-4" onClick={handleExpandClick}>
         {/* Profile Image */}
         <div className="relative h-10 w-10 flex-shrink-0">
           <ProfileWithBadge profileImageUrl={profileImageUrl} width={40} height={40} />
