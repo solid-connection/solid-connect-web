@@ -10,6 +10,7 @@ export interface ChatPartner {
   partnerId: number;
   nickname: string;
   profileUrl: string | null;
+  university: string | null;
 }
 
 export interface ChatAttachment {

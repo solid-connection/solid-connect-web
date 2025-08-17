@@ -14,14 +14,7 @@ import { formatDateSeparator, isSameDay } from "./_lib/dateUtils";
 import ChatInputBar from "./_ui/ChatInputBar";
 import ChatMessageBox from "./_ui/ChatMessageBox";
 
-import { ChatPartner } from "@/types/chat";
-
-// 더미 파트너 정보
-const dummyPartner: ChatPartner = {
-  partnerId: 2,
-  nickname: "김솔커",
-  profileUrl: null,
-};
+import useGetPartnerInfo from "@/api/chat/clients/useGetPartnerInfo";
 
 interface ChatContentProps {
   chatId: number;
@@ -44,6 +37,9 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
     messagesEndRef,
     chatContainerRef,
   } = useChatListHandler(chatId);
+  const { data: partnerInfo } = useGetPartnerInfo(chatId);
+
+  const { partnerId, nickname, profileUrl, university } = partnerInfo ?? {};
 
   return (
     <div className="relative flex h-[calc(100vh-112px)] flex-col">
@@ -60,13 +56,11 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
               )}
             >
               <div className="flex items-center gap-2">
-                <ProfileWithBadge width={24} height={24} />
+                <ProfileWithBadge profileImageUrl={profileUrl} width={30} height={30} />
                 <div className="flex h-full items-center">
-                  <span className="text-base font-semibold text-k-700">{dummyPartner.nickname}</span>
+                  <span className="text-base font-semibold text-k-700">{nickname}</span>
                   <div className="mx-4 h-10 w-[1px] bg-k-100"></div>
-                  <div className="flex text-sm font-medium">
-                    스웨덴 <br /> 대학교 컴퓨터공학과
-                  </div>
+                  <div className="flex text-sm font-medium">{university ? university : "예비솔커"}</div>
                 </div>
               </div>
               <Link
@@ -74,7 +68,7 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
                   "rounded-3xl px-4 py-2 text-sm font-semibold text-k-0",
                   isMentor ? "ㅅㄷ bg-sub-c-500" : "bg-primary",
                 )}
-                href={`/mentor/${dummyPartner.partnerId}`}
+                href={`/mentor/${partnerId}`}
               >
                 멘토 페이지
               </Link>
