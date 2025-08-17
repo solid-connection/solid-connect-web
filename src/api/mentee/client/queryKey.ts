@@ -1,3 +1,3 @@
 export enum QueryKeys {
-  menteeMentoringList = "menteeMentoringList",
+  applyMentoringList = "applyMentoringList",
 }
