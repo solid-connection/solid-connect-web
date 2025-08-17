@@ -20,22 +20,21 @@ const MentorApplyCountContent = () => {
   // 신규 신청 없으면 표시
   if (!isLogin || count === 0 || !isModalOpen || !isSuccess) return null;
   return (
-    <Link href={`/mentor`} onClick={() => setIsModalOpen(false)}>
-      <div className="fixed left-1/2 top-16 z-50 w-[80%] max-w-md -translate-x-1/2 rounded-xl bg-secondary px-6 py-4 text-white shadow-md">
-        {/* close button */}
-        <button
-          type="button"
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            setIsModalOpen(false);
-          }}
-          className="absolute right-3 top-3 text-white/80 hover:text-white"
-          aria-label="닫기"
-        >
-          ✕
-        </button>
-
+    <div className="fixed left-1/2 top-16 z-50 w-[80%] max-w-md -translate-x-1/2 rounded-xl bg-secondary px-6 py-4 text-white shadow-md">
+      {/* close button */}
+      <button
+        type="button"
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setIsModalOpen(false);
+        }}
+        className="absolute right-3 top-3 text-white/80 hover:text-white"
+        aria-label="닫기"
+      >
+        ✕
+      </button>
+      <Link href={`/mentor`} onClick={() => setIsModalOpen(false)}>
         <div className="flex items-center">
           {/* left: message */}
           <div className="flex-1">
@@ -53,8 +52,8 @@ const MentorApplyCountContent = () => {
             <div className="text-2xl font-bold">{count}명</div>
           </div>
         </div>
-      </div>
-    </Link>
+      </Link>
+    </div>
   );
 };
 
