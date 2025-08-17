@@ -1,6 +1,8 @@
 import { axiosInstance } from "@/utils/axiosInstance";
 
-import { useMutation } from "@tanstack/react-query";
+import { QueryKeys } from "./queryKey";
+
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface UsePatchMentorCheckMentoringsRequest {
   checkedMentoringIds: number[];
@@ -17,7 +19,14 @@ const patchMenotrCheck = async (
 };
 
 const usePatchMentorCheckMentorings = () => {
+  const queriesClient = useQueryClient();
   return useMutation({
+    onSuccess: () => {
+      // 멘토링 체크 상태 변경 후 멘토링 목록 쿼리 무효화
+      queriesClient.invalidateQueries({
+        queryKey: [QueryKeys.mentoringNewCount, QueryKeys.mentoringList],
+      });
+    },
     mutationFn: patchMenotrCheck,
   });
 };

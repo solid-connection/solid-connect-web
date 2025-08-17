@@ -36,7 +36,7 @@ const usePatchApprovalStatus = () => {
     onSuccess: async (data, variables) => {
       // 멘토링 상태 변경 후 쿼리 무효화
       queryClient.invalidateQueries({
-        queryKey: [QueryKeys.mentoringList],
+        queryKey: [QueryKeys.mentoringList, QueryKeys.mentoringNewCount],
       });
 
       if (variables.status === MentoringApprovalStatus.REJECTED) {

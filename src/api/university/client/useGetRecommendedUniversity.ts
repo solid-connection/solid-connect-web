@@ -12,14 +12,9 @@ type UseGetRecommendedUniversityRequest = {
   isLogin: boolean;
 };
 
-const getRecommendedUniversity = async ({
-  queryKey,
-}: {
-  queryKey: [string, boolean];
-}): Promise<UseGetRecommendedUniversityResponse> => {
+const getRecommendedUniversity = async (isLogin): Promise<UseGetRecommendedUniversityResponse> => {
   const endpoint = "/univ-apply-infos/recommend";
 
-  const [, isLogin] = queryKey;
   let instance = publicAxiosInstance;
   if (isLogin) {
     const isLoginState = await getAccessTokenWithReissue();
@@ -32,7 +27,7 @@ const getRecommendedUniversity = async ({
 const useGetRecommendedUniversity = ({ isLogin }: UseGetRecommendedUniversityRequest) =>
   useQuery({
     queryKey: [QueryKeys.recommendedUniversity, isLogin],
-    queryFn: getRecommendedUniversity,
+    queryFn: () => getRecommendedUniversity(isLogin),
     staleTime: 1000 * 60 * 5,
     select: (data) => data.recommendedUniversities, // 필요한 데이터만 반환
   });
