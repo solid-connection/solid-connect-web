@@ -184,12 +184,6 @@ const ChatInputBar = ({ onSendMessage, onSendImages, onSendFiles }: ChatInputBar
                   ? `${hasImages ? "이미지" : "파일"}를 보내시려면 전송 버튼을 클릭하세요.`
                   : "메시지를 입력하세요..."
               }
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && !e.shiftKey) {
-                  e.preventDefault();
-                  handleSend();
-                }
-              }}
             />
             <button
               type="submit"

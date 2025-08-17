@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 
 import clsx from "clsx";
@@ -64,14 +65,15 @@ const ChatNavBar = ({ chatId }: ChatNavBarProps) => {
               스마트팜 / 뮌헨기술대학
             </p>
 
-            <button
-              className={clsx("mt-3 w-full rounded-3xl px-4 py-2 font-medium text-white", {
+            <Link
+              href={`/mentor/${chatId}`}
+              className={clsx("mt-3 w-full rounded-3xl px-4 py-2 text-center font-medium text-white", {
                 "bg-sub-c-500": isMentor,
                 "bg-primary": !isMentor,
               })}
             >
               멘토 페이지 가기
-            </button>
+            </Link>
           </div>
 
           <hr className="mb-6 mt-6" />
