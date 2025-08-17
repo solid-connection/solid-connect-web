@@ -21,6 +21,8 @@ const postAddArticle = async (body: UsePostAddArticleRequest): Promise<UsePostAd
     url: body.url || "",
   };
 
+  console.log("Posting article with data:", newsCreateRequest);
+
   // 파일이 있는 경우 FormData로 전송, 없는 경우 JSON으로 전송
   if (body.file) {
     const formData = new FormData();

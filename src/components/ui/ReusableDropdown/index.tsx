@@ -2,7 +2,7 @@ import useDropDownHandler from "./hooks/useDropDownHandler";
 
 interface ReusableDropdownProps<T extends string | number> {
   items: T[];
-  selectedValue: T;
+  selectedValue?: T;
   onSelect: (value: T) => void;
   className?: string;
   children: React.ReactNode;
@@ -15,7 +15,7 @@ const ReusableDropdown = <T extends string | number>({
   className = "",
   children,
 }: ReusableDropdownProps<T>) => {
-  const { isOpen, toggleDropdown, dropdownPosition, dropdownRef } = useDropDownHandler<T>({ onSelect });
+  const { isOpen, toggleDropdown, dropdownPosition, dropdownRef, handleSelect } = useDropDownHandler<T>({ onSelect });
   return (
     <div className={`relative h-full w-full ${className}`} ref={dropdownRef}>
       <div
@@ -33,11 +33,15 @@ const ReusableDropdown = <T extends string | number>({
           className={`absolute top-full z-10 min-w-[120px] rounded-md border bg-k-100 shadow-sdwC ${
             dropdownPosition === "right" ? "right-0" : "left-0"
           }`}
+          onClick={(e) => e.stopPropagation()}
         >
           {items.map((item, index) => (
             <button
               key={item}
-              onClick={() => onSelect(item)}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleSelect(item);
+              }}
               className={`h-[40px] w-full px-4 text-left text-sm font-medium text-k-700 hover:bg-primary-100 ${
                 index === 0 ? "rounded-t-md" : ""
               } ${index === items.length - 1 ? "rounded-b-md" : ""} ${

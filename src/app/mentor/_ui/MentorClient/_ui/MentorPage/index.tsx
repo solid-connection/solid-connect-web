@@ -22,6 +22,7 @@ const MentorPage = () => {
 
   const { data: myMenteeList = [] } = useGetChatRooms();
 
+  console.log("myMenteeList", myMenteeList);
   return (
     <>
       <header className="flex items-center justify-between">
@@ -51,7 +52,7 @@ const MentorPage = () => {
             {myMenteeList.length === 0 ? (
               <EmptySdwBCards message={"나와 매칭된 멘토입니다"} />
             ) : (
-              myMenteeList.slice(0, 2).map((mentor) => {
+              myMenteeList.slice(0, 3).map((mentor) => {
                 const { profileUrl, nickname } = mentor.partner;
                 return (
                   <Link href={`/mentor/chat/${mentor.id}`} key={mentor.id}>

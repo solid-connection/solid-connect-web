@@ -3,29 +3,28 @@ import Image from "next/image";
 import BottomSheet from "@/components/ui/BottomSheet";
 
 import useArticleSchema from "./hooks/useArticleSchema";
-import { ArticleFormData } from "./lib/schema";
 
 import { IconCamera } from "@/public/svgs/mentor";
 
-interface ArticleBottomSheetModalProps {
+export type InitialData = {
+  title?: string;
+  description?: string;
+  url?: string;
+  thumbnailUrl?: string;
+};
+
+type ArticleBottomSheetModalProps = {
   mode: "수정하기" | "추가하기";
   isOpen: boolean;
   handleClose: () => void;
-  onSubmit?: (data: ArticleFormData) => void;
-  initialData?: Partial<ArticleFormData>;
-}
+  initialData?: InitialData;
+};
 
-const ArticleBottomSheetModal = ({
-  isOpen,
-  mode,
-  handleClose,
-  onSubmit,
-  initialData,
-}: ArticleBottomSheetModalProps) => {
+const ArticleBottomSheetModal = ({ isOpen, mode, handleClose, initialData }: ArticleBottomSheetModalProps) => {
   const { methods, imagePreview, handleImageChange, handleFormSubmit, handleModalClose, handleSetImageDelete } =
     useArticleSchema({
       initialData,
-      onSubmit,
+      isEdit: mode === "수정하기",
       handleClose,
     });
   const {
@@ -34,31 +33,36 @@ const ArticleBottomSheetModal = ({
     formState: { errors },
   } = methods;
 
+  const imagePreviewSrc = initialData?.thumbnailUrl
+    ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/${initialData.thumbnailUrl}`
+    : imagePreview;
+
   if (!isOpen) return null;
 
   return (
-    <BottomSheet
-      isOpen={isOpen}
-      onClose={handleModalClose}
-      titleChild={
-        <div className="relative flex h-10 w-full items-center">
-          <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-lg font-semibold">
-            아티클 {mode}
-          </span>
-          <button
-            type="button"
-            className="absolute right-0 top-1/2 -translate-y-1/2 rounded-lg px-3 py-1 text-sm font-semibold text-secondary"
-            onClick={() => {
-              /* TODO: Add your button logic here */
-            }}
-          >
-            저장
-          </button>
-        </div>
-      }
-    >
-      <div className="flex h-full flex-col">
-        <form onSubmit={handleSubmit(handleFormSubmit)} className="flex h-full flex-col overflow-hidden">
+    <form className="flex h-full flex-col overflow-hidden">
+      <BottomSheet
+        isOpen={isOpen}
+        onClose={handleModalClose}
+        titleChild={
+          <div className="relative flex h-10 w-full items-center">
+            <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-lg font-semibold">
+              아티클 {mode}
+            </span>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                handleSubmit(handleFormSubmit)(e);
+              }}
+              className="absolute right-0 top-1/2 -translate-y-1/2 rounded-lg px-3 py-1 text-sm font-semibold text-secondary"
+            >
+              저장
+            </button>
+          </div>
+        }
+      >
+        <div className="flex h-full flex-col">
           <div className="scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-gray-300 flex-1 space-y-6 overflow-y-auto px-2">
             {/* 제목 */}
             <div>
@@ -100,10 +104,10 @@ const ArticleBottomSheetModal = ({
             <div>
               <label className="mb-3 block text-lg font-normal text-primary">썸네일 등록</label>
               <div className="rounded-xl bg-k-50 p-12 text-center">
-                {imagePreview ? (
+                {imagePreviewSrc ? (
                   <div className="relative">
                     <Image
-                      src={imagePreview}
+                      src={imagePreviewSrc}
                       alt="미리보기"
                       width={200}
                       height={120}
@@ -129,9 +133,9 @@ const ArticleBottomSheetModal = ({
               </div>
             </div>
           </div>
-        </form>
-      </div>
-    </BottomSheet>
+        </div>
+      </BottomSheet>
+    </form>
   );
 };
 

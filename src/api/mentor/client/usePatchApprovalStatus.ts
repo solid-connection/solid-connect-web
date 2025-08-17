@@ -8,7 +8,7 @@ import { MentoringApprovalStatus } from "@/types/mentor";
 
 import { customAlert } from "@/lib/zustand/useAlertModalStore";
 import { customConfirm } from "@/lib/zustand/useConfirmModalStore";
-import { IconUnSmile } from "@/public/svgs/mentor";
+import { IconSmile, IconUnSmile } from "@/public/svgs/mentor";
 import { QueryClient, useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface UsePatchApprovalStatusRequest {
@@ -50,7 +50,7 @@ const usePatchApprovalStatus = () => {
         const ok = await customConfirm({
           title: "멘티 신청이 완료되었어요!",
           content: "지금 바로 멘티에게 메시지를 전송해보세요",
-          icon: IconUnSmile,
+          icon: IconSmile,
           rejectMessage: "닫기",
           approveMessage: "1:1 채팅 바로가기",
         });

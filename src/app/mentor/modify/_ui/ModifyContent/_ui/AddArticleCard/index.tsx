@@ -4,12 +4,10 @@ import { useState } from "react";
 import ArticleBottomSheetModal from "@/components/mentor/ArticleBottomSheetModal";
 import ToolTipMessage from "@/components/ui/TooltipMessage";
 
-import usePostAddArticle from "@/api/news/client/usePostAddArticle";
 import { IconPlus } from "@/public/svgs/mentor";
 
 const AddArticleCard = () => {
   const [open, setOpen] = useState(false);
-  const { mutate: postAddArticle } = usePostAddArticle();
   return (
     <>
       <div className="relative mt-10 flex h-40 flex-col items-center justify-center bg-k-50">
@@ -35,14 +33,7 @@ const AddArticleCard = () => {
         </div>
       </div>
 
-      <ArticleBottomSheetModal
-        mode="추가하기"
-        isOpen={open}
-        handleClose={() => setOpen(false)}
-        onSubmit={(data) => {
-          postAddArticle(data);
-        }}
-      />
+      <ArticleBottomSheetModal mode="추가하기" isOpen={open} handleClose={() => setOpen(false)} />
     </>
   );
 };
