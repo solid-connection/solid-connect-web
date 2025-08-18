@@ -1,3 +1,16 @@
+import { UserRole } from "./mentor";
+
+export interface BaseUserInfo {
+  likedUniversityCount: number;
+  nickname: string;
+  profileImageUrl: string;
+  role: UserRole;
+  authType: string;
+  email: string;
+  likedPostCount: number;
+  likedMentorCount: number;
+}
+
 export interface MyInfo {
   nickname: string;
   profileImageUrl: string;
