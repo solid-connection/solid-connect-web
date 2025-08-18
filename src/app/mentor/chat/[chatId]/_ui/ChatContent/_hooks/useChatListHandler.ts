@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef } from "react";
 // --- 프로젝트 내부 의존성 ---
 import useInfinityScroll from "@/utils/useInfinityScroll";
 
-import { ConnectionStatus } from "@/types/chat";
+import { ChatMessage, ConnectionStatus } from "@/types/chat";
 
 import useGetChatHistories from "@/api/chat/clients/useGetChatHistories";
 import useConnectWebSocket from "@/lib/web-socket/useConnectWebSocket";
@@ -47,9 +47,19 @@ const useChatListHandler = (chatId: number) => {
       const sortedMessages = allMessages.sort(
         (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
       );
-      setSubmittedMessages(sortedMessages);
+      // Deduplicate by id, keeping the last occurrence (chronological order)
+      const dedupedMessages: ChatMessage[] = [];
+      const seenIds = new Set<string | number>();
+      for (let i = sortedMessages.length - 1; i >= 0; i--) {
+        const msg = sortedMessages[i];
+        if (!seenIds.has(msg.id)) {
+          seenIds.add(msg.id);
+          dedupedMessages.unshift(msg);
+        }
+      }
+      setSubmittedMessages(dedupedMessages);
     }
-  }, [chatHistoryPages]);
+  }, [chatHistoryPages, setSubmittedMessages]);
 
   // 새로운 메시지가 추가되었을 때, 스크롤을 대화 목록의 맨 아래로 이동시킵니다.
   useEffect(() => {
