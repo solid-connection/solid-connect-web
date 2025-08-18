@@ -24,9 +24,9 @@ const useJWTParseRouteHandler = (): UseJWTParseRouteHandlerReturn => {
   useEffect(() => {
     const fetchAndDecode = async () => {
       const token = await getAccessTokenWithReissue();
-      setIsLoaded(false);
       if (!token) {
         router.push("/login");
+        setIsLoaded(false);
         return;
       }
 
@@ -38,6 +38,7 @@ const useJWTParseRouteHandler = (): UseJWTParseRouteHandlerReturn => {
       setUserRole(role);
       setUserId(id);
       setExpiredAt(expiration);
+      setIsLoaded(false);
     };
 
     fetchAndDecode();
