@@ -1,3 +1,5 @@
+import IconGraduationPrimary from "./graduation-primary.svg";
+import IconInterestUniversity from "./interest-university.svg";
 import IconMyInfoCardBookmark from "./my-info-card-bookmark.svg";
 import IconMyInfoCardMento from "./my-info-card-mento.svg";
 import IconMyInfoCardWish from "./my-info-card-wish.svg";
@@ -14,4 +16,6 @@ export {
   IconMyInfoCardBookmark,
   IconMyInfoCardMento,
   IconMyInfoCardWish,
+  IconInterestUniversity,
+  IconGraduationPrimary,
 };
