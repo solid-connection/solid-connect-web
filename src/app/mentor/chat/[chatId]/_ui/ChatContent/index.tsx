@@ -29,16 +29,19 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
 
   // 채팅 리스트 관리 훅
   const {
-    submittedMessages,
+    // Data & State
+    messages,
     connectionStatus,
-    firstRef,
-    isLoading,
-    isFetchingNextPage,
+    isLoading, // 초기 데이터 로딩 상태
+    isFetchingNextPage, // 이전 기록 로딩 상태
+
+    // Refs
+    messagesEndRef, // 자동 스크롤을 위한 ref
+    topDetectorRef, // 무한 스크롤 감지를 위한 ref
+
+    // Handlers
     sendTextMessage,
-    addImageMessage,
-    addFileMessage,
-    messagesEndRef,
-    chatContainerRef,
+    addImageMessagePreview,
   } = useChatListHandler(chatId);
 
   const { data: partnerInfo } = useGetPartnerInfo(chatId);
@@ -80,23 +83,28 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
               </Link>
             </div>
             <div className="rounded bg-white px-4 py-2 text-center">
-              {connectionStatus === ConnectionStatus.Connected ? (
-                <p
-                  className={clsx(
-                    "bg-gradient-to-r bg-clip-text text-sm font-semibold text-transparent",
-                    isMentor ? "from-sub-c-500 to-primary-600" : "from-primary to-sub-a",
-                  )}
-                >
-                  멘토링이 연결되었습니다! 채팅을 시작해보세요!
-                </p>
-              ) : (
-                <p className="text-sm font-semibold text-gray-500">연결이 끊어졌습니다. 잠시 후 다시 시도해주세요.</p>
-              )}
+              <div className="rounded bg-white px-4 py-2 text-center">
+                {connectionStatus === ConnectionStatus.Connected ? (
+                  <p
+                    className={clsx(
+                      "bg-gradient-to-r bg-clip-text text-sm font-semibold text-transparent",
+                      isMentor ? "from-sub-c-500 to-primary-600" : "from-primary to-sub-a",
+                    )}
+                  >
+                    멘토링이 연결되었습니다! 채팅을 시작해보세요!
+                  </p>
+                ) : connectionStatus === ConnectionStatus.Pending ? (
+                  <p className="text-sm font-semibold text-yellow-500">연결 대기 중입니다. 잠시만 기다려주세요.</p>
+                ) : connectionStatus === ConnectionStatus.Error ? (
+                  <p className="text-sm font-semibold text-red-500">연결 중 오류가 발생했습니다. 다시 시도해주세요.</p>
+                ) : connectionStatus === ConnectionStatus.Disconnected ? (
+                  <p className="text-sm font-semibold text-gray-500">연결이 끊어졌습니다. 잠시 후 다시 시도해주세요.</p>
+                ) : null}
+              </div>
             </div>
           </div>
           {/* 채팅 메시지 영역 - 항상 스크롤 가능, 스크롤바 숨김 */}
           <div
-            ref={chatContainerRef}
             className="scrollbar-hide flex-1 overflow-y-auto p-4 pb-6"
             style={{
               scrollbarWidth: "none" /* Firefox */,
@@ -122,14 +130,13 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
               )}
 
               {/* 첫 번째 메시지에 ref 부착하여 위로 스크롤 시 더 오래된 메시지 로드 */}
-              {submittedMessages.map((message, index) => {
-                const showDateSeparator =
-                  index === 0 || !isSameDay(submittedMessages[index - 1].createdAt, message.createdAt);
+              {messages.map((message, index) => {
+                const showDateSeparator = index === 0 || !isSameDay(messages[index - 1].createdAt, message.createdAt);
 
                 return (
                   <div
                     key={message.id}
-                    ref={index === 0 ? firstRef : null} // 첫 번째 메시지에 ref 부착
+                    ref={index === 0 ? topDetectorRef : null} // 첫 번째 메시지에 ref 부착
                   >
                     {/* 날짜 구분선 */}
                     {showDateSeparator && (
@@ -158,10 +165,10 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
           sendTextMessage(data.message, userId);
         }}
         onSendImages={(data) => {
-          addImageMessage(data.images, userId);
+          addImageMessagePreview(data.images, userId);
         }}
         onSendFiles={(data) => {
-          addFileMessage(data.files, userId);
+          addImageMessagePreview(data.files, userId);
         }}
       />
     </div>

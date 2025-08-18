@@ -19,13 +19,13 @@ const useJWTParseRouteHandler = (): UseJWTParseRouteHandlerReturn => {
   const [userRole, setUserRole] = useState<UserRole | null>(null);
   const [userId, setUserId] = useState<number>(-1);
   const [expiredAt, setExpiredAt] = useState<Date | null>(null);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(true);
 
   useEffect(() => {
     const fetchAndDecode = async () => {
       const token = await getAccessTokenWithReissue();
+      setIsLoaded(false);
       if (!token) {
-        setIsLoaded(true);
         router.push("/login");
         return;
       }
