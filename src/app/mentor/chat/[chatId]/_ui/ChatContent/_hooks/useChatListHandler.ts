@@ -89,28 +89,75 @@ const useChatListHandler = (chatId: number) => {
     [chatId, connectionStatus],
   ); // chatId와 connectionStatus가 변경될 경우에만 함수를 재생성
 
-  /** 전송할 이미지 파일을 미리 UI에 보여주는 함수입니다. (실제 업로드 로직은 별도 구현 필요) */
-  const addImageMessagePreview = useCallback((images: File[], senderId: number) => {
-    const newMessages = images.map((image) => {
-      const tempId = Date.now() + Math.random();
-      const imageUrl = URL.createObjectURL(image);
-      return {
-        id: tempId,
-        content: `이미지: ${image.name}`,
-        senderId,
-        createdAt: new Date().toISOString(),
-        attachments: [
-          {
+  // Track created object URLs for cleanup
+  const objectUrlsRef = useRef<string[]>([]);
+
+  /** 이미지 파일만 미리보기 메시지로 추가 */
+  const addImageMessagePreview = useCallback(
+    (files: File[], senderId: number) => {
+      const newMessages: ChatMessage[] = [];
+      files.forEach((file) => {
+        if (file.type.startsWith("image/")) {
+          const tempId = Date.now() + Math.random();
+          const imageUrl = URL.createObjectURL(file);
+          objectUrlsRef.current.push(imageUrl);
+          newMessages.push({
             id: tempId,
-            isImage: true,
-            url: imageUrl,
-            thumbnailUrl: imageUrl,
+            content: `이미지: ${file.name}`,
+            senderId,
             createdAt: new Date().toISOString(),
-          },
-        ],
-      };
-    });
-    setSubmittedMessages((prev) => [...prev, ...newMessages]);
+            attachments: [
+              {
+                id: tempId,
+                isImage: true,
+                url: imageUrl,
+                thumbnailUrl: imageUrl,
+                createdAt: new Date().toISOString(),
+              },
+            ],
+          });
+        }
+      });
+      if (newMessages.length > 0) setSubmittedMessages((prev) => [...prev, ...newMessages]);
+    },
+    [setSubmittedMessages],
+  );
+
+  /** 이미지가 아닌 파일을 미리보기 메시지로 추가 */
+  const addFileMessagePreview = useCallback(
+    (files: File[], senderId: number) => {
+      const newMessages: ChatMessage[] = [];
+      files.forEach((file) => {
+        if (!file.type.startsWith("image/")) {
+          const tempId = Date.now() + Math.random();
+          newMessages.push({
+            id: tempId,
+            content: `파일: ${file.name}`,
+            senderId,
+            createdAt: new Date().toISOString(),
+            attachments: [
+              {
+                id: tempId,
+                isImage: false,
+                url: URL.createObjectURL(file),
+                thumbnailUrl: "",
+                createdAt: new Date().toISOString(),
+              },
+            ],
+          });
+        }
+      });
+      if (newMessages.length > 0) setSubmittedMessages((prev) => [...prev, ...newMessages]);
+    },
+    [setSubmittedMessages],
+  );
+
+  // Cleanup created object URLs on unmount
+  useEffect(() => {
+    return () => {
+      objectUrlsRef.current.forEach((url) => URL.revokeObjectURL(url));
+      objectUrlsRef.current = [];
+    };
   }, []);
 
   // --- 5. 최종 반환 객체 ---
@@ -128,6 +175,7 @@ const useChatListHandler = (chatId: number) => {
     // Handlers
     sendTextMessage,
     addImageMessagePreview,
+    addFileMessagePreview,
   };
 };
 

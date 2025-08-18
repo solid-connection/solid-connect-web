@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import type { MutableRefObject } from "react";
 
 import SockJS from "sockjs-client";
 
@@ -12,7 +13,7 @@ import { Client } from "@stomp/stompjs";
 
 interface UseConnectWebSocketProps {
   roomId: number | null;
-  clientRef: React.MutableRefObject<Client | null>;
+  clientRef: MutableRefObject<Client | null>;
 }
 
 interface UseConnectWebSocketReturn {
@@ -42,15 +43,14 @@ const useConnectWebSocket = ({
       setConnectionStatus(ConnectionStatus.Pending); // 연결 시도 중 상태로 설정
       // 연결 시도 중 상태로 설정
       try {
-        const token = await getAccessTokenWithReissue();
-        if (!token) {
-          throw new Error("Access token is not available.");
-        }
-
         const client = new Client({
           webSocketFactory: () => new SockJS(`${NEXT_PUBLIC_API_SERVER_URL}/connect`),
-          connectHeaders: {
-            Authorization: convertToBearer(token),
+          beforeConnect: async () => {
+            const token = await getAccessTokenWithReissue();
+            if (!token) throw new Error("Access token is not available.");
+            client.connectHeaders = {
+              Authorization: convertToBearer(token),
+            };
           },
           heartbeatIncoming: 20000,
           heartbeatOutgoing: 20000,
