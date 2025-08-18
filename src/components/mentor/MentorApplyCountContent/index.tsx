@@ -5,7 +5,7 @@ import { useState } from "react";
 
 import { isAuthenticated } from "@/utils/authUtils";
 
-import useRouterHandler from "../../../lib/hooks/useRouterHandler";
+import useRouterHandler from "../../../lib/hooks/useJWTParseRouteHandler";
 
 import useGetMentoringUncheckedCount from "@/api/mentor/client/useGetMentoringUncheckedCount";
 

@@ -12,7 +12,7 @@ type UseGetRecommendedUniversityRequest = {
   isLogin: boolean;
 };
 
-const getRecommendedUniversity = async (isLogin): Promise<UseGetRecommendedUniversityResponse> => {
+const getRecommendedUniversity = async (isLogin: boolean): Promise<UseGetRecommendedUniversityResponse> => {
   const endpoint = "/univ-apply-infos/recommend";
 
   let instance = publicAxiosInstance;

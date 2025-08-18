@@ -9,7 +9,7 @@ import { IconDirectionDown, IconDirectionUp } from "@/public/svgs/mentor";
 interface ChannelSelectProps {
   name?: string;
   control: Control<FieldValues>;
-  onChannelChange?: (val: string | null) => void;
+  onChannelChange?: (val: ChannelType | null) => void;
 }
 
 const ChannelSelect = ({ name = "channel", control, onChannelChange }: ChannelSelectProps) => {

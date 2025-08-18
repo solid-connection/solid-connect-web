@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import usePatchMenteeCheckMentorings from "@/api/mentee/client/usePatchMenteeCheckMentorings";
 import usePatchMentorCheckMentorings from "@/api/mentor/client/usePatchMentorCheckMentorings";
-import useRouterHandler from "@/lib/hooks/useRouterHandler";
+import useRouterHandler from "@/lib/hooks/useJWTParseRouteHandler";
 
 interface UseExpandCardClickHandlerReturn {
   isExpanded: boolean;

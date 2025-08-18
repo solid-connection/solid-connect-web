@@ -26,7 +26,7 @@ const connectWebSocket = async ({
 
   const client = new Client({
     webSocketFactory: () => new SockJS(process.env.NEXT_PUBLIC_API_SERVER_URL) as WebSocket,
-    connectHeaders: { Authorization: ` ${convertToBearer(token)}` },
+    connectHeaders: { Authorization: convertToBearer(token) },
     heartbeatIncoming: 20000,
     heartbeatOutgoing: 20000,
     debug: (str) => console.log(str),

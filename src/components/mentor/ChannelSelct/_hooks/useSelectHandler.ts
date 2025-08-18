@@ -6,14 +6,14 @@ import { ChannelType } from "@/types/mentor";
 interface useSelectHandlerReturn {
   isOpen: boolean;
   dropdownRef: React.RefObject<HTMLDivElement>;
-  handleChannelChange: (val: string | null) => void;
+  handleChannelChange: (val: ChannelType | null) => void;
   toggleDropdown: () => void;
 }
 
 interface UseSelectHandlerProps {
   name?: string;
   control: Control<FieldValues>;
-  onChannelChange?: (val: string | null) => void;
+  onChannelChange?: (val: ChannelType | null) => void;
 }
 const useSelectHandler = ({
   name = "channel",

@@ -6,7 +6,7 @@ import MenteePageTabs from "./_ui/MenteePageTabs";
 import MentorFindSection from "./_ui/MentorFindSection";
 import MentorPage from "./_ui/MentorPage";
 
-import useRouterHandler from "@/lib/hooks/useRouterHandler";
+import useRouterHandler from "@/lib/hooks/useJWTParseRouteHandler";
 
 const MentorClient = () => {
   const { isLoaded, isMentor } = useRouterHandler();

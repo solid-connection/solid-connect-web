@@ -119,8 +119,8 @@ const MentorDetialContent = ({ mentorId }: MentorDetailContentProps) => {
         ))}
         {articleList.length === 0 && <p className="mb-7 text-[14px] font-normal text-k-500">정보가 없습니다.</p>}
       </div>
-      <div className="w-50 pointer-events-none fixed bottom-20 left-1/2 flex -translate-x-1/2 justify-center">
-        <div className="pointer-events-auto w-full max-w-md px-4">
+      <div className="pointer-events-none fixed bottom-20 left-1/2 flex w-full -translate-x-1/2 justify-center">
+        <div className="pointer-events-auto w-1/2 max-w-md px-4">
           <button
             type="button"
             onClick={() => postApplyMentoring({ mentorId: id })}

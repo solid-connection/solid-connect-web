@@ -35,9 +35,10 @@ const usePatchApprovalStatus = () => {
     mutationFn: patchApprovalStatus,
     onSuccess: async (data, variables) => {
       // 멘토링 상태 변경 후 쿼리 무효화
-      queryClient.invalidateQueries({
-        queryKey: [QueryKeys.mentoringList, QueryKeys.mentoringNewCount],
-      });
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: [QueryKeys.mentoringList] }),
+        queryClient.invalidateQueries({ queryKey: [QueryKeys.mentoringNewCount] }),
+      ]);
 
       if (variables.status === MentoringApprovalStatus.REJECTED) {
         customAlert({

@@ -8,7 +8,6 @@ import clsx from "clsx";
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
 
 import useChatListHandler from "./_hooks/useChatListHandler";
-import useJwtRouteHandler from "./_hooks/useJwtRouteHandler";
 import usePutChatReadHandler from "./_hooks/usePutChatReadHandler";
 import { formatDateSeparator, isSameDay } from "./_lib/dateUtils";
 import ChatInputBar from "./_ui/ChatInputBar";
@@ -17,13 +16,14 @@ import ChatMessageBox from "./_ui/ChatMessageBox";
 import { ConnectionStatus } from "@/types/chat";
 
 import useGetPartnerInfo from "@/api/chat/clients/useGetPartnerInfo";
+import useJWTParseRouteHandler from "@/lib/hooks/useJWTParseRouteHandler";
 
 interface ChatContentProps {
   chatId: number;
 }
 
 const ChatContent = ({ chatId }: ChatContentProps) => {
-  const { isMentor, currentUserId } = useJwtRouteHandler();
+  const { isMentor, userId } = useJWTParseRouteHandler();
   // 채팅 읽음 상태 업데이트 훅 진입시 자동으로
   usePutChatReadHandler(chatId);
 
@@ -140,7 +140,7 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
                       </div>
                     )}
                     {/* 일반 채팅 메시지 */}
-                    <ChatMessageBox key={message.id} message={message} currentUserId={currentUserId} />
+                    <ChatMessageBox key={message.id} message={message} currentUserId={userId} />
                   </div>
                 );
               })}
@@ -155,13 +155,13 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
       {/* 메시지 입력 영역 - 항상 하단 고정 */}
       <ChatInputBar
         onSendMessage={(data) => {
-          sendTextMessage(data.message, currentUserId);
+          sendTextMessage(data.message, userId);
         }}
         onSendImages={(data) => {
-          addImageMessage(data.images, currentUserId);
+          addImageMessage(data.images, userId);
         }}
         onSendFiles={(data) => {
-          addFileMessage(data.files, currentUserId);
+          addFileMessage(data.files, userId);
         }}
       />
     </div>

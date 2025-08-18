@@ -30,6 +30,10 @@ const ReusableDropdown = <T extends string | number>({
       </div>
       {isOpen && (
         <div
+          role="button"
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") toggleDropdown();
+          }}
           className={`absolute top-full z-10 min-w-[120px] rounded-md border bg-k-100 shadow-sdwC ${
             dropdownPosition === "right" ? "right-0" : "left-0"
           }`}
@@ -37,6 +41,7 @@ const ReusableDropdown = <T extends string | number>({
         >
           {items.map((item, index) => (
             <button
+              type="button"
               key={item}
               onClick={(e) => {
                 e.stopPropagation();
