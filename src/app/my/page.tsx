@@ -2,7 +2,6 @@ import { Metadata } from "next";
 
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 
-import MyContent from "./MyContent";
 import MyProfileContent from "./MyProfileContent";
 
 export const metadata: Metadata = {
