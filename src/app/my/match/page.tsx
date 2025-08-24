@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 const MatchPage = () => {
   return (
     <>
-      <TopDetailNavigation title="프로필 수정" />
+      <TopDetailNavigation title="매칭 멘토" />
       <MatchContent />
     </>
   );
