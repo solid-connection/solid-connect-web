@@ -8,6 +8,7 @@ import { z } from "zod";
 
 import PasswordInput from "./_ui/PasswordInput";
 
+import usePatchMyPassword from "@/api/my/client/usePatchMyPassword";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 export const changePasswordSchema = z
@@ -20,23 +21,30 @@ export const changePasswordSchema = z
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/,
         "비밀번호는 대문자, 소문자, 숫자를 포함한 8자 이상이어야 합니다.",
       ),
-    confirmPassword: z.string().min(1, "비밀번호를 다시 입력해주세요."),
+    newPasswordConfirmation: z.string().min(1, "비밀번호를 다시 입력해주세요."),
   })
-  .refine((data) => data.newPassword === data.confirmPassword, {
+  .refine((data) => data.newPassword === data.newPasswordConfirmation, {
     message: "입력한 비밀번호가 일치하지 않습니다.",
-    path: ["confirmPassword"],
+    path: ["newPasswordConfirmation"],
   });
 
+interface ChangePasswordFormData {
+  currentPassword: string;
+  newPassword: string;
+  newPasswordConfirmation: string;
+}
+
 const PasswordContent = () => {
+  const { mutate: patchMyPassword } = usePatchMyPassword();
   const [step, setStep] = useState(0); // 0: 현재 비밀번호, 1: 새 비밀번호
 
-  const methods = useForm({
+  const methods = useForm<ChangePasswordFormData>({
     resolver: zodResolver(changePasswordSchema),
     mode: "onChange",
     defaultValues: {
       currentPassword: "",
       newPassword: "",
-      confirmPassword: "",
+      newPasswordConfirmation: "",
     },
   });
 
@@ -55,14 +63,17 @@ const PasswordContent = () => {
   };
 
   // 폼 최종 제출
-  const onSubmit = (data) => {
-    alert("현재 비밀번호 제공하기 기능이 제공되지 않습니다!");
+  const onSubmit = (data: ChangePasswordFormData) => {
+    patchMyPassword(data);
   };
 
   // watch 대신 dirtyFields와 errors를 사용해 버튼 활성화 상태 결정
   const isStep1ButtonEnabled = dirtyFields.currentPassword && !errors.currentPassword;
   const isStep2ButtonEnabled =
-    dirtyFields.newPassword && dirtyFields.confirmPassword && !errors.newPassword && !errors.confirmPassword;
+    dirtyFields.newPassword &&
+    dirtyFields.newPasswordConfirmation &&
+    !errors.newPassword &&
+    !errors.newPasswordConfirmation;
 
   return (
     <FormProvider {...methods}>
@@ -90,7 +101,7 @@ const PasswordContent = () => {
             />
             <PasswordInput
               approveMessage={"입력한 비밀번호와 동일합니다."}
-              name="confirmPassword"
+              name="newPasswordConfirmation"
               label="비밀번호를 다시 입력해주세요"
               placeholder="비밀번호 확인"
             />
@@ -105,7 +116,7 @@ const PasswordContent = () => {
               disabled={!isStep1ButtonEnabled}
               className={clsx(
                 "w-full rounded-lg py-4 font-semibold text-white transition-colors",
-                isStep1ButtonEnabled ? "bg-indigo-600 hover:bg-indigo-700" : "cursor-not-allowed bg-gray-400",
+                isStep1ButtonEnabled ? "bg-primary-600 hover:bg-primary-700" : "cursor-not-allowed bg-gray-400",
               )}
             >
               확인
@@ -118,7 +129,7 @@ const PasswordContent = () => {
               disabled={!isStep2ButtonEnabled}
               className={clsx(
                 "w-full rounded-lg py-4 font-semibold text-white transition-colors",
-                isStep2ButtonEnabled ? "bg-indigo-600 hover:bg-indigo-700" : "cursor-not-allowed bg-gray-400",
+                isStep2ButtonEnabled ? "bg-primary-600 hover:bg-primary-700" : "cursor-not-allowed bg-gray-400",
               )}
             >
               변경하기

@@ -50,7 +50,7 @@ const PasswordInput = ({
                   "w-full rounded-lg border p-4 pr-20 transition-colors focus:outline-none focus:ring-2",
                   hasError
                     ? "border-red-500 focus:border-red-500 focus:ring-red-400"
-                    : "border-gray-300 focus:border-indigo-500 focus:ring-indigo-400",
+                    : "border-gray-300 focus:border-primary-500 focus:ring-primary-400",
                 )}
               />
               <div className="absolute right-3 flex items-center space-x-2">
