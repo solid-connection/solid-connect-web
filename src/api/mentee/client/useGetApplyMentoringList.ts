@@ -37,7 +37,7 @@ const useGetApplyMentoringList = (verifyStatus: UseGetApplyMentoringListRequest)
     [string, VerifyStatus],
     number
   >({
-    queryKey: [QueryKeys.menteeMentoringList, verifyStatus],
+    queryKey: [QueryKeys.applyMentoringList, verifyStatus],
     queryFn: getApplyMentoringList,
     initialPageParam: 0,
     getNextPageParam: (lastPage) => (lastPage.nextPageNumber === -1 ? undefined : lastPage.nextPageNumber),
@@ -52,7 +52,7 @@ export const usePrefetchApplyMentoringList = () => {
 
   const prefetchMenteeMentoringList = (verifyStatus: UseGetApplyMentoringListRequest) => {
     queryClient.prefetchInfiniteQuery({
-      queryKey: [QueryKeys.menteeMentoringList, verifyStatus],
+      queryKey: [QueryKeys.applyMentoringList, verifyStatus],
       queryFn: getApplyMentoringList,
       initialPageParam: 0,
       staleTime: 1000 * 60 * 5,

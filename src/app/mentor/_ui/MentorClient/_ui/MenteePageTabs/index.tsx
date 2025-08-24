@@ -67,7 +67,7 @@ const MenteePageTabs = () => {
               key={mentor.id}
               nickname={mentor.partner.nickname}
               profileImageUrl={mentor.partner.profileUrl}
-              description={mentor.lastChatMessage}
+              description={mentor.lastChatMessage || "새로운 멘토링이 시작되었어요!"}
             />
           </Link>
         ))}

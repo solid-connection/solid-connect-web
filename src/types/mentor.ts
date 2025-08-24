@@ -96,9 +96,10 @@ export interface MentoringItem {
   nickname: string;
   isChecked: boolean;
   createdAt: string;
+  isConfirmed: boolean;
 }
 
 export enum MentoringApprovalStatus {
-  APPROVE = "APPROVE",
-  REJECT = "REJECT",
+  APPROVED = "APPROVED",
+  REJECTED = "REJECTED",
 }

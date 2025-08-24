@@ -5,25 +5,32 @@ export const mentoModifySchema = z.object({
     .array(
       z
         .object({
-          type: z.string(),
+          type: z.string().nullable(),
           url: z.string(),
         })
         .refine(
           (data) => {
-            // 둘 다 비어있거나, 둘 다 채워져 있어야 함
-            const hasType = data.type.trim().length > 0;
-            const hasUrl = data.url.trim().length > 0;
-            return (hasType && hasUrl) || (!hasType && !hasUrl);
+            // type이 null, undefined, 빈 문자열이면 채널 선택 안함으로 간주
+            const hasType = data.type && data.type.trim().length > 0;
+            const hasUrl = data.url && data.url.trim().length > 0;
+
+            // 채널을 선택하지 않은 경우: 항상 통과
+            if (!hasType) {
+              return true;
+            }
+
+            // 채널을 선택한 경우: URL도 반드시 있어야 함
+            return hasUrl;
           },
           {
-            message: "채널 타입과 URL은 함께 입력해주세요",
-            path: ["type"], // 에러를 type 필드에 표시
+            message: "채널을 선택했다면 URL을 입력해주세요",
+            path: ["url"], // 에러를 url 필드에 표시
           },
         )
         .refine(
           (data) => {
-            // URL이 있다면 유효한 주소이어야 함
-            if (data.url.trim().length > 0) {
+            // URL이 입력되었다면 유효한 주소이어야 함
+            if (data.url && data.url.trim().length > 0) {
               try {
                 new URL(data.url);
                 return true;

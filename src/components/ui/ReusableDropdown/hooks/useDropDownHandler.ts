@@ -4,13 +4,19 @@ const useDropDownHandler = <T extends string | number>({ onSelect }: { onSelect:
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [dropdownPosition, setDropdownPosition] = useState<"left" | "right">("left");
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const onSelectRef = useRef(onSelect);
+
+  // onSelect 함수의 최신 참조를 유지
+  useEffect(() => {
+    onSelectRef.current = onSelect;
+  }, [onSelect]);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
   const handleSelect = (item: T) => {
-    onSelect(item);
+    onSelectRef.current(item);
     setIsOpen(false);
   };
 
@@ -21,6 +27,22 @@ const useDropDownHandler = <T extends string | number>({ onSelect }: { onSelect:
       const dropdownWidth = 200;
       setDropdownPosition(rect.right + dropdownWidth > viewportWidth ? "right" : "left");
     }
+  }, [isOpen]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, [isOpen]);
 
   return {

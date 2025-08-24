@@ -1,4 +1,5 @@
 import IconAlbum from "./album.svg";
+import IconAlertSubC from "./alert-sub-c.svg";
 import IconAlert from "./alert.svg";
 import IconCamera from "./camera.svg";
 import IconCheck from "./check.svg";
@@ -16,6 +17,7 @@ import IconPencil from "./pencil.svg";
 import IconPlusK200 from "./plus-k-200.svg";
 import IconPlus from "./plus.svg";
 import IconPoligon from "./poligon.svg";
+import IconReport from "./report.svg";
 import IconSearchBlue from "./search-blue.svg";
 import IconSetting from "./setting.svg";
 import IconSmile from "./smile.svg";
@@ -27,6 +29,7 @@ import IconXWhite from "./x-white.svg";
 
 export {
   IconAlert,
+  IconAlertSubC,
   IconDirectionDown,
   IconDefaultProfile,
   IconDirectionUp,
@@ -52,4 +55,5 @@ export {
   IconXWhite,
   IconFile,
   IconAlbum,
+  IconReport,
 };

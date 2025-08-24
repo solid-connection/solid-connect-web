@@ -1,19 +1,20 @@
 "use client";
 
-import { getUserRoleFromJwt } from "@/utils/jwtUtils";
+import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 
 import MenteePageTabs from "./_ui/MenteePageTabs";
 import MentorFindSection from "./_ui/MentorFindSection";
 import MentorPage from "./_ui/MentorPage";
 
-import { UserRole } from "@/types/mentor";
+import useRouterHandler from "@/lib/hooks/useJWTParseRouteHandler";
 
 const MentorClient = () => {
-  const userRole = getUserRoleFromJwt();
-  const isMentor = userRole?.toUpperCase() === UserRole.MENTOR;
+  const { isLoaded, isMentor } = useRouterHandler();
   return (
     <>
-      {isMentor ? (
+      {isLoaded ? (
+        <CloudSpinnerPage />
+      ) : isMentor ? (
         // 멘토페이지
         <>
           <MentorPage />

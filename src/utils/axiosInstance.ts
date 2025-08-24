@@ -78,7 +78,7 @@ const redirectToLoginWithAuthRequired = () => {
   redirectToLogin("로그인이 필요합니다");
 };
 
-const convertToBearer = (token: string) => `Bearer ${token}`;
+export const convertToBearer = (token: string) => `Bearer ${token}`;
 
 const reissueAccessToken = async (): Promise<string | null> => {
   // 최근에 실패했다면 재시도하지 않음

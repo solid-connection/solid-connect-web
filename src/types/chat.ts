@@ -10,6 +10,7 @@ export interface ChatPartner {
   partnerId: number;
   nickname: string;
   profileUrl: string | null;
+  university: string | null;
 }
 
 export interface ChatAttachment {
@@ -26,4 +27,11 @@ export interface ChatMessage {
   senderId: number;
   createdAt: string;
   attachments: ChatAttachment[];
+}
+
+export enum ConnectionStatus {
+  Connected = "Connected",
+  Disconnected = "Disconnected",
+  Error = "Error",
+  Pending = "Pending",
 }

@@ -28,7 +28,7 @@ const TabSelector = ({ tabs, selectedTab, onTabChange, className = "" }: TabSele
               if (e.key === "ArrowRight") onTabChange(tabs[(idx + 1) % tabs.length]);
               if (e.key === "ArrowLeft") onTabChange(tabs[(idx - 1 + tabs.length) % tabs.length]);
             }}
-            className={`flex-1 py-4 text-center text-base font-medium outline-offset-2 focus:outline focus:outline-2 focus:outline-primary ${
+            className={`flex-1 py-4 text-center text-base font-medium outline-offset-2 ${
               isSelected ? "border-b-2 border-primary text-primary" : "text-k-500"
             }`}
           >

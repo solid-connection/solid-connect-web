@@ -5,7 +5,8 @@ import { getAccessToken } from "@/lib/zustand/useTokenStore";
 interface JwtPayload {
   exp: number;
   role?: string;
-  [key: string]: unknown;
+  sub?: number; // 사용자 ID
+  iat?: number; // 발급 시간
 }
 
 // 안전한 Base64URL 디코더 (브라우저/Node 양쪽 지원)
@@ -104,4 +105,13 @@ export const getUserRoleFromJwt = (): UserRole | null => {
 
   const decoded = parseJwt(token);
   return toUserRole(decoded?.role);
+};
+
+export const getUserIdFromJwt = (): number | null => {
+  const token = getAccessToken();
+  if (!token) return null;
+
+  const decoded = parseJwt(token);
+
+  return decoded?.sub ? Number(decoded.sub) : null;
 };

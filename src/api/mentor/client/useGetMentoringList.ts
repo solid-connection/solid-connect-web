@@ -32,10 +32,8 @@ const useGetMentoringList = ({ size = OFFSET }: UseGetMentoringListRequest) =>
       return lastPage.nextPageNumber !== -1 ? lastPage.nextPageNumber : undefined;
     },
     refetchInterval: 1000 * 60 * 10, // ⏱️ 10분마다 자동 재요청
-    refetchOnWindowFocus: true, // 탭 돌아올 때도 최신화
     staleTime: 1000 * 60 * 5, // fresh 상태 유지
     select: (data) => data.pages.flatMap((page) => page.content), // 모든 페이지의 content를 평
-    // select: (data) => data.pages.flatMap((p) => p.content),
   });
 
 export default useGetMentoringList;

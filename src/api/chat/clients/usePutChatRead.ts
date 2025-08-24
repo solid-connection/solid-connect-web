@@ -7,7 +7,7 @@ import { QueryKeys } from "./queryKey";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const putChatRead = async (roomId: number): Promise<void> => {
-  const response: AxiosResponse<void> = await axiosInstance.delete(`/chats/rooms/${roomId}/read`);
+  const response: AxiosResponse<void> = await axiosInstance.put(`/chats/rooms/${roomId}/read`);
   return response.data;
 };
 

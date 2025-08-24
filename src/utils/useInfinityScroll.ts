@@ -6,7 +6,15 @@ type UseInfinityScrollProps = {
   isDirectionTop?: boolean;
 };
 
-const useInfinityScroll = ({ fetchNextPage, hasNextPage, isDirectionTop = false }: UseInfinityScrollProps) => {
+type UseInfinityScrollReturn = {
+  lastElementRef: (node: HTMLDivElement | null) => void;
+};
+
+const useInfinityScroll = ({
+  fetchNextPage,
+  hasNextPage,
+  isDirectionTop = false,
+}: UseInfinityScrollProps): UseInfinityScrollReturn => {
   const observerRef = useRef<IntersectionObserver | null>(null);
 
   /** 마지막 요소에 부착할 ref */

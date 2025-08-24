@@ -29,7 +29,6 @@ const MentorChatCard = ({ profileImageUrl, nickname, description, hasBadge = fal
           {time && (
             <div className="ml-auto whitespace-nowrap text-xs text-k-500">{convertISODateToKoreanTime(time)}</div>
           )}
-          <p>{time}</p>
         </div>
 
         <div className="truncate text-xs leading-relaxed text-gray-500">{description}</div>

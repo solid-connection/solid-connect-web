@@ -1,14 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
+import { InitialData } from "..";
 import { ArticleFormData, articleSchema } from "../lib/schema";
 
+import usePostAddArticle from "@/api/news/client/usePostAddArticle";
+import usePutModifyArticle from "@/api/news/client/usePutModifyArticle";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 interface UseArticleSchemaProps {
-  initialData?: Partial<ArticleFormData>;
-  onSubmit?: (data: ArticleFormData) => void;
+  initialData?: InitialData;
   handleClose: () => void;
+  isEdit: boolean;
 }
 
 interface UseArticleSchemaReturn {
@@ -20,8 +23,10 @@ interface UseArticleSchemaReturn {
   handleSetImageDelete: () => void;
 }
 
-const useArticleSchema = ({ initialData, onSubmit, handleClose }: UseArticleSchemaProps): UseArticleSchemaReturn => {
+const useArticleSchema = ({ initialData, isEdit, handleClose }: UseArticleSchemaProps): UseArticleSchemaReturn => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const { mutate: postAddArticle } = usePostAddArticle();
+  const { mutate: putModifyArticle } = usePutModifyArticle();
 
   const methods = useForm<ArticleFormData>({
     resolver: zodResolver(articleSchema),
@@ -32,6 +37,10 @@ const useArticleSchema = ({ initialData, onSubmit, handleClose }: UseArticleSche
       file: undefined,
     },
   });
+
+  useEffect(() => {
+    setImagePreview(`${initialData?.thumbnailUrl}` || null);
+  }, [initialData]);
 
   const { reset, setValue } = methods;
 
@@ -51,8 +60,11 @@ const useArticleSchema = ({ initialData, onSubmit, handleClose }: UseArticleSche
   };
 
   const handleFormSubmit = (data: ArticleFormData) => {
-    if (onSubmit) {
-      onSubmit(data);
+    console.log("Form submitted with data:", data);
+    if (isEdit) {
+      putModifyArticle(data);
+    } else {
+      postAddArticle(data);
     }
     handleClose();
     reset();

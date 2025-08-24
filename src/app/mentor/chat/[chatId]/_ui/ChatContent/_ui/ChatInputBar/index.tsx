@@ -31,6 +31,7 @@ const ChatInputBar = ({ onSendMessage, onSendImages, onSendFiles }: ChatInputBar
     handleImageChange,
     handleAlbumClick,
   } = useImageHandler({ onSendImages, setIsAttachmentOptionsOpen });
+
   const {
     fileInputRef,
     selectedFiles,
@@ -41,6 +42,7 @@ const ChatInputBar = ({ onSendMessage, onSendImages, onSendFiles }: ChatInputBar
     handleFileChange,
     handleFileClick,
   } = useFileHandler({ onSendFiles, setIsAttachmentOptionsOpen });
+
   const hasAttachments = hasImages || hasFiles;
 
   // 통합 전송 함수 - DirectMessage 버튼 클릭 시 호출
@@ -182,12 +184,6 @@ const ChatInputBar = ({ onSendMessage, onSendImages, onSendFiles }: ChatInputBar
                   ? `${hasImages ? "이미지" : "파일"}를 보내시려면 전송 버튼을 클릭하세요.`
                   : "메시지를 입력하세요..."
               }
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && !e.shiftKey) {
-                  e.preventDefault();
-                  handleSend();
-                }
-              }}
             />
             <button
               type="submit"
@@ -211,7 +207,7 @@ const ChatInputBar = ({ onSendMessage, onSendImages, onSendFiles }: ChatInputBar
             <button
               data-option="album"
               onClick={handleAlbumClick}
-              className="flex h-10 w-10 flex-col items-center justify-center rounded-lg bg-gray-50 transition-colors"
+              className="flex h-10 w-10 flex-col items-center justify-center rounded-lg transition-colors"
             >
               <div className="text-sm">
                 <IconAlbum />
@@ -223,7 +219,7 @@ const ChatInputBar = ({ onSendMessage, onSendImages, onSendFiles }: ChatInputBar
             <button
               data-option="file"
               onClick={handleFileClick}
-              className="flex h-10 w-10 flex-col items-center justify-center rounded-lg bg-gray-50 transition-colors"
+              className="flex h-10 w-10 flex-col items-center justify-center rounded-lg transition-colors"
             >
               <div className="text-sm">
                 <IconFile />
