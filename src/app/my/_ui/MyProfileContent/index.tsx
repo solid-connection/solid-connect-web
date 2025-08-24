@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 
-import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 import LinkedTextWithIcon from "@/components/ui/LinkedTextWithIcon";
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
 
@@ -11,7 +10,6 @@ import { UserRole } from "@/types/mentor";
 import useDeleteUserAccount from "@/api/auth/client/useDeleteUserAccount";
 import usePostLogout from "@/api/auth/client/usePostLogout";
 import useGetMyInfo from "@/api/my/client/useGetMyInfo";
-import useJWTParseRouteHandler from "@/lib/hooks/useJWTParseRouteHandler";
 import { IconLikeFill } from "@/public/svgs/mentor";
 import {
   IconBook,
@@ -25,8 +23,8 @@ import {
 
 const NEXT_PUBLIC_CONTACT_LINK = process.env.NEXT_PUBLIC_CONTACT_LINK;
 const MyProfileContent = () => {
-  const { isLoading, isMentor } = useJWTParseRouteHandler();
   const { data: profileData = {} } = useGetMyInfo();
+  const isMentor = profileData.role === UserRole.MENTOR;
   const { mutate: deleteUserAccount } = useDeleteUserAccount();
   const { mutate: postLogout } = usePostLogout();
 
@@ -35,8 +33,6 @@ const MyProfileContent = () => {
   const university = profileData.role === UserRole.MENTOR ? profileData.attendedUniversity : null;
   const favoriteLocation =
     profileData.role === UserRole.MENTEE ? profileData.interestedCountries?.slice(0, 3).join(", ") || "없음" : null;
-
-  if (isLoading) return <CloudSpinnerPage />;
 
   return (
     <div className="px-5 py-2">
