@@ -36,8 +36,7 @@ const useSortedUniversities = (): UseSortedUniversitiesReturn => {
       // '낮은 성적순'은 데이터에 없으므로 기본값(최신순)으로 처리
       case filterType.LOW_SCORE:
       // '편집하기'는 정렬 기능이 아니므로 기본값(최신순)으로 처리
-      case filterType.EDIT:
-      // '최신순'이 기본값이므로 그대로 반환
+
       case filterType.LATEST:
       default:
         return wishUniversity; // 원본 순서(최신순) 그대로 반환

@@ -1,6 +1,6 @@
 import ReusableDropdown from "@/components/ui/ReusableDropdown";
 
-import { IconSetting } from "@/public/svgs/mentor";
+import { IconDirectionDown } from "@/public/svgs/mentor";
 
 interface FavoriteDropDownProps {
   items: string[];
@@ -10,7 +10,9 @@ interface FavoriteDropDownProps {
 const FavoriteDropDown = ({ items, handleSelect }: FavoriteDropDownProps) => {
   return (
     <ReusableDropdown items={items} onSelect={handleSelect}>
-      <IconSetting />
+      <div className="h-8 w-8">
+        <IconDirectionDown />
+      </div>
     </ReusableDropdown>
   );
 };

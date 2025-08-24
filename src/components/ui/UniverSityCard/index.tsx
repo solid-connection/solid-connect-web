@@ -21,7 +21,7 @@ const UniversityCard = ({ university, showCapacity = true }: UniversityCardProps
 
   return (
     <Link
-      className="relative h-[91px] overflow-hidden rounded-lg border border-solid border-k-100 hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/10"
+      className="relative h-[91px] w-full overflow-hidden rounded-lg border border-solid border-k-100 hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/10"
       href={`/university/${university.id}`}
       aria-labelledby={`university-name-${university.id}`}
     >
