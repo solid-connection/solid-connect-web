@@ -17,7 +17,7 @@ export interface MyInfo {
   nickname: string;
   profileImageUrl: string | null;
   role: "MENTOR" | "MENTEE";
-  authType: "EMAIL" | "KAKAO" | "APPLE";
+  authType: AuthType;
   birth: string;
   likedPostCount: number;
   likedMentoCount: number;
