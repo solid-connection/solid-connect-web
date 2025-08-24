@@ -56,8 +56,7 @@ const PasswordContent = () => {
 
   // 폼 최종 제출
   const onSubmit = (data) => {
-    console.log("폼 제출 데이터:", data);
-    alert("비밀번호가 성공적으로 변경되었습니다!");
+    alert("현재 비밀번호 제공하기 기능이 제공되지 않습니다!");
   };
 
   // watch 대신 dirtyFields와 errors를 사용해 버튼 활성화 상태 결정
