@@ -1,4 +1,5 @@
 import IconAlbumWhite from "./album-white.svg";
+import IconAlertErrorRed from "./alert-error-red.svg";
 import IconBook from "./book.svg";
 import IconCheckBlue from "./check-blue.svg";
 import IconEarth from "./earth.svg";
@@ -15,6 +16,8 @@ import IconMyMenuPerson from "./my-menu-person.svg";
 import IconPassword from "./password.svg";
 import IconSolidConnectionSmallLogo from "./solid-connection-small-logo.svg";
 import IconUniversity from "./university.svg";
+import IconVisibilityOff from "./visibility-off.svg";
+import IconVisibilityOn from "./visibility-on.svg";
 
 export {
   IconMyMenuArrow,
@@ -34,4 +37,7 @@ export {
   IconSolidConnectionSmallLogo,
   IconAlbumWhite,
   IconCheckBlue,
+  IconAlertErrorRed,
+  IconVisibilityOn,
+  IconVisibilityOff,
 };
