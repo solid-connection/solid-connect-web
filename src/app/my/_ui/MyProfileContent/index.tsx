@@ -92,19 +92,26 @@ const MyProfileContent = () => {
 
       {/* Quick Actions */}
       <div className="grid grid-cols-3 gap-4 text-sm font-semibold text-k-700">
-        <Link href="/my/university" className="p-3 text-center">
+        <Link href="/my/favorite" className="p-3 text-center">
           <div className="mx-auto mb-2 h-8 w-8">
             <IconInterestUniversity />
           </div>
           관심학교
         </Link>
-        <Link href="/my/favorites" className="p-3 text-center">
+        {/* to do 좋아요한 글 가져오기  */}
+        {/* <Link href="/my/favorites" className="p-3 text-center">
           <div className="mx-auto mb-2 h-8 w-8">
             <IconLikeFill />
           </div>
           좋아요한 글
-        </Link>
-        <Link href="/my/mentors" className="p-3 text-center">
+        </Link> */}
+        <button onClick={() => alert("현재 불가합니다.")} className="p-3 text-center">
+          <div className="mx-auto mb-2 h-8 w-8">
+            <IconLikeFill />
+          </div>
+          좋아요한 글
+        </button>
+        <Link href="/mentor/chat" className="p-3 text-center">
           <div className="mx-auto mb-2 h-8 w-8">
             <IconGraduationPrimary />
           </div>
@@ -146,7 +153,13 @@ const MyProfileContent = () => {
 
         <LinkedTextWithIcon isBilink href={NEXT_PUBLIC_CONTACT_LINK} text="고객센터 문의" />
 
-        <LinkedTextWithIcon onClick={deleteUserAccount} text="회원탈퇴" />
+        <LinkedTextWithIcon
+          onClick={() => {
+            if (confirm("정말 탈퇴하시겠습니까? 탈퇴 시 모든 데이터가 삭제되며, 복구할 수 없습니다."))
+              deleteUserAccount();
+          }}
+          text="회원탈퇴"
+        />
 
         <LinkedTextWithIcon onClick={postLogout} text="로그아웃" />
       </div>
