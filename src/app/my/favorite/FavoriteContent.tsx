@@ -1,64 +1,34 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import UniversityCard from "@/components/ui/UniverSityCard";
 
-import ScrollTab from "@/components/ui/ScrollTab";
-import UniversityCards from "@/components/university/UniversityCards";
-
-import { ListUniversity } from "@/types/university";
-
-import { getMyWishUniversityApi } from "@/api/myInfo";
+import useGetMyInfo from "@/api/my/client/useGetMyInfo";
+import useGetMyWishUniversity from "@/api/university/client/useGetMyWishUniversity";
 
 const FavoriteContent = () => {
-  const [wishColleges, setWishColleges] = useState<ListUniversity[] | null>(null);
-
-  useEffect(() => {
-    const fetchWishColleges = async () => {
-      await getMyWishUniversityApi()
-        .then((res) => {
-          setWishColleges(res.data);
-        })
-        .catch((err) => {
-          if (err.response) {
-            console.error("Axios response error", err.response);
-            if (err.response.status === 401 || err.response.status === 403) {
-              alert("로그인이 필요합니다");
-              document.location.href = "/login";
-            } else {
-              alert(err.response.data?.message);
-            }
-          } else {
-            console.error("Error", err.message);
-            alert(err.message);
-          }
-        });
-    };
-    fetchWishColleges();
-  }, []);
-
-  const tabs = ["위시학교"];
-  const [tab, setTab] = useState(tabs[0]);
-
-  if (!wishColleges) {
-    return null;
-  }
+  const { data: myInfo = {} } = useGetMyInfo();
+  const { nickname } = myInfo;
+  const { data: wishUniversity = [] } = useGetMyWishUniversity();
 
   return (
-    <>
-      <ScrollTab choices={tabs} choice={tab} setChoice={setTab} />
-      {(() => {
-        switch (tab) {
-          case tabs[0]:
-            return (
-              <div className="mt-5">
-                <UniversityCards colleges={wishColleges} />
-              </div>
-            );
-          default:
-            return null;
-        }
-      })()}
-    </>
+    <div className="px-5 pt-6">
+      <p className="font-pretendard text-xl font-semibold text-k-700">
+        {nickname} 님이
+        <br />
+        관심있는 학교
+      </p>
+      <div className="mt-5">
+        {wishUniversity.length === 0 ? (
+          <p className="py-20 text-center text-sm text-k-400">관심 학교가 없습니다.</p>
+        ) : (
+          <div className="grid grid-cols-2 gap-4 px-5 pb-10">
+            {wishUniversity.map((university) => (
+              <UniversityCard key={university.id} university={university} />
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 
