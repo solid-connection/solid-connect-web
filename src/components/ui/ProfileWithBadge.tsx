@@ -11,6 +11,8 @@ interface ProfileWithBadgeProps {
   isBadgeUp?: boolean; // 배지 위치 조정 여부
 }
 
+const NEXT_PUBLIC_UPLOADED_IMAGE_URL = process.env.NEXT_PUBLIC_UPLOADED_IMAGE_URL;
+
 const ProfileWithBadge = ({
   profileImageUrl,
   hasBadge = false,
@@ -32,7 +34,7 @@ const ProfileWithBadge = ({
       >
         {profileImageUrl ? (
           <Image
-            src={profileImageUrl}
+            src={`${NEXT_PUBLIC_UPLOADED_IMAGE_URL}/${profileImageUrl}`}
             alt="프로필 이미지"
             width={width}
             height={height}

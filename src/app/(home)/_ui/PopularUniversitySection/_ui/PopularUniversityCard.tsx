@@ -11,6 +11,8 @@ type PopularUniversityCardProps = {
   quality?: number;
 };
 
+const NEXT_PUBLIC_IMAGE_URL = process.env.NEXT_PUBLIC_IMAGE_URL || "";
+
 const PopularUniversityCard = ({
   university,
   priority = false,
@@ -26,7 +28,7 @@ const PopularUniversityCard = ({
             className="h-[120px] rounded-lg object-cover"
             src={
               university.backgroundImageUrl
-                ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/${university.backgroundImageUrl}`
+                ? `${NEXT_PUBLIC_IMAGE_URL}/${university.backgroundImageUrl}`
                 : "/images/default-university.jpg"
             }
             width={153}

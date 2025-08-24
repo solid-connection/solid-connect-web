@@ -14,13 +14,15 @@ interface UniversityDetailProps {
   university: University;
 }
 
+const NEXT_PUBLIC_IMAGE_URL = process.env.NEXT_PUBLIC_IMAGE_URL || "";
+
 const UniversityDetail = ({ university }: UniversityDetailProps) => {
   return (
     <>
       <div className="h-[236px] bg-blue-100 object-cover">
         <Image
           alt="대학 이미지"
-          src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${university.backgroundImageUrl}`}
+          src={`${NEXT_PUBLIC_IMAGE_URL}/${university.backgroundImageUrl}`}
           width={390}
           height={236}
         />
@@ -29,7 +31,7 @@ const UniversityDetail = ({ university }: UniversityDetailProps) => {
         <TitleSection
           title={university.formatName}
           subTitle={university.englishName}
-          logoUrl={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${university.logoImageUrl}`}
+          logoUrl={`${NEXT_PUBLIC_IMAGE_URL}/${university.logoImageUrl}`}
         />
         {/* TODO: totalDispatchCount 추가시 연동, 나라에 국기 추가 */}
         <SubTitleSection

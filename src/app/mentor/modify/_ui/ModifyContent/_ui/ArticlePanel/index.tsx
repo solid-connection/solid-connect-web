@@ -19,6 +19,8 @@ interface ArticlePanelProps {
 
 const dropdownOptions: ArticleDropdownType[] = [ArticleDropdownType.EDIT, ArticleDropdownType.DELETE];
 
+const NEXT_PUBLIC_IMAGE_URL = process.env.NEXT_PUBLIC_IMAGE_URL || "";
+
 const ArticlePanel = ({ article }: ArticlePanelProps) => {
   // state
   const [isArticleModalOpen, setIsArticleModalOpen] = useState<boolean>(false);
@@ -32,7 +34,7 @@ const ArticlePanel = ({ article }: ArticlePanelProps) => {
     <>
       <div className="relative h-[200px] w-full">
         <Image
-          src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${article.thumbnailUrl}`}
+          src={`${NEXT_PUBLIC_IMAGE_URL}/${article.thumbnailUrl}`}
           alt="멘토 아티클 이미지"
           fill
           className="object-cover"

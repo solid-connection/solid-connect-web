@@ -20,6 +20,8 @@ type ArticleBottomSheetModalProps = {
   initialData?: InitialData;
 };
 
+const NEXT_PUBLIC_IMAGE_URL = process.env.NEXT_PUBLIC_IMAGE_URL || "";
+
 const ArticleBottomSheetModal = ({ isOpen, mode, handleClose, initialData }: ArticleBottomSheetModalProps) => {
   const { methods, imagePreview, handleImageChange, handleFormSubmit, handleModalClose, handleSetImageDelete } =
     useArticleSchema({
@@ -34,7 +36,7 @@ const ArticleBottomSheetModal = ({ isOpen, mode, handleClose, initialData }: Art
   } = methods;
 
   const imagePreviewSrc = initialData?.thumbnailUrl
-    ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/${initialData.thumbnailUrl}`
+    ? `${NEXT_PUBLIC_IMAGE_URL}/${initialData.thumbnailUrl}`
     : imagePreview;
 
   if (!isOpen) return null;

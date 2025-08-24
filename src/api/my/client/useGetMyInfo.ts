@@ -24,7 +24,7 @@ export type MyInfoResponse = MenteeInfo | MentorInfo;
 
 // --- API 호출 함수 ---
 const getMyInfo = async (): Promise<MyInfoResponse> => {
-  const response: AxiosResponse<MyInfoResponse> = await axiosInstance.get("/my/info");
+  const response: AxiosResponse<MyInfoResponse> = await axiosInstance.get("/my");
   return response.data;
 };
 

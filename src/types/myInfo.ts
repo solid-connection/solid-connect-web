@@ -13,7 +13,7 @@ export interface BaseUserInfo {
 
 export interface MyInfo {
   nickname: string;
-  profileImageUrl: string;
+  profileImageUrl: string | null;
   role: "MENTOR" | "MENTEE";
   authType: "EMAIL" | "KAKAO" | "APPLE";
   birth: string;

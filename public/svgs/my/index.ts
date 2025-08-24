@@ -1,4 +1,6 @@
+import IconAlbumWhite from "./album-white.svg";
 import IconBook from "./book.svg";
+import IconCheckBlue from "./check-blue.svg";
 import IconEarth from "./earth.svg";
 import IconGraduationPrimary from "./graduation-primary.svg";
 import IconInterestUniversity from "./interest-university.svg";
@@ -11,6 +13,7 @@ import IconMyMenuCalendar from "./my-menu-calendar.svg";
 import IconMyMenuLock from "./my-menu-lock.svg";
 import IconMyMenuPerson from "./my-menu-person.svg";
 import IconPassword from "./password.svg";
+import IconSolidConnectionSmallLogo from "./solid-connection-small-logo.svg";
 import IconUniversity from "./university.svg";
 
 export {
@@ -28,4 +31,7 @@ export {
   IconLock,
   IconPassword,
   IconUniversity,
+  IconSolidConnectionSmallLogo,
+  IconAlbumWhite,
+  IconCheckBlue,
 };
