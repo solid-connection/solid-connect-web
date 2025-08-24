@@ -21,11 +21,7 @@ const patchMyMentorProfile = async (data: UseMyMentorProfileRequest): Promise<vo
   }
   console.log("폼데이터"); // 폼데이터 확인용
 
-  const res = await axiosInstance.patch<void>("/my", formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
+  const res = await axiosInstance.patch<void>("/my", formData);
 
   return res.data;
 };
