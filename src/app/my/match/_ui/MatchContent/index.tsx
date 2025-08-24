@@ -38,19 +38,20 @@ const MatchContent = () => {
                 time={room.lastReceivedTime}
               />
             ) : (
+              // TO DO 멘토 가져오기 API 구현시
               <MentorCard
                 key={room.id}
                 mentor={{
                   id: room.id,
-                  profileImageUrl: room.partner.profileUrl,
-                  nickname: room.partner.nickname,
-                  country: room.partner.country ?? "",
+                  profileImageUrl: room.partner.profileUrl ?? null,
+                  nickname: room.partner.nickname ?? "",
+                  country: "",
                   universityName: room.partner.university ?? "",
-                  menteeCount: room.partner.menteeCount ?? 0,
-                  hasBadge: room.partner.hasBadge ?? false,
-                  introduction: room.partner.introduction ?? "",
-                  channels: room.partner.channels ?? [],
-                  term: room.partner.term ?? "",
+                  menteeCount: 0,
+                  hasBadge: false,
+                  introduction: "",
+                  channels: [],
+                  term: "",
                 }}
               />
             ),
