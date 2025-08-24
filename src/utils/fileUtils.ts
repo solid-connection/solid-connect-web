@@ -66,26 +66,18 @@ const NEXT_PUBLIC_IMAGE_URL = process.env.NEXT_PUBLIC_IMAGE_URL;
 
 export const convertUploadedImageUrl = (url: string | null | undefined): string => {
   if (!url) return "";
-  const raw = String(url);
-  if (/^(https?:|data:|blob:|\/\/)/.test(raw)) return raw;
   if (!NEXT_PUBLIC_UPLOADED_IMAGE_URL) {
     console.error("NEXT_PUBLIC_UPLOADED_IMAGE_URL is not defined");
-    return raw;
+    return url;
   }
-  const base = NEXT_PUBLIC_UPLOADED_IMAGE_URL.replace(/\/+$/, "");
-  const path = raw.replace(/^\/+/, "");
-  return `${base}/${path}`;
+  return `${NEXT_PUBLIC_UPLOADED_IMAGE_URL}/${url}`;
 };
 
 export const convertImageUrl = (url: string | null | undefined): string => {
   if (!url) return "";
-  const raw = String(url);
-  if (/^(https?:|data:|blob:|\/\/)/.test(raw)) return raw;
   if (!NEXT_PUBLIC_IMAGE_URL) {
     console.error("NEXT_PUBLIC_IMAGE_URL is not defined");
-    return raw;
+    return url;
   }
-  const base = NEXT_PUBLIC_IMAGE_URL.replace(/\/+$/, "");
-  const path = raw.replace(/^\/+/, "");
-  return `${base}/${path}`;
+  return `${NEXT_PUBLIC_IMAGE_URL}/${url}`;
 };
