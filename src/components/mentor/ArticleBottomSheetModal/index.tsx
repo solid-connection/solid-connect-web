@@ -1,5 +1,7 @@
 import Image from "next/image";
 
+import { convertImageUrl } from "@/utils/fileUtils";
+
 import BottomSheet from "@/components/ui/BottomSheet";
 
 import useArticleSchema from "./hooks/useArticleSchema";
@@ -20,8 +22,6 @@ type ArticleBottomSheetModalProps = {
   initialData?: InitialData;
 };
 
-const NEXT_PUBLIC_IMAGE_URL = process.env.NEXT_PUBLIC_IMAGE_URL || "";
-
 const ArticleBottomSheetModal = ({ isOpen, mode, handleClose, initialData }: ArticleBottomSheetModalProps) => {
   const { methods, imagePreview, handleImageChange, handleFormSubmit, handleModalClose, handleSetImageDelete } =
     useArticleSchema({
@@ -35,9 +35,7 @@ const ArticleBottomSheetModal = ({ isOpen, mode, handleClose, initialData }: Art
     formState: { errors },
   } = methods;
 
-  const imagePreviewSrc = initialData?.thumbnailUrl
-    ? `${NEXT_PUBLIC_IMAGE_URL}/${initialData.thumbnailUrl}`
-    : imagePreview;
+  const imagePreviewSrc = initialData?.thumbnailUrl ? convertImageUrl(initialData.thumbnailUrl) : imagePreview;
 
   if (!isOpen) return null;
 

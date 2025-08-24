@@ -6,6 +6,7 @@ import { useState } from "react";
 import clsx from "clsx";
 
 import { convertISODateToDateTime } from "@/utils/datetimeUtils";
+import { convertUploadedImageUrl } from "@/utils/fileUtils";
 
 import Dropdown from "@/components/ui/Dropdown";
 
@@ -151,9 +152,7 @@ const CommentProfile = ({ user }: { user: CommunityUser }) => {
         <Image
           className="h-full w-full rounded-full"
           src={
-            user.profileImageUrl
-              ? `${process.env.NEXT_PUBLIC_UPLOADED_IMAGE_URL}/${user.profileImageUrl}`
-              : "/images/placeholder/profile64.svg"
+            user.profileImageUrl ? convertUploadedImageUrl(user.profileImageUrl) : "/images/placeholder/profile64.svg"
           }
           width={40}
           height={40}

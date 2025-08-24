@@ -2,6 +2,7 @@ import Image from "next/image";
 import { useState } from "react";
 
 import { convertISODateToDate } from "@/utils/datetimeUtils";
+import { convertImageUrl } from "@/utils/fileUtils";
 
 import ArticleBottomSheetModal from "@/components/mentor/ArticleBottomSheetModal";
 import ReusableDropdown from "@/components/ui/ReusableDropdown";
@@ -19,8 +20,6 @@ interface ArticlePanelProps {
 
 const dropdownOptions: ArticleDropdownType[] = [ArticleDropdownType.EDIT, ArticleDropdownType.DELETE];
 
-const NEXT_PUBLIC_IMAGE_URL = process.env.NEXT_PUBLIC_IMAGE_URL || "";
-
 const ArticlePanel = ({ article }: ArticlePanelProps) => {
   // state
   const [isArticleModalOpen, setIsArticleModalOpen] = useState<boolean>(false);
@@ -33,12 +32,7 @@ const ArticlePanel = ({ article }: ArticlePanelProps) => {
   return (
     <>
       <div className="relative h-[200px] w-full">
-        <Image
-          src={`${NEXT_PUBLIC_IMAGE_URL}/${article.thumbnailUrl}`}
-          alt="멘토 아티클 이미지"
-          fill
-          className="object-cover"
-        />
+        <Image src={convertImageUrl(article.thumbnailUrl)} alt="멘토 아티클 이미지" fill className="object-cover" />
       </div>
       <div className="mt-[10px] flex justify-between">
         <div className="text-[13px] font-medium text-k-500">{convertISODateToDate(article.updatedAt)}</div>

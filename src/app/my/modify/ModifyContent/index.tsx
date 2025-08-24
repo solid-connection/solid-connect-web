@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { FormProvider } from "react-hook-form";
 
 import clsx from "clsx";
@@ -31,8 +30,6 @@ const ModifyContent = () => {
   if (isLoading || !myInfo) {
     return <CloudSpinnerPage />;
   }
-
-  console.log("리렌더", isDirty, isValid);
   return (
     <FormProvider {...methods}>
       <div className="px-5 py-6">

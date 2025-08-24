@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { convertImageUrl } from "@/utils/fileUtils";
 import { shortenLanguageTestName } from "@/utils/universityUtils";
 
 import CheveronRightFilled from "@/components/ui/icon/ChevronRightFilled";
@@ -11,7 +12,6 @@ type UniversityCardProps = {
   university: ListUniversity;
   showCapacity?: boolean;
 };
-const NEXT_PUBLIC_IMAGE_URL = process.env.NEXT_PUBLIC_IMAGE_URL || "";
 
 const UniversityCard = ({ university, showCapacity = true }: UniversityCardProps) => {
   const convertedKoreanName =
@@ -30,7 +30,7 @@ const UniversityCard = ({ university, showCapacity = true }: UniversityCardProps
           <div className="flex flex-shrink-0 items-center">
             <Image
               className="h-14 w-14 rounded-full object-cover"
-              src={`${NEXT_PUBLIC_IMAGE_URL}/${university.logoImageUrl}`}
+              src={convertImageUrl(university.logoImageUrl)}
               width={62}
               height={62}
               alt="대학 이미지"

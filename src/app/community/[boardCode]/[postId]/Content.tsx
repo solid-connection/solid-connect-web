@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import ReactLinkify from "react-linkify";
 
 import { convertISODateToDateTime } from "@/utils/datetimeUtils";
+import { convertUploadedImageUrl } from "@/utils/fileUtils";
 
 import { PostImage as PostImageType, Post as PostType } from "@/types/community";
 
@@ -115,7 +116,7 @@ const Content = ({ post, postId }: ContentProps) => {
               className="h-full w-full rounded-full"
               src={
                 post.postFindSiteUserResponse.profileImageUrl
-                  ? `${process.env.NEXT_PUBLIC_UPLOADED_IMAGE_URL}/${post.postFindSiteUserResponse.profileImageUrl}`
+                  ? convertUploadedImageUrl(post.postFindSiteUserResponse.profileImageUrl)
                   : "/images/placeholder/profile64.svg"
               }
               width={40}
@@ -152,7 +153,7 @@ const PostImage = ({ images, onImageClick }: { images: PostImageType[]; onImageC
       <div className="mb-3 pr-5">
         <div className="relative pt-[75%]">
           <Image
-            src={`${process.env.NEXT_PUBLIC_UPLOADED_IMAGE_URL}/${images[0].url}`}
+            src={convertUploadedImageUrl(images[0].url)}
             layout="fill"
             objectFit="cover"
             alt="image"
@@ -168,7 +169,7 @@ const PostImage = ({ images, onImageClick }: { images: PostImageType[]; onImageC
         {images.map((image, index) => (
           <Image
             key={image.id}
-            src={`${process.env.NEXT_PUBLIC_UPLOADED_IMAGE_URL}/${image.url}`}
+            src={convertUploadedImageUrl(image.url)}
             width={197}
             height={197}
             alt="image"
@@ -203,12 +204,7 @@ const ImagePopup = ({ image, title, onClose }: ImagePopupProps) => (
       <div />
     </div>
     <div className="relative flex-grow">
-      <Image
-        src={`${process.env.NEXT_PUBLIC_UPLOADED_IMAGE_URL}/${image.url}`}
-        layout="fill"
-        objectFit="contain"
-        alt="Popup"
-      />
+      <Image src={convertUploadedImageUrl(image.url)} layout="fill" objectFit="contain" alt="Popup" />
     </div>
   </div>
 );

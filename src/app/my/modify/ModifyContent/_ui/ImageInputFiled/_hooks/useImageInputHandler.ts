@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useController, useFormContext } from "react-hook-form";
 
+import { convertUploadedImageUrl } from "@/utils/fileUtils";
+
 interface ImageInputHandlerReturn {
   selectedImage: File | undefined;
   imagePreviewUrl: string | null;
@@ -16,7 +18,6 @@ interface ImageInputHandlerReturn {
   handleImageSelect: () => void;
   handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
-const NEXT_PUBLIC_UPLOADED_IMAGE_URL = process.env.NEXT_PUBLIC_UPLOADED_IMAGE_URL;
 
 const useImageInputHandler = (initImagePreview: string | null): ImageInputHandlerReturn => {
   const { control } = useFormContext();
@@ -33,7 +34,7 @@ const useImageInputHandler = (initImagePreview: string | null): ImageInputHandle
 
   useEffect(() => {
     if (initImagePreview) {
-      setImagePreviewUrl(`${NEXT_PUBLIC_UPLOADED_IMAGE_URL}/${initImagePreview}`);
+      setImagePreviewUrl(convertUploadedImageUrl(initImagePreview));
     }
   }, [initImagePreview]);
 

@@ -1,6 +1,8 @@
 import Image from "next/image";
 import React from "react";
 
+import { convertUploadedImageUrl } from "@/utils/fileUtils";
+
 import { IconDefaultProfile, IconGraduation } from "@/public/svgs/mentor";
 
 interface ProfileWithBadgeProps {
@@ -10,8 +12,6 @@ interface ProfileWithBadgeProps {
   height?: number;
   isBadgeUp?: boolean; // 배지 위치 조정 여부
 }
-
-const NEXT_PUBLIC_UPLOADED_IMAGE_URL = process.env.NEXT_PUBLIC_UPLOADED_IMAGE_URL;
 
 const ProfileWithBadge = ({
   profileImageUrl,
@@ -34,7 +34,7 @@ const ProfileWithBadge = ({
       >
         {profileImageUrl ? (
           <Image
-            src={`${NEXT_PUBLIC_UPLOADED_IMAGE_URL}/${profileImageUrl}`}
+            src={convertUploadedImageUrl(profileImageUrl)}
             alt="프로필 이미지"
             width={width}
             height={height}
