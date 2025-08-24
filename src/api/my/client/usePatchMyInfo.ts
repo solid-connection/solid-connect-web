@@ -30,7 +30,7 @@ const usePatchMyInfo = () => {
   const queryClient = useQueryClient();
 
   return useMutation<void, AxiosError<{ message: string }>, UseMyMentorProfileRequest>({
-    mutationKey: [QueryKeys.myInfo, "password", "patch"],
+    mutationKey: [QueryKeys.myInfo, "patch"],
     mutationFn: patchMyMentorProfile,
     onSettled: () => {
       queryClient.invalidateQueries({

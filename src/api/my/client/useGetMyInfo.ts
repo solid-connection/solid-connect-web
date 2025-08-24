@@ -24,7 +24,7 @@ export type MyInfoResponse = MenteeInfo | MentorInfo;
 
 // --- API 호출 함수 ---
 const getMyInfo = async (): Promise<MyInfoResponse> => {
-  const response: AxiosResponse<MyInfoResponse> = await axiosInstance.get("/my");
+  const response: AxiosResponse<MyInfoResponse> = await axiosInstance.get("/my/info");
   return response.data;
 };
 
@@ -38,7 +38,13 @@ const useGetMyInfo = () => {
   });
 
   const pendingMutations = useMutationState({
-    mutationKey: [QueryKeys.myInfo, "password", "patch"],
+    filters: {
+      mutationKey: [QueryKeys.myInfo, "patch"],
+      status: "pending",
+    },
+    select: (mutation) => {
+      return mutation.state.variables as Partial<MyInfoResponse>;
+    },
   });
 
   const isOptimistic = pendingMutations.length > 0;
