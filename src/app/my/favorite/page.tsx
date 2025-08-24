@@ -1,8 +1,6 @@
 import { Metadata } from "next";
 
-import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
-
-import FavoriteContent from "./FavoriteContent";
+import FavoriteContent from "./_ui/FavoriteContent";
 
 export const metadata: Metadata = {
   title: "관심학교",
@@ -11,7 +9,6 @@ export const metadata: Metadata = {
 const FavoritePage = () => {
   return (
     <>
-      <TopDetailNavigation title="관심학교" />
       <FavoriteContent />
     </>
   );
