@@ -1,6 +1,8 @@
 import Image from "next/image";
 import React from "react";
 
+import { convertUploadedImageUrl } from "@/utils/fileUtils";
+
 import { IconDefaultProfile, IconGraduation } from "@/public/svgs/mentor";
 
 interface ProfileWithBadgeProps {
@@ -32,7 +34,7 @@ const ProfileWithBadge = ({
       >
         {profileImageUrl ? (
           <Image
-            src={profileImageUrl}
+            src={convertUploadedImageUrl(profileImageUrl)}
             alt="프로필 이미지"
             width={width}
             height={height}

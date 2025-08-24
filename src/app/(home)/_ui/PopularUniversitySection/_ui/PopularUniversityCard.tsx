@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { convertImageUrl } from "@/utils/fileUtils";
+
 import { ListUniversity } from "@/types/university";
 
 type PopularUniversityCardProps = {
@@ -26,7 +28,7 @@ const PopularUniversityCard = ({
             className="h-[120px] rounded-lg object-cover"
             src={
               university.backgroundImageUrl
-                ? `${process.env.NEXT_PUBLIC_IMAGE_URL}/${university.backgroundImageUrl}`
+                ? convertImageUrl(university.backgroundImageUrl)
                 : "/images/default-university.jpg"
             }
             width={153}

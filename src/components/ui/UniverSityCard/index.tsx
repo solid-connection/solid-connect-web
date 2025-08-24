@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { convertImageUrl } from "@/utils/fileUtils";
 import { shortenLanguageTestName } from "@/utils/universityUtils";
 
 import CheveronRightFilled from "@/components/ui/icon/ChevronRightFilled";
@@ -20,7 +21,7 @@ const UniversityCard = ({ university, showCapacity = true }: UniversityCardProps
 
   return (
     <Link
-      className="relative h-[91px] overflow-hidden rounded-lg border border-solid border-k-100 hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/10"
+      className="relative h-[91px] w-full overflow-hidden rounded-lg border border-solid border-k-100 hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/10"
       href={`/university/${university.id}`}
       aria-labelledby={`university-name-${university.id}`}
     >
@@ -29,7 +30,7 @@ const UniversityCard = ({ university, showCapacity = true }: UniversityCardProps
           <div className="flex flex-shrink-0 items-center">
             <Image
               className="h-14 w-14 rounded-full object-cover"
-              src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${university.logoImageUrl}`}
+              src={convertImageUrl(university.logoImageUrl)}
               width={62}
               height={62}
               alt="대학 이미지"

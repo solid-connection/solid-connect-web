@@ -9,7 +9,7 @@ import { UserRole } from "@/types/mentor";
 
 interface UseJWTParseRouteHandlerReturn {
   isMentor: boolean;
-  isLoaded: boolean;
+  isLoading: boolean;
   userId: number;
   expiredAt: Date | null;
 }
@@ -19,14 +19,14 @@ const useJWTParseRouteHandler = (): UseJWTParseRouteHandlerReturn => {
   const [userRole, setUserRole] = useState<UserRole | null>(null);
   const [userId, setUserId] = useState<number>(-1);
   const [expiredAt, setExpiredAt] = useState<Date | null>(null);
-  const [isLoaded, setIsLoaded] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchAndDecode = async () => {
       const token = await getAccessTokenWithReissue();
       if (!token) {
         router.push("/login");
-        setIsLoaded(false);
+        setIsLoading(false);
         return;
       }
 
@@ -38,14 +38,14 @@ const useJWTParseRouteHandler = (): UseJWTParseRouteHandlerReturn => {
       setUserRole(role);
       setUserId(id);
       setExpiredAt(expiration);
-      setIsLoaded(false);
+      setIsLoading(false);
     };
 
     fetchAndDecode();
   }, []);
 
   const isMentor = userRole?.toUpperCase() === UserRole.MENTOR;
-  return { isMentor, userId, expiredAt, isLoaded };
+  return { isMentor, userId, expiredAt, isLoading };
 };
 
 export default useJWTParseRouteHandler;

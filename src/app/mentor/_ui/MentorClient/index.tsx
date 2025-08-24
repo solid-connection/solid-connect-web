@@ -9,12 +9,12 @@ import MentorPage from "./_ui/MentorPage";
 import useRouterHandler from "@/lib/hooks/useJWTParseRouteHandler";
 
 const MentorClient = () => {
-  const { isLoaded, isMentor } = useRouterHandler();
+  const { isLoading, isMentor } = useRouterHandler();
+
+  if (isLoading) return <CloudSpinnerPage />; // 로딩 중일 때 스피너 표시
   return (
     <>
-      {isLoaded ? (
-        <CloudSpinnerPage />
-      ) : isMentor ? (
+      {isMentor ? (
         // 멘토페이지
         <>
           <MentorPage />

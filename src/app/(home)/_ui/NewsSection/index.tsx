@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 
 import useSectionHandler from "./_hooks/useSectionHadnler";
 
@@ -36,7 +37,7 @@ const NewsSection = ({ newsList }: NewsSectionProps) => {
       ) : (
         <div className="flex flex-col gap-4">
           {newsList.map((news) => (
-            <a key={news.id} target="_blank" href={news.url} rel="noreferrer">
+            <Link key={news.id} target="_blank" href={news.url} rel="noreferrer">
               <div className="flex gap-4">
                 <Image
                   loading="lazy"
@@ -51,7 +52,7 @@ const NewsSection = ({ newsList }: NewsSectionProps) => {
                   <div className="font-serif text-xs font-normal leading-normal text-k-500">{news.description}</div>
                 </div>
               </div>
-            </a>
+            </Link>
           ))}
         </div>
       )}

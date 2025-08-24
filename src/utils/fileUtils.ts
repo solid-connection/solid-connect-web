@@ -60,3 +60,24 @@ export const downloadLocalFile = (file: File, fileName?: string) => {
   document.body.removeChild(link);
   URL.revokeObjectURL(blobUrl);
 };
+
+const NEXT_PUBLIC_UPLOADED_IMAGE_URL = process.env.NEXT_PUBLIC_UPLOADED_IMAGE_URL;
+const NEXT_PUBLIC_IMAGE_URL = process.env.NEXT_PUBLIC_IMAGE_URL;
+
+export const convertUploadedImageUrl = (url: string | null | undefined): string => {
+  if (!url) return "";
+  if (!NEXT_PUBLIC_UPLOADED_IMAGE_URL) {
+    console.error("NEXT_PUBLIC_UPLOADED_IMAGE_URL is not defined");
+    return url;
+  }
+  return `${NEXT_PUBLIC_UPLOADED_IMAGE_URL}/${url}`;
+};
+
+export const convertImageUrl = (url: string | null | undefined): string => {
+  if (!url) return "";
+  if (!NEXT_PUBLIC_IMAGE_URL) {
+    console.error("NEXT_PUBLIC_IMAGE_URL is not defined");
+    return url;
+  }
+  return `${NEXT_PUBLIC_IMAGE_URL}/${url}`;
+};

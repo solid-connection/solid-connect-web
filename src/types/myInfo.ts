@@ -1,8 +1,23 @@
+import { UserRole } from "./mentor";
+
+export type AuthType = "EMAIL" | "KAKAO" | "APPLE";
+
+export interface BaseUserInfo {
+  likedUniversityCount: number;
+  nickname: string;
+  profileImageUrl: string | null;
+  role: UserRole;
+  authType: string;
+  email: string;
+  likedPostCount: number;
+  likedMentorCount: number;
+}
+
 export interface MyInfo {
   nickname: string;
-  profileImageUrl: string;
+  profileImageUrl: string | null;
   role: "MENTOR" | "MENTEE";
-  authType: "EMAIL" | "KAKAO" | "APPLE";
+  authType: AuthType;
   birth: string;
   likedPostCount: number;
   likedMentoCount: number;

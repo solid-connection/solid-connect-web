@@ -2,7 +2,7 @@ import { Metadata } from "next";
 
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 
-import ModifyContent from "./ModifyContent";
+import ModifyContent from "./_ui/ModifyContent";
 
 export const metadata: Metadata = {
   title: "프로필 수정",
