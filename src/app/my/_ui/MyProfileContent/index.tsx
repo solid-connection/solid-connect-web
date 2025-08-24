@@ -111,7 +111,7 @@ const MyProfileContent = () => {
           </div>
           좋아요한 글
         </button>
-        <Link href="/mentor/chat" className="p-3 text-center">
+        <Link href="/my/match" className="p-3 text-center">
           <div className="mx-auto mb-2 h-8 w-8">
             <IconGraduationPrimary />
           </div>
