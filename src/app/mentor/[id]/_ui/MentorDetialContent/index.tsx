@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 import clsx from "clsx";
 
 import StudyDate from "@/components/mentor/StudyDate";
@@ -90,14 +92,15 @@ const MentorDetialContent = ({ mentorId }: MentorDetailContentProps) => {
           }`}
         >
           {channels.map((channel, idx) => (
-            <a
+            <Link
+              rel={"noopener noreferrer"}
               href={channel.url}
               target="_blank"
               key={idx}
               className={`h-[40px] ${channels.length === 1 ? "w-full" : channels.length === 3 && idx === 2 ? "col-span-2" : ""}`}
             >
               <ChannelBadge channelType={channel.type as ChannelType} />
-            </a>
+            </Link>
           ))}
         </div>
       </div>

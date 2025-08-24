@@ -38,13 +38,7 @@ const useGetMyInfo = () => {
   });
 
   const pendingMutations = useMutationState({
-    filters: {
-      mutationKey: [QueryKeys.myInfo, "patch"],
-      status: "pending",
-    },
-    select: (mutation) => {
-      return mutation.state.variables as Partial<MyInfoResponse>;
-    },
+    mutationKey: [QueryKeys.myInfo, "password", "patch"],
   });
 
   const isOptimistic = pendingMutations.length > 0;

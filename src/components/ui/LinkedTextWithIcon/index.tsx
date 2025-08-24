@@ -26,16 +26,21 @@ const LinkedTextWithIcon = ({
   // 타입 안정성을 위해 조건부로 렌더
   if (href) {
     return (
-      <Link href={href} target={isBilink ? "_blank" : undefined} className="w-full">
+      <Link
+        href={href}
+        target={isBilink ? "_blank" : undefined}
+        className="w-full"
+        rel={isBilink ? "noopener noreferrer" : undefined}
+      >
         {<Content icon={icon} text={text} subText={subText} textColor={textColor} />}
       </Link>
     );
   }
 
   return (
-    <div onClick={onClick} className="w-full cursor-pointer" type="button">
+    <button onClick={onClick} className="w-full cursor-pointer">
       {<Content icon={icon} text={text} subText={subText} textColor={textColor} />}
-    </div>
+    </button>
   );
 };
 

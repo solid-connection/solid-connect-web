@@ -33,8 +33,8 @@ const patchMyMentorProfile = async (data: UseMyMentorProfileRequest): Promise<vo
 const usePatchMyInfo = () => {
   const queryClient = useQueryClient();
 
-  return useMutation({
-    mutationKey: [QueryKeys.myInfo, "patch"],
+  return useMutation<void, AxiosError<{ message: string }>, UseMyMentorProfileRequest>({
+    mutationKey: [QueryKeys.myInfo, "password", "patch"],
     mutationFn: patchMyMentorProfile,
     onSettled: () => {
       queryClient.invalidateQueries({
@@ -45,7 +45,7 @@ const usePatchMyInfo = () => {
       alert("프로필이 성공적으로 수정되었습니다.");
     },
     onError: (error) => {
-      const errorMessage = (error as AxiosError<{ message: string }>).response?.data?.message;
+      const errorMessage = error.response?.data?.message;
       alert(errorMessage || "프로필 수정에 실패했습니다. 다시 시도해주세요.");
     },
   });
