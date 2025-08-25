@@ -21,7 +21,6 @@ const useGetMentoringUncheckedCount = (isEnable: boolean) =>
     queryFn: getMentoringUncheckedCount,
     enabled: isEnable,
     refetchInterval: 1000 * 60 * 10, // ⏱️ 10분마다 자동 재요청
-    refetchOnWindowFocus: true, // 탭 돌아올 때도 최신화
     staleTime: 1000 * 60 * 5, // fresh 상태 유지
     select: (data) => data.uncheckedCount, // 필요한 데이터만 반환
   });
