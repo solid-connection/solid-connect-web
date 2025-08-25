@@ -3,6 +3,7 @@
 import { FormProvider } from "react-hook-form";
 
 import StudyDate from "@/components/mentor/StudyDate";
+import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 import MentoProfile from "@/components/ui/ProfileWithBadge";
 
 import useModifyHookForm from "./_hooks/useModifyHookForm";
@@ -17,7 +18,7 @@ import { IconUserPrimaryColor } from "@/public/svgs/mentor";
 
 const ModifyContent = () => {
   const { data: myMentorProfile = null } = useGetMyMentorProfile();
-  const { data: articleList = [] } = useGetArticleList(myMentorProfile?.id || null);
+  const { data: articleList = [] } = useGetArticleList(myMentorProfile?.id || 0);
 
   const method = useModifyHookForm(myMentorProfile);
   const {
@@ -28,8 +29,7 @@ const ModifyContent = () => {
 
   const { onSubmit } = usePutMyMentorProfileHandler();
   // 채널 타입들을 감시
-
-  if (!myMentorProfile) return null; // myMentorProfile가 없으면 아무것도 렌더링하지 않음
+  if (!myMentorProfile) return <CloudSpinnerPage />;
   const { profileImageUrl, hasBadge, menteeCount, nickname, country, universityName, term, channels } = myMentorProfile;
 
   return (
@@ -64,7 +64,7 @@ const ModifyContent = () => {
             <h2 className="mt-10 text-lg leading-normal text-primary-1">멘토 한마디</h2>
             <textarea
               {...register("introduction")}
-              className="h-30 mt-2.5 w-full rounded-lg bg-k-50 p-5 text-sm font-light text-k-300"
+              className="mt-2.5 h-30 w-full rounded-lg bg-k-50 p-5 text-sm font-light text-k-300"
               placeholder="최대 200자 이내"
             />
             {errors.introduction && (
@@ -77,7 +77,7 @@ const ModifyContent = () => {
             <h2 className="mt-10 text-lg leading-normal text-primary-1">합격 레시피</h2>
             <textarea
               {...register("passTip")}
-              className="h-30 mt-2.5 w-full rounded-lg bg-k-50 p-5 text-sm font-light text-k-300"
+              className="mt-2.5 h-30 w-full rounded-lg bg-k-50 p-5 text-sm font-light text-k-300"
               placeholder="최대 200자 이내"
             />
             {errors.passTip && (
@@ -98,7 +98,7 @@ const ModifyContent = () => {
               <AddArticleCard />
             </div>
             <div className="mt-20 flex justify-center">
-              <button type="submit" className="w-37.5 mb-10 h-10 rounded-3xl bg-primary-1 px-5 py-2.5 text-k-0">
+              <button type="submit" className="mb-10 h-10 w-37.5 rounded-3xl bg-primary-1 px-5 py-2.5 text-k-0">
                 수정하기
               </button>
             </div>

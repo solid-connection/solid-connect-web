@@ -13,10 +13,7 @@ import ReadOnlyField from "./_ui/ReadOnlyField";
 
 import { UserRole } from "@/types/mentor";
 
-import useJWTParseRouteHandler from "@/lib/hooks/useJWTParseRouteHandler";
-
 const ModifyContent = () => {
-  const { isLoading } = useJWTParseRouteHandler();
   const { methods, myInfo, onSubmit } = useModifyUserHookform();
 
   const defaultUniversity: string =
@@ -27,7 +24,7 @@ const ModifyContent = () => {
     formState: { isValid, isDirty },
   } = methods;
 
-  if (isLoading || !myInfo) {
+  if (!myInfo) {
     return <CloudSpinnerPage />;
   }
   return (

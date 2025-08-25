@@ -3,8 +3,6 @@ import type { MutableRefObject } from "react";
 
 import SockJS from "sockjs-client";
 
-import { convertToBearer } from "@/utils/axiosInstance";
-
 import { getAccessTokenWithReissue } from "../zustand/useTokenStore";
 
 import { ChatMessage, ConnectionStatus } from "@/types/chat";
@@ -43,16 +41,16 @@ const useConnectWebSocket = ({ roomId, clientRef }: UseConnectWebSocketProps): U
       try {
         const client = new Client({
           webSocketFactory: () => new SockJS(`${NEXT_PUBLIC_API_SERVER_URL}/connect?token=${token}`),
-          beforeConnect: async () => {
-            if (!token) throw new Error("Access token is not available.");
-            client.connectHeaders = {
-              Authorization: convertToBearer(token),
-            };
-          },
+          // beforeConnect: async () => {
+          //   if (!token) throw new Error("Access token is not available.");
+          //   client.connectHeaders = {
+          //     Authorization: convertToBearer(token),
+          //   };
+          // },
 
-          heartbeatIncoming: 20000,
-          heartbeatOutgoing: 20000,
-          reconnectDelay: 10000,
+          heartbeatIncoming: 50000,
+          heartbeatOutgoing: 50000,
+          reconnectDelay: 50000,
           debug: (str) => {
             if (process.env.NODE_ENV === "development") {
               console.log(new Date(), str);

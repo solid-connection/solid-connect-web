@@ -1,4 +1,4 @@
-import { AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 
 import { axiosInstance } from "@/utils/axiosInstance";
 
@@ -6,50 +6,76 @@ import { ArticleFormData } from "@/components/mentor/ArticleBottomSheetModal/lib
 
 import { QueryKeys } from "./queryKey";
 
+import { Article } from "@/types/news";
+
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-type UsePutAddArticleRequest = ArticleFormData;
+type UsePutModifyArticleRequest = {
+  body: ArticleFormData & { isImageDeleted?: boolean };
+  articleId: number;
+};
+type ArticleMutationContext = {
+  previousArticleList?: Article[];
+};
 
-interface UsePutAddArticleResponse {
-  id: number;
-}
-
-const putModifyArticle = async (body: UsePutAddArticleRequest): Promise<UsePutAddArticleResponse> => {
-  const newsCreateRequest = {
+const putModifyArticle = async (props: UsePutModifyArticleRequest): Promise<Article> => {
+  const { body, articleId } = props;
+  const newsUpdateRequest = {
     title: body.title,
     description: body.description,
     url: body.url || "",
+    resetToDefaultImage: body.isImageDeleted === true,
   };
+  const formData = new FormData();
+  formData.append("newsUpdateRequest", new Blob([JSON.stringify(newsUpdateRequest)], { type: "application/json" }));
+  if (body.file) formData.append("file", body.file);
 
-  // 파일이 있는 경우 FormData로 전송, 없는 경우 JSON으로 전송
-  if (body.file) {
-    const formData = new FormData();
-    formData.append("newsCreateRequest", new Blob([JSON.stringify(newsCreateRequest)], { type: "application/json" }));
-    formData.append("file", body.file);
-
-    const response: AxiosResponse<UsePutAddArticleResponse> = await axiosInstance.put("/news", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    return response.data;
-  } else {
-    const response: AxiosResponse<UsePutAddArticleResponse> = await axiosInstance.put("/news", newsCreateRequest);
-    return response.data;
-  }
+  const response: AxiosResponse<Article> = await axiosInstance.put(`/news/${articleId}`, formData);
+  return response.data;
 };
 
-const usePutModifyArticle = () => {
+const usePutModifyArticle = (userId: number | null) => {
   const queryClient = useQueryClient();
+  const queryKey = [QueryKeys.articleList, userId];
 
-  return useMutation({
+  return useMutation<Article, AxiosError<{ message: string }>, UsePutModifyArticleRequest, ArticleMutationContext>({
     mutationFn: putModifyArticle,
-    onSuccess: () => {
-      // 아티클 목록 쿼리를 무효화하여 새로 고침
-      queryClient.invalidateQueries({ queryKey: [QueryKeys.articleList] });
+    onMutate: async (variables) => {
+      await queryClient.cancelQueries({ queryKey });
+      const previousArticleList = queryClient.getQueryData<Article[]>(queryKey);
+
+      queryClient.setQueryData<{ newsResponseList: Article[] }>(queryKey, (oldData) => {
+        if (!oldData) return { newsResponseList: [] };
+
+        return {
+          newsResponseList: oldData.newsResponseList.map((article) => {
+            if (article.id === variables.articleId) {
+              const optimisticData = variables.body;
+
+              return {
+                ...article,
+                title: optimisticData.title,
+                description: optimisticData.description,
+                url: optimisticData.url || "",
+                thumbnailUrl: optimisticData.file ? URL.createObjectURL(optimisticData.file) : article.thumbnailUrl,
+              };
+            }
+            return article;
+          }),
+        };
+      });
+      return { previousArticleList };
     },
-    onError: () => {
-      alert("아티클 수정에 실패했습니다. 다시 시도해주세요.");
+    onError: (error, variables, context) => {
+      console.log();
+      const errorMessage = error.response?.data?.message || "";
+      if (context?.previousArticleList) {
+        queryClient.setQueryData(queryKey, context.previousArticleList);
+      }
+      alert("아티클 수정에 실패했습니다." + errorMessage);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey });
     },
   });
 };

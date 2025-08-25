@@ -29,7 +29,6 @@
     "lucide-react": "^0.479.0",
     "next": "^14.2.4",
     "react": "^18",
-    "react-dom": "^18",
     "react-hook-form": "^7.60.0",
     "react-linkify": "^1.0.0-alpha",
     "sockjs-client": "^1.6.1",

@@ -13,7 +13,10 @@ export interface Article {
   description: string;
   url: string;
   thumbnailUrl: string;
-  updatedAt: string; // 또는 날짜 형식이 확실하다면 Date 타입도 가능합니다.
+  updatedAt: string;
+
+  likeCount?: number;
+  isLiked?: boolean; // API 응답의 `isLike`를 `isLiked`로 네이밍 컨벤션에 맞춰 변경하는 것을 추천
 }
 
 export enum ArticleDropdownType {

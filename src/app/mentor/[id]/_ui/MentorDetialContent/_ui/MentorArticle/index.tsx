@@ -2,7 +2,9 @@
 
 import Image from "next/image";
 
-import useGetIsLikedHandler from "./_hooks/useGetIsLikedHandler";
+import { convertUploadedImageUrl } from "@/utils/fileUtils";
+
+import useLikeToggle from "./_hooks/useLikeToggle";
 
 import { Article } from "@/types/news";
 
@@ -10,15 +12,17 @@ import { IconLikeFill, IconLikeNotFill } from "@/public/svgs/mentor";
 
 interface MentorArticleProps {
   article: Article;
+  mentorId: number;
 }
 
-const MentorArticle = ({ article }: MentorArticleProps) => {
-  const { isLiked, handleToggleLike } = useGetIsLikedHandler(article.id);
+const MentorArticle = ({ article, mentorId }: MentorArticleProps) => {
+  const { isLiked, handleToggleLike } = useLikeToggle(article.id, mentorId, article.isLiked);
+  const thumbnailUrl = convertUploadedImageUrl(article.thumbnailUrl);
   return (
     <div key={article.description} className="overflow-hidden">
       {/* 아티클 이미지 */}
       <div className="relative mb-2 h-48 w-full rounded-lg bg-gradient-to-br from-blue-400 to-blue-600">
-        <Image src={article.thumbnailUrl} alt={article.title} fill className="object-cover" />
+        <Image src={thumbnailUrl} alt={article.title} fill className="object-cover" />
       </div>
 
       {/* 아티클 내용 */}

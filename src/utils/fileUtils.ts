@@ -66,6 +66,7 @@ const NEXT_PUBLIC_IMAGE_URL = process.env.NEXT_PUBLIC_IMAGE_URL;
 
 export const convertUploadedImageUrl = (url: string | null | undefined): string => {
   if (!url) return "";
+  if (url.startsWith("http") || url.startsWith("blob")) return url;
   if (!NEXT_PUBLIC_UPLOADED_IMAGE_URL) {
     console.error("NEXT_PUBLIC_UPLOADED_IMAGE_URL is not defined");
     return url;
@@ -75,6 +76,8 @@ export const convertUploadedImageUrl = (url: string | null | undefined): string 
 
 export const convertImageUrl = (url: string | null | undefined): string => {
   if (!url) return "";
+  if (url.startsWith("https://img.example")) return `${NEXT_PUBLIC_IMAGE_URL}/${url}`;
+  if (url.startsWith("http") || url.startsWith("blob")) return url;
   if (!NEXT_PUBLIC_IMAGE_URL) {
     console.error("NEXT_PUBLIC_IMAGE_URL is not defined");
     return url;

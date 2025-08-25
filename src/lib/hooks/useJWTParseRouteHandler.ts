@@ -1,4 +1,3 @@
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { parseJwt } from "@/utils/jwtUtils";
@@ -15,7 +14,6 @@ interface UseJWTParseRouteHandlerReturn {
 }
 
 const useJWTParseRouteHandler = (isLoginNeeded: boolean = true): UseJWTParseRouteHandlerReturn => {
-  const router = useRouter();
   const [userRole, setUserRole] = useState<UserRole | null>(null);
   const [userId, setUserId] = useState<number>(-1);
   const [expiredAt, setExpiredAt] = useState<Date | null>(null);
@@ -26,11 +24,6 @@ const useJWTParseRouteHandler = (isLoginNeeded: boolean = true): UseJWTParseRout
       const token = await getAccessTokenWithReissue();
       setIsLoading(false);
 
-      if (!token && isLoginNeeded) {
-        alert("로그인이 필요합니다.");
-        router.push("/login");
-        return;
-      }
       if (!token) {
         setUserRole(null);
         // setUserId(-1);

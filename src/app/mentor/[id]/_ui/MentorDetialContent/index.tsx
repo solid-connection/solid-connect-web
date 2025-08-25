@@ -118,7 +118,7 @@ const MentorDetialContent = ({ mentorId }: MentorDetailContentProps) => {
       <h3 className="mb-2 text-[18px] font-normal text-secondary">멘토의 아티클</h3>
       <div className="mb-6 space-y-4">
         {articleList.map((article) => (
-          <MentorArticle key={article.title} article={article} />
+          <MentorArticle key={article.title} article={article} mentorId={mentorId} />
         ))}
         {articleList.length === 0 && <p className="mb-7 text-[14px] font-normal text-k-500">정보가 없습니다.</p>}
       </div>
