@@ -36,18 +36,16 @@ const useConnectWebSocket = ({ roomId, clientRef }: UseConnectWebSocketProps): U
     const connect = async () => {
       setConnectionStatus(ConnectionStatus.Pending); // 연결 시도 중 상태로 설정
       const token = await getAccessTokenWithReissue();
+      if (!token || typeof token !== "string" || token.trim() === "") {
+        console.error("WebSocket connection aborted: Access token is missing or invalid.");
+        setConnectionStatus(ConnectionStatus.Error);
+        return;
+      }
 
-      // 연결 시도 중 상태로 설정
       try {
         const client = new Client({
           webSocketFactory: () => new SockJS(`${NEXT_PUBLIC_API_SERVER_URL}/connect?token=${token}`),
-          // beforeConnect: async () => {
-          //   if (!token) throw new Error("Access token is not available.");
-          //   client.connectHeaders = {
-          //     Authorization: convertToBearer(token),
-          //   };
-          // },
-
+          // ...existing code...
           heartbeatIncoming: 50000,
           heartbeatOutgoing: 50000,
           reconnectDelay: 50000,

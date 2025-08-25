@@ -13,7 +13,7 @@ import ArticleThumbUrlPng from "@/public/images/article-thumb.png";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 type ArticleMutationContext = {
-  previousArticleList?: Article[];
+  previousArticleContainer?: { newsResponseList: Article[] };
 };
 
 type UsePostAddArticleRequest = ArticleFormData;
@@ -43,7 +43,7 @@ const usePostAddArticle = (userId: number | null) => {
     onMutate: async (newArticle) => {
       await queryClient.cancelQueries({ queryKey });
 
-      const previousArticleList = queryClient.getQueryData<Article[]>(queryKey);
+      const previousArticleContainer = queryClient.getQueryData<{ newsResponseList: Article[] }>(queryKey);
 
       queryClient.setQueryData<{ newsResponseList: Article[] }>(queryKey, (oldData) => {
         if (!oldData) return { newsResponseList: [] };
@@ -61,12 +61,12 @@ const usePostAddArticle = (userId: number | null) => {
           newsResponseList: [optimisticArticle, ...oldData.newsResponseList],
         };
       });
-      return { previousArticleList };
+      return { previousArticleContainer };
     },
     onError: (error, variables, context) => {
       const errorMessage = error.response?.data?.message || "";
-      if (context?.previousArticleList) {
-        queryClient.setQueryData(queryKey, context.previousArticleList);
+      if (context?.previousArticleContainer) {
+        queryClient.setQueryData(queryKey, context.previousArticleContainer);
       }
       alert("아티클 추가에 실패했습니다: " + errorMessage);
     },

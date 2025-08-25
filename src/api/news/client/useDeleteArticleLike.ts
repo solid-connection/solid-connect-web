@@ -17,7 +17,7 @@ interface DeleteArticleLikeResponse {
 
 // 1. 롤백을 위한 context 타입을 정의합니다.
 type ArticleLikeMutationContext = {
-  previousArticleList?: Article[];
+  previousArticleList?: { newsResponseList: Article[] };
 };
 
 const deleteArticleLike = async (articleId: number): Promise<DeleteArticleLikeResponse> => {
@@ -42,7 +42,7 @@ const useDeleteArticleLike = (userId: number | null) => {
     onMutate: async (unlikedArticleId) => {
       await queryClient.cancelQueries({ queryKey });
 
-      const previousArticleList = queryClient.getQueryData<Article[]>(queryKey);
+      const previousArticleList = queryClient.getQueryData<{ newsResponseList: Article[] }>(queryKey);
 
       queryClient.setQueryData<{ newsResponseList: Article[] }>(queryKey, (oldData) => {
         if (!oldData) return { newsResponseList: [] };
@@ -51,8 +51,8 @@ const useDeleteArticleLike = (userId: number | null) => {
             article.id === unlikedArticleId
               ? {
                   ...article,
-                  isLiked: false, // '좋아요' 상태를 false로 변경
-                  likeCount: article.likeCount ?? 1 - 1, // '좋아요' 수를 1 감소
+                  isLiked: false,
+                  likeCount: Math.max(0, (article.likeCount ?? 1) - 1),
                 }
               : article,
           ),
@@ -65,7 +65,7 @@ const useDeleteArticleLike = (userId: number | null) => {
     // 4. onError: 실패 시 이전 상태로 롤백합니다.
     onError: (err, variables, context) => {
       if (context?.previousArticleList) {
-        queryClient.setQueryData<Article[]>(queryKey, context.previousArticleList);
+        queryClient.setQueryData<{ newsResponseList: Article[] }>(queryKey, context.previousArticleList);
       }
     },
   });
