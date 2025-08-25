@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import ProgressBar from "@/components/ui/ProgressBar";
@@ -12,73 +12,29 @@ import GpaStep from "./GpaStep";
 import LanguageStep from "./LanguageStep";
 import UniversityStep from "./UniversityStep";
 
-import { GpaScore, LanguageTestScore } from "@/types/score";
 import { ListUniversity } from "@/types/university";
 
-import { postApplicationApi } from "@/api/application";
-import { getMyGpaScoreApi, getMyLanguageTestScoreApi } from "@/api/score";
+import usePostSubmitApplication from "@/api/applications/client/usePostSubmitApplication";
+import useGetMyGpaScore from "@/api/score/client/useGetMyGpaScore";
+import useGetMyLanguageTestScore from "@/api/score/client/useGetMyLanguageTestScore";
 import useGetUniversitySearchByFilter from "@/api/university/client/useGetUniversitySearchByFilter";
 
 const ApplyPageContent = () => {
   const router = useRouter();
   const [step, setStep] = useState<number>(1);
 
-  const [languageTestScoreList, setLanguageTestScoreList] = useState<LanguageTestScore[]>([]);
-  const [gpaScoreList, setGpaScoreList] = useState<GpaScore[]>([]);
   const { data: universityList = [] } = useGetUniversitySearchByFilter({
     languageTestType: undefined,
     countryCode: undefined,
   });
 
+  const { data: gpaScoreList = [] } = useGetMyGpaScore();
+  const { data: languageTestScoreList = [] } = useGetMyLanguageTestScore();
+  const { mutate: postSubmitApplication } = usePostSubmitApplication();
+
   const [curLanguageTestScore, setCurLanguageTestScore] = useState<number | null>(null);
   const [curGpaScore, setCurGpaScore] = useState<number | null>(null);
   const [curUniversityList, setCurUniversityList] = useState<number[]>([]);
-
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-
-  useEffect(() => {
-    const fetchAll = async () => {
-      try {
-        const [gpaRes, languageRes] = await Promise.all([getMyGpaScoreApi(), getMyLanguageTestScoreApi()]);
-        setGpaScoreList(
-          gpaRes.data.gpaScoreStatusResponseList.filter((score: GpaScore) => score.verifyStatus === "APPROVED"),
-        );
-        setLanguageTestScoreList(
-          languageRes.data.languageTestScoreStatusResponseList.filter(
-            (score: LanguageTestScore) => score.verifyStatus === "APPROVED",
-          ),
-        );
-
-        // 대학명을 지역/나라, 대학명 가나다 순으로 정렬합니다
-        const sortedUniversityList = [...universityList].sort((a, b) => {
-          // 1) region 비교
-          const regionCompare = a.region.localeCompare(b.region);
-          if (regionCompare !== 0) return regionCompare;
-
-          // 2) country 비교
-          const countryCompare = a.country.localeCompare(b.country);
-          if (countryCompare !== 0) return countryCompare;
-
-          // 3) 같은 region, country라면 대학명을 비교(가나다 순)
-          return a.koreanName.localeCompare(b.koreanName);
-        });
-      } catch (err) {
-        if (err.response) {
-          console.error("Axios response error", err.response);
-          if (err.response.status === 401 || err.response.status === 403) {
-            alert("로그인이 필요합니다");
-            document.location.href = "/login";
-          } else {
-            alert(err.response.data?.message);
-          }
-        } else {
-          console.error("Error", err.message);
-          alert(err.message);
-        }
-      }
-    };
-    fetchAll();
-  }, []);
 
   // 다음 스텝으로 넘어가기
   const goNextStep = () => setStep((prev) => prev + 1);
@@ -106,31 +62,23 @@ const ApplyPageContent = () => {
       return;
     }
 
-    if (isSubmitting) return;
-    setIsSubmitting(true); // TODO: 현재 임시 submit 처리, 이후에 통합 처리 추가
-    try {
-      await postApplicationApi({
-        gpaScoreId: curGpaScore,
-        languageTestScoreId: curLanguageTestScore,
-        universityChoiceRequest: {
-          firstChoiceUniversityId: curUniversityList[0] || null,
-          secondChoiceUniversityId: curUniversityList[1] || null,
-          thirdChoiceUniversityId: curUniversityList[2] || null,
-        },
-      });
-      setStep(99);
-    } catch (err) {
-      alert(err.response.data.message);
-    } finally {
-      setIsSubmitting(false);
-    }
+    postSubmitApplication({
+      gpaScoreId: curGpaScore,
+      languageTestScoreId: curLanguageTestScore,
+      universityChoiceRequest: {
+        firstChoiceUniversityId: curUniversityList[0] || null,
+        secondChoiceUniversityId: curUniversityList[1] || null,
+        thirdChoiceUniversityId: curUniversityList[2] || null,
+      },
+    });
+    setStep(99);
   };
 
   return (
     <>
       <TopDetailNavigation title="지원하기" handleBack={goPrevStep} />
-      <div className="px-5">
-        {(step === 1 || step === 2 || step === 3) && <ProgressBar currentStep={step} totalSteps={3} />}
+      <div className="mt-1 px-5">
+        {(step === 1 || step === 2 || step === 3) && <ProgressBar currentStep={step} totalSteps={4} />}
       </div>
       {step === 1 && (
         <LanguageStep
