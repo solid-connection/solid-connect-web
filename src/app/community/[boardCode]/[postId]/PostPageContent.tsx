@@ -35,7 +35,7 @@ const PostPageContent = ({ boardCode, postId }: PostPageContentProps) => {
         handleBack={() => {
           router.push(`/community/${boardCode}`);
         }}
-        icon={post.isOwner && <KebabMenu boardCode={boardCode} postId={postId} />}
+        icon={post.isOwner && <KebabMenu postId={postId} />}
       />
       <Content post={post} postId={postId} />
       <CommentSection comments={post.postFindCommentResponses} postId={postId} refresh={refresh} />
