@@ -115,6 +115,40 @@ export const REGION_KO_MAP: Record<RegionEnumExtend, string> = {
   [RegionEnumExtend.ALL]: "전체", // 'ALL'은 특별 케이스로 처리
 };
 
+const regionCountryMap: Record<RegionEnumExtend, string[]> = {
+  [RegionEnumExtend.ALL]: [],
+  [RegionEnumExtend.EUROPE]: [
+    "GB",
+    "DE",
+    "FR",
+    "IT",
+    "ES",
+    "NL",
+    "SE",
+    "NO",
+    "DK",
+    "FI",
+    "IE",
+    "AT",
+    "CH",
+    "BE",
+    "PL",
+    "CZ",
+    "HU",
+  ],
+  [RegionEnumExtend.AMERICAS]: ["US", "CA", "MX", "BR", "AR", "CL", "CO", "PE"],
+  [RegionEnumExtend.ASIA]: ["JP", "KR", "SG", "MY", "TH", "IN", "ID", "PH", "VN"],
+  [RegionEnumExtend.CHINA]: ["CN", "HK", "TW", "MO"],
+};
+
+export const REGION_TO_COUNTRY_CODE_MAP: Record<RegionEnumExtend, string[]> = {
+  [RegionEnumExtend.AMERICAS]: regionCountryMap[RegionEnumExtend.AMERICAS],
+  [RegionEnumExtend.EUROPE]: regionCountryMap[RegionEnumExtend.EUROPE],
+  [RegionEnumExtend.ASIA]: regionCountryMap[RegionEnumExtend.ASIA],
+  [RegionEnumExtend.CHINA]: regionCountryMap[RegionEnumExtend.CHINA],
+  [RegionEnumExtend.ALL]: [], // 'ALL'은 특별 케이스로 처리
+};
+
 export const REGION_TO_COUNTRIES_MAP: Record<string, string[]> = {
   미주권: ["미국", "캐나다", "호주", "브라질"],
   유럽권: [

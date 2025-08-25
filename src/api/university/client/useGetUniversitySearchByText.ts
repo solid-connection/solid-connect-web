@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 
-import { axiosInstance } from "@/utils/axiosInstance";
+import { publicAxiosInstance } from "@/utils/axiosInstance";
 
 import { QueryKeys } from "./queryKey";
 
@@ -17,7 +17,7 @@ interface UniversitySearchTextResponse {
 
 // --- API 호출 함수 ---
 const getUniversitySearchByText = async (value: string): Promise<UniversitySearchTextResponse> => {
-  const response: AxiosResponse<UniversitySearchTextResponse> = await axiosInstance.get(
+  const response: AxiosResponse<UniversitySearchTextResponse> = await publicAxiosInstance.get(
     "/univ-apply-infos/search/text",
     {
       params: { value },

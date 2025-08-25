@@ -2,7 +2,7 @@ import { URLSearchParams } from "url";
 
 import serverFetch from "@/utils/serverFetchUtil";
 
-import { COUNTRY_CODE_MAP, REGION_KO_MAP, REGION_TO_COUNTRIES_MAP, TEST_SCORE_INFO } from "@/constants/university";
+import { COUNTRY_CODE_MAP, REGION_KO_MAP, REGION_TO_COUNTRIES_MAP } from "@/constants/university";
 import {
   AllRegionsUniversityList,
   CountryCode,
