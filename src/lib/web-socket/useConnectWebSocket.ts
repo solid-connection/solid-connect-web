@@ -3,8 +3,6 @@ import type { MutableRefObject } from "react";
 
 import SockJS from "sockjs-client";
 
-import { convertToBearer } from "@/utils/axiosInstance";
-
 import { getAccessTokenWithReissue } from "../zustand/useTokenStore";
 
 import { ChatMessage, ConnectionStatus } from "@/types/chat";
@@ -24,11 +22,7 @@ interface UseConnectWebSocketReturn {
 
 const NEXT_PUBLIC_API_SERVER_URL = process.env.NEXT_PUBLIC_API_SERVER_URL;
 
-const useConnectWebSocket = ({
-  roomId,
-
-  clientRef,
-}: UseConnectWebSocketProps): UseConnectWebSocketReturn => {
+const useConnectWebSocket = ({ roomId, clientRef }: UseConnectWebSocketProps): UseConnectWebSocketReturn => {
   // Hook 내부에서 연결 상태를 직접 관리
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>(ConnectionStatus.Disconnected);
   const [submittedMessages, setSubmittedMessages] = useState<ChatMessage[]>([]);
@@ -41,20 +35,20 @@ const useConnectWebSocket = ({
 
     const connect = async () => {
       setConnectionStatus(ConnectionStatus.Pending); // 연결 시도 중 상태로 설정
-      // 연결 시도 중 상태로 설정
+      const token = await getAccessTokenWithReissue();
+      if (!token || typeof token !== "string" || token.trim() === "") {
+        console.error("WebSocket connection aborted: Access token is missing or invalid.");
+        setConnectionStatus(ConnectionStatus.Error);
+        return;
+      }
+
       try {
         const client = new Client({
-          webSocketFactory: () => new SockJS(`${NEXT_PUBLIC_API_SERVER_URL}/connect`),
-          beforeConnect: async () => {
-            const token = await getAccessTokenWithReissue();
-            if (!token) throw new Error("Access token is not available.");
-            client.connectHeaders = {
-              Authorization: convertToBearer(token),
-            };
-          },
-          heartbeatIncoming: 20000,
-          heartbeatOutgoing: 20000,
-          reconnectDelay: 10000,
+          webSocketFactory: () => new SockJS(`${NEXT_PUBLIC_API_SERVER_URL}/connect?token=${token}`),
+          // ...existing code...
+          heartbeatIncoming: 50000,
+          heartbeatOutgoing: 50000,
+          reconnectDelay: 50000,
           debug: (str) => {
             if (process.env.NODE_ENV === "development") {
               console.log(new Date(), str);

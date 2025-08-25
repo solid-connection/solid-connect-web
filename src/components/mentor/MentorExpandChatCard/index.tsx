@@ -9,11 +9,13 @@ import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
 
 import useExpandCardClickHandler from "./hooks/useExpandCardClickHandler";
 
+import { MentoringApplyStatus } from "@/types/mentor";
+
 import { IconDirectionDown, IconDirectionUp } from "@/public/svgs/mentor";
 
 interface MentorExpandChatCardProps {
   isChecked?: boolean;
-  isConfirmed?: boolean; // 멘토링이 확정되었는지 여부
+  verifyStatus?: MentoringApplyStatus;
   profileImageUrl?: string | null;
   mentoringId: number;
   message: string;
@@ -24,7 +26,7 @@ interface MentorExpandChatCardProps {
 
 const MentorExpandChatCard = ({
   isChecked,
-  isConfirmed,
+  verifyStatus,
   profileImageUrl,
   message,
   nickname,
@@ -74,8 +76,7 @@ const MentorExpandChatCard = ({
       {isExpanded && (
         <div className="px-4 pb-4">
           <div className="mt-3 flex justify-center">
-            {isConfirmed ? (
-              // 멘토링이 확정되었고 ID가 있을 때만 시작하기 버튼 표시
+            {verifyStatus === MentoringApplyStatus.APPROVED ? (
               mentoringId ? (
                 <Link
                   href={`/mentor/chat/${mentoringId}`}
@@ -84,7 +85,6 @@ const MentorExpandChatCard = ({
                   멘토링 시작하기
                 </Link>
               ) : (
-                // 멘토링 ID가 없는 경우
                 <button
                   disabled
                   className="cursor-not-allowed rounded-full bg-gray-300 px-6 py-2 text-sm font-medium text-white"
@@ -92,8 +92,7 @@ const MentorExpandChatCard = ({
                   멘토링 ID 없음
                 </button>
               )
-            ) : (
-              // isConfirmed가 false면 항상 수락/거절 버튼 표시
+            ) : verifyStatus === MentoringApplyStatus.PENDING ? (
               <div className="flex w-full justify-center gap-2">
                 <button
                   onClick={(e) => {
@@ -107,12 +106,18 @@ const MentorExpandChatCard = ({
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleAccept(mentoringId); // 수락 버튼 클릭 시 onAccept 함수 호출
+                    handleAccept(mentoringId);
                   }}
                   className="w-1/3 rounded-full bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700"
                 >
                   수락하기
                 </button>
+              </div>
+            ) : (
+              <div className="flex w-full justify-center">
+                <div className="text-k-7000 font-mediu rounded-full bg-primary-200 px-4 py-2 text-sm">
+                  거절되었습니다
+                </div>
               </div>
             )}
           </div>

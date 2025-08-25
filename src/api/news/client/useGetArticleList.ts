@@ -8,10 +8,8 @@ import { Article } from "@/types/news";
 
 import { useQuery } from "@tanstack/react-query";
 
-/* ---------- 타입 ---------- */
-
 interface ArticleListResponse {
-  newsResponseList: Article[]; // 최대 5개
+  newsResponseList: Article[];
 }
 
 const getArticleList = async (userId: number): Promise<ArticleListResponse> => {
@@ -19,12 +17,21 @@ const getArticleList = async (userId: number): Promise<ArticleListResponse> => {
   return response.data;
 };
 
-const useGetArticleList = (userId: number | null) => {
-  return useQuery({
+const useGetArticleList = (userId: number) => {
+  return useQuery<ArticleListResponse, Error, Article[]>({
     queryKey: [QueryKeys.articleList, userId],
-    queryFn: () => getArticleList(userId!),
+    queryFn: () => {
+      // enabled 옵션이 있더라도, 타입 가드를 추가하면 더 안전합니다.
+      if (userId === null) {
+        return Promise.reject(new Error("User ID is null"));
+      }
+      return getArticleList(userId);
+    },
+    staleTime: 1000 * 60 * 10, // ⏱️ 10분
+
     enabled: userId !== null,
-    select: (data: ArticleListResponse) => data.newsResponseList,
+    // 서버 응답(ArticleListResponse)에서 실제 데이터 배열(Article[])만 선택합니다.
+    select: (data) => data.newsResponseList,
   });
 };
 

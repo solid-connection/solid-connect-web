@@ -6,10 +6,10 @@ import MenteePageTabs from "./_ui/MenteePageTabs";
 import MentorFindSection from "./_ui/MentorFindSection";
 import MentorPage from "./_ui/MentorPage";
 
-import useRouterHandler from "@/lib/hooks/useJWTParseRouteHandler";
+import useJWTParseRouteHandler from "@/lib/hooks/useJWTParseRouteHandler";
 
 const MentorClient = () => {
-  const { isLoading, isMentor } = useRouterHandler();
+  const { isLoading, isMentor } = useJWTParseRouteHandler();
 
   if (isLoading) return <CloudSpinnerPage />; // 로딩 중일 때 스피너 표시
   return (

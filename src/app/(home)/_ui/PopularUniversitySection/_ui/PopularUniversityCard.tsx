@@ -29,7 +29,7 @@ const PopularUniversityCard = ({
             src={
               university.backgroundImageUrl
                 ? convertImageUrl(university.backgroundImageUrl)
-                : "/images/default-university.jpg"
+                : "@/images/default-university.jpg"
             }
             width={153}
             height={120}

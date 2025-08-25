@@ -1,7 +1,5 @@
 import Image from "next/image";
 
-import { convertImageUrl } from "@/utils/fileUtils";
-
 import BottomSheet from "@/components/ui/BottomSheet";
 
 import useArticleSchema from "./hooks/useArticleSchema";
@@ -20,14 +18,23 @@ type ArticleBottomSheetModalProps = {
   isOpen: boolean;
   handleClose: () => void;
   initialData?: InitialData;
+  articleId?: number;
 };
 
-const ArticleBottomSheetModal = ({ isOpen, mode, handleClose, initialData }: ArticleBottomSheetModalProps) => {
+const ArticleBottomSheetModal = ({
+  isOpen,
+  mode,
+  articleId,
+  handleClose,
+  initialData,
+}: ArticleBottomSheetModalProps) => {
   const { methods, imagePreview, handleImageChange, handleFormSubmit, handleModalClose, handleSetImageDelete } =
     useArticleSchema({
       initialData,
       isEdit: mode === "수정하기",
       handleClose,
+      articleId,
+      isOpen,
     });
   const {
     register,
@@ -35,12 +42,10 @@ const ArticleBottomSheetModal = ({ isOpen, mode, handleClose, initialData }: Art
     formState: { errors },
   } = methods;
 
-  const imagePreviewSrc = initialData?.thumbnailUrl ? convertImageUrl(initialData.thumbnailUrl) : imagePreview;
-
   if (!isOpen) return null;
 
   return (
-    <form className="flex h-full flex-col overflow-hidden">
+    <div className="flex h-full flex-col overflow-hidden">
       <BottomSheet
         isOpen={isOpen}
         onClose={handleModalClose}
@@ -104,15 +109,16 @@ const ArticleBottomSheetModal = ({ isOpen, mode, handleClose, initialData }: Art
             <div>
               <label className="mb-3 block text-lg font-normal text-primary">썸네일 등록</label>
               <div className="rounded-xl bg-k-50 p-12 text-center">
-                {imagePreviewSrc ? (
-                  <div className="relative">
+                {imagePreview ? (
+                  <div className="relative w-full">
                     <Image
-                      src={imagePreviewSrc}
+                      src={imagePreview}
                       alt="미리보기"
-                      width={200}
-                      height={120}
+                      width={400}
+                      height={200}
                       className="mx-auto rounded-lg object-cover"
                     />
+
                     <button
                       type="button"
                       onClick={handleSetImageDelete}
@@ -135,7 +141,7 @@ const ArticleBottomSheetModal = ({ isOpen, mode, handleClose, initialData }: Art
           </div>
         </div>
       </BottomSheet>
-    </form>
+    </div>
   );
 };
 

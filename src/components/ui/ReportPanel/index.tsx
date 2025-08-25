@@ -14,12 +14,12 @@ import { ReasonType } from "@/types/reports";
 import { IconReport } from "@/public/svgs/mentor";
 
 interface ReportPanelProps {
-  chatId: number;
+  idx: number;
 }
 
-const ReportPanel = ({ chatId }: ReportPanelProps) => {
+const ReportPanel = ({ idx }: ReportPanelProps) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
-  const { selectedReason, handleReasonSelect } = useSelectReportHandler(chatId);
+  const { selectedReason, handleReasonSelect } = useSelectReportHandler(idx);
 
   return (
     <>

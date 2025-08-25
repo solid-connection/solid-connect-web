@@ -1,4 +1,3 @@
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { parseJwt } from "@/utils/jwtUtils";
@@ -14,8 +13,7 @@ interface UseJWTParseRouteHandlerReturn {
   expiredAt: Date | null;
 }
 
-const useJWTParseRouteHandler = (): UseJWTParseRouteHandlerReturn => {
-  const router = useRouter();
+const useJWTParseRouteHandler = (isLoginNeeded: boolean = true): UseJWTParseRouteHandlerReturn => {
   const [userRole, setUserRole] = useState<UserRole | null>(null);
   const [userId, setUserId] = useState<number>(-1);
   const [expiredAt, setExpiredAt] = useState<Date | null>(null);
@@ -24,8 +22,12 @@ const useJWTParseRouteHandler = (): UseJWTParseRouteHandlerReturn => {
   useEffect(() => {
     const fetchAndDecode = async () => {
       const token = await getAccessTokenWithReissue();
+      setIsLoading(false);
+
       if (!token) {
-        router.push("/login");
+        setUserRole(null);
+        // setUserId(-1);
+        setExpiredAt(null);
         setIsLoading(false);
         return;
       }
@@ -42,7 +44,7 @@ const useJWTParseRouteHandler = (): UseJWTParseRouteHandlerReturn => {
     };
 
     fetchAndDecode();
-  }, []);
+  }, [isLoginNeeded]);
 
   const isMentor = userRole?.toUpperCase() === UserRole.MENTOR;
   return { isMentor, userId, expiredAt, isLoading };

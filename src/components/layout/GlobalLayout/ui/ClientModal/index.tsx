@@ -18,7 +18,7 @@ const ClientModal = () => {
   return (
     <>
       {isFetching ? (
-        <div aria-live="polite" aria-busy="true" className="fixed bottom-20 left-1/2 z-50 -translate-x-1/2">
+        <div aria-live="polite" aria-busy="true" className="fixed bottom-40 left-1/2 z-50 -translate-x-1/2">
           <CloudSpinner />
         </div>
       ) : null}

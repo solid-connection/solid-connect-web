@@ -24,7 +24,7 @@ interface ChatContentProps {
 }
 
 const ChatContent = ({ chatId }: ChatContentProps) => {
-  const { isMentor, userId, isLoading: isJWTLoading } = useJWTParseRouteHandler();
+  const { isMentor, userId } = useJWTParseRouteHandler();
   // 채팅 읽음 상태 업데이트 훅 진입시 자동으로
   usePutChatReadHandler(chatId);
 
@@ -48,8 +48,6 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
   const { data: partnerInfo } = useGetPartnerInfo(chatId);
 
   const { partnerId, nickname, profileUrl, university } = partnerInfo ?? {};
-
-  if (isJWTLoading) return <CloudSpinnerPage />;
 
   return (
     <div className="relative flex h-[calc(100vh-112px)] flex-col">

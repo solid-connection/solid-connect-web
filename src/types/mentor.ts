@@ -1,3 +1,5 @@
+import { VerifyStatus } from "./mentee";
+
 export interface MentorResponse {
   nextPageNumber: number;
   content: Mentor[];
@@ -96,10 +98,16 @@ export interface MentoringItem {
   nickname: string;
   isChecked: boolean;
   createdAt: string;
-  isConfirmed: boolean;
+  verifyStatus: MentoringApplyStatus;
 }
 
 export enum MentoringApprovalStatus {
+  APPROVED = "APPROVED",
+  REJECTED = "REJECTED",
+}
+
+export enum MentoringApplyStatus {
+  PENDING = "PENDING",
   APPROVED = "APPROVED",
   REJECTED = "REJECTED",
 }

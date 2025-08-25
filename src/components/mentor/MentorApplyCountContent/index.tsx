@@ -12,7 +12,7 @@ import useGetMentoringUncheckedCount from "@/api/mentor/client/useGetMentoringUn
 const MentorApplyCountContent = () => {
   // 로그인 된경우에만 신규 신청 카운트 모달 표시
   const isLogin = isAuthenticated();
-  const { isMentor, isLoading } = useRouterHandler();
+  const { isMentor = false, isLoading } = useRouterHandler(false);
   const { data: count, isSuccess } = useGetMentoringUncheckedCount(isLogin && isMentor && !isLoading);
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(true);

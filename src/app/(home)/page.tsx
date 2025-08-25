@@ -8,7 +8,7 @@ import PopularUniversitySection from "./_ui/PopularUniversitySection";
 import UniversityList from "./_ui/UniversityList";
 
 import getRecommendedUniversity from "@/api/university/server/getRecommendedUniversity";
-import { getAllRegionsUniversityList } from "@/api/university/server/getSearchUniversityList";
+import { getUniversitiesByAllRegion } from "@/api/university/server/getUniversitiesByAllRegion";
 import { fetchAllNews } from "@/lib/firebaseNews";
 import { IconIdCard, IconMagnifyingGlass, IconMuseum, IconPaper } from "@/public/svgs/home";
 
@@ -30,25 +30,25 @@ const HomePage = async () => {
   const { data } = await getRecommendedUniversity();
   const recommendedUniversities = data?.recommendedUniversities || [];
   // 권역별 전체 대학 리스트를 미리 가져와 빌드합니다
-  const allRegionsUniversityList = await getAllRegionsUniversityList();
+  const allRegionsUniversityList = await getUniversitiesByAllRegion();
 
   return (
     <>
       <FindLastYearScoreBar />
       <div className="flex flex-col gap-2.5 px-5 py-3.5">
         <div className="flex gap-2">
-          <Link className="h-26 flex flex-1 flex-col gap-2 rounded-lg bg-primary-100 p-2.5" href="/search">
+          <Link className="h-26 flex flex-1 flex-col gap-2 rounded-lg bg-[#F0F5FF] p-2.5" href="/search">
             <div className="flex flex-col">
-              <span className="text-sm font-bold text-secondary-900">학교 검색하기</span>
+              <span className="text-sm font-bold text-secondary">학교 검색하기</span>
               <span className="text-xs font-medium leading-tight text-k-700">모든 학교 목록을 확인해보세요</span>
             </div>
             <div className="flex justify-end">
               <IconMagnifyingGlass />
             </div>
           </Link>
-          <Link className="h-26 flex flex-1 flex-col gap-2 rounded-lg bg-sub-b-100 p-2.5" href="/score">
+          <Link className="h-26 flex flex-1 flex-col gap-2 rounded-lg bg-[#EBF8FF] p-2.5" href="/score">
             <div className="flex flex-col">
-              <span className="text-sm font-bold text-secondary-900">성적 입력하기</span>
+              <span className="text-sm font-bold text-sub-a">성적 입력하기</span>
               <span className="text-xs font-medium leading-tight text-k-700">성적을 입력해보세요</span>
             </div>
             <div className="flex justify-end">
@@ -57,18 +57,18 @@ const HomePage = async () => {
           </Link>
         </div>
         <div className="flex gap-2">
-          <Link className="h-26 flex flex-1 flex-col gap-2 rounded-lg bg-sub-c-100 p-2.5" href="/application/apply">
+          <Link className="h-26 flex flex-1 flex-col gap-2 rounded-lg bg-[#FFF3E5] p-2.5" href="/application/apply">
             <div className="flex flex-col">
-              <span className="text-sm font-bold text-secondary-900">학교 지원하기</span>
+              <span className="text-sm font-bold text-[#FF7300]">학교 지원하기</span>
               <span className="text-xs font-medium leading-tight text-k-700">학교를 지원해주세요</span>
             </div>
             <div className="flex justify-end">
               <IconMuseum />
             </div>
           </Link>
-          <Link className="h-26 flex flex-1 flex-col gap-2 rounded-lg bg-sub-e-100 p-2.5" href="/application">
+          <Link className="h-26 flex flex-1 flex-col gap-2 rounded-lg bg-[#E9F7EC] p-2.5" href="/application">
             <div className="flex flex-col">
-              <span className="text-sm font-bold text-secondary-900">지원자 현황 확인</span>
+              <span className="text-sm font-bold text-[#15A861]">지원자 현황 확인</span>
               <span className="text-xs font-medium leading-tight text-k-700">경쟁률을 바로 분석해드려요</span>
             </div>
             <div className="flex justify-end">

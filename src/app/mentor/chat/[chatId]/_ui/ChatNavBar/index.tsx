@@ -10,7 +10,7 @@ import { getUserRoleFromJwt } from "@/utils/jwtUtils";
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
 
-import ReportPanel from "./_ui/ReportPanel";
+import ReportPanel from "../../../../../../components/ui/ReportPanel";
 
 import { UserRole } from "@/types/mentor";
 
@@ -117,7 +117,7 @@ const ChatNavBar = ({ chatId }: ChatNavBarProps) => {
             </div>
           </div>
           <div className="absolute bottom-0 left-0 flex w-full items-center rounded-bl-2xl bg-white px-[10px] py-[22px] shadow-top">
-            <ReportPanel chatId={chatId} />
+            <ReportPanel idx={chatId} />
           </div>
         </div>
       )}
