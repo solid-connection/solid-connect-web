@@ -1,17 +1,13 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
-import React, { Suspense, useMemo, useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useSearchParams } from "next/navigation";
+import React, { useMemo, useState } from "react";
 
-import { z } from "zod";
-
-import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 import UniversityCards from "@/components/university/UniversityCards";
 
 import SearchBar from "./SearchBar";
+import RegionFilter from "./regst";
 
-import { COUNTRY_CODE_MAP, REGION_KO_MAP, REGION_TO_COUNTRY_CODE_MAP } from "@/constants/university";
 import { CountryCode, LanguageTestType, RegionEnumExtend } from "@/types/university";
 
 // 필요한 타입과 훅 import
@@ -19,54 +15,19 @@ import useGetUniversitySearchByFilter, {
   UniversitySearchFilterParams,
 } from "@/api/university/client/useGetUniversitySearchByFilter";
 import useGetUniversitySearchByText from "@/api/university/client/useGetUniversitySearchByText";
-import { zodResolver } from "@hookform/resolvers/zod";
 
-// --- 임시 UI 컴포넌트들 ---
-const LoadingComponent = () => <div className="p-5 text-center text-gray-500">대학 정보를 불러오는 중...</div>;
-const ErrorComponent = ({ message }: { message: string }) => (
-  <div className="p-5 text-center text-red-600">오류가 발생했습니다: {message}</div>
-);
 const NoResultsComponent = () => <div className="p-5 text-center text-gray-500">검색 결과가 없습니다.</div>;
-
-// --- 지역 필터 컴포넌트 ---
-const RegionFilter = ({
-  selectedRegion,
-  onRegionChange,
-}: {
-  selectedRegion: RegionEnumExtend;
-  onRegionChange: (region: RegionEnumExtend) => void;
-}) => {
-  const regions = [
-    RegionEnumExtend.ALL,
-    RegionEnumExtend.EUROPE,
-    RegionEnumExtend.AMERICAS,
-    RegionEnumExtend.ASIA,
-    RegionEnumExtend.CHINA,
-  ];
-
-  return (
-    <div className="flex gap-2 overflow-x-auto p-4">
-      {regions.map((region) => (
-        <button
-          key={region}
-          onClick={() => onRegionChange(region)}
-          className={`min-w-fit whitespace-nowrap rounded-full border px-4 py-2 transition-colors ${
-            selectedRegion === region ? "border-primary bg-primary-100 text-primary-900" : "bg-k-50 text-k-300"
-          } `}
-        >
-          {REGION_KO_MAP[region]}
-        </button>
-      ))}
-    </div>
-  );
-};
 
 // --- URL 파라미터를 읽고 데이터를 처리하는 메인 컨텐츠 ---
 const SearchResultsContent = () => {
-  const searchParams = useSearchParams();
-
   // 지역 상태 관리
   const [selectedRegion, setSelectedRegion] = useState<RegionEnumExtend>(RegionEnumExtend.ALL);
+  // 지역 변경 핸들러
+  const handleRegionChange = (region: RegionEnumExtend) => {
+    setSelectedRegion(region);
+  };
+
+  const searchParams = useSearchParams();
 
   const { isTextSearch, searchText, filterParams } = useMemo(() => {
     const text = searchParams.get("searchText");
@@ -97,20 +58,15 @@ const SearchResultsContent = () => {
   const textSearchQuery = useGetUniversitySearchByText(searchText);
   const filterSearchQuery = useGetUniversitySearchByFilter(filterParams);
 
-  const { data, isLoading, isError, error } = isTextSearch ? textSearchQuery : filterSearchQuery;
-
-  // 지역 변경 핸들러
-  const handleRegionChange = (region: RegionEnumExtend) => {
-    setSelectedRegion(region);
-  };
+  const { data: serachResult } = isTextSearch ? textSearchQuery : filterSearchQuery;
 
   // 지역 필터링된 데이터: university.region이 선택된 RegionEnumExtend와 정확히 일치하는 경우만 허용
   const filteredData = useMemo(() => {
-    if (!data) return data;
-    if (selectedRegion === RegionEnumExtend.ALL) return data;
+    if (!serachResult) return serachResult;
+    if (selectedRegion === RegionEnumExtend.ALL) return serachResult;
 
-    return data.filter((university) => university.region === selectedRegion);
-  }, [data, selectedRegion]);
+    return serachResult.filter((university) => university.region === selectedRegion);
+  }, [serachResult, selectedRegion]);
 
   // 초기 URL에서 지역 파라미터 읽기
   React.useEffect(() => {
@@ -119,9 +75,6 @@ const SearchResultsContent = () => {
       setSelectedRegion(region as RegionEnumExtend);
     }
   }, [searchParams]);
-
-  if (isLoading) return <LoadingComponent />;
-  if (isError) return <ErrorComponent message={error.message} />;
 
   return (
     <div className="px-5">
