@@ -1,3 +1,5 @@
+"use client";
+
 // --- 지역 필터 컴포넌트 ---
 import { REGION_KO_MAP } from "@/constants/university";
 import { RegionEnumExtend } from "@/types/university";

@@ -5,8 +5,8 @@ import React, { useMemo, useState } from "react";
 
 import UniversityCards from "@/components/university/UniversityCards";
 
+import RegionFilter from "./RegionFilter";
 import SearchBar from "./SearchBar";
-import RegionFilter from "./regst";
 
 import { CountryCode, LanguageTestType, RegionEnumExtend } from "@/types/university";
 
@@ -15,8 +15,6 @@ import useGetUniversitySearchByFilter, {
   UniversitySearchFilterParams,
 } from "@/api/university/client/useGetUniversitySearchByFilter";
 import useGetUniversitySearchByText from "@/api/university/client/useGetUniversitySearchByText";
-
-const NoResultsComponent = () => <div className="p-5 text-center text-gray-500">검색 결과가 없습니다.</div>;
 
 // --- URL 파라미터를 읽고 데이터를 처리하는 메인 컨텐츠 ---
 const SearchResultsContent = () => {
@@ -85,7 +83,7 @@ const SearchResultsContent = () => {
 
       {/* 결과 표시 */}
       {!filteredData || filteredData.length === 0 ? (
-        <NoResultsComponent />
+        <div className="p-5 text-center text-gray-500">검색 결과가 없습니다.</div>
       ) : (
         <>
           <UniversityCards colleges={filteredData} className="mx-5 mt-3" />

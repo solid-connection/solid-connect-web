@@ -50,13 +50,12 @@ const SearchBar = ({ initText }: SearchBarProps) => {
     }
 
     const queryString = queryParams.toString();
-    console.log("검색 실행:", queryString);
     router.push(`/university/search-results?${queryString}`);
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-md">
-      <div className="relative mb-2">
+    <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+      <div className="relative w-full">
         <input
           type="text"
           placeholder={"해외 파견 학교를 검색하세요."}

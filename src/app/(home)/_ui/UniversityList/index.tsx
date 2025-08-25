@@ -18,7 +18,6 @@ const UniversityList = ({ allRegionsUniversityList }: UniversityListProps) => {
   const { region, handleRegionChange } = useRegionHandler();
   const choices = Object.values(RegionEnumExtend);
 
-  console.log("allRegionsUniversityList", allRegionsUniversityList);
   const universities: ListUniversity[] = useMemo(
     () => allRegionsUniversityList[region || RegionEnumExtend.ALL] ?? [],
     [allRegionsUniversityList, region],
