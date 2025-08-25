@@ -150,14 +150,6 @@ axiosInstance.interceptors.request.use(
     let accessToken: string | null = getAccessToken();
 
     if (accessToken === null || isTokenExpired(accessToken)) {
-      // 토큰이 처음부터 없는 경우
-      if (accessToken === null) {
-        clearAccessToken();
-        redirectToLoginWithAuthRequired();
-        throw new Error("로그인이 필요합니다");
-      }
-
-      // 토큰이 만료된 경우 갱신 시도
       try {
         const newToken = await reissueAccessToken();
         if (newToken) {
