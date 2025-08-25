@@ -8,6 +8,7 @@ import ProgressBar from "@/components/ui/ProgressBar";
 
 import ConfirmStep from "./ConfirmStep";
 import DoneStep from "./DoneStep";
+import EmptyGPA from "./EmptyGPA";
 import GpaStep from "./GpaStep";
 import LanguageStep from "./LanguageStep";
 import UniversityStep from "./UniversityStep";
@@ -17,16 +18,13 @@ import { ListUniversity } from "@/types/university";
 import usePostSubmitApplication from "@/api/applications/client/usePostSubmitApplication";
 import useGetMyGpaScore from "@/api/score/client/useGetMyGpaScore";
 import useGetMyLanguageTestScore from "@/api/score/client/useGetMyLanguageTestScore";
-import useGetUniversitySearchByFilter from "@/api/university/client/useGetUniversitySearchByFilter";
+import useGetUniversitySearchByText from "@/api/university/client/useGetUniversitySearchByText";
 
 const ApplyPageContent = () => {
   const router = useRouter();
   const [step, setStep] = useState<number>(1);
 
-  const { data: universityList = [] } = useGetUniversitySearchByFilter({
-    languageTestType: undefined,
-    countryCode: undefined,
-  });
+  const { data: universityList = [] } = useGetUniversitySearchByText("");
 
   const { data: gpaScoreList = [] } = useGetMyGpaScore();
   const { data: languageTestScoreList = [] } = useGetMyLanguageTestScore();
@@ -74,49 +72,56 @@ const ApplyPageContent = () => {
     setStep(99);
   };
 
+  const isDataExist = gpaScoreList.length === 0 || languageTestScoreList.length === 0;
   return (
     <>
       <TopDetailNavigation title="지원하기" handleBack={goPrevStep} />
       <div className="mt-1 px-5">
         {(step === 1 || step === 2 || step === 3) && <ProgressBar currentStep={step} totalSteps={4} />}
       </div>
-      {step === 1 && (
-        <LanguageStep
-          languageTestScoreList={languageTestScoreList}
-          curLanguageTestScore={curLanguageTestScore}
-          setCurLanguageTestScore={setCurLanguageTestScore}
-          onNext={goNextStep}
-        />
+      {isDataExist ? (
+        <EmptyGPA />
+      ) : (
+        <>
+          {step === 1 && (
+            <LanguageStep
+              languageTestScoreList={languageTestScoreList}
+              curLanguageTestScore={curLanguageTestScore}
+              setCurLanguageTestScore={setCurLanguageTestScore}
+              onNext={goNextStep}
+            />
+          )}
+          {step === 2 && (
+            <GpaStep
+              gpaScoreList={gpaScoreList}
+              curGpaScore={curGpaScore}
+              setCurGpaScore={setCurGpaScore}
+              onNext={goNextStep}
+            />
+          )}
+          {step === 3 && (
+            <UniversityStep
+              universityList={universityList}
+              curUniversityList={curUniversityList}
+              setCurUniversityList={setCurUniversityList}
+              onNext={goNextStep}
+            />
+          )}
+          {step === 4 && (
+            <ConfirmStep
+              languageTestScore={languageTestScoreList.find((score) => score.id === curLanguageTestScore)}
+              gpaScore={gpaScoreList.find((score) => score.id === curGpaScore)}
+              universityList={
+                curUniversityList
+                  .map((id) => universityList.find((university) => university.id === id))
+                  .filter(Boolean) as ListUniversity[]
+              }
+              onNext={handleSubmit}
+            />
+          )}
+          {step === 99 && <DoneStep />}
+        </>
       )}
-      {step === 2 && (
-        <GpaStep
-          gpaScoreList={gpaScoreList}
-          curGpaScore={curGpaScore}
-          setCurGpaScore={setCurGpaScore}
-          onNext={goNextStep}
-        />
-      )}
-      {step === 3 && (
-        <UniversityStep
-          universityList={universityList}
-          curUniversityList={curUniversityList}
-          setCurUniversityList={setCurUniversityList}
-          onNext={goNextStep}
-        />
-      )}
-      {step === 4 && (
-        <ConfirmStep
-          languageTestScore={languageTestScoreList.find((score) => score.id === curLanguageTestScore)}
-          gpaScore={gpaScoreList.find((score) => score.id === curGpaScore)}
-          universityList={
-            curUniversityList
-              .map((id) => universityList.find((university) => university.id === id))
-              .filter(Boolean) as ListUniversity[]
-          }
-          onNext={handleSubmit}
-        />
-      )}
-      {step === 99 && <DoneStep />}
     </>
   );
 };
