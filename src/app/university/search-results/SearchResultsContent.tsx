@@ -1,8 +1,9 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import React, { useMemo, useState } from "react";
+import React, { Suspense, useMemo, useState } from "react";
 
+import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 import UniversityCards from "@/components/university/UniversityCards";
 
 import RegionFilter from "./RegionFilter";
@@ -18,14 +19,14 @@ import useGetUniversitySearchByText from "@/api/university/client/useGetUniversi
 
 // --- URL 파라미터를 읽고 데이터를 처리하는 메인 컨텐츠 ---
 const SearchResultsContent = () => {
+  const searchParams = useSearchParams();
+
   // 지역 상태 관리
   const [selectedRegion, setSelectedRegion] = useState<RegionEnumExtend>(RegionEnumExtend.ALL);
   // 지역 변경 핸들러
   const handleRegionChange = (region: RegionEnumExtend) => {
     setSelectedRegion(region);
   };
-
-  const searchParams = useSearchParams();
 
   const { isTextSearch, searchText, filterParams } = useMemo(() => {
     const text = searchParams.get("searchText");
@@ -93,4 +94,10 @@ const SearchResultsContent = () => {
   );
 };
 
-export default SearchResultsContent;
+export default function Page() {
+  return (
+    <Suspense fallback={<CloudSpinnerPage />}>
+      <SearchResultsContent />
+    </Suspense>
+  );
+}

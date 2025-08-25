@@ -9,7 +9,7 @@ import ModalBase from "@/components/modal/ModalBase";
 import useSelectReportHandler from "./_hooks/useSelectReportHandler";
 
 import { reportReasons } from "@/constants/report";
-import { ReasonType } from "@/types/reports";
+import { ReportType } from "@/types/reports";
 
 import { IconReport } from "@/public/svgs/mentor";
 
@@ -48,7 +48,7 @@ const ReportPanel = ({ idx }: ReportPanelProps) => {
 
             {/* 신고 사유 목록 */}
             <div className="">
-              {Object.keys(ReasonType).map((reasonKey: ReasonType) => (
+              {Object.keys(ReportType).map((reasonKey: ReportType) => (
                 <button
                   key={reasonKey}
                   onClick={() => handleReasonSelect(reasonKey)}

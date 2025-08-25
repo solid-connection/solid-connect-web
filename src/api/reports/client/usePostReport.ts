@@ -4,14 +4,14 @@ import { AxiosResponse } from "axios";
 
 import { axiosInstance } from "@/utils/axiosInstance";
 
-import { ReasonType } from "@/types/reports";
+import { ReportType } from "@/types/reports";
 
 import { useMutation } from "@tanstack/react-query";
 
 interface UsePostReportsRequest {
   targetType: "POST"; // 지금은 게시글 신고 기능만 존재
   targetId: number; // 신고하려는 리소스의 ID
-  reasonType: ReasonType; // Docs 참고
+  reportType: ReportType; // Docs 참고
 }
 
 const postReports = async (body: UsePostReportsRequest): Promise<void> => {

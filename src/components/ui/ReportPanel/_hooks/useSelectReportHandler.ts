@@ -1,22 +1,22 @@
 import { useState } from "react";
 
 import { reportReasons } from "@/constants/report";
-import { ReasonType } from "@/types/reports";
+import { ReportType } from "@/types/reports";
 
 import usePostReports from "@/api/reports/client/usePostReport";
 import { customConfirm } from "@/lib/zustand/useConfirmModalStore";
 import { IconReport } from "@/public/svgs/mentor";
 
 interface UseSelectReportHandlerReturn {
-  selectedReason: ReasonType | null;
-  handleReasonSelect: (reason: ReasonType) => Promise<void>;
+  selectedReason: ReportType | null;
+  handleReasonSelect: (reason: ReportType) => Promise<void>;
 }
 
 const useSelectReportHandler = (chatId: number): UseSelectReportHandlerReturn => {
-  const [selectedReason, setSelectedReason] = useState<ReasonType | null>(null);
+  const [selectedReason, setSelectedReason] = useState<ReportType | null>(null);
   const { mutate: postReports } = usePostReports();
 
-  const handleReasonSelect = async (reason: ReasonType) => {
+  const handleReasonSelect = async (reason: ReportType) => {
     setSelectedReason(reason);
     const ok = await customConfirm({
       title: "신고 확인",
@@ -29,7 +29,7 @@ const useSelectReportHandler = (chatId: number): UseSelectReportHandlerReturn =>
       postReports({
         targetType: "POST",
         targetId: chatId,
-        reasonType: reason,
+        reportType: reason,
       });
     } else {
       setSelectedReason(null);

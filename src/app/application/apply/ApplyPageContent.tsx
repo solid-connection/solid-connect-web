@@ -17,7 +17,7 @@ import { ListUniversity } from "@/types/university";
 
 import { postApplicationApi } from "@/api/application";
 import { getMyGpaScoreApi, getMyLanguageTestScoreApi } from "@/api/score";
-import { getUniversityListPublicApi } from "@/api/university";
+import useGetUniversitySearchByFilter from "@/api/university/client/useGetUniversitySearchByFilter";
 
 const ApplyPageContent = () => {
   const router = useRouter();
@@ -25,7 +25,10 @@ const ApplyPageContent = () => {
 
   const [languageTestScoreList, setLanguageTestScoreList] = useState<LanguageTestScore[]>([]);
   const [gpaScoreList, setGpaScoreList] = useState<GpaScore[]>([]);
-  const [universityList, setUniversityList] = useState<ListUniversity[]>([]);
+  const { data: universityList = [] } = useGetUniversitySearchByFilter({
+    languageTestType: undefined,
+    countryCode: undefined,
+  });
 
   const [curLanguageTestScore, setCurLanguageTestScore] = useState<number | null>(null);
   const [curGpaScore, setCurGpaScore] = useState<number | null>(null);
@@ -36,11 +39,7 @@ const ApplyPageContent = () => {
   useEffect(() => {
     const fetchAll = async () => {
       try {
-        const [gpaRes, languageRes, universityRes] = await Promise.all([
-          getMyGpaScoreApi(),
-          getMyLanguageTestScoreApi(),
-          getUniversityListPublicApi(),
-        ]);
+        const [gpaRes, languageRes] = await Promise.all([getMyGpaScoreApi(), getMyLanguageTestScoreApi()]);
         setGpaScoreList(
           gpaRes.data.gpaScoreStatusResponseList.filter((score: GpaScore) => score.verifyStatus === "APPROVED"),
         );
@@ -51,7 +50,7 @@ const ApplyPageContent = () => {
         );
 
         // 대학명을 지역/나라, 대학명 가나다 순으로 정렬합니다
-        const sortedUniversityList = [...universityRes.data].sort((a, b) => {
+        const sortedUniversityList = [...universityList].sort((a, b) => {
           // 1) region 비교
           const regionCompare = a.region.localeCompare(b.region);
           if (regionCompare !== 0) return regionCompare;
@@ -63,7 +62,6 @@ const ApplyPageContent = () => {
           // 3) 같은 region, country라면 대학명을 비교(가나다 순)
           return a.koreanName.localeCompare(b.koreanName);
         });
-        setUniversityList(sortedUniversityList);
       } catch (err) {
         if (err.response) {
           console.error("Axios response error", err.response);
