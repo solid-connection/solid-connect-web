@@ -46,7 +46,11 @@ const ModifyContent = () => {
             <ReadOnlyField label="수학 학교" value="컴퓨터공학과" placeholder="전공" />
 
             {/* 사용자 유형 - 읽기 전용 */}
-            <ReadOnlyField label="사용자 유형" value="멘티" placeholder="멘티" />
+            <ReadOnlyField
+              label="사용자 유형"
+              value={myInfo.role === UserRole.MENTOR ? "멘토" : "멘티"}
+              placeholder="멘티"
+            />
           </div>
 
           {/* Submit Button */}

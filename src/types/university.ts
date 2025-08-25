@@ -17,7 +17,7 @@ export enum RegionEnum {
 
 export const regionMapping: Record<string, RegionEnum | null> = {
   전체: null, // 전체일 경우 필터 없이 전체 데이터를 조회하도록 처리할 수 있음
-  영미권: RegionEnum.AMERICAS,
+  미주권: RegionEnum.AMERICAS,
   유럽권: RegionEnum.EUROPE,
   아시아권: RegionEnum.ASIA,
   중국권: RegionEnum.CHINA,

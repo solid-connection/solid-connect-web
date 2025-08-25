@@ -25,7 +25,7 @@ const ArticlePanel = ({ article }: ArticlePanelProps) => {
   // state
   const [isArticleModalOpen, setIsArticleModalOpen] = useState<boolean>(false);
   const { handleDropdownSelect } = useDeleteDropDownHandler({
-    articleId: 0,
+    articleId: article.id,
     setIsArticleModalOpen,
   });
 
