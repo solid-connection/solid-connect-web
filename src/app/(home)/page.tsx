@@ -8,7 +8,7 @@ import PopularUniversitySection from "./_ui/PopularUniversitySection";
 import UniversityList from "./_ui/UniversityList";
 
 import getRecommendedUniversity from "@/api/university/server/getRecommendedUniversity";
-import { getAllRegionsUniversityList } from "@/api/university/server/getSearchUniversityList";
+import { getUniversitiesByAllRegion } from "@/api/university/server/getUniversitiesByAllRegion";
 import { fetchAllNews } from "@/lib/firebaseNews";
 import { IconIdCard, IconMagnifyingGlass, IconMuseum, IconPaper } from "@/public/svgs/home";
 
@@ -30,7 +30,7 @@ const HomePage = async () => {
   const { data } = await getRecommendedUniversity();
   const recommendedUniversities = data?.recommendedUniversities || [];
   // 권역별 전체 대학 리스트를 미리 가져와 빌드합니다
-  const allRegionsUniversityList = await getAllRegionsUniversityList();
+  const allRegionsUniversityList = await getUniversitiesByAllRegion();
 
   return (
     <>

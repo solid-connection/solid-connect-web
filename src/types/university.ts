@@ -91,3 +91,76 @@ export interface UniversityFavoriteResponse {
 export interface RecommendedUniversitiesResponse {
   recommendedUniversities: ListUniversity[];
 }
+
+export enum LanguageTestType {
+  CEFR = "CEFR",
+  JLPT = "JLPT",
+  DALF = "DALF",
+  DELF = "DELF",
+  DUOLINGO = "DUOLINGO",
+  IELTS = "IELTS",
+  NEW_HSK = "NEW_HSK",
+  TCF = "TCF",
+  TEF = "TEF",
+  TOEFL_IBT = "TOEFL_IBT",
+  TOEFL_ITP = "TOEFL_ITP",
+  TOEIC = "TOEIC",
+}
+
+export enum CountryCode {
+  AT = "AT", // 오스트리아
+  AU = "AU", // 호주
+  AZ = "AZ", // 아제르바이잔
+  BE = "BE", // 벨기에
+  BN = "BN", // 브루나이
+  BR = "BR", // 브라질
+  CA = "CA", // 캐나다
+  CH = "CH", // 스위스
+  CN = "CN", // 중국
+  CZ = "CZ", // 체코
+  DE = "DE", // 독일
+  DK = "DK", // 덴마크
+  ES = "ES", // 스페인
+  FI = "FI", // 핀란드
+  FR = "FR", // 프랑스
+  GB = "GB", // 영국
+  GE = "GE", // 조지아
+  HK = "HK", // 홍콩
+  HU = "HU", // 헝가리
+  ID = "ID", // 인도네시아
+  IL = "IL", // 이스라엘
+  IT = "IT", // 이탈리아
+  JP = "JP", // 일본
+  KG = "KG", // 키르기스스탄
+  KZ = "KZ", // 카자흐스탄
+  LT = "LT", // 리투아니아
+  MY = "MY", // 말레이시아
+  NL = "NL", // 네덜란드
+  NO = "NO", // 노르웨이
+  PL = "PL", // 폴란드
+  PT = "PT", // 포르투갈
+  RU = "RU", // 러시아
+  SE = "SE", // 스웨덴
+  SG = "SG", // 싱가포르
+  TH = "TH", // 태국
+  TR = "TR", // 튀르키예
+  TW = "TW", // 대만
+  US = "US", // 미국
+  UZ = "UZ", // 우즈베키스탄
+}
+
+/**
+ * 점수 값으로 올 수 있는 타입 (숫자 또는 문자열 레벨)
+ */
+export type TestScoreValue = number | string;
+
+/**
+ * 각 언어 시험의 상세 정보를 담는 인터페이스
+ */
+export interface TestScoreInfo {
+  name: string;
+  type: "numeric" | "level";
+  min?: number;
+  max?: number;
+  levels?: readonly string[]; // 읽기 전용 배열로 설정
+}
