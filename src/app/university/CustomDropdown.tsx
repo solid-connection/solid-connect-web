@@ -1,8 +1,9 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import clsx from "clsx";
 
-// --- 아이콘 (임시) ---
+import { IconDirectionDown } from "@/public/svgs/mentor";
+
 const ChevronDownIcon = () => (
   <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
     <path
@@ -21,38 +22,43 @@ const useClickOutside = (ref, handler) => {
       handler(event);
     };
     document.addEventListener("mousedown", listener);
-    return () => document.removeEventListener("mousedown", listener);
+    document.addEventListener("touchstart", listener);
+    return () => {
+      document.removeEventListener("mousedown", listener);
+      document.removeEventListener("touchstart", listener);
+    };
   }, [ref, handler]);
 };
-
-// --- 커스텀 드롭다운 컴포넌트 ---
-const CustomDropdown = ({ options, value, onChange, placeholder, icon }) => {
+const CustomDropdown = ({ options, value, onChange, placeholder, placeholderSelect, icon, placeholderIcon }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
-
-  // 외부 클릭 시 드롭다운을 닫습니다.
   useClickOutside(dropdownRef, () => setIsOpen(false));
 
-  const selectedOption = useMemo(() => options.find((opt) => opt.value === value), [options, value]);
-
+  const selectedOptionLabel = useMemo(() => options.find((opt) => opt.value === value)?.label, [options, value]);
+  const isSelected = !!value;
   return (
     <div className="relative" ref={dropdownRef}>
-      {/* 선택된 값을 보여주는 버튼 */}
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex w-full items-center rounded-lg border bg-gray-100 p-3 text-left"
+        className={clsx(
+          "flex w-full items-center rounded-lg p-3.5 text-left transition-colors",
+          isSelected && "bg-primary-100",
+          !isSelected && "border border-k-100 text-k-400",
+          isOpen && "border-primary-500",
+        )}
       >
-        {icon && <span className="mr-2 text-purple-600">{icon}</span>}
-        <span className={clsx("flex-1", selectedOption ? "text-gray-800" : "text-gray-500")}>
-          {selectedOption ? selectedOption.label : placeholder}
+        {isSelected ? <span className="mr-3">{icon}</span> : <span className="mr-3">{placeholderIcon}</span>}
+
+        <span className={clsx("flex-1 font-semibold text-k-700")}>{placeholder}</span>
+        <span className={clsx("flex items-center font-semibold", isSelected ? "text-primary" : "text-k-300")}>
+          {selectedOptionLabel || placeholderSelect}
+          <span className="ml-2 h-5 w-5">
+            <IconDirectionDown />
+          </span>
         </span>
-        <div className={clsx("transition-transform", isOpen && "rotate-180")}>
-          <ChevronDownIcon />
-        </div>
       </button>
 
-      {/* 옵션 목록 */}
       {isOpen && (
         <div className="absolute z-10 mt-1 max-h-60 w-full overflow-y-auto rounded-lg border bg-white shadow-lg">
           <ul>
@@ -65,8 +71,8 @@ const CustomDropdown = ({ options, value, onChange, placeholder, icon }) => {
                     setIsOpen(false);
                   }}
                   className={clsx(
-                    "w-full px-4 py-2 text-left hover:bg-purple-50",
-                    option.value === value && "bg-purple-100 font-semibold text-purple-700",
+                    "hover:bg-primary-50 w-full px-4 py-2.5 text-left text-gray-700",
+                    option.value === value && "bg-primary-100 font-semibold text-primary-700",
                   )}
                 >
                   {option.label}
@@ -79,5 +85,4 @@ const CustomDropdown = ({ options, value, onChange, placeholder, icon }) => {
     </div>
   );
 };
-
 export default CustomDropdown;

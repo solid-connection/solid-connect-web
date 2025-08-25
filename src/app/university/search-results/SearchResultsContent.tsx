@@ -6,9 +6,10 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 import { z } from "zod";
 
+import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 import UniversityCards from "@/components/university/UniversityCards";
 
-import SearchBar from "../SearchBar";
+import SearchBar from "./SearchBar";
 
 import { COUNTRY_CODE_MAP, REGION_KO_MAP, REGION_TO_COUNTRY_CODE_MAP } from "@/constants/university";
 import { CountryCode, LanguageTestType, RegionEnumExtend } from "@/types/university";
@@ -50,9 +51,7 @@ const RegionFilter = ({
           key={region}
           onClick={() => onRegionChange(region)}
           className={`min-w-fit whitespace-nowrap rounded-full border px-4 py-2 transition-colors ${
-            selectedRegion === region
-              ? "border-blue-500 bg-blue-500 text-white"
-              : "border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
+            selectedRegion === region ? "border-primary bg-primary-100 text-primary-900" : "bg-k-50 text-k-300"
           } `}
         >
           {REGION_KO_MAP[region]}
@@ -62,16 +61,9 @@ const RegionFilter = ({
   );
 };
 
-// --- Zod 스키마 및 타입 정의 ---
-const searchSchema = z.object({
-  searchText: z.string().optional(),
-});
-type SearchFormData = z.infer<typeof searchSchema>;
-
 // --- URL 파라미터를 읽고 데이터를 처리하는 메인 컨텐츠 ---
 const SearchResultsContent = () => {
   const searchParams = useSearchParams();
-  const router = useRouter();
 
   // 지역 상태 관리
   const [selectedRegion, setSelectedRegion] = useState<RegionEnumExtend>(RegionEnumExtend.ALL);
@@ -80,7 +72,6 @@ const SearchResultsContent = () => {
     const text = searchParams.get("searchText");
     const lang = searchParams.get("languageTestType");
     const countries = searchParams.getAll("countryCode");
-    const score = searchParams.get("testScore");
 
     // URL에서 전달된 국가 목록을 기본으로 사용
     const filteredCountries = countries as CountryCode[];
@@ -97,7 +88,6 @@ const SearchResultsContent = () => {
         searchText: "",
         filterParams: {
           languageTestType: (lang as LanguageTestType) || undefined,
-          testScore: score ? Number(score) : undefined,
           countryCode: filteredCountries.length > 0 ? filteredCountries : undefined,
         },
       };
@@ -106,20 +96,6 @@ const SearchResultsContent = () => {
 
   const textSearchQuery = useGetUniversitySearchByText(searchText);
   const filterSearchQuery = useGetUniversitySearchByFilter(filterParams);
-
-  const { register } = useForm<SearchFormData>({
-    resolver: zodResolver(searchSchema),
-  });
-
-  const onSubmit: SubmitHandler<SearchFormData> = (data) => {
-    const queryParams = new URLSearchParams();
-
-    if (data.searchText) {
-      queryParams.append("searchText", data.searchText);
-    }
-    const queryString = queryParams.toString();
-    router.push(`/university/search-results?${queryString}`);
-  };
 
   const { data, isLoading, isError, error } = isTextSearch ? textSearchQuery : filterSearchQuery;
 
@@ -148,8 +124,8 @@ const SearchResultsContent = () => {
   if (isError) return <ErrorComponent message={error.message} />;
 
   return (
-    <>
-      <SearchBar name="searchText" register={register} placeholder="해외 파견 학교를 검색하세요." />
+    <div className="px-5">
+      <SearchBar initText={searchText || undefined} />
 
       {/* 지역 필터 */}
       <RegionFilter selectedRegion={selectedRegion} onRegionChange={handleRegionChange} />
@@ -159,37 +135,11 @@ const SearchResultsContent = () => {
         <NoResultsComponent />
       ) : (
         <>
-          {/* 선택된 지역 정보 표시 */}
-          <div className="mx-5 mb-2 text-sm text-gray-600">
-            {selectedRegion !== RegionEnumExtend.ALL && `${REGION_KO_MAP[selectedRegion]} 지역 `}총{" "}
-            {filteredData.length}개의 대학
-            {selectedRegion !== RegionEnumExtend.ALL && (
-              <span className="ml-2 text-xs text-gray-500">
-                (
-                {REGION_TO_COUNTRY_CODE_MAP[selectedRegion]
-                  .map((code) => COUNTRY_CODE_MAP[code as CountryCode])
-                  .join(", ")}
-                )
-              </span>
-            )}
-          </div>
-
           <UniversityCards colleges={filteredData} className="mx-5 mt-3" />
         </>
       )}
-    </>
+    </div>
   );
 };
 
-// --- 페이지 컴포넌트 ---
-const SearchResultsPage = () => {
-  return (
-    <>
-      <Suspense fallback={<LoadingComponent />}>
-        <SearchResultsContent />
-      </Suspense>
-    </>
-  );
-};
-
-export default SearchResultsPage;
+export default SearchResultsContent;
