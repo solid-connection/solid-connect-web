@@ -22,7 +22,6 @@ const MentorPage = () => {
 
   const { data: myMenteeList = [] } = useGetChatRooms();
 
-  console.log("myMenteeList", myMenteeList);
   return (
     <>
       <header className="flex items-center justify-between">
@@ -49,24 +48,25 @@ const MentorPage = () => {
         {/* 멘티 보기 탭일때 */}
         {isMyMenteeTab ? (
           <>
+            {/* 나의 멘티  */}
             {myMenteeList.length === 0 ? (
               <EmptySdwBCards message={"나와 매칭된 멘토입니다"} />
             ) : (
-              myMenteeList.slice(0, 3).map((mentor) => {
-                const { profileUrl, nickname } = mentor.partner;
+              myMenteeList.slice(0, 3).map((mentee) => {
+                const { profileUrl, nickname } = mentee.partner;
                 return (
-                  <Link href={`/mentor/chat/${mentor.id}`} key={mentor.id}>
+                  <Link href={`/mentor/chat/${mentee.id}`} key={mentee.id}>
                     <MentorChatCard
-                      key={mentor.id}
                       profileImageUrl={profileUrl}
                       nickname={nickname}
-                      description={mentor.lastChatMessage || "새로운 멘토링이 시작되었어요!"}
-                      time={mentor.lastReceivedTime}
+                      description={mentee.lastChatMessage || "새로운 멘토링이 시작되었어요!"}
+                      time={mentee.lastReceivedTime}
                     />
                   </Link>
                 );
               })
             )}
+            {/* 나의 멘토 페이지 */}
             <MyMentorSection />
           </>
         ) : (

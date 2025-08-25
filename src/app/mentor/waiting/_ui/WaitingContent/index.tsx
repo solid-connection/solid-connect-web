@@ -67,10 +67,9 @@ const WaitingContent = () => {
                 (isExpanded ? pendingList : pendingList.slice(0, DEFAULT_VISIBLE_ITEMS)).map((item) => (
                   <MentorChatCard
                     key={item.mentoringId}
-                    mentoringId={item.mentoringId}
                     profileImageUrl={item.profileImageUrl}
                     nickname={item.nickname}
-                    message={`님에게 멘티 신청을 보냈어요.`}
+                    description={`님에게 멘티 신청을 보냈어요.`}
                   />
                 ))
               )}

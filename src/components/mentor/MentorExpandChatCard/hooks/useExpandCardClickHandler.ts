@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import usePatchMenteeCheckMentorings from "@/api/mentee/client/usePatchMenteeCheckMentorings";
 import usePatchMentorCheckMentorings from "@/api/mentor/client/usePatchMentorCheckMentorings";
-import useRouterHandler from "@/lib/hooks/useJWTParseRouteHandler";
+import useJWTParseRouteHandler from "@/lib/hooks/useJWTParseRouteHandler";
 
 interface UseExpandCardClickHandlerReturn {
   isExpanded: boolean;
@@ -18,7 +18,7 @@ const useExpandCardClickHandler = ({
   mentoringId,
   initChecked = false,
 }: UseExpandCardClickHandlerProps): UseExpandCardClickHandlerReturn => {
-  const { isMentor } = useRouterHandler();
+  const { isMentor } = useJWTParseRouteHandler();
 
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const [isCheckedState, setIsCheckedState] = useState<boolean>(initChecked || false);

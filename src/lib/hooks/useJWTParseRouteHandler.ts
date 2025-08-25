@@ -14,7 +14,7 @@ interface UseJWTParseRouteHandlerReturn {
   expiredAt: Date | null;
 }
 
-const useJWTParseRouteHandler = (): UseJWTParseRouteHandlerReturn => {
+const useJWTParseRouteHandler = (isLoginNeeded: boolean = true): UseJWTParseRouteHandlerReturn => {
   const router = useRouter();
   const [userRole, setUserRole] = useState<UserRole | null>(null);
   const [userId, setUserId] = useState<number>(-1);
@@ -24,8 +24,17 @@ const useJWTParseRouteHandler = (): UseJWTParseRouteHandlerReturn => {
   useEffect(() => {
     const fetchAndDecode = async () => {
       const token = await getAccessTokenWithReissue();
-      if (!token) {
+      setIsLoading(false);
+
+      if (!token && isLoginNeeded) {
+        alert("로그인이 필요합니다.");
         router.push("/login");
+        return;
+      }
+      if (!token) {
+        setUserRole(null);
+        // setUserId(-1);
+        setExpiredAt(null);
         setIsLoading(false);
         return;
       }
@@ -42,7 +51,7 @@ const useJWTParseRouteHandler = (): UseJWTParseRouteHandlerReturn => {
     };
 
     fetchAndDecode();
-  }, []);
+  }, [isLoginNeeded]);
 
   const isMentor = userRole?.toUpperCase() === UserRole.MENTOR;
   return { isMentor, userId, expiredAt, isLoading };

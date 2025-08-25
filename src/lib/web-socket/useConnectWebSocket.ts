@@ -24,11 +24,7 @@ interface UseConnectWebSocketReturn {
 
 const NEXT_PUBLIC_API_SERVER_URL = process.env.NEXT_PUBLIC_API_SERVER_URL;
 
-const useConnectWebSocket = ({
-  roomId,
-
-  clientRef,
-}: UseConnectWebSocketProps): UseConnectWebSocketReturn => {
+const useConnectWebSocket = ({ roomId, clientRef }: UseConnectWebSocketProps): UseConnectWebSocketReturn => {
   // Hook 내부에서 연결 상태를 직접 관리
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>(ConnectionStatus.Disconnected);
   const [submittedMessages, setSubmittedMessages] = useState<ChatMessage[]>([]);
@@ -41,17 +37,19 @@ const useConnectWebSocket = ({
 
     const connect = async () => {
       setConnectionStatus(ConnectionStatus.Pending); // 연결 시도 중 상태로 설정
+      const token = await getAccessTokenWithReissue();
+
       // 연결 시도 중 상태로 설정
       try {
         const client = new Client({
-          webSocketFactory: () => new SockJS(`${NEXT_PUBLIC_API_SERVER_URL}/connect`),
+          webSocketFactory: () => new SockJS(`${NEXT_PUBLIC_API_SERVER_URL}/connect?token=${token}`),
           beforeConnect: async () => {
-            const token = await getAccessTokenWithReissue();
             if (!token) throw new Error("Access token is not available.");
             client.connectHeaders = {
               Authorization: convertToBearer(token),
             };
           },
+
           heartbeatIncoming: 20000,
           heartbeatOutgoing: 20000,
           reconnectDelay: 10000,
