@@ -1,4 +1,4 @@
-export enum ReasonType {
+export enum ReportType {
   ADVERTISEMENT = "ADVERTISEMENT",
   SPAM = "SPAM",
   PERSONAL_INFO_EXPOSURE = "PERSONAL_INFO_EXPOSURE",
