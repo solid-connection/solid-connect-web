@@ -5,6 +5,8 @@ import { AxiosError, AxiosResponse } from "axios";
 import { axiosInstance } from "@/utils/axiosInstance";
 
 import { useMutation } from "@tanstack/react-query";
+// 타입 경로
+import { UseMutationOptions, UseMutationResult } from "@tanstack/react-query";
 
 // API 함수 경로
 export interface UseSubmitApplicationResponse {
@@ -25,14 +27,25 @@ export const postSubmitApplication = (
   request: UseSubmitApplicationRequest,
 ): Promise<AxiosResponse<UseSubmitApplicationResponse>> => axiosInstance.post("/applications", request);
 
-// 타입 경로
-
-const usePostSubmitApplication = () => {
+const usePostSubmitApplication = (
+  props?: UseMutationOptions<
+    AxiosResponse<UseSubmitApplicationResponse>, // TData
+    AxiosError<{ message: string }>, // TError
+    UseSubmitApplicationRequest, // TVariables
+    unknown // TContext
+  >,
+): UseMutationResult<
+  AxiosResponse<UseSubmitApplicationResponse>,
+  AxiosError<{ message: string }>,
+  UseSubmitApplicationRequest,
+  unknown
+> => {
   return useMutation<
     AxiosResponse<UseSubmitApplicationResponse>, // TData: 성공 시 반환 타입
     AxiosError<{ message: string }>, // TError: 에러 타입
     UseSubmitApplicationRequest // TVariables: 요청 body 타입
   >({
+    ...props,
     // mutationFn: API 요청을 수행할 비동기 함수를 지정합니다.
     mutationFn: (request: UseSubmitApplicationRequest) => postSubmitApplication(request),
 
