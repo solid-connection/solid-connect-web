@@ -69,7 +69,7 @@ const GpaSubmitForm = () => {
         label: "성적 증명서",
         status: "제출 완료",
         statusColor: "text-blue-600",
-        details: submittedData.file[0].name,
+        details: submittedData.file[0]?.name,
       },
     ];
 
@@ -164,9 +164,8 @@ const GpaSubmitForm = () => {
           <button
             className={clsx(
               "mb-10 w-full rounded-lg py-4 font-semibold text-white",
-              isValid ? "cursor-not-allowed bg-primary" : "bg-k-100",
+              isValid ? "bg-primary" : "cursor-not-allowed bg-k-100",
             )}
-            type="submit"
             disabled={!isValid}
           >
             다음

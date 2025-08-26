@@ -169,9 +169,8 @@ const LanguageTestSubmitForm = () => {
           <button
             className={clsx(
               "mb-10 w-full rounded-lg py-4 font-semibold text-white",
-              isValid ? "cursor-not-allowed bg-primary" : "bg-k-100",
+              isValid ? "bg-primary" : "cursor-not-allowed bg-k-100",
             )}
-            type="submit"
             disabled={!isValid}
           >
             다음
