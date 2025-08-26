@@ -158,7 +158,7 @@ const ScorePageContent = () => {
           router.push("/");
         }}
         handleConfirm={() => {
-          router.push("/application/apply");
+          router.push("/university/application/apply");
         }}
         title=""
         content={"점수 공유현황을 확인하려면 지원절차를\n진행해주세요."}

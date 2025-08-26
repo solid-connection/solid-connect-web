@@ -125,7 +125,7 @@ const MyProfileContent = () => {
         />
 
         <LinkedTextWithIcon
-          href="/application/apply"
+          href="/university/application/apply"
           icon={<IconUniversity />}
           text={isMentor ? "수학 중/완료 학교 변경" : "지원 학교 변경"}
         />
