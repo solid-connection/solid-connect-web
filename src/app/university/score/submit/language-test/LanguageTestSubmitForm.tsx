@@ -75,14 +75,14 @@ const LanguageTestSubmitForm = () => {
       {
         label: "어학증명서",
         status: "제출 완료",
-        details: submittedData.file[0].name,
+        details: submittedData.file[0]?.name,
       },
     ];
 
     return (
       <SubmitResult
         title="어학 성적 제출 완료"
-        description="지원은 총 3번만 가능하며, 제출 완료 후 성적을 변경 하실 수 없습니다."
+        description="성적 승인은 최대 3일까지 걸릴 수 있습니다."
         buttonText="학점입력하기"
         onClick={() => router.push("/university/score/submit/gpa")}
         handleClose={() => setShowResult(false)}
