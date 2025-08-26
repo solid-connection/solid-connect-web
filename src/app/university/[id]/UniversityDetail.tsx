@@ -19,8 +19,8 @@ interface UniversityDetailProps {
 const UniversityDetail = ({ university }: UniversityDetailProps) => {
   return (
     <>
-      <div className="h-[236px] bg-blue-100 object-cover">
-        <Image alt="대학 이미지" src={convertImageUrl(university.backgroundImageUrl)} width={390} height={236} />
+      <div className="relative h-[236px] w-full bg-blue-100">
+        <Image alt="대학 이미지" src={convertImageUrl(university.backgroundImageUrl)} fill className="object-cover" />
       </div>
       <div className="-mt-[66px] rounded-t-3xl bg-white px-5">
         <TitleSection
