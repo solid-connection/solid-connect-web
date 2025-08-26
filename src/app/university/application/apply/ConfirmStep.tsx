@@ -46,7 +46,7 @@ const ConfirmStep = ({ universityList, onNext }: ConfirmStepProps) => {
       </div>
 
       {/* 하단 버튼 */}
-      <div className="fixed bottom-0 left-0 mb-20 w-full px-5 py-4">
+      <div className="mt-10 w-full">
         <BlockBtn onClick={onNext}>제출하기</BlockBtn>
       </div>
     </div>

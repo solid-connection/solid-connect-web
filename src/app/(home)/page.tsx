@@ -57,7 +57,10 @@ const HomePage = async () => {
           </Link>
         </div>
         <div className="flex gap-2">
-          <Link className="h-26 flex flex-1 flex-col gap-2 rounded-lg bg-[#FFF3E5] p-2.5" href="/application/apply">
+          <Link
+            className="h-26 flex flex-1 flex-col gap-2 rounded-lg bg-[#FFF3E5] p-2.5"
+            href="/university/application/apply"
+          >
             <div className="flex flex-col">
               <span className="text-sm font-bold text-[#FF7300]">학교 지원하기</span>
               <span className="text-xs font-medium leading-tight text-k-700">학교를 지원해주세요</span>
@@ -66,7 +69,10 @@ const HomePage = async () => {
               <IconMuseum />
             </div>
           </Link>
-          <Link className="h-26 flex flex-1 flex-col gap-2 rounded-lg bg-[#E9F7EC] p-2.5" href="/application">
+          <Link
+            className="h-26 flex flex-1 flex-col gap-2 rounded-lg bg-[#E9F7EC] p-2.5"
+            href="/university/application"
+          >
             <div className="flex flex-col">
               <span className="text-sm font-bold text-[#15A861]">지원자 현황 확인</span>
               <span className="text-xs font-medium leading-tight text-k-700">경쟁률을 바로 분석해드려요</span>

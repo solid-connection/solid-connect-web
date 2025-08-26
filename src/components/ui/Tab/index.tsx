@@ -25,7 +25,7 @@ const Tab = ({ choices, choice, setChoice, color }: TabProps) => {
           style={{
             color: choice === c ? combinedColor.activeBtnFont : combinedColor.deactiveBtnFont,
           }}
-          className={`flex w-full items-center justify-center bg-white ${choice === c ? "border-b-2 border-secondary" : ""} `}
+          className={`flex w-full items-center justify-center bg-white ${choice === c ? "border-b-2 border-primary" : ""} `}
           onClick={() => setChoice(c)}
           type="button"
         >

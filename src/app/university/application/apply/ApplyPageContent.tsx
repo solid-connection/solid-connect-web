@@ -27,7 +27,11 @@ const ApplyPageContent = () => {
   const { data: universityList = [] } = useGetUniversitySearchByText("");
   const { data: gpaScoreList = [] } = useGetMyGpaScore();
   const { data: languageTestScoreList = [] } = useGetMyLanguageTestScore();
-  const { mutate: postSubmitApplication } = usePostSubmitApplication();
+  const { mutate: postSubmitApplication } = usePostSubmitApplication({
+    onSuccess: () => {
+      setStep(99);
+    },
+  });
 
   const [curLanguageTestScore, setCurLanguageTestScore] = useState<number | null>(null);
   const [curGpaScore, setCurGpaScore] = useState<number | null>(null);
@@ -68,7 +72,6 @@ const ApplyPageContent = () => {
         thirdChoiceUniversityId: curUniversityList[2] || null,
       },
     });
-    setStep(99);
   };
 
   const isDataExist = gpaScoreList.length === 0 || languageTestScoreList.length === 0;
