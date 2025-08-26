@@ -69,14 +69,14 @@ const GpaSubmitForm = () => {
         label: "성적 증명서",
         status: "제출 완료",
         statusColor: "text-blue-600",
-        details: submittedData.file[0].name,
+        details: submittedData.file[0]?.name,
       },
     ];
 
     return (
       <SubmitResult
         title="학점 입력 완료"
-        description="지원은 총 3번만 가능하며, 제출 완료 후 성적을 변경 하실 수 없습니다."
+        description="성적 승인은 최대 3일까지 걸릴 수 있습니다."
         buttonText="어학성적 입력하기"
         onClick={() => router.push("/university/score/submit/language-test")}
         handleClose={() => setShowResult(false)}
@@ -164,9 +164,8 @@ const GpaSubmitForm = () => {
           <button
             className={clsx(
               "mb-10 w-full rounded-lg py-4 font-semibold text-white",
-              isValid ? "cursor-not-allowed bg-primary" : "bg-k-100",
+              isValid ? "bg-primary" : "cursor-not-allowed bg-k-100",
             )}
-            type="submit"
             disabled={!isValid}
           >
             다음
