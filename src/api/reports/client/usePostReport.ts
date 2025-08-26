@@ -25,7 +25,7 @@ const usePostReports = () => {
     mutationFn: postReports,
     onSuccess: () => {
       alert("신고가 성공적으로 등록되었습니다.");
-      router.push("/mentor"); // 신고 후 리다이렉트
+      router.back(); // 신고 후 뒤로 이동
     },
     onError: (error) => {
       alert("신고 등록에 실패했습니다. 잠시 후 다시 시도해주세요.");
