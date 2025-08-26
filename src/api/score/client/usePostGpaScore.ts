@@ -22,7 +22,7 @@ export const postGpaScore = (request: UsePostGpaScoreRequest): Promise<AxiosResp
     new Blob([JSON.stringify(request.gpaScoreRequest)], { type: "application/json" }),
   );
   convertedRequest.append("file", request.file);
-  return axiosInstance.post("/scores/gpas", convertedRequest, { headers: { "Content-Type": "multipart/form-data" } });
+  return axiosInstance.post("/scores/gpas", convertedRequest);
 };
 
 export const usePostGpaScore = () => {

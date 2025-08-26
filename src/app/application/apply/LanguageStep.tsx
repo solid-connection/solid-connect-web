@@ -63,7 +63,7 @@ const LanguageStep = ({
         <div className="mb-[37px] px-5">
           <BlockBtn
             onClick={() => {
-              if (!curLanguageTestScore) {
+              if (curLanguageTestScore === null) {
                 setIsModalOpen(true);
                 return;
               }

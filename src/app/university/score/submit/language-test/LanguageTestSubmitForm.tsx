@@ -2,13 +2,10 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
 import clsx from "clsx";
-import { z } from "zod";
-
-import { validateLanguageScore } from "@/utils/scoreUtils";
 
 import SubmitLinkTab from "@/components/score/SubmitLinkTab";
 import SubmitResult from "@/components/score/SubmitResult";
@@ -26,7 +23,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 const LanguageTestSubmitForm = () => {
   const router = useRouter();
   const [showResult, setShowResult] = useState(false);
-  const { mutateAsync: postLanguageTestScore, isSuccess } = usePostLanguageTestScore();
+  const { mutateAsync: postLanguageTestScore } = usePostLanguageTestScore();
   const [submittedData, setSubmittedData] = useState<LanguageTestFormData | null>(null);
 
   // 3. react-hook-form 설정
@@ -46,18 +43,25 @@ const LanguageTestSubmitForm = () => {
 
   // 4. 폼 제출 핸들러
   const onSubmit: SubmitHandler<LanguageTestFormData> = async (data) => {
-    await postLanguageTestScore({
-      languageTestScoreRequest: {
-        languageTestType: data.testType,
-        languageTestScore: data.score,
-        issueDate: "2025-01-01", // TODO: 실제 날짜 데이터로 변경
-      },
-      file: data.file[0], // FileList에서 실제 File 객체 추출
-    });
-    if (!isSuccess) return;
-    reset();
-    setShowResult(true);
-    setSubmittedData(data);
+    try {
+      await postLanguageTestScore({
+        languageTestScoreRequest: {
+          languageTestType: data.testType,
+          languageTestScore: data.score,
+          issueDate: "2025-01-01",
+        },
+        file: data.file[0],
+      });
+
+      // 성공 시에만 실행
+      reset();
+      setShowResult(true);
+      setSubmittedData(data);
+    } catch (error) {
+      // 실패 시 처리 (알림, 로그 등)
+      console.error("어학 성적 제출 실패:", error);
+      alert("제출에 실패했습니다. 다시 시도해주세요.");
+    }
   };
 
   if (showResult && submittedData) {

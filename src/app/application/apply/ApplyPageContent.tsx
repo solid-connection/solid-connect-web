@@ -44,12 +44,12 @@ const ApplyPageContent = () => {
   };
 
   const handleSubmit = async () => {
-    if (!curGpaScore) {
+    if (curGpaScore === null) {
       alert("GPA를 선택해주세요.");
       return;
     }
 
-    if (!curLanguageTestScore) {
+    if (curLanguageTestScore === null) {
       alert("어학성적을 선택해주세요.");
       return;
     }

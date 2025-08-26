@@ -56,7 +56,7 @@ const GpaStep = ({ gpaScoreList, curGpaScore, setCurGpaScore, onNext }: GpaStepP
         <div className="mb-[37px] px-5">
           <BlockBtn
             onClick={() => {
-              if (!curGpaScore) {
+              if (curGpaScore === null) {
                 setIsModalOpen(true);
                 return;
               }

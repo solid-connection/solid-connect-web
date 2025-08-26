@@ -6,7 +6,6 @@ import { useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
 import clsx from "clsx";
-import { z } from "zod";
 
 import SubmitLinkTab from "@/components/score/SubmitLinkTab";
 import SubmitResult from "@/components/score/SubmitResult";
@@ -150,7 +149,7 @@ const GpaSubmitForm = () => {
                   <input id="file-upload" type="file" className="hidden" {...register("file")} />
                 </label>
                 <Link
-                  href="/university/score/example/lang-cert"
+                  href="/university/score/example/gpa-cert"
                   target="_blank"
                   className="rounded-full bg-sub-e-100 px-4 py-2.5 text-sm font-semibold text-sub-e-500"
                 >

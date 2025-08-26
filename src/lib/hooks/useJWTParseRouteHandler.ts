@@ -27,7 +27,6 @@ const useJWTParseRouteHandler = (isLoginNeeded: boolean = true): UseJWTParseRout
       } else {
         token = getAccessToken();
       }
-      setIsLoading(false);
 
       if (!token) {
         setUserRole(null);
@@ -51,7 +50,7 @@ const useJWTParseRouteHandler = (isLoginNeeded: boolean = true): UseJWTParseRout
     fetchAndDecode();
   }, [isLoginNeeded]);
 
-  const isMentor = userRole?.toUpperCase() === UserRole.MENTOR;
+  const isMentor = userRole === UserRole.MENTOR;
   return { isMentor, userId, expiredAt, isLoading };
 };
 

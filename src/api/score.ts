@@ -16,7 +16,7 @@ export const postGpaScoreApi = (request: SubmitGpaScoreRequest): Promise<AxiosRe
     new Blob([JSON.stringify(request.gpaScoreRequest)], { type: "application/json" }),
   );
   convertedRequest.append("file", request.file);
-  return axiosInstance.post("/scores/gpas", convertedRequest, { headers: { "Content-Type": "multipart/form-data" } });
+  return axiosInstance.post("/scores/gpas", convertedRequest);
 };
 
 export const postLanguageTestScoreApi = (request: SubmitLanguageTestScoreRequest): Promise<AxiosResponse<null>> => {
@@ -26,9 +26,7 @@ export const postLanguageTestScoreApi = (request: SubmitLanguageTestScoreRequest
     new Blob([JSON.stringify(request.languageTestScoreRequest)], { type: "application/json" }),
   );
   convertedRequest.append("file", request.file);
-  return axiosInstance.post("/scores/language-tests", convertedRequest, {
-    headers: { "Content-Type": "multipart/form-data" },
-  });
+  return axiosInstance.post("/scores/language-tests", convertedRequest);
 };
 
 export const getMyGpaScoreApi = (): Promise<AxiosResponse<MyGpaScoreResponse>> => axiosInstance.get("/scores/gpas");
