@@ -24,7 +24,6 @@ import {
 const NEXT_PUBLIC_CONTACT_LINK = process.env.NEXT_PUBLIC_CONTACT_LINK;
 const MyProfileContent = () => {
   const { data: profileData = {} } = useGetMyInfo();
-  const isMentor = profileData.role === UserRole.MENTOR;
   const { mutate: deleteUserAccount } = useDeleteUserAccount();
   const { mutate: postLogout } = usePostLogout();
 
@@ -33,6 +32,7 @@ const MyProfileContent = () => {
   const university = profileData.role === UserRole.MENTOR ? profileData.attendedUniversity : null;
   const favoriteLocation =
     profileData.role === UserRole.MENTEE ? profileData.interestedCountries?.slice(0, 3).join(", ") || "없음" : null;
+  const isMentor = profileData.role === UserRole.MENTOR;
 
   return (
     <div className="px-5 py-2">
@@ -42,7 +42,6 @@ const MyProfileContent = () => {
           현재 <span className="font-medium text-primary">{isMentor ? "멘토" : "멘티"}</span> 솔커예요.
         </p>
       </div>
-      {/* Profile Section */}
       {/* Profile Card */}
       <div className="mb-4 rounded-lg bg-gray-50 p-4">
         <div className="mb-3 flex items-center space-x-3">
@@ -131,7 +130,7 @@ const MyProfileContent = () => {
           text={isMentor ? "수학 중/완료 학교 변경" : "지원 학교 변경"}
         />
 
-        <LinkedTextWithIcon href="/score" icon={<IconBook />} text="공인 어학 / 학점 변경" />
+        <LinkedTextWithIcon href="/university/score" icon={<IconBook />} text="공인 어학 / 학점 변경" />
       </div>
 
       {/* Account Management Section */}

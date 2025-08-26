@@ -4,15 +4,7 @@ import { useState } from "react";
 
 import BlockBtn from "@/components/button/BlockBtn";
 import TextModal from "@/components/modal/TextModal";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/Select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/Select";
 
 import { ListUniversity } from "@/types/university";
 

@@ -12,7 +12,7 @@ const EmptyGPA = () => {
         성적부터 입력해 볼까요?
       </p>
       <Link
-        href="/score"
+        href="/university/score"
         className="h- mt-2 h-13 w-60 rounded-full bg-gradient-to-l from-primary to-secondary p-4 text-sm font-semibold text-white"
       >
         성적 등록하러가기

@@ -4,16 +4,6 @@ import clsx from "clsx";
 
 import { IconDirectionDown } from "@/public/svgs/mentor";
 
-const ChevronDownIcon = () => (
-  <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-    <path
-      fillRule="evenodd"
-      d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-      clipRule="evenodd"
-    />
-  </svg>
-);
-
 // --- 외부 클릭 감지 Hook ---
 const useClickOutside = (ref, handler) => {
   useEffect(() => {
@@ -29,7 +19,26 @@ const useClickOutside = (ref, handler) => {
     };
   }, [ref, handler]);
 };
-const CustomDropdown = ({ options, value, onChange, placeholder, placeholderSelect, icon, placeholderIcon }) => {
+
+interface CustomDropdownProps {
+  options: { value: string; label: string }[];
+  value: string;
+  onChange: (value: string) => void;
+  placeholder: string;
+  placeholderSelect: string;
+  icon?: React.ReactNode;
+  placeholderIcon?: React.ReactNode;
+}
+
+const CustomDropdown = ({
+  options,
+  value,
+  onChange,
+  placeholder,
+  placeholderSelect,
+  icon,
+  placeholderIcon,
+}: CustomDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
   useClickOutside(dropdownRef, () => setIsOpen(false));

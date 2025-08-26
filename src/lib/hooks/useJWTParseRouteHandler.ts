@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { parseJwt } from "@/utils/jwtUtils";
 
-import { getAccessTokenWithReissue } from "../zustand/useTokenStore";
+import { getAccessToken, getAccessTokenWithReissue } from "../zustand/useTokenStore";
 
 import { UserRole } from "@/types/mentor";
 
@@ -21,8 +21,12 @@ const useJWTParseRouteHandler = (isLoginNeeded: boolean = true): UseJWTParseRout
 
   useEffect(() => {
     const fetchAndDecode = async () => {
-      const token = await getAccessTokenWithReissue();
-      setIsLoading(false);
+      let token;
+      if (isLoginNeeded) {
+        token = await getAccessTokenWithReissue();
+      } else {
+        token = getAccessToken();
+      }
 
       if (!token) {
         setUserRole(null);
@@ -46,7 +50,7 @@ const useJWTParseRouteHandler = (isLoginNeeded: boolean = true): UseJWTParseRout
     fetchAndDecode();
   }, [isLoginNeeded]);
 
-  const isMentor = userRole?.toUpperCase() === UserRole.MENTOR;
+  const isMentor = userRole === UserRole.MENTOR;
   return { isMentor, userId, expiredAt, isLoading };
 };
 

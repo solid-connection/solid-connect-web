@@ -28,12 +28,12 @@ const getUniversitySearchByText = async (value: string): Promise<UniversitySearc
 
 // --- 커스텀 훅 ---
 const useGetUniversitySearchByText = (searchValue: string) => {
+  const staleTime = searchValue === "" ? Infinity : 1000 * 60 * 5;
+
   return useQuery<UniversitySearchTextResponse, Error, ListUniversity[]>({
     queryKey: [QueryKeys.universitySearchText, searchValue],
     queryFn: () => getUniversitySearchByText(searchValue),
-    // 검색어가 있을 때만 쿼리를 실행합니다.
-    enabled: !!searchValue && searchValue.trim().length > 0,
-    // 실제 컴포넌트에는 univApplyInfoPreviews 배열만 전달합니다.
+    staleTime,
     select: (data) => data.univApplyInfoPreviews,
   });
 };

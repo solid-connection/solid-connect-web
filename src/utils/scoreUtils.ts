@@ -5,13 +5,13 @@ export const validateLanguageScore = (testType: string, score: string) => {
 
   if (testType === LanguageTestEnum.TOEIC) {
     if (!(numScore >= 0 && numScore <= 990)) {
-      alert("TOEIC 점수는 0 ~ 990 사이여야 합니다.");
+      // alert("TOEIC 점수는 0 ~ 990 사이여야 합니다.");
       throw new Error("TOEIC 점수는 0 ~ 990 사이여야 합니다.");
     }
   }
   if (testType === LanguageTestEnum.TOEFL_IBT) {
     if (!(numScore >= 0 && numScore <= 120)) {
-      alert("TOEFL IBT 점수는 0 ~ 120 사이여야 합니다.");
+      // alert("TOEFL IBT 점수는 0 ~ 120 사이여야 합니다.");
       throw new Error("TOEFL IBT 점수는 0 ~ 120 사이여야 합니다.");
     }
   }
