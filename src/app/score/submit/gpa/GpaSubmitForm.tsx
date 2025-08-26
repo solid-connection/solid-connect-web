@@ -12,35 +12,12 @@ import SubmitLinkTab from "@/components/score/SubmitLinkTab";
 import SubmitResult from "@/components/score/SubmitResult";
 import { InfoRowProps } from "@/components/score/SubmitResult";
 
+// CustomDropdown 경로 확인 필요
+import { GpaFormData, gpaSchema } from "./_lib/schema";
+
 import { usePostGpaScore } from "@/api/score/client/usePostGpaScore";
 import CustomDropdown from "@/app/university/CustomDropdown";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-// CustomDropdown 경로 확인 필요
-
-// 1. Zod 스키마 정의: GPA 폼 데이터의 유효성 규칙
-const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
-const ACCEPTED_FILE_TYPES = ["image/jpeg", "image/png", "application/pdf"];
-
-const gpaSchema = z
-  .object({
-    gpaCriteria: z.enum(["4.5", "4.3"]).refine((val) => val === "4.5" || val === "4.3", {
-      message: "학점 기준을 선택해주세요.",
-    }),
-    gpa: z.string().min(1, "점수를 입력해주세요."),
-    file: z
-      .instanceof(FileList)
-      .refine((files) => files?.length === 1, "증명서 파일을 첨부해주세요.")
-      .refine((files) => files?.[0]?.size <= MAX_FILE_SIZE, `파일 크기는 5MB를 초과할 수 없습니다.`)
-      .refine((files) => ACCEPTED_FILE_TYPES.includes(files?.[0]?.type), ".jpeg, .png, .pdf 파일만 지원합니다."),
-  })
-  .refine((data) => Number(data.gpa) <= Number(data.gpaCriteria), {
-    message: "입력한 점수가 학점 기준을 초과할 수 없습니다.",
-    path: ["gpa"], // 오류가 발생할 필드를 지정
-  });
-
-// Zod 스키마로부터 TypeScript 타입 추론
-type GpaFormData = z.infer<typeof gpaSchema>;
 
 const GpaSubmitForm = () => {
   const router = useRouter();
@@ -54,32 +31,28 @@ const GpaSubmitForm = () => {
     handleSubmit,
     control,
     watch,
+    reset,
     formState: { errors, isValid },
   } = useForm<GpaFormData>({
     resolver: zodResolver(gpaSchema),
     mode: "onChange",
   });
-
   const selectedFile = watch("file");
 
   // 3. 폼 제출 핸들러
   const onSubmit: SubmitHandler<GpaFormData> = async (data) => {
-    try {
-      await postGpaScore({
-        gpaScoreRequest: {
-          gpa: Number(data.gpa),
-          gpaCriteria: Number(data.gpaCriteria),
-          issueDate: "2025-01-01", // TODO: 실제 날짜 데이터로 변경
-        },
-        file: data.file[0],
-      });
-      // 성공 시, 결과 화면에 보여줄 데이터를 저장하고 상태 변경
-      setSubmittedData(data);
-      setShowResult(true);
-    } catch (error) {
-      console.error("GPA 제출 실패:", error);
-      alert("제출에 실패했습니다. 다시 시도해주세요.");
-    }
+    await postGpaScore({
+      gpaScoreRequest: {
+        gpa: Number(data.gpa),
+        gpaCriteria: Number(data.gpaCriteria),
+        issueDate: "2025-01-01", // TODO: 실제 날짜 데이터로 변경
+      },
+      file: data.file[0],
+    });
+    // 성공 시, 결과 화면에 보여줄 데이터를 저장하고 상태 변경
+    setSubmittedData(data);
+    setShowResult(true);
+    reset();
   };
 
   if (showResult && submittedData) {
@@ -102,10 +75,10 @@ const GpaSubmitForm = () => {
 
     return (
       <SubmitResult
-        title="대학교 성적 제출 완료"
-        description="제출해주신 성적은 검토 후 승인 처리됩니다. 결과는 마이페이지에서 확인할 수 있습니다."
-        buttonText="마이페이지로 이동"
-        onClick={() => router.push("/my-page")} // TODO: 실제 마이페이지 경로로 수정
+        title="학점 입력 완료"
+        description="지원은 총 3번만 가능하며, 제출 완료 후 성적을 변경 하실 수 없습니다."
+        buttonText="어학성적 입력하기"
+        onClick={() => router.push("/score/submit/language-test")}
         handleClose={() => setShowResult(false)}
         infoRows={infoRows}
       />
@@ -168,20 +141,18 @@ const GpaSubmitForm = () => {
                 <span className="flex h-10 flex-1 items-center truncate rounded-lg bg-k-50 px-5 py-2.5 font-serif text-sm font-semibold leading-normal text-secondary">
                   {selectedFile?.[0]?.name || "파일을 선택해주세요."}
                 </span>
-                <label
-                  htmlFor="file-upload"
-                  className="cursor-pointer whitespace-nowrap rounded-full bg-sub-c-100 px-4 py-2.5 font-serif text-sm font-semibold leading-normal text-sub-c-500"
-                >
-                  증명서 첨부
-                </label>
-                <input id="file-upload" type="file" className="hidden" {...register("file")} />
               </div>
               {errors.file && <p className="mt-1 text-sm text-red-500">{errors.file.message as string}</p>}
-              <div className="mt-2">
+
+              <div className="mt-2 flex items-center gap-4">
+                <label className="cursor-pointer rounded-full bg-sub-c-100 px-4 py-2.5 font-serif text-sm font-semibold leading-normal text-sub-c-500">
+                  증명서 첨부
+                  <input id="file-upload" type="file" className="hidden" {...register("file")} />
+                </label>
                 <Link
-                  href="/score/example/gpa-cert" // TODO: GPA 증명서 예시 경로로 수정
+                  href="/score/example/lang-cert"
                   target="_blank"
-                  className="text-sm text-blue-500 hover:underline"
+                  className="rounded-full bg-sub-e-100 px-4 py-2.5 text-sm font-semibold text-sub-e-500"
                 >
                   증명서 예시 보기
                 </Link>
