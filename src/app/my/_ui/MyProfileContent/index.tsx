@@ -130,7 +130,7 @@ const MyProfileContent = () => {
           text={isMentor ? "수학 중/완료 학교 변경" : "지원 학교 변경"}
         />
 
-        <LinkedTextWithIcon href="/score" icon={<IconBook />} text="공인 어학 / 학점 변경" />
+        <LinkedTextWithIcon href="/university/score" icon={<IconBook />} text="공인 어학 / 학점 변경" />
       </div>
 
       {/* Account Management Section */}

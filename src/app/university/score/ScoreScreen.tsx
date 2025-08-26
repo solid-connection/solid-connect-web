@@ -56,9 +56,11 @@ const ScoreScreen = () => {
       <div className="fixed bottom-14 w-full max-w-[600px] bg-white">
         <div className="mb-[37px] px-5">
           {curTab === "공인어학" ? (
-            <BlockBtn onClick={() => router.push("/score/submit/language-test")}>어학 성적 입력하기</BlockBtn>
+            <BlockBtn onClick={() => router.push("/university/score/submit/language-test")}>
+              어학 성적 입력하기
+            </BlockBtn>
           ) : (
-            <BlockBtn onClick={() => router.push("/score/submit/gpa")}>학점 입력하기</BlockBtn>
+            <BlockBtn onClick={() => router.push("/university/score/submit/gpa")}>학점 입력하기</BlockBtn>
           )}
         </div>
       </div>

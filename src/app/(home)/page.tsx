@@ -46,7 +46,7 @@ const HomePage = async () => {
               <IconMagnifyingGlass />
             </div>
           </Link>
-          <Link className="h-26 flex flex-1 flex-col gap-2 rounded-lg bg-[#EBF8FF] p-2.5" href="/score">
+          <Link className="h-26 flex flex-1 flex-col gap-2 rounded-lg bg-[#EBF8FF] p-2.5" href="/university/score">
             <div className="flex flex-col">
               <span className="text-sm font-bold text-sub-a">성적 입력하기</span>
               <span className="text-xs font-medium leading-tight text-k-700">성적을 입력해보세요</span>

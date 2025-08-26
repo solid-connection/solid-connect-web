@@ -8,7 +8,7 @@ import Tab from "@/components/ui/Tab";
 
 import { GpaScore } from "@/types/score";
 
-import ScoreCard from "@/app/score/ScoreCard";
+import ScoreCard from "@/app/university/score/ScoreCard";
 
 type GpaStepProps = {
   gpaScoreList: GpaScore[];

@@ -21,7 +21,7 @@ const SubmitLinkTab = ({ color, isActiveGpa = true }: SubmitLinkTabProps) => {
   return (
     <div className="flex h-9 w-full cursor-pointer flex-row text-sm font-medium">
       <Link
-        href="/score/submit/language-test"
+        href="/university/score/submit/language-test"
         style={{ color: combinedColor.activeBtnFont }}
         className={clsx(
           "flex w-full items-center justify-center border-b-2 border-b-primary-500 bg-white",
@@ -31,7 +31,7 @@ const SubmitLinkTab = ({ color, isActiveGpa = true }: SubmitLinkTabProps) => {
         <div>공인어학</div>
       </Link>
       <Link
-        href="/score/submit/gpa"
+        href="/university/score/submit/gpa"
         style={{ color: combinedColor.deactiveBtnFont }}
         className={clsx(
           "flex w-full items-center justify-center border-b-2 border-b-primary-500 bg-white",

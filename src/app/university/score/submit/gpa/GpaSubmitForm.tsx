@@ -78,7 +78,7 @@ const GpaSubmitForm = () => {
         title="학점 입력 완료"
         description="지원은 총 3번만 가능하며, 제출 완료 후 성적을 변경 하실 수 없습니다."
         buttonText="어학성적 입력하기"
-        onClick={() => router.push("/score/submit/language-test")}
+        onClick={() => router.push("/university/score/submit/language-test")}
         handleClose={() => setShowResult(false)}
         infoRows={infoRows}
       />
@@ -150,7 +150,7 @@ const GpaSubmitForm = () => {
                   <input id="file-upload" type="file" className="hidden" {...register("file")} />
                 </label>
                 <Link
-                  href="/score/example/lang-cert"
+                  href="/university/score/example/lang-cert"
                   target="_blank"
                   className="rounded-full bg-sub-e-100 px-4 py-2.5 text-sm font-semibold text-sub-e-500"
                 >
