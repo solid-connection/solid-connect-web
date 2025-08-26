@@ -25,7 +25,6 @@ const ApplyPageContent = () => {
   const [step, setStep] = useState<number>(1);
 
   const { data: universityList = [] } = useGetUniversitySearchByText("");
-
   const { data: gpaScoreList = [] } = useGetMyGpaScore();
   const { data: languageTestScoreList = [] } = useGetMyLanguageTestScore();
   const { mutate: postSubmitApplication } = usePostSubmitApplication();

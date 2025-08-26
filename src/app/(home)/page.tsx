@@ -8,7 +8,7 @@ import PopularUniversitySection from "./_ui/PopularUniversitySection";
 import UniversityList from "./_ui/UniversityList";
 
 import getRecommendedUniversity from "@/api/university/server/getRecommendedUniversity";
-import { getUniversitiesByAllRegion } from "@/api/university/server/getUniversitiesByAllRegion";
+import { getCategorizedUniversities } from "@/api/university/server/getSearchUniversitiesByText";
 import { fetchAllNews } from "@/lib/firebaseNews";
 import { IconIdCard, IconMagnifyingGlass, IconMuseum, IconPaper } from "@/public/svgs/home";
 
@@ -30,14 +30,14 @@ const HomePage = async () => {
   const { data } = await getRecommendedUniversity();
   const recommendedUniversities = data?.recommendedUniversities || [];
   // 권역별 전체 대학 리스트를 미리 가져와 빌드합니다
-  const allRegionsUniversityList = await getUniversitiesByAllRegion();
+  const allRegionsUniversityList = await getCategorizedUniversities();
 
   return (
     <>
       <FindLastYearScoreBar />
       <div className="flex flex-col gap-2.5 px-5 py-3.5">
         <div className="flex gap-2">
-          <Link className="h-26 flex flex-1 flex-col gap-2 rounded-lg bg-[#F0F5FF] p-2.5" href="/search">
+          <Link className="h-26 flex flex-1 flex-col gap-2 rounded-lg bg-[#F0F5FF] p-2.5" href="/university">
             <div className="flex flex-col">
               <span className="text-sm font-bold text-secondary">학교 검색하기</span>
               <span className="text-xs font-medium leading-tight text-k-700">모든 학교 목록을 확인해보세요</span>
