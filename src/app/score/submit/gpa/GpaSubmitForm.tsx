@@ -2,137 +2,206 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { useState } from "react";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
-import BlockBtn from "@/components/button/BlockBtn";
-import RoundBtn from "@/components/button/RoundBtn";
+import clsx from "clsx";
+import { z } from "zod";
 
-import { postGpaScoreApi } from "@/api/score";
+import SubmitLinkTab from "@/components/score/SubmitLinkTab";
+import SubmitResult from "@/components/score/SubmitResult";
+import { InfoRowProps } from "@/components/score/SubmitResult";
+
+import { usePostGpaScore } from "@/api/score/client/usePostGpaScore";
+import CustomDropdown from "@/app/university/CustomDropdown";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+// CustomDropdown 경로 확인 필요
+
+// 1. Zod 스키마 정의: GPA 폼 데이터의 유효성 규칙
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+const ACCEPTED_FILE_TYPES = ["image/jpeg", "image/png", "application/pdf"];
+
+const gpaSchema = z
+  .object({
+    gpaCriteria: z.enum(["4.5", "4.3"]).refine((val) => val === "4.5" || val === "4.3", {
+      message: "학점 기준을 선택해주세요.",
+    }),
+    gpa: z.string().min(1, "점수를 입력해주세요."),
+    file: z
+      .instanceof(FileList)
+      .refine((files) => files?.length === 1, "증명서 파일을 첨부해주세요.")
+      .refine((files) => files?.[0]?.size <= MAX_FILE_SIZE, `파일 크기는 5MB를 초과할 수 없습니다.`)
+      .refine((files) => ACCEPTED_FILE_TYPES.includes(files?.[0]?.type), ".jpeg, .png, .pdf 파일만 지원합니다."),
+  })
+  .refine((data) => Number(data.gpa) <= Number(data.gpaCriteria), {
+    message: "입력한 점수가 학점 기준을 초과할 수 없습니다.",
+    path: ["gpa"], // 오류가 발생할 필드를 지정
+  });
+
+// Zod 스키마로부터 TypeScript 타입 추론
+type GpaFormData = z.infer<typeof gpaSchema>;
 
 const GpaSubmitForm = () => {
   const router = useRouter();
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [showResult, setShowResult] = useState(false);
+  const [submittedData, setSubmittedData] = useState<GpaFormData | null>(null);
+  const { mutateAsync: postGpaScore } = usePostGpaScore();
 
-  const [gpaCriteria, setGpaCriteria] = useState<number | null>(null);
-  const [gpa, setGpa] = useState<string | null>(null);
-  const [file, setFile] = useState<File | null>(null);
+  // 2. react-hook-form 설정
+  const {
+    register,
+    handleSubmit,
+    control,
+    watch,
+    formState: { errors, isValid },
+  } = useForm<GpaFormData>({
+    resolver: zodResolver(gpaSchema),
+    mode: "onChange",
+  });
 
-  const submitForm = () => {
-    if (!gpaCriteria) {
-      alert("학점 기준을 선택해주세요.");
-      return;
-    }
-    if (!gpa) {
-      alert("점수를 입력해주세요.");
-      return;
-    }
-    if (!file) {
-      alert("증명서를 첨부해주세요.");
-      return;
-    }
+  const selectedFile = watch("file");
 
-    // 점수 유효성 검사
-    if (Number(gpa) > gpaCriteria) {
-      alert("학점 기준을 초과했습니다.");
-      return;
+  // 3. 폼 제출 핸들러
+  const onSubmit: SubmitHandler<GpaFormData> = async (data) => {
+    try {
+      await postGpaScore({
+        gpaScoreRequest: {
+          gpa: Number(data.gpa),
+          gpaCriteria: Number(data.gpaCriteria),
+          issueDate: "2025-01-01", // TODO: 실제 날짜 데이터로 변경
+        },
+        file: data.file[0],
+      });
+      // 성공 시, 결과 화면에 보여줄 데이터를 저장하고 상태 변경
+      setSubmittedData(data);
+      setShowResult(true);
+    } catch (error) {
+      console.error("GPA 제출 실패:", error);
+      alert("제출에 실패했습니다. 다시 시도해주세요.");
     }
-
-    async function postData() {
-      try {
-        const res = await postGpaScoreApi({
-          gpaScoreRequest: {
-            gpa: Number(gpa),
-            gpaCriteria: gpaCriteria as number,
-            issueDate: "2025-01-01",
-          },
-          file: file as File,
-        });
-
-        router.push("/score");
-      } catch (err) {
-        if (err.response) {
-          console.error("Axios response error", err.response);
-          if (err.response.status === 401 || err.response.status === 403) {
-            alert("로그인이 필요합니다");
-            document.location.href = "/login";
-          } else {
-            alert(err.response.data?.message);
-          }
-        } else {
-          console.error("Error", err.message);
-          alert(err.message);
-        }
-      }
-    }
-    postData();
   };
 
-  // TODO: 드롭박스 커스텀 디자인 적용
+  if (showResult && submittedData) {
+    const infoRows: InfoRowProps[] = [
+      {
+        label: "학점 기준",
+        status: `${submittedData.gpaCriteria} 만점`,
+      },
+      {
+        label: "내 학점",
+        status: submittedData.gpa,
+      },
+      {
+        label: "성적 증명서",
+        status: "제출 완료",
+        statusColor: "text-blue-600",
+        details: submittedData.file[0].name,
+      },
+    ];
+
+    return (
+      <SubmitResult
+        title="대학교 성적 제출 완료"
+        description="제출해주신 성적은 검토 후 승인 처리됩니다. 결과는 마이페이지에서 확인할 수 있습니다."
+        buttonText="마이페이지로 이동"
+        onClick={() => router.push("/my-page")} // TODO: 실제 마이페이지 경로로 수정
+        handleClose={() => setShowResult(false)}
+        infoRows={infoRows}
+      />
+    );
+  }
 
   return (
     <>
-      <div className="px-5 pt-[30px]">
-        <div>
-          <p className="font-serif text-[22px] font-bold leading-normal text-k-900">대학교 성적 입력</p>
-          <p className="font-serif text-[13px] font-medium leading-normal text-k-600">
-            공적 증명서만 인정됩니다.
-            <br />
-            미인정 서류를 업로드 할 경우 권한이 거부될 수 있습니다.
-          </p>
-        </div>
+      <SubmitLinkTab />
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="px-5 pt-[30px]">
+          <div>
+            <p className="font-serif text-[22px] font-bold leading-normal text-k-900">대학교 성적 입력</p>
+            <p className="font-serif text-[13px] font-medium leading-normal text-k-600">
+              공적 증명서만 인정됩니다.
+              <br />
+              미인정 서류를 업로드 할 경우 권한이 거부될 수 있습니다.
+            </p>
+          </div>
 
-        <div className="mt-[30px] flex flex-col gap-3.5">
-          <div className="flex flex-col gap-1">
-            <label className="font-serif text-base font-semibold leading-normal">학점 기준</label>
-            <select
-              className="flex h-10 items-center rounded-lg bg-k-50 px-5 py-2.5 font-serif text-sm font-semibold leading-normal text-secondary"
-              value={gpaCriteria || ""}
-              onChange={(e) => setGpaCriteria(Number(e.target.value))}
-            >
-              <option></option>
-              <option>4.5</option>
-              <option>4.3</option>
-            </select>
-          </div>
-          <div className="flex flex-col gap-1">
-            <label className="font-serif text-base font-semibold leading-normal">점수</label>
-            <input
-              type="text"
-              className="flex h-10 items-center rounded-lg bg-k-50 px-5 py-2.5 font-serif text-sm font-semibold leading-normal text-secondary"
-              value={gpa || ""}
-              onChange={(e) => setGpa(e.target.value)}
-            />
-          </div>
-          <div className="flex flex-col gap-1">
-            <label className="font-serif text-base font-semibold leading-normal">증명서 첨부</label>
-            <span className="flex h-10 items-center rounded-lg bg-k-50 px-5 py-2.5 font-serif text-sm font-semibold leading-normal text-secondary">
-              {file?.name}
-            </span>
-            <input
-              type="file"
-              style={{ display: "none" }}
-              ref={fileInputRef}
-              onChange={() => {
-                const file = fileInputRef.current?.files?.[0];
-                if (file) {
-                  setFile(file);
-                }
-              }}
-            />
-            <div className="mt-[30px] flex gap-[9px]">
-              <RoundBtn variant={file ? "default" : "inactive"} onClick={() => fileInputRef.current?.click()}>
-                파일 첨부하기
-              </RoundBtn>
-              <Link href="/score/example/gpa-cert" target="_blank">
-                <RoundBtn variant="secondary-400">증명서 예시</RoundBtn>
-              </Link>
+          <div className="mt-[30px] flex flex-col gap-5">
+            {/* 학점 기준 드롭다운 */}
+            <div className="flex flex-col gap-1">
+              <label className="font-serif text-base font-semibold leading-normal">학점 기준</label>
+              <Controller
+                name="gpaCriteria"
+                control={control}
+                render={({ field }) => (
+                  <CustomDropdown
+                    placeholderSelect=""
+                    value={field.value}
+                    onChange={field.onChange}
+                    placeholder="학점 기준을 선택해주세요"
+                    options={[
+                      { value: "4.5", label: "4.5 만점" },
+                      { value: "4.3", label: "4.3 만점" },
+                    ]}
+                  />
+                )}
+              />
+              {errors.gpaCriteria && <p className="mt-1 text-sm text-red-500">{errors.gpaCriteria.message}</p>}
+            </div>
+
+            {/* 점수 입력 */}
+            <div className="flex flex-col gap-1">
+              <label className="font-serif text-base font-semibold leading-normal">점수</label>
+              <input
+                type="number"
+                step="0.01" // 소수점 두 자리까지 입력 가능하도록 설정
+                className="flex h-10 items-center rounded-lg bg-k-50 px-5 py-2.5 font-serif text-sm font-semibold leading-normal text-secondary"
+                {...register("gpa")}
+              />
+              {errors.gpa && <p className="mt-1 text-sm text-red-500">{errors.gpa.message}</p>}
+            </div>
+
+            {/* 증명서 첨부 */}
+            <div className="flex flex-col gap-1">
+              <label className="font-serif text-base font-semibold leading-normal">증명서 첨부</label>
+              <div className="flex items-center gap-3">
+                <span className="flex h-10 flex-1 items-center truncate rounded-lg bg-k-50 px-5 py-2.5 font-serif text-sm font-semibold leading-normal text-secondary">
+                  {selectedFile?.[0]?.name || "파일을 선택해주세요."}
+                </span>
+                <label
+                  htmlFor="file-upload"
+                  className="cursor-pointer whitespace-nowrap rounded-full bg-sub-c-100 px-4 py-2.5 font-serif text-sm font-semibold leading-normal text-sub-c-500"
+                >
+                  증명서 첨부
+                </label>
+                <input id="file-upload" type="file" className="hidden" {...register("file")} />
+              </div>
+              {errors.file && <p className="mt-1 text-sm text-red-500">{errors.file.message as string}</p>}
+              <div className="mt-2">
+                <Link
+                  href="/score/example/gpa-cert" // TODO: GPA 증명서 예시 경로로 수정
+                  target="_blank"
+                  className="text-sm text-blue-500 hover:underline"
+                >
+                  증명서 예시 보기
+                </Link>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className="fixed bottom-24 w-full max-w-[600px] px-5">
-        <BlockBtn onClick={submitForm}>다음</BlockBtn>
-      </div>
+        <div className="mt-10 w-full max-w-[600px] px-5">
+          <button
+            className={clsx(
+              "mb-10 w-full rounded-lg py-4 font-semibold text-white",
+              isValid ? "cursor-not-allowed bg-primary" : "bg-k-100",
+            )}
+            type="submit"
+            disabled={!isValid}
+          >
+            다음
+          </button>
+        </div>
+      </form>
     </>
   );
 };

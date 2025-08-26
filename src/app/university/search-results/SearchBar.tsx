@@ -55,12 +55,12 @@ const SearchForm = ({ initText }: SearchBarProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-md">
+    <form onSubmit={handleSubmit(onSubmit)} className="w-full">
       <div className="relative mb-2">
         <input
           type="text"
           placeholder={"대학명을 검색해보세요..."}
-          className={`w-full border-b bg-white p-3 pl-4 pr-10 outline-none transition-colors focus:border-primary ${
+          className={`w-full border-b bg-white p-3 pl-4 pr-10 outline-none transition-colors ${
             errors.searchText ? "border-red-500 focus:border-red-500" : "border-gray-200 focus:border-blue-500"
           }`}
           {...register("searchText")}

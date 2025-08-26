@@ -8,13 +8,11 @@ import clsx from "clsx";
 import { z } from "zod";
 
 import CustomDropdown from "./CustomDropdown";
-import SearchBar from "./SearchBar";
 
 // --- 상수, 타입, 아이콘 등 ---
 import {
   COUNTRY_CODE_MAP,
   LANGUAGE_TEST_TYPE_MAP,
-  REGIONS_KO,
   REGIONS_SEARCH,
   REGION_TO_COUNTRIES_MAP,
 } from "@/constants/university";

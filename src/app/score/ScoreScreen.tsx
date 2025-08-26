@@ -1,65 +1,23 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import BlockBtn from "@/components/button/BlockBtn";
 import Tab from "@/components/ui/Tab";
 
 import ScoreCard from "./ScoreCard";
 
-import { GpaScore, LanguageTestScore, languageTestMapping } from "@/types/score";
+import { languageTestMapping } from "@/types/score";
 
-import { getMyGpaScoreApi, getMyLanguageTestScoreApi } from "@/api/score";
+import useGetMyGpaScore from "@/api/score/client/useGetMyGpaScore";
+import useGetMyLanguageTestScore from "@/api/score/client/useGetMyLanguageTestScore";
 
 const ScoreScreen = () => {
   const router = useRouter();
   const [curTab, setCurTab] = useState<"공인어학" | "학점">("공인어학");
-  const [gpaScoreList, setGpaScoreList] = useState<GpaScore[]>([]);
-  const [languageTestScoreList, setLanguageTestScoreList] = useState<LanguageTestScore[]>([]);
-
-  useEffect(() => {
-    const fetchGpaScoreList = async () => {
-      try {
-        const res = await getMyGpaScoreApi();
-        setGpaScoreList(res.data.gpaScoreStatusResponseList);
-      } catch (err) {
-        if (err.response) {
-          console.error("Axios response error", err.response);
-          if (err.response.status === 401 || err.response.status === 403) {
-            alert("로그인이 필요합니다");
-            document.location.href = "/login";
-          } else {
-            alert(err.response.data?.message);
-          }
-        } else {
-          console.error("Error", err.message);
-          alert(err.message);
-        }
-      }
-    };
-    const fetchLanguageTestScoreList = async () => {
-      try {
-        const res = await getMyLanguageTestScoreApi();
-        setLanguageTestScoreList(res.data.languageTestScoreStatusResponseList);
-      } catch (err) {
-        if (err.response) {
-          console.error("Axios response error", err.response);
-          if (err.response.status === 401 || err.response.status === 403) {
-            alert("로그인이 필요합니다");
-            document.location.href = "/login";
-          } else {
-            alert(err.response.data?.message);
-          }
-        } else {
-          console.error("Error", err.message);
-          alert(err.message);
-        }
-      }
-    };
-    if (curTab === "공인어학") fetchLanguageTestScoreList();
-    else fetchGpaScoreList();
-  }, [curTab]);
+  const { data: gpaScoreList = [] } = useGetMyGpaScore();
+  const { data: languageTestScoreList = [] } = useGetMyLanguageTestScore();
 
   return (
     <div className="h-full">
@@ -74,7 +32,7 @@ const ScoreScreen = () => {
                 score={score.languageTestResponse.languageTestScore}
                 status={score.verifyStatus}
                 // date={new Date(score.issueDate).toISOString()}
-                date="2025-01-01"
+                date="2026-01-01"
                 isFocused={score.verifyStatus === "APPROVED"}
                 rejectedReason={score.rejectedReason}
               />
@@ -88,7 +46,7 @@ const ScoreScreen = () => {
                 score={`${score.gpaResponse.gpa.toFixed(2)}/${score.gpaResponse.gpaCriteria}`}
                 status={score.verifyStatus}
                 // date={new Date(score.issueDate).toISOString()}
-                date="2025-01-01"
+                date="2026-01-01"
                 isFocused={score.verifyStatus === "APPROVED"}
                 rejectedReason={score.rejectedReason}
               />
