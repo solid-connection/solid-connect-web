@@ -13,7 +13,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 export const changePasswordSchema = z
   .object({
-    currentPassword: z.string().min(5, "5자리 이상 입력해주세요."),
+    currentPassword: z.string().min(8, "8자리 이상 입력해주세요."),
     newPassword: z
       .string()
       .min(8, "비밀번호는 대문자, 소문자, 숫자를 포함한 8자 이상이어야 합니다.")
@@ -84,7 +84,7 @@ const PasswordContent = () => {
           <PasswordInput
             name="currentPassword"
             label="현재 비밀번호를 입력해주세요"
-            placeholder="5자리 이상 입력해주세요"
+            placeholder="8자리 이상 입력해주세요"
             approveMessage="올바른 비밀번호 형식입니다."
             autoFocus
           />

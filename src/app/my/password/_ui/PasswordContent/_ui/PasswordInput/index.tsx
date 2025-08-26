@@ -17,7 +17,7 @@ interface PasswordInputProps {
 const PasswordInput = ({
   name,
   label,
-  placeholder = "5자리 이상 입력해주세요.",
+  placeholder = "8자리 이상 입력해주세요.",
   autoFocus = false,
   approveMessage = "사용 가능한 비밀번호입니다.",
 }: PasswordInputProps) => {
