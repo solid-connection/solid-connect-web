@@ -29,6 +29,27 @@ export const languageTestMapping: Record<LanguageTestEnum, string> = {
   DUOLINGO: "DUOLINGO",
 };
 
+// --- 시험 정보 통합 매핑 객체 ---
+export const languageTestScoreInfo: Record<LanguageTestEnum, LanguageTestInfo> = {
+  // --- 점수 기반 시험 ---
+  [LanguageTestEnum.TOEIC]: { label: "TOEIC", min: 10, max: 990 },
+  [LanguageTestEnum.TOEFL_IBT]: { label: "TOEFL iBT", min: 0, max: 120 },
+  [LanguageTestEnum.TOEFL_ITP]: { label: "TOEFL ITP", min: 310, max: 677 },
+  [LanguageTestEnum.IELTS]: { label: "IELTS", min: 0.0, max: 9.0 },
+  [LanguageTestEnum.DUOLINGO]: { label: "DUOLINGO", min: 10, max: 160 },
+  [LanguageTestEnum.TCF]: { label: "TCF", min: 100, max: 699 },
+  [LanguageTestEnum.TEF]: { label: "TEF", min: 0, max: 900 },
+  [LanguageTestEnum.NEW_HSK]: { label: "NEW HSK", min: 1, max: 9 },
+
+  // --- 레벨 기반 시험 ---
+  [LanguageTestEnum.JLPT]: { label: "JLPT", min: "N5", max: "N1" },
+  [LanguageTestEnum.DALF]: { label: "DALF", min: "C1", max: "C2" },
+  [LanguageTestEnum.CEFR]: { label: "CEFR", min: "A1", max: "C2" },
+
+  // --- 기타 ---
+  [LanguageTestEnum.ETC]: { label: "기타", min: "기타", max: "기타" },
+};
+
 export const languageTestShortMapping: Record<LanguageTestEnum, string> = {
   TOEIC: "TOEIC",
   TOEFL_IBT: "IBT",
@@ -99,3 +120,9 @@ export enum ScoreSubmitStatus {
   APPROVED = "APPROVED",
   REJECTED = "REJECTED",
 }
+
+type LanguageTestInfo = {
+  label: string;
+  min: number | string;
+  max: number | string;
+};

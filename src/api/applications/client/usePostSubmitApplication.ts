@@ -1,6 +1,6 @@
 import { useRouter } from "next/navigation";
 
-import { AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 
 import { axiosInstance } from "@/utils/axiosInstance";
 
@@ -28,19 +28,18 @@ export const postSubmitApplication = (
 // 타입 경로
 
 const usePostSubmitApplication = () => {
-  return useMutation({
+  return useMutation<
+    AxiosResponse<UseSubmitApplicationResponse>, // TData: 성공 시 반환 타입
+    AxiosError<{ message: string }>, // TError: 에러 타입
+    UseSubmitApplicationRequest // TVariables: 요청 body 타입
+  >({
     // mutationFn: API 요청을 수행할 비동기 함수를 지정합니다.
     mutationFn: (request: UseSubmitApplicationRequest) => postSubmitApplication(request),
 
-    // onSuccess: API 요청이 성공했을 때 실행할 콜백 함수입니다.
-    onSuccess: (data) => {
-      console.log("지원이 성공적으로 완료되었습니다.", data);
-    },
-
     // onError: API 요청이 실패했을 때 실행할 콜백 함수입니다.
     onError: (error) => {
-      console.error("지원 중 오류가 발생했습니다.", error);
-      alert("지원 중 오류가 발생했습니다. 다시 시도해주세요.");
+      const errorMessage = error?.response?.data?.message;
+      alert(errorMessage || "지원 중 오류가 발생했습니다. 다시 시도해주세요.");
     },
   });
 };

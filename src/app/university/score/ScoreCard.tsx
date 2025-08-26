@@ -53,32 +53,38 @@ const getStatus = (status: ScoreSubmitStatus, rejectedReason?: string | null) =>
 };
 
 const ScoreCard = ({ name, score, status, date, isFocused = false, rejectedReason = null }: ScoreCardProps) => {
+  const isVerified = status === "APPROVED";
+
   return (
-    <div className="flex h-[66px] flex-col rounded-lg bg-k-50 px-5 py-3">
+    <div
+      className={clsx(
+        "flex h-[66px] flex-col rounded-lg px-5 py-3",
+        isVerified ? "bg-secondary-100" : "bg-k-50",
+        isFocused && "border border-secondary",
+      )}
+    >
       <div className="flex">
         <div>{getStatus(status, rejectedReason)}</div>
         <div
-          className={clsx("ml-3 font-serif text-sm font-semibold leading-normal", {
-            "text-k-900": isFocused,
-            "text-k-300": !isFocused,
+          className={clsx("ml-3 flex flex-col text-start font-serif text-sm font-semibold leading-normal", {
+            "text-k-900": isVerified,
+            "text-k-300": !isVerified,
           })}
         >
           {name}
+          <span className="font-serif text-[11px] font-normal leading-normal text-k-300">
+            {status === "APPROVED" ? "만료일 : " : "제출일 : "}
+            {formatDate(date)}
+          </span>
         </div>
         <div
-          className={clsx("ml-auto font-serif text-sm font-bold leading-normal", {
+          className={clsx("ml-auto flex items-center font-serif text-sm font-bold leading-normal", {
             "text-secondary": isFocused,
             "text-secondary-300": !isFocused,
           })}
         >
           {score}
         </div>
-      </div>
-      <div className="flex justify-end">
-        <span className="font-serif text-[11px] font-normal leading-normal text-k-300">
-          {status === "APPROVED" ? "만료일 : " : "제출일 : "}
-          {formatDate(date)}
-        </span>
       </div>
     </div>
   );

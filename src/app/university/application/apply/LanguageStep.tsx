@@ -6,7 +6,7 @@ import BlockBtn from "@/components/button/BlockBtn";
 import TextModal from "@/components/modal/TextModal";
 import Tab from "@/components/ui/Tab";
 
-import { LanguageTestScore, languageTestMapping } from "@/types/score";
+import { LanguageTestScore, languageTestScoreInfo } from "@/types/score";
 import { ScoreSubmitStatus } from "@/types/score";
 
 import ScoreCard from "@/app/university/score/ScoreCard";
@@ -48,8 +48,8 @@ const LanguageStep = ({
             >
               <ScoreCard
                 key={score.id}
-                name={languageTestMapping[score.languageTestResponse.languageTestType]}
-                score={score.languageTestResponse.languageTestScore}
+                name={score.languageTestResponse.languageTestType}
+                score={`${score.languageTestResponse.languageTestScore}/${languageTestScoreInfo[score.languageTestResponse.languageTestType].max}`}
                 status={score.verifyStatus}
                 // date={new Date(score.issueDate).toISOString()}
                 date="2025-01-01"
