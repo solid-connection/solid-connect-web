@@ -31,8 +31,8 @@ const UniversityCard = ({ university, showCapacity = true }: UniversityCardProps
             <Image
               className="h-14 w-14 rounded-full object-cover"
               src={convertImageUrl(university.logoImageUrl)}
-              width={62}
-              height={62}
+              width={56}
+              height={56}
               alt="대학 이미지"
             />
           </div>
