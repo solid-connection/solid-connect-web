@@ -110,7 +110,7 @@ const MyProfileContent = () => {
           <div className="mx-auto mb-2 h-8 w-8">
             <IconGraduationPrimary />
           </div>
-          {isMentor ? "메칭 멘티" : "메칭 멘토"}
+          {isMentor ? "매칭 멘티" : "매칭 멘토"}
         </Link>
       </div>
 

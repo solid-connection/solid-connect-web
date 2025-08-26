@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 
 import ConfirmCancelModal from "@/components/modal/ConfirmCancelModal";
 import ButtonTab from "@/components/ui/ButtonTab";
@@ -10,90 +10,91 @@ import Tab from "@/components/ui/Tab";
 
 import ScoreSearchBar from "./ScoreSearchBar";
 import ScoreSearchField from "./ScoreSearchField";
-import ScoreSheets from "./ScoreSheets";
+import ScoreSheet from "./ScoreSheet";
 
 import { REGIONS_KO } from "@/constants/university";
-import { ApplicationListResponse } from "@/types/application";
+import { ScoreSheet as ScoreSheetType } from "@/types/application";
 import { RegionKo } from "@/types/university";
 
-import { getCompetitorsApplicationListApi } from "@/api/application";
+import useGetCompetitorsApplicationList from "@/api/applications/client/useGetCompetitorsApplicationList";
 
-const PREFERENCE_CHOICE: string[] = ["1순위", "2순위", "3순위"];
+const PREFERENCE_CHOICE: ("1순위" | "2순위" | "3순위")[] = ["1순위", "2순위", "3순위"];
+
+// API 응답 데이터의 타입을 명확하게 정의합니다.
+// 실제 ApplicationListResponse 타입을 사용하시는 것이 더 좋습니다.
+interface ScoreData {
+  firstChoice: ScoreSheetType[];
+  secondChoice: ScoreSheetType[];
+  thirdChoice: ScoreSheetType[];
+}
 
 const ScorePageContent = () => {
   const router = useRouter();
-  const [loading, setLoading] = useState<boolean>(true);
-  // 검색
-  const [searchActive, setSearchActive] = useState<boolean>(false); // 검색 창 활성화 여부
   const searchRef = useRef<HTMLInputElement>(null);
-  // 점수 데이터
-  const [scoreData, setScoreData] = useState<ApplicationListResponse>({
-    firstChoice: [],
-    secondChoice: [],
-    thirdChoice: [],
-  });
-  const [filteredScoreData, setFilteredScoreData] = useState<ApplicationListResponse>({
-    firstChoice: [],
-    secondChoice: [],
-    thirdChoice: [],
-  });
+
+  const [searchActive, setSearchActive] = useState(false);
   const [preference, setPreference] = useState<"1순위" | "2순위" | "3순위">("1순위");
-  const [filter, setFilter] = useState<RegionKo | "">("");
+  const [regionFilter, setRegionFilter] = useState<RegionKo | "">("");
+  const [searchValue, setSearchValue] = useState("");
+  const [showNeedApply, setShowNeedApply] = useState(false);
 
-  const [showNeedApply, setShowNeedApply] = useState<boolean>(false);
+  // ✨ 1. 초기 데이터를 API 응답 구조와 동일하게 설정합니다.
+  const initialData: ScoreData = {
+    firstChoice: [],
+    secondChoice: [],
+    thirdChoice: [],
+  };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (true) {
-          const scoreResponse = await getCompetitorsApplicationListApi();
+  // ✨ 2. `data`의 기본값을 위에서 정의한 initialData로 변경합니다.
+  const { data: scoreResponseData = initialData, isLoading } = useGetCompetitorsApplicationList();
 
-          const scoreResponseData = scoreResponse.data;
-          scoreResponseData.firstChoice.sort((a, b) => b.applicants.length - a.applicants.length);
-          scoreResponseData.secondChoice.sort((a, b) => b.applicants.length - a.applicants.length);
-          scoreResponseData.thirdChoice.sort((a, b) => b.applicants.length - a.applicants.length);
-          setScoreData(scoreResponseData);
-          setFilteredScoreData(scoreResponseData);
-        }
-      } catch (err) {
-        if (err.response) {
-          if (err.response.status === 404) {
-            setShowNeedApply(true);
-          } else if (err.response.status === 401 || err.response.status === 403) {
-            alert("로그인이 필요합니다");
-            document.location.href = "/login";
-          } else {
-            alert(err.response.data?.message);
-          }
-        } else {
-          console.error("Error", err.message);
-        }
-      } finally {
-        setLoading(false);
-      }
+  const filteredAndSortedData = useMemo(() => {
+    // 데이터가 없는 경우를 대비한 방어 코드
+    const firstChoice = scoreResponseData?.firstChoice || [];
+    const secondChoice = scoreResponseData?.secondChoice || [];
+    const thirdChoice = scoreResponseData?.thirdChoice || [];
+
+    // 원본 데이터를 훼손하지 않기 위해 복사본을 만들어 정렬합니다.
+    const sortedData = {
+      // ✨ 3. `[...scoreResponseData]`가 아니라 `[...firstChoice]`로 수정합니다.
+      firstChoice: [...firstChoice].sort((a, b) => b.applicants.length - a.applicants.length),
+      secondChoice: [...secondChoice].sort((a, b) => b.applicants.length - a.applicants.length),
+      thirdChoice: [...thirdChoice].sort((a, b) => b.applicants.length - a.applicants.length),
     };
-    fetchData();
-  }, []);
 
+    // 필터링 로직
+    const applyFilters = (data: ScoreSheetType[]) => {
+      let result = data;
+      // 지역 필터
+      if (regionFilter) {
+        result = result.filter((sheet) => sheet.region === regionFilter);
+      }
+      // 검색어 필터
+      if (searchValue) {
+        result = result.filter((sheet) => sheet.koreanName.toLowerCase().includes(searchValue.toLowerCase()));
+      }
+      return result;
+    };
+
+    return {
+      firstChoice: applyFilters(sortedData.firstChoice),
+      secondChoice: applyFilters(sortedData.secondChoice),
+      thirdChoice: applyFilters(sortedData.thirdChoice),
+    };
+  }, [scoreResponseData, regionFilter, searchValue]);
+
+  // (이하 코드는 동일)
   const handleSearch = (event: React.FormEvent) => {
     event.preventDefault();
-    const keyWord = searchRef.current?.value || "";
-    setFilter("");
-    setFilteredScoreData(
-      keyWord
-        ? {
-            firstChoice: scoreData.firstChoice.filter((sheet) => sheet.koreanName.includes(keyWord)),
-            secondChoice: scoreData.secondChoice.filter((sheet) => sheet.koreanName.includes(keyWord)),
-            thirdChoice: scoreData.thirdChoice.filter((sheet) => sheet.koreanName.includes(keyWord)),
-          }
-        : scoreData,
-    );
+    const keyword = searchRef.current?.value || "";
+    setRegionFilter("");
+    setSearchValue(keyword);
     setSearchActive(false);
   };
 
-  const handleSearchField = (keyWord: string) => {
+  const handleSearchField = (keyword: string) => {
     if (searchRef.current) {
-      searchRef.current.value = keyWord;
+      searchRef.current.value = keyword;
     }
   };
 
@@ -101,71 +102,64 @@ const ScorePageContent = () => {
     setSearchActive(true);
   };
 
-  const hotKeyWords = ["RMIT", "오스트라바", "칼스루에", "그라츠", "추오", "프라하", "보라스", "빈", "메모리얼"];
-
-  useEffect(() => {
-    if (filter) {
-      setFilteredScoreData({
-        firstChoice: scoreData.firstChoice.filter((sheet) => sheet.region === filter),
-        secondChoice: scoreData.secondChoice.filter((sheet) => sheet.region === filter),
-        thirdChoice: scoreData.thirdChoice.filter((sheet) => sheet.region === filter),
-      });
-    } else {
-      setFilteredScoreData(scoreData);
+  const getScoreSheet = () => {
+    switch (preference) {
+      case "1순위":
+        return filteredAndSortedData.firstChoice;
+      case "2순위":
+        return filteredAndSortedData.secondChoice;
+      case "3순위":
+        return filteredAndSortedData.thirdChoice;
+      default:
+        return [];
     }
-  }, [filter, scoreData]);
+  };
+  const scoreSheets = getScoreSheet();
 
-  if (loading) {
+  if (isLoading) {
     return <CloudSpinnerPage />;
   }
 
-  const getScoreSheet = () => {
-    if (preference === "1순위") {
-      return filteredScoreData.firstChoice;
-    }
-    if (preference === "2순위") {
-      return filteredScoreData.secondChoice;
-    }
-    if (preference === "3순위") {
-      return filteredScoreData.thirdChoice;
-    }
-    return [];
-  };
-
   if (searchActive) {
+    const hotKeyWords = ["RMIT", "오스트라바", "칼스루에", "그라츠", "추오", "프라하", "보라스", "빈", "메모리얼"];
     return (
       <>
-        <ScoreSearchBar textRef={searchRef} searchHandler={handleSearch} onClick={() => {}} />
-        <ScoreSearchField
-          keyWords={hotKeyWords}
-          setKeyWord={(e) => {
-            handleSearchField(e);
-          }}
-        />
+        <ScoreSearchBar textRef={searchRef} searchHandler={handleSearch} onClick={() => setSearchActive(false)} />
+        <ScoreSearchField keyWords={hotKeyWords} setKeyWord={handleSearchField} />
       </>
     );
   }
 
   return (
-    <>
+    <div className="gap-4 px-5">
       <ScoreSearchBar onClick={handleSearchClick} textRef={searchRef} searchHandler={handleSearch} />
       <Tab choices={PREFERENCE_CHOICE} choice={preference} setChoice={setPreference} />
-      <ButtonTab choices={REGIONS_KO} choice={filter} setChoice={setFilter} style={{ padding: "10px 0 10px 18px" }} />
-      <ScoreSheets scoreSheets={getScoreSheet()} />
+      <ButtonTab
+        choices={REGIONS_KO}
+        choice={regionFilter}
+        setChoice={(newRegion) => {
+          if (searchRef.current) searchRef.current.value = "";
+          setSearchValue("");
+          setRegionFilter(newRegion as RegionKo | "");
+        }}
+        style={{ padding: "10px 0 10px 18px" }}
+      />
+
+      <div className="mx-5 mt-2.5 flex w-[calc(100%-44px)] flex-col gap-3 overflow-x-auto">
+        {scoreSheets.map((choice) => (
+          <ScoreSheet key={choice.koreanName} scoreSheet={choice} />
+        ))}
+      </div>
       <ConfirmCancelModal
+        title="학교 지원이 필요합니다"
         isOpen={showNeedApply}
-        handleCancel={() => {
-          router.push("/");
-        }}
-        handleConfirm={() => {
-          router.push("/university/application/apply");
-        }}
-        title=""
+        handleCancel={() => router.push("/")}
+        handleConfirm={() => router.push("/university/application/apply")}
         content={"점수 공유현황을 확인하려면 지원절차를\n진행해주세요."}
         cancelText="확인"
         approveText="학교 지원하기"
       />
-    </>
+    </div>
   );
 };
 
