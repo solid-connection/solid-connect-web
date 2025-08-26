@@ -18,17 +18,11 @@ interface UniversityDetailProps {
 
 const UniversityDetail = ({ university }: UniversityDetailProps) => {
   return (
-    <>
+    <div className="relative">
       <div className="z-0 h-[236px] w-full bg-blue-100">
-        <Image
-          alt="대학 이미지"
-          width={390}
-          height={236}
-          src={convertImageUrl(university.backgroundImageUrl)}
-          className="object-cover"
-        />
+        <Image alt="대학 이미지" src={convertImageUrl(university.backgroundImageUrl)} fill className="object-cover" />
       </div>
-      <div className="z-30 -mt-[66px] rounded-t-3xl bg-white px-5">
+      <div className="-mt-[66px] rounded-t-3xl bg-white px-5">
         <TitleSection
           title={university.formatName}
           subTitle={university.englishName}
@@ -55,7 +49,7 @@ const UniversityDetail = ({ university }: UniversityDetailProps) => {
         <MapSection universityEnglishName={university.englishName} />
         <div className="h-48" />
       </div>
-    </>
+    </div>
   );
 };
 
