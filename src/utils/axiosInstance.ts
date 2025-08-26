@@ -2,40 +2,39 @@ import axios, { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from "ax
 
 import { clearAccessToken, getAccessToken, setAccessToken } from "@/lib/zustand/useTokenStore";
 
-// --- Axios 요청 설정에 _retry 플래그를 추가하기 위한 타입 확장 ---
+// --- 타입 정의 ---
 interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
   _retry?: boolean;
 }
 
-// --- 중복 리다이렉션 방지 플래그 ---
+// --- 상태 관리 변수 ---
 let isRedirecting = false;
+let tokenRefreshPromise: Promise<string | null> | null = null;
 
-const redirectToLogin = (message?: string) => {
+// --- 유틸리티 함수 ---
+const redirectToLogin = (message: string) => {
   if (typeof window !== "undefined" && !isRedirecting) {
     isRedirecting = true;
-    clearAccessToken(); // 토큰 정리
-    if (message) {
-      alert(message);
-    }
+    clearAccessToken();
+    alert(message);
     window.location.href = "/login";
   }
 };
 
-const redirectToLoginWithSessionExpired = () => {
-  redirectToLogin("세션이 만료되었습니다. 다시 로그인해주세요.");
-};
-
 export const convertToBearer = (token: string) => `Bearer ${token}`;
 
-// --- Public Axios 인스턴스 (토큰 재발급용) ---
+// --- Axios 인스턴스 ---
 export const publicAxiosInstance: AxiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_SERVER_URL,
   withCredentials: true,
 });
 
-// --- 토큰 재발급 로직 ---
-let tokenRefreshPromise: Promise<string | null> | null = null;
+export const axiosInstance: AxiosInstance = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_SERVER_URL,
+  withCredentials: true,
+});
 
+// --- 핵심 로직: 토큰 재발급 ---
 const reissueAccessToken = (): Promise<string | null> => {
   if (tokenRefreshPromise) {
     return tokenRefreshPromise;
@@ -44,16 +43,14 @@ const reissueAccessToken = (): Promise<string | null> => {
   tokenRefreshPromise = new Promise(async (resolve, reject) => {
     try {
       const response = await publicAxiosInstance.post<{ accessToken: string }>("/auth/reissue");
-      const newToken = response.data.accessToken;
+      const newAccessToken = response.data.accessToken;
 
-      if (!newToken) {
-        throw new Error("재발급된 토큰이 없습니다.");
-      }
+      if (!newAccessToken) throw new Error("재발급된 토큰이 유효하지 않습니다.");
 
-      setAccessToken(newToken);
-      resolve(newToken);
+      setAccessToken(newAccessToken);
+      resolve(newAccessToken);
     } catch (error) {
-      redirectToLoginWithSessionExpired();
+      redirectToLogin("세션이 만료되었습니다. 다시 로그인해주세요.");
       reject(error);
     } finally {
       tokenRefreshPromise = null;
@@ -63,33 +60,48 @@ const reissueAccessToken = (): Promise<string | null> => {
   return tokenRefreshPromise;
 };
 
-// --- Private Axios 인스턴스 (일반 API 요청용) ---
-export const axiosInstance: AxiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_SERVER_URL,
-  withCredentials: true,
-});
+// --- 인터셉터 설정 ---
 
-// --- 요청 인터셉터 ---
+// 1. 요청 인터셉터 (문지기 역할)
 axiosInstance.interceptors.request.use(
-  (config) => {
-    const accessToken = getAccessToken();
+  async (config) => {
+    let accessToken = getAccessToken();
+
+    // 토큰이 아예 없는 경우 (새로고침 직후 등)
+    if (!accessToken) {
+      try {
+        // 재발급을 시도하고, 성공하면 새 토큰을 가져옵니다.
+        // 다른 요청들도 이 결과를 기다립니다.
+        const newAccessToken = await reissueAccessToken();
+        if (newAccessToken) {
+          accessToken = newAccessToken;
+        }
+      } catch (error) {
+        // 재발급 실패 시 요청을 보내지 않고 바로 에러 처리
+        return Promise.reject(error);
+      }
+    }
+
+    // 유효한 토큰을 헤더에 추가하여 요청을 보냅니다.
     if (accessToken) {
       config.headers.Authorization = convertToBearer(accessToken);
     }
+
     return config;
   },
   (error) => Promise.reject(error),
 );
 
-// --- 응답 인터셉터 ---
+// 2. 응답 인터셉터 (해결사 역할)
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
-    // `error.config`를 우리가 정의한 커스텀 타입으로 간주합니다.
     const originalRequest = error.config as CustomAxiosRequestConfig;
 
+    // 401 에러이고, 재시도한 요청이 아닐 때만 실행
+    // (토큰이 있었지만 서버에서 만료되었다고 판정한 경우)
     if (error.response?.status === 401 && originalRequest && !originalRequest._retry) {
-      originalRequest._retry = true; // 재시도 요청임을 표시
+      originalRequest._retry = true;
 
       try {
         const newAccessToken = await reissueAccessToken();
