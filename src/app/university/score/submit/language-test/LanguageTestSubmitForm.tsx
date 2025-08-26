@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
 import clsx from "clsx";
@@ -11,6 +11,7 @@ import SubmitLinkTab from "@/components/score/SubmitLinkTab";
 import SubmitResult from "@/components/score/SubmitResult";
 // CustomDropdown 경로 확인 필요
 import { InfoRowProps } from "@/components/score/SubmitResult";
+import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 
 import { LanguageTestFormData, languageTestSchema } from "./_lib/schema";
 
@@ -181,4 +182,11 @@ const LanguageTestSubmitForm = () => {
   );
 };
 
-export default LanguageTestSubmitForm;
+const LanguageTestSubmitPage = () => {
+  return (
+    <Suspense fallback={<CloudSpinnerPage />}>
+      <LanguageTestSubmitForm />
+    </Suspense>
+  );
+};
+export default LanguageTestSubmitPage;

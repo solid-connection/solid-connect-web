@@ -1,8 +1,9 @@
 import { Metadata } from "next";
+import dynamic from "next/dynamic";
 
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 
-import LanguageTestSubmitForm from "./LanguageTestSubmitForm";
+const LanguageTestSubmitForm = dynamic(() => import("./LanguageTestSubmitForm"), { ssr: false });
 
 export const metadata: Metadata = {
   title: "성적 입력하기",

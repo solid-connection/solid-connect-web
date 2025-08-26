@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
 import clsx from "clsx";
@@ -10,6 +10,7 @@ import clsx from "clsx";
 import SubmitLinkTab from "@/components/score/SubmitLinkTab";
 import SubmitResult from "@/components/score/SubmitResult";
 import { InfoRowProps } from "@/components/score/SubmitResult";
+import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 
 // CustomDropdown 경로 확인 필요
 import { GpaFormData, gpaSchema } from "./_lib/schema";
@@ -176,4 +177,11 @@ const GpaSubmitForm = () => {
   );
 };
 
-export default GpaSubmitForm;
+const GpaSubmitPage = () => {
+  return (
+    <Suspense fallback={<CloudSpinnerPage />}>
+      <GpaSubmitForm />
+    </Suspense>
+  );
+};
+export default GpaSubmitPage;
