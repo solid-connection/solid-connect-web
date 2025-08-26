@@ -76,7 +76,7 @@ const ApplyPageContent = () => {
     <>
       <TopDetailNavigation title="지원하기" handleBack={goPrevStep} />
       <div className="mt-1 px-5">
-        {(step === 1 || step === 2 || step === 3) && <ProgressBar currentStep={step} totalSteps={4} />}
+        {(step === 1 || step === 2 || step === 3) && <ProgressBar currentStep={step} totalSteps={3} />}
       </div>
       {isDataExist ? (
         <EmptyGPA />
@@ -108,8 +108,6 @@ const ApplyPageContent = () => {
           )}
           {step === 4 && (
             <ConfirmStep
-              languageTestScore={languageTestScoreList.find((score) => score.id === curLanguageTestScore)}
-              gpaScore={gpaScoreList.find((score) => score.id === curGpaScore)}
               universityList={
                 curUniversityList
                   .map((id) => universityList.find((university) => university.id === id))

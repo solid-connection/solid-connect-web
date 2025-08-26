@@ -6,7 +6,7 @@ import BlockBtn from "@/components/button/BlockBtn";
 import TextModal from "@/components/modal/TextModal";
 import Tab from "@/components/ui/Tab";
 
-import { GpaScore } from "@/types/score";
+import { GpaScore, ScoreSubmitStatus } from "@/types/score";
 
 import ScoreCard from "@/app/university/score/ScoreCard";
 
@@ -27,7 +27,17 @@ const GpaStep = ({ gpaScoreList, curGpaScore, setCurGpaScore, onNext }: GpaStepP
           {gpaScoreList.map((score) => (
             <button
               key={score.id}
-              onClick={() => setCurGpaScore(score.id)}
+              onClick={() => {
+                if (score.verifyStatus === ScoreSubmitStatus.REJECTED) {
+                  alert("승인 거절된 성적은 지원에 사용할 수 없습니다.");
+                  return;
+                }
+                if (score.verifyStatus === ScoreSubmitStatus.PENDING) {
+                  alert("승인 대기중인 성적은 지원에 사용할 수 없습니다.");
+                  return;
+                }
+                setCurGpaScore(score.id);
+              }}
               className="transition-transform hover:scale-[1.01] active:scale-[0.97]"
             >
               <ScoreCard

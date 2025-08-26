@@ -94,4 +94,8 @@ export interface MyLanguageTestScoreResponse {
   languageTestScoreStatusResponseList: LanguageTestScore[];
 }
 
-export type ScoreSubmitStatus = "PENDING" | "REJECTED" | "APPROVED";
+export enum ScoreSubmitStatus {
+  PENDING = "PENDING",
+  APPROVED = "APPROVED",
+  REJECTED = "REJECTED",
+}

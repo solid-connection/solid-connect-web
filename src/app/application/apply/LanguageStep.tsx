@@ -7,6 +7,7 @@ import TextModal from "@/components/modal/TextModal";
 import Tab from "@/components/ui/Tab";
 
 import { LanguageTestScore, languageTestMapping } from "@/types/score";
+import { ScoreSubmitStatus } from "@/types/score";
 
 import ScoreCard from "@/app/university/score/ScoreCard";
 
@@ -32,7 +33,17 @@ const LanguageStep = ({
           {languageTestScoreList.map((score) => (
             <button
               className="transition-transform hover:scale-[1.01] active:scale-[0.97]"
-              onClick={() => setCurLanguageTestScore(score.id)}
+              onClick={() => {
+                if (score.verifyStatus === ScoreSubmitStatus.REJECTED) {
+                  alert("승인 거절된 성적은 지원에 사용할 수 없습니다.");
+                  return;
+                }
+                if (score.verifyStatus === ScoreSubmitStatus.PENDING) {
+                  alert("승인 대기중인 성적은 지원에 사용할 수 없습니다.");
+                  return;
+                }
+                setCurLanguageTestScore(score.id);
+              }}
               key={score.id}
             >
               <ScoreCard
