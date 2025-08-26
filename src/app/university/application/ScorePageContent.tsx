@@ -16,7 +16,7 @@ import { REGIONS_KO } from "@/constants/university";
 import { ScoreSheet as ScoreSheetType } from "@/types/application";
 import { RegionKo } from "@/types/university";
 
-import useGetCompetitorsApplicationList from "@/api/applications/client/useGetCompetitorsApplicationList";
+import useGetApplicationsList from "@/api/applications/client/useGetApplicationsList";
 
 const PREFERENCE_CHOICE: ("1순위" | "2순위" | "3순위")[] = ["1순위", "2순위", "3순위"];
 
@@ -46,7 +46,7 @@ const ScorePageContent = () => {
   };
 
   // ✨ 2. `data`의 기본값을 위에서 정의한 initialData로 변경합니다.
-  const { data: scoreResponseData = initialData, isLoading } = useGetCompetitorsApplicationList();
+  const { data: scoreResponseData = initialData, isLoading } = useGetApplicationsList();
 
   const filteredAndSortedData = useMemo(() => {
     // 데이터가 없는 경우를 대비한 방어 코드
