@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import ReportPanel from "@/components/ui/ReportPanel";
@@ -40,10 +40,11 @@ const IconLink = () => (
 // --- 메인 컴포넌트 ---
 type KebabMenuProps = {
   postId: number;
+  boardCode: string;
   isOwner?: boolean;
 };
 
-const KebabMenu = ({ postId, isOwner = false }: KebabMenuProps) => {
+const KebabMenu = ({ postId, boardCode, isOwner = false }: KebabMenuProps) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { mutate: deletePost } = useDeletePost();
   const router = useRouter();
@@ -101,7 +102,7 @@ const KebabMenu = ({ postId, isOwner = false }: KebabMenuProps) => {
                 <li key={"수정하기"}>
                   <button
                     onClick={() => {
-                      router.push(`/community/${postId}/modify`);
+                      router.push(`/community/${boardCode}/${postId}/modify`);
                     }}
                     className={`flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50`}
                   >
