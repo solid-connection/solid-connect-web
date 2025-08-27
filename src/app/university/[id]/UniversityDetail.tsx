@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 import { convertImageUrl } from "@/utils/fileUtils";
 
@@ -9,6 +10,7 @@ import MajorSection from "./MajorSection";
 import MapSection from "./MapSection";
 import SubTitleSection from "./SubTitleSection";
 import TitleSection from "./TitleSection";
+import UniversityBtns from "./UniversityBtns";
 
 import { University } from "@/types/university";
 
@@ -18,9 +20,12 @@ interface UniversityDetailProps {
 }
 
 const UniversityDetail = ({ university, koreanName }: UniversityDetailProps) => {
-  console.log("university", university);
   return (
     <div className="relative">
+      <div className="absolute top-4 flex w-full justify-between gap-3 px-5">
+        <UniversityBtns universityId={university.id} />
+      </div>
+
       <div className="relative -z-10 h-60 w-full bg-blue-100">
         <Image alt="대학 이미지" src={convertImageUrl(university.backgroundImageUrl)} fill className="object-cover" />
       </div>

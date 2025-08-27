@@ -4,6 +4,8 @@ import { AxiosResponse } from "axios";
 
 import { axiosInstance } from "@/utils/axiosInstance";
 
+import { QueryKeys } from "./queryKey";
+
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 /**
@@ -41,12 +43,12 @@ const useDeletePost = () => {
       // 'posts' 쿼리 키를 가진 모든 쿼리를 무효화하여
       // 게시글 목록을 다시 불러오도록 합니다.
       // ['posts', 'list'] 등 구체적인 키를 사용하셔도 좋습니다.
-      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.posts] });
 
       alert("게시글이 성공적으로 삭제되었습니다.");
 
-      // 게시글 목록 페이지나 메인 페이지로 이동
-      router.push("/");
+      // 게시글 목록 페이지 이동
+      router.replace("/community/FREE");
     },
 
     // mutation 실패 시 실행될 콜백
