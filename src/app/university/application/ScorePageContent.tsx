@@ -20,8 +20,6 @@ import useGetApplicationsList from "@/api/applications/client/useGetApplications
 
 const PREFERENCE_CHOICE: ("1순위" | "2순위" | "3순위")[] = ["1순위", "2순위", "3순위"];
 
-// API 응답 데이터의 타입을 명확하게 정의합니다.
-// 실제 ApplicationListResponse 타입을 사용하시는 것이 더 좋습니다.
 interface ScoreData {
   firstChoice: ScoreSheetType[];
   secondChoice: ScoreSheetType[];
@@ -38,14 +36,12 @@ const ScorePageContent = () => {
   const [searchValue, setSearchValue] = useState("");
   const [showNeedApply, setShowNeedApply] = useState(false);
 
-  // ✨ 1. 초기 데이터를 API 응답 구조와 동일하게 설정합니다.
   const initialData: ScoreData = {
     firstChoice: [],
     secondChoice: [],
     thirdChoice: [],
   };
 
-  // ✨ 2. `data`의 기본값을 위에서 정의한 initialData로 변경합니다.
   const {
     data: scoreResponseData = initialData,
     isError,
@@ -55,27 +51,32 @@ const ScorePageContent = () => {
   });
 
   const filteredAndSortedData = useMemo(() => {
-    // 데이터가 없는 경우를 대비한 방어 코드
-    const firstChoice = scoreResponseData?.firstChoice || [];
-    const secondChoice = scoreResponseData?.secondChoice || [];
-    const thirdChoice = scoreResponseData?.thirdChoice || [];
+    // ✨ 1. 대학 이름(koreanName)을 기준으로 중복을 제거하는 헬퍼 함수
+    const uniqueByKoreanName = (data: ScoreSheetType[]) => {
+      // Map을 사용해 koreanName을 키로 하여 중복을 효율적으로 제거합니다.
+      const universityMap = new Map(data.map((sheet) => [sheet.koreanName, sheet]));
+      // Map의 값들만 다시 배열로 변환하여 반환합니다.
+      return Array.from(universityMap.values());
+    };
 
-    // 원본 데이터를 훼손하지 않기 위해 복사본을 만들어 정렬합니다.
+    // ✨ 2. API 응답 데이터를 받자마자 중복부터 제거합니다.
+    const firstChoice = uniqueByKoreanName(scoreResponseData?.firstChoice || []);
+    const secondChoice = uniqueByKoreanName(scoreResponseData?.secondChoice || []);
+    const thirdChoice = uniqueByKoreanName(scoreResponseData?.thirdChoice || []);
+
+    // 3. 중복이 제거된 데이터를 정렬합니다.
     const sortedData = {
-      // ✨ 3. `[...scoreResponseData]`가 아니라 `[...firstChoice]`로 수정합니다.
       firstChoice: [...firstChoice].sort((a, b) => b.applicants.length - a.applicants.length),
       secondChoice: [...secondChoice].sort((a, b) => b.applicants.length - a.applicants.length),
       thirdChoice: [...thirdChoice].sort((a, b) => b.applicants.length - a.applicants.length),
     };
 
-    // 필터링 로직
+    // 4. 기존 필터링 로직을 적용합니다.
     const applyFilters = (data: ScoreSheetType[]) => {
       let result = data;
-      // 지역 필터
       if (regionFilter) {
         result = result.filter((sheet) => sheet.region === regionFilter);
       }
-      // 검색어 필터
       if (searchValue) {
         result = result.filter((sheet) => sheet.koreanName.toLowerCase().includes(searchValue.toLowerCase()));
       }
@@ -123,15 +124,16 @@ const ScorePageContent = () => {
   const scoreSheets = getScoreSheet();
 
   useEffect(() => {
-    console.log("isLoading", isLoading);
-    console.log("isError", isError);
-
     if (isLoading) return;
     if (isError) {
       alert("지원 현황을 불러오는 중에 오류가 발생했습니다. 지원 절차를 진행해주세요.");
       router.replace("/university/application/apply");
     }
-  }, [isError, isLoading]);
+  }, [isError, isLoading, router]);
+
+  if (isLoading) {
+    return <CloudSpinnerPage />;
+  }
 
   if (searchActive) {
     const hotKeyWords = ["RMIT", "오스트라바", "칼스루에", "그라츠", "추오", "프라하", "보라스", "빈", "메모리얼"];
@@ -158,7 +160,7 @@ const ScorePageContent = () => {
         style={{ padding: "10px 0 10px 18px" }}
       />
 
-      <div className="mx-5 mt-2.5 flex w-[calc(100%-44px)] flex-col gap-3 overflow-x-auto">
+      <div className="mx-auto mt-2.5 flex w-full flex-col gap-3 overflow-x-auto">
         {scoreSheets.map((choice) => (
           <ScoreSheet key={choice.koreanName} scoreSheet={choice} />
         ))}
