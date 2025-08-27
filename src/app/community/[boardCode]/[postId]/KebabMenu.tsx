@@ -38,9 +38,10 @@ const IconLink = () => (
 // --- 메인 컴포넌트 ---
 type KebabMenuProps = {
   postId: number;
+  isOwner?: boolean;
 };
 
-const KebabMenu = ({ postId }: KebabMenuProps) => {
+const KebabMenu = ({ postId, isOwner = false }: KebabMenuProps) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -77,7 +78,9 @@ const KebabMenu = ({ postId }: KebabMenuProps) => {
       {isDropdownOpen && (
         <div className="absolute right-0 top-full z-10 mt-2 w-40 origin-top-right rounded-lg border border-gray-100 bg-white shadow-lg">
           <ul className="p-1">
-            <ReportPanel idx={postId} />
+            <li>
+              <ReportPanel idx={postId} />
+            </li>
             <li key={"URL 복사"}>
               <button
                 onClick={handleCopyUrl}
@@ -89,6 +92,26 @@ const KebabMenu = ({ postId }: KebabMenuProps) => {
                 <span>{"URL 복사"}</span>
               </button>
             </li>
+            {isOwner && (
+              <>
+                <li key={"수정하기"}>
+                  <button
+                    onClick={handleCopyUrl}
+                    className={`flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50`}
+                  >
+                    <span>{"수정하기"}</span>
+                  </button>
+                </li>
+                <li key={"삭제하기"}>
+                  <button
+                    onClick={handleCopyUrl}
+                    className={`flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50`}
+                  >
+                    <span>{"삭제하기"}</span>
+                  </button>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       )}
