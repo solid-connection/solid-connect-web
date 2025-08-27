@@ -28,7 +28,7 @@ interface SearchBarProps {
   initText?: string;
 }
 // --- 폼 로직을 관리하는 부모 컴포넌트 ---
-const SearchBar = ({ initText }: SearchBarProps) => {
+const SearchForm = ({ initText }: SearchBarProps) => {
   const router = useRouter();
 
   const {
@@ -50,16 +50,19 @@ const SearchBar = ({ initText }: SearchBarProps) => {
     }
 
     const queryString = queryParams.toString();
+    console.log("검색 실행:", queryString);
     router.push(`/university/search-results?${queryString}`);
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-      <div className="relative w-full">
+      <div className="relative mb-2">
         <input
           type="text"
-          placeholder={"해외 파견 학교를 검색하세요."}
-          className="w-full rounded-lg border border-gray-200 bg-k-50 p-3 pl-4 pr-10 text-k-600 focus:border-primary"
+          placeholder={"대학명을 검색해보세요..."}
+          className={`w-full border-b bg-white p-3 pl-4 pr-10 outline-none transition-colors ${
+            errors.searchText ? "border-red-500 focus:border-red-500" : "border-gray-200 focus:border-blue-500"
+          }`}
           {...register("searchText")}
         />
         <div className="absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400">
@@ -71,4 +74,4 @@ const SearchBar = ({ initText }: SearchBarProps) => {
   );
 };
 
-export default SearchBar;
+export default SearchForm;
