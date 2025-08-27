@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import ConfirmCancelModal from "@/components/modal/ConfirmCancelModal";
 import ButtonTab from "@/components/ui/ButtonTab";
@@ -46,7 +46,11 @@ const ScorePageContent = () => {
   };
 
   // ✨ 2. `data`의 기본값을 위에서 정의한 initialData로 변경합니다.
-  const { data: scoreResponseData = initialData, isError } = useGetApplicationsList({
+  const {
+    data: scoreResponseData = initialData,
+    isError,
+    isLoading,
+  } = useGetApplicationsList({
     retry: false,
   });
 
@@ -118,10 +122,16 @@ const ScorePageContent = () => {
   };
   const scoreSheets = getScoreSheet();
 
-  if (isError) {
-    alert("지원 현황을 불러오는 중에 오류가 발생했습니다. 지원 절차를 진행해주세요.");
-    router.push("/university/application/apply");
-  }
+  useEffect(() => {
+    console.log("isLoading", isLoading);
+    console.log("isError", isError);
+
+    if (isLoading) return;
+    if (isError) {
+      alert("지원 현황을 불러오는 중에 오류가 발생했습니다. 지원 절차를 진행해주세요.");
+      router.replace("/university/application/apply");
+    }
+  }, [isError, isLoading]);
 
   if (searchActive) {
     const hotKeyWords = ["RMIT", "오스트라바", "칼스루에", "그라츠", "추오", "프라하", "보라스", "빈", "메모리얼"];
