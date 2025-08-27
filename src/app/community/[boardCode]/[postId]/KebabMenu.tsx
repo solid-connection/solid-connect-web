@@ -1,9 +1,11 @@
 "use client";
 
+import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 
 import ReportPanel from "@/components/ui/ReportPanel";
 
+import useDeletePost from "@/api/community/client/useDeletePost";
 import { IconSetting } from "@/public/svgs/mentor";
 
 const useClickOutside = (ref, handler) => {
@@ -43,6 +45,8 @@ type KebabMenuProps = {
 
 const KebabMenu = ({ postId, isOwner = false }: KebabMenuProps) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const { mutate: deletePost } = useDeletePost();
+  const router = useRouter();
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -96,7 +100,9 @@ const KebabMenu = ({ postId, isOwner = false }: KebabMenuProps) => {
               <>
                 <li key={"수정하기"}>
                   <button
-                    onClick={handleCopyUrl}
+                    onClick={() => {
+                      router.push(`/community/${postId}/modify`);
+                    }}
                     className={`flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50`}
                   >
                     <span>{"수정하기"}</span>
@@ -104,7 +110,11 @@ const KebabMenu = ({ postId, isOwner = false }: KebabMenuProps) => {
                 </li>
                 <li key={"삭제하기"}>
                   <button
-                    onClick={handleCopyUrl}
+                    onClick={() => {
+                      if (confirm("정말로 삭제하시겠습니까?")) {
+                        deletePost(postId);
+                      }
+                    }}
                     className={`flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50`}
                   >
                     <span>{"삭제하기"}</span>
