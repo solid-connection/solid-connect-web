@@ -14,9 +14,11 @@ import { University } from "@/types/university";
 
 interface UniversityDetailProps {
   university: University;
+  koreanName: string;
 }
 
-const UniversityDetail = ({ university }: UniversityDetailProps) => {
+const UniversityDetail = ({ university, koreanName }: UniversityDetailProps) => {
+  console.log("university", university);
   return (
     <div className="relative">
       <div className="relative -z-10 h-60 w-full bg-blue-100">
@@ -24,7 +26,7 @@ const UniversityDetail = ({ university }: UniversityDetailProps) => {
       </div>
       <div className="z-30 -mt-16 rounded-t-3xl bg-white px-5">
         <TitleSection
-          title={university.formatName}
+          title={koreanName}
           subTitle={university.englishName}
           logoUrl={convertImageUrl(university.logoImageUrl)}
         />

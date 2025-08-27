@@ -1,5 +1,4 @@
 import { Metadata, ResolvingMetadata } from "next";
-import Head from "next/head";
 import { notFound } from "next/navigation";
 
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
@@ -60,7 +59,7 @@ const CollegeDetailPage = async ({ params }: CollegeDetailPageProps) => {
   return (
     <>
       <TopDetailNavigation title={convertedKoreanName} />
-      <UniversityDetail university={universityData} />
+      <UniversityDetail koreanName={convertedKoreanName} university={universityData} />
     </>
   );
 };
