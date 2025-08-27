@@ -131,49 +131,65 @@ const ScorePageContent = () => {
     }
   }, [isError, isLoading, router]);
 
-  if (isLoading) {
-    return <CloudSpinnerPage />;
-  }
-
-  if (searchActive) {
-    const hotKeyWords = ["RMIT", "오스트라바", "칼스루에", "그라츠", "추오", "프라하", "보라스", "빈", "메모리얼"];
-    return (
-      <>
-        <ScoreSearchBar textRef={searchRef} searchHandler={handleSearch} onClick={() => setSearchActive(false)} />
-        <ScoreSearchField keyWords={hotKeyWords} setKeyWord={handleSearchField} />
-      </>
-    );
-  }
+  const hotKeyWords = ["RMIT", "오스트라바", "칼스루에", "그라츠", "추오", "프라하", "보라스", "빈", "메모리얼"];
 
   return (
     <div className="gap-4 px-5">
       <ScoreSearchBar onClick={handleSearchClick} textRef={searchRef} searchHandler={handleSearch} />
-      <Tab choices={PREFERENCE_CHOICE} choice={preference} setChoice={setPreference} />
-      <ButtonTab
-        choices={REGIONS_KO}
-        choice={regionFilter}
-        setChoice={(newRegion) => {
-          if (searchRef.current) searchRef.current.value = "";
-          setSearchValue("");
-          setRegionFilter(newRegion as RegionKo | "");
-        }}
-        style={{ padding: "10px 0 10px 18px" }}
-      />
 
-      <div className="mx-auto mt-2.5 flex w-full flex-col gap-3 overflow-x-auto">
-        {scoreSheets.map((choice) => (
-          <ScoreSheet key={choice.koreanName} scoreSheet={choice} />
-        ))}
-      </div>
-      <ConfirmCancelModal
-        title="학교 지원이 필요합니다"
-        isOpen={showNeedApply}
-        handleCancel={() => router.push("/")}
-        handleConfirm={() => router.push("/university/application/apply")}
-        content={"점수 공유현황을 확인하려면 지원절차를\n진행해주세요."}
-        cancelText="확인"
-        approveText="학교 지원하기"
-      />
+      {searchActive ? (
+        <div className="font-sans p-4">
+          {/* Title for the popular searches section */}
+          <div className="ml-5 mt-[18px] text-base font-semibold leading-normal text-black">인기 검색</div>
+
+          {/* Container for the keyword buttons */}
+          <div className="ml-5 mt-2.5 flex flex-wrap gap-2">
+            {hotKeyWords.map((word) => (
+              <button
+                key={word}
+                // Button styling for each keyword
+                className="flex items-center justify-center gap-2.5 rounded-full bg-gray-50 px-3 py-[5px] text-sm font-medium leading-[160%] text-black transition-colors hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2"
+                onClick={() => {
+                  handleSearchField(word);
+                  handleSearch(new Event("submit") as unknown as React.FormEvent);
+                }}
+                type="button"
+              >
+                {word}
+              </button>
+            ))}
+          </div>
+        </div>
+      ) : (
+        <>
+          <Tab choices={PREFERENCE_CHOICE} choice={preference} setChoice={setPreference} />
+          <ButtonTab
+            choices={REGIONS_KO}
+            choice={regionFilter}
+            setChoice={(newRegion) => {
+              if (searchRef.current) searchRef.current.value = "";
+              setSearchValue("");
+              setRegionFilter(newRegion as RegionKo | "");
+            }}
+            style={{ padding: "10px 0 10px 18px" }}
+          />
+
+          <div className="mx-auto mt-2.5 flex w-full flex-col gap-3 overflow-x-auto">
+            {scoreSheets.map((choice) => (
+              <ScoreSheet key={choice.koreanName} scoreSheet={choice} />
+            ))}
+          </div>
+          <ConfirmCancelModal
+            title="학교 지원이 필요합니다"
+            isOpen={showNeedApply}
+            handleCancel={() => router.push("/")}
+            handleConfirm={() => router.push("/university/application/apply")}
+            content={"점수 공유현황을 확인하려면 지원절차를\n진행해주세요."}
+            cancelText="확인"
+            approveText="학교 지원하기"
+          />
+        </>
+      )}
     </div>
   );
 };
