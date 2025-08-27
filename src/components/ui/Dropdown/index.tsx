@@ -10,7 +10,7 @@ interface DropdownProps {
 }
 
 const Dropdown = ({ options }: DropdownProps) => (
-  <div className="w-37 absolute right-0 top-full z-[1000] flex flex-col rounded-lg shadow-[0px_10px_50px_0px_rgba(0,0,0,0.1)]">
+  <div className="absolute right-0 top-full z-[1000] flex w-36 flex-col rounded-lg shadow-[0px_10px_50px_0px_rgba(0,0,0,0.1)]">
     {options.map((option, index) => (
       <button
         key={option.label}

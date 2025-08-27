@@ -49,6 +49,8 @@ const CommentSection = ({ comments, postId, refresh }: CommentSectionProps) => {
       });
   };
 
+  console.log("comments", comments);
+
   return (
     <div className="min-h-[50vh] pb-[49px]">
       {comments?.map((comment) => (
@@ -92,6 +94,8 @@ const Comment = ({
     setActiveDropdown(activeDropdown === commentId ? null : commentId);
   };
 
+  const isDeleted = comment.content === "";
+
   return (
     <div
       className={clsx(
@@ -126,7 +130,12 @@ const Comment = ({
       )}
       <div className="flex w-full flex-col">
         <div className="flex justify-between">
-          <CommentProfile user={comment.postFindSiteUserResponse} />
+          <CommentProfile
+            user={{
+              ...comment.postFindSiteUserResponse,
+              nickname: isDeleted ? "알 수 없음" : comment.postFindSiteUserResponse.nickname,
+            }}
+          />
           {comment.isOwner && (
             <CommentDropdown
               commentId={comment.id}
@@ -136,7 +145,9 @@ const Comment = ({
             />
           )}
         </div>
-        <div className="mt-3 text-sm font-normal leading-normal text-black">{comment.content}</div>
+        <div className="mt-3 text-sm font-normal leading-normal text-black">
+          {isDeleted ? "삭제된 댓글입니다" : comment.content}
+        </div>
         <div className="mt-2 overflow-hidden text-xs font-normal leading-normal text-[#7c7c7c]">
           {convertISODateToDateTime(comment.createdAt) || "1970. 01. 01. 00:00"}
         </div>
@@ -152,14 +163,14 @@ const CommentProfile = ({ user }: { user: CommunityUser }) => {
         <Image
           className="h-full w-full rounded-full"
           src={
-            user.profileImageUrl ? convertUploadedImageUrl(user.profileImageUrl) : "/images/placeholder/profile64.svg"
+            user?.profileImageUrl ? convertUploadedImageUrl(user?.profileImageUrl) : "/images/placeholder/profile64.svg"
           }
           width={40}
           height={40}
           alt="alt"
         />
       </div>
-      <div className="overflow-hidden text-sm font-medium leading-normal text-black">{user.nickname}</div>
+      <div className="overflow-hidden text-sm font-medium leading-normal text-black">{user?.nickname}</div>
     </div>
   );
 };

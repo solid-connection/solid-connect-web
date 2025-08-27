@@ -1,9 +1,11 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import ReportPanel from "@/components/ui/ReportPanel";
 
+import useDeletePost from "@/api/community/client/useDeletePost";
 import { IconSetting } from "@/public/svgs/mentor";
 
 const useClickOutside = (ref, handler) => {
@@ -38,10 +40,14 @@ const IconLink = () => (
 // --- 메인 컴포넌트 ---
 type KebabMenuProps = {
   postId: number;
+  boardCode: string;
+  isOwner?: boolean;
 };
 
-const KebabMenu = ({ postId }: KebabMenuProps) => {
+const KebabMenu = ({ postId, boardCode, isOwner = false }: KebabMenuProps) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const { mutate: deletePost } = useDeletePost();
+  const router = useRouter();
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -77,7 +83,9 @@ const KebabMenu = ({ postId }: KebabMenuProps) => {
       {isDropdownOpen && (
         <div className="absolute right-0 top-full z-10 mt-2 w-40 origin-top-right rounded-lg border border-gray-100 bg-white shadow-lg">
           <ul className="p-1">
-            <ReportPanel idx={postId} />
+            <li>
+              <ReportPanel idx={postId} />
+            </li>
             <li key={"URL 복사"}>
               <button
                 onClick={handleCopyUrl}
@@ -89,6 +97,32 @@ const KebabMenu = ({ postId }: KebabMenuProps) => {
                 <span>{"URL 복사"}</span>
               </button>
             </li>
+            {isOwner && (
+              <>
+                <li key={"수정하기"}>
+                  <button
+                    onClick={() => {
+                      router.push(`/community/${boardCode}/${postId}/modify`);
+                    }}
+                    className={`flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50`}
+                  >
+                    <span>{"수정하기"}</span>
+                  </button>
+                </li>
+                <li key={"삭제하기"}>
+                  <button
+                    onClick={() => {
+                      if (confirm("정말로 삭제하시겠습니까?")) {
+                        deletePost(postId);
+                      }
+                    }}
+                    className={`flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50`}
+                  >
+                    <span>{"삭제하기"}</span>
+                  </button>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       )}
