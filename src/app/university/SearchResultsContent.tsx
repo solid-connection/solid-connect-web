@@ -4,6 +4,7 @@ import { useSearchParams } from "next/navigation";
 import React, { Suspense, useMemo, useState } from "react";
 
 import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
+import FloatingUpBtn from "@/components/ui/FloatingUpBtn";
 import UniversityCards from "@/components/university/UniversityCards";
 
 import RegionFilter from "./RegionFilter";
@@ -36,7 +37,7 @@ const SearchResultsContent = () => {
     // URL에서 전달된 국가 목록을 기본으로 사용
     const filteredCountries = countries as CountryCode[];
 
-    if (text) {
+    if (!lang || !countries) {
       return {
         isTextSearch: true,
         searchText: text,
@@ -54,7 +55,7 @@ const SearchResultsContent = () => {
     }
   }, [searchParams, selectedRegion]);
 
-  const textSearchQuery = useGetUniversitySearchByText(searchText);
+  const textSearchQuery = useGetUniversitySearchByText(searchText ?? "");
   const filterSearchQuery = useGetUniversitySearchByFilter(filterParams);
 
   const { data: serachResult } = isTextSearch ? textSearchQuery : filterSearchQuery;
@@ -90,6 +91,7 @@ const SearchResultsContent = () => {
           <UniversityCards colleges={filteredData} className="mx-5 mt-3" />
         </>
       )}
+      <FloatingUpBtn />
     </div>
   );
 };

@@ -7,7 +7,7 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import clsx from "clsx";
 import { z } from "zod";
 
-import CustomDropdown from "./CustomDropdown";
+import CustomDropdown from "../CustomDropdown";
 
 // --- 상수, 타입, 아이콘 등 ---
 import {
@@ -62,7 +62,7 @@ const SchoolSearchForm = () => {
     });
 
     const queryString = queryParams.toString();
-    router.push(`/university/search-results?${queryString}`);
+    router.push(`/university/search?${queryString}`);
   };
 
   const availableCountries = useMemo(() => {
