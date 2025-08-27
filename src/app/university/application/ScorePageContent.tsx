@@ -46,7 +46,9 @@ const ScorePageContent = () => {
   };
 
   // ✨ 2. `data`의 기본값을 위에서 정의한 initialData로 변경합니다.
-  const { data: scoreResponseData = initialData, isLoading } = useGetApplicationsList();
+  const { data: scoreResponseData = initialData, isError } = useGetApplicationsList({
+    retry: false,
+  });
 
   const filteredAndSortedData = useMemo(() => {
     // 데이터가 없는 경우를 대비한 방어 코드
@@ -116,8 +118,9 @@ const ScorePageContent = () => {
   };
   const scoreSheets = getScoreSheet();
 
-  if (isLoading) {
-    return <CloudSpinnerPage />;
+  if (isError) {
+    alert("지원 현황을 불러오는 중에 오류가 발생했습니다. 지원 절차를 진행해주세요.");
+    router.push("/university/application/apply");
   }
 
   if (searchActive) {
