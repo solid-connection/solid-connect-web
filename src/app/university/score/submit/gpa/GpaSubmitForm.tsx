@@ -77,8 +77,8 @@ const GpaSubmitForm = () => {
       <SubmitResult
         title="학점 입력 완료"
         description="성적 승인은 최대 3일까지 걸릴 수 있습니다."
-        buttonText="어학성적 입력하기"
-        onClick={() => router.push("/university/score/submit/language-test")}
+        buttonText="홈으로"
+        onClick={() => router.push("/")}
         handleClose={() => setShowResult(false)}
         infoRows={infoRows}
       />

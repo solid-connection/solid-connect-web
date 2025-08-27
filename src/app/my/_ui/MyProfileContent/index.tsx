@@ -65,12 +65,12 @@ const MyProfileContent = () => {
         </div>
 
         {isMentor ? (
-          <div className="w-full rounded-lg bg-secondary-500 py-2 text-center font-medium text-white">
+          <div className="w-full cursor-pointer rounded-lg bg-secondary-500 py-2 text-center font-medium text-white">
             <Link href={"/my/modify"}>프로필 변경</Link>
           </div>
         ) : (
           <div className="mt-4 flex items-center justify-between gap-3">
-            <div className="w-full rounded-lg bg-secondary-500 py-2 text-center font-medium text-white">
+            <div className="w-full cursor-pointer rounded-lg bg-secondary-500 py-2 text-center font-medium text-white">
               <Link href={"/my/modify"}>프로필 변경</Link>
             </div>
             <button
