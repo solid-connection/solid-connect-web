@@ -1,10 +1,11 @@
 import { Metadata } from "next";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import ReactLinkify from "react-linkify";
 
 import { convertISODateToDateTime } from "@/utils/datetimeUtils";
 import { convertUploadedImageUrl } from "@/utils/fileUtils";
+
+import LinkifyText from "@/components/ui/LinkifyText";
 
 import { PostImage as PostImageType, Post as PostType } from "@/types/community";
 
@@ -79,7 +80,7 @@ const Content = ({ post, postId }: ContentProps) => {
         </div>
         <div className="mt-4 font-serif text-xl font-semibold leading-6 text-black">{post.title || ""}</div>
         <div className="mr-5 mt-3 whitespace-pre-wrap break-all font-serif text-sm font-normal leading-normal text-[#1a1a1a]">
-          <ReactLinkify>{post.content || ""}</ReactLinkify>
+          <LinkifyText>{post.content || ""}</LinkifyText>
         </div>
 
         <div className="mt-3">

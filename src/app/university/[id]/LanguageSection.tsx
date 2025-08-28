@@ -1,9 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import Linkify from "react-linkify";
 
 import { formatLanguageTestName, getLanguageTestLogo } from "@/utils/languageUtils";
+
+import LinkifyText from "@/components/ui/LinkifyText";
 
 import { LanguageRequirement } from "@/types/university";
 
@@ -36,7 +37,7 @@ const LanguageSection = ({ languageRequirements, detailsForLanguage }: LanguageS
         <div className="mb-3 text-base font-semibold text-k-900">어학세부 요건</div>
         <div>
           <span className="break-words text-sm font-medium leading-normal text-k-600">
-            <Linkify>{detailsForLanguage}</Linkify>
+            <LinkifyText>{detailsForLanguage}</LinkifyText>
           </span>
         </div>
       </div>

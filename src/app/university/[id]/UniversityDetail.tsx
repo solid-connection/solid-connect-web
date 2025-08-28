@@ -1,12 +1,11 @@
 import Image from "next/image";
-import Link from "next/link";
 
 import { convertImageUrl } from "@/utils/fileUtils";
 
-import EnglishSection from "./EnglishSection";
+import LinkifyText from "@/components/ui/LinkifyText";
+
 import InfoSection from "./InfoSection";
 import LanguageSection from "./LanguageSection";
-import MajorSection from "./MajorSection";
 import MapSection from "./MapSection";
 import SubTitleSection from "./SubTitleSection";
 import TitleSection from "./TitleSection";
@@ -49,10 +48,24 @@ const UniversityDetail = ({ university, koreanName }: UniversityDetailProps) => 
           semesterRequirement={university.semesterRequirement}
           semesterAvailableForDispatch={university.semesterAvailableForDispatch}
           detailsForApply={university.detailsForApply}
-          detailsForAccommodation={university.detailsForAccommodation}
+          detailsForAccommodation={university?.detailsForAccommodation}
         />
-        <MajorSection majorDetail={university.detailsForMajor} />
-        <EnglishSection englishDetail={university.detailsForEnglishCourse} />
+        <div className="h-1 bg-k-50" />
+        <div className="my-7 px-3">
+          <div className="mb-3 text-base font-semibold text-k-900">전공상세</div>
+          <div className="break-words text-sm font-medium leading-normal text-k-600">
+            <LinkifyText>{university?.detailsForMajor}</LinkifyText>
+          </div>
+        </div>
+        <div className="h-1 bg-k-50" />
+        <div className="my-7 px-3">
+          <div className="mb-3 text-base font-semibold text-k-900">영어강의 리스트</div>
+          <div>
+            <span className="break-words text-sm font-medium leading-normal text-k-600">
+              <LinkifyText>{university?.detailsForEnglishCourse}</LinkifyText>
+            </span>
+          </div>
+        </div>
         <MapSection universityEnglishName={university.englishName} />
         <div className="h-48" />
       </div>

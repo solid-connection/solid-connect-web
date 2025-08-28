@@ -1,6 +1,6 @@
 "use client";
 
-import Linkify from "react-linkify";
+import LinkifyText from "@/components/ui/LinkifyText";
 
 interface EnglishSectionProps {
   englishDetail: string;
@@ -14,7 +14,7 @@ const EnglishSection = ({ englishDetail }: EnglishSectionProps) => {
         <div className="mb-3 text-base font-semibold text-k-900">영어강의 리스트</div>
         <div>
           <span className="break-words text-sm font-medium leading-normal text-k-600">
-            <Linkify>{englishDetail}</Linkify>
+            <LinkifyText>{englishDetail}</LinkifyText>
           </span>
         </div>
       </div>
