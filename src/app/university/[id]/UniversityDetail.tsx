@@ -7,7 +7,6 @@ import LinkifyText from "@/components/ui/LinkifyText";
 import InfoSection from "./InfoSection";
 import LanguageSection from "./LanguageSection";
 import MapSection from "./MapSection";
-import SubTitleSection from "./SubTitleSection";
 import TitleSection from "./TitleSection";
 import UniversityBtns from "./UniversityBtns";
 
@@ -35,11 +34,13 @@ const UniversityDetail = ({ university, koreanName }: UniversityDetailProps) => 
           logoUrl={convertImageUrl(university.logoImageUrl)}
         />
         {/* TODO: totalDispatchCount 추가시 연동, 나라에 국기 추가 */}
-        <SubTitleSection
-          totalDispatchCount={0}
-          country={university.country}
-          studentCapacity={university.studentCapacity}
-        />
+        <div className="mb-7 mt-10 flex justify-center divide-x">
+          <span className="px-[30px] text-sm font-semibold leading-normal text-k-900">{}0회 파견</span>
+          <span className="px-[30px] text-sm font-semibold leading-normal text-k-900">{university.country}</span>
+          <span className="px-[30px] text-sm font-semibold leading-normal text-k-900">
+            모집 {university.studentCapacity}명
+          </span>
+        </div>
         <LanguageSection
           detailsForLanguage={university.detailsForLanguage}
           languageRequirements={university.languageRequirements}
