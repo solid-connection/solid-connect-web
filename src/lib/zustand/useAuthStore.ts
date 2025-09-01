@@ -4,8 +4,8 @@ interface AuthState {
   accessToken: string | null;
   isAuthenticated: boolean;
   isLoading: boolean; // 앱 로딩 시 인증 상태를 확인 중인지 여부
-  setToken: (token: string) => void;
-  clearAuth: () => void;
+  setAccessToken: (token: string) => void;
+  clearAccessToken: () => void;
   setLoading: (loading: boolean) => void;
 }
 
@@ -14,14 +14,14 @@ const useAuthStore = create<AuthState>((set) => ({
   isAuthenticated: false,
   isLoading: true, // 앱이 시작되면 항상 인증 확인부터 시작
 
-  setToken: (token) => {
+  setAccessToken: (token) => {
     set({
       accessToken: token,
       isAuthenticated: true,
     });
   },
 
-  clearAuth: () => {
+  clearAccessToken: () => {
     set({
       accessToken: null,
       isAuthenticated: false,

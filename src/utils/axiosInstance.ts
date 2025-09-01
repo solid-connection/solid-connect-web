@@ -17,7 +17,7 @@ const redirectToLogin = (message: string) => {
   if (typeof window !== "undefined" && !isRedirecting) {
     isRedirecting = true;
     // Zustand 스토어의 상태를 초기화
-    useAuthStore.getState().clearAuth();
+    useAuthStore.getState().clearAccessToken();
     alert(message);
     window.location.href = "/login";
   }
@@ -59,7 +59,7 @@ export const reissueAccessToken = (): Promise<string> => {
       }
 
       // 재발급 성공 시, 새로운 토큰을 Zustand 스토어에 저장
-      useAuthStore.getState().setToken(newAccessToken);
+      useAuthStore.getState().setAccessToken(newAccessToken);
       resolve(newAccessToken);
     } catch (error) {
       const errorStatus = (error as AxiosError).response?.status;

@@ -1,18 +1,4 @@
-import { isTokenExpired } from "./jwtUtils";
-
 import { appleOAuth2CodeResponse } from "@/types/auth";
-
-import useAuthStore from "@/lib/zustand/useAuthStore";
-
-export const isAuthenticated = () => {
-  const accessToken = useAuthStore.getState().accessToken;
-
-  if (accessToken && !isTokenExpired(accessToken)) {
-    return true;
-  }
-
-  return false;
-};
 
 export const authProviderName = (provider: "KAKAO" | "APPLE" | "EMAIL"): string => {
   if (provider === "KAKAO") {

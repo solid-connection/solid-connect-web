@@ -1,4 +1,5 @@
 export const isTokenExpired = (token: string | null): boolean => {
+  if (!token) return true;
   try {
     const payload = JSON.parse(atob(token.split(".")[1]));
     const currentTime = Math.floor(Date.now() / 1000);
