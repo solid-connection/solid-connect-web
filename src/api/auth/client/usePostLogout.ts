@@ -2,6 +2,7 @@ import { useRouter } from "next/navigation";
 
 import { AxiosResponse } from "axios";
 
+import { isCookieLoginEnabled } from "@/utils/authUtils";
 import { axiosInstance } from "@/utils/axiosInstance";
 import { removeAccessTokenToLS } from "@/utils/localStorageUtils";
 
@@ -12,7 +13,7 @@ export const postLogout = (): Promise<AxiosResponse<null>> => axiosInstance.post
 
 const usePostLogout = () => {
   const router = useRouter();
-  const { clearAuth } = useAuthStore();
+  const { clearAccessToken } = useAuthStore();
   const queryClient = useQueryClient(); // 쿼리 캐시 관리를 위해 클라이언트 인스턴스를 가져옵니다.
 
   return useMutation({
@@ -22,8 +23,10 @@ const usePostLogout = () => {
       router.replace("/");
     },
     onSuccess: () => {
-      clearAuth();
-      removeAccessTokenToLS();
+      clearAccessToken();
+      if (isCookieLoginEnabled()) {
+        removeAccessTokenToLS();
+      }
       queryClient.clear();
     },
     onError: (error) => {

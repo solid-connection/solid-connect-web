@@ -22,6 +22,7 @@ import {
 } from "@/public/svgs/my";
 
 const NEXT_PUBLIC_CONTACT_LINK = process.env.NEXT_PUBLIC_CONTACT_LINK;
+
 const MyProfileContent = () => {
   const { data: profileData = {} } = useGetMyInfo();
   const { mutate: deleteUserAccount } = useDeleteUserAccount();

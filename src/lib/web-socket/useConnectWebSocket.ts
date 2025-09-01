@@ -3,7 +3,7 @@ import type { MutableRefObject } from "react";
 
 import SockJS from "sockjs-client";
 
-import { getAccessTokenWithReissue } from "../zustand/useAuthStore";
+import useAuthStore from "../zustand/useAuthStore";
 
 import { ChatMessage, ConnectionStatus } from "@/types/chat";
 
@@ -35,7 +35,7 @@ const useConnectWebSocket = ({ roomId, clientRef }: UseConnectWebSocketProps): U
 
     const connect = async () => {
       setConnectionStatus(ConnectionStatus.Pending); // 연결 시도 중 상태로 설정
-      const token = await getAccessTokenWithReissue();
+      const token = useAuthStore.getState().accessToken;
       if (!token || typeof token !== "string" || token.trim() === "") {
         console.error("WebSocket connection aborted: Access token is missing or invalid.");
         setConnectionStatus(ConnectionStatus.Error);

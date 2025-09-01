@@ -24,14 +24,14 @@ const postEmailAuth = ({ email, password }: LoginRequest): Promise<AxiosResponse
 
 const usePostEmailAuth = () => {
   const router = useRouter();
-  const { setToken } = useAuthStore();
+  const { setAccessToken } = useAuthStore();
   return useMutation({
     mutationFn: postEmailAuth,
     onSuccess: (data) => {
       const { accessToken, refreshToken } = data.data;
 
       // 액세스 토큰은 항상 Zustand 스토어에 저장
-      setToken(accessToken);
+      setAccessToken(accessToken);
 
       // 로컬스토리지 모드일 때만 리프레시 토큰을 로컬스토리지에 저장
       // 쿠키 모드일 때는 서버에서 HTTP-only 쿠키로 자동 설정됨

@@ -3,13 +3,18 @@
 import Link from "next/link";
 import { useState } from "react";
 
-import useRouterHandler from "../../../lib/hooks/useJWTParseRouteHandler";
+import { tokenParse } from "@/utils/jwtUtils";
+
+import { UserRole } from "@/types/mentor";
 
 import useGetMentoringUncheckedCount from "@/api/mentor/client/useGetMentoringUncheckedCount";
+import useAuthStore from "@/lib/zustand/useAuthStore";
 
 const MentorApplyCountContent = () => {
   // 로그인 된경우에만 신규 신청 카운트 모달 표시
-  const { isMentor = false, isLoading } = useRouterHandler(false);
+  const { accessToken, isLoading } = useAuthStore();
+  const isMentor = tokenParse(accessToken)?.role === UserRole.MENTOR;
+
   const { data: count, isSuccess } = useGetMentoringUncheckedCount(isMentor && !isLoading);
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(true);

@@ -12,7 +12,7 @@ export const deleteUserAccount = (): Promise<AxiosResponse<null>> => axiosInstan
 
 const useDeleteUserAccount = () => {
   const router = useRouter();
-  const { clearAuth } = useAuthStore();
+  const { clearAccessToken } = useAuthStore();
   const queryClient = useQueryClient(); // 쿼리 캐시 관리를 위해 클라이언트 인스턴스를 가져옵니다.
 
   return useMutation({
@@ -22,7 +22,7 @@ const useDeleteUserAccount = () => {
       router.replace("/");
     },
     onSuccess: () => {
-      clearAuth();
+      clearAccessToken();
       removeAccessTokenToLS();
       queryClient.clear();
     },
