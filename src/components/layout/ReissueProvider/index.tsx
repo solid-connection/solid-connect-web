@@ -3,8 +3,7 @@
 // Next.js 13+ App Router 환경을 위한 클라이언트 컴포넌트 명시
 import { useEffect } from "react";
 
-import { reissueAccessToken } from "@/utils/axiosInstance";
-
+import postReissueToken from "@/api/auth/server/postReissueToken";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 
 /**
@@ -16,19 +15,19 @@ interface ReissueProviderProps {
 }
 
 const ReissueProvider = ({ children }: ReissueProviderProps) => {
-  const { setLoading, clearAuth } = useAuthStore();
+  const { setLoading, clearAccessToken } = useAuthStore();
 
   useEffect(() => {
     const checkAuthStatus = async () => {
       try {
         // HttpOnly 쿠키에 있는 리프레시 토큰을 기반으로 액세스 토큰 재발급 시도
         // reissueAccessToken 함수가 성공 시 내부적으로 Zustand 스토어에 토큰을 저장합니다.
-        await reissueAccessToken();
+        await postReissueToken();
       } catch (error) {
         // 재발급 실패는 로그인이 되어있지 않거나 세션이 만료된 경우이므로,
         // 인증 상태를 깨끗하게 비워줍니다.
         console.error("Initial token reissue failed, user is not logged in.", error);
-        clearAuth();
+        clearAccessToken();
       } finally {
         // 성공하든 실패하든, 인증 확인 절차는 끝났으므로 로딩 상태를 해제합니다.
         setLoading(false);
