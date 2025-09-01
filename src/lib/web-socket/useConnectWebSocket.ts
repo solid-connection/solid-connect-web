@@ -3,7 +3,7 @@ import type { MutableRefObject } from "react";
 
 import SockJS from "sockjs-client";
 
-import { getAccessTokenWithReissue } from "../zustand/useTokenStore";
+import { getAccessTokenWithReissue } from "../zustand/useAuthStore";
 
 import { ChatMessage, ConnectionStatus } from "@/types/chat";
 

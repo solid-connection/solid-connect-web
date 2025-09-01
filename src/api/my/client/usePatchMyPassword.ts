@@ -3,11 +3,10 @@ import { useRouter } from "next/navigation";
 import { AxiosError } from "axios";
 
 import { axiosInstance } from "@/utils/axiosInstance";
-import { removeRefreshTokenFromLS } from "@/utils/localStorageUtils";
 
 import { QueryKeys } from "./queryKey";
 
-import { clearAccessToken } from "@/lib/zustand/useTokenStore";
+import useAuthStore from "@/lib/zustand/useAuthStore";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export interface UseMyMentorProfileRequest {
@@ -29,8 +28,7 @@ const usePatchMyPassword = () => {
     mutationKey: [QueryKeys.myInfo, "password", "patch"],
     mutationFn: patchMyPassword,
     onSuccess: () => {
-      clearAccessToken();
-      removeRefreshTokenFromLS();
+      useAuthStore.getState().clearAuth();
       queryClient.clear();
       alert("프로필이 성공적으로 수정되었습니다.");
       router.replace("/");

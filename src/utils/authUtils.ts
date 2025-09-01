@@ -1,17 +1,13 @@
 import { isTokenExpired } from "./jwtUtils";
-import { loadAccessToken, loadRefreshToken } from "./localStorage";
 
 import { appleOAuth2CodeResponse } from "@/types/auth";
 
+import useAuthStore from "@/lib/zustand/useAuthStore";
+
 export const isAuthenticated = () => {
-  const accessToken = loadAccessToken();
-  const refreshToken = loadRefreshToken();
+  const accessToken = useAuthStore.getState().accessToken;
 
   if (accessToken && !isTokenExpired(accessToken)) {
-    return true;
-  }
-
-  if (refreshToken && !isTokenExpired(refreshToken)) {
     return true;
   }
 
@@ -61,4 +57,8 @@ export const appleLogin = async () => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const isCookieLoginEnabled = (): boolean => {
+  return process.env.NEXT_PUBLIC_COOKIE_LOGIN_ENABLED === "true";
 };

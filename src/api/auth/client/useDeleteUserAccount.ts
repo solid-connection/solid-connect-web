@@ -3,15 +3,16 @@ import { useRouter } from "next/navigation";
 import { AxiosResponse } from "axios";
 
 import { axiosInstance } from "@/utils/axiosInstance";
-import { removeRefreshTokenFromLS } from "@/utils/localStorageUtils";
+import { removeAccessTokenToLS } from "@/utils/localStorageUtils";
 
-import { clearAccessToken } from "@/lib/zustand/useTokenStore";
+import useAuthStore from "@/lib/zustand/useAuthStore";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const deleteUserAccount = (): Promise<AxiosResponse<null>> => axiosInstance.delete("/auth/quit");
 
 const useDeleteUserAccount = () => {
   const router = useRouter();
+  const { clearAuth } = useAuthStore();
   const queryClient = useQueryClient(); // 쿼리 캐시 관리를 위해 클라이언트 인스턴스를 가져옵니다.
 
   return useMutation({
@@ -21,8 +22,8 @@ const useDeleteUserAccount = () => {
       router.replace("/");
     },
     onSuccess: () => {
-      clearAccessToken();
-      removeRefreshTokenFromLS();
+      clearAuth();
+      removeAccessTokenToLS();
       queryClient.clear();
     },
     onError: (error) => {

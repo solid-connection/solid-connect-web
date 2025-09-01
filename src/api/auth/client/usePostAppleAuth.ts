@@ -2,11 +2,11 @@ import { useRouter } from "next/navigation";
 
 import { AxiosResponse } from "axios";
 
+import { isCookieLoginEnabled } from "@/utils/authUtils";
 import { publicAxiosInstance } from "@/utils/axiosInstance";
-import { isCookieLoginEnabled } from "@/utils/localStorage";
-import { saveRefreshTokenToLS } from "@/utils/localStorageUtils";
+import { saveAccessTokenToLS } from "@/utils/localStorageUtils";
 
-import { setAccessToken } from "@/lib/zustand/useTokenStore";
+import useAuthStore from "@/lib/zustand/useAuthStore";
 import { useMutation } from "@tanstack/react-query";
 
 // Apple
@@ -43,11 +43,11 @@ const usePostAppleAuth = () => {
 
       if (data.isRegistered) {
         // 기존 회원일 시 - 토큰 저장하고 홈으로 이동
-        setAccessToken(data.accessToken);
+        useAuthStore.getState().setToken(data.accessToken);
 
         // 로컬스토리지 모드일 때만 리프레시 토큰을 로컬스토리지에 저장
         if (!isCookieLoginEnabled() && data.refreshToken) {
-          saveRefreshTokenToLS(data.refreshToken);
+          saveAccessTokenToLS(data.refreshToken);
         }
 
         router.push("/");

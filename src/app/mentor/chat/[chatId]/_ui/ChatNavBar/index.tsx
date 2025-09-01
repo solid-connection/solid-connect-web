@@ -5,7 +5,7 @@ import { useState } from "react";
 
 import clsx from "clsx";
 
-import { getUserRoleFromJwt } from "@/utils/jwtUtils";
+import { tokenParse } from "@/utils/jwtUtils";
 
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
@@ -14,6 +14,7 @@ import ReportPanel from "../../../../../../components/ui/ReportPanel";
 
 import { UserRole } from "@/types/mentor";
 
+import useAuthStore from "@/lib/zustand/useAuthStore";
 import { IconAlert, IconAlertSubC, IconDirectionRight, IconSetting } from "@/public/svgs/mentor";
 
 interface ChatNavBarProps {
@@ -22,7 +23,8 @@ interface ChatNavBarProps {
 
 const ChatNavBar = ({ chatId }: ChatNavBarProps) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
-  const isMentor = getUserRoleFromJwt() === UserRole.MENTOR;
+  const result = tokenParse(useAuthStore.getState().accessToken);
+  const isMentor = result?.role === UserRole.MENTOR;
 
   const handleSettingsClick = () => {
     setIsExpanded(!isExpanded);
