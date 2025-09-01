@@ -53,6 +53,7 @@ export interface ListPost {
   updatedAt: string;
   postCategory: string;
   url: string | null;
+  postThumbnailUrl: string | null;
 }
 
 export interface PostCreateRequest {

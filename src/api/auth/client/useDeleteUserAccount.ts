@@ -2,6 +2,7 @@ import { useRouter } from "next/navigation";
 
 import { AxiosResponse } from "axios";
 
+import { removeIsPrevLoginCookie } from "@/utils/authCookieUtils";
 import { axiosInstance } from "@/utils/axiosInstance";
 import { removeAccessTokenToLS } from "@/utils/localStorageUtils";
 
@@ -23,6 +24,7 @@ const useDeleteUserAccount = () => {
     },
     onSuccess: () => {
       clearAccessToken();
+      removeIsPrevLoginCookie(); // isPrevLogin 쿠키 제거
       removeAccessTokenToLS();
       queryClient.clear();
     },

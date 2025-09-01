@@ -1,8 +1,10 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 
 import { convertISODateToDate } from "@/utils/datetimeUtils";
+import { convertUploadedImageUrl } from "@/utils/fileUtils";
 
 import { ListPost } from "@/types/community";
 
@@ -55,8 +57,14 @@ export const PostCard = ({ post }: { post: ListPost }) => (
       </div>
     </div>
 
-    {/* <div className="ml-[15px] mt-[11px] h-[82px] w-[82px] select-none">
-        <Image className="rounded-md object-cover" src={null} height={82} width={82} alt="게시글 사진" />
-      </div> */}
+    <div className="ml-[15px] mt-[11px] h-[82px] w-[82px] select-none">
+      <Image
+        className="rounded-md object-cover"
+        src={convertUploadedImageUrl(post.postThumbnailUrl)}
+        height={82}
+        width={82}
+        alt="게시글 사진"
+      />
+    </div>
   </div>
 );

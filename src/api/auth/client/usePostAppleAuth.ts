@@ -2,6 +2,7 @@ import { useRouter } from "next/navigation";
 
 import { AxiosResponse } from "axios";
 
+import { getTokenExpirationSeconds, setIsPrevLoginCookie } from "@/utils/authCookieUtils";
 import { isCookieLoginEnabled } from "@/utils/authUtils";
 import { publicAxiosInstance } from "@/utils/axiosInstance";
 import { saveAccessTokenToLS } from "@/utils/localStorageUtils";
@@ -45,6 +46,15 @@ const usePostAppleAuth = () => {
         // 기존 회원일 시 - 토큰 저장하고 홈으로 이동
         useAuthStore.getState().setAccessToken(data.accessToken);
 
+        // isPrevLogin 쿠키 설정 (성능 최적화를 위해)
+        const expirationSeconds = getTokenExpirationSeconds(data.accessToken);
+        if (expirationSeconds && expirationSeconds > 0) {
+          setIsPrevLoginCookie(expirationSeconds);
+        } else {
+          // 토큰 파싱에 실패한 경우 기본값으로 1시간 설정
+          setIsPrevLoginCookie(3600); // 1 hour
+        }
+
         // 로컬스토리지 모드일 때만 리프레시 토큰을 로컬스토리지에 저장
         if (!isCookieLoginEnabled() && data.refreshToken) {
           saveAccessTokenToLS(data.refreshToken);
@@ -56,7 +66,7 @@ const usePostAppleAuth = () => {
         router.push(`/sign-up?token=${data.signUpToken}`);
       }
     },
-    onError: (error) => {
+    onError: () => {
       alert("애플 로그인 중 오류가 발생했습니다. 다시 시도해주세요.");
       router.push("/login");
     },

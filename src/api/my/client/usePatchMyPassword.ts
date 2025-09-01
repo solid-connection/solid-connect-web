@@ -23,12 +23,13 @@ const patchMyPassword = async (data: UseMyMentorProfileRequest): Promise<void> =
 const usePatchMyPassword = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
+  const { clearAccessToken } = useAuthStore();
 
   return useMutation<void, AxiosError<{ message: string }>, UseMyMentorProfileRequest>({
     mutationKey: [QueryKeys.myInfo, "password", "patch"],
     mutationFn: patchMyPassword,
     onSuccess: () => {
-      useAuthStore.getState().clearAuth();
+      clearAccessToken();
       queryClient.clear();
       alert("프로필이 성공적으로 수정되었습니다.");
       router.replace("/");
