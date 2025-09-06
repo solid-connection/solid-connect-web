@@ -59,7 +59,7 @@ const UniversityCard = ({ university, showCapacity = true }: UniversityCardProps
               {university.languageRequirements.slice(0, 3).map((requirement) => (
                 <span
                   key={requirement.languageTestType}
-                  className="whitespace-nowrap text-xs font-medium leading-normal text-k-500"
+                  className="whitespace-nowrap text-xs font-semibold leading-normal text-primary"
                 >
                   {shortenLanguageTestName(requirement.languageTestType)} {requirement.minScore}
                 </span>

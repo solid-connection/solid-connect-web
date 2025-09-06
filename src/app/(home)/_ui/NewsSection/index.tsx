@@ -7,7 +7,8 @@ import useSectionHandler from "./_hooks/useSectionHadnler";
 
 import { News } from "@/types/news";
 
-import { IconSpeaker } from "@/public/svgs";
+import { IconLoveLetter } from "@/public/svgs/home";
+import { IconDirectionRight } from "@/public/svgs/mentor";
 
 export type NewsSectionProps = {
   newsList: News[];
@@ -20,7 +21,13 @@ const NewsSection = ({ newsList }: NewsSectionProps) => {
     <div ref={sectionRef} className="mt-6 pl-5">
       <div className="mb-2.5 flex items-center gap-1.5 font-serif text-base font-semibold text-k-700">
         솔커에서 맛보는 소식
-        <IconSpeaker />
+        <IconLoveLetter />
+        {/* <Link href="/news" className="ml-auto text-sm font-normal text-k-500">
+          더보기
+          <span className="ml-1 inline-block">
+            <IconDirectionRight />
+          </span>
+        </Link> */}
       </div>
       {!visible ? (
         <div className="flex flex-col gap-4">
