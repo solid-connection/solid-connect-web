@@ -3,6 +3,7 @@
 import React, { useEffect } from "react";
 
 import { hasIsPrevLoginCookie } from "@/utils/authCookieUtils";
+import { isCookieLoginEnabled } from "@/utils/authUtils";
 
 import postReissueToken from "@/api/auth/server/postReissueToken";
 import useAuthStore from "@/lib/zustand/useAuthStore";
@@ -15,6 +16,9 @@ const ReissueProvider: React.FC<ReissueProviderProps> = ({ children }) => {
   const { isInitialized, setLoading, clearAccessToken } = useAuthStore();
 
   useEffect(() => {
+    if (!isCookieLoginEnabled()) {
+      return;
+    }
     let isMounted = true;
 
     const initializeAuth = async () => {

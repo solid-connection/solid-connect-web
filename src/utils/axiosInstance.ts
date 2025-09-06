@@ -1,8 +1,5 @@
 import axios, { AxiosError, AxiosInstance } from "axios";
 
-import { isCookieLoginEnabled } from "./authUtils";
-import { getAccessTokenFromLS } from "./localStorageUtils";
-
 import useAuthStore from "@/lib/zustand/useAuthStore";
 
 // --- 커스텀 에러 클래스 ---
@@ -48,19 +45,10 @@ export const axiosInstance: AxiosInstance = axios.create({
 //    역할: API 요청을 보내기 직전, Zustand 스토어에 있는 액세스 토큰을 헤더에 추가.
 axiosInstance.interceptors.request.use(
   (config) => {
-    let accessToken;
-
-    // 쿠키 모드인 경우 로컬스토리지에서, 아니면 Zustand 스토어에서 토큰 가져오기
-    if (isCookieLoginEnabled()) {
-      accessToken = getAccessTokenFromLS();
-    } else {
-      accessToken = useAuthStore.getState().accessToken;
-    }
-
-    const isInitialized = useAuthStore.getState().isInitialized;
+    const { accessToken, isInitialized } = useAuthStore.getState();
 
     if (accessToken) {
-      config.headers.Authorization = convertToBearer(accessToken as string);
+      config.headers.Authorization = convertToBearer(accessToken);
       return config;
     } else if (isInitialized) {
       // ReissueProvider가 초기화를 완료했는데도 토큰이 없다면 로그인이 필요

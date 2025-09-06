@@ -3,6 +3,8 @@ import { AxiosResponse } from "axios";
 import { axiosInstance } from "@/utils/axiosInstance";
 import { createMutationErrorHandler } from "@/utils/errorHandler";
 
+import { QueryKeys } from "./queryKey";
+
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 /**
@@ -38,9 +40,7 @@ const usePostUniversityFavorite = () => {
     // mutation 성공 시 실행될 콜백
     onSuccess: () => {
       // 위시리스트 관련 쿼리를 무효화하여 데이터를 다시 불러옵니다.
-      // ['favorites'], ['univ-apply-infos', 'like'] 등 구체적인 키를 사용하세요.
-      queryClient.invalidateQueries({ queryKey: ["favorites"] });
-      alert("위시리스트에 학교를 추가했습니다.");
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.univApplyInfosLike] });
     },
 
     // mutation 실패 시 실행될 콜백
