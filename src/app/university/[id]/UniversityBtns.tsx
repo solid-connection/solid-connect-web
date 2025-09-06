@@ -45,9 +45,9 @@ const UniversityBtns = ({ universityId }: UniversityBtnsProps) => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
   const [isLiked, setIsLiked] = useState(false);
+  const { data: favoriteUniv } = useGetMyWishUniversity(isAuthenticated);
   const { mutate: postUniversityFavorite } = usePostUniversityFavorite();
   const { mutate: deleteUniversityFavorite } = useDeleteUniversityFavorite();
-  const { data: favoriteUniv } = useGetMyWishUniversity(isAuthenticated);
 
   useEffect(() => {
     favoriteUniv?.forEach((univ) => {
@@ -64,8 +64,8 @@ const UniversityBtns = ({ universityId }: UniversityBtnsProps) => {
   }, [isAuthenticated]);
 
   const handleCopy = () => {
-    alert("URL이 복사되었습니다.");
     navigator.clipboard.writeText(window.location.href).then(() => {});
+    alert("URL이 복사되었습니다.");
   };
   return (
     <>
