@@ -78,7 +78,7 @@ const InfoSection = ({
             <div className="flex items-center justify-between rounded-sm">
               <div className="flex items-center gap-2.5">
                 <DetailsForApplyIcon />
-                <span className="text-base font-semibold text-k-900">기숙사</span>
+                <span className="text-base font-semibold text-k-900">자격요건</span>
               </div>
               <div className="flex h-7 w-[50px] items-center justify-center rounded-full bg-k-50">
                 <UnFoldIcon />
@@ -123,7 +123,7 @@ const InfoSection = ({
             <div className="flex items-center justify-between rounded-sm">
               <div className="flex items-center gap-2.5">
                 <DetailsForAccommodationIcon />
-                <span className="text-base font-semibold text-k-900">자격요건</span>
+                <span className="text-base font-semibold text-k-900">기숙사</span>
               </div>
               <div className="flex h-7 w-[50px] items-center justify-center rounded-full bg-k-50">
                 <UnFoldIcon />
