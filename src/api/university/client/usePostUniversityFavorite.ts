@@ -1,6 +1,7 @@
 import { AxiosResponse } from "axios";
 
 import { axiosInstance } from "@/utils/axiosInstance";
+import { createMutationErrorHandler } from "@/utils/errorHandler";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -43,11 +44,7 @@ const usePostUniversityFavorite = () => {
     },
 
     // mutation 실패 시 실행될 콜백
-    onError: (error) => {
-      const errorMessage = (error as any)?.response?.data?.message || "요청에 실패했습니다.";
-      console.error("위시리스트 추가 실패:", errorMessage);
-      alert(errorMessage || "요청에 실패했습니다. 잠시 후 다시 시도해주세요.");
-    },
+    onError: createMutationErrorHandler("위시리스트 추가에 실패했습니다."),
   });
 };
 

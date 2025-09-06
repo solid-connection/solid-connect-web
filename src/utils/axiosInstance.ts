@@ -5,6 +5,14 @@ import { getAccessTokenFromLS } from "./localStorageUtils";
 
 import useAuthStore from "@/lib/zustand/useAuthStore";
 
+// --- 커스텀 에러 클래스 ---
+export class AuthenticationRequiredError extends Error {
+  constructor(message: string = "Authentication required") {
+    super(message);
+    this.name = "AuthenticationRequiredError";
+  }
+}
+
 // --- 상태 관리 변수 ---
 let isRedirecting = false;
 
@@ -41,13 +49,26 @@ export const axiosInstance: AxiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config) => {
     let accessToken;
+
+    // 쿠키 모드인 경우 로컬스토리지에서, 아니면 Zustand 스토어에서 토큰 가져오기
     if (isCookieLoginEnabled()) {
       accessToken = getAccessTokenFromLS();
+    } else {
+      accessToken = useAuthStore.getState().accessToken;
     }
-    accessToken = useAuthStore.getState().accessToken;
+
+    const isInitialized = useAuthStore.getState().isInitialized;
+
     if (accessToken) {
-      config.headers.Authorization = convertToBearer(accessToken);
+      config.headers.Authorization = convertToBearer(accessToken as string);
+      return config;
+    } else if (isInitialized) {
+      // ReissueProvider가 초기화를 완료했는데도 토큰이 없다면 로그인이 필요
+      redirectToLogin("로그인이 필요합니다. 다시 로그인해주세요.");
+      return Promise.reject(new AuthenticationRequiredError());
     }
+    // isInitialized가 false인 경우는 아직 초기화 중이므로 토큰 없이도 요청 진행
+
     return config;
   },
   (error) => Promise.reject(error),
