@@ -68,7 +68,9 @@ export const PostCard = ({ post }: { post: ListPost }) => (
           alt="게시글 사진"
         />
       ) : (
-        <IconSolidConnentionLogo />
+        <div className="bg-gray-c-50 flex h-20 w-20 items-center justify-center rounded border border-k-100">
+          <IconSolidConnentionLogo />
+        </div>
       )}
     </div>
   </div>
