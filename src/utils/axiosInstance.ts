@@ -60,7 +60,6 @@ axiosInstance.interceptors.request.use(
 
     console.log("accessToken", accessToken);
     console.log("isInitialized", isInitialized);
-    console.log("config", config);
     // 토큰이 없고 아직 초기화되지 않은 경우 reissue 시도
     if (!isInitialized) {
       try {
