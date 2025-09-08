@@ -4,7 +4,6 @@ import dynamic from "next/dynamic";
 import localFont from "next/font/local";
 
 import GlobalLayout from "@/components/layout/GlobalLayout";
-import ReissueProvider from "@/components/layout/ReissueProvider";
 
 import { AlertProvider } from "@/context/AlertContext";
 import QueryProvider from "@/lib/react-query/QueryProvider";
@@ -105,9 +104,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => (
         <AppleScriptLoader />
         <GoogleAnalytics gaId="G-V1KLYZC1DS" />
         <QueryProvider>
-          <ReissueProvider>
-            <GlobalLayout>{children}</GlobalLayout>
-          </ReissueProvider>
+          <GlobalLayout>{children}</GlobalLayout>
         </QueryProvider>
       </body>
     </html>

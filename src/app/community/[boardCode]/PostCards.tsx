@@ -10,6 +10,7 @@ import { ListPost } from "@/types/community";
 
 import { IconPostLikeOutline } from "@/public/svgs";
 import { IconCommunication } from "@/public/svgs/community";
+import { IconSolidConnentionLogo } from "@/public/svgs/mentor";
 
 type PostCardsProps = {
   posts: ListPost[];
@@ -57,14 +58,18 @@ export const PostCard = ({ post }: { post: ListPost }) => (
       </div>
     </div>
 
-    <div className="ml-[15px] mt-[11px] h-[82px] w-[82px] select-none">
-      <Image
-        className="rounded-md object-cover"
-        src={convertUploadedImageUrl(post.postThumbnailUrl)}
-        height={82}
-        width={82}
-        alt="게시글 사진"
-      />
+    <div className="ml-4 mt-3 h-20 w-20 select-none">
+      {post.postThumbnailUrl ? (
+        <Image
+          className="rounded-md object-cover"
+          src={convertUploadedImageUrl(post.postThumbnailUrl)}
+          height={82}
+          width={82}
+          alt="게시글 사진"
+        />
+      ) : (
+        <IconSolidConnentionLogo />
+      )}
     </div>
   </div>
 );

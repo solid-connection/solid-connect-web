@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import ButtonTab from "@/components/ui/ButtonTab";
-import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 
 import CommunityRegionSelector from "./CommunityRegionSelector";
 import PostCards from "./PostCards";
@@ -20,7 +19,7 @@ interface CommunityPageContentProps {
 
 const CommunityPageContent = ({ boardCode }: CommunityPageContentProps) => {
   const router = useRouter();
-  const [category, setCategory] = useState<string>("전체");
+  const [category, setCategory] = useState<string | null>("전체");
 
   const { data: posts = [] } = useGetPostList({ boardCode });
 
