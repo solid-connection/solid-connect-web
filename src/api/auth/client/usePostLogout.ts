@@ -2,16 +2,19 @@ import { useRouter } from "next/navigation";
 
 import { AxiosResponse } from "axios";
 
+import { removeIsPrevLoginCookie } from "@/utils/authCookieUtils";
+import { isCookieLoginEnabled } from "@/utils/authUtils";
 import { axiosInstance } from "@/utils/axiosInstance";
-import { removeRefreshTokenFromLS } from "@/utils/localStorageUtils";
+import { removeAccessTokenToLS } from "@/utils/localStorageUtils";
 
-import { clearAccessToken } from "@/lib/zustand/useTokenStore";
+import useAuthStore from "@/lib/zustand/useAuthStore";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const postLogout = (): Promise<AxiosResponse<null>> => axiosInstance.post("/auth/sign-out");
 
 const usePostLogout = () => {
   const router = useRouter();
+  const { clearAccessToken } = useAuthStore();
   const queryClient = useQueryClient(); // 쿼리 캐시 관리를 위해 클라이언트 인스턴스를 가져옵니다.
 
   return useMutation({
@@ -22,7 +25,8 @@ const usePostLogout = () => {
     },
     onSuccess: () => {
       clearAccessToken();
-      removeRefreshTokenFromLS();
+      removeIsPrevLoginCookie(); // isPrevLogin 쿠키 제거
+      removeAccessTokenToLS();
       queryClient.clear();
     },
     onError: (error) => {

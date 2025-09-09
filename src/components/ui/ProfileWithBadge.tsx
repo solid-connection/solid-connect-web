@@ -34,6 +34,7 @@ const ProfileWithBadge = ({
       >
         {profileImageUrl ? (
           <Image
+            unoptimized
             src={convertUploadedImageUrl(profileImageUrl)}
             alt="프로필 이미지"
             width={width}

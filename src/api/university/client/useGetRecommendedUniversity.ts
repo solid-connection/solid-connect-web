@@ -4,7 +4,7 @@ import { QueryKeys } from "./queryKey";
 
 import { ListUniversity } from "@/types/university";
 
-import { getAccessTokenWithReissue } from "@/lib/zustand/useTokenStore";
+import { getAccessTokenWithReissue } from "@/lib/zustand/useAuthStore";
 import { useQuery } from "@tanstack/react-query";
 
 type UseGetRecommendedUniversityResponse = { recommendedUniversities: ListUniversity[] };

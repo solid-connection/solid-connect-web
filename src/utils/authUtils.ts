@@ -1,22 +1,4 @@
-import { isTokenExpired } from "./jwtUtils";
-import { loadAccessToken, loadRefreshToken } from "./localStorage";
-
 import { appleOAuth2CodeResponse } from "@/types/auth";
-
-export const isAuthenticated = () => {
-  const accessToken = loadAccessToken();
-  const refreshToken = loadRefreshToken();
-
-  if (accessToken && !isTokenExpired(accessToken)) {
-    return true;
-  }
-
-  if (refreshToken && !isTokenExpired(refreshToken)) {
-    return true;
-  }
-
-  return false;
-};
 
 export const authProviderName = (provider: "KAKAO" | "APPLE" | "EMAIL"): string => {
   if (provider === "KAKAO") {
@@ -61,4 +43,8 @@ export const appleLogin = async () => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const isCookieLoginEnabled = (): boolean => {
+  return process.env.NEXT_PUBLIC_COOKIE_LOGIN_ENABLED === "true";
 };

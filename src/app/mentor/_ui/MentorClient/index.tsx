@@ -1,15 +1,20 @@
 "use client";
 
+import { tokenParse } from "@/utils/jwtUtils";
+
 import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 
 import MenteePageTabs from "./_ui/MenteePageTabs";
 import MentorFindSection from "./_ui/MentorFindSection";
 import MentorPage from "./_ui/MentorPage";
 
-import useJWTParseRouteHandler from "@/lib/hooks/useJWTParseRouteHandler";
+import { UserRole } from "@/types/mentor";
+
+import useAuthStore from "@/lib/zustand/useAuthStore";
 
 const MentorClient = () => {
-  const { isLoading, isMentor } = useJWTParseRouteHandler();
+  const { isLoading, accessToken } = useAuthStore();
+  const isMentor = tokenParse(accessToken)?.role === UserRole.MENTOR;
 
   if (isLoading) return <CloudSpinnerPage />; // 로딩 중일 때 스피너 표시
   return (

@@ -10,6 +10,8 @@ import useRegionHandler from "./_hooks/useRegionHandler";
 
 import { AllRegionsUniversityList, ListUniversity, RegionEnumExtend } from "@/types/university";
 
+import { IconDirectionRight } from "@/public/svgs/mentor";
+
 interface UniversityListProps {
   allRegionsUniversityList: AllRegionsUniversityList;
 }
@@ -29,8 +31,9 @@ const UniversityList = ({ allRegionsUniversityList }: UniversityListProps) => {
       <div className="flex justify-between">
         <span className="text-lg font-semibold leading-snug text-k-700">전체 학교 리스트</span>
         <Link href="/university">
-          <span className="text-xs font-semibold leading-snug text-k-500 underline decoration-solid decoration-auto underline-offset-auto">
+          <span className="flex items-center gap-1 text-sm font-semibold text-k-500">
             더보기
+            <IconDirectionRight className="h-4 w-4" />
           </span>
         </Link>
       </div>
@@ -39,9 +42,9 @@ const UniversityList = ({ allRegionsUniversityList }: UniversityListProps) => {
         choice={region}
         setChoice={handleRegionChange}
         color={{
-          activeBtn: "bg-secondary-100",
+          activeBtn: "bg-primary-100",
           deactiveBtn: "bg-k-50",
-          activeBtnFont: "text-secondary",
+          activeBtnFont: "text-primary",
           deactiveBtnFont: "text-k-300",
           background: "white",
         }}

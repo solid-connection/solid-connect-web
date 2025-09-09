@@ -5,7 +5,8 @@ import React from "react";
 
 import clsx from "clsx";
 
-import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
+import { tokenParse } from "@/utils/jwtUtils";
+
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
 
 import useChatListHandler from "./_hooks/useChatListHandler";
@@ -15,16 +16,21 @@ import ChatInputBar from "./_ui/ChatInputBar";
 import ChatMessageBox from "./_ui/ChatMessageBox";
 
 import { ConnectionStatus } from "@/types/chat";
+import { UserRole } from "@/types/mentor";
 
 import useGetPartnerInfo from "@/api/chat/clients/useGetPartnerInfo";
-import useJWTParseRouteHandler from "@/lib/hooks/useJWTParseRouteHandler";
+import useAuthStore from "@/lib/zustand/useAuthStore";
 
 interface ChatContentProps {
   chatId: number;
 }
 
 const ChatContent = ({ chatId }: ChatContentProps) => {
-  const { isMentor, userId } = useJWTParseRouteHandler();
+  const { accessToken } = useAuthStore();
+  const parsedData = tokenParse(accessToken);
+  const userId = parsedData?.sub ?? 0;
+  const isMentor = parsedData?.role === UserRole.MENTOR;
+
   // 채팅 읽음 상태 업데이트 훅 진입시 자동으로
   usePutChatReadHandler(chatId);
 

@@ -3,7 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { saveAccessToken, saveRefreshToken } from "@/utils/localStorage";
+import { getTokenExpirationSeconds, setIsPrevLoginCookie } from "@/utils/authCookieUtils";
 
 import { Progress } from "@/components/ui/Progress";
 
@@ -17,6 +17,7 @@ import { RegionKo } from "@/types/university";
 
 import { signUpApi } from "@/api/auth";
 import { uploadProfileImageFilePublicApi } from "@/api/file";
+import useAuthStore from "@/lib/zustand/useAuthStore";
 
 type SignupSurveyProps = {
   baseNickname: string;
@@ -32,7 +33,7 @@ const SignupSurvey = ({ baseNickname, baseEmail, baseProfileImageUrl }: SignupSu
   if (!signUpToken) {
     router.push("/login");
   }
-
+  const { setAccessToken } = useAuthStore();
   const [curStage, setCurStage] = useState<number>(1);
   const [curProgress, setCurProgress] = useState<number>(0);
 
@@ -68,7 +69,7 @@ const SignupSurvey = ({ baseNickname, baseEmail, baseProfileImageUrl }: SignupSu
     }
 
     return {
-      signUpToken: signUpToken,
+      signUpToken: signUpToken as string,
       interestedRegions: submitRegion,
       interestedCountries: countries,
       preparationStatus: curPreparation,
@@ -81,8 +82,16 @@ const SignupSurvey = ({ baseNickname, baseEmail, baseProfileImageUrl }: SignupSu
     try {
       const registerRequest = await createRegisterRequest();
       const res = await signUpApi(registerRequest);
-      saveAccessToken(res.data.accessToken);
-      saveRefreshToken(res.data.refreshToken);
+      setAccessToken(res.data.accessToken);
+
+      // isPrevLogin 쿠키 설정 (성능 최적화를 위해)
+      const expirationSeconds = getTokenExpirationSeconds(res.data.accessToken);
+      if (expirationSeconds && expirationSeconds > 0) {
+        setIsPrevLoginCookie(expirationSeconds);
+      } else {
+        // 토큰 파싱에 실패한 경우 기본값으로 1시간 설정
+        setIsPrevLoginCookie(3600); // 1 hour
+      }
 
       alert("회원가입이 완료되었습니다.");
       router.push("/");

@@ -49,8 +49,6 @@ const CommentSection = ({ comments, postId, refresh }: CommentSectionProps) => {
       });
   };
 
-  console.log("comments", comments);
-
   return (
     <div className="min-h-[50vh] pb-[49px]">
       {comments?.map((comment) => (

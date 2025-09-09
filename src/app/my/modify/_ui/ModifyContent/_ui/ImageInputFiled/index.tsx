@@ -22,6 +22,7 @@ const ImageInputFiled = ({ initImagePreview }: ImageInputFiledProps) => {
         >
           {imagePreviewUrl ? (
             <Image
+              unoptimized
               width={96}
               height={96}
               src={imagePreviewUrl}

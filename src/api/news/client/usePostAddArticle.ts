@@ -1,7 +1,6 @@
 import { AxiosError, AxiosResponse } from "axios";
 
 import { axiosInstance } from "@/utils/axiosInstance";
-import { convertUploadedImageUrl } from "@/utils/fileUtils";
 
 import { ArticleFormData } from "@/components/mentor/ArticleBottomSheetModal/lib/schema";
 

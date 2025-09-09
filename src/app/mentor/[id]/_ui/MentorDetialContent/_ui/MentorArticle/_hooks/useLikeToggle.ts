@@ -16,7 +16,6 @@ const useLikeToggle = (articleId: number, mentorId: number, articleIsLiked?: boo
     }
   };
   useEffect(() => {
-    console.log("articleIsLiked", articleIsLiked);
     if (articleIsLiked !== undefined) {
       setIsLiked(articleIsLiked);
     }
