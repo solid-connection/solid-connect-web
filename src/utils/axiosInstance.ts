@@ -6,6 +6,9 @@ import { isCookieLoginEnabled } from "@/utils/authUtils";
 import postReissueToken from "@/api/auth/server/postReissueToken";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 
+// --- 글로벌 변수 ---
+let reissuePromise: Promise<void> | null = null;
+
 // --- 커스텀 에러 클래스 ---
 export class AuthenticationRequiredError extends Error {
   constructor(message: string = "Authentication required") {
@@ -63,29 +66,46 @@ axiosInstance.interceptors.request.use(
     // 토큰이 없고 아직 초기화되지 않은 경우 reissue 시도
     if (!isInitialized) {
       try {
-        setLoading(true);
-
-        // 쿠키 로그인이 활성화되고 isPrevLogin 쿠키가 있는 경우에만 reissue 시도
-        if (isCookieLoginEnabled() && hasIsPrevLoginCookie()) {
-          console.log("Attempting token reissue...");
-          await postReissueToken();
-          console.log("Token reissue successful");
-
-          // reissue 성공 후 새로운 토큰으로 헤더 설정
-          const newAccessToken = useAuthStore.getState().accessToken;
-          if (newAccessToken) {
-            config.headers.Authorization = convertToBearer(newAccessToken);
-          }
+        // 이미 reissue가 진행 중인지 확인
+        if (reissuePromise) {
+          console.log("Reissue already in progress, waiting...");
+          await reissuePromise;
         } else {
-          console.log("No previous login found or cookie login disabled");
-          clearAccessToken();
+          console.log("Starting new reissue process...");
+          // 새로운 reissue 프로세스 시작
+          reissuePromise = (async () => {
+            setLoading(true);
+            try {
+              // 쿠키 로그인이 활성화되고 isPrevLogin 쿠키가 있는 경우에만 reissue 시도
+              if (isCookieLoginEnabled() && hasIsPrevLoginCookie()) {
+                console.log("Attempting token reissue...");
+                await postReissueToken();
+                console.log("Token reissue successful");
+              } else {
+                console.log("No previous login found or cookie login disabled");
+                clearAccessToken();
+              }
+            } catch (error) {
+              console.log("Token reissue failed:", error);
+              clearAccessToken();
+            } finally {
+              setLoading(false);
+              setInitialized(true);
+              reissuePromise = null;
+            }
+          })();
+
+          await reissuePromise;
+        }
+
+        // reissue 완료 후 업데이트된 토큰으로 헤더 설정
+        const updatedAccessToken = useAuthStore.getState().accessToken;
+        if (updatedAccessToken) {
+          config.headers.Authorization = convertToBearer(updatedAccessToken);
         }
       } catch (error) {
-        console.log("Token reissue failed:", error);
-        clearAccessToken();
-      } finally {
-        setLoading(false);
-        setInitialized(true);
+        console.log("Reissue process error:", error);
+        // 에러 발생 시에도 상태 정리는 promise 내부의 finally에서 처리됨
       }
 
       // reissue 후 토큰이 있으면 헤더에 추가

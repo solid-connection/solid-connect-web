@@ -20,7 +20,7 @@ const getPostList = (boardCode: string, category: string | null = null): Promise
     },
   });
 
-const useGetPostList = ({ boardCode, category = "전체" }: UseGetPostListProps) => {
+const useGetPostList = ({ boardCode, category = null }: UseGetPostListProps) => {
   return useQuery({
     queryKey: [QueryKeys.myInfo],
     queryFn: () => getPostList(boardCode, category),

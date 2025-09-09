@@ -26,9 +26,7 @@ const usePostLogout = () => {
     onSuccess: () => {
       clearAccessToken();
       removeIsPrevLoginCookie(); // isPrevLogin 쿠키 제거
-      if (isCookieLoginEnabled()) {
-        removeAccessTokenToLS();
-      }
+      removeAccessTokenToLS();
       queryClient.clear();
     },
     onError: (error) => {

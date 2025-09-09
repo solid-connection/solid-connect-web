@@ -57,8 +57,8 @@ const usePostKakaoAuth = () => {
         }
 
         // 로컬스토리지 모드일 때만 리프레시 토큰을 로컬스토리지에 저장
-        if (!isCookieLoginEnabled() && data.refreshToken) {
-          saveAccessTokenToLS(data.refreshToken);
+        if (!isCookieLoginEnabled() && data.accessToken) {
+          saveAccessTokenToLS(data.accessToken);
         }
 
         router.push("/");
