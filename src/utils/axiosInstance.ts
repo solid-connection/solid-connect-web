@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosInstance } from "axios";
 
-import { hasIsPrevLoginCookie } from "@/utils/authCookieUtils";
+import { hasIsPrevLoginCookie, removeIsPrevLoginCookie } from "@/utils/authCookieUtils";
 import { isCookieLoginEnabled } from "@/utils/authUtils";
 
 import postReissueToken from "@/api/auth/server/postReissueToken";
@@ -24,8 +24,13 @@ let isRedirecting = false;
 const redirectToLogin = (message: string) => {
   if (typeof window !== "undefined" && !isRedirecting) {
     isRedirecting = true;
-    // Zustand 스토어의 상태를 초기화
+    // Zustand 스토어 및 쿠키 상태 초기화
     useAuthStore.getState().clearAccessToken();
+    try {
+      // 쿠키 유틸이 클라이언트에서만 동작하므로 window 가드 내에서 호출
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+      removeIsPrevLoginCookie && removeIsPrevLoginCookie();
+    } catch {}
     alert(message);
     window.location.href = "/login";
   }
@@ -78,7 +83,7 @@ axiosInstance.interceptors.request.use(
               } else {
                 clearAccessToken();
               }
-            } catch (error) {
+            } catch {
               clearAccessToken();
             } finally {
               setLoading(false);
@@ -95,7 +100,7 @@ axiosInstance.interceptors.request.use(
         if (updatedAccessToken) {
           config.headers.Authorization = convertToBearer(updatedAccessToken);
         }
-      } catch (error) {
+      } catch {
         // 에러 발생 시에도 상태 정리는 promise 내부의 finally에서 처리됨
       }
 
