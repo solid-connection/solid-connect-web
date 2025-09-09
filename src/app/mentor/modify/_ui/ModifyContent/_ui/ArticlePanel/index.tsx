@@ -17,16 +17,18 @@ import { IconPencil } from "@/public/svgs/mentor";
 
 interface ArticlePanelProps {
   article: Article;
+  userId?: number;
 }
 
 const dropdownOptions: ArticleDropdownType[] = [ArticleDropdownType.EDIT, ArticleDropdownType.DELETE];
 
-const ArticlePanel = ({ article }: ArticlePanelProps) => {
+const ArticlePanel = ({ article, userId }: ArticlePanelProps) => {
   // state
   const [isArticleModalOpen, setIsArticleModalOpen] = useState<boolean>(false);
   const { handleDropdownSelect } = useDeleteDropDownHandler({
     articleId: article.id,
     setIsArticleModalOpen,
+    userId,
   });
 
   const imageSrc = article.thumbnailUrl ? convertUploadedImageUrl(article.thumbnailUrl) : ArticleThumbPng;

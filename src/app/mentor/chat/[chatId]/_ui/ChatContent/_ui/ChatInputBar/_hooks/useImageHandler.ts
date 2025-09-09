@@ -49,7 +49,6 @@ const useImageHandler = ({ onSendImages, setIsAttachmentOptionsOpen }: UseImageH
   };
 
   const onSubmitImages = (data: ImageForm) => {
-    console.log("이미지 전송:", data);
     onSendImages(data);
     setSelectedImages([]);
     if (imageInputRef.current) imageInputRef.current.value = "";

@@ -27,7 +27,6 @@ const useMessageHandler = ({ onSendMessage }: UseMessageHandlerProps) => {
   const isMessageEmpty = !watchedMessage?.trim();
 
   const onSubmitMessage = (data: MessageForm) => {
-    console.log("텍스트 메시지 전송:", data);
     onSendMessage({
       message: data.message,
     });

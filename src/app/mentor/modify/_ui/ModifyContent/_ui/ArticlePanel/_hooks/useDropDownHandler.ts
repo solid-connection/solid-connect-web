@@ -7,6 +7,7 @@ import useDeleteArticle from "@/api/news/client/useDeleteArticle";
 interface UseDeleteDropDownHandlerProps {
   articleId: number;
   setIsArticleModalOpen: (isOpen: boolean) => void;
+  userId?: number;
 }
 interface UseDeleteDropDownHandlerReturn {
   handleDropdownSelect: (value: ArticleDropdownType) => void;
@@ -15,12 +16,12 @@ interface UseDeleteDropDownHandlerReturn {
 const useDeleteDropDownHandler = ({
   articleId,
   setIsArticleModalOpen,
+  userId,
 }: UseDeleteDropDownHandlerProps): UseDeleteDropDownHandlerReturn => {
-  const { mutate: deleteArticle } = useDeleteArticle();
+  const { mutate: deleteArticle } = useDeleteArticle(userId ?? null);
 
   const handleDropdownSelect = useCallback(
     (value: ArticleDropdownType) => {
-      console.log("handleDropdownSelect called with:", value);
       switch (value) {
         case ArticleDropdownType.EDIT:
           setIsArticleModalOpen(true);

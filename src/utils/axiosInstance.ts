@@ -61,32 +61,24 @@ axiosInstance.interceptors.request.use(
       return config;
     }
 
-    console.log("accessToken", accessToken);
-    console.log("isInitialized", isInitialized);
     // 토큰이 없고 아직 초기화되지 않은 경우 reissue 시도
     if (!isInitialized) {
       try {
         // 이미 reissue가 진행 중인지 확인
         if (reissuePromise) {
-          console.log("Reissue already in progress, waiting...");
           await reissuePromise;
         } else {
-          console.log("Starting new reissue process...");
           // 새로운 reissue 프로세스 시작
           reissuePromise = (async () => {
             setLoading(true);
             try {
               // 쿠키 로그인이 활성화되고 isPrevLogin 쿠키가 있는 경우에만 reissue 시도
               if (isCookieLoginEnabled() && hasIsPrevLoginCookie()) {
-                console.log("Attempting token reissue...");
                 await postReissueToken();
-                console.log("Token reissue successful");
               } else {
-                console.log("No previous login found or cookie login disabled");
                 clearAccessToken();
               }
             } catch (error) {
-              console.log("Token reissue failed:", error);
               clearAccessToken();
             } finally {
               setLoading(false);
@@ -104,7 +96,6 @@ axiosInstance.interceptors.request.use(
           config.headers.Authorization = convertToBearer(updatedAccessToken);
         }
       } catch (error) {
-        console.log("Reissue process error:", error);
         // 에러 발생 시에도 상태 정리는 promise 내부의 finally에서 처리됨
       }
 

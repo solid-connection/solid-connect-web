@@ -26,7 +26,6 @@ const ReissueProvider: React.FC<ReissueProviderProps> = ({ children }) => {
 
         // isPrevLogin 쿠키가 없다면 토큰 재발급 API를 호출하지 않고 바로 종료
         if (!hasIsPrevLoginCookie()) {
-          console.log("No isPrevLogin cookie found, user is not logged in");
           if (isMounted) {
             clearAccessToken();
             setLoading(false);
@@ -41,10 +40,8 @@ const ReissueProvider: React.FC<ReissueProviderProps> = ({ children }) => {
           await postReissueToken();
 
           // reissueAccessToken이 성공하면 Zustand store에 토큰이 자동으로 설정됨
-          console.log("Authentication initialized successfully");
         } catch (error) {
           // 토큰 재발급 실패 시 (로그인되지 않은 상태)
-          console.log("No valid session found, user needs to login", error);
 
           // 컴포넌트가 아직 마운트되어 있을 때만 상태 업데이트
           if (isMounted) {

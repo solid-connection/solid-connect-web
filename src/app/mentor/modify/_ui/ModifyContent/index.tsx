@@ -9,7 +9,7 @@ import MentoProfile from "@/components/ui/ProfileWithBadge";
 import useModifyHookForm from "./_hooks/useModifyHookForm";
 import usePutMyMentorProfileHandler from "./_hooks/usePutMyMentorProfileHandler";
 import AddArticleCard from "./_ui/AddArticleCard";
-import MentoArticlePanel from "./_ui/ArticlePanel";
+import ArticlePanel from "./_ui/ArticlePanel";
 import ChannelBox from "./_ui/ChannelBox";
 
 import useGetMyMentorProfile from "@/api/mentor/client/useGetMentorMyProfile";
@@ -90,7 +90,7 @@ const ModifyContent = () => {
             <h2 className="mt-10 text-lg leading-normal text-primary-1">멘토 아티클</h2>
             {articleList.map((article) => (
               <div key={article.title} className="mb-6">
-                <MentoArticlePanel article={article} />
+                <ArticlePanel userId={myMentorProfile?.id} article={article} />
               </div>
             ))}
             {/* 새 아티클 추가 버튼 */}

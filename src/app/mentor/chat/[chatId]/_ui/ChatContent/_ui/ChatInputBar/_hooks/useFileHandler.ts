@@ -49,7 +49,6 @@ const useFileHandler = ({ onSendFiles, setIsAttachmentOptionsOpen }: UseFileHand
   };
 
   const onSubmitFiles = (data: FileForm) => {
-    console.log("파일 전송:", data);
     onSendFiles(data);
     setSelectedFiles([]);
     if (fileInputRef.current) fileInputRef.current.value = "";
