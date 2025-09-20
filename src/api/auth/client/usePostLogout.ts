@@ -2,8 +2,6 @@ import { useRouter } from "next/navigation";
 
 import { AxiosResponse } from "axios";
 
-import { removeIsPrevLoginCookie } from "@/utils/authCookieUtils";
-import { isCookieLoginEnabled } from "@/utils/authUtils";
 import { axiosInstance } from "@/utils/axiosInstance";
 import { removeAccessTokenToLS } from "@/utils/localStorageUtils";
 
@@ -25,13 +23,11 @@ const usePostLogout = () => {
     },
     onSuccess: () => {
       clearAccessToken();
-      removeIsPrevLoginCookie(); // isPrevLogin 쿠키 제거
       removeAccessTokenToLS();
       queryClient.clear();
     },
     onError: (error) => {
       // 네트워크 오류 등으로 로그아웃 요청이 실패했을 경우를 대비한 처리입니다.
-      console.error("Logout failed:", error);
       alert("로그아웃에 실패했습니다. 잠시 후 다시 시도해주세요.");
     },
   });

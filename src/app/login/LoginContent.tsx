@@ -25,6 +25,7 @@ type LoginFormData = z.infer<typeof loginSchema>;
 
 const LoginContent = () => {
   const router = useRouter();
+
   const { mutate: postEmailAuth, isPending } = usePostEmailAuth();
   const { showPasswordField, handleEmailChange } = useInputHandler();
 
@@ -41,7 +42,7 @@ const LoginContent = () => {
   });
 
   const onSubmit = async (data: LoginFormData) => {
-    postEmailAuth(data);
+    postEmailAuth(data, {});
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
