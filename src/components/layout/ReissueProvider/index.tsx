@@ -2,8 +2,6 @@
 
 import React, { useEffect } from "react";
 
-import { hasIsPrevLoginCookie } from "@/utils/authCookieUtils";
-
 import postReissueToken from "@/api/auth/server/postReissueToken";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 
@@ -24,13 +22,9 @@ const ReissueProvider: React.FC<ReissueProviderProps> = ({ children }) => {
           return;
         }
 
-        // isPrevLogin 쿠키가 없다면 토큰 재발급 API를 호출하지 않고 바로 종료
-        if (!hasIsPrevLoginCookie()) {
-          if (isMounted) {
-            clearAccessToken();
-            setLoading(false);
-          }
-          return;
+        if (isMounted) {
+          clearAccessToken();
+          setLoading(false);
         }
 
         try {
