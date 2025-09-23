@@ -40,8 +40,19 @@ const usePostEmailAuth = () => {
       if (!isCookieLoginEnabled() && accessToken) {
         saveAccessTokenToLS(accessToken);
       }
-      const redirect = searchParams.get("redirect") || "/";
-      router.replace(redirect);
+
+      // 안전한 리다이렉트 처리 - 오픈 리다이렉트 방지
+      const redirectParam = searchParams.get("redirect");
+      let safeRedirect = "/"; // 기본값
+
+      if (redirectParam && typeof redirectParam === "string") {
+        // 내부 경로인지 검증: 단일 "/"로 시작하고 "//"나 "://"를 포함하지 않아야 함
+        if (redirectParam.startsWith("/") && !redirectParam.startsWith("//") && !redirectParam.includes("://")) {
+          safeRedirect = redirectParam;
+        }
+      }
+
+      router.replace(safeRedirect);
     },
     onError: () => {
       alert("이메일 또는 비밀번호가 올바르지 않습니다. 다시 시도해주세요.");
