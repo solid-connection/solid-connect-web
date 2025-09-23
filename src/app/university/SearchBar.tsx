@@ -51,7 +51,7 @@ const SearchForm = ({ initText }: SearchBarProps) => {
 
     const queryString = queryParams.toString();
 
-    router.push(`/university/search?${queryString}`);
+    router.push(`/university?${queryString}`);
   };
 
   return (

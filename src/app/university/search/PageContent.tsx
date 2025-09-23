@@ -62,7 +62,7 @@ const SchoolSearchForm = () => {
     });
 
     const queryString = queryParams.toString();
-    router.push(`/university/search?${queryString}`);
+    router.push(`/university?${queryString}`);
   };
 
   const availableCountries = useMemo(() => {
