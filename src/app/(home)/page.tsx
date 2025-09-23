@@ -37,7 +37,7 @@ const HomePage = async () => {
       <FindLastYearScoreBar />
       <div className="flex flex-col gap-2.5 px-5 py-3.5">
         <div className="flex gap-2">
-          <Link className="h-26 flex flex-1 flex-col gap-2 rounded-lg bg-[#F0F5FF] p-2.5" href="/university">
+          <Link className="h-26 flex flex-1 flex-col gap-2 rounded-lg bg-[#F0F5FF] p-2.5" href="/university/search">
             <div className="flex flex-col">
               <span className="text-sm font-bold text-secondary">학교 검색하기</span>
               <span className="text-xs font-medium leading-tight text-k-700">모든 학교 목록을 확인해보세요</span>
