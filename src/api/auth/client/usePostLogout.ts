@@ -1,5 +1,3 @@
-import { useRouter } from "next/navigation";
-
 import { AxiosResponse } from "axios";
 
 import { axiosInstance } from "@/utils/axiosInstance";
@@ -11,20 +9,17 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 export const postLogout = (): Promise<AxiosResponse<null>> => axiosInstance.post("/auth/sign-out");
 
 const usePostLogout = () => {
-  const router = useRouter();
   const { clearAccessToken } = useAuthStore();
   const queryClient = useQueryClient(); // 쿼리 캐시 관리를 위해 클라이언트 인스턴스를 가져옵니다.
 
   return useMutation({
     mutationFn: postLogout,
-    onMutate: () => {
-      // 낙관적 업데이트: 로그아웃 요청이 시작되면 바로 로그인 상태를 false로 변경합니다.
-      router.replace("/");
-    },
     onSuccess: () => {
       clearAccessToken();
       removeAccessTokenToLS();
       queryClient.clear();
+      // 로그아웃 후 홈으로 리다이렉트
+      window.location.href = "/";
     },
     onError: (error) => {
       // 네트워크 오류 등으로 로그아웃 요청이 실패했을 경우를 대비한 처리입니다.
