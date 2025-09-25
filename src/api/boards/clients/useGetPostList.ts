@@ -2,7 +2,7 @@ import { AxiosResponse } from "axios";
 
 import { axiosInstance } from "@/utils/axiosInstance";
 
-import { QueryKeys } from "../../my/client/queryKey";
+import { QueryKeys } from "./QueryKeys";
 
 import { ListPost } from "@/types/community";
 
@@ -22,7 +22,7 @@ const getPostList = (boardCode: string, category: string | null = null): Promise
 
 const useGetPostList = ({ boardCode, category = null }: UseGetPostListProps) => {
   return useQuery({
-    queryKey: [QueryKeys.myInfo],
+    queryKey: [QueryKeys.postList],
     queryFn: () => getPostList(boardCode, category),
     // staleTime을 무한으로 설정하여 불필요한 자동 refetch를 방지합니다.
     staleTime: Infinity,
