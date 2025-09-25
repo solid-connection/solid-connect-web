@@ -31,9 +31,18 @@ const CommunityPageContent = ({ boardCode }: CommunityPageContentProps) => {
     router.push(`/community/${boardCode}/create`);
   };
 
+  const getBoardNameKo = (code: string) => {
+    return COMMUNITY_BOARDS.find((board) => board.code === code)?.nameKo ?? "";
+  };
+  const boardName = getBoardNameKo(boardCode);
+
   return (
     <div>
-      <CommunityRegionSelector curRegion={"전체"} setCurRegion={handleBoardChange} regionChoices={COMMUNITY_BOARDS} />
+      <CommunityRegionSelector
+        curRegion={boardName}
+        setCurRegion={handleBoardChange}
+        regionChoices={COMMUNITY_BOARDS}
+      />
       <ButtonTab
         choices={COMMUNITY_CATEGORIES}
         choice={category}

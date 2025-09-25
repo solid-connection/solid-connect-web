@@ -27,7 +27,11 @@ const useGetPostList = ({ boardCode, category = null }: UseGetPostListProps) => 
     // staleTime을 무한으로 설정하여 불필요한 자동 refetch를 방지합니다.
     staleTime: Infinity,
     gcTime: 1000 * 60 * 30, // 예: 30분
-    select: (response) => response.data, // response.data가 실제 ListPost[]
+    select: (response) => {
+      return [...response.data].sort((a, b) => {
+        return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
+      });
+    },
   });
 };
 
