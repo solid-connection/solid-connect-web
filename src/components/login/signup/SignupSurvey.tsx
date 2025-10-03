@@ -13,8 +13,8 @@ import SignupRegionScreen from "./SignupRegionScreen";
 import { PreparationStatus, SignUpRequest } from "@/types/auth";
 import { RegionKo } from "@/types/university";
 
-import { signUpApi } from "@/api/auth";
-import { uploadProfileImageFilePublicApi } from "@/api/file";
+import usePostSignUp from "@/api/auth/client/usePostSignUp";
+import useUploadProfileImagePublic from "@/api/file/client/useUploadProfileImagePublic";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { toast } from "@/lib/zustand/useToastStore";
 
@@ -44,6 +44,9 @@ const SignupSurvey = ({ baseNickname, baseEmail, baseProfileImageUrl }: SignupSu
   const [nickname, setNickname] = useState<string>(baseNickname);
   const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
 
+  const signUpMutation = usePostSignUp();
+  const uploadImageMutation = useUploadProfileImagePublic();
+
   useEffect(() => {
     setCurProgress(((curStage - 1) / 3) * 100);
   }, [curStage]);
@@ -59,11 +62,11 @@ const SignupSurvey = ({ baseNickname, baseEmail, baseProfileImageUrl }: SignupSu
 
     if (profileImageFile) {
       try {
-        const res = await uploadProfileImageFilePublicApi(profileImageFile);
-        imageUrl = res.data.fileUrl;
-      } catch (err) {
+        const result = await uploadImageMutation.mutateAsync(profileImageFile);
+        imageUrl = result.fileUrl;
+      } catch (err: any) {
         console.error("Error", err.message);
-        toast.error(err.message);
+        toast.error(err.message || "이미지 업로드에 실패했습니다.");
       }
     }
 
@@ -80,19 +83,25 @@ const SignupSurvey = ({ baseNickname, baseEmail, baseProfileImageUrl }: SignupSu
   const submitRegisterRequest = async () => {
     try {
       const registerRequest = await createRegisterRequest();
-      const res = await signUpApi(registerRequest);
-      setAccessToken(res.data.accessToken);
-
-      toast.success("회원가입이 완료되었습니다.");
-      router.push("/");
-    } catch (err) {
-      if (err.response) {
-        console.error("Axios response error", err.response);
-        toast.error(err.response.data?.message);
-      } else {
-        console.error("Error", err.message);
-        toast.error(err.message);
-      }
+      signUpMutation.mutate(registerRequest, {
+        onSuccess: (data) => {
+          setAccessToken(data.accessToken);
+          toast.success("회원가입이 완료되었습니다.");
+          router.push("/");
+        },
+        onError: (error: any) => {
+          if (error.response) {
+            console.error("Axios response error", error.response);
+            toast.error(error.response.data?.message || "회원가입에 실패했습니다.");
+          } else {
+            console.error("Error", error.message);
+            toast.error(error.message || "회원가입에 실패했습니다.");
+          }
+        },
+      });
+    } catch (err: any) {
+      console.error("Error", err.message);
+      toast.error(err.message || "회원가입에 실패했습니다.");
     }
   };
 

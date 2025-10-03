@@ -1,19 +1,34 @@
 "use client";
 
+import { useEffect } from "react";
+
 import MentorApplyCountContent from "@/components/mentor/MentorApplyCountContent";
 import IconAlertModal from "@/components/modal/IconAlertModal";
 import IconConfirmModal from "@/components/modal/IconConfirmModal";
+import SurveyModal from "@/components/modal/SurveyModal";
 import CloudSpinner from "@/components/ui/CloudSpinner";
 
 import { useAlertModalStore } from "@/lib/zustand/useAlertModalStore";
 import { useConfirmModalStore } from "@/lib/zustand/useConfirmModalStore";
+import { useSurveyModalStore } from "@/lib/zustand/useSurveyModalStore";
 import { useIsFetching } from "@tanstack/react-query";
 
 const ClientModal = () => {
   const { isOpen, payload, confirm, reject } = useConfirmModalStore();
   const { isOpen: alertOpen, payload: alertPayload, acknowledge, close } = useAlertModalStore();
+  const {
+    isOpen: surveyOpen,
+    close: closeSurvey,
+    closeForWeek: closeSurveyForWeek,
+    checkAndOpen,
+  } = useSurveyModalStore();
 
   const isFetching = useIsFetching();
+
+  // 페이지 로드 시 만족도 조사 모달 표시 여부 확인
+  useEffect(() => {
+    checkAndOpen();
+  }, [checkAndOpen]);
 
   return (
     <>
@@ -24,6 +39,8 @@ const ClientModal = () => {
       ) : null}
 
       <MentorApplyCountContent />
+
+      <SurveyModal isOpen={surveyOpen} onClose={closeSurvey} onCloseForWeek={closeSurveyForWeek} />
 
       <IconAlertModal
         isOpen={alertOpen}

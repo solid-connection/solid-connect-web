@@ -7,7 +7,7 @@ import UniversityDetail from "./UniversityDetail";
 
 import { University } from "@/types/university";
 
-import { getUniversityDetailPublicApi } from "@/api/university";
+import { getUniversityDetail } from "@/api/university/server/getUniversityDetail";
 
 export const revalidate = 60; // ISR 재생성 주기 설정
 
@@ -24,8 +24,7 @@ export async function generateMetadata(
   const { id } = await params;
 
   // fetch data
-  const res = await getUniversityDetailPublicApi(Number(id));
-  const universityData = res.data;
+  const universityData = await getUniversityDetail(Number(id));
   const convertedKoreanName =
     universityData.term !== process.env.NEXT_PUBLIC_CURRENT_TERM
       ? `${universityData.koreanName}(${universityData.term})`
@@ -43,14 +42,12 @@ type CollegeDetailPageProps = {
 const CollegeDetailPage = async ({ params }: CollegeDetailPageProps) => {
   const collegeId = Number(params.id);
 
-  let res: { data: University };
+  let universityData: University;
   try {
-    res = await getUniversityDetailPublicApi(collegeId);
+    universityData = await getUniversityDetail(collegeId);
   } catch {
     notFound(); // 404 페이지로 이동
   }
-
-  const universityData = res.data;
   const convertedKoreanName =
     universityData.term !== process.env.NEXT_PUBLIC_CURRENT_TERM
       ? `${universityData.koreanName}(${universityData.term})`

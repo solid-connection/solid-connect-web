@@ -1,9 +1,6 @@
 "use client";
 
-import { toast } from "@/lib/zustand/useToastStore";
-
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
@@ -12,9 +9,7 @@ import CommentSection from "./CommentSection";
 import Content from "./Content";
 import KebabMenu from "./KebabMenu";
 
-import { Post as PostType } from "@/types/community";
-
-import { getPostDetailApi } from "@/api/community";
+import useGetPostDetail from "@/api/community/client/useGetPostDetail";
 
 interface PostPageContentProps {
   boardCode: string;
@@ -24,9 +19,9 @@ interface PostPageContentProps {
 const PostPageContent = ({ boardCode, postId }: PostPageContentProps) => {
   const router = useRouter();
 
-  const { post, isLoading, refresh } = useFetchPost(postId);
+  const { data: post, isLoading, refetch } = useGetPostDetail(postId);
 
-  if (isLoading || post === null) {
+  if (isLoading || !post) {
     return <CloudSpinnerPage />;
   }
 
@@ -40,47 +35,9 @@ const PostPageContent = ({ boardCode, postId }: PostPageContentProps) => {
         icon={<KebabMenu isOwner={post.isOwner} postId={postId} boardCode={boardCode} />}
       />
       <Content post={post} postId={postId} />
-      <CommentSection comments={post.postFindCommentResponses} postId={postId} refresh={refresh} />
+      <CommentSection comments={post.postFindCommentResponses} postId={postId} refresh={refetch} />
     </div>
   );
-};
-
-const useFetchPost = (postId: number) => {
-  const [post, setPost] = useState<PostType | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-
-  const fetchPost = async () => {
-    try {
-      const response = await getPostDetailApi(postId);
-      setPost(response.data);
-    } catch (err) {
-      if (err.response) {
-        console.error("Axios response error", err.response);
-        if (err.response.status === 401 || err.response.status === 403) {
-          toast.error("로그인이 필요합니다");
-          document.location.href = "/login";
-        } else {
-          toast.error(err.response.data?.message);
-        }
-      } else {
-        console.error("Error", err.message);
-        toast.error(err.message);
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchPost();
-  }, [postId]);
-
-  const refresh = () => {
-    setIsLoading(true);
-    fetchPost();
-  };
-
-  return { post, isLoading, refresh };
 };
 
 export default PostPageContent;
