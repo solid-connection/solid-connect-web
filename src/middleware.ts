@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const loginNeedPages = ["/mentor", "/my", "/community"]; // 임시 관리 배열
+const loginNeedPages = ["/mentor", "/my", "/community/"]; // 로그인 필요페이지
 
 export function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();

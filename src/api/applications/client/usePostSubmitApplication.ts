@@ -5,8 +5,10 @@ import { AxiosError, AxiosResponse } from "axios";
 import { axiosInstance } from "@/utils/axiosInstance";
 
 import { useMutation } from "@tanstack/react-query";
+import { toast } from "@/lib/zustand/useToastStore";
 // 타입 경로
 import { UseMutationOptions, UseMutationResult } from "@tanstack/react-query";
+import { toast } from "@/lib/zustand/useToastStore";
 
 // API 함수 경로
 export interface UseSubmitApplicationResponse {
@@ -52,7 +54,7 @@ const usePostSubmitApplication = (
     // onError: API 요청이 실패했을 때 실행할 콜백 함수입니다.
     onError: (error) => {
       const errorMessage = error?.response?.data?.message;
-      alert(errorMessage || "지원 중 오류가 발생했습니다. 다시 시도해주세요.");
+      toast.error(errorMessage || "지원 중 오류가 발생했습니다. 다시 시도해주세요.");
     },
   });
 };

@@ -1,5 +1,7 @@
 "use client";
 
+import { toast } from "@/lib/zustand/useToastStore";
+
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 
@@ -126,7 +128,7 @@ const ScorePageContent = () => {
   useEffect(() => {
     if (isLoading) return;
     if (isError) {
-      alert("지원 현황을 불러오는 중에 오류가 발생했습니다. 지원 절차를 진행해주세요.");
+      toast.error("지원 현황을 불러오는 중에 오류가 발생했습니다. 지원 절차를 진행해주세요.");
       router.replace("/university/application/apply");
     }
   }, [isError, isLoading, router]);

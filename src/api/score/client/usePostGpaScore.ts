@@ -5,6 +5,7 @@ import { axiosInstance } from "@/utils/axiosInstance";
 import { QueryKeys } from "./queryKey";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "@/lib/zustand/useToastStore";
 
 interface UsePostGpaScoreRequest {
   gpaScoreRequest: {
@@ -32,13 +33,13 @@ export const usePostGpaScore = () => {
     mutationFn: (request: UsePostGpaScoreRequest) => postGpaScore(request),
 
     onSuccess: () => {
-      alert("학점 정보가 성공적으로 제출되었습니다.");
+      toast.success("학점 정보가 성공적으로 제출되었습니다.");
       queryClient.invalidateQueries({ queryKey: [QueryKeys.myGpaScore] });
     },
 
     onError: (error) => {
       console.error("학점 제출 중 오류 발생:", error);
-      alert("오류가 발생했습니다. 다시 시도해주세요.");
+      toast.error("오류가 발생했습니다. 다시 시도해주세요.");
     },
   });
 };

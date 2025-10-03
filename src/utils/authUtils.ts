@@ -1,5 +1,7 @@
 import { appleOAuth2CodeResponse } from "@/types/auth";
 
+import { toast } from "@/lib/zustand/useToastStore";
+
 export const authProviderName = (provider: "KAKAO" | "APPLE" | "EMAIL"): string => {
   if (provider === "KAKAO") {
     return "카카오";
@@ -18,13 +20,13 @@ export const kakaoLogin = () => {
       redirectUri: `${process.env.NEXT_PUBLIC_WEB_URL}/login/kakao/callback`,
     });
   } else {
-    alert("Kakao SDK를 불러오는 중입니다. 잠시 후 다시 시도해주세요.");
+    toast.error("Kakao SDK를 불러오는 중입니다. 잠시 후 다시 시도해주세요.");
   }
 };
 
 export const appleLogin = async () => {
   if (!window.AppleID || !window.AppleID.auth) {
-    alert("Apple SDK를 불러오는 중입니다. 잠시 후 다시 시도해주세요.");
+    toast.error("Apple SDK를 불러오는 중입니다. 잠시 후 다시 시도해주세요.");
     return;
   }
 

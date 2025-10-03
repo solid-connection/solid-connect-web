@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import localFont from "next/font/local";
 
 import GlobalLayout from "@/components/layout/GlobalLayout";
+import ToastContainer from "@/components/ui/Toast";
 
 import { AlertProvider } from "@/context/AlertContext";
 import QueryProvider from "@/lib/react-query/QueryProvider";
@@ -105,6 +106,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => (
         <GoogleAnalytics gaId="G-V1KLYZC1DS" />
         <QueryProvider>
           <GlobalLayout>{children}</GlobalLayout>
+          <ToastContainer />
         </QueryProvider>
       </body>
     </html>

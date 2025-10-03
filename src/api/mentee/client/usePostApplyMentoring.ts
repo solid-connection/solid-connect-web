@@ -7,6 +7,7 @@ import { QueryKeys } from "./queryKey";
 import { customConfirm } from "@/lib/zustand/useConfirmModalStore";
 import { IconCheck } from "@/public/svgs/mentor";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "@/lib/zustand/useToastStore";
 
 interface UsePostApplyMentoringRequest {
   mentorId: number;
@@ -42,7 +43,7 @@ const usePostApplyMentoring = () => {
       router.push("/");
     },
     onError: (error) => {
-      alert("멘토 신청에 실패했습니다. 다시 시도해주세요.");
+      toast.error("멘토 신청에 실패했습니다. 다시 시도해주세요.");
     },
   });
 };

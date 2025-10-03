@@ -1,5 +1,7 @@
 "use client";
 
+import { toast } from "@/lib/zustand/useToastStore";
+
 import { Dispatch, SetStateAction } from "react";
 
 import clsx from "clsx";
@@ -84,7 +86,7 @@ const SignupRegionScreen = ({
 }: SignupRegionScreenProps) => {
   const submit = () => {
     if (!curRegion) {
-      alert("권역을 선택해주세요.");
+      toast.error("권역을 선택해주세요.");
       return;
     }
     toNextStage();

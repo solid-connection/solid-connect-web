@@ -1,5 +1,6 @@
 import type { AxiosError } from "axios";
 
+import { toast } from "@/lib/zustand/useToastStore";
 import { QueryClient } from "@tanstack/react-query";
 
 const queryClient = new QueryClient({
@@ -13,6 +14,15 @@ const queryClient = new QueryClient({
         return failureCount < 3; // 그 외에는 최대 3회까지 재시도
       },
       refetchOnWindowFocus: false, // 창 포커스 복귀 시 refetch 비활성
+    },
+    mutations: {
+      onError: (error) => {
+        // mutation 실패 시 전역 에러 토스트
+        const axiosError = error as AxiosError<{ message?: string }>;
+        const errorMessage =
+          axiosError?.response?.data?.message || axiosError?.message || "오류가 발생했습니다. 다시 시도해주세요.";
+        toast.error(errorMessage);
+      },
     },
   },
 });

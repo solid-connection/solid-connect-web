@@ -4,6 +4,7 @@ import { isCookieLoginEnabled } from "@/utils/authUtils";
 
 import postReissueToken from "@/api/auth/server/postReissueToken";
 import useAuthStore from "@/lib/zustand/useAuthStore";
+import { toast } from "@/lib/zustand/useToastStore";
 
 // --- 글로벌 변수 ---
 let reissuePromise: Promise<void> | null = null;
@@ -28,7 +29,7 @@ const redirectToLogin = (message: string) => {
     try {
       // 쿠키 유틸이 클라이언트에서만 동작하므로 window 가드 내에서 호출
     } catch {}
-    alert(message);
+    toast.error(message);
     window.location.href = "/login";
   }
 };

@@ -1,5 +1,7 @@
 "use client";
 
+import { toast } from "@/lib/zustand/useToastStore";
+
 import { useState } from "react";
 
 import { createCommentApi } from "@/api/community";
@@ -27,14 +29,14 @@ const CommentInput = ({ postId, curSelectedComment, setCurSelectedComment, refre
       if (err.response) {
         console.error("Axios response error", err.response);
         if (err.response.status === 401 || err.response.status === 403) {
-          alert("로그인이 필요합니다");
+          toast.error("로그인이 필요합니다");
           document.location.href = "/login";
         } else {
-          alert(err.response.data?.message);
+          toast.error(err.response.data?.message);
         }
       } else {
         console.error("Error", err.message);
-        alert(err.message);
+        toast.error(err.message);
       }
     }
   };

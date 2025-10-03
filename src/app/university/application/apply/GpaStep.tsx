@@ -1,5 +1,7 @@
 "use client";
 
+import { toast } from "@/lib/zustand/useToastStore";
+
 import { useState } from "react";
 
 import BlockBtn from "@/components/button/BlockBtn";
@@ -29,11 +31,11 @@ const GpaStep = ({ gpaScoreList, curGpaScore, setCurGpaScore, onNext }: GpaStepP
               key={score.id}
               onClick={() => {
                 if (score.verifyStatus === ScoreSubmitStatus.REJECTED) {
-                  alert("승인 거절된 성적은 지원에 사용할 수 없습니다.");
+                  toast.error("승인 거절된 성적은 지원에 사용할 수 없습니다.");
                   return;
                 }
                 if (score.verifyStatus === ScoreSubmitStatus.PENDING) {
-                  alert("승인 대기중인 성적은 지원에 사용할 수 없습니다.");
+                  toast.error("승인 대기중인 성적은 지원에 사용할 수 없습니다.");
                   return;
                 }
                 setCurGpaScore(score.id);

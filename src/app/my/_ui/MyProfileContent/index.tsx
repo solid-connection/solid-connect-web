@@ -1,5 +1,7 @@
 "use client";
 
+import { toast } from "@/lib/zustand/useToastStore";
+
 import Link from "next/link";
 
 import LinkedTextWithIcon from "@/components/ui/LinkedTextWithIcon";
@@ -76,7 +78,7 @@ const MyProfileContent = () => {
             </div>
             <button
               onClick={() => {
-                alert("멘토 회원 전환은 현재 불가합니다.");
+                toast.error("멘토 회원 전환은 현재 불가합니다.");
               }}
               className="w-full rounded-lg bg-secondary-800 py-2 font-medium text-white"
             >
@@ -101,7 +103,7 @@ const MyProfileContent = () => {
           </div>
           좋아요한 글
         </Link> */}
-        <button onClick={() => alert("현재 불가합니다.")} className="p-3 text-center">
+        <button onClick={() => toast.error("현재 불가합니다.")} className="p-3 text-center">
           <div className="mx-auto mb-2 h-8 w-8">
             <IconLikeFill />
           </div>
@@ -120,7 +122,7 @@ const MyProfileContent = () => {
         <h2 className="px-1 text-lg font-semibold text-primary">내 지원 정보</h2>
 
         <LinkedTextWithIcon
-          onClick={() => alert("현재 불가합니다.")}
+          onClick={() => toast.error("현재 불가합니다.")}
           icon={<IconEarth />}
           text={isMentor ? "수학 국가 변경" : "관심 국가 변경"}
         />

@@ -9,6 +9,7 @@ import { QueryKeys } from "./queryKey";
 import { Article } from "@/types/news";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "@/lib/zustand/useToastStore";
 
 type UsePutModifyArticleRequest = {
   body: ArticleFormData & { isImageDeleted?: boolean };
@@ -72,7 +73,7 @@ const usePutModifyArticle = (userId: number | null) => {
       if (context?.previousArticleList) {
         queryClient.setQueryData(queryKey, context.previousArticleList);
       }
-      alert("아티클 수정에 실패했습니다." + errorMessage);
+      toast.error("아티클 수정에 실패했습니다." + errorMessage);
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey });

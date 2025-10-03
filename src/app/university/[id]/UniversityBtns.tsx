@@ -1,5 +1,7 @@
 "use client";
 
+import { toast } from "@/lib/zustand/useToastStore";
+
 import { useEffect, useState } from "react";
 
 import useDeleteUniversityFavorite from "@/api/university/client/useDeleteUniversityFavorite";
@@ -65,14 +67,14 @@ const UniversityBtns = ({ universityId }: UniversityBtnsProps) => {
 
   const handleCopy = () => {
     navigator.clipboard.writeText(window.location.href).then(() => {});
-    alert("URL이 복사되었습니다.");
+    toast.error("URL이 복사되었습니다.");
   };
   return (
     <>
       <button
         onClick={() => {
           if (!isAuthenticated) {
-            alert("로그인 후 이용 가능합니다.");
+            toast.error("로그인 후 이용 가능합니다.");
             return;
           }
           if (isLiked) {

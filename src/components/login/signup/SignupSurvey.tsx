@@ -16,6 +16,7 @@ import { RegionKo } from "@/types/university";
 import { signUpApi } from "@/api/auth";
 import { uploadProfileImageFilePublicApi } from "@/api/file";
 import useAuthStore from "@/lib/zustand/useAuthStore";
+import { toast } from "@/lib/zustand/useToastStore";
 
 type SignupSurveyProps = {
   baseNickname: string;
@@ -62,7 +63,7 @@ const SignupSurvey = ({ baseNickname, baseEmail, baseProfileImageUrl }: SignupSu
         imageUrl = res.data.fileUrl;
       } catch (err) {
         console.error("Error", err.message);
-        alert(err.message);
+        toast.error(err.message);
       }
     }
 
@@ -82,15 +83,15 @@ const SignupSurvey = ({ baseNickname, baseEmail, baseProfileImageUrl }: SignupSu
       const res = await signUpApi(registerRequest);
       setAccessToken(res.data.accessToken);
 
-      alert("회원가입이 완료되었습니다.");
+      toast.success("회원가입이 완료되었습니다.");
       router.push("/");
     } catch (err) {
       if (err.response) {
         console.error("Axios response error", err.response);
-        alert(err.response.data?.message);
+        toast.error(err.response.data?.message);
       } else {
         console.error("Error", err.message);
-        alert(err.message);
+        toast.error(err.message);
       }
     }
   };

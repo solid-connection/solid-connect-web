@@ -1,5 +1,7 @@
 "use client";
 
+import { toast } from "@/lib/zustand/useToastStore";
+
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
@@ -62,10 +64,10 @@ const KebabMenu = ({ postId, boardCode, isOwner = false }: KebabMenuProps) => {
     try {
       const url = window.location.href;
       await navigator.clipboard.writeText(url);
-      alert("URL이 복사되었습니다.");
+      toast.error("URL이 복사되었습니다.");
     } catch (err) {
       console.error("Failed to copy URL:", err);
-      alert("URL 복사에 실패했습니다.");
+      toast.error("URL 복사에 실패했습니다.");
     }
   };
 

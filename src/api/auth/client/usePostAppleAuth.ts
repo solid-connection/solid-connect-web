@@ -7,6 +7,7 @@ import { publicAxiosInstance } from "@/utils/axiosInstance";
 import { saveAccessTokenToLS } from "@/utils/localStorageUtils";
 
 import useAuthStore from "@/lib/zustand/useAuthStore";
+import { toast } from "@/lib/zustand/useToastStore";
 import { useMutation } from "@tanstack/react-query";
 
 // Apple
@@ -55,7 +56,7 @@ const usePostAppleAuth = () => {
       }
     },
     onError: () => {
-      alert("애플 로그인 중 오류가 발생했습니다. 다시 시도해주세요.");
+      toast.error("애플 로그인 중 오류가 발생했습니다. 다시 시도해주세요.");
       router.push("/login");
     },
   });

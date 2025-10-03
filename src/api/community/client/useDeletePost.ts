@@ -7,6 +7,7 @@ import { axiosInstance } from "@/utils/axiosInstance";
 import { QueryKeys } from "./queryKey";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "@/lib/zustand/useToastStore";
 
 /**
  * @description 게시글 삭제 API 응답 타입
@@ -45,7 +46,7 @@ const useDeletePost = () => {
       // ['posts', 'list'] 등 구체적인 키를 사용하셔도 좋습니다.
       queryClient.invalidateQueries({ queryKey: [QueryKeys.posts] });
 
-      alert("게시글이 성공적으로 삭제되었습니다.");
+      toast.success("게시글이 성공적으로 삭제되었습니다.");
 
       // 게시글 목록 페이지 이동
       router.replace("/community/FREE");
@@ -54,7 +55,7 @@ const useDeletePost = () => {
     // mutation 실패 시 실행될 콜백
     onError: (error) => {
       console.error("게시글 삭제 실패:", error);
-      alert("게시글 삭제에 실패했습니다. 잠시 후 다시 시도해주세요.");
+      toast.error("게시글 삭제에 실패했습니다. 잠시 후 다시 시도해주세요.");
     },
   });
 };
