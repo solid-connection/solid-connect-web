@@ -88,7 +88,7 @@ const SearchResultsContent = () => {
         <div className="p-5 text-center text-gray-500">검색 결과가 없습니다.</div>
       ) : (
         <>
-          <UniversityCards colleges={filteredData} className="mx-5 mt-3" />
+          <UniversityCards colleges={filteredData} className="mt-3" />
         </>
       )}
       <FloatingUpBtn />
