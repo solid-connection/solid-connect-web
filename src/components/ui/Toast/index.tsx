@@ -36,7 +36,7 @@ const Toast = ({ toast }: { toast: ToastType }) => {
       case "success":
         return "✓";
       case "error":
-        return "✕";
+        return "⚠";
       case "warning":
         return "⚠";
       case "info":

@@ -1,7 +1,5 @@
 "use client";
 
-import { toast } from "@/lib/zustand/useToastStore";
-
 import Link from "next/link";
 
 import LinkedTextWithIcon from "@/components/ui/LinkedTextWithIcon";
@@ -12,6 +10,7 @@ import { UserRole } from "@/types/mentor";
 import useDeleteUserAccount from "@/api/auth/client/useDeleteUserAccount";
 import usePostLogout from "@/api/auth/client/usePostLogout";
 import useGetMyInfo from "@/api/my/client/useGetMyInfo";
+import { toast } from "@/lib/zustand/useToastStore";
 import { IconLikeFill } from "@/public/svgs/mentor";
 import {
   IconBook,
@@ -76,14 +75,9 @@ const MyProfileContent = () => {
             <div className="w-full cursor-pointer rounded-lg bg-secondary-500 py-2 text-center font-medium text-white">
               <Link href={"/my/modify"}>프로필 변경</Link>
             </div>
-            <button
-              onClick={() => {
-                toast.error("멘토 회원 전환은 현재 불가합니다.");
-              }}
-              className="w-full rounded-lg bg-secondary-800 py-2 font-medium text-white"
-            >
-              멘토 회원 전환
-            </button>
+            <Link className="w-full" href={"/my/apply-mentor"}>
+              <button className="w-full rounded-lg bg-secondary-800 py-2 font-medium text-white">멘토 회원 전환</button>
+            </Link>
           </div>
         )}
       </div>
