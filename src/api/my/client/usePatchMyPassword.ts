@@ -8,6 +8,7 @@ import { QueryKeys } from "./queryKey";
 
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "@/lib/zustand/useToastStore";
 
 export interface UseMyMentorProfileRequest {
   currentPassword: string;
@@ -31,12 +32,12 @@ const usePatchMyPassword = () => {
     onSuccess: () => {
       clearAccessToken();
       queryClient.clear();
-      alert("프로필이 성공적으로 수정되었습니다.");
+      toast.success("프로필이 성공적으로 수정되었습니다.");
       router.replace("/");
     },
     onError: (error) => {
       const errorMessage = error.response?.data?.message;
-      alert(errorMessage || "비밀번호 변경에 실패했습니다. 다시 시도해주세요.");
+      toast.error(errorMessage || "비밀번호 변경에 실패했습니다. 다시 시도해주세요.");
     },
   });
 };

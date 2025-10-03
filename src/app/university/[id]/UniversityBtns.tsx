@@ -6,6 +6,7 @@ import useDeleteUniversityFavorite from "@/api/university/client/useDeleteUniver
 import useGetMyWishUniversity from "@/api/university/client/useGetMyWishUniversity";
 import usePostUniversityFavorite from "@/api/university/client/usePostUniversityFavorite";
 import useAuthStore from "@/lib/zustand/useAuthStore";
+import { toast } from "@/lib/zustand/useToastStore";
 
 const likeIcon = (
   <svg xmlns="http://www.w3.org/2000/svg" width="19" height="16" viewBox="0 0 19 16" fill="none">
@@ -65,14 +66,14 @@ const UniversityBtns = ({ universityId }: UniversityBtnsProps) => {
 
   const handleCopy = () => {
     navigator.clipboard.writeText(window.location.href).then(() => {});
-    alert("URL이 복사되었습니다.");
+    toast.success("URL이 복사되었습니다.");
   };
   return (
     <>
       <button
         onClick={() => {
           if (!isAuthenticated) {
-            alert("로그인 후 이용 가능합니다.");
+            toast.error("로그인 후 이용 가능합니다.");
             return;
           }
           if (isLiked) {

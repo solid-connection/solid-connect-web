@@ -15,7 +15,7 @@ const MentorApplyCountContent = () => {
   const { accessToken, isLoading } = useAuthStore();
   const isMentor = tokenParse(accessToken)?.role === UserRole.MENTOR;
 
-  const { data: count, isSuccess } = useGetMentoringUncheckedCount(isMentor && !isLoading);
+  const { data: count, isSuccess } = useGetMentoringUncheckedCount(!!accessToken && isMentor && !isLoading);
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(true);
 

@@ -1,5 +1,7 @@
 "use client";
 
+import { toast } from "@/lib/zustand/useToastStore";
+
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -49,17 +51,17 @@ const ApplyPageContent = () => {
 
   const handleSubmit = async () => {
     if (curGpaScore === null) {
-      alert("GPA를 선택해주세요.");
+      toast.error("GPA를 선택해주세요.");
       return;
     }
 
     if (curLanguageTestScore === null) {
-      alert("어학성적을 선택해주세요.");
+      toast.error("어학성적을 선택해주세요.");
       return;
     }
 
     if (curUniversityList.length === 0 || curUniversityList[0] === 0) {
-      alert("대학교를 선택해주세요.");
+      toast.error("대학교를 선택해주세요.");
       return;
     }
 

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import { createCommentApi } from "@/api/community";
+import useCreateComment from "@/api/community/client/useCreateComment";
 import { IconCloseFilled, IconFlight } from "@/public/svgs";
 
 type CommentInputProps = {
@@ -15,28 +15,22 @@ type CommentInputProps = {
 const CommentInput = ({ postId, curSelectedComment, setCurSelectedComment, refresh }: CommentInputProps) => {
   const [content, setContent] = useState<string>("");
 
+  const createCommentMutation = useCreateComment();
+
   const submitComment = async () => {
-    try {
-      await createCommentApi({
+    createCommentMutation.mutate(
+      {
         postId: postId,
         content: content,
         parentId: curSelectedComment,
-      });
-      refresh();
-    } catch (err) {
-      if (err.response) {
-        console.error("Axios response error", err.response);
-        if (err.response.status === 401 || err.response.status === 403) {
-          alert("로그인이 필요합니다");
-          document.location.href = "/login";
-        } else {
-          alert(err.response.data?.message);
-        }
-      } else {
-        console.error("Error", err.message);
-        alert(err.message);
-      }
-    }
+      },
+      {
+        onSuccess: () => {
+          setContent("");
+          setCurSelectedComment(null);
+        },
+      },
+    );
   };
 
   const handleCloseComment = () => {

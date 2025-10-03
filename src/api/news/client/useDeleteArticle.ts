@@ -7,6 +7,7 @@ import { QueryKeys } from "./queryKey";
 import { Article } from "@/types/news";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "@/lib/zustand/useToastStore";
 
 // Article 타입 import 필요
 
@@ -52,7 +53,7 @@ const useDeleteArticle = (userId: number | null) => {
       if (context?.previousArticleList) {
         queryClient.setQueryData<Article[]>(queryKey, context.previousArticleList);
       }
-      alert("아티클 삭제에 실패했습니다. 다시 시도해주세요.");
+      toast.error("아티클 삭제에 실패했습니다. 다시 시도해주세요.");
       console.error("Failed to delete article:", error);
     },
 

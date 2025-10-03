@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import { QueryKeys } from "@/api/university/client/queryKey";
 import useDeleteUniversityFavorite from "@/api/university/client/useDeleteUniversityFavorite";
+import { toast } from "@/lib/zustand/useToastStore";
 import { useQueryClient } from "@tanstack/react-query";
 
 interface UseSelectUniversitiesReturn {
@@ -38,9 +39,9 @@ const useSelectUniversities = (): UseSelectUniversitiesReturn => {
     ).then((results) => {
       const hasError = results.some((r) => r.status === "rejected");
       if (hasError) {
-        alert("일부 학교 삭제에 실패했습니다.");
+        toast.error("일부 학교 삭제에 실패했습니다.");
       } else {
-        alert("모든 학교가 삭제되었습니다.");
+        toast.success("모든 학교가 삭제되었습니다.");
       }
       queryClient.invalidateQueries({ queryKey: [QueryKeys.univApplyInfosLike] });
     });

@@ -10,6 +10,7 @@ import { Article } from "@/types/news";
 
 import ArticleThumbUrlPng from "@/public/images/article-thumb.png";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "@/lib/zustand/useToastStore";
 
 type ArticleMutationContext = {
   previousArticleContainer?: { newsResponseList: Article[] };
@@ -67,7 +68,7 @@ const usePostAddArticle = (userId: number | null) => {
       if (context?.previousArticleContainer) {
         queryClient.setQueryData(queryKey, context.previousArticleContainer);
       }
-      alert("아티클 추가에 실패했습니다: " + errorMessage);
+      toast.error("아티클 추가에 실패했습니다: " + errorMessage);
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey });

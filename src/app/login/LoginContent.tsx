@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 import { z } from "zod";
@@ -11,6 +12,7 @@ import { appleLogin, kakaoLogin } from "@/utils/authUtils";
 import useInputHandler from "./_hooks/useInputHandler";
 
 import usePostEmailAuth from "@/api/auth/client/usePostEmailAuth";
+import { toast } from "@/lib/zustand/useToastStore";
 import { IconSolidConnectionFullBlackLogo } from "@/public/svgs";
 import { IconAppleLogo, IconEmailIcon, IconKakaoLogo } from "@/public/svgs/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -25,6 +27,7 @@ type LoginFormData = z.infer<typeof loginSchema>;
 
 const LoginContent = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const { mutate: postEmailAuth, isPending } = usePostEmailAuth();
   const { showPasswordField, handleEmailChange } = useInputHandler();
@@ -40,6 +43,14 @@ const LoginContent = () => {
       password: "",
     },
   });
+
+  // redirect 파라미터가 있으면 로그인 필요 토스트 표시
+  useEffect(() => {
+    const redirect = searchParams.get("redirect");
+    if (redirect) {
+      toast.info("로그인이 필요합니다.");
+    }
+  }, [searchParams]);
 
   const onSubmit = async (data: LoginFormData) => {
     postEmailAuth(data, {});

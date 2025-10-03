@@ -14,7 +14,7 @@ import CommentInput from "./CommentInput";
 
 import { Comment as CommentType, CommunityUser } from "@/types/community";
 
-import { deleteCommentApi } from "@/api/community";
+import useDeleteComment from "@/api/community/client/useDeleteComment";
 import { IconMoreVertFilled, IconSubComment } from "@/public/svgs";
 
 type CommentSectionProps = {
@@ -27,26 +27,11 @@ const CommentSection = ({ comments, postId, refresh }: CommentSectionProps) => {
   const [curSelectedComment, setCurSelectedComment] = useState<number | null>(null);
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
 
+  const deleteCommentMutation = useDeleteComment();
+
   const deleteComment = (commentId: number) => {
     if (!window.confirm("정말 삭제하시겠습니까?")) return;
-    deleteCommentApi(commentId)
-      .then(() => {
-        refresh();
-      })
-      .catch((err) => {
-        if (err.response) {
-          console.error("Axios response error", err.response);
-          if (err.response.status === 401 || err.response.status === 403) {
-            alert("로그인이 필요합니다");
-            document.location.href = "/login";
-          } else {
-            alert(err.response.data?.message);
-          }
-        } else {
-          console.error("Error", err.message);
-          alert(err.message);
-        }
-      });
+    deleteCommentMutation.mutate({ commentId, postId });
   };
 
   return (

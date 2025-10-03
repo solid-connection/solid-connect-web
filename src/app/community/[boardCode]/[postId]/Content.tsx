@@ -9,7 +9,8 @@ import LinkifyText from "@/components/ui/LinkifyText";
 
 import { PostImage as PostImageType, Post as PostType } from "@/types/community";
 
-import { likePostApi, unlikePostApi } from "@/api/community";
+import useDeleteLike from "@/api/community/client/useDeleteLike";
+import usePostLike from "@/api/community/client/usePostLike";
 import { IconCloseFilled, IconPostLikeFilled, IconPostLikeOutline } from "@/public/svgs";
 import { IconCommunication } from "@/public/svgs/community";
 
@@ -27,6 +28,9 @@ const Content = ({ post, postId }: ContentProps) => {
   const [likeCount, setLikeCount] = useState<number>(0);
   const [isLiked, setIsLiked] = useState<boolean>(false);
 
+  const postLikeMutation = usePostLike();
+  const deleteLikeMutation = useDeleteLike();
+
   useEffect(() => {
     if (post) {
       setLikeCount(post.likeCount);
@@ -43,32 +47,34 @@ const Content = ({ post, postId }: ContentProps) => {
   };
 
   const toggleLike = async () => {
-    try {
-      if (isLiked) {
-        setLikeCount((prev) => prev - 1);
-        setIsLiked(false);
-        const res = await unlikePostApi(postId);
-        setLikeCount(res.data.likeCount);
-        setIsLiked(res.data.isLiked);
-      } else {
-        setLikeCount((prev) => prev + 1);
-        setIsLiked(true);
-        const res = await likePostApi(postId);
-        setLikeCount(res.data.likeCount);
-        setIsLiked(res.data.isLiked);
-      }
-    } catch (err) {
-      if (err.response) {
-        console.error("Axios response error", err.response);
-        if (err.response.status === 401 || err.response.status === 403) {
-          alert("로그인이 필요합니다");
-          document.location.href = "/login";
-        } else {
-          alert(err.response.data?.message);
-        }
-      } else {
-        console.error("Error", err.message);
-      }
+    if (isLiked) {
+      setLikeCount((prev) => prev - 1);
+      setIsLiked(false);
+      deleteLikeMutation.mutate(postId, {
+        onSuccess: (data) => {
+          setLikeCount(data.likeCount);
+          setIsLiked(data.isLiked);
+        },
+        onError: () => {
+          // 롤백
+          setLikeCount((prev) => prev + 1);
+          setIsLiked(true);
+        },
+      });
+    } else {
+      setLikeCount((prev) => prev + 1);
+      setIsLiked(true);
+      postLikeMutation.mutate(postId, {
+        onSuccess: (data) => {
+          setLikeCount(data.likeCount);
+          setIsLiked(data.isLiked);
+        },
+        onError: () => {
+          // 롤백
+          setLikeCount((prev) => prev - 1);
+          setIsLiked(false);
+        },
+      });
     }
   };
 

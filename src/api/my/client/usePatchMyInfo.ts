@@ -5,6 +5,7 @@ import { axiosInstance } from "@/utils/axiosInstance";
 import { QueryKeys } from "./queryKey";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "@/lib/zustand/useToastStore";
 
 export interface UseMyMentorProfileRequest {
   nickname?: string;
@@ -37,11 +38,11 @@ const usePatchMyInfo = () => {
       });
     },
     onSuccess: () => {
-      alert("프로필이 성공적으로 수정되었습니다.");
+      toast.success("프로필이 성공적으로 수정되었습니다.");
     },
     onError: (error) => {
       const errorMessage = error.response?.data?.message;
-      alert(errorMessage || "프로필 수정에 실패했습니다. 다시 시도해주세요.");
+      toast.error(errorMessage || "프로필 수정에 실패했습니다. 다시 시도해주세요.");
     },
   });
 };

@@ -6,6 +6,7 @@ import { axiosInstance } from "@/utils/axiosInstance";
 import { removeAccessTokenToLS } from "@/utils/localStorageUtils";
 
 import useAuthStore from "@/lib/zustand/useAuthStore";
+import { toast } from "@/lib/zustand/useToastStore";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const deleteUserAccount = (): Promise<AxiosResponse<null>> => axiosInstance.delete("/auth/quit");
@@ -27,9 +28,7 @@ const useDeleteUserAccount = () => {
       queryClient.clear();
     },
     onError: (error) => {
-      // 네트워크 오류 등으로 로그아웃 요청이 실패했을 경우를 대비한 처리입니다.
-      console.error("Logout failed:", error);
-      alert("회원탈퇴에 실패했습니다. 잠시 후 다시 시도해주세요.");
+      toast.error("회원탈퇴에 실패했습니다. 잠시 후 다시 시도해주세요.");
     },
   });
 };

@@ -1,5 +1,7 @@
 "use client";
 
+import { toast } from "@/lib/zustand/useToastStore";
+
 import { Dispatch, SetStateAction, useRef, useState } from "react";
 
 import BlockBtn from "@/components/button/BlockBtn";
@@ -29,7 +31,7 @@ const SignupProfileScreen = ({
 
   const submit = () => {
     if (!nickname) {
-      alert("닉네임을 입력해주세요.");
+      toast.error("닉네임을 입력해주세요.");
       return;
     }
     toNextStage();

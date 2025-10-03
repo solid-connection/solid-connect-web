@@ -1,5 +1,7 @@
 "use client";
 
+import { toast } from "@/lib/zustand/useToastStore";
+
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Suspense, useState } from "react";
@@ -61,7 +63,7 @@ const LanguageTestSubmitForm = () => {
     } catch (error) {
       // 실패 시 처리 (알림, 로그 등)
       console.error("어학 성적 제출 실패:", error);
-      alert("제출에 실패했습니다. 다시 시도해주세요.");
+      toast.error("제출에 실패했습니다. 다시 시도해주세요.");
     }
   };
 

@@ -2,6 +2,8 @@ import { AxiosError } from "axios";
 
 import { AuthenticationRequiredError } from "@/utils/axiosInstance";
 
+import { toast } from "@/lib/zustand/useToastStore";
+
 /**
  * 중앙화된 mutation 에러 처리 함수
  * @param error - 발생한 에러
@@ -23,13 +25,13 @@ export const handleMutationError = (
   if (error instanceof AxiosError) {
     const errorMessage = (error.response?.data as { message?: string })?.message || defaultMessage;
     console.error("API Error:", errorMessage, error);
-    alert(errorMessage);
+    toast.error(errorMessage);
     return;
   }
 
   // 기타 에러 처리
   console.error("Unknown Error:", error);
-  alert(defaultMessage);
+  toast.error(defaultMessage);
 };
 
 /**

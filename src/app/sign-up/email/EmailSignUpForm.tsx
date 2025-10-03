@@ -8,7 +8,8 @@ import { Input } from "@/components/ui/Inputa";
 import { Label } from "@/components/ui/Label";
 import { Progress } from "@/components/ui/Progress";
 
-import { emailSignUpApi } from "@/api/auth";
+import usePostEmailSignUp from "@/api/auth/client/usePostEmailSignUp";
+import { toast } from "@/lib/zustand/useToastStore";
 import { IconCheckBlue, IconExpRed, IconEyeOff, IconEyeOn } from "@/public/svgs/ui";
 
 const EmailSignUpForm = () => {
@@ -20,6 +21,8 @@ const EmailSignUpForm = () => {
   const [passwordConfirm, setPasswordConfirm] = useState<string>("");
   const [passwordsVisible, setPasswordsVisible] = useState<boolean>(false);
   const [passwordMatch, setPasswordMatch] = useState<boolean | null>(null);
+
+  const emailSignUpMutation = usePostEmailSignUp();
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -48,30 +51,33 @@ const EmailSignUpForm = () => {
 
   const emailSignUp = async () => {
     if (!email) {
-      alert("이메일을 입력해주세요.");
+      toast.error("이메일을 입력해주세요.");
       return;
     }
     if (!password) {
-      alert("비밀번호를 입력해주세요.");
+      toast.error("비밀번호를 입력해주세요.");
       return;
     }
     if (!passwordConfirm) {
-      alert("비밀번호 확인을 입력해주세요.");
+      toast.error("비밀번호 확인을 입력해주세요.");
       return;
     }
     if (password !== passwordConfirm) {
-      alert("비밀번호가 일치하지 않습니다.");
+      toast.error("비밀번호가 일치하지 않습니다.");
       return;
     }
 
-    try {
-      const res = await emailSignUpApi({ email, password });
-
-      const signUpToken = res.data.signUpToken;
-      router.push(`/sign-up?token=${signUpToken}`);
-    } catch (error) {
-      alert(error.response.data.message);
-    }
+    emailSignUpMutation.mutate(
+      { email, password },
+      {
+        onSuccess: (data) => {
+          router.push(`/sign-up?token=${data.signUpToken}`);
+        },
+        onError: (error: any) => {
+          toast.error(error.response?.data?.message || "회원가입에 실패했습니다.");
+        },
+      },
+    );
   };
 
   return (

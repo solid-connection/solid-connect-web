@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 
-import { createPostApi } from "@/api/community";
+import useCreatePost from "@/api/community/client/useCreatePost";
 import { IconImage, IconPostCheckboxFilled, IconPostCheckboxOutlined } from "@/public/svgs";
 
 type PostFormProps = {
@@ -19,6 +19,8 @@ const PostForm = ({ boardCode }: PostFormProps) => {
   const imageUploadRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const [isQuestion, setIsQuestion] = useState<boolean>(false);
+
+  const createPostMutation = useCreatePost();
 
   useEffect(() => {
     const textarea = textareaRef.current;
@@ -44,8 +46,8 @@ const PostForm = ({ boardCode }: PostFormProps) => {
   }, []);
 
   const submitPost = async () => {
-    try {
-      const res = await createPostApi({
+    createPostMutation.mutate(
+      {
         postCreateRequest: {
           boardCode: boardCode,
           postCategory: isQuestion ? "질문" : "자유",
@@ -54,23 +56,13 @@ const PostForm = ({ boardCode }: PostFormProps) => {
           isQuestion,
         },
         file: imageUploadRef.current && imageUploadRef.current.files ? Array.from(imageUploadRef.current.files) : [],
-      });
-      const postId = res.data.id;
-      router.push(`/community/${boardCode}/${postId}`);
-    } catch (err) {
-      if (err.response) {
-        console.error("Axios response error", err.response);
-        if (err.response.status === 401 || err.response.status === 403) {
-          alert("로그인이 필요합니다");
-          document.location.href = "/login";
-        } else {
-          alert(err.response.data?.message);
-        }
-      } else {
-        console.error("Error", err.message);
-        alert(err.message);
-      }
-    }
+      },
+      {
+        onSuccess: (data) => {
+          router.push(`/community/${boardCode}/${data.id}`);
+        },
+      },
+    );
   };
 
   const notice =
