@@ -1,17 +1,9 @@
-import { AxiosResponse } from "axios";
-
-import { publicAxiosInstance } from "@/utils/axiosInstance";
+import serverFetch from "@/utils/serverFetchUtil";
 
 import { University } from "@/types/university";
 
-/**
- * @description 대학 상세 조회 서버 사이드 API 함수
- * @param universityInfoForApplyId - 대학 ID
- * @returns Promise<University>
- */
-export const getUniversityDetail = async (universityInfoForApplyId: number): Promise<University> => {
-  const response: AxiosResponse<University> = await publicAxiosInstance.get(
-    `/univ-apply-infos/${universityInfoForApplyId}`,
-  );
-  return response.data;
+export const getUniversityDetail = async (universityInfoForApplyId: number): Promise<University | undefined> => {
+  const result = await serverFetch<University>(`/univ-apply-infos/${universityInfoForApplyId}`);
+
+  return result.data;
 };
