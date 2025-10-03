@@ -14,10 +14,13 @@ import { useMutation } from "@tanstack/react-query";
  */
 const signUp = async (signUpRequest: SignUpRequest): Promise<SignUpResponse> => {
   // 임시 성별, 생년월일 추가. API 변경 시 삭제
-  signUpRequest["birth"] = "2000-01-01";
-  signUpRequest["gender"] = "PREFER_NOT_TO_SAY";
+  const payload = {
+    ...signUpRequest,
+    birth: "2000-01-01",
+    gender: "PREFER_NOT_TO_SAY",
+  };
 
-  const response: AxiosResponse<SignUpResponse> = await publicAxiosInstance.post("/auth/sign-up", signUpRequest);
+  const response: AxiosResponse<SignUpResponse> = await publicAxiosInstance.post("/auth/sign-up", payload);
   return response.data;
 };
 

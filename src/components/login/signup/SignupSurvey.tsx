@@ -66,7 +66,7 @@ const SignupSurvey = ({ baseNickname, baseEmail, baseProfileImageUrl }: SignupSu
         imageUrl = result.fileUrl;
       } catch (err: any) {
         console.error("Error", err.message);
-        toast.error(err.message || "이미지 업로드에 실패했습니다.");
+        // toast.error는 hook의 onError에서 이미 처리되므로 중복 호출 제거
       }
     }
 

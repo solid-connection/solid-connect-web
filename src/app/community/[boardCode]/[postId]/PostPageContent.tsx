@@ -19,10 +19,22 @@ interface PostPageContentProps {
 const PostPageContent = ({ boardCode, postId }: PostPageContentProps) => {
   const router = useRouter();
 
-  const { data: post, isLoading, refetch } = useGetPostDetail(postId);
+  const { data: post, isLoading, isError, refetch } = useGetPostDetail(postId);
 
-  if (isLoading || !post) {
+  if (isLoading) {
     return <CloudSpinnerPage />;
+  }
+
+  if (isError) {
+    // 에러 처리: 토스트 메시지 표시 후 목록 페이지로 이동
+    router.replace(`/community/${boardCode}`);
+    return null;
+  }
+
+  if (!post) {
+    // 게시글을 찾을 수 없는 경우
+    router.replace(`/community/${boardCode}`);
+    return null;
   }
 
   return (

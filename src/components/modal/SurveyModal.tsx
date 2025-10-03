@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import ModalBase from "./ModalBase";
+
+import { toast } from "@/lib/zustand/useToastStore";
 
 type SurveyModalProps = {
   isOpen: boolean;
@@ -12,6 +14,13 @@ type SurveyModalProps = {
 
 const SurveyModal = ({ isOpen, onClose, onCloseForWeek }: SurveyModalProps) => {
   const [dontShowForWeek, setDontShowForWeek] = useState(false);
+
+  // 모달이 열릴 때마다 체크박스 상태 초기화
+  useEffect(() => {
+    if (isOpen) {
+      setDontShowForWeek(false);
+    }
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -24,7 +33,20 @@ const SurveyModal = ({ isOpen, onClose, onCloseForWeek }: SurveyModalProps) => {
   };
 
   const handleSurveyClick = () => {
-    window.open("https://forms.gle/MgygciRxAqfXSWJb6", "_blank");
+    try {
+      const newWindow = window.open("https://forms.gle/MgygciRxAqfXSWJb6", "_blank", "noopener,noreferrer");
+
+      if (!newWindow) {
+        // 팝업이 차단된 경우
+        toast.error(
+          "팝업 차단으로 설문을 열 수 없습니다. 새 탭에서 수동으로 https://forms.gle/MgygciRxAqfXSWJb6 를 열어주세요.",
+        );
+      }
+    } catch (error) {
+      // 예외 발생 시
+      console.error("Failed to open survey:", error);
+      toast.error("설문 링크를 열 수 없습니다. 수동으로 https://forms.gle/MgygciRxAqfXSWJb6 를 열어주세요.");
+    }
   };
 
   return (
