@@ -25,6 +25,13 @@ export async function generateMetadata(
 
   // fetch data
   const universityData = await getUniversityDetail(Number(id));
+
+  if (!universityData) {
+    return {
+      title: "파견 학교 상세",
+    };
+  }
+
   const convertedKoreanName =
     universityData.term !== process.env.NEXT_PUBLIC_CURRENT_TERM
       ? `${universityData.koreanName}(${universityData.term})`
@@ -42,12 +49,12 @@ type CollegeDetailPageProps = {
 const CollegeDetailPage = async ({ params }: CollegeDetailPageProps) => {
   const collegeId = Number(params.id);
 
-  let universityData: University;
-  try {
-    universityData = await getUniversityDetail(collegeId);
-  } catch {
-    notFound(); // 404 페이지로 이동
+  const universityData = await getUniversityDetail(collegeId);
+
+  if (!universityData) {
+    notFound();
   }
+
   const convertedKoreanName =
     universityData.term !== process.env.NEXT_PUBLIC_CURRENT_TERM
       ? `${universityData.koreanName}(${universityData.term})`
