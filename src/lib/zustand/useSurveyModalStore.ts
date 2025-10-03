@@ -38,6 +38,13 @@ export const useSurveyModalStore = create<SurveyModalState>((set) => ({
   checkAndOpen: () => {
     if (typeof window === "undefined") return;
 
+    // 현재 페이지가 로그인 페이지인지 확인
+    const currentPath = window.location.pathname;
+    const isLoginPage = currentPath.includes("/login") || currentPath.includes("/sign-up");
+
+    // 로그인 페이지에서는 모달을 표시하지 않음
+    if (isLoginPage) return;
+
     const hideUntil = localStorage.getItem(SURVEY_MODAL_STORAGE_KEY);
 
     // 저장된 시간이 없거나, 현재 시간이 저장된 시간보다 이후면 모달 표시
