@@ -4,11 +4,8 @@ import { AxiosError, AxiosResponse } from "axios";
 
 import { axiosInstance } from "@/utils/axiosInstance";
 
-import { useMutation } from "@tanstack/react-query";
 import { toast } from "@/lib/zustand/useToastStore";
-// 타입 경로
-import { UseMutationOptions, UseMutationResult } from "@tanstack/react-query";
-import { toast } from "@/lib/zustand/useToastStore";
+import { UseMutationOptions, UseMutationResult, useMutation } from "@tanstack/react-query";
 
 // API 함수 경로
 export interface UseSubmitApplicationResponse {

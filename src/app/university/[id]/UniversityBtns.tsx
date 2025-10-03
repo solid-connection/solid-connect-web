@@ -1,13 +1,12 @@
 "use client";
 
-import { toast } from "@/lib/zustand/useToastStore";
-
 import { useEffect, useState } from "react";
 
 import useDeleteUniversityFavorite from "@/api/university/client/useDeleteUniversityFavorite";
 import useGetMyWishUniversity from "@/api/university/client/useGetMyWishUniversity";
 import usePostUniversityFavorite from "@/api/university/client/usePostUniversityFavorite";
 import useAuthStore from "@/lib/zustand/useAuthStore";
+import { toast } from "@/lib/zustand/useToastStore";
 
 const likeIcon = (
   <svg xmlns="http://www.w3.org/2000/svg" width="19" height="16" viewBox="0 0 19 16" fill="none">
@@ -67,7 +66,7 @@ const UniversityBtns = ({ universityId }: UniversityBtnsProps) => {
 
   const handleCopy = () => {
     navigator.clipboard.writeText(window.location.href).then(() => {});
-    toast.error("URL이 복사되었습니다.");
+    toast.success("URL이 복사되었습니다.");
   };
   return (
     <>

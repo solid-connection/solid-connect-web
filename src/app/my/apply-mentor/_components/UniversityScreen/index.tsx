@@ -10,6 +10,7 @@ import { MentorApplicationFormData } from "../../_lib/schema";
 import { mentorRegionList } from "@/constants/regions";
 
 import useGetUniversitySearchByText from "@/api/university/client/useGetUniversitySearchByText";
+import { toast } from "@/lib/zustand/useToastStore";
 
 type UniversityScreenProps = {
   onNext: () => void;
@@ -57,7 +58,7 @@ const UniversityScreen = ({ onNext }: UniversityScreenProps) => {
         fileInputRef.current.value = "";
       }
       setValue("verificationFile", null);
-      alert("파일 크기는 10MB 이하여야 합니다.");
+      toast.error("파일 크기는 10MB 이하여야 합니다.");
       return;
     }
 

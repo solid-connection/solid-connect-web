@@ -11,7 +11,7 @@ export const mentorApplicationSchema = z.object({
     .instanceof(File)
     .nullable()
     .refine((file) => file !== null, {
-      message: "올바른 증명된 사람만 이용할 수 있어요.",
+      message: "증명 서류(파일)를 업로드해 주세요.",
     }),
 
   // Step 3: 준비 단계
