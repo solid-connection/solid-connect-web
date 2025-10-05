@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 
-import { axiosInstance } from "@/utils/axiosInstance";
+import { publicAxiosInstance } from "@/utils/axiosInstance";
 
 import { QueryKeys } from "./QueryKeys";
 
@@ -14,7 +14,7 @@ interface UseGetPostListProps {
 }
 
 const getPostList = (boardCode: string, category: string | null = null): Promise<AxiosResponse<ListPost[]>> =>
-  axiosInstance.get(`/boards/${boardCode}`, {
+  publicAxiosInstance.get(`/boards/${boardCode}`, {
     params: {
       category,
     },
@@ -22,7 +22,7 @@ const getPostList = (boardCode: string, category: string | null = null): Promise
 
 const useGetPostList = ({ boardCode, category = null }: UseGetPostListProps) => {
   return useQuery({
-    queryKey: [QueryKeys.postList],
+    queryKey: [QueryKeys.postList, boardCode, category],
     queryFn: () => getPostList(boardCode, category),
     // staleTime을 무한으로 설정하여 불필요한 자동 refetch를 방지합니다.
     staleTime: Infinity,
