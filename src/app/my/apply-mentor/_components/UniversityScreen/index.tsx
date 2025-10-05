@@ -52,6 +52,17 @@ const UniversityScreen = ({ onNext }: UniversityScreenProps) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    // 파일 형식 체크 (png, jpg, pdf)
+    const allowedTypes = ["image/png", "image/jpeg", "image/jpg", "application/pdf"];
+    if (!allowedTypes.includes(file.type)) {
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+      setValue("verificationFile", null);
+      toast.error("파일 형식은 png, jpg, pdf만 허용됩니다.");
+      return;
+    }
+
     // 파일 크기 체크 (10MB)
     if (file.size > 10 * 1024 * 1024) {
       if (fileInputRef.current) {

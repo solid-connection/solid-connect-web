@@ -12,11 +12,21 @@ export const mentorApplicationSchema = z.object({
     .nullable()
     .refine((file) => file !== null, {
       message: "증명 서류(파일)를 업로드해 주세요.",
-    }),
+    })
+    .refine(
+      (file) => {
+        if (!file) return true; // null 체크는 위에서 처리
+        const allowedTypes = ["image/png", "image/jpeg", "image/jpg", "application/pdf"];
+        return allowedTypes.includes(file.type);
+      },
+      {
+        message: "파일 형식은 png, jpg, pdf만 허용됩니다.",
+      },
+    ),
 
   // Step 3: 준비 단계
   studyStatus: z.enum(["PLANNING", "STUDYING", "COMPLETED"], {
-    required_error: "준비 단계를 선택해주세요.",
+    message: "준비 단계를 선택해주세요.",
   }),
 });
 
