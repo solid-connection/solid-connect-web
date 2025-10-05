@@ -13,7 +13,7 @@ interface ArticleListResponse {
 }
 
 const getArticleList = async (userId: number): Promise<ArticleListResponse> => {
-  const response: AxiosResponse<ArticleListResponse> = await axiosInstance.get(`/news?site-user-id=${userId}`);
+  const response: AxiosResponse<ArticleListResponse> = await axiosInstance.get(`/news?author-id=${userId}`);
   return response.data;
 };
 
