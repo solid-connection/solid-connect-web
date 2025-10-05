@@ -21,7 +21,7 @@ const CommunityPageContent = ({ boardCode }: CommunityPageContentProps) => {
   const router = useRouter();
   const [category, setCategory] = useState<string | null>("전체");
 
-  const { data: posts = [] } = useGetPostList({ boardCode });
+  const { data: posts = [] } = useGetPostList({ boardCode, category });
 
   const handleBoardChange = (newBoard: string) => {
     router.push(`/community/${newBoard}`);

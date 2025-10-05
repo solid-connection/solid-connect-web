@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
@@ -17,6 +18,7 @@ import { toast } from "@/lib/zustand/useToastStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const ApplyMentorPage = () => {
+  const router = useRouter();
   const [step, setStep] = useState<number>(1);
 
   const methods = useForm<MentorApplicationFormData>({
@@ -34,7 +36,12 @@ const ApplyMentorPage = () => {
   const { mutate: postMentorApplication } = usePostMentorApplication();
 
   const goNextStep = () => setStep((prev) => prev + 1);
-  const goPrevStep = () => setStep((prev) => Math.max(1, prev - 1));
+  const goPrevStep = () => {
+    if (step === 1) {
+      router.back();
+    }
+    setStep((prev) => Math.max(1, prev - 1));
+  };
 
   const progress = ((step - 1) / 3) * 100;
 

@@ -191,6 +191,7 @@ const UniversityScreen = ({ onNext }: UniversityScreenProps) => {
                   주세요.
                 </li>
                 <li>실명을 제외한 개인정보는 모두 가려주세요.</li>
+                <li>업로드 가능한 파일 유형은 [png, jpg, pdf] 입니다.</li>
               </ul>
             </div>
           </div>

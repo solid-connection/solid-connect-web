@@ -75,9 +75,17 @@ const MyProfileContent = () => {
             <div className="w-full cursor-pointer rounded-lg bg-secondary-500 py-2 text-center font-medium text-white">
               <Link href={"/my/modify"}>프로필 변경</Link>
             </div>
-            <Link className="w-full" href={"/my/apply-mentor"}>
+            {/* <Link className="w-full" href={"/my/apply-mentor"}>
               <button className="w-full rounded-lg bg-secondary-800 py-2 font-medium text-white">멘토 회원 전환</button>
-            </Link>
+            </Link> */}
+            <button
+              onClick={() => {
+                toast.info("조금만 기다려주세요. [업데이트 중]");
+              }}
+              className="w-full rounded-lg bg-secondary-800 py-2 font-medium text-white"
+            >
+              멘토 회원 전환
+            </button>
           </div>
         )}
       </div>
