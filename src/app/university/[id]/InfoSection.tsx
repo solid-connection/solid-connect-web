@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 
+import LinkifyText from "@/components/ui/LinkifyText";
+
 interface InfoSectionProps {
   semesterRequirement: string;
   semesterAvailableForDispatch: string;
@@ -85,7 +87,9 @@ const InfoSection = ({
               </div>
             </div>
             <div className="pl-11">
-              <span className="text-sm font-medium leading-normal text-k-700">{detailsForApply}</span>
+              <span className="text-sm font-medium leading-normal text-k-700">
+                <LinkifyText>{detailsForApply}</LinkifyText>
+              </span>
             </div>
           </div>
         )}
@@ -130,7 +134,9 @@ const InfoSection = ({
               </div>
             </div>
             <div className="pl-11">
-              <span className="text-sm font-medium leading-normal text-k-700">{detailsForAccommodation}</span>
+              <span className="text-sm font-medium leading-normal text-k-700">
+                <LinkifyText>{detailsForAccommodation}</LinkifyText>
+              </span>
             </div>
           </div>
         )}
