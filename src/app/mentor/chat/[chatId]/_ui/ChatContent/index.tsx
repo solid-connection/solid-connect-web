@@ -29,7 +29,8 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
   const { accessToken } = useAuthStore();
   const parsedData = tokenParse(accessToken);
   const userId = parsedData?.sub ?? 0;
-  const isMentor = parsedData?.role === UserRole.MENTOR;
+
+  const isMentor = parsedData?.role === UserRole.MENTOR || parsedData?.role === UserRole.ADMIN;
 
   // 채팅 읽음 상태 업데이트 훅 진입시 자동으로
   usePutChatReadHandler(chatId);
@@ -84,9 +85,11 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
                   "rounded-3xl px-4 py-2 text-sm font-semibold text-k-0",
                   isMentor ? "bg-sub-c-500" : "bg-primary",
                 )}
-                href={`/mentor/${partnerId}`}
+                // TODO 멘티 페이지 라우터 변경 시 수정 필요
+                // partnerId 가 mentorId가 맞는지 확인 필요
+                href={isMentor ? `/${partnerId}` : `/mentor/${partnerId}`}
               >
-                멘토 페이지
+                {isMentor ? "멘티 페이지" : "멘토 페이지"}
               </Link>
             </div>
             <div className="rounded bg-white px-4 py-2 text-center">
@@ -112,7 +115,7 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
           </div>
           {/* 채팅 메시지 영역 - 항상 스크롤 가능, 스크롤바 숨김 */}
           <div
-            className="scrollbar-hide flex-1 overflow-y-auto p-4 pb-6"
+            className="scrollbar-hide mt-4 flex-1 overflow-y-auto p-4 pb-6"
             style={{
               scrollbarWidth: "none" /* Firefox */,
               msOverflowStyle: "none" /* Internet Explorer 10+ */,
@@ -154,7 +157,12 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
                       </div>
                     )}
                     {/* 일반 채팅 메시지 */}
-                    <ChatMessageBox key={message.id} message={message} currentUserId={userId} />
+                    <ChatMessageBox
+                      key={message.id}
+                      message={message}
+                      currentUserId={userId}
+                      partnerNickname={nickname}
+                    />
                   </div>
                 );
               })}

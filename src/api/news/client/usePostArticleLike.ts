@@ -64,7 +64,6 @@ const usePostArticleLike = (userId: number | null) => {
 
     // 4. onError: 실패 시 이전 상태로 롤백합니다.
     onError: (err, variables, context) => {
-      console.log(err);
       if (context?.previousArticleList) {
         queryClient.setQueryData<Article[]>(queryKey, context.previousArticleList);
       }

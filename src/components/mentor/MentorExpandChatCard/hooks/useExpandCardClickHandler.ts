@@ -23,7 +23,8 @@ const useExpandCardClickHandler = ({
   initChecked = false,
 }: UseExpandCardClickHandlerProps): UseExpandCardClickHandlerReturn => {
   const { accessToken } = useAuthStore();
-  const isMentor = tokenParse(accessToken)?.role === UserRole.MENTOR;
+  const isMentor =
+    tokenParse(accessToken)?.role === UserRole.MENTOR || tokenParse(accessToken)?.role === UserRole.ADMIN;
 
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const [isCheckedState, setIsCheckedState] = useState<boolean>(initChecked || false);

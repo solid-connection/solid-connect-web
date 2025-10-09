@@ -77,6 +77,7 @@ const useChatListHandler = (chatId: number) => {
       if (content.trim() === "") return; // 빈 메시지 전송 방지
 
       if (clientRef.current?.active && connectionStatus === ConnectionStatus.Connected) {
+        // WebSocket으로 메시지 전송
         clientRef.current.publish({
           destination: `/publish/chat/${chatId}`,
           body: JSON.stringify({ content, senderId }),

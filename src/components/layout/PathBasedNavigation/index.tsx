@@ -42,7 +42,7 @@ const PathBasedNavigation = ({
   }
 
   return (
-    <div className="fixed top-0 z-30 box-border flex h-14 w-full max-w-[600px] items-center justify-between bg-white px-5">
+    <div className="max-w-app fixed top-0 z-30 box-border flex h-14 w-full items-center justify-between bg-white px-5">
       <button className="min-w-6 cursor-pointer" onClick={handleBack || routeBack} type="button" aria-label="뒤로 가기">
         <IconArrowBackFilled />
       </button>

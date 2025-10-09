@@ -1,7 +1,5 @@
 "use client";
 
-import { toast } from "@/lib/zustand/useToastStore";
-
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Suspense, useState } from "react";
@@ -21,6 +19,7 @@ import { LanguageTestEnum } from "@/types/score";
 
 import { usePostLanguageTestScore } from "@/api/score/client/usePostLanguageTestScore";
 import CustomDropdown from "@/app/university/CustomDropdown";
+import { toast } from "@/lib/zustand/useToastStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const LanguageTestSubmitForm = () => {
@@ -167,7 +166,7 @@ const LanguageTestSubmitForm = () => {
             </div>
           </div>
         </div>
-        <div className="mt-10 w-full max-w-[600px] px-5">
+        <div className="max-w-app mt-10 w-full px-5">
           <button
             className={clsx(
               "mb-10 w-full rounded-lg py-4 font-semibold text-white",

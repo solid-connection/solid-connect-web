@@ -58,7 +58,7 @@ const WaitingContent = () => {
         {({ isExpanded }) => (
           <div className="space-y-2">
             <h3 className="mt-3 px-5 text-[18px] font-semibold text-k-900">수락 대기중</h3>
-            <div className="space-y-2">
+            <div className="space-y-2 p-4">
               {pendingList.length === 0 ? (
                 <div className="px-4 py-3">
                   <EmptySdwBCards message="멘토 신청 내역이 없습니다." />

@@ -66,6 +66,7 @@ export enum MenteeTab {
 export enum UserRole {
   MENTOR = "MENTOR",
   MENTEE = "MENTEE",
+  ADMIN = "ADMIN",
 }
 
 export enum MentorStudyStatus {

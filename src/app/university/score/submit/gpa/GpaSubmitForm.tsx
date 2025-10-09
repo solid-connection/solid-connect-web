@@ -160,7 +160,7 @@ const GpaSubmitForm = () => {
             </div>
           </div>
         </div>
-        <div className="mt-10 w-full max-w-[600px] px-5">
+        <div className="max-w-app mt-10 w-full px-5">
           <button
             className={clsx(
               "mb-10 w-full rounded-lg py-4 font-semibold text-white",

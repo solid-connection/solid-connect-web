@@ -1,7 +1,5 @@
 "use client";
 
-import { toast } from "@/lib/zustand/useToastStore";
-
 import { useState } from "react";
 
 import BlockBtn from "@/components/button/BlockBtn";
@@ -11,6 +9,7 @@ import Tab from "@/components/ui/Tab";
 import { GpaScore, ScoreSubmitStatus } from "@/types/score";
 
 import ScoreCard from "@/app/university/score/ScoreCard";
+import { toast } from "@/lib/zustand/useToastStore";
 
 type GpaStepProps = {
   gpaScoreList: GpaScore[];
@@ -54,7 +53,7 @@ const GpaStep = ({ gpaScoreList, curGpaScore, setCurGpaScore, onNext }: GpaStepP
           ))}
         </div>
       </div>
-      <div className="fixed bottom-14 w-full max-w-[600px] bg-transparent">
+      <div className="max-w-app fixed bottom-14 w-full bg-transparent">
         <div className="mb-[37px] px-5">
           <BlockBtn
             onClick={() => {
