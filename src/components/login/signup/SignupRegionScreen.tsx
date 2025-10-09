@@ -50,7 +50,7 @@ const SignupRegionScreen = ({
           <CountryButtons curCountries={curCountries} setCurCountries={setCurCountries} region={curRegion} />
         </div>
       </div>
-      <div className="fixed bottom-14 w-full max-w-[600px] bg-white">
+      <div className="max-w-app fixed bottom-14 w-full bg-white">
         <div className="px-5">
           <BlockBtn className="mb-[29px]" disabled={!curRegion} onClick={submit}>
             다음

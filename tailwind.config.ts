@@ -160,6 +160,12 @@ const config: Config = {
         "30": "7.5rem", // 120px
         "37.5": "9.375rem", // 150px
       },
+      maxWidth: {
+        app: "600px",
+      },
+      minWidth: {
+        app: "360px",
+      },
       transitionProperty: {
         height: "height",
       },
@@ -171,6 +177,10 @@ const config: Config = {
       animation: {
         "slide-up": "slideUp 0.3s ease-out",
         "slide-down": "slideDown 0.3s ease-in",
+        fadeIn: "fadeIn 0.3s ease-out",
+        fadeOut: "fadeOut 0.3s ease-out",
+        slideInRight: "slideInRight 0.3s ease-out",
+        slideOutRight: "slideOutRight 0.3s ease-in",
       },
       keyframes: {
         slideUp: {
@@ -180,6 +190,22 @@ const config: Config = {
         slideDown: {
           "0%": { transform: "translateY(0)" },
           "100%": { transform: "translateY(100%)" },
+        },
+        fadeIn: {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+        fadeOut: {
+          "0%": { opacity: "1" },
+          "100%": { opacity: "0" },
+        },
+        slideInRight: {
+          "0%": { transform: "translateX(100%)" },
+          "100%": { transform: "translateX(0)" },
+        },
+        slideOutRight: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(100%)" },
         },
       },
     },

@@ -9,7 +9,7 @@ import { MentoringApprovalStatus } from "@/types/mentor";
 import { customAlert } from "@/lib/zustand/useAlertModalStore";
 import { customConfirm } from "@/lib/zustand/useConfirmModalStore";
 import { IconSmile, IconUnSmile } from "@/public/svgs/mentor";
-import { QueryClient, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface UsePatchApprovalStatusRequest {
   status: MentoringApprovalStatus;
@@ -17,6 +17,7 @@ interface UsePatchApprovalStatusRequest {
 }
 interface UsePatchApprovalStatusResponse {
   mentoringId: number; // 멘토링 ID
+  chatRoomId: number; // 채팅방 ID
 }
 
 const patchApprovalStatus = async (props: UsePatchApprovalStatusRequest): Promise<UsePatchApprovalStatusResponse> => {
@@ -56,7 +57,7 @@ const usePatchApprovalStatus = () => {
           approveMessage: "1:1 채팅 바로가기",
         });
         if (ok) {
-          router.push(`/mentor/chat/${data.mentoringId}`);
+          router.push(`/mentor/chat/${data.chatRoomId}`);
         }
       }
     },

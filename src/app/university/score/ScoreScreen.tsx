@@ -53,7 +53,7 @@ const ScoreScreen = () => {
             ))}
         </div>
       </div>
-      <div className="fixed bottom-14 w-full max-w-[600px] bg-white">
+      <div className="max-w-app fixed bottom-14 w-full bg-white">
         <div className="mb-[37px] px-5">
           {curTab === "공인어학" ? (
             <BlockBtn onClick={() => router.push("/university/score/submit/language-test")}>

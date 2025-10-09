@@ -127,7 +127,7 @@ const MentorCard = ({ mentor, observeRef, isMine = false }: MentorCardProps) => 
       {/* 접기/펼치기 버튼 */}
       <div className="mt-1 flex justify-center border-t border-t-k-50 pt-2">
         <button onClick={() => setIsExpanded(!isExpanded)} className="flex h-6 w-6 items-center justify-center">
-          {isExpanded ? <IconDirectionUp /> : <IconDirectionDown />}
+          <span className="h-6 w-6">{isExpanded ? <IconDirectionUp /> : <IconDirectionDown />}</span>
         </button>
       </div>
     </div>

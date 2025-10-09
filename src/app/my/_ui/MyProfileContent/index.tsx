@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 
 import LinkedTextWithIcon from "@/components/ui/LinkedTextWithIcon";
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
@@ -31,17 +32,52 @@ const MyProfileContent = () => {
 
   const { nickname, email, profileImageUrl } = profileData;
 
-  const university = profileData.role === UserRole.MENTOR ? profileData.attendedUniversity : null;
+  const isAdmin = profileData.role === UserRole.ADMIN;
+  const isMentor = profileData.role === UserRole.MENTOR || profileData.role === UserRole.ADMIN;
+
+  // 어드민 전용: 뷰 전환 상태 (true: 멘토 뷰, false: 멘티 뷰)
+  const [showMentorView, setShowMentorView] = useState<boolean>(true);
+
+  // 어드민이 아닌 경우 기존 로직대로, 어드민인 경우 토글 상태에 따라
+  const viewAsMentor = isAdmin ? showMentorView : isMentor;
+
+  const university =
+    profileData.role === UserRole.MENTOR || profileData.role === UserRole.ADMIN ? profileData.attendedUniversity : null;
   const favoriteLocation =
     profileData.role === UserRole.MENTEE ? profileData.interestedCountries?.slice(0, 3).join(", ") || "없음" : null;
-  const isMentor = profileData.role === UserRole.MENTOR;
 
   return (
     <div className="px-5 py-2">
+      {/* 어드민 전용 뷰 전환 버튼 */}
+      {isAdmin && (
+        <div className="mb-4 flex gap-2">
+          <button
+            onClick={() => setShowMentorView(true)}
+            className={`flex-1 rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors ${
+              showMentorView ? "bg-primary text-white" : "border border-k-200 bg-white text-k-600 hover:bg-k-50"
+            }`}
+          >
+            멘토 뷰
+          </button>
+          <button
+            onClick={() => setShowMentorView(false)}
+            className={`flex-1 rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors ${
+              !showMentorView ? "bg-primary text-white" : "border border-k-200 bg-white text-k-600 hover:bg-k-50"
+            }`}
+          >
+            멘티 뷰
+          </button>
+        </div>
+      )}
+
       <div className="mb-4 text-start text-lg font-semibold text-k-700">
         <p>{nickname}님은</p>
         <p>
-          현재 <span className="font-medium text-primary">{isMentor ? "멘토" : "멘티"}</span> 솔커예요.
+          현재{" "}
+          <span className="font-medium text-primary">
+            {profileData.role === UserRole.ADMIN ? "어드민" : isMentor ? "멘토" : "멘티"}
+          </span>{" "}
+          솔커예요.
         </p>
       </div>
       {/* Profile Card */}
@@ -53,20 +89,24 @@ const MyProfileContent = () => {
               <h3 className="text-lg font-semibold text-primary">{nickname}</h3>
               <span
                 className={`rounded-2xl px-2 py-1 text-xs font-medium ${
-                  isMentor ? "bg-sub-d-100 text-sub-d-500" : "bg-sub-e-100 text-sub-e-500"
+                  profileData.role === UserRole.ADMIN
+                    ? "bg-red-100 text-red-600"
+                    : isMentor
+                      ? "bg-sub-d-100 text-sub-d-500"
+                      : "bg-sub-e-100 text-sub-e-500"
                 }`}
               >
-                {isMentor ? "Mentor" : "Mentee"}
+                {profileData.role === UserRole.ADMIN ? "Admin" : isMentor ? "Mentor" : "Mentee"}
               </span>
             </div>
             <p className="mt-2 text-sm text-k-600">
-              {isMentor ? "수학학교" : "관심지역"} |{" "}
-              <span className="font-semibold text-primary">{isMentor ? university : favoriteLocation}</span>
+              {viewAsMentor ? "수학학교" : "관심지역"} |{" "}
+              <span className="font-semibold text-primary">{viewAsMentor ? university : favoriteLocation}</span>
             </p>
           </div>
         </div>
 
-        {isMentor ? (
+        {viewAsMentor ? (
           <div className="w-full cursor-pointer rounded-lg bg-secondary-500 py-2 text-center font-medium text-white">
             <Link href={"/my/modify"}>프로필 변경</Link>
           </div>
@@ -115,7 +155,7 @@ const MyProfileContent = () => {
           <div className="mx-auto mb-2 h-8 w-8">
             <IconGraduationPrimary />
           </div>
-          {isMentor ? "매칭 멘티" : "매칭 멘토"}
+          {viewAsMentor ? "매칭 멘티" : "매칭 멘토"}
         </Link>
       </div>
 
@@ -126,13 +166,13 @@ const MyProfileContent = () => {
         <LinkedTextWithIcon
           onClick={() => toast.error("현재 불가합니다.")}
           icon={<IconEarth />}
-          text={isMentor ? "수학 국가 변경" : "관심 국가 변경"}
+          text={viewAsMentor ? "수학 국가 변경" : "관심 국가 변경"}
         />
 
         <LinkedTextWithIcon
           href="/university/application/apply"
           icon={<IconUniversity />}
-          text={isMentor ? "수학 중/완료 학교 변경" : "지원 학교 변경"}
+          text={viewAsMentor ? "수학 중/완료 학교 변경" : "지원 학교 변경"}
         />
 
         <LinkedTextWithIcon href="/university/score" icon={<IconBook />} text="공인 어학 / 학점 변경" />

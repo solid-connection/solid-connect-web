@@ -49,7 +49,16 @@ export const convertISODateToKoreanTime = (isoDate: string) => {
 
 // 날짜 포맷팅 함수 - ISO8601 문자열을 받아서 시간 포맷팅
 export const formatTime = (dateString: string) => {
+  if (!dateString) return "";
+
   const date = new Date(dateString);
+
+  // Invalid date 체크
+  if (Number.isNaN(date.getTime())) {
+    console.error("Invalid date string:", dateString);
+    return "";
+  }
+
   const hours = date.getHours();
   const minutes = date.getMinutes();
   const period = hours >= 12 ? "오후" : "오전";

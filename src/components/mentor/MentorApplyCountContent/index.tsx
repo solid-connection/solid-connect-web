@@ -13,7 +13,8 @@ import useAuthStore from "@/lib/zustand/useAuthStore";
 const MentorApplyCountContent = () => {
   // 로그인 된경우에만 신규 신청 카운트 모달 표시
   const { accessToken, isLoading } = useAuthStore();
-  const isMentor = tokenParse(accessToken)?.role === UserRole.MENTOR;
+  const isMentor =
+    tokenParse(accessToken)?.role === UserRole.MENTOR || tokenParse(accessToken)?.role === UserRole.ADMIN;
 
   const { data: count, isSuccess } = useGetMentoringUncheckedCount(!!accessToken && isMentor && !isLoading);
 

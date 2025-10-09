@@ -42,9 +42,7 @@ export const appleLogin = async () => {
     if (res.authorization) {
       window.location.href = `/login/apple/callback?code=${encodeURIComponent(res.authorization.code)}`;
     }
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 export const isCookieLoginEnabled = (): boolean => {

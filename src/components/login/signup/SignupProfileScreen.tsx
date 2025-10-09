@@ -1,12 +1,11 @@
 "use client";
 
-import { toast } from "@/lib/zustand/useToastStore";
-
 import { Dispatch, SetStateAction, useRef, useState } from "react";
 
 import BlockBtn from "@/components/button/BlockBtn";
 import { Input } from "@/components/ui/Inputa";
 
+import { toast } from "@/lib/zustand/useToastStore";
 import { IconSignupProfileImage } from "@/public/svgs/auth";
 
 type SignupProfileScreenProps = {
@@ -107,7 +106,7 @@ const SignupProfileScreen = ({
         </div>
       </div>
 
-      <div className="fixed bottom-14 w-full max-w-[600px] bg-white">
+      <div className="max-w-app fixed bottom-14 w-full bg-white">
         <div className="px-5">
           <BlockBtn className="mb-[29px]" disabled={!nickname} onClick={submit}>
             가입 완료

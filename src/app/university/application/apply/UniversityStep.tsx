@@ -105,7 +105,7 @@ const UniversityStep = ({ universityList, curUniversityList, setCurUniversityLis
           </div>
         </div>
       </div>
-      <div className="fixed bottom-14 w-full max-w-[600px] bg-white">
+      <div className="max-w-app fixed bottom-14 w-full bg-white">
         <div className="mb-[37px] px-5">
           <BlockBtn
             onClick={() => {

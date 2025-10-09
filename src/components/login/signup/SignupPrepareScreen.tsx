@@ -1,7 +1,5 @@
 "use client";
 
-import { toast } from "@/lib/zustand/useToastStore";
-
 import { Dispatch, SetStateAction } from "react";
 
 import clsx from "clsx";
@@ -10,6 +8,7 @@ import BlockBtn from "@/components/button/BlockBtn";
 
 import { PreparationStatus, PreparationStatusEnum } from "@/types/auth";
 
+import { toast } from "@/lib/zustand/useToastStore";
 import { IconPrepare1, IconPrepare2, IconPrepare3 } from "@/public/svgs/auth";
 
 type SignupPrepareScreenProps = {
@@ -71,7 +70,7 @@ const SignupPrepareScreen = ({ preparation, setPreparation, toNextStage }: Signu
         </div>
       </div>
 
-      <div className="fixed bottom-14 w-full max-w-[600px] bg-white">
+      <div className="max-w-app fixed bottom-14 w-full bg-white">
         <div className="px-5">
           <BlockBtn className="mb-[29px]" disabled={!preparation} onClick={submit}>
             다음

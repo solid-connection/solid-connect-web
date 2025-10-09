@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import MentorCard from "@/components/mentor/MentorCard";
 import MentorChatCard from "@/components/mentor/MentorChatCard";
 
@@ -11,25 +13,53 @@ import useGetMyInfo from "@/api/my/client/useGetMyInfo";
 const MatchContent = () => {
   const { data: myInfo = {} } = useGetMyInfo();
   const { data: chatRoom = [] } = useGetChatRooms();
-  const isMnentor = myInfo.role === UserRole.MENTOR;
+
+  const isAdmin = myInfo.role === UserRole.ADMIN;
+  const isMentor = myInfo.role === UserRole.MENTOR || myInfo.role === UserRole.ADMIN;
+
+  // 어드민 전용: 뷰 전환 상태 (true: 멘토 뷰, false: 멘티 뷰)
+  const [showMentorView, setShowMentorView] = useState<boolean>(true);
+
+  // 어드민이 아닌 경우 기존 로직대로, 어드민인 경우 토글 상태에 따라
+  const viewAsMentor = isAdmin ? showMentorView : isMentor;
 
   const { nickname } = myInfo;
 
   return (
     <div className="flex h-full flex-col px-5">
+      {/* 어드민 전용 뷰 전환 버튼 */}
+      {isAdmin && (
+        <div className="mb-4 flex gap-2">
+          <button
+            onClick={() => setShowMentorView(true)}
+            className={`flex-1 rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors ${
+              showMentorView ? "bg-primary text-white" : "border border-k-200 bg-white text-k-600 hover:bg-k-50"
+            }`}
+          >
+            멘토 뷰
+          </button>
+          <button
+            onClick={() => setShowMentorView(false)}
+            className={`flex-1 rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors ${
+              !showMentorView ? "bg-primary text-white" : "border border-k-200 bg-white text-k-600 hover:bg-k-50"
+            }`}
+          >
+            멘티 뷰
+          </button>
+        </div>
+      )}
+
       <p className="font-pretendard text-xl font-semibold text-k-700">
         {nickname ? `${nickname}님의` : "회원님이"}
         <br />
-        매칭된 {isMnentor ? "멘토" : "멘티"}
+        매칭된 {viewAsMentor ? "멘티" : "멘토"}
       </p>
       {chatRoom.length === 0 ? (
-        <p className="mt-6 text-center text-sm text-k-500">
-          매칭된 {myInfo.role === UserRole.MENTEE ? "멘토" : "멘티"}가 없습니다.
-        </p>
+        <p className="mt-6 text-center text-sm text-k-500">매칭된 {viewAsMentor ? "멘티" : "멘토"}가 없습니다.</p>
       ) : (
         <div className="mt-6 flex flex-1 flex-col gap-4 pb-4">
           {chatRoom.map((room) =>
-            isMnentor ? (
+            viewAsMentor ? (
               <MentorChatCard
                 key={room.id}
                 profileImageUrl={room.partner.profileUrl}

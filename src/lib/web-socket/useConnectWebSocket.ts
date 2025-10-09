@@ -49,11 +49,6 @@ const useConnectWebSocket = ({ roomId, clientRef }: UseConnectWebSocketProps): U
           heartbeatIncoming: 50000,
           heartbeatOutgoing: 50000,
           reconnectDelay: 50000,
-          debug: (str) => {
-            if (process.env.NODE_ENV === "development") {
-              console.log(new Date(), str);
-            }
-          },
         });
 
         client.onConnect = () => {
@@ -61,6 +56,11 @@ const useConnectWebSocket = ({ roomId, clientRef }: UseConnectWebSocketProps): U
           client.subscribe(`/topic/chat/${roomId}`, (message) => {
             try {
               const receivedMessage = JSON.parse(message.body) as ChatMessage;
+
+              if (!receivedMessage.createdAt || Number.isNaN(new Date(receivedMessage.createdAt).getTime())) {
+                receivedMessage.createdAt = new Date().toISOString();
+              }
+
               setSubmittedMessages((prev) => [...prev, receivedMessage]);
             } catch (error) {
               console.error("Failed to parse message body:", error);

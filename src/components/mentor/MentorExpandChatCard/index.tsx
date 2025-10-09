@@ -76,6 +76,7 @@ const MentorExpandChatCard = ({
       {isExpanded && (
         <div className="px-4 pb-4">
           <div className="mt-3 flex justify-center">
+            {/* TODO mentoringId -> roomID */}
             {verifyStatus === MentoringApplyStatus.APPROVED ? (
               mentoringId ? (
                 <Link

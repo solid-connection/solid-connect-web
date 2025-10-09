@@ -8,8 +8,8 @@ import { QueryKeys } from "./queryKey";
 
 import { Article } from "@/types/news";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "@/lib/zustand/useToastStore";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 type UsePutModifyArticleRequest = {
   body: ArticleFormData & { isImageDeleted?: boolean };
@@ -68,7 +68,6 @@ const usePutModifyArticle = (userId: number | null) => {
       return { previousArticleList };
     },
     onError: (error, variables, context) => {
-      console.log();
       const errorMessage = error.response?.data?.message || "";
       if (context?.previousArticleList) {
         queryClient.setQueryData(queryKey, context.previousArticleList);

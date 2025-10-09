@@ -24,9 +24,7 @@ const usePostApplyMentorHandler = (): UsePostApplyMentorHandlerReturn => {
             approveMessage: "다른 멘토 찾기",
             rejectMessage: "홈으로",
           });
-          if (ok) {
-            router.push("/mentor");
-          } else {
+          if (!ok) {
             router.push("/");
           }
         },

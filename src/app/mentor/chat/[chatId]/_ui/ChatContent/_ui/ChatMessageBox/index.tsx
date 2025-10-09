@@ -12,10 +12,12 @@ import type { ChatMessage } from "@/types/chat";
 interface ChatMessageBoxProps {
   message: ChatMessage;
   currentUserId?: number; // 현재 사용자 ID
+  partnerNickname?: string; // 상대방 닉네임
 }
 
-const ChatMessageBox = ({ message, currentUserId = 1 }: ChatMessageBoxProps) => {
-  const isMine = message.senderId === currentUserId;
+const ChatMessageBox = ({ message, currentUserId = 1, partnerNickname = "상대방" }: ChatMessageBoxProps) => {
+  const isMine = message.senderId === Number(currentUserId);
+
   const messageType = getMessageType(message);
 
   // 첨부파일 렌더링 함수
@@ -84,7 +86,7 @@ const ChatMessageBox = ({ message, currentUserId = 1 }: ChatMessageBoxProps) => 
       <div className="flex max-w-xs flex-row gap-2">
         <ProfileWithBadge width={32} height={32} />
         <div className="flex flex-col items-start">
-          <span className="mb-1 text-xs font-medium text-k-900">상대방</span>
+          <span className="mb-1 text-xs font-medium text-k-900">{partnerNickname}</span>
           <div className="flex items-end gap-1">
             <div className="rounded-b-xl rounded-tr-xl bg-k-100 px-3 py-2 text-k-900">
               {shouldShowContent(messageType) && <p className="whitespace-pre-line text-sm">{message.content}</p>}

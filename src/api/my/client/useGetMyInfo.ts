@@ -20,7 +20,12 @@ export interface MentorInfo extends BaseUserInfo {
   attendedUniversity: string;
 }
 
-export type MyInfoResponse = MenteeInfo | MentorInfo;
+export interface AdminInfo extends BaseUserInfo {
+  role: UserRole.ADMIN;
+  attendedUniversity: string;
+}
+
+export type MyInfoResponse = MenteeInfo | MentorInfo | AdminInfo;
 
 // --- API 호출 함수 ---
 const getMyInfo = async (): Promise<MyInfoResponse> => {
