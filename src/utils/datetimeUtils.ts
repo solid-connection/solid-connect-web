@@ -1,7 +1,19 @@
+/**
+ * Logs invalid date strings in non-production environments
+ * @param dateString - The invalid date string
+ * @param functionName - The name of the function that encountered the error
+ */
+const logInvalidDate = (dateString: string, functionName: string) => {
+  if (process.env.NODE_ENV !== "production") {
+    console.error(`[${functionName}] Invalid date string:`, dateString);
+  }
+};
+
 export const convertISODateToDate = (isoDate: string) => {
   const date = new Date(isoDate);
 
   if (Number.isNaN(date.getTime())) {
+    logInvalidDate(isoDate, "convertISODateToDate");
     return null;
   }
 
@@ -17,6 +29,7 @@ export const convertISODateToDateTime = (isoDate: string) => {
   const date = new Date(isoDate);
 
   if (Number.isNaN(date.getTime())) {
+    logInvalidDate(isoDate, "convertISODateToDateTime");
     return null;
   }
 
@@ -35,6 +48,7 @@ export const convertISODateToKoreanTime = (isoDate: string) => {
   const date = new Date(isoDate);
 
   if (Number.isNaN(date.getTime())) {
+    logInvalidDate(isoDate, "convertISODateToKoreanTime");
     return null;
   }
 
@@ -49,14 +63,17 @@ export const convertISODateToKoreanTime = (isoDate: string) => {
 
 // 날짜 포맷팅 함수 - ISO8601 문자열을 받아서 시간 포맷팅
 export const formatTime = (dateString: string) => {
-  if (!dateString) return "";
+  if (!dateString) {
+    logInvalidDate(dateString, "formatTime");
+    return null;
+  }
 
   const date = new Date(dateString);
 
   // Invalid date 체크
   if (Number.isNaN(date.getTime())) {
-    console.error("Invalid date string:", dateString);
-    return "";
+    logInvalidDate(dateString, "formatTime");
+    return null;
   }
 
   const hours = date.getHours();

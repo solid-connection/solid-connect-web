@@ -70,7 +70,7 @@ const ChatNavBar = ({ chatId }: ChatNavBarProps) => {
       {/* 오버레이 (패널 외부 클릭 시 닫기) */}
       {(isExpanded || isAnimating) && (
         <button
-          className={clsx("fixed inset-0 right-0 top-0 z-30 bg-black bg-opacity-20", {
+          className={clsx("fixed inset-0 right-0 top-0 z-20 bg-black bg-opacity-20", {
             "animate-fadeIn": isExpanded,
             "animate-fadeOut": !isExpanded && isAnimating,
           })}

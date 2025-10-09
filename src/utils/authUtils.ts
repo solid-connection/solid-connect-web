@@ -42,7 +42,24 @@ export const appleLogin = async () => {
     if (res.authorization) {
       window.location.href = `/login/apple/callback?code=${encodeURIComponent(res.authorization.code)}`;
     }
-  } catch (error) {}
+  } catch (error) {
+    // Log error for developers
+    console.error("Apple 로그인 실패:", error);
+
+    // Check if user cancelled the login
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    if (errorMessage.includes("popup_closed_by_user") || errorMessage.includes("user_cancelled_authorize")) {
+      // User intentionally cancelled - no need to show error
+      console.log("Apple 로그인이 사용자에 의해 취소되었습니다.");
+      return;
+    }
+
+    // Show user-facing error message for other failures
+    toast.error("Apple 로그인에 실패했습니다. 잠시 후 다시 시도해주세요.");
+
+    // Propagate error for upstream handling if needed
+    throw error;
+  }
 };
 
 export const isCookieLoginEnabled = (): boolean => {
