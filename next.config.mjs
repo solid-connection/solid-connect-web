@@ -24,6 +24,8 @@ const nextConfig = {
   experimental: {
     optimizeCss: true,
     gzipSize: true,
+    // Sentry instrumentation 활성화 (Web Vitals 수집에 필요)
+    instrumentationHook: true,
   },
   eslint: {
     // Warning: This allows production builds to successfully complete even if
