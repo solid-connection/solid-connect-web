@@ -20,22 +20,25 @@ export function WebVitals() {
     // Web Vitals를 Sentry 트랜잭션으로 전송
     const { name, value, rating, navigationType, id } = metric;
 
-    // Sentry의 현재 트랜잭션에 measurement 추가
-    const transaction = Sentry.getActiveTransaction();
+    // Sentry의 현재 트랜잭션에 measurement 추가 (v7 API)
+    const transaction = Sentry.getCurrentHub().getScope()?.getTransaction();
     if (transaction) {
-      transaction.setMeasurement(name, value, "millisecond");
+      // CLS는 unitless 메트릭이므로 unit을 생략, 나머지는 millisecond
+      if (name === "CLS") {
+        transaction.setMeasurement(name, value);
+      } else {
+        transaction.setMeasurement(name, value, "millisecond");
+      }
       transaction.setTag(`${name}.rating`, rating);
       transaction.setTag("navigation.type", navigationType);
     }
 
-    // 또는 직접 이벤트로 전송 (트랜잭션이 없는 경우)
-    Sentry.getCurrentScope().setContext("web-vitals", {
-      [name]: {
-        value,
-        rating,
-        navigationType,
-        id,
-      },
+    // 각 메트릭을 개별 컨텍스트 키로 저장 (덮어쓰기 방지)
+    Sentry.getCurrentScope().setContext(`web-vitals.${name}`, {
+      value,
+      rating,
+      navigationType,
+      id,
     });
 
     // 개발 환경에서는 콘솔에도 출력
