@@ -17,11 +17,21 @@ import * as Sentry from "@sentry/nextjs";
  */
 export function WebVitals() {
   useReportWebVitals((metric) => {
-    // Web Vitals를 Sentry 트랜잭션으로 전송
     const { name, value, rating, navigationType, id } = metric;
 
-    // Sentry의 현재 트랜잭션에 measurement 추가 (v7 API)
-    const transaction = Sentry.getCurrentHub().getScope()?.getTransaction();
+    // Web Vitals를 커스텀 트랜잭션으로 Sentry에 전송
+    const transaction = Sentry.startInactiveSpan({
+      name: `Web Vital: ${name}`,
+      op: "web-vital",
+      attributes: {
+        "web-vital.name": name,
+        "web-vital.value": value,
+        "web-vital.rating": rating,
+        "web-vital.navigation-type": navigationType,
+        "web-vital.id": id,
+      },
+    });
+
     if (transaction) {
       // CLS는 unitless 메트릭이므로 unit을 생략, 나머지는 millisecond
       if (name === "CLS") {
@@ -29,16 +39,18 @@ export function WebVitals() {
       } else {
         transaction.setMeasurement(name, value, "millisecond");
       }
-      transaction.setTag(`${name}.rating`, rating);
-      transaction.setTag("navigation.type", navigationType);
+
+      // 트랜잭션 완료
+      transaction.end();
     }
 
-    // 각 메트릭을 개별 컨텍스트 키로 저장 (덮어쓰기 방지)
-    Sentry.getCurrentScope().setContext(`web-vitals.${name}`, {
-      value,
-      rating,
-      navigationType,
-      id,
+    // Sentry에 메트릭 직접 전송 (가장 확실한 방법)
+    Sentry.metrics.distribution(name, value, {
+      tags: {
+        rating,
+        navigationType,
+      },
+      unit: name === "CLS" ? "none" : "millisecond",
     });
 
     // 개발 환경에서는 콘솔에도 출력

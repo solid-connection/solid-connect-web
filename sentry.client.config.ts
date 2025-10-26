@@ -26,4 +26,9 @@ Sentry.init({
       blockAllMedia: true,
     }),
   ],
+
+  // 메트릭 활성화 (Web Vitals를 메트릭으로 전송하기 위해 필요)
+  _experiments: {
+    metricsAggregator: true,
+  },
 });
