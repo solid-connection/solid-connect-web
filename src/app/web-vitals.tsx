@@ -44,15 +44,6 @@ export function WebVitals() {
       transaction.end();
     }
 
-    // Sentry에 메트릭 직접 전송 (가장 확실한 방법)
-    Sentry.metrics.distribution(name, value, {
-      tags: {
-        rating,
-        navigationType,
-      },
-      unit: name === "CLS" ? "none" : "millisecond",
-    });
-
     // 개발 환경에서는 콘솔에도 출력
     if (process.env.NODE_ENV === "development") {
       console.log(`[Web Vitals] ${name}:`, {
