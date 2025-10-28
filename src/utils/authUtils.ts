@@ -61,12 +61,3 @@ export const appleLogin = async () => {
     throw error;
   }
 };
-
-/**
- * @deprecated RefreshToken은 항상 HTTP-only 쿠키로 관리됩니다.
- * AccessToken은 Zustand persist로 localStorage에 자동 저장됩니다.
- * 이 함수는 더 이상 필요하지 않습니다.
- */
-export const isCookieLoginEnabled = (): boolean => {
-  return process.env.NEXT_PUBLIC_COOKIE_LOGIN_ENABLED === "true";
-};
