@@ -1,7 +1,5 @@
 import axios, { AxiosError, AxiosInstance } from "axios";
 
-import { isCookieLoginEnabled } from "@/utils/authUtils";
-
 import postReissueToken from "@/api/auth/server/postReissueToken";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { toast } from "@/lib/zustand/useToastStore";
@@ -69,15 +67,11 @@ axiosInstance.interceptors.request.use(
         if (reissuePromise) {
           await reissuePromise;
         } else {
-          // 새로운 reissue 프로세스 시작
+          // 새로운 reissue 프로세스 시작 (HTTP-only 쿠키의 refreshToken 사용)
           reissuePromise = (async () => {
             setLoading(true);
             try {
-              if (isCookieLoginEnabled()) {
-                await postReissueToken();
-              } else {
-                clearAccessToken();
-              }
+              await postReissueToken();
             } catch {
               clearAccessToken();
             } finally {

@@ -2,9 +2,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 import { AxiosResponse } from "axios";
 
-import { isCookieLoginEnabled } from "@/utils/authUtils";
 import { publicAxiosInstance } from "@/utils/axiosInstance";
-import { saveAccessTokenToLS } from "@/utils/localStorageUtils";
 
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { toast } from "@/lib/zustand/useToastStore";
@@ -33,14 +31,9 @@ const usePostEmailAuth = () => {
     onSuccess: (data) => {
       const { accessToken } = data.data;
 
-      // 액세스 토큰은 항상 Zustand 스토어에 저장
+      // Zustand persist가 자동으로 localStorage에 저장
+      // refreshToken은 서버에서 HTTP-only 쿠키로 자동 설정됨
       setAccessToken(accessToken);
-
-      // 로컬스토리지 모드일 때만 리프레시 토큰을 로컬스토리지에 저장
-      // 쿠키 모드일 때는 서버에서 HTTP-only 쿠키로 자동 설정됨
-      if (!isCookieLoginEnabled() && accessToken) {
-        saveAccessTokenToLS(accessToken);
-      }
 
       // 안전한 리다이렉트 처리 - 오픈 리다이렉트 방지
       const redirectParam = searchParams.get("redirect");
