@@ -11,12 +11,14 @@ export function middleware(request: NextRequest) {
   //   return NextResponse.next();
   // }
 
-  // 쿠키 기반 인증이 활성화된 경우에만 미들웨어 적용
-  const isCookieAuthEnabled = process.env.NEXT_PUBLIC_COOKIE_LOGIN_ENABLED === "true";
-  if (!isCookieAuthEnabled) {
+  // 서버 사이드 인증 체크가 활성화된 경우에만 미들웨어 적용
+  // (RefreshToken은 항상 HTTP-only 쿠키로 관리됨)
+  const isServerSideAuthEnabled = process.env.NEXT_PUBLIC_COOKIE_LOGIN_ENABLED === "true";
+  if (!isServerSideAuthEnabled) {
     return NextResponse.next();
   }
 
+  // HTTP-only 쿠키의 refreshToken 확인
   const refreshToken = request.cookies.get("refreshToken")?.value;
 
   // 정확한 경로 매칭 - startsWith 대신 정확한 경로나 세그먼트 기반 매칭 사용

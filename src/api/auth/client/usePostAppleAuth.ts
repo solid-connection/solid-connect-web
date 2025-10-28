@@ -2,9 +2,7 @@ import { useRouter } from "next/navigation";
 
 import { AxiosResponse } from "axios";
 
-import { isCookieLoginEnabled } from "@/utils/authUtils";
 import { publicAxiosInstance } from "@/utils/axiosInstance";
-import { saveAccessTokenToLS } from "@/utils/localStorageUtils";
 
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { toast } from "@/lib/zustand/useToastStore";
@@ -43,13 +41,9 @@ const usePostAppleAuth = () => {
       const { data } = response;
 
       if (data.isRegistered) {
-        // 기존 회원일 시 - 토큰 저장하고 홈으로 이동
+        // 기존 회원일 시 - Zustand persist가 자동으로 localStorage에 저장
+        // refreshToken은 서버에서 HTTP-only 쿠키로 자동 설정됨
         useAuthStore.getState().setAccessToken(data.accessToken);
-
-        // 로컬스토리지 모드일 때만 리프레시 토큰을 로컬스토리지에 저장
-        if (!isCookieLoginEnabled()) {
-          saveAccessTokenToLS(data.accessToken);
-        }
       } else {
         // 새로운 회원일 시 - 회원가입 페이지로 이동
         router.push(`/sign-up?token=${data.signUpToken}`);

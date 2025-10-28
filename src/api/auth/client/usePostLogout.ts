@@ -1,7 +1,6 @@
 import { AxiosResponse } from "axios";
 
 import { axiosInstance } from "@/utils/axiosInstance";
-import { removeAccessTokenToLS } from "@/utils/localStorageUtils";
 
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -15,8 +14,8 @@ const usePostLogout = () => {
   return useMutation({
     mutationFn: postLogout,
     onSuccess: () => {
+      // Zustand persist가 자동으로 localStorage에서 제거
       clearAccessToken();
-      removeAccessTokenToLS();
       queryClient.clear();
       // 로그아웃 후 홈으로 리다이렉트
       window.location.href = "/";

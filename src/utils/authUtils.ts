@@ -61,7 +61,3 @@ export const appleLogin = async () => {
     throw error;
   }
 };
-
-export const isCookieLoginEnabled = (): boolean => {
-  return process.env.NEXT_PUBLIC_COOKIE_LOGIN_ENABLED === "true";
-};
