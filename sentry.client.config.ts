@@ -23,10 +23,7 @@ if (process.env.NODE_ENV === "production") {
     integrations: [
       // Browser Tracing: 페이지 로드 및 네비게이션 성능 측정
       Sentry.browserTracingIntegration({
-        tracePropagationTargets: [
-          "solid-connection.com",
-          /^https:\/\/(www\.)?solid[\-]?connection\.com/,
-        ],
+        tracePropagationTargets: ["solid-connection.com", /^https:\/\/(www\.)?solid[\-]?connection\.com/],
         // Web Vitals 자동 수집 활성화
         enableInp: true, // Interaction to Next Paint (INP) 측정
       }),
