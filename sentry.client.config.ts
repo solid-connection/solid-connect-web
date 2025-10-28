@@ -3,6 +3,8 @@ import * as Sentry from "@sentry/nextjs";
 Sentry.init({
   dsn: process.env.SENTRY_DSN || "",
   environment: process.env.SENTRY_ENVIRONMENT || "development",
+
+  // Performance Monitoring: 모든 트랜잭션 샘플링 (프로덕션에서는 0.1~0.3 권장)
   tracesSampleRate: 1.0,
 
   // Replay 샘플링 설정
@@ -10,6 +12,7 @@ Sentry.init({
   replaysOnErrorSampleRate: 1.0, // 에러 발생 시 100%
 
   integrations: [
+    // Browser Tracing: 페이지 로드 및 네비게이션 성능 측정
     Sentry.browserTracingIntegration({
       tracePropagationTargets: [
         "localhost",
@@ -19,16 +22,13 @@ Sentry.init({
         /^https:\/\/(www\.)?solid[\-]?connection\.com/,
       ],
       // Web Vitals 자동 수집 활성화
-      enableInp: true, // Interaction to Next Paint
+      enableInp: true, // Interaction to Next Paint (INP) 측정
     }),
+
+    // Session Replay: 사용자 세션 녹화
     Sentry.replayIntegration({
       maskAllText: true,
       blockAllMedia: true,
     }),
   ],
-
-  // 메트릭 활성화 (Web Vitals를 메트릭으로 전송하기 위해 필요)
-  _experiments: {
-    metricsAggregator: true,
-  },
 });

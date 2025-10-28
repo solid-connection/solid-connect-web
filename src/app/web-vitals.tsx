@@ -19,30 +19,28 @@ export function WebVitals() {
   useReportWebVitals((metric) => {
     const { name, value, rating, navigationType, id } = metric;
 
-    // Web Vitals를 커스텀 트랜잭션으로 Sentry에 전송
-    const transaction = Sentry.startInactiveSpan({
-      name: `Web Vital: ${name}`,
-      op: "web-vital",
-      attributes: {
-        "web-vital.name": name,
-        "web-vital.value": value,
-        "web-vital.rating": rating,
-        "web-vital.navigation-type": navigationType,
-        "web-vital.id": id,
+    // Sentry v10+: startSpan으로 Web Vitals 측정값을 트랜잭션으로 전송
+    Sentry.startSpan(
+      {
+        name: `Web Vital: ${name}`,
+        op: "web-vital",
+        attributes: {
+          "web-vital.name": name,
+          "web-vital.value": value,
+          "web-vital.rating": rating,
+          "web-vital.navigation-type": navigationType,
+          "web-vital.id": id,
+        },
       },
-    });
-
-    if (transaction) {
-      // CLS는 unitless 메트릭이므로 unit을 생략, 나머지는 millisecond
-      if (name === "CLS") {
-        transaction.setMeasurement(name, value);
-      } else {
-        transaction.setMeasurement(name, value, "millisecond");
-      }
-
-      // 트랜잭션 완료
-      transaction.end();
-    }
+      (span) => {
+        // CLS는 unitless 메트릭이므로 unit을 생략, 나머지는 millisecond
+        if (name === "CLS") {
+          span?.setMeasurement(name, value);
+        } else {
+          span?.setMeasurement(name, value, "millisecond");
+        }
+      },
+    );
 
     // 개발 환경에서는 콘솔에도 출력
     if (process.env.NODE_ENV === "development") {
