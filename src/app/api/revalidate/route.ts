@@ -59,7 +59,7 @@ async function POST(request: NextRequest) {
     if (boardCode) {
       revalidatePath(`/community/${boardCode}`);
       revalidateTag(`posts-${boardCode}`);
-      
+
       return NextResponse.json({
         revalidated: true,
         message: `Community page for ${boardCode} revalidated`,
@@ -87,18 +87,11 @@ async function POST(request: NextRequest) {
       });
     }
 
-    return NextResponse.json(
-      { revalidated: false, message: "Missing path, tag, or boardCode" },
-      { status: 400 }
-    );
+    return NextResponse.json({ revalidated: false, message: "Missing path, tag, or boardCode" }, { status: 400 });
   } catch (error) {
     console.error("Revalidate error:", error);
-    return NextResponse.json(
-      { revalidated: false, message: "Error revalidating" },
-      { status: 500 }
-    );
+    return NextResponse.json({ revalidated: false, message: "Error revalidating" }, { status: 500 });
   }
 }
 
 export { POST };
-
