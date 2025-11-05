@@ -6,6 +6,7 @@ import { QueryKeys } from "./queryKey";
 
 import { PostCreateRequest, PostIdResponse } from "@/types/community";
 
+import useAuthStore from "@/lib/zustand/useAuthStore";
 import { toast } from "@/lib/zustand/useToastStore";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -39,13 +40,12 @@ const createPost = async (
 /**
  * @description ISR 페이지를 revalidate하는 함수
  * @param boardCode - 게시판 코드
+ * @param accessToken - 사용자 인증 토큰
  */
-const revalidateCommunityPage = async (boardCode: string) => {
+const revalidateCommunityPage = async (boardCode: string, accessToken: string) => {
   try {
-    const secret = process.env.NEXT_PUBLIC_REVALIDATE_SECRET;
-
-    if (!secret) {
-      console.error("NEXT_PUBLIC_REVALIDATE_SECRET is not configured");
+    if (!accessToken) {
+      console.warn("Revalidation skipped: No access token available");
       return;
     }
 
@@ -53,7 +53,7 @@ const revalidateCommunityPage = async (boardCode: string) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "X-Revalidate-Secret": secret,
+        Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify({ boardCode }),
     });
@@ -67,6 +67,7 @@ const revalidateCommunityPage = async (boardCode: string) => {
  */
 const useCreatePost = () => {
   const queryClient = useQueryClient();
+  const { accessToken } = useAuthStore();
 
   return useMutation({
     mutationFn: createPost,
@@ -74,8 +75,10 @@ const useCreatePost = () => {
       // 게시글 목록 쿼리를 무효화하여 최신 목록 반영
       queryClient.invalidateQueries({ queryKey: [QueryKeys.posts] });
       
-      // ISR 페이지 revalidate (태그 기반)
-      await revalidateCommunityPage(data.boardCode);
+      // ISR 페이지 revalidate (사용자 인증 토큰 사용)
+      if (accessToken) {
+        await revalidateCommunityPage(data.boardCode, accessToken);
+      }
       
       toast.success("게시글이 등록되었습니다.");
     },

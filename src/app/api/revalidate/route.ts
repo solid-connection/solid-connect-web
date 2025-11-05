@@ -1,63 +1,58 @@
 import { revalidatePath, revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
-import { timingSafeEqual } from "crypto";
+
+/**
+ * @description Revalidation 요청 body 타입
+ */
+interface RevalidateRequestBody {
+  path?: string;
+  tag?: string;
+  boardCode?: string;
+}
 
 /**
  * @description ISR 페이지를 수동으로 revalidate하는 API
  * POST /api/revalidate
- * Headers: Authorization: Bearer <REVALIDATE_SECRET> or X-Revalidate-Secret: <REVALIDATE_SECRET>
+ * Headers: Authorization: Bearer <accessToken>
  * Body: { path?: string, tag?: string, boardCode?: string }
  *
- * @security 환경변수 REVALIDATE_SECRET으로 보호됨
+ * @security 사용자 인증(accessToken)으로 보호됨
  */
-export async function POST(request: NextRequest) {
+async function POST(request: NextRequest) {
   try {
-    // 1. 인증 확인
-    const expectedSecret = process.env.REVALIDATE_SECRET;
-
-    if (!expectedSecret) {
-      console.error("REVALIDATE_SECRET is not configured");
-      return NextResponse.json({ revalidated: false, message: "Server configuration error" }, { status: 500 });
-    }
-
-    // 2. 요청에서 secret 추출 (Authorization 헤더 또는 X-Revalidate-Secret 헤더)
+    // 1. 사용자 인증 확인 (Authorization 헤더의 accessToken)
     const authHeader = request.headers.get("authorization");
-    const customHeader = request.headers.get("x-revalidate-secret");
 
-    let providedSecret: string | null = null;
-
-    if (authHeader?.startsWith("Bearer ")) {
-      providedSecret = authHeader.substring(7);
-    } else if (customHeader) {
-      providedSecret = customHeader;
-    }
-
-    // 3. Secret 검증
-    if (!providedSecret) {
+    if (!authHeader?.startsWith("Bearer ")) {
       return NextResponse.json({ revalidated: false, message: "Unauthorized" }, { status: 401 });
     }
 
-    // 4. Timing-safe 비교로 secret 검증
+    const accessToken = authHeader.substring(7);
+
+    if (!accessToken) {
+      return NextResponse.json({ revalidated: false, message: "Unauthorized" }, { status: 401 });
+    }
+
+    // 2. 백엔드 API로 토큰 검증 (/my 엔드포인트 사용)
+    // 실제 사용자인지 확인하여 악의적인 revalidation 방지
     try {
-      const expectedBuffer = Buffer.from(expectedSecret, "utf-8");
-      const providedBuffer = Buffer.from(providedSecret, "utf-8");
+      const apiServerUrl = process.env.NEXT_PUBLIC_API_SERVER_URL || "";
+      const verifyResponse = await fetch(`${apiServerUrl}/my`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
 
-      // 길이가 다르면 false
-      if (expectedBuffer.length !== providedBuffer.length) {
+      if (!verifyResponse.ok) {
         return NextResponse.json({ revalidated: false, message: "Forbidden" }, { status: 403 });
       }
-
-      // Timing-safe 비교
-      if (!timingSafeEqual(expectedBuffer, providedBuffer)) {
-        return NextResponse.json({ revalidated: false, message: "Forbidden" }, { status: 403 });
-      }
-    } catch {
-      // timingSafeEqual 실행 중 오류 (예: 길이 불일치)
+    } catch (error) {
+      console.error("Token verification failed:", error);
       return NextResponse.json({ revalidated: false, message: "Forbidden" }, { status: 403 });
     }
 
-    // 5. 인증 성공 - Revalidation 로직 수행
-    const body = await request.json();
+    // 3. 인증 성공 - Revalidation 로직 수행
+    const body = (await request.json()) as RevalidateRequestBody;
     const { path, tag, boardCode } = body;
 
     // boardCode가 있으면 해당 커뮤니티 페이지 revalidate
@@ -104,4 +99,6 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
+export { POST };
 
