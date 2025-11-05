@@ -4,8 +4,11 @@ import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 
 import CommunityPageContent from "./CommunityPageContent";
 
-import { getPostList } from "@/api/boards/server/getPostList";
 import { COMMUNITY_BOARDS } from "@/constants/community";
+
+import { getPostList } from "@/api/boards/server/getPostList";
+import { QueryKeys } from "@/api/boards/clients/QueryKeys";
+import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 
 export const metadata: Metadata = {
   title: "커뮤니티",
@@ -30,15 +33,24 @@ interface CommunityPageProps {
 const CommunityPage = async ({ params }: CommunityPageProps) => {
   const { boardCode } = params;
 
-  // 서버에서 초기 데이터 fetch (ISR)
+  // QueryClient 생성 (서버 컴포넌트에서만 사용)
+  const queryClient = new QueryClient();
+
+  // 서버에서 데이터 prefetch (ISR)
   const result = await getPostList({ boardCode, revalidate: 60 });
-  const initialPosts = result.ok ? result.data : [];
+
+  if (result.ok) {
+    // React Query 캐시에 데이터 설정
+    queryClient.setQueryData([QueryKeys.postList, boardCode, "전체"], {
+      data: result.data,
+    });
+  }
 
   return (
-    <>
+    <HydrationBoundary state={dehydrate(queryClient)}>
       <TopDetailNavigation title="커뮤니티" />
-      <CommunityPageContent boardCode={boardCode} initialPosts={initialPosts} />
-    </>
+      <CommunityPageContent boardCode={boardCode} />
+    </HydrationBoundary>
   );
 };
 
