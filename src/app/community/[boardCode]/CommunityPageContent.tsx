@@ -10,18 +10,25 @@ import PostCards from "./PostCards";
 import PostWriteButton from "./PostWriteButton";
 
 import { COMMUNITY_BOARDS, COMMUNITY_CATEGORIES } from "@/constants/community";
+import { ListPost } from "@/types/community";
 
 import useGetPostList from "@/api/boards/clients/useGetPostList";
 
 interface CommunityPageContentProps {
   boardCode: string;
+  initialPosts: ListPost[];
 }
 
-const CommunityPageContent = ({ boardCode }: CommunityPageContentProps) => {
+const CommunityPageContent = ({ boardCode, initialPosts }: CommunityPageContentProps) => {
   const router = useRouter();
   const [category, setCategory] = useState<string | null>("전체");
 
-  const { data: posts = [] } = useGetPostList({ boardCode, category });
+  // ISR로 받은 initialPosts를 initialData로 사용
+  const { data: posts = initialPosts } = useGetPostList({
+    boardCode,
+    category,
+    initialData: initialPosts,
+  });
 
   const handleBoardChange = (newBoard: string) => {
     router.push(`/community/${newBoard}`);
