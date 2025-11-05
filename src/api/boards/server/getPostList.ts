@@ -21,7 +21,8 @@ export const getPostList = async ({
   revalidate = false, // 기본값: 자동 재생성 비활성화 (수동 revalidate만)
 }: GetPostListParams): Promise<ServerFetchResult<ListPost[]>> => {
   const params = new URLSearchParams();
-  if (category) {
+  // "전체"는 필터 없음을 의미하므로 파라미터에 포함하지 않음
+  if (category && category !== "전체") {
     params.append("category", category);
   }
 

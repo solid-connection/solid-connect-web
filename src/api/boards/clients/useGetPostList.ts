@@ -13,12 +13,12 @@ interface UseGetPostListProps {
   category?: string | null;
 }
 
-const getPostList = (boardCode: string, category: string | null = null): Promise<AxiosResponse<ListPost[]>> =>
-  publicAxiosInstance.get(`/boards/${boardCode}`, {
-    params: {
-      category,
-    },
-  });
+const getPostList = (boardCode: string, category: string | null = null): Promise<AxiosResponse<ListPost[]>> => {
+  // "전체"는 필터 없음을 의미하므로 파라미터에 포함하지 않음
+  const params = category && category !== "전체" ? { category } : {};
+  
+  return publicAxiosInstance.get(`/boards/${boardCode}`, { params });
+};
 
 const useGetPostList = ({ boardCode, category = null }: UseGetPostListProps) => {
   return useQuery({

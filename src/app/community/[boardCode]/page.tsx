@@ -36,12 +36,15 @@ const CommunityPage = async ({ params }: CommunityPageProps) => {
   // QueryClient 생성 (서버 컴포넌트에서만 사용)
   const queryClient = new QueryClient();
 
+  // 기본 카테고리
+  const defaultCategory = "전체";
+
   // 서버에서 데이터 prefetch (ISR - 수동 revalidate만)
-  const result = await getPostList({ boardCode, revalidate: false });
+  const result = await getPostList({ boardCode, category: defaultCategory, revalidate: false });
 
   if (result.ok) {
-    // React Query 캐시에 데이터 설정
-    queryClient.setQueryData([QueryKeys.postList, boardCode, "전체"], {
+    // React Query 캐시에 데이터 설정 (서버 fetch와 동일한 category 사용)
+    queryClient.setQueryData([QueryKeys.postList, boardCode, defaultCategory], {
       data: result.data,
     });
   }
