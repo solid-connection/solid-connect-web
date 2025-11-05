@@ -6,9 +6,9 @@ import CommunityPageContent from "./CommunityPageContent";
 
 import { COMMUNITY_BOARDS } from "@/constants/community";
 
-import { getPostList } from "@/api/boards/server/getPostList";
 import { QueryKeys } from "@/api/boards/clients/QueryKeys";
-import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
+import { getPostList } from "@/api/boards/server/getPostList";
+import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
 
 export const metadata: Metadata = {
   title: "커뮤니티",
@@ -21,8 +21,8 @@ export async function generateStaticParams() {
   }));
 }
 
-// ISR: 60초마다 재생성
-export const revalidate = 60;
+// ISR: 자동 재생성 비활성화 (수동 revalidate만 사용)
+export const revalidate = false;
 
 interface CommunityPageProps {
   params: {
@@ -36,8 +36,8 @@ const CommunityPage = async ({ params }: CommunityPageProps) => {
   // QueryClient 생성 (서버 컴포넌트에서만 사용)
   const queryClient = new QueryClient();
 
-  // 서버에서 데이터 prefetch (ISR)
-  const result = await getPostList({ boardCode, revalidate: 60 });
+  // 서버에서 데이터 prefetch (ISR - 수동 revalidate만)
+  const result = await getPostList({ boardCode, revalidate: false });
 
   if (result.ok) {
     // React Query 캐시에 데이터 설정

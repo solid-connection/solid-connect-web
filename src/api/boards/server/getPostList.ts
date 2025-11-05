@@ -5,20 +5,20 @@ import { ListPost } from "@/types/community";
 interface GetPostListParams {
   boardCode: string;
   category?: string | null;
-  revalidate?: number;
+  revalidate?: number | false;
 }
 
 /**
  * @description 게시글 목록을 서버에서 가져오는 함수 (ISR 지원)
  * @param boardCode - 게시판 코드
  * @param category - 카테고리 (선택)
- * @param revalidate - ISR revalidate 시간(초)
+ * @param revalidate - ISR revalidate 시간(초) 또는 false (무한 캐시)
  * @returns Promise<ServerFetchResult<ListPost[]>>
  */
 export const getPostList = async ({
   boardCode,
   category = null,
-  revalidate = 60, // 기본 60초마다 재생성
+  revalidate = false, // 기본값: 자동 재생성 비활성화 (수동 revalidate만)
 }: GetPostListParams): Promise<ServerFetchResult<ListPost[]>> => {
   const params = new URLSearchParams();
   if (category) {
@@ -32,7 +32,7 @@ export const getPostList = async ({
     method: "GET",
     next: {
       revalidate,
-      tags: [`posts-${boardCode}`], // 태그 기반 revalidation 지원
+      tags: [`posts-${boardCode}`], // 태그 기반 revalidation 지원 (글 작성 시만 revalidate)
     },
   });
 };
