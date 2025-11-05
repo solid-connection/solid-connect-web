@@ -38,12 +38,23 @@ const createPost = async (
 
 /**
  * @description ISR 페이지를 revalidate하는 함수
+ * @param boardCode - 게시판 코드
  */
 const revalidateCommunityPage = async (boardCode: string) => {
   try {
+    const secret = process.env.NEXT_PUBLIC_REVALIDATE_SECRET;
+
+    if (!secret) {
+      console.error("NEXT_PUBLIC_REVALIDATE_SECRET is not configured");
+      return;
+    }
+
     await fetch("/api/revalidate", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "X-Revalidate-Secret": secret,
+      },
       body: JSON.stringify({ boardCode }),
     });
   } catch (error) {
