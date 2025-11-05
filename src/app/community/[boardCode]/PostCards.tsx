@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRef } from "react";
 
 import { convertISODateToDate } from "@/utils/datetimeUtils";
 import { convertUploadedImageUrl } from "@/utils/fileUtils";
@@ -12,20 +13,65 @@ import { IconPostLikeOutline } from "@/public/svgs";
 import { IconCommunication } from "@/public/svgs/community";
 import { IconSolidConnentionLogo } from "@/public/svgs/mentor";
 
+import { useVirtualizer } from "@tanstack/react-virtual";
+
 type PostCardsProps = {
   posts: ListPost[];
   boardCode: string;
 };
 
-const PostCards = ({ posts, boardCode }: PostCardsProps) => (
-  <div className="flex flex-col">
-    {posts.map((post) => (
-      <Link href={`/community/${boardCode}/${post.id}`} className="no-underline" key={post.id}>
-        <PostCard post={post} />
-      </Link>
-    ))}
-  </div>
-);
+const PostCards = ({ posts, boardCode }: PostCardsProps) => {
+  const parentRef = useRef<HTMLDivElement>(null);
+
+  // 가상화 설정
+  const virtualizer = useVirtualizer({
+    count: posts.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 140, // 각 PostCard의 예상 높이 (px)
+    overscan: 5, // 화면 밖에 미리 렌더링할 항목 수
+  });
+
+  return (
+    <div
+      ref={parentRef}
+      className="flex flex-col overflow-auto"
+      style={{
+        height: "calc(100vh - 220px)", // 헤더, 탭 등을 제외한 높이
+        contain: "strict",
+      }}
+    >
+      <div
+        style={{
+          height: `${virtualizer.getTotalSize()}px`,
+          width: "100%",
+          position: "relative",
+        }}
+      >
+        {virtualizer.getVirtualItems().map((virtualItem) => {
+          const post = posts[virtualItem.index];
+          return (
+            <div
+              key={post.id}
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: `${virtualItem.size}px`,
+                transform: `translateY(${virtualItem.start}px)`,
+              }}
+              data-index={virtualItem.index}
+            >
+              <Link href={`/community/${boardCode}/${post.id}`} className="no-underline">
+                <PostCard post={post} />
+              </Link>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
 
 export default PostCards;
 

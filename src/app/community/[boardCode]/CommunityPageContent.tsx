@@ -21,7 +21,11 @@ const CommunityPageContent = ({ boardCode }: CommunityPageContentProps) => {
   const router = useRouter();
   const [category, setCategory] = useState<string | null>("전체");
 
-  const { data: posts = [] } = useGetPostList({ boardCode, category });
+  // HydrationBoundary로부터 자동으로 prefetch된 데이터 사용
+  const { data: posts = [] } = useGetPostList({
+    boardCode,
+    category,
+  });
 
   const handleBoardChange = (newBoard: string) => {
     router.push(`/community/${newBoard}`);
