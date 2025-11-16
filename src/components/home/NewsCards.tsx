@@ -1,7 +1,5 @@
 import Image from "next/image";
 
-import styles from "./news-cards.module.css";
-
 import { News } from "@/types/news";
 
 type NewsCardsProps = {
