@@ -73,23 +73,25 @@ const ApplyMentorPage = () => {
   }
 
   return (
-    <FormProvider {...methods}>
-      {/* Top Navigation */}
-      <TopDetailNavigation
-        title={step === 1 ? "회원 유형 선택" : step === 2 ? "관심 지역 선택" : step === 3 ? "수학 학교 선택" : ""}
-        handleBack={goPrevStep}
-      />
+    <div className="w-full">
+      <FormProvider {...methods}>
+        {/* Top Navigation */}
+        <TopDetailNavigation
+          title={step === 1 ? "회원 유형 선택" : step === 2 ? "관심 지역 선택" : step === 3 ? "수학 학교 선택" : ""}
+          handleBack={goPrevStep}
+        />
 
-      {/* Progress Bar */}
-      <div className="px-5 pb-4 pt-4">
-        <Progress showPercentage={false} value={progress} />
-      </div>
+        {/* Progress Bar */}
+        <div className="px-5 pb-4 pt-4">
+          <Progress showPercentage={false} value={progress} />
+        </div>
 
-      {/* Step Content */}
-      {step === 1 && <StudyStatusScreen onNext={goNextStep} />}
-      {step === 2 && <InterestCountriesScreen onNext={goNextStep} />}
-      {step === 3 && <UniversityScreen onNext={onSubmit} />}
-    </FormProvider>
+        {/* Step Content */}
+        {step === 1 && <StudyStatusScreen onNext={goNextStep} />}
+        {step === 2 && <InterestCountriesScreen onNext={goNextStep} />}
+        {step === 3 && <UniversityScreen onNext={onSubmit} />}
+      </FormProvider>
+    </div>
   );
 };
 

@@ -21,7 +21,9 @@ const PostModifyPage = ({ params }: PostModifyPageProps) => {
   return (
     <>
       <TopDetailNavigation title="글 수정" />
-      <PostModifyContent boardCode={boardCode} postId={Number(postId)} />
+      <div className="w-full px-5">
+        <PostModifyContent boardCode={boardCode} postId={Number(postId)} />
+      </div>
     </>
   );
 };

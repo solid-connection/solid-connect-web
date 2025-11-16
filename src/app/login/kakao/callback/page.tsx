@@ -8,9 +8,11 @@ export const metadata: Metadata = {
 };
 
 const Page = () => (
-  <Suspense fallback={<div>Loading...</div>}>
-    <KakaoLoginCallbackPage />
-  </Suspense>
+  <div className="w-full px-5">
+    <Suspense fallback={<div>Loading...</div>}>
+      <KakaoLoginCallbackPage />
+    </Suspense>
+  </div>
 );
 
 export default Page;

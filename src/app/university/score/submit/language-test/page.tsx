@@ -13,7 +13,9 @@ const SubmitLanguageTestPage = () => {
   return (
     <>
       <TopDetailNavigation title="성적 입력하기" />
-      <LanguageTestSubmitForm />
+      <div className="w-full px-5">
+        <LanguageTestSubmitForm />
+      </div>
     </>
   );
 };

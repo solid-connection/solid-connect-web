@@ -12,7 +12,9 @@ const EmailSignUpPage = () => {
   return (
     <>
       <TopDetailNavigation title="이메일로 시작하기" />
-      <EmailSignUpForm />
+      <div className="w-full px-5">
+        <EmailSignUpForm />
+      </div>
     </>
   );
 };

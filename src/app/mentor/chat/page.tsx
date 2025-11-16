@@ -9,6 +9,10 @@ export const metadata: Metadata = {
 };
 
 const ChatPage = () => {
-  return <ChatPageClient />;
+  return (
+    <div className="w-full px-5">
+      <ChatPageClient />
+    </div>
+  );
 };
 export default ChatPage;

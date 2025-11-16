@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 const MentorPage = () => {
   return (
-    <div className="px-5">
+    <div className="w-full px-5">
       <MentorClient />
     </div>
   );

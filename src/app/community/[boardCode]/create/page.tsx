@@ -7,7 +7,7 @@ export const metadata = {
 const PostCreatePage = ({ params }: { params: { boardCode: string } }) => {
   const { boardCode } = params;
   return (
-    <div>
+    <div className="w-full">
       <PostForm boardCode={boardCode} />
     </div>
   );

@@ -12,9 +12,11 @@ const SignUpPage = () => {
   return (
     <>
       <TopDetailNavigation title="회원가입" />
-      <Suspense fallback={<div>Loading...</div>}>
-        <SignupSurvey baseNickname="" baseEmail="" baseProfileImageUrl="" />
-      </Suspense>
+      <div className="w-full px-5">
+        <Suspense fallback={<div>Loading...</div>}>
+          <SignupSurvey baseNickname="" baseEmail="" baseProfileImageUrl="" />
+        </Suspense>
+      </div>
     </>
   );
 };

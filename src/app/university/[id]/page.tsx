@@ -63,7 +63,9 @@ const CollegeDetailPage = async ({ params }: CollegeDetailPageProps) => {
   return (
     <>
       <TopDetailNavigation title={convertedKoreanName} />
-      <UniversityDetail koreanName={convertedKoreanName} university={universityData} />
+      <div className="w-full px-5">
+        <UniversityDetail koreanName={convertedKoreanName} university={universityData} />
+      </div>
     </>
   );
 };

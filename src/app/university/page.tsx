@@ -12,7 +12,9 @@ const Page = async () => {
   return (
     <>
       <TopDetailNavigation title="파견학교 검색" />
-      <SearchResultsContent />
+      <div className="w-full px-5">
+        <SearchResultsContent />
+      </div>
     </>
   );
 };

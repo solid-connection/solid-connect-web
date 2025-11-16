@@ -33,7 +33,7 @@ const HomePage = async () => {
   const allRegionsUniversityList = await getCategorizedUniversities();
 
   return (
-    <>
+    <div className="w-full">
       <FindLastYearScoreBar />
       <div className="flex flex-col gap-2.5 px-5 py-3.5">
         <div className="flex gap-2">
@@ -96,7 +96,7 @@ const HomePage = async () => {
       </div>
 
       <NewsSectionDynamic newsList={newsList} />
-    </>
+    </div>
   );
 };
 

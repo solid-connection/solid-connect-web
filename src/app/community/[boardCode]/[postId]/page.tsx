@@ -18,9 +18,9 @@ const PostPage = ({ params }: PostPageProps) => {
   const postId = Number(params.postId);
 
   return (
-    <>
+    <div className="w-full">
       <PostPageContent boardCode={boardCode} postId={postId} />
-    </>
+    </div>
   );
 };
 

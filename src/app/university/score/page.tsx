@@ -12,7 +12,9 @@ const ScorePage = () => {
   return (
     <>
       <TopDetailNavigation title="성적 확인하기" />
-      <ScoreScreen />
+      <div className="w-full px-5">
+        <ScoreScreen />
+      </div>
     </>
   );
 };
