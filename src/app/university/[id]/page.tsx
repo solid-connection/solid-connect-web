@@ -5,25 +5,29 @@ import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 
 import UniversityDetail from "./UniversityDetail";
 
-import { University } from "@/types/university";
-
 import { getUniversityDetail } from "@/api/university/server/getUniversityDetail";
+import { getAllUniversities } from "@/api/university/server/getSearchUniversitiesByText";
 
-export const revalidate = 60; // ISR 재생성 주기 설정
+export const revalidate = false;
+
+export async function generateStaticParams() {
+  const universities = await getAllUniversities();
+
+  return universities.map((university) => ({
+    id: String(university.id),
+  }));
+}
 
 type MetadataProps = {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
 export async function generateMetadata(
-  { params, searchParams }: MetadataProps,
-  parent: ResolvingMetadata,
+  { params }: MetadataProps,
+  _parent: ResolvingMetadata,
 ): Promise<Metadata> {
-  // read route params
   const { id } = await params;
 
-  // fetch data
   const universityData = await getUniversityDetail(Number(id));
 
   if (!universityData) {
