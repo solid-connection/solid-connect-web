@@ -19,7 +19,7 @@ const GpaCertExamplePage = () => {
   };
 
   return (
-    <div>
+    <div className="w-full">
       <TopDetailNavigation title="증명서 예시" handleBack={closeWindow} />
       <div style={divStyle}>
         공인 어학 성적은 해당 홈페이지를 통해

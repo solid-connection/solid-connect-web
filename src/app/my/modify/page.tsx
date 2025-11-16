@@ -12,7 +12,9 @@ const ModifyPage = () => {
   return (
     <>
       <TopDetailNavigation title="프로필 수정" />
-      <ModifyContent />
+      <div className="w-full px-5">
+        <ModifyContent />
+      </div>
     </>
   );
 };

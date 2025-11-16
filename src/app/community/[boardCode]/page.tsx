@@ -50,10 +50,12 @@ const CommunityPage = async ({ params }: CommunityPageProps) => {
   }
 
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <TopDetailNavigation title="커뮤니티" />
-      <CommunityPageContent boardCode={boardCode} />
-    </HydrationBoundary>
+    <div className="w-full">
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <TopDetailNavigation title="커뮤니티" />
+        <CommunityPageContent boardCode={boardCode} />
+      </HydrationBoundary>
+    </div>
   );
 };
 

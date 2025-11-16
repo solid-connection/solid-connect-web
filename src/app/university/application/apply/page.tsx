@@ -11,9 +11,9 @@ const ApplyPageContentDynamic = dynamic(() => import("./ApplyPageContent"), {
 
 const ApplyPage = () => {
   return (
-    <>
+    <div className="w-full">
       <ApplyPageContentDynamic />
-    </>
+    </div>
   );
 };
 

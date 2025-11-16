@@ -12,7 +12,9 @@ const MyPage = () => {
   return (
     <>
       <TopDetailNavigation title="마이페이지" />
-      <MyProfileContent />
+      <div className="w-full px-5">
+        <MyProfileContent />
+      </div>
     </>
   );
 };
