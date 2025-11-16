@@ -1,16 +1,19 @@
-import styles from "./score-search-field.module.css";
-
 type ScoreSearchFieldProps = {
   keyWords: string[];
-  setKeyWord: (keyWord: string) => void;
+  setKeyWord: (_keyWord: string) => void;
 };
 
 const ScoreSearchField = ({ keyWords, setKeyWord }: ScoreSearchFieldProps) => (
   <div>
-    <div className={styles.title}>인기 검색</div>
-    <div className={styles.container}>
+    <div className="ml-5 mt-[18px] text-base font-semibold text-black">인기 검색</div>
+    <div className="ml-5 mt-2.5 flex flex-wrap gap-2">
       {keyWords.map((keyWord) => (
-        <button key={keyWord} className={styles.item} onClick={() => setKeyWord(keyWord)} type="button">
+        <button
+          key={keyWord}
+          className="flex items-center justify-center gap-2.5 rounded-full bg-[#fafafa] px-3 py-[5px] text-sm font-medium leading-[160%] text-black"
+          onClick={() => setKeyWord(keyWord)}
+          type="button"
+        >
           {keyWord}
         </button>
       ))}
