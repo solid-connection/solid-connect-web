@@ -22,7 +22,6 @@ const nextConfig = {
   compress: true,
   // 정적 리소스 최적화
   experimental: {
-    optimizeCss: true,
     gzipSize: true,
   },
   eslint: {
