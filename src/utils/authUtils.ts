@@ -16,8 +16,18 @@ export const authProviderName = (provider: "KAKAO" | "APPLE" | "EMAIL"): string 
 
 export const kakaoLogin = () => {
   if (window.Kakao && window.Kakao.Auth) {
+    // 현재 URL에서 redirect 파라미터 추출
+    const urlParams = new URLSearchParams(window.location.search);
+    const redirectParam = urlParams.get("redirect");
+
+    // redirect 파라미터가 있으면 callback URL에 전달
+    let redirectUri = `${process.env.NEXT_PUBLIC_WEB_URL}/login/kakao/callback`;
+    if (redirectParam) {
+      redirectUri += `?redirect=${encodeURIComponent(redirectParam)}`;
+    }
+
     window.Kakao.Auth.authorize({
-      redirectUri: `${process.env.NEXT_PUBLIC_WEB_URL}/login/kakao/callback`,
+      redirectUri,
     });
   } else {
     toast.error("Kakao SDK를 불러오는 중입니다. 잠시 후 다시 시도해주세요.");
@@ -30,17 +40,32 @@ export const appleLogin = async () => {
     return;
   }
 
+  // 현재 URL에서 redirect 파라미터 추출
+  const urlParams = new URLSearchParams(window.location.search);
+  const redirectParam = urlParams.get("redirect");
+
+  // redirect 파라미터가 있으면 callback URL에 전달
+  let redirectURI = `${process.env.NEXT_PUBLIC_WEB_URL}/login/apple/callback`;
+  if (redirectParam) {
+    redirectURI += `?redirect=${encodeURIComponent(redirectParam)}`;
+  }
+
   window.AppleID.auth.init({
     clientId: process.env.NEXT_PUBLIC_APPLE_CLIENT_ID,
     scope: process.env.NEXT_PUBLIC_APPLE_SCOPE,
-    redirectURI: `${process.env.NEXT_PUBLIC_WEB_URL}/login/apple/callback`,
+    redirectURI,
     usePopup: true,
   });
 
   try {
     const res: appleOAuth2CodeResponse = await window.AppleID.auth.signIn();
     if (res.authorization) {
-      window.location.href = `/login/apple/callback?code=${encodeURIComponent(res.authorization.code)}`;
+      // redirect 파라미터가 있으면 callback URL에 전달
+      let callbackUrl = `/login/apple/callback?code=${encodeURIComponent(res.authorization.code)}`;
+      if (redirectParam) {
+        callbackUrl += `&redirect=${encodeURIComponent(redirectParam)}`;
+      }
+      window.location.href = callbackUrl;
     }
   } catch (error) {
     // Log error for developers

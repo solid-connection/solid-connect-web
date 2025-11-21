@@ -58,6 +58,7 @@ const usePostKakaoAuth = () => {
           }
         }
 
+        toast.success("로그인에 성공했습니다.");
         router.replace(safeRedirect);
       } else {
         // 새로운 회원일 시 - 회원가입 페이지로 이동
