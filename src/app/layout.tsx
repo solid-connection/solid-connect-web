@@ -4,7 +4,6 @@ import localFont from "next/font/local";
 
 import GlobalLayout from "@/components/layout/GlobalLayout";
 
-import { AlertProvider } from "@/context/AlertContext";
 import QueryProvider from "@/lib/react-query/QueryProvider";
 import AppleScriptLoaderWrapper from "@/lib/ScriptLoader/AppleScriptLoaderWrapper";
 import "@/styles/globals.css";
@@ -49,8 +48,7 @@ export const viewport: Viewport = {
 };
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => (
-  <AlertProvider>
-    <html lang="ko" className={pretendard.variable}>
+  <html lang="ko" className={pretendard.variable}>
       <head>
         {/* 폰트 preload - CSS 블로킹 방지 */}
         <link
@@ -97,7 +95,6 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => (
         </QueryProvider>
       </body>
     </html>
-  </AlertProvider>
 );
 
 export default RootLayout;
