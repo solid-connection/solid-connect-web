@@ -34,7 +34,6 @@ const UniversitySearch = ({ searchHandler, textRef, defaultValue }: UniversitySe
         value={inputValue}
         onChange={(e) => {
           setInputValue(e.target.value);
-          searchHandler(e);
         }}
         placeholder="해외 파견 학교를 검색하세요."
       />

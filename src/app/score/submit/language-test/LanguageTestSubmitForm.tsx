@@ -17,7 +17,7 @@ const LanguageTestSubmitForm = () => {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const [testType, setTestType] = useState("");
+  const [testType, setTestType] = useState<LanguageTestEnum | "">("");
   const [score, setScore] = useState("");
   const [file, setFile] = useState<File | null>(null);
 
@@ -48,7 +48,7 @@ const LanguageTestSubmitForm = () => {
       try {
         const res = await postLanguageTestScoreApi({
           languageTestScoreRequest: {
-            languageTestType: testType,
+            languageTestType: testType as LanguageTestEnum,
             languageTestScore: score,
             issueDate: "2025-01-01",
           },
@@ -95,7 +95,7 @@ const LanguageTestSubmitForm = () => {
             <select
               className="flex h-10 items-center rounded-lg bg-k-50 px-5 py-2.5 font-serif text-sm font-semibold leading-normal text-secondary"
               value={testType}
-              onChange={(e) => setTestType(e.target.value)}
+              onChange={(e) => setTestType(e.target.value as LanguageTestEnum | "")}
             >
               <option></option>
               <option value={LanguageTestEnum.TOEIC}>TOEIC</option>

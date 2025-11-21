@@ -1,4 +1,4 @@
-export const isTokenExpired = (token: string): boolean => {
+export const isTokenExpired = (token: string | null): boolean => {
   if (!token) {
     return true;
   }

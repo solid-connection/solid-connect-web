@@ -29,11 +29,10 @@ const ModifyBtnPanel = ({ onSubmit }: ModifyBtnPanelProps) => {
         }
         title="멘토 정보 수정"
         content="수정된 정보를 저장하시겠습니까?"
-        isOneButton={false}
-        cancelText="취소"
-        approveText="저장"
-        handleCancel={() => setIsModalOpen(false)}
-        handleConfirm={() => {
+        rejectMessage="취소"
+        approveMessage="저장"
+        onClose={() => setIsModalOpen(false)}
+        onConfirm={() => {
           onSubmit();
           setIsModalOpen(false);
         }}

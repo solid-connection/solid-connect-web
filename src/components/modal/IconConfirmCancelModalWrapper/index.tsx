@@ -6,7 +6,6 @@ interface IconConfirmCancelModalWrapperProps {
   children: React.ReactNode;
   icon: React.ReactNode;
   title: string;
-  isOneButton?: boolean;
   content: string;
   cancelText?: string;
   approveText?: string;
@@ -18,7 +17,6 @@ const IconConfirmCancelModalWrapper: React.FC<IconConfirmCancelModalWrapperProps
   icon,
   title,
   content,
-  isOneButton,
   cancelText = "홈으로",
   approveText = "다른 멘토 찾기",
   disabled = false,
@@ -33,11 +31,10 @@ const IconConfirmCancelModalWrapper: React.FC<IconConfirmCancelModalWrapperProps
         isOpen={isModalOpen}
         title={title}
         content={content}
-        isOneButton={isOneButton}
-        handleCancel={() => setIsModalOpen(false)}
-        handleConfirm={() => setIsModalOpen(false)}
-        cancelText={cancelText}
-        approveText={approveText}
+        onClose={() => setIsModalOpen(false)}
+        onConfirm={() => setIsModalOpen(false)}
+        rejectMessage={cancelText}
+        approveMessage={approveText}
       />
     </>
   );

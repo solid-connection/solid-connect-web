@@ -67,6 +67,10 @@ const SignupSurvey = ({ baseNickname, baseEmail, baseProfileImageUrl }: SignupSu
       }
     }
 
+    if (!signUpToken) {
+      throw new Error("회원가입 토큰이 없습니다");
+    }
+
     return {
       signUpToken: signUpToken,
       interestedRegions: submitRegion,
