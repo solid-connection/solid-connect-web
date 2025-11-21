@@ -1,6 +1,6 @@
 "use client";
 
-import Linkify from "react-linkify";
+import Linkify from "linkify-react";
 
 interface EnglishSectionProps {
   englishDetail: string;

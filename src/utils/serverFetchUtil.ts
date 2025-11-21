@@ -126,7 +126,7 @@ async function internalFetch<T = unknown>(
   { body, isAuth = false, next, headers, ...init }: ServerFetchOptions = {},
 ): Promise<T> {
   /* 쿠키 & 토큰 */
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const refreshToken = cookieStore.get("refreshToken")?.value ?? null;
   let accessToken: string | null = null;
 

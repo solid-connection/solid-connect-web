@@ -3,35 +3,44 @@ import { withSentryConfig } from "@sentry/nextjs";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  swcMinify: true,
   images: {
-    // unoptimized: true,
-    domains: [
-      "solid-connection.s3.ap-northeast-2.amazonaws.com",
-      "solid-connection-uploaded.s3.ap-northeast-2.amazonaws.com",
-      "k.kakaocdn.net",
-      "d1q5o8tzvz4j3d.cloudfront.net",
-      "d23lwokhcc3r0c.cloudfront.net",
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "solid-connection.s3.ap-northeast-2.amazonaws.com",
+      },
+      {
+        protocol: "https",
+        hostname: "solid-connection-uploaded.s3.ap-northeast-2.amazonaws.com",
+      },
+      {
+        protocol: "https",
+        hostname: "k.kakaocdn.net",
+      },
+      {
+        protocol: "https",
+        hostname: "d1q5o8tzvz4j3d.cloudfront.net",
+      },
+      {
+        protocol: "https",
+        hostname: "d23lwokhcc3r0c.cloudfront.net",
+      },
     ],
     formats: ["image/avif", "image/webp"],
     deviceSizes: [360, 640, 768, 1024, 1280],
   },
-  // 폰트 최적화 설정
-  optimizeFonts: true,
   // 압축 활성화
   compress: true,
-  // 정적 리소스 최적화
-  experimental: {
-    gzipSize: true,
+  // Turbopack 설정 (Next.js 16+)
+  turbopack: {
+    rules: {
+      "*.svg": {
+        loaders: ["@svgr/webpack"],
+        as: "*.js",
+      },
+    },
   },
-  eslint: {
-    // Warning: This allows production builds to successfully complete even if
-    // your project has ESLint errors.
-    ignoreDuringBuilds: true,
-  },
-  typescript: {
-    ignoreBuildErrors: true,
-  },
+  // Webpack 설정 (Turbopack을 사용하지 않을 경우를 위한 fallback)
   webpack: (config) => {
     // CSS 최적화 - ensure nested objects exist
     if (!config.optimization) {

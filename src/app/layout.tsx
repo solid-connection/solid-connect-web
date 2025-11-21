@@ -1,12 +1,12 @@
 /* eslint-disable @next/next/no-css-tags */
 import type { Metadata, Viewport } from "next";
-import dynamic from "next/dynamic";
 import localFont from "next/font/local";
 
 import GlobalLayout from "@/components/layout/GlobalLayout";
 
 import { AlertProvider } from "@/context/AlertContext";
 import QueryProvider from "@/lib/react-query/QueryProvider";
+import AppleScriptLoaderWrapper from "@/lib/ScriptLoader/AppleScriptLoaderWrapper";
 import "@/styles/globals.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
 
@@ -32,11 +32,6 @@ const pretendard = localFont({
     "맑은 고딕",
     "sans-serif",
   ],
-});
-
-const AppleScriptLoader = dynamic(() => import("@/lib/ScriptLoader/AppleScriptLoader"), {
-  ssr: false,
-  loading: () => null,
 });
 
 declare global {
@@ -95,7 +90,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => (
         />
       </head>
       <body className={pretendard.className}>
-        <AppleScriptLoader />
+        <AppleScriptLoaderWrapper />
         <GoogleAnalytics gaId="G-V1KLYZC1DS" />
         <QueryProvider>
           <GlobalLayout>{children}</GlobalLayout>

@@ -1,7 +1,6 @@
-import { Metadata } from "next";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import ReactLinkify from "react-linkify";
+import Linkify from "linkify-react";
 
 import { convertISODateToDateTime } from "@/utils/datetimeUtils";
 
@@ -10,10 +9,6 @@ import { PostImage as PostImageType, Post as PostType } from "@/types/community"
 import { likePostApi, unlikePostApi } from "@/api/community";
 import { IconCloseFilled, IconPostLikeFilled, IconPostLikeOutline } from "@/public/svgs";
 import { IconCommunication } from "@/public/svgs/community";
-
-export const metadata: Metadata = {
-  title: "글 상세보기",
-};
 
 type ContentProps = {
   post: PostType;
@@ -78,7 +73,7 @@ const Content = ({ post, postId }: ContentProps) => {
         </div>
         <div className="mt-4 font-serif text-xl font-semibold leading-6 text-black">{post.title || ""}</div>
         <div className="mr-5 mt-3 whitespace-pre-wrap break-all font-serif text-sm font-normal leading-normal text-[#1a1a1a]">
-          <ReactLinkify>{post.content || ""}</ReactLinkify>
+          <Linkify>{post.content || ""}</Linkify>
         </div>
 
         <div className="mt-3">

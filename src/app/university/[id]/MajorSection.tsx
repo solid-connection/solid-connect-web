@@ -1,6 +1,6 @@
 "use client";
 
-import ReactLinkify from "react-linkify";
+import Linkify from "linkify-react";
 
 interface MajorSectionProps {
   majorDetail: string;
@@ -14,7 +14,7 @@ const MajorSection = ({ majorDetail }: MajorSectionProps) => {
         <div className="mb-3 text-base font-semibold text-k-900">전공상세</div>
         <div>
           <span className="break-words text-sm font-medium leading-normal text-k-600">
-            <ReactLinkify>{majorDetail}</ReactLinkify>
+            <Linkify>{majorDetail}</Linkify>
           </span>
         </div>
       </div>

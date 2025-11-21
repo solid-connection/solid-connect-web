@@ -1,12 +1,7 @@
 import { Metadata } from "next";
-import dynamic from "next/dynamic";
 
 import LoginContent from "./LoginContent";
-
-const KakaoScriptLoader = dynamic(() => import("@/lib/ScriptLoader/KakaoScriptLoader"), {
-  ssr: false,
-  loading: () => null,
-});
+import KakaoScriptLoaderWrapper from "@/lib/ScriptLoader/KakaoScriptLoaderWrapper";
 
 export const metadata: Metadata = {
   title: "로그인",
@@ -15,7 +10,7 @@ export const metadata: Metadata = {
 const LoginPage = () => {
   return (
     <>
-      <KakaoScriptLoader />
+      <KakaoScriptLoaderWrapper />
       <LoginContent />
     </>
   );

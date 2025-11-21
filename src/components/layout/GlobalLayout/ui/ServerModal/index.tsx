@@ -9,9 +9,9 @@ const MentorApplyCountModal = dynamic(() => import("@/components/mentor/MentorAp
   loading: () => null, // 로딩 중에는 아무것도 표시하지 않음
 });
 
-const ServerModal = () => {
+const ServerModal = async () => {
   // 서버에서 로그인 상태 확인
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const refreshToken = cookieStore.get("refreshToken")?.value;
   const isNeededLogin = !refreshToken || isTokenExpired(refreshToken);
   return <>{isNeededLogin ? null : <MentorApplyCountModal />}</>;

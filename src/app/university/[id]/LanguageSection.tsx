@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Linkify from "react-linkify";
+import Linkify from "linkify-react";
 
 import { formatLanguageTestName, getLanguageTestLogo } from "@/utils/languageUtils";
 

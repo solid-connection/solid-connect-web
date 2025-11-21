@@ -1,9 +1,8 @@
 import { Metadata } from "next";
-import dynamic from "next/dynamic";
 import Link from "next/link";
 
 import FindLastYearScoreBar from "./_ui/FindLastYearScoreBar";
-import NewsSectionSkeleton from "./_ui/NewsSection/skeleton";
+import NewsSectionWrapper from "./_ui/NewsSectionWrapper";
 import PopularUniversitySection from "./_ui/PopularUniversitySection";
 import UniversityList from "./_ui/UniversityList";
 
@@ -11,11 +10,6 @@ import getRecommendedUniversity from "@/api/university/server/getRecommendedUniv
 import { getAllRegionsUniversityList } from "@/api/university/server/getSearchUniversityList";
 import { fetchAllNews } from "@/lib/firebaseNews";
 import { IconIdCard, IconMagnifyingGlass, IconMuseum, IconPaper } from "@/public/svgs/home";
-
-const NewsSectionDynamic = dynamic(() => import("./_ui/NewsSection"), {
-  ssr: false,
-  loading: () => <NewsSectionSkeleton />,
-});
 
 export const metadata: Metadata = {
   title: "솔리드 커넥션 – 교환학생의 첫 걸음",
@@ -89,7 +83,7 @@ const HomePage = async () => {
         <UniversityList allRegionsUniversityList={allRegionsUniversityList} />
       </div>
 
-      <NewsSectionDynamic newsList={newsList} />
+      <NewsSectionWrapper newsList={newsList} />
     </>
   );
 };
