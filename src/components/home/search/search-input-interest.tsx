@@ -1,8 +1,6 @@
 // DEPRECATED
 // import React, { useRef, useState } from "react";
 
-// import styles from "./search-input-interest.module.css";
-
 // import { COUNTRIES_KO } from "@/constants/university";
 
 // type SearchInputInterestProps = {

@@ -1,8 +1,6 @@
 // DEPRECATED
 // import EditTwo from "@/components/layout/icon/EditTwo";
 
-// import styles from "./search-input-test.module.css";
-
 // type SearchInputTestProps = {
 //   test: string;
 //   score: string;

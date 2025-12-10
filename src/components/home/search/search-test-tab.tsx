@@ -1,5 +1,4 @@
 // DEPRECATED
-// import styles from "./search-test-tab.module.css";
 
 // type SearchTestTabProps = {
 //   tests: string[];
