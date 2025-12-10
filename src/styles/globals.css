@@ -2,9 +2,57 @@
 @tailwind components;
 @tailwind utilities;
 
-/* 필수 글로벌 스타일만 유지 */
-body {
-  margin: 0;
+@layer base {
+  html {
+    font-family: var(--font-pretendard), system-ui, -apple-system, sans-serif;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply m-0 bg-white;
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+}
+
+@layer components {
+  .score-table {
+    @apply border-collapse;
+  }
+
+  .score-table tr {
+    @apply border border-[#f0f0f0];
+  }
+
+  .score-table button {
+    @apply cursor-pointer border-none bg-transparent;
+  }
+
+  .score-table thead {
+    @apply bg-[#fafafa];
+  }
+
+  .score-table thead tr {
+    @apply flex h-10 items-center justify-between px-3 py-0;
+  }
+
+  .score-table th {
+    @apply text-base font-semibold text-black;
+  }
+
+  .score-table tbody tr {
+    @apply flex h-10 items-center px-3 py-0;
+  }
+
+  .score-table td {
+    @apply min-w-[30px] flex-1 overflow-hidden whitespace-nowrap text-[13px] font-medium text-[#4d4d4d];
+  }
+
+  .score-table td:nth-of-type(5) {
+    @apply flex-none basis-[18px];
+  }
 }
 
 /* Toast 애니메이션 */

@@ -1,18 +1,25 @@
-import styles from "./score-search-bar.module.css";
-
 import { IconSearchFilled } from "@/public/svgs";
 
 type ScoreSearchBarProps = {
   onClick: () => void;
   textRef: React.RefObject<HTMLInputElement>;
-  searchHandler: (e: React.FormEvent) => void;
+  searchHandler: (_e: React.FormEvent) => void;
 };
 
 const ScoreSearchBar = ({ onClick, textRef, searchHandler }: ScoreSearchBarProps) => (
-  // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
-  <form onClick={onClick} className={styles.searchBar} onSubmit={searchHandler}>
-    <input className={styles.searchInput} placeholder="해외 파견 학교를 검색하세요." ref={textRef} />
-    <button className={styles.searchButton} type="submit" aria-label="검색">
+  <form
+    onClick={onClick}
+    onKeyDown={(e) => e.key === "Enter" && onClick()}
+    className="flex h-[53px] flex-row items-center border-b border-[#d7d7d7]"
+    onSubmit={searchHandler}
+    role="search"
+  >
+    <input
+      className="w-full border-0 pl-6 text-base font-normal leading-6 text-[#606060] outline-none"
+      placeholder="해외 파견 학교를 검색하세요."
+      ref={textRef}
+    />
+    <button className="cursor-pointer border-0 bg-white pr-[11px]" type="submit" aria-label="검색">
       <IconSearchFilled />
     </button>
   </form>
