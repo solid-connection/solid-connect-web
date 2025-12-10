@@ -1,5 +1,32 @@
 import type { Config } from "tailwindcss";
 import tailwindcssAnimate from "tailwindcss-animate";
+import plugin from "tailwindcss/plugin";
+
+// 타이포그래피 유틸리티 플러그인 (typo- 접두사 사용)
+const typographyPlugin = plugin(({ addUtilities, theme }) => {
+  const fontSizeConfig = theme("fontSize");
+  const typographyUtilities: Record<string, Record<string, string>> = {};
+
+  // fontSize 설정에서 타이포그래피 유틸리티 생성
+  if (fontSizeConfig && typeof fontSizeConfig === "object") {
+    Object.keys(fontSizeConfig).forEach((key) => {
+      const fontSizeValue = fontSizeConfig[key];
+      if (typeof fontSizeValue === "object" && fontSizeValue !== null && Array.isArray(fontSizeValue)) {
+        const [fontSize, options] = fontSizeValue as [string, { lineHeight?: string; fontWeight?: string }];
+        const lineHeight = options?.lineHeight || "inherit";
+        const fontWeight = options?.fontWeight || "inherit";
+
+        typographyUtilities[`.typo-${key}`] = {
+          "font-size": fontSize,
+          "line-height": lineHeight === "auto" ? "normal" : lineHeight,
+          "font-weight": fontWeight,
+        };
+      }
+    });
+  }
+
+  addUtilities(typographyUtilities);
+});
 
 const config: Config = {
   darkMode: ["class"],
@@ -29,8 +56,53 @@ const config: Config = {
         "Times",
         "serif",
       ],
+      sans: ["Pretendard", "sans-serif"],
     },
     extend: {
+      fontSize: {
+        /* ==========================
+           1. Bold (Weight 700)
+           ========================== */
+        "bold-1": ["24px", { lineHeight: "140%", fontWeight: "700" }],
+        "bold-2": ["20px", { lineHeight: "150%", fontWeight: "700" }],
+        "bold-3": ["18px", { lineHeight: "150%", fontWeight: "700" }],
+        "bold-4": ["16px", { lineHeight: "150%", fontWeight: "700" }],
+        "bold-5": ["14px", { lineHeight: "auto", fontWeight: "700" }],
+        "bold-6": ["12px", { lineHeight: "150%", fontWeight: "700" }],
+        "bold-7": ["10px", { lineHeight: "150%", fontWeight: "700" }],
+        /* ==========================
+           2. SemiBold (Weight 600)
+           ========================== */
+        "sb-1": ["32px", { lineHeight: "auto", fontWeight: "600" }],
+        "sb-2": ["24px", { lineHeight: "auto", fontWeight: "600" }],
+        "sb-3": ["22px", { lineHeight: "150%", fontWeight: "600" }],
+        "sb-4": ["20px", { lineHeight: "150%", fontWeight: "600" }],
+        "sb-5": ["18px", { lineHeight: "150%", fontWeight: "600" }],
+        "sb-6": ["17px", { lineHeight: "auto", fontWeight: "600" }],
+        "sb-7": ["16px", { lineHeight: "auto", fontWeight: "600" }],
+        "sb-8": ["15px", { lineHeight: "150%", fontWeight: "600" }],
+        "sb-9": ["14px", { lineHeight: "150%", fontWeight: "600" }],
+        "sb-10": ["13px", { lineHeight: "150%", fontWeight: "600" }],
+        "sb-11": ["12px", { lineHeight: "150%", fontWeight: "600" }],
+        "sb-12": ["11px", { lineHeight: "150%", fontWeight: "600" }],
+        /* ==========================
+           3. Medium (Weight 500)
+           ========================== */
+        "medium-1": ["16px", { lineHeight: "auto", fontWeight: "500" }],
+        "medium-2": ["14px", { lineHeight: "150%", fontWeight: "500" }],
+        "medium-3": ["13px", { lineHeight: "150%", fontWeight: "500" }],
+        "medium-4": ["12px", { lineHeight: "150%", fontWeight: "500" }],
+        "medium-5": ["11px", { lineHeight: "14px", fontWeight: "500" }],
+        /* ==========================
+           4. Regular (Weight 400)
+           ========================== */
+        "regular-1": ["16px", { lineHeight: "150%", fontWeight: "400" }],
+        "regular-2": ["14px", { lineHeight: "150%", fontWeight: "400" }],
+        "regular-3": ["13px", { lineHeight: "150%", fontWeight: "400" }],
+        "regular-4": ["12px", { lineHeight: "150%", fontWeight: "400" }],
+        "regular-5": ["11px", { lineHeight: "150%", fontWeight: "400" }],
+        "regular-6": ["10px", { lineHeight: "150%", fontWeight: "400" }],
+      },
       colors: {
         "secondary-1": "#c4ddff",
         "secondary-2": "#f2f1df",
@@ -210,6 +282,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [tailwindcssAnimate],
+  plugins: [tailwindcssAnimate, typographyPlugin],
 };
 export default config;
