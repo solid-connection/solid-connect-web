@@ -25,13 +25,13 @@ const MentorChatCard = ({ profileImageUrl, nickname, description, hasBadge = fal
       {/* 정보 영역 */}
       <div className="min-w-0 flex-1">
         <div className="flex items-center justify-between">
-          <div className="mb-1 text-sm font-medium text-gray-900">{nickname}</div>
+          <div className="mb-1 typo-medium-2 text-gray-900">{nickname}</div>
           {time && (
-            <div className="ml-auto whitespace-nowrap text-xs text-k-500">{convertISODateToKoreanTime(time)}</div>
+            <div className="ml-auto whitespace-nowrap typo-regular-4 text-k-500">{convertISODateToKoreanTime(time)}</div>
           )}
         </div>
 
-        <div className="truncate text-xs leading-relaxed text-gray-500">{description}</div>
+        <div className="truncate typo-regular-4 text-gray-500">{description}</div>
       </div>
     </div>
   );

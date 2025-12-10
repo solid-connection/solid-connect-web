@@ -60,11 +60,11 @@ const SurveyModal = ({ isOpen, onClose, onCloseForWeek }: SurveyModalProps) => {
             <div className="w 24 absolute -right-4 bottom-0 h-24 rounded-full bg-[#6BA3FF] opacity-40 blur-2xl" />
 
             <div className="relative z-10">
-              <div className="mb-2 text-xl font-bold leading-tight text-white">
+              <div className="mb-2 typo-bold-2 text-white">
                 교환학생 지원 결과 안내 &<br />
                 만족도 조사
               </div>
-              <div className="text-xs font-medium text-white/90">더욱 풍부한 콘텐츠와 혜택을 기대하세요!</div>
+              <div className="typo-medium-4 text-white/90">더욱 풍부한 콘텐츠와 혜택을 기대하세요!</div>
 
               {/* 자세히 보기 버튼 */}
               <button
@@ -72,7 +72,7 @@ const SurveyModal = ({ isOpen, onClose, onCloseForWeek }: SurveyModalProps) => {
                 className="mt-4 flex items-center gap-2 rounded-full border-2 border-white/30 bg-white/10 px-4 py-2 backdrop-blur-sm transition-all hover:bg-white/20"
                 type="button"
               >
-                <span className="text-xs font-semibold text-white">자세히 보기</span>
+                <span className="typo-sb-11 text-white">자세히 보기</span>
                 <svg
                   className="h-3 w-3"
                   viewBox="0 0 16 16"
@@ -94,7 +94,7 @@ const SurveyModal = ({ isOpen, onClose, onCloseForWeek }: SurveyModalProps) => {
 
           {/* 하단 영역 */}
           <div className="max-h-[50vh] overflow-y-auto bg-white px-4 py-3">
-            <div className="space-y-2 text-[11px] leading-relaxed text-gray-600">
+            <div className="space-y-2 typo-regular-5 text-gray-600">
               <p>안녕하세요, 솔커 모의지원을 이용해 주신 여러분! 💙</p>
 
               <p>드디어 기다리던 지원 결과가 공개되었습니다. 여기까지 준비해온 여러분 모두 고생 많으셨습니다 👏👏</p>
@@ -105,12 +105,12 @@ const SurveyModal = ({ isOpen, onClose, onCloseForWeek }: SurveyModalProps) => {
               </p>
 
               <div className="rounded-lg bg-blue-50 p-3">
-                <p className="mb-1 font-semibold text-gray-800">👉 만족도 조사 참여하기</p>
-                <p className="text-[10px] text-gray-600">• 소요 시간: 약 3분</p>
-                <p className="text-[10px] text-gray-600">• 응답 기한: 10월 31까지</p>
+                <p className="mb-1 typo-sb-12 text-gray-800">👉 만족도 조사 참여하기</p>
+                <p className="typo-regular-6 text-gray-600">• 소요 시간: 약 3분</p>
+                <p className="typo-regular-6 text-gray-600">• 응답 기한: 10월 31까지</p>
               </div>
 
-              <p className="text-center text-[10px] italic text-gray-500">
+              <p className="text-center typo-regular-6 italic text-gray-500">
                 결과와 관계없이 지금까지의 노력이 큰 의미가 있습니다.
                 <br />
                 솔커가 진심으로 응원합니다! 🌟 🚀✨
@@ -127,12 +127,12 @@ const SurveyModal = ({ isOpen, onClose, onCloseForWeek }: SurveyModalProps) => {
                 onChange={(e) => setDontShowForWeek(e.target.checked)}
                 className="h-3.5 w-3.5 cursor-pointer rounded border-gray-300 text-primary focus:ring-2 focus:ring-primary"
               />
-              <span className="text-[10px] text-gray-600">일주일간 보지 않기</span>
+              <span className="typo-regular-6 text-gray-600">일주일간 보지 않기</span>
             </label>
 
             <button
               onClick={handleClose}
-              className="rounded-lg px-3 py-1 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-100"
+              className="rounded-lg px-3 py-1 typo-medium-4 text-gray-700 transition-colors hover:bg-gray-100"
               type="button"
             >
               닫기

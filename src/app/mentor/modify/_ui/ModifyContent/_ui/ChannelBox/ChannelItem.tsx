@@ -45,28 +45,28 @@ const ChannelItem = ({ index, channel }: ChannelItemProps) => {
         {channel?.type ? (
           <ChannelBadge channelType={channel.type} text={`내 채널${index + 1}`} />
         ) : (
-          <div className="flex h-full w-full items-center justify-center rounded bg-gray-100 px-2 py-[3px] text-sm font-medium text-gray-500">
+          <div className="flex h-full w-full items-center justify-center rounded bg-gray-100 px-2 py-[3px] typo-medium-2 text-gray-500">
             내 채널{index + 1}
           </div>
         )}
       </div>
-      <h2 className="mt-2.5 text-base font-medium text-k-700">채널 선택</h2>
+      <h2 className="mt-2.5 typo-medium-1 text-k-700">채널 선택</h2>
       <ChannelSelect
         control={control}
         name={`channels.${index}.type`}
         onChannelChange={() => setValue(`channels.${index}.url`, "")}
       />
       {channelTypeError && (
-        <p className="mt-1 text-sm text-red-500">{getErrorMessage(channelTypeError) || "채널을 선택해주세요"}</p>
+        <p className="mt-1 typo-regular-2 text-red-500">{getErrorMessage(channelTypeError) || "채널을 선택해주세요"}</p>
       )}
 
-      <h2 className="mt-5 text-base font-medium text-k-700">
+      <h2 className="mt-5 typo-medium-1 text-k-700">
         링크 삽입 {isChannelSelected && <span className="text-red-500">*</span>}
       </h2>
       <input
         {...register(`channels.${index}.url`)}
         disabled={!isChannelSelected}
-        className={`mt-2 h-11 w-full rounded-lg border px-4 py-3 text-sm font-light ${
+        className={`mt-2 h-11 w-full rounded-lg border px-4 py-3 typo-regular-2 ${
           isChannelSelected
             ? "border-gray-300 bg-white text-k-300 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
             : "cursor-not-allowed border-gray-200 bg-gray-50 text-gray-400"
@@ -74,7 +74,7 @@ const ChannelItem = ({ index, channel }: ChannelItemProps) => {
         placeholder={isChannelSelected ? "URL을 입력해주세요." : "채널을 먼저 선택해주세요."}
       />
       {isChannelSelected && channelUrlError && (
-        <p className="mt-1 text-sm text-red-500">{getErrorMessage(channelUrlError) || "URL을 입력해주세요"}</p>
+        <p className="mt-1 typo-regular-2 text-red-500">{getErrorMessage(channelUrlError) || "URL을 입력해주세요"}</p>
       )}
     </div>
   );

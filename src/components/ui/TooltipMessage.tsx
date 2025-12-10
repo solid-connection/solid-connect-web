@@ -25,7 +25,7 @@ const ToolTipMessage = ({
       ></div>
       <div
         className={clsx(
-          "whitespace-pre-line break-words rounded-lg px-4 py-3 text-center text-sm font-normal",
+          "whitespace-pre-line break-words rounded-lg px-4 py-3 text-center typo-regular-2",
           bgColor === "secondary" ? "bg-secondary" : `bg-${bgColor}`,
           textColor === "white" ? "text-white" : `text-${textColor}`,
         )}

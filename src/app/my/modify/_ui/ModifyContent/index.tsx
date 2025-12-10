@@ -59,7 +59,7 @@ const ModifyContent = () => {
               type="submit"
               disabled={!isValid || !isDirty}
               className={clsx(
-                "w-full rounded-lg py-4 font-semibold text-white transition-colors",
+                "w-full rounded-lg py-4 typo-sb-9 text-white transition-colors",
                 isValid && isDirty ? "bg-primary hover:bg-primary-600" : "cursor-not-allowed bg-k-400",
               )}
             >

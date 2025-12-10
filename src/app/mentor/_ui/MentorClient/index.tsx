@@ -36,7 +36,7 @@ const MentorClient = () => {
         <div className="mb-4 flex gap-2">
           <button
             onClick={() => setShowMentorView(true)}
-            className={`flex-1 rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors ${
+            className={`flex-1 rounded-lg px-4 py-2.5 typo-sb-9 transition-colors ${
               showMentorView ? "bg-primary text-white" : "border border-k-200 bg-white text-k-600 hover:bg-k-50"
             }`}
           >
@@ -44,7 +44,7 @@ const MentorClient = () => {
           </button>
           <button
             onClick={() => setShowMentorView(false)}
-            className={`flex-1 rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors ${
+            className={`flex-1 rounded-lg px-4 py-2.5 typo-sb-9 transition-colors ${
               !showMentorView ? "bg-primary text-white" : "border border-k-200 bg-white text-k-600 hover:bg-k-50"
             }`}
           >

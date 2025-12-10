@@ -32,7 +32,7 @@ const MatchContent = () => {
         <div className="mb-4 flex gap-2">
           <button
             onClick={() => setShowMentorView(true)}
-            className={`flex-1 rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors ${
+            className={`flex-1 rounded-lg px-4 py-2.5 typo-sb-9 transition-colors ${
               showMentorView ? "bg-primary text-white" : "border border-k-200 bg-white text-k-600 hover:bg-k-50"
             }`}
           >
@@ -40,7 +40,7 @@ const MatchContent = () => {
           </button>
           <button
             onClick={() => setShowMentorView(false)}
-            className={`flex-1 rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors ${
+            className={`flex-1 rounded-lg px-4 py-2.5 typo-sb-9 transition-colors ${
               !showMentorView ? "bg-primary text-white" : "border border-k-200 bg-white text-k-600 hover:bg-k-50"
             }`}
           >
@@ -49,13 +49,13 @@ const MatchContent = () => {
         </div>
       )}
 
-      <p className="font-pretendard text-xl font-semibold text-k-700">
+      <p className="font-pretendard typo-sb-4 text-k-700">
         {nickname ? `${nickname}님의` : "회원님이"}
         <br />
         매칭된 {viewAsMentor ? "멘티" : "멘토"}
       </p>
       {chatRoom.length === 0 ? (
-        <p className="mt-6 text-center text-sm text-k-500">매칭된 {viewAsMentor ? "멘티" : "멘토"}가 없습니다.</p>
+        <p className="mt-6 text-center typo-regular-2 text-k-500">매칭된 {viewAsMentor ? "멘티" : "멘토"}가 없습니다.</p>
       ) : (
         <div className="mt-6 flex flex-1 flex-col gap-4 pb-4">
           {chatRoom.map((room) =>

@@ -56,15 +56,15 @@ const MentorDetialContent = ({ mentorId }: MentorDetailContentProps) => {
         <div className="ml-6 flex flex-col justify-start">
           {/* 국가 및 학교 정보 */}
           <div className="mb-2 flex items-center gap-4">
-            <span className="text-[14px] font-semibold text-primary">{country}</span>
+            <span className="typo-sb-9 text-primary">{country}</span>
             <StudyDate term={term} />
           </div>
 
           {/* 멘토 이름 */}
-          <h1 className="mb-2 text-xl font-semibold text-k-900">{nickname}님</h1>
+          <h1 className="mb-2 typo-sb-4 text-k-900">{nickname}님</h1>
 
           {/* 학교  */}
-          <p className="mb-2 text-base text-k-500">{universityName}</p>
+          <p className="mb-2 typo-regular-1 text-k-500">{universityName}</p>
 
           {/* 연락 가능 시간 */}
           {/* <p className="text-sm font-semibold text-k-800">방해 금지 시간</p> */}
@@ -74,11 +74,11 @@ const MentorDetialContent = ({ mentorId }: MentorDetailContentProps) => {
       <hr className="mb-[30px] mt-[30px]" />
 
       {/* 멘토 한마디 */}
-      <h3 className="mb-2 text-[18px] font-normal text-secondary">멘토 한마디</h3>
-      <p className="mb-7 text-[14px] font-normal text-k-500">{introduction}</p>
+      <h3 className="mb-2 typo-regular-1 text-secondary">멘토 한마디</h3>
+      <p className="mb-7 typo-regular-2 text-k-500">{introduction}</p>
 
       {/* 멘토 채널 */}
-      <h3 className="mb-2 text-[18px] font-normal text-secondary">멘토 한마디</h3>
+      <h3 className="mb-2 typo-regular-1 text-secondary">멘토 한마디</h3>
       <div className="mb-7">
         <div
           className={`grid gap-2 ${
@@ -106,21 +106,21 @@ const MentorDetialContent = ({ mentorId }: MentorDetailContentProps) => {
       </div>
 
       {/* 합격 레시피 */}
-      <h3 className="mb-2 text-[18px] font-normal text-secondary">합격 레시피</h3>
+      <h3 className="mb-2 typo-regular-1 text-secondary">합격 레시피</h3>
       {passTip ? (
-        <p className="mb-7 text-[14px] font-normal text-k-500">{passTip}</p>
+        <p className="mb-7 typo-regular-2 text-k-500">{passTip}</p>
       ) : (
         // TODO: passTip 없을 때 처리 필요
-        <p className="mb-7 text-[14px] font-normal text-k-500">정보가 없습니다.</p>
+        <p className="mb-7 typo-regular-2 text-k-500">정보가 없습니다.</p>
       )}
 
       {/* 멘토의 아티클 */}
-      <h3 className="mb-2 text-[18px] font-normal text-secondary">멘토의 아티클</h3>
+      <h3 className="mb-2 typo-regular-1 text-secondary">멘토의 아티클</h3>
       <div className="mb-6 space-y-4">
         {articleList.map((article) => (
           <MentorArticle key={article.title} article={article} mentorId={mentorId} />
         ))}
-        {articleList.length === 0 && <p className="mb-7 text-[14px] font-normal text-k-500">정보가 없습니다.</p>}
+        {articleList.length === 0 && <p className="mb-7 typo-regular-2 text-k-500">정보가 없습니다.</p>}
       </div>
       <div className="pointer-events-none fixed bottom-20 left-1/2 flex w-full -translate-x-1/2 justify-center">
         <div className="pointer-events-auto w-1/2 max-w-md px-4">
@@ -129,7 +129,7 @@ const MentorDetialContent = ({ mentorId }: MentorDetailContentProps) => {
             onClick={() => postApplyMentoring({ mentorId: id })}
             disabled={isApplied}
             className={clsx(
-              "flex h-10 w-full items-center justify-center gap-3 rounded-[20px] px-5 py-[10px] font-medium",
+              "flex h-10 w-full items-center justify-center gap-3 rounded-[20px] px-5 py-[10px] typo-medium-2",
               {
                 "cursor-not-allowed bg-k-100 text-k-400": isApplied,
                 "bg-primary text-white": !isApplied,

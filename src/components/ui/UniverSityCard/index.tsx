@@ -40,17 +40,17 @@ const UniversityCard = ({ university, showCapacity = true }: UniversityCardProps
           <div className="flex flex-col">
             <span
               id={`university-name-${university.id}`}
-              className="truncate text-base font-bold leading-normal text-k-700"
+              className="truncate typo-bold-4 text-k-700"
               aria-label={convertedKoreanName}
             >
               {convertedKoreanName}
             </span>
             <div className="flex items-center gap-2.5">
-              <span className="text-xs font-medium leading-normal text-k-500">
+              <span className="typo-medium-4 text-k-500">
                 {university.country} | {university.region}
               </span>
               {showCapacity && (
-                <span className="text-xs font-semibold leading-normal text-primary">
+                <span className="typo-sb-11 text-primary">
                   모집 {university.studentCapacity}명
                 </span>
               )}
@@ -59,7 +59,7 @@ const UniversityCard = ({ university, showCapacity = true }: UniversityCardProps
               {university.languageRequirements.slice(0, 3).map((requirement) => (
                 <span
                   key={requirement.languageTestType}
-                  className="whitespace-nowrap text-xs font-semibold leading-normal text-primary"
+                  className="whitespace-nowrap typo-sb-11 text-primary"
                 >
                   {shortenLanguageTestName(requirement.languageTestType)} {requirement.minScore}
                 </span>

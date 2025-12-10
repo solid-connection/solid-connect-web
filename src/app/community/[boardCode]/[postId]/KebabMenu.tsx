@@ -90,7 +90,7 @@ const KebabMenu = ({ postId, boardCode, isOwner = false }: KebabMenuProps) => {
             <li key={"URL 복사"}>
               <button
                 onClick={handleCopyUrl}
-                className={`flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50`}
+                className={`flex w-full items-center gap-3 rounded-md px-3 py-2.5 typo-regular-2 text-gray-700 hover:bg-gray-50`}
               >
                 <span className="flex-shrink-0">
                   <IconLink />
@@ -105,7 +105,7 @@ const KebabMenu = ({ postId, boardCode, isOwner = false }: KebabMenuProps) => {
                     onClick={() => {
                       router.push(`/community/${boardCode}/${postId}/modify`);
                     }}
-                    className={`flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50`}
+                    className={`flex w-full items-center gap-3 rounded-md px-3 py-2.5 typo-regular-2 text-gray-700 hover:bg-gray-50`}
                   >
                     <span>{"수정하기"}</span>
                   </button>
@@ -117,7 +117,7 @@ const KebabMenu = ({ postId, boardCode, isOwner = false }: KebabMenuProps) => {
                         deletePost(postId);
                       }
                     }}
-                    className={`flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50`}
+                    className={`flex w-full items-center gap-3 rounded-md px-3 py-2.5 typo-regular-2 text-gray-700 hover:bg-gray-50`}
                   >
                     <span>{"삭제하기"}</span>
                   </button>

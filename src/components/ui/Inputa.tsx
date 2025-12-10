@@ -13,10 +13,10 @@ const inputVariants = cva(
     variants: {
       variant: {
         default: "bg-transparent border",
-        gray: "bg-k-50 text-primary border-none font-semibold placeholder:text-k-200",
+        gray: "bg-k-50 text-primary border-none typo-sb-9 placeholder:text-k-200",
       },
       text: {
-        default: "text-base file:text-sm file:font-medium",
+        default: "typo-regular-1 file:typo-regular-2 file:typo-medium-2",
       },
     },
     defaultVariants: {

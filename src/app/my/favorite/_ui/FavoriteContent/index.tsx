@@ -31,7 +31,7 @@ const FavoriteContent = () => {
     <>
       <div className="px-5 pt-6">
         <div className="flex items-center justify-between">
-          <p className="font-pretendard text-xl font-semibold text-k-700">
+          <p className="font-pretendard typo-sb-4 text-k-700">
             {nickname ? `${nickname} 님이` : "회원님이"}
             <br />
             관심있는 학교
@@ -41,7 +41,7 @@ const FavoriteContent = () => {
             <div className="flex gap-3">
               {!isEditMode ? (
                 <button
-                  className="min-w-16 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white transition-all duration-200"
+                  className="min-w-16 rounded-lg bg-primary px-4 py-2 typo-medium-2 text-white transition-all duration-200"
                   onClick={() => setIsEditMode(true)}
                 >
                   편집
@@ -50,7 +50,7 @@ const FavoriteContent = () => {
                 <>
                   <button
                     onClick={() => setIsEditMode(false)}
-                    className="bg-whitepx-4 min-w-16 rounded-lg border-2 border-gray-300 py-2 text-sm font-medium text-gray-700 transition-all duration-200 hover:bg-gray-50"
+                    className="bg-whitepx-4 min-w-16 rounded-lg border-2 border-gray-300 py-2 typo-medium-2 text-gray-700 transition-all duration-200 hover:bg-gray-50"
                   >
                     취소
                   </button>
@@ -59,7 +59,7 @@ const FavoriteContent = () => {
                       setIsEditMode(false);
                       handleDeleteAll();
                     }}
-                    className="min-w-16 rounded-lg border-2 border-primary bg-primary px-4 py-2 text-sm font-medium text-white transition-all duration-200"
+                    className="min-w-16 rounded-lg border-2 border-primary bg-primary px-4 py-2 typo-medium-2 text-white transition-all duration-200"
                   >
                     삭제
                   </button>
@@ -72,7 +72,7 @@ const FavoriteContent = () => {
 
         <div className="mt-5">
           {wishUniversity.length === 0 ? (
-            <p className="py-20 text-center text-sm text-k-400">관심 학교가 없습니다.</p>
+            <p className="py-20 text-center typo-regular-2 text-k-400">관심 학교가 없습니다.</p>
           ) : (
             <div className="flex flex-col gap-4 pb-10">
               {/* 정렬된 배열을 사용하여 UI를 렌더링합니다. */}

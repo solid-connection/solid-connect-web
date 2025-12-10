@@ -22,7 +22,7 @@ const TopDetailNavigation = ({ title, handleBack, icon }: TopDetailNavigationPro
       <button className="min-w-6 cursor-pointer" onClick={handleBack || routeBack} type="button" aria-label="뒤로 가기">
         <IconArrowBackFilled />
       </button>
-      <div className="font-serif text-base font-semibold leading-[160%] text-[rgba(0,0,0,0.87)]">{title}</div>
+      <div className="font-serif typo-sb-7 text-[rgba(0,0,0,0.87)]">{title}</div>
       <div className="min-w-6 cursor-pointer">{icon}</div>
     </div>
   );

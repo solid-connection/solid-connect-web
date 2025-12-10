@@ -16,7 +16,7 @@ const ScoreSheet = ({ scoreSheet }: { scoreSheet: ScoreSheet }) => {
     >
       {/* 테이블 헤더 */}
       <div className="flex h-10 items-center justify-between bg-gray-50 px-4">
-        <p className="truncate text-base font-semibold text-black">
+        <p className="truncate typo-sb-7 text-black">
           {scoreSheet.koreanName} ({scoreSheet.applicants.length}/{scoreSheet.studentCapacity})
         </p>
         <button type="button" aria-label="더보기" className="cursor-pointer border-none bg-transparent p-1">
@@ -30,18 +30,18 @@ const ScoreSheet = ({ scoreSheet }: { scoreSheet: ScoreSheet }) => {
           {scoreSheet.applicants.map((applicant) => (
             <div
               key={applicant.nicknameForApply}
-              className="flex h-10 items-center px-3 text-[13px] font-medium text-[#4d4d4d]"
+              className="flex h-10 items-center px-3 typo-medium-3 text-[#4d4d4d]"
             >
-              <span className="min-w-[30px] flex-1 overflow-hidden whitespace-nowrap text-sm font-normal text-black">
+              <span className="min-w-[30px] flex-1 overflow-hidden whitespace-nowrap typo-regular-2 text-black">
                 {applicant.nicknameForApply}
               </span>
-              <span className="min-w-[30px] flex-1 overflow-hidden whitespace-nowrap text-center">
+              <span className="min-w-[30px] flex-1 overflow-hidden whitespace-nowrap text-center typo-medium-2">
                 {applicant.gpa.toFixed(2)}
               </span>
-              <span className="min-w-[30px] flex-1 overflow-hidden whitespace-nowrap text-center">
+              <span className="min-w-[30px] flex-1 overflow-hidden whitespace-nowrap text-center typo-medium-2">
                 {languageTestMapping[applicant.testType]}
               </span>
-              <span className="min-w-[30px] flex-1 overflow-hidden whitespace-nowrap text-center">
+              <span className="min-w-[30px] flex-1 overflow-hidden whitespace-nowrap text-center typo-medium-2">
                 {applicant.testScore}
               </span>
               <span className="flex w-[18px] flex-none items-center justify-center">

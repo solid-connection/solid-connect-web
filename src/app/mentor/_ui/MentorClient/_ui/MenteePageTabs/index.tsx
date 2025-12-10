@@ -34,7 +34,7 @@ const MenteePageTabs = () => {
 
       <div className="mb-3 mt-5 flex justify-between">
         <div className="flex items-center">
-          <h2 className="mr-2 text-lg font-semibold text-k-900">
+          <h2 className="mr-2 typo-sb-5 text-k-900">
             {selectedTab === MenteeTab.MY_MENTOR ? "진행 중인 멘토링" : "대기 중인 멘토링"}
           </h2>
           {currentDataLength > 2 && (
@@ -44,7 +44,7 @@ const MenteePageTabs = () => {
         {currentDataLength > 2 && (
           <Link
             href={selectedTab === MenteeTab.MY_MENTOR ? "/mentor/chat" : "/mentor/waiting"}
-            className="flex items-center text-[13px] leading-normal text-k-500"
+            className="flex items-center typo-medium-3 text-k-500"
           >
             전체보기
             <span className="flex h-[20px] w-[20px] items-center justify-center">

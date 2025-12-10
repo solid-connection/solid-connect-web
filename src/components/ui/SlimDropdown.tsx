@@ -15,7 +15,7 @@ const SlimDropdown = ({ options }: DropdownProps) => (
         className="flex h-9 items-center justify-center px-3 py-2 hover:bg-line-1"
         onClick={option.action}
       >
-        <span className="font-serif text-base">{option.label}</span>
+        <span className="font-serif typo-regular-1">{option.label}</span>
       </button>
     ))}
   </div>

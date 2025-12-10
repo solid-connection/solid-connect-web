@@ -57,7 +57,7 @@ const InterestCountriesScreen = ({ onNext }: InterestCountriesScreenProps) => {
     <div className="pb-28">
       <div className="px-5">
         <div className="mt-5">
-          <span className="text-2xl font-bold leading-snug text-k-900">
+          <span className="typo-bold-1 text-k-900">
             나의
             <span className="text-primary"> 수학 국가</span>를
             <br />
@@ -71,7 +71,7 @@ const InterestCountriesScreen = ({ onNext }: InterestCountriesScreenProps) => {
             {selectedCountries.map((country) => (
               <button
                 key={country}
-                className="relative h-10 rounded bg-primary-100 text-center text-sm font-medium text-k-800"
+                className="relative h-10 rounded bg-primary-100 text-center typo-medium-2 text-k-800"
                 onClick={() => removeCountry(country)}
                 type="button"
               >
@@ -84,7 +84,7 @@ const InterestCountriesScreen = ({ onNext }: InterestCountriesScreenProps) => {
 
         {/* Error Message */}
         {errors.interestedCountries && (
-          <p className="mt-2 text-sm text-red-500">{errors.interestedCountries.message}</p>
+          <p className="mt-2 typo-regular-2 text-red-500">{errors.interestedCountries.message}</p>
         )}
 
         {/* Region Tabs - Large Icon Buttons */}
@@ -104,7 +104,7 @@ const InterestCountriesScreen = ({ onNext }: InterestCountriesScreenProps) => {
             >
               <div className="flex h-12 w-12 items-center justify-center">{region.icon}</div>
               <span
-                className={clsx("text-center text-sm font-semibold", {
+                className={clsx("text-center typo-sb-9", {
                   "text-primary": selectedRegion === region.name,
                   "text-k-700": selectedRegion !== region.name,
                 })}
@@ -120,7 +120,7 @@ const InterestCountriesScreen = ({ onNext }: InterestCountriesScreenProps) => {
           {currentRegion?.countries.map((country) => (
             <button
               key={country}
-              className={clsx("h-10 rounded border-none text-sm font-medium transition-colors", {
+                className={clsx("h-10 rounded border-none typo-medium-2 transition-colors", {
                 "bg-k-50 text-k-600 hover:bg-k-100": !selectedCountries.includes(country),
                 "bg-primary-100 text-k-800": selectedCountries.includes(country),
               })}

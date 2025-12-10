@@ -28,20 +28,20 @@ const InfoSection = ({
         <div className="flex h-[50px] items-center justify-between px-3">
           <div className="flex items-center gap-2.5">
             <SemesterRequirementIcon />
-            <span className="text-base font-semibold text-k-900">최저 이수학기</span>
+            <span className="typo-sb-7 text-k-900">최저 이수학기</span>
           </div>
           <div className="flex h-7 w-[50px] items-center justify-center rounded-full bg-k-50">
-            <span className="text-[13px] font-semibold leading-normal text-primary">{semesterRequirement}</span>
+            <span className="typo-sb-10 text-primary">{semesterRequirement}</span>
           </div>
         </div>
         {/* 파견 가능학기 */}
         <div className="flex h-[50px] items-center justify-between px-3">
           <div className="flex items-center gap-2.5">
             <SemesterAvailableForDispatchIcon />
-            <span className="text-base font-semibold text-k-900">파견 가능학기</span>
+            <span className="typo-sb-7 text-k-900">파견 가능학기</span>
           </div>
           <div className="flex h-7 w-[50px] items-center justify-center rounded-full bg-k-50">
-            <span className="text-[13px] font-semibold leading-normal text-primary">
+            <span className="typo-sb-10 text-primary">
               {semesterAvailableForDispatch}
             </span>
           </div>
@@ -60,7 +60,7 @@ const InfoSection = ({
           >
             <div className="flex items-center gap-2.5">
               <DetailsForApplyIcon />
-              <span className="text-base font-semibold text-k-900">자격요건</span>
+              <span className="typo-sb-7 text-k-900">자격요건</span>
             </div>
             <div className="flex h-7 w-[50px] items-center justify-center rounded-full bg-k-50">
               <FoldIcon />
@@ -80,14 +80,14 @@ const InfoSection = ({
             <div className="flex items-center justify-between rounded-sm">
               <div className="flex items-center gap-2.5">
                 <DetailsForApplyIcon />
-                <span className="text-base font-semibold text-k-900">자격요건</span>
+                <span className="typo-sb-7 text-k-900">자격요건</span>
               </div>
               <div className="flex h-7 w-[50px] items-center justify-center rounded-full bg-k-50">
                 <UnFoldIcon />
               </div>
             </div>
             <div className="pl-11">
-              <span className="text-sm font-medium leading-normal text-k-700">
+              <span className="typo-medium-2 text-k-700">
                 <LinkifyText>{detailsForApply}</LinkifyText>
               </span>
             </div>
@@ -107,7 +107,7 @@ const InfoSection = ({
           >
             <div className="flex items-center gap-2.5">
               <DetailsForAccommodationIcon />
-              <span className="text-base font-semibold text-k-900">기숙사</span>
+              <span className="typo-sb-7 text-k-900">기숙사</span>
             </div>
             <div className="flex h-7 w-[50px] items-center justify-center rounded-full bg-k-50">
               <FoldIcon />
@@ -127,14 +127,14 @@ const InfoSection = ({
             <div className="flex items-center justify-between rounded-sm">
               <div className="flex items-center gap-2.5">
                 <DetailsForAccommodationIcon />
-                <span className="text-base font-semibold text-k-900">기숙사</span>
+                <span className="typo-sb-7 text-k-900">기숙사</span>
               </div>
               <div className="flex h-7 w-[50px] items-center justify-center rounded-full bg-k-50">
                 <UnFoldIcon />
               </div>
             </div>
             <div className="pl-11">
-              <span className="text-sm font-medium leading-normal text-k-700">
+              <span className="typo-medium-2 text-k-700">
                 <LinkifyText>{detailsForAccommodation}</LinkifyText>
               </span>
             </div>

@@ -11,7 +11,7 @@ const blockBtnVariants = cva("h-13 w-full min-w-80 max-w-screen-sm rounded-lg fl
       secondary: "bg-secondary hover:bg-secondary/90 disabled:bg-k-100",
     },
     text: {
-      default: "text-base font-medium text-white",
+      default: "typo-medium-1 text-white",
     },
   },
   defaultVariants: {

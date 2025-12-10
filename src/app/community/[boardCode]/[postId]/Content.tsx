@@ -81,11 +81,11 @@ const Content = ({ post, postId }: ContentProps) => {
   return (
     <>
       <div className="pb-3 pl-5 pt-6">
-        <div className="inline-flex rounded-full bg-primary px-3 py-[5px] font-serif text-sm font-medium leading-[160%] text-white">
+        <div className="inline-flex rounded-full bg-primary px-3 py-[5px] font-serif typo-medium-2 text-white">
           {post.postCategory || "카테고리"}
         </div>
-        <div className="mt-4 font-serif text-xl font-semibold leading-6 text-black">{post.title || ""}</div>
-        <div className="mr-5 mt-3 whitespace-pre-wrap break-all font-serif text-sm font-normal leading-normal text-[#1a1a1a]">
+        <div className="mt-4 font-serif typo-sb-4 text-black">{post.title || ""}</div>
+        <div className="mr-5 mt-3 whitespace-pre-wrap break-all font-serif typo-regular-2 text-[#1a1a1a]">
           <LinkifyText>{post.content || ""}</LinkifyText>
         </div>
 
@@ -103,13 +103,13 @@ const Content = ({ post, postId }: ContentProps) => {
         <div className="mt-5 flex items-center gap-2.5">
           <button className="flex cursor-pointer items-center gap-1" onClick={toggleLike} type="button">
             {isLiked ? <IconPostLikeFilled /> : <IconPostLikeOutline />}
-            <span className="overflow-hidden font-serif text-xs font-normal leading-normal text-[#595959]">
+            <span className="overflow-hidden font-serif typo-regular-4 text-[#595959]">
               {likeCount || 0}
             </span>
           </button>
           <div className="flex items-center gap-1">
             <IconCommunication />
-            <span className="overflow-hidden font-serif text-xs font-normal leading-normal text-[#595959]">
+            <span className="overflow-hidden font-serif typo-regular-4 text-[#595959]">
               {post?.commentCount || 0}
             </span>
           </div>
@@ -132,10 +132,10 @@ const Content = ({ post, postId }: ContentProps) => {
             />
           </div>
           <div className="flex flex-col">
-            <div className="overflow-hidden text-ellipsis font-serif text-sm font-medium leading-normal text-black">
+            <div className="overflow-hidden text-ellipsis font-serif typo-medium-2 text-black">
               {post.postFindSiteUserResponse.nickname || ""}
             </div>
-            <div className="overflow-hidden font-serif text-xs font-normal leading-normal text-[#7c7c7c]">
+            <div className="overflow-hidden font-serif typo-regular-4 text-[#7c7c7c]">
               {convertISODateToDateTime(post.createdAt) || ""}
             </div>
           </div>
@@ -198,7 +198,7 @@ const ImagePopup = ({ image, title, onClose }: ImagePopupProps) => (
       >
         <IconCloseFilled />
       </button>
-      <span className="mr-6 font-serif text-base font-semibold leading-[160%] text-[rgba(255,255,255,0.87)]">
+      <span className="mr-6 font-serif typo-sb-7 text-[rgba(255,255,255,0.87)]">
         {title}
       </span>
       <div />

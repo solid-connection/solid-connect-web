@@ -48,7 +48,7 @@ const CommunityRegionSelector = ({ curRegion, setCurRegion, regionChoices }: Com
     <div className="pb-3.5 pl-5 pt-5">
       <div className="inline-block" ref={dropdownRef}>
         <button className="flex items-center gap-1" onClick={toggleDropdown} aria-label="게시판 변경">
-          <div className="font-serif text-2xl font-semibold leading-normal">{curRegion}</div>
+          <div className="typo-sb-2">{curRegion}</div>
           <div>
             <IconExpandMoreFilled />
           </div>

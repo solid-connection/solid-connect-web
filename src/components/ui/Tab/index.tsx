@@ -18,7 +18,7 @@ const Tab = ({ choices, choice, setChoice, color }: TabProps) => {
   const combinedColor = { ...defaultColor, ...color };
 
   return (
-    <div className="flex h-9 w-full cursor-pointer flex-row text-sm font-medium">
+    <div className="flex h-9 w-full cursor-pointer flex-row typo-medium-2">
       {choices.map((c) => (
         <button
           key={c}

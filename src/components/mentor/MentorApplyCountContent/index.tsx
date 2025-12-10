@@ -42,9 +42,9 @@ const MentorApplyCountContent = () => {
         <div className="flex items-center">
           {/* left: message */}
           <div className="flex-1">
-            <h2 className="text-xs font-semibold">알림</h2>
-            <p className="mt-1 text-sm leading-snug">새로운 요청이 들어왔어요!</p>
-            <p className="text-sm leading-snug">어서 요청을 수락해주세요.</p>
+            <h2 className="typo-sb-11">알림</h2>
+            <p className="mt-1 typo-regular-2">새로운 요청이 들어왔어요!</p>
+            <p className="typo-regular-2">어서 요청을 수락해주세요.</p>
           </div>
 
           {/* divider */}
@@ -52,8 +52,8 @@ const MentorApplyCountContent = () => {
 
           {/* right: count */}
           <div className="min-w-[80px] text-center">
-            <span className="text-xs">신규 신청</span>
-            <div className="text-2xl font-bold">{count}명</div>
+            <span className="typo-regular-4">신규 신청</span>
+            <div className="typo-bold-1">{count}명</div>
           </div>
         </div>
       </Link>

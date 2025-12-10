@@ -23,7 +23,7 @@ const BlockToggleBtn = ({
 }: BlockToggleBtnProps) => {
   // CSS 변수 대신 Tailwind 클래스 사용
   const baseClasses =
-    "w-full h-11 border-none rounded-lg cursor-pointer transition-all duration-500 font-medium text-base font-serif";
+    "w-full h-11 border-none rounded-lg cursor-pointer transition-all duration-500 typo-medium-1 font-serif";
   const enabledClasses = isToggled ? "bg-primary text-white" : "bg-gray-200 text-gray-500";
 
   const customStyles = {

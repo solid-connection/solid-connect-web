@@ -15,7 +15,7 @@ const AddArticleCard = () => {
           <button
             type="button"
             onClick={() => setOpen(true)}
-            className="mt-10 flex h-10 items-center justify-center gap-2 rounded-lg bg-k-100 px-4 text-sm font-medium text-k-500"
+            className="mt-10 flex h-10 items-center justify-center gap-2 rounded-lg bg-k-100 px-4 typo-medium-2 text-k-500"
           >
             <span className="flex h-4 w-4 items-center justify-center rounded-full bg-k-500">
               <IconPlus className="h-2.5 w-2.5" />

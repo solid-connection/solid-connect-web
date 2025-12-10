@@ -94,7 +94,7 @@ const UniversityScreen = ({ onNext }: UniversityScreenProps) => {
     <div className="pb-28">
       <div className="px-5">
         <div className="mt-5">
-          <span className="text-2xl font-bold leading-snug text-k-900">
+          <span className="typo-bold-1 text-k-900">
             나의
             <span className="text-primary"> 수학 학교</span>를
             <br />
@@ -105,14 +105,14 @@ const UniversityScreen = ({ onNext }: UniversityScreenProps) => {
         <div className="mt-10 flex flex-col gap-5">
           {/* 국가 선택 */}
           <div className="flex flex-col gap-2">
-            <label className="text-sm font-semibold text-k-900">국가</label>
+            <label className="typo-sb-9 text-k-900">국가</label>
             <select
               value={country || ""}
               onChange={(e) => {
                 setValue("country", e.target.value);
                 setValue("universityName", ""); // 국가 변경 시 학교 선택 초기화
               }}
-              className="h-12 rounded-lg border border-k-200 bg-k-50 px-4 text-sm focus:border-primary focus:outline-none [&>option:checked]:text-primary"
+              className="h-12 rounded-lg border border-k-200 bg-k-50 px-4 typo-regular-2 focus:border-primary focus:outline-none [&>option:checked]:text-primary"
               style={{
                 color: country ? "#6366f1" : undefined,
               }}
@@ -126,14 +126,14 @@ const UniversityScreen = ({ onNext }: UniversityScreenProps) => {
                 </option>
               ))}
             </select>
-            {errors.country && <p className="text-sm text-red-500">{errors.country.message}</p>}
+            {errors.country && <p className="typo-regular-2 text-red-500">{errors.country.message}</p>}
           </div>
 
           {/* 학교 선택 */}
           <div className="flex flex-col gap-2">
-            <label className="text-sm font-semibold text-k-900">학교</label>
+            <label className="typo-sb-9 text-k-900">학교</label>
             {isLoading ? (
-              <div className="flex h-12 items-center justify-center rounded-lg border border-k-200 bg-k-50 px-4 text-sm text-k-400">
+              <div className="flex h-12 items-center justify-center rounded-lg border border-k-200 bg-k-50 px-4 typo-regular-2 text-k-400">
                 학교 목록을 불러오는 중...
               </div>
             ) : (
@@ -141,7 +141,7 @@ const UniversityScreen = ({ onNext }: UniversityScreenProps) => {
                 value={universityName || ""}
                 onChange={(e) => setValue("universityName", e.target.value)}
                 disabled={!country || filteredUniversities.length === 0}
-                className="h-12 rounded-lg border border-k-200 bg-k-50 px-4 text-sm focus:border-primary focus:outline-none disabled:cursor-not-allowed disabled:opacity-60 [&>option:checked]:text-primary"
+                className="h-12 rounded-lg border border-k-200 bg-k-50 px-4 typo-regular-2 focus:border-primary focus:outline-none disabled:cursor-not-allowed disabled:opacity-60 [&>option:checked]:text-primary"
                 style={{
                   color: universityName ? "#6366f1" : undefined,
                 }}
@@ -160,25 +160,25 @@ const UniversityScreen = ({ onNext }: UniversityScreenProps) => {
                 ))}
               </select>
             )}
-            {errors.universityName && <p className="text-sm text-red-500">{errors.universityName.message}</p>}
+            {errors.universityName && <p className="typo-regular-2 text-red-500">{errors.universityName.message}</p>}
           </div>
 
           {/* 증명서 첨부 */}
           <div className="flex flex-col gap-2">
-            <label className="text-sm font-semibold text-k-900">증명서 첨부</label>
+            <label className="typo-sb-9 text-k-900">증명서 첨부</label>
             <div className="rounded-lg border border-k-200 bg-k-50 p-4">
               {verificationFile ? (
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-primary">{verificationFile.name}</span>
+                  <span className="typo-regular-2 text-primary">{verificationFile.name}</span>
                   <button onClick={handleRemoveFile} type="button" className="text-k-400 hover:text-k-600">
-                    <span className="text-lg">✕</span>
+                    <span className="typo-sb-5">✕</span>
                   </button>
                 </div>
               ) : (
                 <button
                   onClick={() => fileInputRef.current?.click()}
                   type="button"
-                  className="w-full text-left text-sm text-k-400"
+                  className="w-full text-left typo-regular-2 text-k-400"
                 >
                   파일을 선택해주세요
                 </button>
@@ -191,12 +191,12 @@ const UniversityScreen = ({ onNext }: UniversityScreenProps) => {
                 className="hidden"
               />
             </div>
-            {errors.verificationFile && <p className="text-sm text-red-500">{errors.verificationFile.message}</p>}
+            {errors.verificationFile && <p className="typo-regular-2 text-red-500">{errors.verificationFile.message}</p>}
 
             {/* 증명서 안내 */}
             <div className="mt-2 rounded-lg bg-k-50 p-4">
-              <h4 className="mb-2 text-sm font-semibold text-k-700">[증명서 예시]</h4>
-              <ul className="list-inside list-disc space-y-1 text-xs text-k-500">
+              <h4 className="mb-2 typo-sb-9 text-k-700">[증명서 예시]</h4>
+              <ul className="list-inside list-disc space-y-1 typo-regular-5 text-k-500">
                 <li>
                   합격증, 재학증명서 등 해당 해외 대학교에 재적 중인 사실을 증명할 수 있는 이미지나 서류를 첨부해
                   주세요.

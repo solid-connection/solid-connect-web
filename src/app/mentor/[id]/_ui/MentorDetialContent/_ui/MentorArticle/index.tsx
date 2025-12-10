@@ -28,12 +28,12 @@ const MentorArticle = ({ article, mentorId }: MentorArticleProps) => {
       {/* 아티클 내용 */}
 
       <div className="mb-2 flex items-center justify-between">
-        <h3 className="text-base font-semibold text-k-800">{article.title}</h3>
+        <h3 className="typo-sb-7 text-k-800">{article.title}</h3>
         <button className="h-5 w-5" onClick={handleToggleLike}>
           {isLiked ? <IconLikeFill /> : <IconLikeNotFill />}
         </button>
       </div>
-      <p className="text-sm text-k-500">{article.description}</p>
+      <p className="typo-regular-2 text-k-500">{article.description}</p>
     </div>
   );
 };

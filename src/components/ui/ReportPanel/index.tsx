@@ -30,7 +30,7 @@ const ReportPanel = ({ idx }: ReportPanelProps) => {
         <span className="h-5 w-5">
           <IconReport />
         </span>
-        <span className="text-[14px] font-medium">Report</span>
+        <span className="typo-medium-2">Report</span>
       </button>
 
       <ModalBase isOpen={isExpanded} onClose={() => setIsExpanded(false)}>
@@ -42,7 +42,7 @@ const ReportPanel = ({ idx }: ReportPanelProps) => {
                 <span className="h-5 w-5">
                   <IconReport />
                 </span>
-                <h2 className="text-lg font-semibold text-k-800">Report</h2>
+                <h2 className="typo-sb-5 text-k-800">Report</h2>
               </div>
             </div>
 

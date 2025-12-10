@@ -30,7 +30,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
   indicatorColor = "bg-primary",
   indicatorSize = "w-2.5 h-2.5",
   showLabel = false,
-  labelStyle = "text-gray-600 text-sm font-medium",
+  labelStyle = "text-gray-600 typo-medium-2",
 }) => {
   // 진행 퍼센트 계산 (0~100)
   const percentage = Math.max(0, Math.min(100, (currentStep / totalSteps) * 100));

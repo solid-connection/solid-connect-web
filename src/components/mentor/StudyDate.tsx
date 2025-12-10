@@ -10,7 +10,7 @@ const StudyDate = ({ term }: StudyDateProps) => {
   return (
     <div
       className={clsx(
-        "flex h-6 w-fit items-center justify-center gap-2.5 rounded px-2 py-px text-center text-xs font-semibold leading-[150%]",
+        "flex h-6 w-fit items-center justify-center gap-2.5 rounded px-2 py-px text-center typo-sb-11",
         isGreen
           ? "bg-sub-e-100 text-sub-e-500"
           : isYellow

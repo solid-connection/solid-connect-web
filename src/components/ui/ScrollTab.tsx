@@ -9,7 +9,7 @@ type ScrollTabProps = {
 const ScrollTab = ({ choices, choice, setChoice, borderColor, style }: ScrollTabProps) => (
   <div
     style={style}
-    className="flex flex-row overflow-x-auto whitespace-nowrap bg-[#f9f9f9] font-serif text-sm font-semibold text-black"
+    className="flex flex-row overflow-x-auto whitespace-nowrap bg-[#f9f9f9] font-serif typo-sb-9 text-black"
   >
     {choices.map((c) => (
       <button

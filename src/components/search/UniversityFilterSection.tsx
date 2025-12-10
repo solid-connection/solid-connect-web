@@ -62,11 +62,11 @@ const UniversityFilterSection = ({
         >
           <div className="flex items-center gap-2.5">
             {language ? <IconHatColor /> : <IconHatGray />}
-            <span className="text-sm font-semibold leading-normal text-k-700">어학</span>
+            <span className="typo-sb-9 text-k-700">어학</span>
           </div>
           <select
             className={clsx(
-              "appearance-none bg-transparent pr-2.5 text-right text-sm font-semibold focus:outline-none",
+              "appearance-none bg-transparent pr-2.5 text-right typo-sb-9 focus:outline-none",
               language ? "text-primary" : "text-k-300",
             )}
             value={language}
@@ -96,11 +96,11 @@ const UniversityFilterSection = ({
                 >
                   <div className="flex items-center gap-2.5">
                     {countries[i] ? <IconLocationColor /> : <IconLocationGray />}
-                    <span className="text-sm font-semibold leading-normal text-k-700">관심있는 나라</span>
+                    <span className="typo-sb-9 text-k-700">관심있는 나라</span>
                   </div>
                   <select
                     className={clsx(
-                      "appearance-none bg-transparent pr-2.5 text-right text-sm font-semibold focus:outline-none",
+                      "appearance-none bg-transparent pr-2.5 text-right typo-sb-9 focus:outline-none",
                       countries[i] ? "text-primary" : "text-k-300",
                     )}
                     value={countries[i]}

@@ -25,7 +25,7 @@ const SignupPolicyScreen = ({ toNextStage }: SignupPolicyScreenProps) => {
             </svg>
           </div>
           <div className="mt-4">
-            <span className="text-2xl">
+            <span className="typo-bold-1">
               가입을
               <br /> 환영합니다!
             </span>
@@ -38,15 +38,15 @@ const SignupPolicyScreen = ({ toNextStage }: SignupPolicyScreenProps) => {
           <div className="flex items-center gap-2">
             <Checkbox className="" checked={isChecked} onClick={() => setIsChecked(!isChecked)} />
             <div>
-              <span className="text-sm text-gray-400">이용 약관 동의 </span>
-              <span className="text-xs text-gray-400">(필수)</span>
+              <span className="typo-regular-2 text-gray-400">이용 약관 동의 </span>
+              <span className="typo-regular-4 text-gray-400">(필수)</span>
             </div>
           </div>
           <div>
             <a
               href="https://solid-connection.notion.site/1b5ac2cda9b28017a801d0cacf236ec7?pvs=4"
               target="_blank"
-              className="text-xs text-gray-400 underline"
+              className="typo-regular-4 text-gray-400 underline"
             >
               전문보기
             </a>

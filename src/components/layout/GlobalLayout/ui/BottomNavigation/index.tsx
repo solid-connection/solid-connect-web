@@ -45,8 +45,8 @@ const BottomNavigation = () => {
             <span
               className={
                 isActive
-                  ? "text-center font-serif text-xs font-normal leading-[1.66] tracking-[0.4px] text-primary"
-                  : "text-center font-serif text-xs font-normal leading-[1.66] tracking-[0.4px] text-[rgba(0,0,0,0.6)]"
+                  ? "text-center font-serif typo-regular-4 tracking-[0.4px] text-primary"
+                  : "text-center font-serif typo-regular-4 tracking-[0.4px] text-[rgba(0,0,0,0.6)]"
               }
             >
               {text}

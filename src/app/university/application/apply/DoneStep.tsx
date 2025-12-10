@@ -8,7 +8,7 @@ const DoneStep = () => {
   return (
     <div className="mt-52 flex h-full flex-col items-center justify-center gap-6">
       <Image src="/images/survey-complete-icon.png" width={120} height={120} alt="지원 완료" />
-      <div className="text-center font-serif text-2xl font-semibold text-k-800">
+      <div className="text-center font-serif typo-sb-2 text-k-800">
         학교 지원이
         <br />
         <span className="text-secondary">완료</span>

@@ -19,7 +19,7 @@ const SubmitLinkTab = ({ color, isActiveGpa = true }: SubmitLinkTabProps) => {
   };
   const combinedColor = { ...defaultColor, ...color };
   return (
-    <div className="flex h-9 w-full cursor-pointer flex-row text-sm font-medium">
+    <div className="flex h-9 w-full cursor-pointer flex-row typo-medium-2">
       <Link
         href="/university/score/submit/language-test"
         style={{ color: combinedColor.activeBtnFont }}

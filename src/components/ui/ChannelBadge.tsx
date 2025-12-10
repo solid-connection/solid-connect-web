@@ -8,7 +8,7 @@ interface ChannelBadgeProps {
 const ChannelBadge = ({ channelType, text }: ChannelBadgeProps) => {
   return (
     <div
-      className={`flex h-full w-full items-center justify-center gap-[10px] rounded px-2 py-[3px] text-sm font-medium ${
+      className={`flex h-full w-full items-center justify-center gap-[10px] rounded px-2 py-[3px] typo-medium-2 ${
         channelType === ChannelType.BLOG
           ? "bg-sub-e-100 text-sub-e-500"
           : channelType === ChannelType.BRUNCH

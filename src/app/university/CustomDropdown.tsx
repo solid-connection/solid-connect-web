@@ -59,8 +59,8 @@ const CustomDropdown = ({
       >
         {isSelected ? <span className="mr-3">{icon}</span> : <span className="mr-3">{placeholderIcon}</span>}
 
-        <span className={clsx("flex-1 font-semibold text-k-700")}>{placeholder}</span>
-        <span className={clsx("flex items-center font-semibold", isSelected ? "text-primary" : "text-k-300")}>
+        <span className={clsx("flex-1 typo-sb-9 text-k-700")}>{placeholder}</span>
+        <span className={clsx("flex items-center typo-sb-9", isSelected ? "text-primary" : "text-k-300")}>
           {selectedOptionLabel || placeholderSelect}
           <span className="ml-2 h-5 w-5">
             <IconDirectionDown />
@@ -81,7 +81,7 @@ const CustomDropdown = ({
                   }}
                   className={clsx(
                     "hover:bg-primary-50 w-full px-4 py-2.5 text-left text-gray-700",
-                    option.value === value && "bg-primary-100 font-semibold text-primary-700",
+                    option.value === value && "bg-primary-100 typo-sb-9 text-primary-700",
                   )}
                 >
                   {option.label}

@@ -65,12 +65,12 @@ const Content = ({ icon, text, subText, textColor = "text-k-700" }: ContentProps
         ) : (
           <div className="h-8" />
         )}
-        <span className={clsx("text-sm font-medium", textColor)}>{text}</span>
+        <span className={clsx("typo-medium-2", textColor)}>{text}</span>
       </div>
 
       {/* 오른쪽 subText + 아이콘 */}
       <div className="flex shrink-0 items-center gap-1">
-        {subText && <span className="text-sm text-k-600">{subText}</span>}
+        {subText && <span className="typo-regular-2 text-k-600">{subText}</span>}
         <span className="h-5 w-5">
           <IconDirectionRight />
         </span>
