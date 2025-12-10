@@ -64,7 +64,7 @@ const LoginContent = () => {
 
   return (
     <div>
-      <div className="mt-[-56px] h-[77px] border-b border-[#f5f5f5] py-[21px] pl-5">
+      <div className="mt-[-56px] h-[77px] border-b border-bg-200 py-[21px] pl-5">
         <Link href="/">
           <IconSolidConnectionFullBlackLogo />
         </Link>
@@ -127,7 +127,7 @@ const LoginContent = () => {
             <button
               onClick={kakaoLogin}
               type="button"
-              className="flex h-11 w-full items-center justify-center gap-[5px] rounded-lg bg-[#FEE500] p-2.5"
+              className="flex h-11 w-full items-center justify-center gap-[5px] rounded-lg bg-accent-custom-yellow p-2.5"
             >
               <IconKakaoLogo />
               <span className="text-black">카카오로 시작하기</span>

@@ -3,6 +3,8 @@
 import { useMemo, useRef } from "react";
 import { useFormContext } from "react-hook-form";
 
+import clsx from "clsx";
+
 import BlockBtn from "@/components/button/BlockBtn";
 
 import { MentorApplicationFormData } from "../../_lib/schema";
@@ -112,10 +114,10 @@ const UniversityScreen = ({ onNext }: UniversityScreenProps) => {
                 setValue("country", e.target.value);
                 setValue("universityName", ""); // 국가 변경 시 학교 선택 초기화
               }}
-              className="h-12 rounded-lg border border-k-200 bg-k-50 px-4 typo-regular-2 focus:border-primary focus:outline-none [&>option:checked]:text-primary"
-              style={{
-                color: country ? "#6366f1" : undefined,
-              }}
+                className={clsx(
+                  "h-12 rounded-lg border border-k-200 bg-k-50 px-4 typo-regular-2 focus:border-primary focus:outline-none [&>option:checked]:text-primary",
+                  country && "text-accent-custom-indigo",
+                )}
             >
               <option value="" className="text-k-400">
                 국가를 선택해주세요
@@ -141,10 +143,10 @@ const UniversityScreen = ({ onNext }: UniversityScreenProps) => {
                 value={universityName || ""}
                 onChange={(e) => setValue("universityName", e.target.value)}
                 disabled={!country || filteredUniversities.length === 0}
-                className="h-12 rounded-lg border border-k-200 bg-k-50 px-4 typo-regular-2 focus:border-primary focus:outline-none disabled:cursor-not-allowed disabled:opacity-60 [&>option:checked]:text-primary"
-                style={{
-                  color: universityName ? "#6366f1" : undefined,
-                }}
+                className={clsx(
+                  "h-12 rounded-lg border border-k-200 bg-k-50 px-4 typo-regular-2 focus:border-primary focus:outline-none disabled:cursor-not-allowed disabled:opacity-60 [&>option:checked]:text-primary",
+                  universityName && "text-accent-custom-indigo",
+                )}
               >
                 <option value="" className="text-k-400">
                   {!country

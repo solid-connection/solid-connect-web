@@ -30,7 +30,7 @@ const ScoreSheet = ({ scoreSheet }: { scoreSheet: ScoreSheet }) => {
           {scoreSheet.applicants.map((applicant) => (
             <div
               key={applicant.nicknameForApply}
-              className="flex h-10 items-center px-3 typo-medium-3 text-[#4d4d4d]"
+              className="flex h-10 items-center px-3 typo-medium-3 text-gray-600"
             >
               <span className="min-w-[30px] flex-1 overflow-hidden whitespace-nowrap typo-regular-2 text-black">
                 {applicant.nicknameForApply}

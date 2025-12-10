@@ -34,11 +34,11 @@ const getStatus = (status: ScoreSubmitStatus, rejectedReason?: string | null) =>
     case "REJECTED":
       return (
         <div
-          className="flex h-5 cursor-pointer items-center gap-0.5 rounded-[20px] bg-[#FFD9D9] p-2.5"
+          className="flex h-5 cursor-pointer items-center gap-0.5 rounded-[20px] bg-accent-custom-red-light p-2.5"
           onClick={() => toast.error(rejectedReason)}
         >
-          <span className="font-serif typo-bold-7 text-[#E22A2D]">승인 거절</span>
-          <div className="flex h-3 w-[11px] items-center justify-center rounded-[10px] bg-white font-serif typo-medium-5 text-[#E22A2D]">
+          <span className="font-serif typo-bold-7 text-accent-custom-red">승인 거절</span>
+          <div className="flex h-3 w-[11px] items-center justify-center rounded-[10px] bg-white font-serif typo-medium-5 text-accent-custom-red">
             ?
           </div>
         </div>

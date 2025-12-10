@@ -40,13 +40,13 @@ const BottomNavigation = () => {
           >
             {(() => {
               const IconComp = ICON_COMPONENTS[iconType];
-              return <IconComp color={isActive ? "#5950F6" : "#707070"} />;
+              return <IconComp color={isActive ? "#5950F6" : undefined} />;
             })()}
             <span
               className={
                 isActive
                   ? "text-center font-serif typo-regular-4 tracking-[0.4px] text-primary"
-                  : "text-center font-serif typo-regular-4 tracking-[0.4px] text-[rgba(0,0,0,0.6)]"
+                  : "text-center font-serif typo-regular-4 tracking-[0.4px] text-black/60"
               }
             >
               {text}

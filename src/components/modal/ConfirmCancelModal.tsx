@@ -25,18 +25,18 @@ const ConfirmCancelModal = ({
     <ModalBase isOpen={isOpen} onClose={handleCancel}>
       <div className="w-[20.5rem] rounded-xl bg-white px-5 py-[22px] shadow-sdwA">
         <div className="flex flex-col items-center gap-2">
-          <span className="font-serif typo-bold-4 text-[#121212]">{title}</span>
-          <span className="whitespace-pre-wrap text-center font-serif typo-regular-1 text-[#7a7a7a]">
+          <span className="font-serif typo-bold-4 text-gray-900">{title}</span>
+          <span className="whitespace-pre-wrap text-center font-serif typo-regular-1 text-gray-300">
             {content}
           </span>
         </div>
         <div className="mt-5 flex items-center justify-center gap-1">
           <button
-            className="flex h-11 w-36 cursor-pointer items-center justify-center rounded-lg border border-[#c2c2c2] bg-white px-1.5 py-2"
+            className="flex h-11 w-36 cursor-pointer items-center justify-center rounded-lg border border-bg-900 bg-white px-1.5 py-2"
             onClick={handleCancel}
             type="button"
           >
-            <span className="text-center font-serif typo-regular-1 text-[#3c3c3c]">{cancelText}</span>
+            <span className="text-center font-serif typo-regular-1 text-gray-700">{cancelText}</span>
           </button>
           <button
             className="flex h-11 w-36 cursor-pointer items-center justify-center rounded-lg bg-secondary px-1.5 py-2"

@@ -10,7 +10,7 @@ const ScoreSearchField = ({ keyWords, setKeyWord }: ScoreSearchFieldProps) => (
       {keyWords.map((keyWord) => (
         <button
           key={keyWord}
-          className="typo-medium-2 flex items-center justify-center gap-[10px] rounded-full bg-[#fafafa] px-3 py-[5px] text-black"
+          className="typo-medium-2 flex items-center justify-center gap-[10px] rounded-full bg-bg-50 px-3 py-[5px] text-black"
           onClick={() => setKeyWord(keyWord)}
           type="button"
         >

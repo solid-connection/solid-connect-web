@@ -131,7 +131,7 @@ const Comment = ({
         <div className="mt-3 typo-regular-2 text-black">
           {isDeleted ? "삭제된 댓글입니다" : comment.content}
         </div>
-        <div className="mt-2 overflow-hidden typo-regular-4 text-[#7c7c7c]">
+        <div className="mt-2 overflow-hidden typo-regular-4 text-gray-250">
           {convertISODateToDateTime(comment.createdAt) || "1970. 01. 01. 00:00"}
         </div>
       </div>
@@ -142,7 +142,7 @@ const Comment = ({
 const CommentProfile = ({ user }: { user: CommunityUser }) => {
   return (
     <div className="flex items-center gap-2">
-      <div className="h-[25px] w-[25px] rounded-full bg-[#d9d9d9]">
+      <div className="h-[25px] w-[25px] rounded-full bg-bg-600">
         <Image
           className="h-full w-full rounded-full"
           src={

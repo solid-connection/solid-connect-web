@@ -8,7 +8,7 @@ interface DropdownProps {
 }
 
 const SlimDropdown = ({ options }: DropdownProps) => (
-  <div className="absolute z-[1000] flex w-[84px] flex-col rounded-lg bg-white py-3.5 shadow-[0_0px_10px_0px_rgba(0,0,0,0.2)]">
+  <div className="absolute z-[1000] flex w-[84px] flex-col rounded-lg bg-white py-3.5 shadow-[0_0px_10px_0px_rgb(0,0,0,0.2)]">
     {options.map((option) => (
       <button
         key={option.label}

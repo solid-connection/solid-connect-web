@@ -37,7 +37,10 @@ const HomePage = async () => {
       <FindLastYearScoreBar />
       <div className="flex flex-col gap-2.5 px-5 py-3.5">
         <div className="flex gap-2">
-          <Link className="h-26 flex flex-1 flex-col gap-2 rounded-lg bg-[#F0F5FF] p-2.5" href="/university/search">
+          <Link
+            className="h-26 bg-bg-accent-blue flex flex-1 flex-col gap-2 rounded-lg p-2.5"
+            href="/university/search"
+          >
             <div className="flex flex-col">
               <span className="typo-bold-5 text-secondary">학교 검색하기</span>
               <span className="typo-medium-4 text-k-700">모든 학교 목록을 확인해보세요</span>
@@ -46,7 +49,7 @@ const HomePage = async () => {
               <IconMagnifyingGlass />
             </div>
           </Link>
-          <Link className="h-26 flex flex-1 flex-col gap-2 rounded-lg bg-[#EBF8FF] p-2.5" href="/university/score">
+          <Link className="h-26 bg-bg-accent-sky flex flex-1 flex-col gap-2 rounded-lg p-2.5" href="/university/score">
             <div className="flex flex-col">
               <span className="typo-bold-5 text-sub-a">성적 입력하기</span>
               <span className="typo-medium-4 text-k-700">성적을 입력해보세요</span>
@@ -58,11 +61,11 @@ const HomePage = async () => {
         </div>
         <div className="flex gap-2">
           <Link
-            className="h-26 flex flex-1 flex-col gap-2 rounded-lg bg-[#FFF3E5] p-2.5"
+            className="h-26 bg-bg-accent-orange flex flex-1 flex-col gap-2 rounded-lg p-2.5"
             href="/university/application/apply"
           >
             <div className="flex flex-col">
-              <span className="typo-bold-5 text-[#FF7300]">학교 지원하기</span>
+              <span className="typo-bold-5 text-accent-custom-orange">학교 지원하기</span>
               <span className="typo-medium-4 text-k-700">학교를 지원해주세요</span>
             </div>
             <div className="flex justify-end">
@@ -70,11 +73,11 @@ const HomePage = async () => {
             </div>
           </Link>
           <Link
-            className="h-26 flex flex-1 flex-col gap-2 rounded-lg bg-[#E9F7EC] p-2.5"
+            className="h-26 bg-bg-accent-green flex flex-1 flex-col gap-2 rounded-lg p-2.5"
             href="/university/application"
           >
             <div className="flex flex-col">
-              <span className="typo-bold-5 text-[#15A861]">지원자 현황 확인</span>
+              <span className="typo-bold-5 text-accent-custom-green">지원자 현황 확인</span>
               <span className="typo-medium-4 text-k-700">경쟁률을 바로 분석해드려요</span>
             </div>
             <div className="flex justify-end">

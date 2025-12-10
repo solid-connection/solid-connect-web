@@ -54,10 +54,10 @@ const SurveyModal = ({ isOpen, onClose, onCloseForWeek }: SurveyModalProps) => {
       <div className="flex justify-center">
         <div className="w-[80%] overflow-hidden rounded-lg shadow-lg">
           {/* 파란색 그라디언트 헤더 */}
-          <div className="relative bg-gradient-to-br from-[#2E5CFF] via-[#4A7AFF] to-[#6BA3FF] px-5 pb-6 pt-6">
+          <div className="relative bg-gradient-to-br from-blue-gradient-from via-blue-gradient-via to-blue-gradient-to px-5 pb-6 pt-6">
             {/* 배경 장식 원들 */}
-            <div className="absolute right-0 top-0 h-32 w-32 rounded-full bg-[#4A90FF] opacity-30 blur-3xl" />
-            <div className="w 24 absolute -right-4 bottom-0 h-24 rounded-full bg-[#6BA3FF] opacity-40 blur-2xl" />
+            <div className="absolute right-0 top-0 h-32 w-32 rounded-full bg-blue-gradient-accent opacity-30 blur-3xl" />
+            <div className="w 24 absolute -right-4 bottom-0 h-24 rounded-full bg-blue-gradient-to opacity-40 blur-2xl" />
 
             <div className="relative z-10">
               <div className="mb-2 typo-bold-2 text-white">

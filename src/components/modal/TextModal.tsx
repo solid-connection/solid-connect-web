@@ -15,8 +15,8 @@ const TextModal = ({ isOpen, handleClose, title, content, buttonContent = "í™•ì
     <ModalBase isOpen={isOpen} onClose={handleClose}>
       <div className="w-[20.5rem] rounded-xl bg-white px-5 py-[22px] shadow-sdwA">
         <div className="flex flex-col items-center gap-2">
-          <span className="font-serif typo-bold-4 text-[#121212]">{title}</span>
-          <span className="whitespace-pre-wrap text-center font-serif typo-regular-1 text-[#121212]">
+          <span className="font-serif typo-bold-4 text-gray-900">{title}</span>
+          <span className="whitespace-pre-wrap text-center font-serif typo-regular-1 text-gray-900">
             {content}
           </span>
         </div>

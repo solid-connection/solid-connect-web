@@ -14,28 +14,31 @@ type SubmitLinkTabProps = {
 
 const SubmitLinkTab = ({ color, isActiveGpa = true }: SubmitLinkTabProps) => {
   const defaultColor = {
-    activeBtnFont: "#000",
-    deactiveBtnFont: "#7D7D7D",
+    activeBtnFont: "text-black",
+    deactiveBtnFont: "text-gray-200",
   };
-  const combinedColor = { ...defaultColor, ...color };
+  const combinedColor = {
+    activeBtnFont: color?.activeBtnFont ? `text-[${color.activeBtnFont}]` : defaultColor.activeBtnFont,
+    deactiveBtnFont: color?.deactiveBtnFont ? `text-[${color.deactiveBtnFont}]` : defaultColor.deactiveBtnFont,
+  };
   return (
     <div className="flex h-9 w-full cursor-pointer flex-row typo-medium-2">
       <Link
         href="/university/score/submit/language-test"
-        style={{ color: combinedColor.activeBtnFont }}
         className={clsx(
           "flex w-full items-center justify-center border-b-2 border-b-primary-500 bg-white",
           !isActiveGpa ? "border-b-primary-500" : "border-b-transparent",
+          !isActiveGpa ? combinedColor.activeBtnFont : combinedColor.deactiveBtnFont,
         )}
       >
         <div>공인어학</div>
       </Link>
       <Link
         href="/university/score/submit/gpa"
-        style={{ color: combinedColor.deactiveBtnFont }}
         className={clsx(
           "flex w-full items-center justify-center border-b-2 border-b-primary-500 bg-white",
           isActiveGpa ? "border-b-primary-500" : "border-b-transparent",
+          isActiveGpa ? combinedColor.activeBtnFont : combinedColor.deactiveBtnFont,
         )}
       >
         <div>학점</div>

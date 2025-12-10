@@ -164,7 +164,7 @@ const EmailSignUpForm = () => {
                     ) : (
                       <span className="flex items-center gap-1">
                         <IconExpRed />
-                        <p className="typo-regular-4 text-[#E22A2D]">입력한 비밀번호와 동일하지 않습니다.</p>
+                        <p className="typo-regular-4 text-accent-custom-red">입력한 비밀번호와 동일하지 않습니다.</p>
                       </span>
                     )}
                   </div>
