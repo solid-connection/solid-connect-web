@@ -19,7 +19,7 @@ const ChatDetailPage = ({ params }: ChatDetailPageProps) => {
 
   if (isNaN(chatId)) notFound();
   return (
-    <div className="flex flex-col">
+    <div className="w-full flex flex-col">
       <ChatNavBar chatId={chatId} />
       <ChatContent chatId={chatId} />
     </div>

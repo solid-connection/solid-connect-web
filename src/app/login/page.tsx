@@ -13,10 +13,10 @@ export const metadata: Metadata = {
 
 const LoginPage = () => {
   return (
-    <>
+    <div className="w-full px-5">
       <KakaoScriptLoader />
       <LoginContent />
-    </>
+    </div>
   );
 };
 

@@ -12,7 +12,9 @@ const MatchPage = () => {
   return (
     <>
       <TopDetailNavigation title="매칭 멘토" />
-      <MatchContent />
+      <div className="w-full px-5">
+        <MatchContent />
+      </div>
     </>
   );
 };

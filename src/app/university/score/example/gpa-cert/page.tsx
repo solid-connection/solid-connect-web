@@ -51,7 +51,7 @@ const GpaCertExamplePage = () => {
   };
 
   return (
-    <div>
+    <div className="w-full">
       <TopDetailNavigation title="증명서 예시" handleBack={closeWindow} />
       <div style={divStyle}>
         학번과 직전학기가 표시된 증명서만 승인됩니다.

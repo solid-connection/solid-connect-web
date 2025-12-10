@@ -48,19 +48,21 @@ export const colors = [
 
 const ColorsPage = () => {
   return (
-    <div className="p-8">
-      <h1 className="mb-6 text-2xl font-bold">디자인 시스템 색상 팔레트</h1>
-      <div className="space-y-4">
-        {colors.map((row, rowIndex) => (
-          <div key={rowIndex} className="flex space-x-4">
-            {row.map((color, colIndex) => (
-              <div key={colIndex} className="text-center">
-                <div className={`mx-auto h-16 w-16 ${color.class} rounded`} />
-                <p className="mt-2 text-sm">{color.name}</p>
-              </div>
-            ))}
-          </div>
-        ))}
+    <div className="w-full">
+      <div className="p-8">
+        <h1 className="mb-6 text-2xl font-bold">디자인 시스템 색상 팔레트</h1>
+        <div className="space-y-4">
+          {colors.map((row, rowIndex) => (
+            <div key={rowIndex} className="flex space-x-4">
+              {row.map((color, colIndex) => (
+                <div key={colIndex} className="text-center">
+                  <div className={`mx-auto h-16 w-16 ${color.class} rounded`} />
+                  <p className="mt-2 text-sm">{color.name}</p>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

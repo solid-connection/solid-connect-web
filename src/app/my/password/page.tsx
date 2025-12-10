@@ -12,7 +12,9 @@ const ModifyPage = () => {
   return (
     <>
       <TopDetailNavigation title="비밀번호 수정" />
-      <PasswordContent />
+      <div className="w-full px-5">
+        <PasswordContent />
+      </div>
     </>
   );
 };
