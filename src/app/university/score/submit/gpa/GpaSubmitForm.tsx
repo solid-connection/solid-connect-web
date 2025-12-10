@@ -89,7 +89,7 @@ const GpaSubmitForm = () => {
     <>
       <SubmitLinkTab />
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="px-5 pt-[30px]">
+        <div className="pt-[30px]">
           <div>
             <p className="font-serif text-[22px] font-bold leading-normal text-k-900">대학교 성적 입력</p>
             <p className="font-serif text-[13px] font-medium leading-normal text-k-600">
@@ -160,7 +160,7 @@ const GpaSubmitForm = () => {
             </div>
           </div>
         </div>
-        <div className="max-w-app mt-10 w-full px-5">
+        <div className="max-w-app mt-10 w-full">
           <button
             className={clsx(
               "mb-10 w-full rounded-lg py-4 font-semibold text-white",
