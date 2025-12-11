@@ -3,6 +3,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { AxiosResponse } from "axios";
 
 import { publicAxiosInstance } from "@/utils/axiosInstance";
+import { validateSafeRedirect } from "@/utils/authUtils";
 
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { toast } from "@/lib/zustand/useToastStore";
@@ -48,14 +49,7 @@ const usePostAppleAuth = () => {
 
         // 안전한 리다이렉트 처리 - 오픈 리다이렉트 방지
         const redirectParam = searchParams.get("redirect");
-        let safeRedirect = "/"; // 기본값
-
-        if (redirectParam && typeof redirectParam === "string") {
-          // 내부 경로인지 검증: 단일 "/"로 시작하고 "//"나 "://"를 포함하지 않아야 함
-          if (redirectParam.startsWith("/") && !redirectParam.startsWith("//") && !redirectParam.includes("://")) {
-            safeRedirect = redirectParam;
-          }
-        }
+        const safeRedirect = validateSafeRedirect(redirectParam);
 
         toast.success("로그인에 성공했습니다.");
         router.replace(safeRedirect);
