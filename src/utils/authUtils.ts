@@ -30,14 +30,16 @@ export const authProviderName = (provider: "KAKAO" | "APPLE" | "EMAIL"): string 
 
 export const kakaoLogin = () => {
   if (window.Kakao && window.Kakao.Auth) {
-    // 현재 URL에서 redirect 파라미터 추출
+    // 현재 URL에서 redirect 파라미터 추출 및 검증
     const urlParams = new URLSearchParams(window.location.search);
     const redirectParam = urlParams.get("redirect");
+    const safeRedirect = validateSafeRedirect(redirectParam);
 
-    // redirect 파라미터가 있으면 callback URL에 전달
+    // 검증된 redirect 파라미터를 callback URL에 전달
     let redirectUri = `${process.env.NEXT_PUBLIC_WEB_URL}/login/kakao/callback`;
-    if (redirectParam) {
-      redirectUri += `?redirect=${encodeURIComponent(redirectParam)}`;
+    // 기본값 "/"가 아닌 경우에만 redirect 파라미터 추가 (기본값이면 생략 가능)
+    if (safeRedirect !== "/") {
+      redirectUri += `?redirect=${encodeURIComponent(safeRedirect)}`;
     }
 
     window.Kakao.Auth.authorize({
