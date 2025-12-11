@@ -46,32 +46,12 @@ export async function generateMetadata({ params }: MetadataProps): Promise<Metad
       : `${baseUrl}${universityData.backgroundImageUrl}`
     : `${baseUrl}/images/default-university.jpg`;
 
-  // 언어 요건 요약
-  const languageSummary = universityData.languageRequirements
-    .map((req) => `${req.languageTestType} ${req.minScore}`)
-    .join(", ");
-
-  // Description 생성: 대학 이름, 국가, 모집인원, 학기, 언어요건 등 핵심 정보 포함
-  const description = `${convertedKoreanName}(${universityData.englishName}) 교환학생 프로그램 정보. 국가: ${universityData.country}, 모집인원: ${universityData.studentCapacity}명, 파견가능학기: ${universityData.semesterAvailableForDispatch}${languageSummary ? `, 어학요건: ${languageSummary}` : ""}. 솔리드커넥션에서 ${convertedKoreanName} 교환학생 지원 정보를 확인하세요.`;
-
-  // Keywords: 대학 이름, 영어 이름, 국가, 교환학생, 파견 등 검색 키워드
-  const keywords = [
-    convertedKoreanName,
-    universityData.englishName,
-    universityData.koreanName,
-    `${universityData.country} 교환학생`,
-    `${universityData.country} 파견`,
-    "교환학생",
-    "파견학교",
-    "교환학생 프로그램",
-    universityData.region,
-    universityData.semesterAvailableForDispatch,
-  ].filter(Boolean);
+  // Description 생성: 간결하게 핵심 정보만 포함 (150자 이내 권장)
+  const description = `${convertedKoreanName}(${universityData.englishName}) 교환학생 프로그램. ${universityData.country} ${universityData.studentCapacity}명 모집. 솔리드커넥션에서 지원 정보 확인.`;
 
   return {
     title: `${convertedKoreanName} - ${universityData.englishName} 교환학생 정보 | 솔리드커넥션`,
     description,
-    keywords: keywords.join(", "),
     openGraph: {
       title: `${convertedKoreanName} - ${universityData.englishName} 교환학생 정보`,
       description,
@@ -96,10 +76,6 @@ export async function generateMetadata({ params }: MetadataProps): Promise<Metad
     },
     alternates: {
       canonical: pageUrl,
-    },
-    other: {
-      "geo.region": universityData.country,
-      "geo.placename": universityData.country,
     },
   };
 }
@@ -126,25 +102,27 @@ const CollegeDetailPage = async ({ params }: CollegeDetailPageProps) => {
   const pageUrl = `${baseUrl}/university/${collegeId}`;
 
   // Structured Data (JSON-LD) for SEO - 검색 엔진이 대학 정보를 더 잘 이해하도록
-  const structuredData = {
+  const structuredData: {
+    "@context": string;
+    "@type": string;
+    name: string;
+    url: string;
+    description: string;
+    image?: string;
+  } = {
     "@context": "https://schema.org",
     "@type": "EducationalOrganization",
     name: convertedKoreanName,
-    alternateName: universityData.englishName,
-    url: universityData.homepageUrl || pageUrl,
-    address: {
-      "@type": "PostalAddress",
-      addressCountry: universityData.country,
-      addressRegion: universityData.region,
-    },
+    url: pageUrl,
     description: `${convertedKoreanName}(${universityData.englishName}) 교환학생 프로그램 정보`,
-    image: universityData.backgroundImageUrl
-      ? universityData.backgroundImageUrl.startsWith("http")
-        ? universityData.backgroundImageUrl
-        : `${baseUrl}${universityData.backgroundImageUrl}`
-      : undefined,
-    sameAs: universityData.homepageUrl ? [universityData.homepageUrl] : undefined,
   };
+
+  // 이미지가 있을 때만 추가
+  if (universityData.backgroundImageUrl) {
+    structuredData.image = universityData.backgroundImageUrl.startsWith("http")
+      ? universityData.backgroundImageUrl
+      : `${baseUrl}${universityData.backgroundImageUrl}`;
+  }
 
   return (
     <>
