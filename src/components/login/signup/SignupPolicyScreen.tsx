@@ -47,6 +47,7 @@ const SignupPolicyScreen = ({ toNextStage }: SignupPolicyScreenProps) => {
             <a
               href="https://solid-connection.notion.site/1b5ac2cda9b28017a801d0cacf236ec7?pvs=4"
               target="_blank"
+              rel="noopener noreferrer"
               className="typo-regular-4 text-gray-400 underline"
             >
               전문보기

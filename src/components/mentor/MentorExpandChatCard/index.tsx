@@ -116,7 +116,7 @@ const MentorExpandChatCard = ({
               </div>
             ) : (
               <div className="flex w-full justify-center">
-                <div className="text-k-7000 typo-medium-2 rounded-full bg-primary-200 px-4 py-2">
+                <div className="typo-medium-2 rounded-full bg-primary-200 px-4 py-2 text-k-700">
                   거절되었습니다
                 </div>
               </div>
