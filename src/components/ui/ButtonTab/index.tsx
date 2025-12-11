@@ -55,7 +55,7 @@ const ButtonTab = ({ choices, choice, setChoice, style, color }: ButtonTabProps)
           >
             <span
               className={clsx(
-                "font-serif text-sm font-medium",
+                "font-serif typo-medium-2",
                 isActive ? `${resultColor.activeBtnFont}` : `${resultColor.deactiveBtnFont}`,
               )}
             >

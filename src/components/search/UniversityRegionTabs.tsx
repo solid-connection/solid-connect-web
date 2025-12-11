@@ -26,7 +26,7 @@ const UniversityRegionTabs = ({ regions, region, changeRegion }: UniversityRegio
 
             changeRegion(r.value);
           }}
-          className={`rounded-full px-3 py-[5px] text-[11px] font-semibold leading-normal transition ${
+          className={`rounded-full px-3 py-[5px] typo-sb-12 transition ${
             region === r.value
               ? "border border-primary bg-primary-100 text-primary-900"
               : "border border-k-50 bg-k-50 text-k-300"

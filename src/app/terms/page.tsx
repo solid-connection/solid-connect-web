@@ -11,8 +11,8 @@ const TermsPage = () => {
       <TopDetailNavigation title="이용약관" />
       <div className="w-full">
         <div className="px-5 py-6">
-          <p className="text-k-902 font-norma pb-2">제1조 (회원 탈퇴 및 이용계약 해지)</p>
-          <ol className="font-pretendard ml-4 list-decimal space-y-2 text-sm font-normal text-k-900">
+          <p className="text-k-902 font-normal pb-2">제1조 (회원 탈퇴 및 이용계약 해지)</p>
+          <ol className="font-pretendard ml-4 list-decimal space-y-2 typo-regular-2 text-k-900">
             <li>회원은 언제든지 서비스 내 제공되는 탈퇴 절차를 통해 이용계약을 해지할 수 있습니다.</li>
             <li>
               회원이 탈퇴를 요청할 경우, 회사는 관련 법령 및 개인정보처리방침에 따라 회원의 개인정보를 일정 기간

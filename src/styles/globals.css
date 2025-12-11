@@ -23,7 +23,7 @@
   }
 
   .score-table tr {
-    @apply border border-[#f0f0f0];
+    @apply border border-bg-300;
   }
 
   .score-table button {
@@ -31,7 +31,7 @@
   }
 
   .score-table thead {
-    @apply bg-[#fafafa];
+    @apply bg-bg-50;
   }
 
   .score-table thead tr {
@@ -39,7 +39,7 @@
   }
 
   .score-table th {
-    @apply text-base font-semibold text-black;
+    @apply typo-sb-7 text-black;
   }
 
   .score-table tbody tr {
@@ -47,7 +47,7 @@
   }
 
   .score-table td {
-    @apply min-w-[30px] flex-1 overflow-hidden whitespace-nowrap text-[13px] font-medium text-[#4d4d4d];
+    @apply min-w-[30px] flex-1 overflow-hidden whitespace-nowrap typo-medium-3 text-gray-600;
   }
 
   .score-table td:nth-of-type(5) {

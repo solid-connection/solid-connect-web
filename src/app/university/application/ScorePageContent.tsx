@@ -142,7 +142,7 @@ const ScorePageContent = () => {
       {searchActive ? (
         <div className="font-sans p-4">
           {/* Title for the popular searches section */}
-          <div className="ml-5 mt-[18px] text-base font-semibold leading-normal text-black">인기 검색</div>
+          <div className="ml-5 mt-[18px] typo-sb-7 text-black">인기 검색</div>
 
           {/* Container for the keyword buttons */}
           <div className="ml-5 mt-2.5 flex flex-wrap gap-2">
@@ -150,7 +150,7 @@ const ScorePageContent = () => {
               <button
                 key={word}
                 // Button styling for each keyword
-                className="flex items-center justify-center gap-2.5 rounded-full bg-gray-50 px-3 py-[5px] text-sm font-medium leading-[160%] text-black transition-colors hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2"
+                className="flex items-center justify-center gap-2.5 rounded-full bg-gray-50 px-3 py-[5px] typo-medium-2 text-black transition-colors hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2"
                 onClick={() => {
                   handleSearchField(word);
                   handleSearch(new Event("submit") as unknown as React.FormEvent);

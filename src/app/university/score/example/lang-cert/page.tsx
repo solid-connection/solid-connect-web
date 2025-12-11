@@ -12,7 +12,6 @@ const GpaCertExamplePage = () => {
 
   const divStyle = {
     padding: "33px 20px 27px 20px",
-    color: "#1E1E1E",
     fontFamily: "Pretendard",
     fontSize: "14px",
     lineHeight: "150%",
@@ -21,7 +20,7 @@ const GpaCertExamplePage = () => {
   return (
     <div className="w-full">
       <TopDetailNavigation title="증명서 예시" handleBack={closeWindow} />
-      <div style={divStyle}>
+      <div style={divStyle} className="text-gray-800">
         공인 어학 성적은 해당 홈페이지를 통해
         <br />
         공식 인증 기간 마크가 포함된 파일의 원본을 제출해주세요.

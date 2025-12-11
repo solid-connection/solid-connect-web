@@ -30,7 +30,8 @@ const IconLink = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="20" viewBox="0 0 18 20" fill="none">
     <path
       d="M9 2.63333V12.2667M12.2143 4.9L9 1.5L5.78571 4.9M1.5 10.5667V16.2333C1.5 16.8345 1.72576 17.411 2.12763 17.8361C2.52949 18.2612 3.07454 18.5 3.64286 18.5H14.3571C14.9255 18.5 15.4705 18.2612 15.8724 17.8361C16.2742 17.411 16.5 16.8345 16.5 16.2333V10.5667"
-      stroke="#B33BD4"
+      stroke="currentColor"
+      className="text-sub-d-500"
       stroke-width="2"
       stroke-linecap="round"
       stroke-linejoin="round"
@@ -90,7 +91,7 @@ const KebabMenu = ({ postId, boardCode, isOwner = false }: KebabMenuProps) => {
             <li key={"URL 복사"}>
               <button
                 onClick={handleCopyUrl}
-                className={`flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50`}
+                className={`flex w-full items-center gap-3 rounded-md px-3 py-2.5 typo-regular-2 text-gray-700 hover:bg-gray-50`}
               >
                 <span className="flex-shrink-0">
                   <IconLink />
@@ -105,7 +106,7 @@ const KebabMenu = ({ postId, boardCode, isOwner = false }: KebabMenuProps) => {
                     onClick={() => {
                       router.push(`/community/${boardCode}/${postId}/modify`);
                     }}
-                    className={`flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50`}
+                    className={`flex w-full items-center gap-3 rounded-md px-3 py-2.5 typo-regular-2 text-gray-700 hover:bg-gray-50`}
                   >
                     <span>{"수정하기"}</span>
                   </button>
@@ -117,7 +118,7 @@ const KebabMenu = ({ postId, boardCode, isOwner = false }: KebabMenuProps) => {
                         deletePost(postId);
                       }
                     }}
-                    className={`flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-sm text-gray-700 hover:bg-gray-50`}
+                    className={`flex w-full items-center gap-3 rounded-md px-3 py-2.5 typo-regular-2 text-gray-700 hover:bg-gray-50`}
                   >
                     <span>{"삭제하기"}</span>
                   </button>

@@ -85,7 +85,7 @@ const EmailSignUpForm = () => {
       <div className="px-5 pt-2.5">
         <Progress value={currentStep * 50} showPercentage={true} className="mt-4" />
         <div className="mt-10">
-          <span className="text-2xl font-bold leading-[1.4] text-k-900">
+          <span className="typo-bold-1 text-k-900">
             이메일을
             <br />
             입력해주세요
@@ -159,12 +159,12 @@ const EmailSignUpForm = () => {
                     {passwordMatch ? (
                       <span className="flex items-center gap-1">
                         <IconCheckBlue />
-                        <p className="text-xs text-sub-a">입력한 비밀번호와 동일합니다.</p>
+                        <p className="typo-regular-4 text-sub-a">입력한 비밀번호와 동일합니다.</p>
                       </span>
                     ) : (
                       <span className="flex items-center gap-1">
                         <IconExpRed />
-                        <p className="text-xs text-[#E22A2D]">입력한 비밀번호와 동일하지 않습니다.</p>
+                        <p className="typo-regular-4 text-accent-custom-red">입력한 비밀번호와 동일하지 않습니다.</p>
                       </span>
                     )}
                   </div>

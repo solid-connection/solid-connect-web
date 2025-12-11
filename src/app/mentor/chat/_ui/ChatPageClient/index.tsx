@@ -25,14 +25,14 @@ const ChatPageClient = () => {
         <div className="w-15 h-[45px]">
           <IconSolidConnentionLogo />
         </div>
-        <p className="text-center font-medium text-k-300">
+        <p className="text-center typo-medium-2 text-k-300">
           현재 매칭된 멘토가 없어요.
           <br />
           멘토부터 찾아볼까요?
         </p>
         <Link
           href={"/mentor"}
-          className="mt-5 flex h-[52px] w-60 items-center justify-center gap-[10px] rounded-[30px] bg-[linear-gradient(270deg,_var(--Primary-Color,_#5950F6)_0%,_var(--SubA-Color,_#388CE8)_100%)] px-[10px] font-semibold text-white"
+          className="mt-5 flex h-[52px] w-60 items-center justify-center gap-[10px] rounded-[30px] bg-[linear-gradient(270deg,_var(--Primary-Color,_#5950F6)_0%,_var(--SubA-Color,_#388CE8)_100%)] px-[10px] typo-sb-9 text-white"
         >
           멘토 찾으러 가볼까요?
         </Link>
@@ -47,7 +47,7 @@ const ChatPageClient = () => {
         <div className="w-15 h-[45px]">
           <IconSolidConnentionLogo />
         </div>
-        <p className="text-center font-medium text-k-300">현재 진행 중인 채팅이 없어요.</p>
+        <p className="text-center typo-medium-2 text-k-300">현재 진행 중인 채팅이 없어요.</p>
       </div>
     );
   }
@@ -62,9 +62,9 @@ const ChatPageClient = () => {
               <span className="h-5 w-5">
                 <IconSearchBlue />
               </span>
-              <span className="font-semibold text-secondary">멘토를 찾으러 가볼까요?</span>
+              <span className="typo-sb-9 text-secondary">멘토를 찾으러 가볼까요?</span>
             </div>
-            <p className="w-[140px] text-end text-[13px] font-medium text-k-600">나의 멘토 찾으러가기</p>
+            <p className="w-[140px] text-end typo-medium-3 text-k-600">나의 멘토 찾으러가기</p>
           </div>
           <div className="text-blue-600">
             <span>›</span>
@@ -75,8 +75,8 @@ const ChatPageClient = () => {
       {/* 채팅 리스트 섹션 */}
       <div className="px-5 py-4">
         <div className="mb-4 flex items-center gap-[10px]">
-          <h2 className="text-lg font-semibold text-gray-900">{isMentee ? "나의 멘토" : "나의 멘티"}</h2>
-          <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-center text-xs text-white">
+          <h2 className="typo-sb-5 text-gray-900">{isMentee ? "나의 멘토" : "나의 멘티"}</h2>
+          <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-center typo-regular-4 text-white">
             {chatRooms.length}
           </span>
         </div>
@@ -96,14 +96,14 @@ const ChatPageClient = () => {
                 <div className="flex items-center gap-2">
                   <ProfileWithBadge profileImageUrl={profileUrl} width={48} height={48} />
                   <div className="flex flex-col items-start">
-                    <h3 className="font-semibold text-k-900">{nickname}</h3>
-                    <p className="truncate text-sm text-k-600">{lastChatMessage}</p>
+                    <h3 className="typo-sb-9 text-k-900">{nickname}</h3>
+                    <p className="truncate typo-regular-2 text-k-600">{lastChatMessage}</p>
                   </div>
                 </div>
                 <div className="flex flex-col items-end gap-1">
-                  <p className="text-xs text-k-500">{convertISODateToKoreanTime(lastReceivedTime)}</p>
+                  <p className="typo-regular-4 text-k-500">{convertISODateToKoreanTime(lastReceivedTime)}</p>
                   {unReadCount > 0 && (
-                    <span className="ml-2 rounded-full bg-secondary px-2 py-1 text-xs text-white">
+                    <span className="ml-2 rounded-full bg-secondary px-2 py-1 typo-regular-4 text-white">
                       {unReadCount > 9 ? "9+" : unReadCount}
                     </span>
                   )}

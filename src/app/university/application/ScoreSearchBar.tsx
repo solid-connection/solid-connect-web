@@ -10,12 +10,12 @@ const ScoreSearchBar = ({ onClick, textRef, searchHandler }: ScoreSearchBarProps
   <form
     onClick={onClick}
     onKeyDown={(e) => e.key === "Enter" && onClick()}
-    className="flex h-[53px] flex-row items-center border-b border-[#d7d7d7]"
+    className="flex h-[53px] flex-row items-center border-b border-bg-700"
     onSubmit={searchHandler}
     role="search"
   >
     <input
-      className="w-full border-0 pl-6 text-base font-normal leading-6 text-[#606060] outline-none"
+      className="w-full border-0 pl-6 typo-regular-1 text-gray-400 outline-0"
       placeholder="해외 파견 학교를 검색하세요."
       ref={textRef}
     />

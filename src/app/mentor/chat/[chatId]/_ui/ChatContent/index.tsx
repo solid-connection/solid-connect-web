@@ -75,14 +75,14 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
               <div className="flex items-center gap-2">
                 <ProfileWithBadge profileImageUrl={profileUrl} width={30} height={30} />
                 <div className="flex h-full items-center">
-                  <span className="text-base font-semibold text-k-700">{nickname}</span>
+                  <span className="typo-sb-7 text-k-700">{nickname}</span>
                   <div className="mx-4 h-10 w-[1px] bg-k-100"></div>
-                  <div className="flex text-sm font-medium">{university ? university : "예비솔커"}</div>
+                  <div className="flex typo-medium-2">{university ? university : "예비솔커"}</div>
                 </div>
               </div>
               <Link
                 className={clsx(
-                  "rounded-3xl px-4 py-2 text-sm font-semibold text-k-0",
+                  "rounded-3xl px-4 py-2 typo-sb-9 text-k-0",
                   isMentor ? "bg-sub-c-500" : "bg-primary",
                 )}
                 // TODO 멘티 페이지 라우터 변경 시 수정 필요
@@ -97,18 +97,18 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
                 {connectionStatus === ConnectionStatus.Connected ? (
                   <p
                     className={clsx(
-                      "bg-gradient-to-r bg-clip-text text-sm font-semibold text-transparent",
+                      "bg-gradient-to-r bg-clip-text typo-sb-9 text-transparent",
                       isMentor ? "from-sub-c-500 to-primary-600" : "from-primary to-sub-a",
                     )}
                   >
                     멘토링이 연결되었습니다! 채팅을 시작해보세요!
                   </p>
                 ) : connectionStatus === ConnectionStatus.Pending ? (
-                  <p className="text-sm font-semibold text-yellow-500">연결 대기 중입니다. 잠시만 기다려주세요.</p>
+                  <p className="typo-sb-9 text-yellow-500">연결 대기 중입니다. 잠시만 기다려주세요.</p>
                 ) : connectionStatus === ConnectionStatus.Error ? (
-                  <p className="text-sm font-semibold text-red-500">연결 중 오류가 발생했습니다. 다시 시도해주세요.</p>
+                  <p className="typo-sb-9 text-red-500">연결 중 오류가 발생했습니다. 다시 시도해주세요.</p>
                 ) : connectionStatus === ConnectionStatus.Disconnected ? (
-                  <p className="text-sm font-semibold text-gray-500">연결이 끊어졌습니다. 잠시 후 다시 시도해주세요.</p>
+                  <p className="typo-sb-9 text-gray-500">연결이 끊어졌습니다. 잠시 후 다시 시도해주세요.</p>
                 ) : null}
               </div>
             </div>
@@ -134,7 +134,7 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
                 <div className="flex justify-center py-2">
                   <div className="flex items-center gap-2">
                     <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent"></div>
-                    <span className="text-sm text-k-500">이전 메시지를 불러오는 중...</span>
+                    <span className="typo-regular-2 text-k-500">이전 메시지를 불러오는 중...</span>
                   </div>
                 </div>
               )}
@@ -151,7 +151,7 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
                     {/* 날짜 구분선 */}
                     {showDateSeparator && (
                       <div className="my-4 mb-6 flex w-full justify-center">
-                        <span className="rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-600">
+                        <span className="rounded-full bg-gray-100 px-3 py-1 typo-regular-2 text-gray-600">
                           {formatDateSeparator(message.createdAt)}
                         </span>
                       </div>

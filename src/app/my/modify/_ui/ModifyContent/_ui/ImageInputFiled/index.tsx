@@ -45,7 +45,7 @@ const ImageInputFiled = ({ initImagePreview }: ImageInputFiledProps) => {
       {/* 숨겨진 파일 input */}
       <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
 
-      <p className="text-sm text-primary">{selectedImage ? "이미지가 선택되었습니다." : "이미지를 선택해주세요."}</p>
+      <p className="typo-regular-2 text-primary">{selectedImage ? "이미지가 선택되었습니다." : "이미지를 선택해주세요."}</p>
     </div>
   );
 };

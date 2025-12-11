@@ -19,10 +19,10 @@ const NewsSection = ({ newsList }: NewsSectionProps) => {
 
   return (
     <div ref={sectionRef} className="mt-6 pl-5">
-      <div className="mb-2.5 flex items-center gap-1.5 font-serif text-base font-semibold text-k-700">
+      <div className="mb-2.5 flex items-center gap-1.5 font-serif typo-sb-7 text-k-700">
         솔커에서 맛보는 소식
         <IconLoveLetter />
-        {/* <Link href="/news" className="ml-auto text-sm font-normal text-k-500">
+        {/* <Link href="/news" className="ml-auto typo-regular-2 text-k-500">
           더보기
           <span className="ml-1 inline-block">
             <IconDirectionRight />
@@ -55,8 +55,8 @@ const NewsSection = ({ newsList }: NewsSectionProps) => {
                   height={90}
                 />
                 <div className="mr-5 flex flex-col gap-0.5">
-                  <div className="text-serif text-sm font-semibold leading-normal text-k-700">{news.title}</div>
-                  <div className="font-serif text-xs font-normal leading-normal text-k-500">{news.description}</div>
+                  <div className="text-serif typo-sb-9 text-k-700">{news.title}</div>
+                  <div className="font-serif typo-regular-4 text-k-500">{news.description}</div>
                 </div>
               </div>
             </Link>

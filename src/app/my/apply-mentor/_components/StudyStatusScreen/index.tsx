@@ -35,7 +35,7 @@ const StudyStatusScreen = ({ onNext }: StudyStatusScreenProps) => {
     <div className="pb-28">
       <div className="px-5">
         <div className="mt-5">
-          <span className="text-2xl font-bold leading-snug text-k-900">
+          <span className="typo-bold-1 text-k-900">
             현재 나의
             <span className="text-primary"> 준비 단계</span>를
             <br />
@@ -43,7 +43,7 @@ const StudyStatusScreen = ({ onNext }: StudyStatusScreenProps) => {
           </span>
         </div>
 
-        {errors.studyStatus && <p className="mt-2 text-sm text-red-500">{errors.studyStatus.message}</p>}
+        {errors.studyStatus && <p className="mt-2 typo-regular-2 text-red-500">{errors.studyStatus.message}</p>}
 
         <div className="mt-10">
           <div className="flex flex-col gap-5">
@@ -116,8 +116,8 @@ const StatusChoiceButton = ({ description, name, icon, isSelected, onClick, disa
       <div className={clsx("flex items-center gap-9", { "cursor-not-allowed opacity-30": disabled })}>
         <div className="pl-[2.75rem]">{icon}</div>
         <div className="flex flex-col items-start">
-          <span className="text-xs font-normal leading-normal text-k-500">{description}</span>
-          <span className="text-xl font-semibold leading-normal text-k-800">{name}</span>
+          <span className="typo-regular-5 text-k-500">{description}</span>
+          <span className="typo-sb-4 text-k-800">{name}</span>
         </div>
       </div>
     </button>

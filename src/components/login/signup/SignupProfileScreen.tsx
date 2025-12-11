@@ -68,7 +68,7 @@ const SignupProfileScreen = ({
     <div className="mb-40">
       <div className="px-5">
         <div className="mt-5">
-          <span className="text-2xl font-bold leading-snug text-k-900">
+          <span className="typo-bold-1 text-k-900">
             닉네임을
             <br />
             등록해주세요.
@@ -90,7 +90,7 @@ const SignupProfileScreen = ({
           </div>
 
           <div className="mt-[30px]">
-            <label htmlFor="nickname" className="mb-1 text-base font-semibold text-k-900">
+            <label htmlFor="nickname" className="mb-1 typo-sb-7 text-k-900">
               닉네임
             </label>
             <Input

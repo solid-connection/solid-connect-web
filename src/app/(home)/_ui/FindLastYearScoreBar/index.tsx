@@ -14,8 +14,8 @@ const FindLastYearScoreBar = () => {
         <div className="flex items-center gap-4">
           <IconGraduationCap />
           <div className="flex flex-col">
-            <span className="text-xs font-normal leading-normal text-k-800">작년 합격 점수가 궁금하신가요?</span>
-            <span className="text-sm font-semibold leading-normal text-k-800">작년도 합격 점수 확인하러 가기</span>
+            <span className="typo-regular-4 text-k-800">작년 합격 점수가 궁금하신가요?</span>
+            <span className="typo-sb-9 text-k-800">작년도 합격 점수 확인하러 가기</span>
           </div>
         </div>
       </div>

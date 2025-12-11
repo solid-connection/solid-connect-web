@@ -5,9 +5,6 @@ import localFont from "next/font/local";
 import GlobalLayout from "@/components/layout/GlobalLayout";
 import ToastContainer from "@/components/ui/Toast";
 
-import { WebVitals } from "./web-vitals";
-
-import { AlertProvider } from "@/context/AlertContext";
 import QueryProvider from "@/lib/react-query/QueryProvider";
 import "@/styles/globals.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
@@ -53,28 +50,19 @@ export const viewport: Viewport = {
 };
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => (
-  <AlertProvider>
-    <html lang="ko" className={pretendard.variable}>
-      <head>
-        <link
-          rel="preload"
-          href="/fonts/PretendardVariable.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
-      </head>
-      <body className={pretendard.className}>
-        <AppleScriptLoader />
-        <GoogleAnalytics gaId="G-V1KLYZC1DS" />
-        <WebVitals />
-        <QueryProvider>
-          <GlobalLayout>{children}</GlobalLayout>
-          <ToastContainer />
-        </QueryProvider>
-      </body>
-    </html>
-  </AlertProvider>
+  <html lang="ko" className={pretendard.variable}>
+    <head>
+      <link rel="preload" href="/fonts/PretendardVariable.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+    </head>
+    <body className={pretendard.className}>
+      <AppleScriptLoader />
+      <GoogleAnalytics gaId="G-V1KLYZC1DS" />
+      <QueryProvider>
+        <GlobalLayout>{children}</GlobalLayout>
+        <ToastContainer />
+      </QueryProvider>
+    </body>
+  </html>
 );
 
 export default RootLayout;

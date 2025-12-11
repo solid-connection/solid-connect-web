@@ -33,10 +33,10 @@ const MentorPage = () => {
 
       <div className="mb-10 mt-4">
         <div className="mb-2 flex justify-between">
-          <h2 className="text-lg font-bold text-gray-900">나의 멘티</h2>
+          <h2 className="typo-bold-5 text-gray-900">나의 멘티</h2>
           {/* 전체보기 버튼 */}
           {isMyMenteeTab && myMenteeList.length > 2 && (
-            <Link href={`/mentor/chat`} className="flex items-center text-[13px] leading-normal text-k-500">
+            <Link href={`/mentor/chat`} className="flex items-center typo-medium-3 text-k-500">
               전체보기
               <span className="flex h-5 w-5 items-center justify-center">
                 <IconDirectionRight />

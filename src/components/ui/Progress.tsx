@@ -16,7 +16,7 @@ const Progress = React.forwardRef<React.ElementRef<typeof ProgressPrimitive.Root
     <div className="relative">
       {showPercentage && (
         <div
-          className={cn("absolute -top-5 text-xs font-medium text-primary transition-all", percentageClassName)}
+          className={cn("absolute -top-5 typo-medium-4 text-primary transition-all", percentageClassName)}
           style={{
             left: `${value || 0}%`,
             transform: `translateX(-50%)`,

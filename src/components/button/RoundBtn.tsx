@@ -13,7 +13,7 @@ const roundBtnVariants = cva("h-[2.375rem] w-[6.375rem] rounded-3xl px-4 py-2.5 
       inactive: "bg-k-100 hover:bg-k-100/90 text-k-0",
     },
     text: {
-      default: "text-xs font-bold leading-normal",
+      default: "typo-bold-6",
     },
   },
   defaultVariants: {

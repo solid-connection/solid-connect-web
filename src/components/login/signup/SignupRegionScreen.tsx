@@ -37,7 +37,7 @@ const SignupRegionScreen = ({
     <div className="mb-40">
       <div className="px-5">
         <div className="mt-5">
-          <span className="text-2xl font-bold leading-snug text-k-900">
+          <span className="typo-bold-1 text-k-900">
             현재 나의
             <span className="text-primary"> 관심 국가</span>를
             <br />
@@ -80,12 +80,12 @@ const RegionButtons = ({ curRegion, setCurRegion }: RegionButtonsProps) => (
         onClick={() => setCurRegion(region.name)}
       >
         <div>{region.icon}</div>
-        <span className="text-base font-semibold text-k-800">{region.name}</span>
+        <span className="typo-sb-7 text-k-800">{region.name}</span>
         {curRegion === "아직 잘 모르겠어요" && region.name === "아직 잘 모르겠어요" && (
           <div className="absolute top-[100px] flex justify-center">
             <div className="absolute bottom-full left-1/2 h-0 w-0 -translate-x-1/2 border-x-8 border-b-[12px] border-x-transparent border-b-primary"></div>
             <div className="relative rounded-lg bg-primary px-4 py-3">
-              <p className="text-center text-sm font-normal leading-normal text-white">
+              <p className="text-center typo-regular-2 text-white">
                 괜찮아요,
                 <br />
                 솔커에서 다양한 정보를

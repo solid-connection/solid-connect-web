@@ -1,5 +1,32 @@
 import type { Config } from "tailwindcss";
 import tailwindcssAnimate from "tailwindcss-animate";
+import plugin from "tailwindcss/plugin";
+
+// 타이포그래피 유틸리티 플러그인 (typo- 접두사 사용)
+const typographyPlugin = plugin(({ addUtilities, theme }) => {
+  const fontSizeConfig = theme("fontSize");
+  const typographyUtilities: Record<string, Record<string, string>> = {};
+
+  // fontSize 설정에서 타이포그래피 유틸리티 생성
+  if (fontSizeConfig && typeof fontSizeConfig === "object") {
+    Object.keys(fontSizeConfig).forEach((key) => {
+      const fontSizeValue = fontSizeConfig[key];
+      if (typeof fontSizeValue === "object" && fontSizeValue !== null && Array.isArray(fontSizeValue)) {
+        const [fontSize, options] = fontSizeValue as [string, { lineHeight?: string; fontWeight?: string }];
+        const lineHeight = options?.lineHeight || "inherit";
+        const fontWeight = options?.fontWeight || "inherit";
+
+        typographyUtilities[`.typo-${key}`] = {
+          "font-size": fontSize,
+          "line-height": lineHeight === "auto" ? "normal" : lineHeight,
+          "font-weight": fontWeight,
+        };
+      }
+    });
+  }
+
+  addUtilities(typographyUtilities);
+});
 
 const config: Config = {
   darkMode: ["class"],
@@ -29,8 +56,53 @@ const config: Config = {
         "Times",
         "serif",
       ],
+      sans: ["Pretendard", "sans-serif"],
     },
     extend: {
+      fontSize: {
+        /* ==========================
+           1. Bold (Weight 700)
+           ========================== */
+        "bold-1": ["24px", { lineHeight: "140%", fontWeight: "700" }],
+        "bold-2": ["20px", { lineHeight: "150%", fontWeight: "700" }],
+        "bold-3": ["18px", { lineHeight: "150%", fontWeight: "700" }],
+        "bold-4": ["16px", { lineHeight: "150%", fontWeight: "700" }],
+        "bold-5": ["14px", { lineHeight: "auto", fontWeight: "700" }],
+        "bold-6": ["12px", { lineHeight: "150%", fontWeight: "700" }],
+        "bold-7": ["10px", { lineHeight: "150%", fontWeight: "700" }],
+        /* ==========================
+           2. SemiBold (Weight 600)
+           ========================== */
+        "sb-1": ["32px", { lineHeight: "auto", fontWeight: "600" }],
+        "sb-2": ["24px", { lineHeight: "auto", fontWeight: "600" }],
+        "sb-3": ["22px", { lineHeight: "150%", fontWeight: "600" }],
+        "sb-4": ["20px", { lineHeight: "150%", fontWeight: "600" }],
+        "sb-5": ["18px", { lineHeight: "150%", fontWeight: "600" }],
+        "sb-6": ["17px", { lineHeight: "auto", fontWeight: "600" }],
+        "sb-7": ["16px", { lineHeight: "auto", fontWeight: "600" }],
+        "sb-8": ["15px", { lineHeight: "150%", fontWeight: "600" }],
+        "sb-9": ["14px", { lineHeight: "150%", fontWeight: "600" }],
+        "sb-10": ["13px", { lineHeight: "150%", fontWeight: "600" }],
+        "sb-11": ["12px", { lineHeight: "150%", fontWeight: "600" }],
+        "sb-12": ["11px", { lineHeight: "150%", fontWeight: "600" }],
+        /* ==========================
+           3. Medium (Weight 500)
+           ========================== */
+        "medium-1": ["16px", { lineHeight: "auto", fontWeight: "500" }],
+        "medium-2": ["14px", { lineHeight: "150%", fontWeight: "500" }],
+        "medium-3": ["13px", { lineHeight: "150%", fontWeight: "500" }],
+        "medium-4": ["12px", { lineHeight: "150%", fontWeight: "500" }],
+        "medium-5": ["11px", { lineHeight: "14px", fontWeight: "500" }],
+        /* ==========================
+           4. Regular (Weight 400)
+           ========================== */
+        "regular-1": ["16px", { lineHeight: "150%", fontWeight: "400" }],
+        "regular-2": ["14px", { lineHeight: "150%", fontWeight: "400" }],
+        "regular-3": ["13px", { lineHeight: "150%", fontWeight: "400" }],
+        "regular-4": ["12px", { lineHeight: "150%", fontWeight: "400" }],
+        "regular-5": ["11px", { lineHeight: "150%", fontWeight: "400" }],
+        "regular-6": ["10px", { lineHeight: "150%", fontWeight: "400" }],
+      },
       colors: {
         "secondary-1": "#c4ddff",
         "secondary-2": "#f2f1df",
@@ -77,6 +149,81 @@ const config: Config = {
         },
         "gray-c": {
           "100": "#ececec",
+        },
+        // 하드코딩된 회색 계열 색상
+        gray: {
+          "950": "#000000",
+          "900": "#121212",
+          "850": "#1a1a1a",
+          "800": "#1E1E1E",
+          "700": "#3c3c3c",
+          "600": "#4d4d4d",
+          "500": "#595959",
+          "400": "#606060",
+          "350": "#707070",
+          "300": "#7a7a7a",
+          "250": "#7c7c7c",
+          "200": "#7D7D7D",
+          "150": "#808080",
+          "100": "#8d8d8d",
+          "50": "#acacac",
+        },
+        // 하드코딩된 배경색 계열
+        bg: {
+          "50": "#fafafa",
+          "100": "#f9f9f9",
+          "200": "#f5f5f5",
+          "300": "#f0f0f0",
+          "400": "#ececec",
+          "500": "#e2e2e2",
+          "600": "#d9d9d9",
+          "700": "#d7d7d7",
+          "800": "#c4c4c4",
+          "900": "#c2c2c2",
+        },
+        // 하드코딩된 텍스트 색상
+        text: {
+          black: "#000000",
+          dark: "#040000",
+          "gray-900": "#121212",
+          "gray-800": "#1E1E1E",
+          "gray-700": "#3c3c3c",
+          "gray-600": "#4d4d4d",
+          "gray-500": "#595959",
+          "gray-400": "#606060",
+          "gray-350": "#707070",
+          "gray-300": "#7a7a7a",
+          "gray-250": "#7c7c7c",
+          "gray-200": "#7D7D7D",
+          "gray-150": "#808080",
+          "gray-100": "#8d8d8d",
+          "gray-50": "#acacac",
+          brown: "#44413d",
+        },
+        // 하드코딩된 강조 색상 (기존 accent와 병합)
+        "accent-custom": {
+          green: "#15A861",
+          orange: "#FF7300",
+          yellow: "#FEE500",
+          red: "#E22A2D",
+          "red-light": "#FFD9D9",
+          "orange-light": "#FEA65E",
+          indigo: "#6366f1",
+          "green-dark": "#78A32C",
+        },
+        // 하드코딩된 배경 강조 색상
+        "bg-accent": {
+          blue: "#F0F5FF",
+          sky: "#EBF8FF",
+          orange: "#FFF3E5",
+          green: "#E9F7EC",
+        },
+        // 하드코딩된 파란색 그라데이션
+        "blue-gradient": {
+          from: "#2E5CFF",
+          via: "#4A7AFF",
+          to: "#6BA3FF",
+          accent: "#4A90FF",
         },
         "sub-a": {
           "100": "#9BC5F3",
@@ -210,6 +357,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [tailwindcssAnimate],
+  plugins: [tailwindcssAnimate, typographyPlugin],
 };
 export default config;

@@ -78,7 +78,7 @@ const PasswordContent = () => {
   return (
     <FormProvider {...methods}>
       <form className="px-5 py-7" onSubmit={handleSubmit(onSubmit)}>
-        <p className="mb-8 text-xl font-semibold">비밀번호 변경</p>
+        <p className="mb-8 typo-sb-4">비밀번호 변경</p>
 
         {step === 0 && (
           <PasswordInput
@@ -115,7 +115,7 @@ const PasswordContent = () => {
               onClick={handleNextStep}
               disabled={!isStep1ButtonEnabled}
               className={clsx(
-                "w-full rounded-lg py-4 font-semibold text-white transition-colors",
+                "w-full rounded-lg py-4 typo-sb-9 text-white transition-colors",
                 isStep1ButtonEnabled ? "bg-primary-600 hover:bg-primary-700" : "cursor-not-allowed bg-gray-400",
               )}
             >
@@ -128,7 +128,7 @@ const PasswordContent = () => {
               type="submit"
               disabled={!isStep2ButtonEnabled}
               className={clsx(
-                "w-full rounded-lg py-4 font-semibold text-white transition-colors",
+                "w-full rounded-lg py-4 typo-sb-9 text-white transition-colors",
                 isStep2ButtonEnabled ? "bg-primary-600 hover:bg-primary-700" : "cursor-not-allowed bg-gray-400",
               )}
             >

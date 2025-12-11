@@ -50,11 +50,11 @@ const Toast = ({ toast }: { toast: ToastType }) => {
       className={`${getToastStyles()} animate-slide-in mb-2 flex min-w-[280px] max-w-md items-center gap-3 rounded-lg px-4 py-3 shadow-lg`}
       role="alert"
     >
-      <span className="text-lg font-bold">{getIcon()}</span>
-      <p className="flex-1 font-serif text-sm font-medium leading-5">{toast.message}</p>
+      <span className="typo-bold-3">{getIcon()}</span>
+      <p className="flex-1 font-serif typo-medium-2">{toast.message}</p>
       <button
         onClick={() => removeToast(toast.id)}
-        className="ml-2 text-lg font-bold opacity-70 transition hover:opacity-100"
+        className="ml-2 typo-bold-3 opacity-70 transition hover:opacity-100"
         type="button"
         aria-label="닫기"
       >

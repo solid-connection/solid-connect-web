@@ -5,7 +5,7 @@ const NotFoundPage = () => {
     <div className="flex flex-col items-center justify-center">
       <IconNotFound />
       <div className="mt-8">
-        <span className="font-serif text-base font-semibold">{"존재하지 않는 페이지입니다"}</span>
+        <span className="font-serif typo-sb-7">{"존재하지 않는 페이지입니다"}</span>
       </div>
     </div>
   );

@@ -30,7 +30,7 @@ const SignupPrepareScreen = ({ preparation, setPreparation, toNextStage }: Signu
     <div className="mb-40">
       <div className="px-5">
         <div className="mt-5">
-          <span className="text-2xl font-bold leading-snug text-k-900">
+          <span className="typo-bold-1 text-k-900">
             현재 나의
             <span className="text-primary"> 준비 단계</span>를
             <br />
@@ -100,7 +100,7 @@ const PrepareChoiceButton = ({
 }: PrepareChoiceButtonProps) => {
   return (
     <button
-      className={clsx("flex items-center gap-9 rounded-lg py-5 shadow-[0_0_6px_0_#DDDDDF]", {
+      className={clsx("flex items-center gap-9 rounded-lg py-5 shadow-[0_0_6px_0_rgb(221,221,223)]", {
         "border border-primary bg-primary-100": preparation === status,
         "border border-white bg-white": preparation !== status,
       })}
@@ -109,8 +109,8 @@ const PrepareChoiceButton = ({
     >
       <div className="pl-[2.75rem]">{icon}</div>
       <div className="flex flex-col items-start">
-        <span className="text-xs font-normal leading-normal text-k-500">{description}</span>
-        <span className="text-xl font-semibold leading-normal text-k-800">{name}</span>
+        <span className="typo-regular-4 text-k-500">{description}</span>
+        <span className="typo-sb-4 text-k-800">{name}</span>
       </div>
     </button>
   );

@@ -48,17 +48,17 @@ const MentorCard = ({ mentor, observeRef, isMine = false }: MentorCardProps) => 
       <div className="flex items-start gap-3">
         <div className="flex flex-col items-center">
           <ProfileWithBadge profileImageUrl={profileImageUrl} hasBadge={hasBadge} />
-          <span className="text-xs font-semibold text-primary-1">누적 멘티 {menteeCount}명</span>
+          <span className="typo-sb-11 text-primary-1">누적 멘티 {menteeCount}명</span>
         </div>
 
         <div className="flex flex-1 flex-col items-stretch gap-3">
           <div className="mb-1 flex items-center justify-between">
-            <span className="text-base font-semibold leading-normal text-primary-1">{country}</span>
+            <span className="typo-sb-7 text-primary-1">{country}</span>
             {isDetail && <StudyDate term={term!} />}
           </div>
-          <h3 className="text-xl font-bold leading-normal text-k-800">{nickname}님</h3>
+          <h3 className="typo-bold-2 text-k-800">{nickname}님</h3>
           <div className="mt-1 flex flex-col">
-            <p className="text-sm font-medium leading-normal text-k-500">{universityName}</p>
+            <p className="typo-medium-2 text-k-500">{universityName}</p>
           </div>
         </div>
       </div>
@@ -68,13 +68,13 @@ const MentorCard = ({ mentor, observeRef, isMine = false }: MentorCardProps) => 
         <>
           {/* 멘토 한마디 */}
           <div className="mb-4 mt-5">
-            <h4 className="mb-2 text-[18px] font-medium text-blue-600">멘토 한마디</h4>
-            <p className="text-sm leading-relaxed text-k-500">{introduction}</p>
+            <h4 className="mb-2 typo-medium-5 text-blue-600">멘토 한마디</h4>
+            <p className="typo-regular-2 text-k-500">{introduction}</p>
           </div>
 
           {/* 멘토 채널 */}
           <div className="mb-4">
-            <h4 className="mb-2 text-[18px] font-medium text-blue-600">멘토 채널</h4>
+            <h4 className="mb-2 typo-medium-5 text-blue-600">멘토 채널</h4>
             <div
               className={clsx("grid gap-2", {
                 "grid-cols-1": channels?.length === 1,
@@ -100,7 +100,7 @@ const MentorCard = ({ mentor, observeRef, isMine = false }: MentorCardProps) => 
             {isMine ? (
               <Link
                 href="/mentor/modify"
-                className="flex h-10 w-[150px] flex-shrink-0 items-center justify-center gap-3 rounded-[20px] bg-primary px-5 py-2.5 font-medium text-white"
+                className="flex h-10 w-[150px] flex-shrink-0 items-center justify-center gap-3 rounded-[20px] bg-primary px-5 py-2.5 typo-medium-2 text-white"
               >
                 수정하기
               </Link>
@@ -108,13 +108,13 @@ const MentorCard = ({ mentor, observeRef, isMine = false }: MentorCardProps) => 
               <>
                 <Link
                   href={`/mentor/${id}`}
-                  className="flex h-10 w-1/2 flex-shrink-0 items-center justify-center gap-3 rounded-[20px] bg-primary px-5 py-2.5 font-medium text-white"
+                  className="flex h-10 w-1/2 flex-shrink-0 items-center justify-center gap-3 rounded-[20px] bg-primary px-5 py-2.5 typo-medium-2 text-white"
                 >
                   멘토 페이지
                 </Link>
                 <button
                   onClick={() => id && handlePostApplyMentor(id)}
-                  className="flex h-10 w-1/2 flex-shrink-0 items-center justify-center gap-3 rounded-[20px] bg-primary px-5 py-2.5 font-medium text-white"
+                  className="flex h-10 w-1/2 flex-shrink-0 items-center justify-center gap-3 rounded-[20px] bg-primary px-5 py-2.5 typo-medium-2 text-white"
                 >
                   멘티 신청하기
                 </button>

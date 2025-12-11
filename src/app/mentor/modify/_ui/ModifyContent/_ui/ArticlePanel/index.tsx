@@ -39,7 +39,7 @@ const ArticlePanel = ({ article, userId }: ArticlePanelProps) => {
         <OptimisticImg src={imageSrc as string} alt="멘토 아티클 이미지" />
       </div>
       <div className="mt-[10px] flex justify-between">
-        <div className="text-[13px] font-medium text-k-500">{convertISODateToDate(article.updatedAt)}</div>
+        <div className="typo-medium-3 text-k-500">{convertISODateToDate(article.updatedAt)}</div>
         <div className="relative">
           <ReusableDropdown<ArticleDropdownType> items={dropdownOptions} onSelect={handleDropdownSelect}>
             <button type="button" className="h-5 w-5 rounded-full bg-secondary-500 px-1 py-1">
@@ -48,8 +48,8 @@ const ArticlePanel = ({ article, userId }: ArticlePanelProps) => {
           </ReusableDropdown>
         </div>
       </div>
-      <h2 className="mt-[6px] text-[17px] font-semibold leading-normal text-k-800">{article.title}</h2>
-      <p className="text-sm font-normal text-k-500">{article.description}</p>
+      <h2 className="mt-[6px] typo-sb-6 text-k-800">{article.title}</h2>
+      <p className="typo-regular-2 text-k-500">{article.description}</p>
 
       <ArticleBottomSheetModal
         isOpen={isArticleModalOpen}
