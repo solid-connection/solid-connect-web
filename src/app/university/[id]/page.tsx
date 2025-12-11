@@ -108,21 +108,19 @@ const CollegeDetailPage = async ({ params }: CollegeDetailPageProps) => {
     name: string;
     url: string;
     description: string;
-    image?: string;
+    image: string;
   } = {
     "@context": "https://schema.org",
     "@type": "EducationalOrganization",
     name: convertedKoreanName,
     url: pageUrl,
     description: `${convertedKoreanName}(${universityData.englishName}) 교환학생 프로그램 정보`,
+    image: universityData.backgroundImageUrl
+      ? universityData.backgroundImageUrl.startsWith("http")
+        ? universityData.backgroundImageUrl
+        : `${baseUrl}${universityData.backgroundImageUrl}`
+      : `${baseUrl}/images/article-thumb.png`,
   };
-
-  // 이미지가 있을 때만 추가
-  if (universityData.backgroundImageUrl) {
-    structuredData.image = universityData.backgroundImageUrl.startsWith("http")
-      ? universityData.backgroundImageUrl
-      : `${baseUrl}${universityData.backgroundImageUrl}`;
-  }
 
   return (
     <>
