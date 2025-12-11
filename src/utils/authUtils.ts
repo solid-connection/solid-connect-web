@@ -2,6 +2,20 @@ import { appleOAuth2CodeResponse } from "@/types/auth";
 
 import { toast } from "@/lib/zustand/useToastStore";
 
+// 오픈 리다이렉트 공격 방지를 위한 redirect 파라미터 검증
+// 단일 "/"로 시작하고 "//"나 "://"를 포함하지 않는 내부 경로만 허용
+export const validateSafeRedirect = (redirectParam: string | null): string => {
+  if (!redirectParam || typeof redirectParam !== "string") {
+    return "/";
+  }
+
+  if (redirectParam.startsWith("/") && !redirectParam.startsWith("//") && !redirectParam.includes("://")) {
+    return redirectParam;
+  }
+
+  return "/";
+};
+
 export const authProviderName = (provider: "KAKAO" | "APPLE" | "EMAIL"): string => {
   if (provider === "KAKAO") {
     return "카카오";
@@ -40,14 +54,16 @@ export const appleLogin = async () => {
     return;
   }
 
-  // 현재 URL에서 redirect 파라미터 추출
+  // 현재 URL에서 redirect 파라미터 추출 및 검증
   const urlParams = new URLSearchParams(window.location.search);
   const redirectParam = urlParams.get("redirect");
+  const safeRedirect = validateSafeRedirect(redirectParam);
 
-  // redirect 파라미터가 있으면 callback URL에 전달
+  // 검증된 redirect 파라미터를 callback URL에 전달
   let redirectURI = `${process.env.NEXT_PUBLIC_WEB_URL}/login/apple/callback`;
-  if (redirectParam) {
-    redirectURI += `?redirect=${encodeURIComponent(redirectParam)}`;
+  // 기본값 "/"가 아닌 경우에만 redirect 파라미터 추가 (기본값이면 생략 가능)
+  if (safeRedirect !== "/") {
+    redirectURI += `?redirect=${encodeURIComponent(safeRedirect)}`;
   }
 
   window.AppleID.auth.init({
@@ -60,10 +76,10 @@ export const appleLogin = async () => {
   try {
     const res: appleOAuth2CodeResponse = await window.AppleID.auth.signIn();
     if (res.authorization) {
-      // redirect 파라미터가 있으면 callback URL에 전달
+      // 검증된 redirect 파라미터를 callback URL에 전달
       let callbackUrl = `/login/apple/callback?code=${encodeURIComponent(res.authorization.code)}`;
-      if (redirectParam) {
-        callbackUrl += `&redirect=${encodeURIComponent(redirectParam)}`;
+      if (safeRedirect !== "/") {
+        callbackUrl += `&redirect=${encodeURIComponent(safeRedirect)}`;
       }
       window.location.href = callbackUrl;
     }
