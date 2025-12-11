@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const loginNeedPages = ["/mentor", "/my", "/community/"]; // 로그인 필요페이지
+const loginNeedPages = ["/mentor", "/my"]; // 로그인 필요페이지
 
 export function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
@@ -21,10 +21,14 @@ export function middleware(request: NextRequest) {
   // HTTP-only 쿠키의 refreshToken 확인
   const refreshToken = request.cookies.get("refreshToken")?.value;
 
-  // 정확한 경로 매칭 - startsWith 대신 정확한 경로나 세그먼트 기반 매칭 사용
-  const needLogin = loginNeedPages.some((path) => {
-    return url.pathname === path || url.pathname.match(new RegExp(`^${path}(/|$)`));
-  });
+  // /community는 통과, /community/ 하위 경로는 로그인 필요
+  const isCommunitySubRoute = url.pathname.startsWith("/community/");
+
+  // 정확한 경로 매칭
+  const needLogin =
+    loginNeedPages.some((path) => {
+      return url.pathname === path || url.pathname.startsWith(path + "/");
+    }) || isCommunitySubRoute; // /community/ 하위 경로도 로그인 필요
 
   if (needLogin && !refreshToken) {
     url.pathname = "/login";
