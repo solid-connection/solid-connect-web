@@ -51,9 +51,6 @@ export const viewport: Viewport = {
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => (
   <html lang="ko" className={pretendard.variable}>
-    <head>
-      <link rel="preload" href="/fonts/PretendardVariable.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
-    </head>
     <body className={pretendard.className}>
       <AppleScriptLoader />
       <GoogleAnalytics gaId="G-V1KLYZC1DS" />
