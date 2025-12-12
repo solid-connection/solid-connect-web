@@ -44,16 +44,22 @@ export async function generateMetadata({ params }: MetadataProps): Promise<Metad
     ? universityData.backgroundImageUrl.startsWith("http")
       ? universityData.backgroundImageUrl
       : `${baseUrl}${universityData.backgroundImageUrl}`
-    : `${baseUrl}/images/default-university.jpg`;
+    : `${baseUrl}/images/article-thumb.png`;
 
-  // Description 생성: 간결하게 핵심 정보만 포함 (150자 이내 권장)
-  const description = `${convertedKoreanName}(${universityData.englishName}) 교환학생 프로그램. ${universityData.country} ${universityData.studentCapacity}명 모집. 솔리드커넥션에서 지원 정보 확인.`;
+  // [나라] 교환학생 키워드 생성
+  const countryExchangeKeyword = `${universityData.country} 교환학생`;
+
+  // Description 생성: 대학교 이름과 [나라] 교환학생 키워드 포함
+  const description = `${convertedKoreanName}(${universityData.englishName}) ${countryExchangeKeyword} 프로그램. 모집인원 ${universityData.studentCapacity}명. 솔리드커넥션에서 ${convertedKoreanName} ${countryExchangeKeyword} 지원 정보 확인.`;
+
+  // Title 생성: 대학교 이름과 [나라] 교환학생 키워드 포함 (검색 최적화)
+  const title = `${convertedKoreanName} - ${countryExchangeKeyword} 정보 | 솔리드커넥션`;
 
   return {
-    title: `${convertedKoreanName} - ${universityData.englishName} 교환학생 정보 | 솔리드커넥션`,
+    title,
     description,
     openGraph: {
-      title: `${convertedKoreanName} - ${universityData.englishName} 교환학생 정보`,
+      title,
       description,
       url: pageUrl,
       siteName: "솔리드커넥션",
@@ -70,7 +76,7 @@ export async function generateMetadata({ params }: MetadataProps): Promise<Metad
     },
     twitter: {
       card: "summary_large_image",
-      title: `${convertedKoreanName} - ${universityData.englishName} 교환학생 정보`,
+      title,
       description,
       images: [imageUrl],
     },
@@ -101,11 +107,15 @@ const CollegeDetailPage = async ({ params }: CollegeDetailPageProps) => {
   const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://solid-connection.com";
   const pageUrl = `${baseUrl}/university/${collegeId}`;
 
+  // [나라] 교환학생 키워드 생성
+  const countryExchangeKeyword = `${universityData.country} 교환학생`;
+
   // Structured Data (JSON-LD) for SEO - 검색 엔진이 대학 정보를 더 잘 이해하도록
   const structuredData: {
     "@context": string;
     "@type": string;
     name: string;
+    alternateName?: string;
     url: string;
     description: string;
     image: string;
@@ -113,8 +123,9 @@ const CollegeDetailPage = async ({ params }: CollegeDetailPageProps) => {
     "@context": "https://schema.org",
     "@type": "EducationalOrganization",
     name: convertedKoreanName,
+    alternateName: universityData.englishName,
     url: pageUrl,
-    description: `${convertedKoreanName}(${universityData.englishName}) 교환학생 프로그램 정보`,
+    description: `${convertedKoreanName}(${universityData.englishName}) ${countryExchangeKeyword} 프로그램 정보`,
     image: universityData.backgroundImageUrl
       ? universityData.backgroundImageUrl.startsWith("http")
         ? universityData.backgroundImageUrl
