@@ -35,7 +35,7 @@
     "linkify-react": "^4.3.2",
     "linkifyjs": "^4.3.2",
     "lucide-react": "^0.479.0",
-    "next": "^14.2.4",
+    "next": "^14.2.35",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.60.0",
