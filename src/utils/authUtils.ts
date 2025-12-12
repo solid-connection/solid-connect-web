@@ -2,6 +2,20 @@ import { appleOAuth2CodeResponse } from "@/types/auth";
 
 import { toast } from "@/lib/zustand/useToastStore";
 
+// 오픈 리다이렉트 공격 방지를 위한 redirect 파라미터 검증
+// 단일 "/"로 시작하고 "//"나 "://"를 포함하지 않는 내부 경로만 허용
+export const validateSafeRedirect = (redirectParam: string | null): string => {
+  if (!redirectParam || typeof redirectParam !== "string") {
+    return "/";
+  }
+
+  if (redirectParam.startsWith("/") && !redirectParam.startsWith("//") && !redirectParam.includes("://")) {
+    return redirectParam;
+  }
+
+  return "/";
+};
+
 export const authProviderName = (provider: "KAKAO" | "APPLE" | "EMAIL"): string => {
   if (provider === "KAKAO") {
     return "카카오";
@@ -16,8 +30,20 @@ export const authProviderName = (provider: "KAKAO" | "APPLE" | "EMAIL"): string 
 
 export const kakaoLogin = () => {
   if (window.Kakao && window.Kakao.Auth) {
+    // 현재 URL에서 redirect 파라미터 추출 및 검증
+    const urlParams = new URLSearchParams(window.location.search);
+    const redirectParam = urlParams.get("redirect");
+    const safeRedirect = validateSafeRedirect(redirectParam);
+
+    // 검증된 redirect 파라미터를 callback URL에 전달
+    let redirectUri = `${process.env.NEXT_PUBLIC_WEB_URL}/login/kakao/callback`;
+    // 기본값 "/"가 아닌 경우에만 redirect 파라미터 추가 (기본값이면 생략 가능)
+    if (safeRedirect !== "/") {
+      redirectUri += `?redirect=${encodeURIComponent(safeRedirect)}`;
+    }
+
     window.Kakao.Auth.authorize({
-      redirectUri: `${process.env.NEXT_PUBLIC_WEB_URL}/login/kakao/callback`,
+      redirectUri,
     });
   } else {
     toast.error("Kakao SDK를 불러오는 중입니다. 잠시 후 다시 시도해주세요.");
@@ -30,17 +56,34 @@ export const appleLogin = async () => {
     return;
   }
 
+  // 현재 URL에서 redirect 파라미터 추출 및 검증
+  const urlParams = new URLSearchParams(window.location.search);
+  const redirectParam = urlParams.get("redirect");
+  const safeRedirect = validateSafeRedirect(redirectParam);
+
+  // 검증된 redirect 파라미터를 callback URL에 전달
+  let redirectURI = `${process.env.NEXT_PUBLIC_WEB_URL}/login/apple/callback`;
+  // 기본값 "/"가 아닌 경우에만 redirect 파라미터 추가 (기본값이면 생략 가능)
+  if (safeRedirect !== "/") {
+    redirectURI += `?redirect=${encodeURIComponent(safeRedirect)}`;
+  }
+
   window.AppleID.auth.init({
     clientId: process.env.NEXT_PUBLIC_APPLE_CLIENT_ID,
     scope: process.env.NEXT_PUBLIC_APPLE_SCOPE,
-    redirectURI: `${process.env.NEXT_PUBLIC_WEB_URL}/login/apple/callback`,
+    redirectURI,
     usePopup: true,
   });
 
   try {
     const res: appleOAuth2CodeResponse = await window.AppleID.auth.signIn();
     if (res.authorization) {
-      window.location.href = `/login/apple/callback?code=${encodeURIComponent(res.authorization.code)}`;
+      // 검증된 redirect 파라미터를 callback URL에 전달
+      let callbackUrl = `/login/apple/callback?code=${encodeURIComponent(res.authorization.code)}`;
+      if (safeRedirect !== "/") {
+        callbackUrl += `&redirect=${encodeURIComponent(safeRedirect)}`;
+      }
+      window.location.href = callbackUrl;
     }
   } catch (error) {
     // Log error for developers

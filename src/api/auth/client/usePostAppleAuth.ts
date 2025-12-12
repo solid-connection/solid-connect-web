@@ -1,8 +1,9 @@
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { AxiosResponse } from "axios";
 
 import { publicAxiosInstance } from "@/utils/axiosInstance";
+import { validateSafeRedirect } from "@/utils/authUtils";
 
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { toast } from "@/lib/zustand/useToastStore";
@@ -34,6 +35,7 @@ const postAppleAuth = ({ code }: AppleAuthRequest): Promise<AxiosResponse<AppleA
 
 const usePostAppleAuth = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   return useMutation({
     mutationFn: postAppleAuth,
@@ -44,6 +46,13 @@ const usePostAppleAuth = () => {
         // 기존 회원일 시 - Zustand persist가 자동으로 localStorage에 저장
         // refreshToken은 서버에서 HTTP-only 쿠키로 자동 설정됨
         useAuthStore.getState().setAccessToken(data.accessToken);
+
+        // 안전한 리다이렉트 처리 - 오픈 리다이렉트 방지
+        const redirectParam = searchParams.get("redirect");
+        const safeRedirect = validateSafeRedirect(redirectParam);
+
+        toast.success("로그인에 성공했습니다.");
+        router.replace(safeRedirect);
       } else {
         // 새로운 회원일 시 - 회원가입 페이지로 이동
         router.push(`/sign-up?token=${data.signUpToken}`);

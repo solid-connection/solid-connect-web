@@ -3,6 +3,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { AxiosResponse } from "axios";
 
 import { publicAxiosInstance } from "@/utils/axiosInstance";
+import { validateSafeRedirect } from "@/utils/authUtils";
 
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { toast } from "@/lib/zustand/useToastStore";
@@ -49,15 +50,9 @@ const usePostKakaoAuth = () => {
 
         // 안전한 리다이렉트 처리 - 오픈 리다이렉트 방지
         const redirectParam = searchParams.get("redirect");
-        let safeRedirect = "/"; // 기본값
+        const safeRedirect = validateSafeRedirect(redirectParam);
 
-        if (redirectParam && typeof redirectParam === "string") {
-          // 내부 경로인지 검증: 단일 "/"로 시작하고 "//"나 "://"를 포함하지 않아야 함
-          if (redirectParam.startsWith("/") && !redirectParam.startsWith("//") && !redirectParam.includes("://")) {
-            safeRedirect = redirectParam;
-          }
-        }
-
+        toast.success("로그인에 성공했습니다.");
         router.replace(safeRedirect);
       } else {
         // 새로운 회원일 시 - 회원가입 페이지로 이동
