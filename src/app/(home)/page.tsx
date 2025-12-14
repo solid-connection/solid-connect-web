@@ -17,11 +17,52 @@ const NewsSectionDynamic = dynamic(() => import("./_ui/NewsSection"), {
   loading: () => <NewsSectionSkeleton />,
 });
 
+const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://solid-connection.com";
+const ogImageUrl = `${baseUrl}/opengraph-image.png`;
+
 export const metadata: Metadata = {
-  title: "솔리드 커넥션 – 교환학생의 첫 걸음",
-  description: "교환학생 준비를 위한 모든 정보가 여기에!",
+  title: "교환학생 사이트 | 솔리드 커넥션 – 교환학생 커뮤니티",
+  description:
+    "교환학생 사이트 솔리드커넥션. 교환학생 커뮤니티에서 학교 검색, 성적 입력, 지원 현황 확인까지 한 번에. 교환학생 준비를 위한 모든 정보를 제공합니다.",
   alternates: {
-    canonical: "https://solid-connection.com/",
+    canonical: `${baseUrl}/`,
+  },
+  openGraph: {
+    title: "교환학생 사이트 | 솔리드 커넥션 – 교환학생 커뮤니티",
+    description:
+      "교환학생 사이트 솔리드커넥션. 교환학생 커뮤니티에서 학교 검색, 성적 입력, 지원 현황 확인까지 한 번에. 교환학생 준비를 위한 모든 정보를 제공합니다.",
+    url: `${baseUrl}/`,
+    siteName: "솔리드커넥션",
+    locale: "ko_KR",
+    type: "website",
+    images: [
+      {
+        url: ogImageUrl,
+        width: 1200,
+        height: 630,
+        alt: "솔리드 커넥션 - 교환학생 커뮤니티",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "교환학생 사이트 | 솔리드 커넥션 – 교환학생 커뮤니티",
+    description: "교환학생 사이트 솔리드커넥션. 교환학생 커뮤니티에서 학교 검색, 성적 입력, 지원 현황 확인까지.",
+    images: [ogImageUrl],
+  },
+};
+
+// Structured Data (JSON-LD) for SEO - 교환학생 사이트, 커뮤니티 키워드 강화
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "솔리드커넥션",
+  url: `${baseUrl}/`,
+  description: "교환학생 학교 검색, 성적 입력, 지원 현황 확인까지 가능한 교환학생 플랫폼.",
+  potentialAction: {
+    "@type": "SearchAction",
+    target: `${baseUrl}/university?searchText={search_term_string}`,
+    "query-input": "required name=search_term_string",
   },
 };
 
@@ -33,71 +74,77 @@ const HomePage = async () => {
   const allRegionsUniversityList = await getCategorizedUniversities();
 
   return (
-    <div className="w-full">
-      <FindLastYearScoreBar />
-      <div className="flex flex-col gap-2.5 px-5 py-3.5">
-        <div className="flex gap-2">
-          <Link
-            className="h-26 bg-bg-accent-blue flex flex-1 flex-col gap-2 rounded-lg p-2.5"
-            href="/university/search"
-          >
-            <div className="flex flex-col">
-              <span className="typo-bold-5 text-secondary">학교 검색하기</span>
-              <span className="typo-medium-4 text-k-700">모든 학교 목록을 확인해보세요</span>
-            </div>
-            <div className="flex justify-end">
-              <IconMagnifyingGlass />
-            </div>
-          </Link>
-          <Link className="h-26 bg-bg-accent-sky flex flex-1 flex-col gap-2 rounded-lg p-2.5" href="/university/score">
-            <div className="flex flex-col">
-              <span className="typo-bold-5 text-sub-a">성적 입력하기</span>
-              <span className="typo-medium-4 text-k-700">성적을 입력해보세요</span>
-            </div>
-            <div className="flex justify-end">
-              <IconPaper />
-            </div>
-          </Link>
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <div className="w-full">
+        <FindLastYearScoreBar />
+        <div className="flex flex-col gap-2.5 px-5 py-3.5">
+          <div className="flex gap-2">
+            <Link
+              className="h-26 bg-bg-accent-blue flex flex-1 flex-col gap-2 rounded-lg p-2.5"
+              href="/university/search"
+            >
+              <div className="flex flex-col">
+                <span className="typo-bold-5 text-secondary">학교 검색하기</span>
+                <span className="typo-medium-4 text-k-700">모든 학교 목록을 확인해보세요</span>
+              </div>
+              <div className="flex justify-end">
+                <IconMagnifyingGlass />
+              </div>
+            </Link>
+            <Link
+              className="h-26 bg-bg-accent-sky flex flex-1 flex-col gap-2 rounded-lg p-2.5"
+              href="/university/score"
+            >
+              <div className="flex flex-col">
+                <span className="typo-bold-5 text-sub-a">성적 입력하기</span>
+                <span className="typo-medium-4 text-k-700">성적을 입력해보세요</span>
+              </div>
+              <div className="flex justify-end">
+                <IconPaper />
+              </div>
+            </Link>
+          </div>
+          <div className="flex gap-2">
+            <Link
+              className="h-26 bg-bg-accent-orange flex flex-1 flex-col gap-2 rounded-lg p-2.5"
+              href="/university/application/apply"
+            >
+              <div className="flex flex-col">
+                <span className="typo-bold-5 text-accent-custom-orange">학교 지원하기</span>
+                <span className="typo-medium-4 text-k-700">학교를 지원해주세요</span>
+              </div>
+              <div className="flex justify-end">
+                <IconMuseum />
+              </div>
+            </Link>
+            <Link
+              className="h-26 bg-bg-accent-green flex flex-1 flex-col gap-2 rounded-lg p-2.5"
+              href="/university/application"
+            >
+              <div className="flex flex-col">
+                <span className="typo-bold-5 text-accent-custom-green">지원자 현황 확인</span>
+                <span className="typo-medium-4 text-k-700">경쟁률을 바로 분석해드려요</span>
+              </div>
+              <div className="flex justify-end">
+                <IconIdCard />
+              </div>
+            </Link>
+          </div>
         </div>
-        <div className="flex gap-2">
-          <Link
-            className="h-26 bg-bg-accent-orange flex flex-1 flex-col gap-2 rounded-lg p-2.5"
-            href="/university/application/apply"
-          >
-            <div className="flex flex-col">
-              <span className="typo-bold-5 text-accent-custom-orange">학교 지원하기</span>
-              <span className="typo-medium-4 text-k-700">학교를 지원해주세요</span>
-            </div>
-            <div className="flex justify-end">
-              <IconMuseum />
-            </div>
-          </Link>
-          <Link
-            className="h-26 bg-bg-accent-green flex flex-1 flex-col gap-2 rounded-lg p-2.5"
-            href="/university/application"
-          >
-            <div className="flex flex-col">
-              <span className="typo-bold-5 text-accent-custom-green">지원자 현황 확인</span>
-              <span className="typo-medium-4 text-k-700">경쟁률을 바로 분석해드려요</span>
-            </div>
-            <div className="flex justify-end">
-              <IconIdCard />
-            </div>
-          </Link>
+
+        <div className="border-t-[5px] border-k-50 py-5 pl-5">
+          <div className="typo-sb-7 mb-2 flex items-center gap-1.5 font-serif text-k-700">실시간 인기있는 파견학교</div>
+          <PopularUniversitySection universities={recommendedUniversities} />
         </div>
-      </div>
 
-      <div className="border-t-[5px] border-k-50 py-5 pl-5">
-        <div className="typo-sb-7 mb-2 flex items-center gap-1.5 font-serif text-k-700">실시간 인기있는 파견학교</div>
-        <PopularUniversitySection universities={recommendedUniversities} />
-      </div>
+        <div className="p-5">
+          <UniversityList allRegionsUniversityList={allRegionsUniversityList} />
+        </div>
 
-      <div className="p-5">
-        <UniversityList allRegionsUniversityList={allRegionsUniversityList} />
+        <NewsSectionDynamic newsList={newsList} />
       </div>
-
-      <NewsSectionDynamic newsList={newsList} />
-    </div>
+    </>
   );
 };
 
