@@ -1,0 +1,50 @@
+name: Sync from Bruno
+
+on:
+  repository_dispatch:
+    types: [bruno_updated]
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate App Token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+
+      - name: Clone Bruno Repo
+        run: |
+          git clone https://x-access-token:${{ steps.app-token.outputs.token }}@github.com/${{ github.repository_owner }}/api-docs.git /tmp/bruno
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Generate Hooks
+        run: |
+          npx bruno-api-typescript generate-hooks -i /tmp/bruno -o ./src/apis
+
+      - name: Create PR
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          commit-message: "chore: sync API from Bruno"
+          branch: api-sync-${{ github.run_number }}
+          title: "🔄 API Sync from Bruno"
+          body: |
+            ## Bruno API 자동 동기화
+
+            Bruno 저장소가 업데이트되어 자동으로 hooks를 생성했습니다.
+
+            **변경사항**:
+            - React Query hooks 업데이트
+            - TypeScript 타입 업데이트
