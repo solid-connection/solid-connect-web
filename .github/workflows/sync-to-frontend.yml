@@ -20,12 +20,14 @@ jobs:
 
       - name: Clone Bruno Repo
         run: |
+          rm -rf /tmp/bruno
           BRANCH="${{ github.event.client_payload.branch || 'main' }}"
           echo "Cloning Bruno repo from branch: $BRANCH"
           git clone -b "$BRANCH" https://x-access-token:${{ steps.app-token.outputs.token }}@github.com/${{ github.repository_owner }}/api-docs.git /tmp/bruno
 
       - name: Clone bruno-api-typescript
         run: |
+          rm -rf /tmp/bruno-api-typescript
           git clone https://github.com/solid-connection/bruno-api-typescript.git /tmp/bruno-api-typescript
 
       - uses: actions/setup-node@v4
