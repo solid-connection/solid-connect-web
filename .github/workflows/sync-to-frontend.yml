@@ -20,7 +20,9 @@ jobs:
 
       - name: Clone Bruno Repo
         run: |
-          git clone https://x-access-token:${{ steps.app-token.outputs.token }}@github.com/${{ github.repository_owner }}/api-docs.git /tmp/bruno
+          BRANCH="${{ github.event.client_payload.branch || 'main' }}"
+          echo "Cloning Bruno repo from branch: $BRANCH"
+          git clone -b "$BRANCH" https://x-access-token:${{ steps.app-token.outputs.token }}@github.com/${{ github.repository_owner }}/api-docs.git /tmp/bruno
 
       - name: Clone bruno-api-typescript
         run: |
@@ -51,6 +53,9 @@ jobs:
             ## Bruno API 자동 동기화
 
             Bruno 저장소가 업데이트되어 자동으로 hooks를 생성했습니다.
+
+            **소스 브랜치**: `${{ github.event.client_payload.branch || 'main' }}`
+            **커밋 SHA**: `${{ github.event.client_payload.sha || 'N/A' }}`
 
             **변경사항**:
             - React Query hooks 업데이트
