@@ -1,7 +1,10 @@
 import { SHORT_LANGUAGE_TEST } from "@/constants/application";
 
-export const shortenLanguageTestName = (name: string) => {
+const shortenLanguageTestName = (name: string): string | undefined => {
   if (Object.prototype.hasOwnProperty.call(SHORT_LANGUAGE_TEST, name)) {
-    return SHORT_LANGUAGE_TEST[name];
+    return SHORT_LANGUAGE_TEST[name] as string;
   }
+  return undefined;
 };
+
+export default shortenLanguageTestName;

@@ -9,7 +9,7 @@ import UniversitySearchInput from "@/components/search/UniversitySearchInput";
 
 import { RegionKo } from "@/types/university";
 
-import { RegionOption } from "@/app/search/SearchContent";
+import { RegionOption } from "@/app/search/SearchContent.tsx";
 import { IconDownArrow, IconHatColor, IconHatGray, IconLocationColor, IconLocationGray } from "@/public/svgs/search";
 
 interface UniversityFilterSectionProps {

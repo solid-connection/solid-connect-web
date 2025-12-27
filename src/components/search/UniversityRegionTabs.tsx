@@ -4,7 +4,7 @@ import React from "react";
 
 import { RegionKo } from "@/types/university";
 
-import { RegionOption } from "@/app/search/SearchContent";
+import { RegionOption } from "@/app/search/SearchContent.tsx";
 
 interface UniversityRegionTabsProps {
   regions: RegionOption[];

@@ -73,8 +73,9 @@ const EmailSignUpForm = () => {
         onSuccess: (data) => {
           router.push(`/sign-up?token=${data.signUpToken}`);
         },
-        onError: (error: any) => {
-          toast.error(error.response?.data?.message || "회원가입에 실패했습니다.");
+        onError: (error: unknown) => {
+          const axiosError = error as { response?: { data?: { message?: string } } };
+          toast.error(axiosError.response?.data?.message || "회원가입에 실패했습니다.");
         },
       },
     );

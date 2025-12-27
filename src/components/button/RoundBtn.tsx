@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { type VariantProps, cva } from "class-variance-authority";
 
-import { cn } from "@/utils/designUtils";
+import cn from "@/utils/designUtils";
 
 const roundBtnVariants = cva("h-[2.375rem] w-[6.375rem] rounded-3xl px-4 py-2.5 ", {
   variants: {

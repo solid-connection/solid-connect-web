@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { type VariantProps, cva } from "class-variance-authority";
 
-import { cn } from "@/utils/designUtils";
+import cn from "@/utils/designUtils";
 
 const blockBtnVariants = cva("h-13 w-full min-w-80 max-w-screen-sm rounded-lg flex items-center justify-center", {
   variants: {

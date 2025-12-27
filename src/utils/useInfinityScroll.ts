@@ -7,7 +7,7 @@ type UseInfinityScrollProps = {
 };
 
 type UseInfinityScrollReturn = {
-  lastElementRef: (node: HTMLDivElement | null) => void;
+  lastElementRef: (node: Element | null) => void;
 };
 
 const useInfinityScroll = ({
@@ -25,7 +25,8 @@ const useInfinityScroll = ({
       if (!node) return;
 
       observerRef.current = new IntersectionObserver(
-        ([entry]) => {
+        (entries) => {
+          const [entry] = entries;
           if (entry.isIntersecting) {
             fetchNextPage();
           }

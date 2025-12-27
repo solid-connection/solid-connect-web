@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { validateLanguageScore } from "@/utils/scoreUtils";
+import validateLanguageScore from "@/utils/scoreUtils";
 
 import { LanguageTestEnum } from "@/types/score";
 

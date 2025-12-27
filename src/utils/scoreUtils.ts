@@ -1,6 +1,6 @@
 import { LanguageTestEnum } from "@/types/score";
 
-export const validateLanguageScore = (testType: string, score: string) => {
+const validateLanguageScore = (testType: string, score: string) => {
   const numScore = Number(score);
 
   if (testType === LanguageTestEnum.TOEIC) {
@@ -31,3 +31,5 @@ export const validateLanguageScore = (testType: string, score: string) => {
     }
   }
 };
+
+export default validateLanguageScore;
