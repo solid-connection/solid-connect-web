@@ -84,7 +84,7 @@ const LoginContent = () => {
             <input
               type="email"
               placeholder="이메일"
-              className="h-[41px] w-full rounded-lg border px-5 py-3 font-serif typo-regular-4 text-k-400 focus:outline-none"
+              className="w-full rounded-lg border border-k-100 px-5 py-3 font-serif typo-regular-4 text-k-400 focus:outline-none"
               {...register("email", {
                 onChange: handleEmailChange,
               })}
@@ -101,7 +101,7 @@ const LoginContent = () => {
             <input
               type="password"
               placeholder="비밀번호"
-              className="h-[41px] w-full rounded-lg border px-5 py-3 font-serif typo-regular-4 text-k-400 focus:outline-none"
+              className="w-full rounded-lg border border-k-100 px-5 py-3 font-serif typo-regular-4 text-k-400 focus:outline-none"
               {...register("password")}
               onKeyDown={handleKeyDown}
             />
