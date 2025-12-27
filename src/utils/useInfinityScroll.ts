@@ -7,7 +7,7 @@ type UseInfinityScrollProps = {
 };
 
 type UseInfinityScrollReturn = {
-  lastElementRef: (node: HTMLDivElement | null) => void;
+  lastElementRef: (node: Element | null) => void;
 };
 
 const useInfinityScroll = ({
