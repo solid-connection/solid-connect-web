@@ -25,7 +25,8 @@ const useInfinityScroll = ({
       if (!node) return;
 
       observerRef.current = new IntersectionObserver(
-        ([entry]) => {
+        (entries) => {
+          const [entry] = entries;
           if (entry.isIntersecting) {
             fetchNextPage();
           }

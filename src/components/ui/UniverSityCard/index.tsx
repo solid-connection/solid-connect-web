@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { convertImageUrl } from "@/utils/fileUtils";
-import { shortenLanguageTestName } from "@/utils/universityUtils";
+import shortenLanguageTestName from "@/utils/universityUtils";
 
 import CheveronRightFilled from "@/components/ui/icon/ChevronRightFilled";
 
