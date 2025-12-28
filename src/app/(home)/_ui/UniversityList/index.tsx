@@ -29,9 +29,9 @@ const UniversityList = ({ allRegionsUniversityList }: UniversityListProps) => {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex justify-between">
-        <span className="typo-sb-5 text-k-700">전체 학교 리스트</span>
+        <span className="text-k-700 typo-sb-5">전체 학교 리스트</span>
         <Link href="/university">
-          <span className="flex items-center gap-1 typo-sb-9 text-k-500">
+          <span className="flex items-center gap-1 text-k-500 typo-sb-9">
             더보기
             <IconDirectionRight className="h-4 w-4" />
           </span>
@@ -49,7 +49,7 @@ const UniversityList = ({ allRegionsUniversityList }: UniversityListProps) => {
           background: "white",
         }}
       />
-      <UniversityCards colleges={previewUniversities} showCapacity={false} />
+      <UniversityCards colleges={previewUniversities} showCapacity={false} enableVirtualization={false} />
     </div>
   );
 };
