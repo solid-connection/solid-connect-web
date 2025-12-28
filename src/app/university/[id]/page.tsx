@@ -5,7 +5,7 @@ import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 
 import UniversityDetail from "./_ui/UniversityDetail";
 
-import { getUniversityDetail, getAllUniversities } from "@/apis/universities/server";
+import { getAllUniversities, getUniversityDetail } from "@/apis/universities/server";
 
 export const revalidate = false;
 

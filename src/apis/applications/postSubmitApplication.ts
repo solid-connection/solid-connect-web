@@ -1,7 +1,9 @@
 import { AxiosError, AxiosResponse } from "axios";
-import { UseMutationOptions, UseMutationResult, useMutation } from "@tanstack/react-query";
-import { applicationsApi, UseSubmitApplicationResponse, UseSubmitApplicationRequest } from "./api";
+
+import { UseSubmitApplicationRequest, UseSubmitApplicationResponse, applicationsApi } from "./api";
+
 import { toast } from "@/lib/zustand/useToastStore";
+import { UseMutationOptions, UseMutationResult, useMutation } from "@tanstack/react-query";
 
 /**
  * @description 지원 제출 훅

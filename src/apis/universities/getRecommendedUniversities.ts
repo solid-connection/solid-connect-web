@@ -1,8 +1,11 @@
 import { AxiosError } from "axios";
-import { useQuery } from "@tanstack/react-query";
-import { universitiesApi, RecommendedUniversitiesResponse } from "./api";
+
 import { QueryKeys } from "../queryKeys";
+import { RecommendedUniversitiesResponse, universitiesApi } from "./api";
+
 import { ListUniversity } from "@/types/university";
+
+import { useQuery } from "@tanstack/react-query";
 
 type UseGetRecommendedUniversitiesParams = {
   isLogin: boolean;

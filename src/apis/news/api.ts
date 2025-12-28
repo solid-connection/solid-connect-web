@@ -1,7 +1,10 @@
 import { AxiosResponse } from "axios";
+
 import { axiosInstance } from "@/utils/axiosInstance";
-import { Article } from "@/types/news";
+
 import { ArticleFormData } from "@/components/mentor/ArticleBottomSheetModal/lib/schema";
+
+import { Article } from "@/types/news";
 
 // ====== Query Keys ======
 export const NewsQueryKeys = {

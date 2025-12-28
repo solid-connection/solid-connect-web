@@ -14,9 +14,9 @@ import { CountryCode, LanguageTestType, RegionEnumExtend } from "@/types/univers
 
 // 필요한 타입과 훅 import
 import {
+  type UniversitySearchFilterParams,
   useGetUniversitySearchByFilter,
   useUniversitySearch,
-  type UniversitySearchFilterParams,
 } from "@/apis/universities";
 
 // --- URL 파라미터를 읽고 데이터를 처리하는 메인 컨텐츠 ---

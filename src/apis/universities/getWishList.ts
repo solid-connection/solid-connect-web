@@ -1,8 +1,11 @@
 import { AxiosError } from "axios";
-import { useQuery } from "@tanstack/react-query";
-import { universitiesApi, WishListResponse } from "./api";
+
 import { QueryKeys } from "../queryKeys";
+import { WishListResponse, universitiesApi } from "./api";
+
 import { ListUniversity } from "@/types/university";
+
+import { useQuery } from "@tanstack/react-query";
 
 /**
  * @description 내 위시리스트 대학 목록 조회를 위한 useQuery 커스텀 훅

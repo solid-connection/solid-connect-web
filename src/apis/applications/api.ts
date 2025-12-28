@@ -1,5 +1,7 @@
 import { AxiosResponse } from "axios";
+
 import { axiosInstance } from "@/utils/axiosInstance";
+
 import { ApplicationListResponse } from "@/types/application";
 
 // ====== Query Keys ======

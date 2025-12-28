@@ -1,7 +1,9 @@
 import { AxiosResponse } from "axios";
+
 import { axiosInstance } from "@/utils/axiosInstance";
-import { MentorCardPreview, MentorCardDetail, MentoringItem, MentoringApprovalStatus } from "@/types/mentor";
+
 import { MentoringListItem, VerifyStatus } from "@/types/mentee";
+import { MentorCardDetail, MentorCardPreview, MentoringApprovalStatus, MentoringItem } from "@/types/mentor";
 
 // QueryKeys for mentor domain
 export const MentorQueryKeys = {
@@ -141,7 +143,7 @@ export const mentorApi = {
   getApplyMentoringList: async (
     verifyStatus: VerifyStatus,
     page: number,
-    size: number = MENTEE_OFFSET
+    size: number = MENTEE_OFFSET,
   ): Promise<ApplyMentoringListResponse> => {
     const res = await axiosInstance.get<ApplyMentoringListResponse>(
       `/mentee/mentorings?verify-status=${verifyStatus}&size=${size}&page=${page}`,
@@ -161,9 +163,7 @@ export const mentorApi = {
 
   // === Mentors (멘토 목록) APIs ===
   getMentorList: async (region: string, page: number, size: number = MENTORS_OFFSET): Promise<MentorListResponse> => {
-    const res = await axiosInstance.get<MentorListResponse>(
-      `/mentors?region=${region}&page=${page}&size=${size}`,
-    );
+    const res = await axiosInstance.get<MentorListResponse>(`/mentors?region=${region}&page=${page}&size=${size}`);
     return res.data;
   },
 

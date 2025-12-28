@@ -1,8 +1,11 @@
 import { AxiosError } from "axios";
-import { useMutation } from "@tanstack/react-query";
+
 import { imageUploadApi } from "./api";
+
 import { FileResponse } from "@/types/file";
+
 import { toast } from "@/lib/zustand/useToastStore";
+import { useMutation } from "@tanstack/react-query";
 
 /**
  * @description 프로필 이미지 업로드를 위한 useMutation 커스텀 훅 (회원가입 전 공개 API)

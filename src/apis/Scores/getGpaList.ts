@@ -1,7 +1,10 @@
 import { AxiosError } from "axios";
-import { useQuery } from "@tanstack/react-query";
-import { scoresApi, ScoresQueryKeys } from "./api";
+
+import { ScoresQueryKeys, scoresApi } from "./api";
+
 import { GpaScore } from "@/types/score";
+
+import { useQuery } from "@tanstack/react-query";
 
 /**
  * @description 내 학점 점수 조회 훅

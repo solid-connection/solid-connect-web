@@ -1,4 +1,5 @@
 import serverFetch, { ServerFetchResult } from "@/utils/serverFetchUtil";
+
 import { ListPost } from "@/types/community";
 
 interface GetPostListParams {

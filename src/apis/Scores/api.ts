@@ -1,6 +1,8 @@
 import { AxiosResponse } from "axios";
+
 import { axiosInstance } from "@/utils/axiosInstance";
-import { GpaScore, LanguageTestScore, LanguageTestEnum } from "@/types/score";
+
+import { GpaScore, LanguageTestEnum, LanguageTestScore } from "@/types/score";
 
 // ====== Query Keys ======
 export const ScoresQueryKeys = {

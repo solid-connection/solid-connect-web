@@ -132,66 +132,62 @@ export type ByRegionCountryResponse = void;
 export const universitiesApi = {
   getRecommendedUniversities: async (params?: { isLogin?: boolean }): Promise<RecommendedUniversitiesResponse> => {
     const instance = params?.isLogin ? axiosInstance : publicAxiosInstance;
-    const res = await instance.get<RecommendedUniversitiesResponse>(
-      `/univ-apply-infos/recommend`
-    );
+    const res = await instance.get<RecommendedUniversitiesResponse>(`/univ-apply-infos/recommend`);
     return res.data;
   },
 
   getWishList: async (params: { params?: Record<string, any> }): Promise<WishListResponse> => {
-    const res = await axiosInstance.get<WishListResponse>(
-      `/univ-apply-infos/like`, { params: params?.params }
-    );
+    const res = await axiosInstance.get<WishListResponse>(`/univ-apply-infos/like`, { params: params?.params });
     return res.data;
   },
 
   deleteWish: async (params: { univApplyInfoId: string | number }): Promise<WishResponse> => {
-    const res = await axiosInstance.delete<WishResponse>(
-      `/univ-apply-infos/${params.univApplyInfoId}/like`
-    );
+    const res = await axiosInstance.delete<WishResponse>(`/univ-apply-infos/${params.univApplyInfoId}/like`);
     return res.data;
   },
 
-  postAddWish: async (params: { univApplyInfoId: string | number, data?: AddWishRequest }): Promise<AddWishResponse> => {
+  postAddWish: async (params: {
+    univApplyInfoId: string | number;
+    data?: AddWishRequest;
+  }): Promise<AddWishResponse> => {
     const res = await axiosInstance.post<AddWishResponse>(
-      `/univ-apply-infos/${params.univApplyInfoId}/like`, params?.data
+      `/univ-apply-infos/${params.univApplyInfoId}/like`,
+      params?.data,
     );
     return res.data;
   },
 
-  getIsWish: async (params: { univApplyInfoId: string | number, params?: Record<string, any> }): Promise<IsWishResponse> => {
-    const res = await axiosInstance.get<IsWishResponse>(
-      `/univ-apply-infos/${params.univApplyInfoId}/like`, { params: params?.params }
-    );
+  getIsWish: async (params: {
+    univApplyInfoId: string | number;
+    params?: Record<string, any>;
+  }): Promise<IsWishResponse> => {
+    const res = await axiosInstance.get<IsWishResponse>(`/univ-apply-infos/${params.univApplyInfoId}/like`, {
+      params: params?.params,
+    });
     return res.data;
   },
 
   getUniversityDetail: async (params: { univApplyInfoId: string | number }): Promise<UniversityDetailResponse> => {
-    const res = await publicAxiosInstance.get<UniversityDetailResponse>(
-      `/univ-apply-infos/${params.univApplyInfoId}`
-    );
+    const res = await publicAxiosInstance.get<UniversityDetailResponse>(`/univ-apply-infos/${params.univApplyInfoId}`);
     return res.data;
   },
 
   getSearchText: async (params?: { value?: string }): Promise<SearchTextResponse> => {
-    const res = await publicAxiosInstance.get<SearchTextResponse>(
-      `/univ-apply-infos/search/text`, { params: { value: params?.value ?? "" } }
-    );
+    const res = await publicAxiosInstance.get<SearchTextResponse>(`/univ-apply-infos/search/text`, {
+      params: { value: params?.value ?? "" },
+    });
     return res.data;
   },
 
   getSearchFilter: async (params?: { params?: Record<string, any> }): Promise<SearchFilterResponse> => {
-    const res = await publicAxiosInstance.get<SearchFilterResponse>(
-      `/univ-apply-infos/search/filter`, { params: params?.params }
-    );
+    const res = await publicAxiosInstance.get<SearchFilterResponse>(`/univ-apply-infos/search/filter`, {
+      params: params?.params,
+    });
     return res.data;
   },
 
   getByRegionCountry: async (params: { params?: Record<string, any> }): Promise<ByRegionCountryResponse> => {
-    const res = await axiosInstance.get<ByRegionCountryResponse>(
-      `/universities/search`, { params: params?.params }
-    );
+    const res = await axiosInstance.get<ByRegionCountryResponse>(`/universities/search`, { params: params?.params });
     return res.data;
   },
-
 };

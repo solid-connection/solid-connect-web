@@ -1,8 +1,11 @@
 import { AxiosError } from "axios";
-import { useQuery } from "@tanstack/react-query";
-import { universitiesApi, SearchFilterResponse } from "./api";
+
 import { QueryKeys } from "../queryKeys";
+import { SearchFilterResponse, universitiesApi } from "./api";
+
 import { CountryCode, LanguageTestType, ListUniversity } from "@/types/university";
+
+import { useQuery } from "@tanstack/react-query";
 
 export interface UniversitySearchFilterParams {
   languageTestType?: LanguageTestType;

@@ -1,9 +1,13 @@
 import { useMemo } from "react";
+
 import { AxiosError } from "axios";
-import { useQuery } from "@tanstack/react-query";
-import { universitiesApi, SearchTextResponse } from "./api";
+
 import { QueryKeys } from "../queryKeys";
+import { SearchTextResponse, universitiesApi } from "./api";
+
 import { ListUniversity } from "@/types/university";
+
+import { useQuery } from "@tanstack/react-query";
 
 /**
  * @description 대학 검색을 위한 useQuery 커스텀 훅
@@ -37,9 +41,7 @@ const useUniversitySearch = (searchValue: string) => {
       return [];
     }
 
-    return allUniversities.filter((university) =>
-      university.koreanName.toLowerCase().includes(normalizedSearchValue)
-    );
+    return allUniversities.filter((university) => university.koreanName.toLowerCase().includes(normalizedSearchValue));
   }, [allUniversities, searchValue]);
 
   return {

@@ -12,7 +12,7 @@ import MentorArticle from "./_ui/MentorArticle";
 
 import { ChannelType } from "@/types/mentor";
 
-import { usePostApplyMentoring, useGetMentorDetail } from "@/apis/mentor";
+import { useGetMentorDetail, usePostApplyMentoring } from "@/apis/mentor";
 import { useGetArticleList } from "@/apis/news";
 
 interface MentorDetailContentProps {

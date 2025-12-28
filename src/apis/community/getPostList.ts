@@ -1,7 +1,10 @@
 import { AxiosResponse } from "axios";
-import { useQuery } from "@tanstack/react-query";
-import { communityApi, CommunityQueryKeys } from "./api";
+
+import { CommunityQueryKeys, communityApi } from "./api";
+
 import { ListPost } from "@/types/community";
+
+import { useQuery } from "@tanstack/react-query";
 
 interface UseGetPostListProps {
   boardCode: string;

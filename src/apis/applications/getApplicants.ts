@@ -1,14 +1,13 @@
 import { AxiosError, AxiosResponse } from "axios";
-import { UseQueryOptions, UseQueryResult, useQuery } from "@tanstack/react-query";
-import { applicationsApi, ApplicationsQueryKeys } from "./api";
+
+import { ApplicationsQueryKeys, applicationsApi } from "./api";
+
 import { ApplicationListResponse } from "@/types/application";
 
+import { UseQueryOptions, UseQueryResult, useQuery } from "@tanstack/react-query";
+
 type UseGetApplicationsListOptions = Omit<
-  UseQueryOptions<
-    AxiosResponse<ApplicationListResponse>,
-    AxiosError<{ message: string }>,
-    ApplicationListResponse
-  >,
+  UseQueryOptions<AxiosResponse<ApplicationListResponse>, AxiosError<{ message: string }>, ApplicationListResponse>,
   "queryKey" | "queryFn"
 >;
 

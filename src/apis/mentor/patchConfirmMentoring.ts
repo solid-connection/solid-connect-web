@@ -1,6 +1,8 @@
 import { AxiosError } from "axios";
+
+import { MentorQueryKeys, PatchCheckMentoringsRequest, PatchCheckMentoringsResponse, mentorApi } from "./api";
+
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { mentorApi, MentorQueryKeys, PatchCheckMentoringsRequest, PatchCheckMentoringsResponse } from "./api";
 
 /**
  * @description 멘토 멘토링 확인 처리 훅

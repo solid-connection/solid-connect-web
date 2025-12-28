@@ -1,5 +1,7 @@
 import { AxiosResponse } from "axios";
+
 import { axiosInstance, publicAxiosInstance } from "@/utils/axiosInstance";
+
 import { FileResponse } from "@/types/file";
 
 // ====== Types ======
@@ -25,7 +27,8 @@ export const imageUploadApi = {
    */
   postSlackNotification: async (params: { data?: SlackNotificationRequest }): Promise<SlackNotificationResponse> => {
     const res = await axiosInstance.post<SlackNotificationResponse>(
-      `https://hooks.slack.com/services/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`, params?.data
+      `https://hooks.slack.com/services/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`,
+      params?.data,
     );
     return res.data;
   },
@@ -36,9 +39,9 @@ export const imageUploadApi = {
   postUploadLanguageTestReport: async (file: File): Promise<UploadLanguageTestReportResponse> => {
     const formData = new FormData();
     formData.append("file", file);
-    const res = await axiosInstance.post<UploadLanguageTestReportResponse>(
-      `/file/language-test`, formData, { headers: { "Content-Type": "multipart/form-data" } }
-    );
+    const res = await axiosInstance.post<UploadLanguageTestReportResponse>(`/file/language-test`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
     return res.data;
   },
 
@@ -48,9 +51,9 @@ export const imageUploadApi = {
   postUploadProfileImage: async (file: File): Promise<UploadProfileImageResponse> => {
     const formData = new FormData();
     formData.append("file", file);
-    const res = await axiosInstance.post<UploadProfileImageResponse>(
-      `/file/profile/post`, formData, { headers: { "Content-Type": "multipart/form-data" } }
-    );
+    const res = await axiosInstance.post<UploadProfileImageResponse>(`/file/profile/post`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
     return res.data;
   },
 
@@ -60,9 +63,9 @@ export const imageUploadApi = {
   postUploadProfileImageBeforeSignup: async (file: File): Promise<FileResponse> => {
     const formData = new FormData();
     formData.append("file", file);
-    const response: AxiosResponse<FileResponse> = await publicAxiosInstance.post(
-      "/file/profile/pre", formData, { headers: { "Content-Type": "multipart/form-data" } }
-    );
+    const response: AxiosResponse<FileResponse> = await publicAxiosInstance.post("/file/profile/pre", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
     return response.data;
   },
 
@@ -72,9 +75,9 @@ export const imageUploadApi = {
   postUploadGpaReport: async (file: File): Promise<UploadGpaReportResponse> => {
     const formData = new FormData();
     formData.append("file", file);
-    const res = await axiosInstance.post<UploadGpaReportResponse>(
-      `/file/gpa`, formData, { headers: { "Content-Type": "multipart/form-data" } }
-    );
+    const res = await axiosInstance.post<UploadGpaReportResponse>(`/file/gpa`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
     return res.data;
   },
 };
