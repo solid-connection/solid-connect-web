@@ -67,10 +67,21 @@ const structuredData = {
 
 const HomePage = async () => {
   const newsList = await fetchAllNews();
-  const { data } = await getRecommendedUniversity();
-  const recommendedUniversities = data?.recommendedUniversities || [];
+  const recommendedUniversitiesResponse = await getRecommendedUniversity();
+
+  // 빌드 시 필수 데이터 검증
+  if (!recommendedUniversitiesResponse.ok) {
+    throw new Error("Failed to fetch recommended universities for home page");
+  }
+
+  const recommendedUniversities = recommendedUniversitiesResponse.data.recommendedUniversities;
+
   // 권역별 전체 대학 리스트를 미리 가져와 빌드합니다
   const allRegionsUniversityList = await getCategorizedUniversities();
+
+  if (!allRegionsUniversityList || Object.keys(allRegionsUniversityList).length === 0) {
+    throw new Error("Failed to fetch categorized universities for home page");
+  }
 
   return (
     <>

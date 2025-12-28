@@ -12,6 +12,10 @@ export const revalidate = false;
 export async function generateStaticParams() {
   const universities = await getAllUniversities();
 
+  if (!universities || universities.length === 0) {
+    throw new Error("Failed to fetch universities for static generation");
+  }
+
   return universities.map((university) => ({
     id: String(university.id),
   }));
@@ -27,9 +31,7 @@ export async function generateMetadata({ params }: MetadataProps): Promise<Metad
   const universityData = await getUniversityDetail(Number(id));
 
   if (!universityData) {
-    return {
-      title: "파견 학교 상세",
-    };
+    throw new Error(`Failed to fetch university detail for id: ${id}`);
   }
 
   const convertedKoreanName =
