@@ -84,11 +84,7 @@ const LoginContent = () => {
             <input
               type="email"
               placeholder="이메일"
-<<<<<<< HEAD
               className="w-full rounded-lg border border-k-100 px-5 py-3 font-serif text-k-400 typo-regular-4 focus:outline-none"
-=======
-              className="h-[41px] w-full rounded-lg border px-5 py-3 font-serif text-k-400 typo-regular-4 focus:outline-none"
->>>>>>> cbc333da (refactor: complete API migration from src/api to src/apis)
               {...register("email", {
                 onChange: handleEmailChange,
               })}
@@ -105,11 +101,7 @@ const LoginContent = () => {
             <input
               type="password"
               placeholder="비밀번호"
-<<<<<<< HEAD
               className="w-full rounded-lg border border-k-100 px-5 py-3 font-serif text-k-400 typo-regular-4 focus:outline-none"
-=======
-              className="h-[41px] w-full rounded-lg border px-5 py-3 font-serif text-k-400 typo-regular-4 focus:outline-none"
->>>>>>> cbc333da (refactor: complete API migration from src/api to src/apis)
               {...register("password")}
               onKeyDown={handleKeyDown}
             />
