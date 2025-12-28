@@ -16,8 +16,9 @@ export const MentorQueryKeys = {
 } as const;
 
 // Re-export types
-export type { MentorCardPreview, MentorCardDetail, MentoringItem, MentoringApprovalStatus };
+export type { MentorCardPreview, MentorCardDetail, MentoringItem };
 export type { MentoringListItem, VerifyStatus };
+export { MentoringApprovalStatus };
 
 // Response types
 export interface MentoringListResponse {
