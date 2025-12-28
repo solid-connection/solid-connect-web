@@ -1,5 +1,10 @@
 export type RegionKo = "유럽권" | "미주권" | "아시아권";
 
+export interface RegionOption {
+  value: string;
+  label: string;
+}
+
 export enum RegionEnumExtend {
   ALL = "전체",
   AMERICAS = "미주권", // 미주권

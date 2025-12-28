@@ -21,7 +21,7 @@ interface MentorExpandChatCardProps {
   message: string;
   nickname: string;
   date?: string;
-  lastElementRef?: (node: HTMLDivElement | null) => void;
+  lastElementRef?: (node: Element | null) => void;
 }
 
 const MentorExpandChatCard = ({

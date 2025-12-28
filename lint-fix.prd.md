@@ -144,7 +144,7 @@
 
 ### 5.2 파일 구조
 
-```
+```text
 프로젝트 루트/
 ├── .eslintrc.js          (신규, .eslintrc.json 대체)
 ├── .eslintrc.json        (삭제)
@@ -200,7 +200,7 @@ module.exports = {
 
 ### 6.3 .prettierignore (필요시)
 
-```
+```gitignore
 node_modules
 .next
 out

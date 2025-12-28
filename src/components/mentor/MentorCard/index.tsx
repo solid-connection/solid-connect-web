@@ -16,7 +16,7 @@ import { IconDirectionDown, IconDirectionUp } from "@/public/svgs/mentor";
 
 interface MentorCardProps {
   mentor: MentorCardDetail | MentorCardPreview;
-  observeRef?: React.RefCallback<HTMLDivElement>;
+  observeRef?: (node: Element | null) => void;
   isMine?: boolean; // isMine prop 추가
 }
 
