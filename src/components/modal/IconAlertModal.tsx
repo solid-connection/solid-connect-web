@@ -33,10 +33,8 @@ const IconAlertModal = ({
             </div>
           )}
           <div className="flex flex-col items-center gap-2">
-            <span className="font-serif typo-sb-5 text-k-900">{title}</span>
-            <span className="whitespace-pre-wrap text-center font-serif typo-regular-2 text-k-500">
-              {content}
-            </span>
+            <span className="font-serif text-k-900 typo-sb-5">{title}</span>
+            <span className="whitespace-pre-wrap text-center font-serif text-k-500 typo-regular-2">{content}</span>
           </div>
           <div className="mt-5 flex items-center justify-center">
             <button
@@ -44,7 +42,7 @@ const IconAlertModal = ({
               onClick={onAcknowledge}
               type="button"
             >
-              <span className="text-center font-serif typo-regular-1 text-white">{buttonText}</span>
+              <span className="text-center font-serif text-white typo-regular-1">{buttonText}</span>
             </button>
           </div>
         </div>

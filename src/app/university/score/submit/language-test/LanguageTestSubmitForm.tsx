@@ -98,8 +98,8 @@ const LanguageTestSubmitForm = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="px-5 pt-[30px]">
           <div>
-            <p className="font-serif typo-sb-3 text-k-900">어학 성적 입력</p>
-            <p className="font-serif typo-medium-3 text-k-600">
+            <p className="font-serif text-k-900 typo-sb-3">어학 성적 입력</p>
+            <p className="font-serif text-k-600 typo-medium-3">
               공적 증명서만 인정됩니다.
               <br />
               미인정 서류를 업로드 할 경우 권한이 거부될 수 있습니다.
@@ -127,7 +127,7 @@ const LanguageTestSubmitForm = () => {
                   />
                 )}
               />
-              {errors.testType && <p className="mt-1 typo-regular-2 text-red-500">{errors.testType.message}</p>}
+              {errors.testType && <p className="mt-1 text-red-500 typo-regular-2">{errors.testType.message}</p>}
             </div>
 
             {/* 점수 입력 */}
@@ -135,30 +135,30 @@ const LanguageTestSubmitForm = () => {
               <label className="font-serif typo-sb-7">점수</label>
               <input
                 type="text"
-                className="flex h-10 items-center rounded-lg bg-k-50 px-5 py-2.5 font-serif typo-sb-9 text-secondary"
+                className="flex h-10 items-center rounded-lg bg-k-50 px-5 py-2.5 font-serif text-secondary typo-sb-9"
                 {...register("score")}
               />
-              {errors.score && <p className="mt-1 typo-regular-2 text-red-500">{errors.score.message}</p>}
+              {errors.score && <p className="mt-1 text-red-500 typo-regular-2">{errors.score.message}</p>}
             </div>
 
             {/* 증명서 첨부 */}
             <div className="flex flex-col gap-1">
               <label className="font-serif typo-sb-7">증명서 첨부</label>
               <div className="flex items-center gap-3">
-                <span className="flex h-10 flex-1 items-center truncate rounded-lg bg-k-50 px-5 py-2.5 font-serif typo-sb-9 text-secondary">
+                <span className="flex h-10 flex-1 items-center truncate rounded-lg bg-k-50 px-5 py-2.5 font-serif text-secondary typo-sb-9">
                   {selectedFile?.[0]?.name || "파일을 선택해주세요."}
                 </span>
               </div>
-              {errors.file && <p className="mt-1 typo-regular-2 text-red-500">{errors.file.message as string}</p>}
+              {errors.file && <p className="mt-1 text-red-500 typo-regular-2">{errors.file.message as string}</p>}
               <div className="mt-2 flex items-center gap-4">
-                <label className="cursor-pointer rounded-full bg-sub-c-100 px-4 py-2.5 font-serif typo-sb-9 text-sub-c-500">
+                <label className="cursor-pointer rounded-full bg-sub-c-100 px-4 py-2.5 font-serif text-sub-c-500 typo-sb-9">
                   증명서 첨부
                   <input id="file-upload" type="file" className="hidden" {...register("file")} />
                 </label>
                 <Link
                   href="/university/score/example/lang-cert"
                   target="_blank"
-                  className="rounded-full bg-sub-e-100 px-4 py-2.5 typo-sb-9 text-sub-e-500"
+                  className="rounded-full bg-sub-e-100 px-4 py-2.5 text-sub-e-500 typo-sb-9"
                 >
                   증명서 예시 보기
                 </Link>
@@ -166,10 +166,10 @@ const LanguageTestSubmitForm = () => {
             </div>
           </div>
         </div>
-        <div className="max-w-app mt-10 w-full px-5">
+        <div className="mt-10 w-full max-w-app px-5">
           <button
             className={clsx(
-              "mb-10 w-full rounded-lg py-4 typo-sb-9 text-white",
+              "mb-10 w-full rounded-lg py-4 text-white typo-sb-9",
               isValid ? "bg-primary" : "cursor-not-allowed bg-k-100",
             )}
             disabled={!isValid}

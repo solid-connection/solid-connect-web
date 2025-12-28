@@ -10,6 +10,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,yml,yaml}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md,yml,yaml}\"",
+    "typecheck": "tsc --noEmit",
+    "lint:all": "npm run lint && npm run format:check && npm run typecheck",
+    "fix:all": "npm run lint:fix && npm run format",
     "prepare": "husky"
   },
   "dependencies": {
@@ -53,6 +59,7 @@
     "@typescript-eslint/eslint-plugin": "^8.13.0",
     "@typescript-eslint/parser": "^8.13.0",
     "autoprefixer": "^10.4.20",
+    "critters": "^0.0.23",
     "eslint": "^8.56.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-next": "^14.2.13",

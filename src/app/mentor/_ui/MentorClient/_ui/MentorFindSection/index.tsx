@@ -28,7 +28,7 @@ const MentorFindSection = () => {
 
   return (
     <div className="px-4">
-      <h2 className="mb-3 typo-bold-5 text-gray-900">멘토 찾기</h2>
+      <h2 className="mb-3 text-gray-900 typo-bold-5">멘토 찾기</h2>
 
       {/* 필터 탭 */}
       <div className="mb-3 flex gap-2">
@@ -36,7 +36,7 @@ const MentorFindSection = () => {
           <button
             key={tab}
             onClick={() => handleSelectTab(tab)}
-            className={`flex items-center justify-center gap-[10px] rounded-2xl px-[14px] py-1 text-center typo-sb-12 leading-[150%] ${
+            className={`flex items-center justify-center gap-[10px] rounded-2xl px-[14px] py-1 text-center leading-[150%] typo-sb-12 ${
               selectedTab === tab ? "bg-primary-100 text-primary" : "bg-k-50 text-k-300"
             }`}
           >

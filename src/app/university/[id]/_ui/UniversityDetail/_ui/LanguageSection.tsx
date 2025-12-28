@@ -18,7 +18,7 @@ const LanguageSection = ({ languageRequirements, detailsForLanguage }: LanguageS
     <>
       <div className="h-1 bg-k-50" />
       <div className="my-7 px-3">
-        <div className="mb-3 typo-sb-7 text-k-900">어학 성적</div>
+        <div className="mb-3 text-k-900 typo-sb-7">어학 성적</div>
         <div>
           <div className="flex flex-col gap-5 pt-5">
             {languageRequirements.map((req, idx) => (
@@ -34,9 +34,9 @@ const LanguageSection = ({ languageRequirements, detailsForLanguage }: LanguageS
       </div>
       <div className="h-1 bg-k-50" />
       <div className="my-7 px-3">
-        <div className="mb-3 typo-sb-7 text-k-900">어학세부 요건</div>
+        <div className="mb-3 text-k-900 typo-sb-7">어학세부 요건</div>
         <div>
-          <span className="break-words typo-medium-2 text-k-600">
+          <span className="break-words text-k-600 typo-medium-2">
             <LinkifyText>{detailsForLanguage}</LinkifyText>
           </span>
         </div>
@@ -49,12 +49,12 @@ const Language = ({ name, logoUrl, score }: { name: string; logoUrl: string; sco
   return (
     <div className="flex justify-between">
       <div className="flex">
-        <div className="w-[140px] typo-sb-10 text-k-900">{name}</div>
+        <div className="w-[140px] text-k-900 typo-sb-10">{name}</div>
         <div>
           <Image src={logoUrl} alt="어학시험" width={50} height={50} />
         </div>
       </div>
-      <div className="typo-sb-7 text-secondary">{score}</div>
+      <div className="text-secondary typo-sb-7">{score}</div>
     </div>
   );
 };

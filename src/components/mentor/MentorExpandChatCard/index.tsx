@@ -21,7 +21,7 @@ interface MentorExpandChatCardProps {
   message: string;
   nickname: string;
   date?: string;
-  lastElementRef?: (node: HTMLDivElement | null) => void;
+  lastElementRef?: (node: Element | null) => void;
 }
 
 const MentorExpandChatCard = ({
@@ -50,7 +50,7 @@ const MentorExpandChatCard = ({
 
         {/* Content */}
         <div className="flex flex-1 flex-col items-start justify-start self-start">
-          <div className="text-left typo-regular-1 text-gray-900">
+          <div className="text-left text-gray-900 typo-regular-1">
             <span className="typo-medium-2">{nickname}</span>
             {message}
           </div>
@@ -59,7 +59,7 @@ const MentorExpandChatCard = ({
         {/* Unread Count & Expand Icon */}
         <div className="flex flex-shrink-0 flex-col">
           {/* Date */}
-          <div>{date && <span className="typo-regular-4 text-gray-500">{convertISODateToKoreanTime(date)}</span>}</div>
+          <div>{date && <span className="text-gray-500 typo-regular-4">{convertISODateToKoreanTime(date)}</span>}</div>
           {/* Unread indicator & Expand icon */}
           <div className="flex justify-between gap-2">
             {!isCheckedState ? (
@@ -81,14 +81,14 @@ const MentorExpandChatCard = ({
               mentoringId ? (
                 <Link
                   href={`/mentor/chat/${mentoringId}`}
-                  className="rounded-full bg-primary-1 px-6 py-2 typo-medium-2 text-white transition-colors hover:bg-primary-2"
+                  className="rounded-full bg-primary-1 px-6 py-2 text-white transition-colors typo-medium-2 hover:bg-primary-2"
                 >
                   멘토링 시작하기
                 </Link>
               ) : (
                 <button
                   disabled
-                  className="cursor-not-allowed rounded-full bg-gray-300 px-6 py-2 typo-medium-2 text-white"
+                  className="cursor-not-allowed rounded-full bg-gray-300 px-6 py-2 text-white typo-medium-2"
                 >
                   멘토링 ID 없음
                 </button>
@@ -100,7 +100,7 @@ const MentorExpandChatCard = ({
                     e.stopPropagation();
                     handleReject(mentoringId);
                   }}
-                  className="w-1/3 rounded-full border border-secondary bg-white px-4 py-2 typo-medium-2 text-gray-700 transition-colors hover:bg-gray-50"
+                  className="w-1/3 rounded-full border border-secondary bg-white px-4 py-2 text-gray-700 transition-colors typo-medium-2 hover:bg-gray-50"
                 >
                   거절하기
                 </button>
@@ -109,16 +109,14 @@ const MentorExpandChatCard = ({
                     e.stopPropagation();
                     handleAccept(mentoringId);
                   }}
-                  className="w-1/3 rounded-full bg-blue-600 px-4 py-2 typo-medium-2 text-white transition-colors hover:bg-blue-700"
+                  className="w-1/3 rounded-full bg-blue-600 px-4 py-2 text-white transition-colors typo-medium-2 hover:bg-blue-700"
                 >
                   수락하기
                 </button>
               </div>
             ) : (
               <div className="flex w-full justify-center">
-                <div className="typo-medium-2 rounded-full bg-primary-200 px-4 py-2 text-k-700">
-                  거절되었습니다
-                </div>
+                <div className="rounded-full bg-primary-200 px-4 py-2 text-k-700 typo-medium-2">거절되었습니다</div>
               </div>
             )}
           </div>

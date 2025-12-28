@@ -13,14 +13,14 @@ type ConfirmStepProps = {
 
 const ConfirmStep = ({ universityList, onNext }: ConfirmStepProps) => {
   return (
-    <div className="font-sans flex flex-col items-center justify-between bg-white p-5">
+    <div className="flex flex-col items-center justify-between bg-white p-5 font-sans">
       {/* 상단 컨텐츠 */}
       <div className="flex w-full flex-1 flex-col items-center justify-center text-center">
         <IconCheck />
-        <h1 className="mt-4 typo-bold-1 text-secondary">
+        <h1 className="mt-4 text-secondary typo-bold-1">
           지원하기 <span className="text-k-800">완료</span>
         </h1>
-        <p className="mt-2 typo-regular-2 text-k-500">
+        <p className="mt-2 text-k-500 typo-regular-2">
           지원은 총 3번만 수정 가능하며,
           <br />
           제출 완료 후 성적을 변경 하실 수 없습니다.
@@ -37,8 +37,8 @@ const ConfirmStep = ({ universityList, onNext }: ConfirmStepProps) => {
                   index < universityList.length - 1 && "border-b border-gray-100",
                 )}
               >
-                <span className="typo-medium-2 text-gray-600">{index + 1}지망</span>
-                <span className="typo-sb-9 text-blue-600 hover:underline">{university.koreanName}</span>
+                <span className="text-gray-600 typo-medium-2">{index + 1}지망</span>
+                <span className="text-blue-600 typo-sb-9 hover:underline">{university.koreanName}</span>
               </div>
             ))}
           </div>

@@ -20,7 +20,7 @@ const InputField = ({ name, label, placeholder }: InputFieldProps) => {
 
   return (
     <div className="space-y-2">
-      <label className="block typo-medium-2 text-k-700">{label}</label>
+      <label className="block text-k-700 typo-medium-2">{label}</label>
       <div className="relative">
         <input
           {...field}
@@ -33,9 +33,9 @@ const InputField = ({ name, label, placeholder }: InputFieldProps) => {
           )}
         />
       </div>
-      {error && <p className="typo-regular-2 text-red-500">{error.message}</p>}
+      {error && <p className="text-red-500 typo-regular-2">{error.message}</p>}
       {name === "nickname" && field.value && !error && (
-        <div className="flex items-center gap-2 typo-regular-2 text-primary">
+        <div className="flex items-center gap-2 text-primary typo-regular-2">
           <IconCheckBlue />
           <span>사용가능한 닉네임입니다.</span>
         </div>

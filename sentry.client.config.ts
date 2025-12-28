@@ -20,10 +20,12 @@ if (process.env.NODE_ENV === "production") {
     replaysSessionSampleRate: 0.1, // 일반 세션의 10%
     replaysOnErrorSampleRate: 1.0, // 에러 발생 시 100%
 
+    // tracePropagationTargets는 최상위 옵션으로 설정
+    tracePropagationTargets: ["solid-connection.com", /^https:\/\/(www\.)?solid[\-]?connection\.com/],
+
     integrations: [
       // Browser Tracing: 페이지 로드 및 네비게이션 성능 측정
       Sentry.browserTracingIntegration({
-        tracePropagationTargets: ["solid-connection.com", /^https:\/\/(www\.)?solid[\-]?connection\.com/],
         // Web Vitals 자동 수집 활성화
         enableInp: true, // Interaction to Next Paint (INP) 측정
       }),

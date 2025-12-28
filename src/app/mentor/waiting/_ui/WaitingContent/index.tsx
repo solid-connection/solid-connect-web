@@ -21,7 +21,7 @@ const WaitingContent = () => {
     <div className="flex h-full w-full flex-col">
       <div className="mb-3 mt-5 flex justify-between px-5">
         <div className="flex items-center">
-          <h2 className="mr-2 typo-sb-5 text-k-900">대기 중인 멘토링</h2>
+          <h2 className="mr-2 text-k-900 typo-sb-5">대기 중인 멘토링</h2>
           {totalLength > DEFAULT_VISIBLE_ITEMS && (
             <span className="rounded-2xl bg-primary-1 px-2 text-k-0">{totalLength - 2}+</span>
           )}
@@ -30,7 +30,7 @@ const WaitingContent = () => {
       <MentorWaitingListBox hasExpand={approveList.length > DEFAULT_VISIBLE_ITEMS} className="mx-5 mt-2">
         {({ isExpanded }) => (
           <div className="space-y-2">
-            <h3 className="mt-3 px-5 typo-sb-5 text-k-900">수락 완료</h3>
+            <h3 className="mt-3 px-5 text-k-900 typo-sb-5">수락 완료</h3>
             <div className="space-y-2">
               {approveList.length === 0 ? (
                 <div className="px-4 py-3">
@@ -57,7 +57,7 @@ const WaitingContent = () => {
       <MentorWaitingListBox hasExpand={pendingList.length > DEFAULT_VISIBLE_ITEMS} className="mx-5 mt-2">
         {({ isExpanded }) => (
           <div className="space-y-2">
-            <h3 className="mt-3 px-5 typo-sb-5 text-k-900">수락 대기중</h3>
+            <h3 className="mt-3 px-5 text-k-900 typo-sb-5">수락 대기중</h3>
             <div className="space-y-2 p-4">
               {pendingList.length === 0 ? (
                 <div className="px-4 py-3">

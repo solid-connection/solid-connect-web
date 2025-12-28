@@ -128,10 +128,8 @@ const Comment = ({
             />
           )}
         </div>
-        <div className="mt-3 typo-regular-2 text-black">
-          {isDeleted ? "삭제된 댓글입니다" : comment.content}
-        </div>
-        <div className="mt-2 overflow-hidden typo-regular-4 text-gray-250">
+        <div className="mt-3 text-black typo-regular-2">{isDeleted ? "삭제된 댓글입니다" : comment.content}</div>
+        <div className="mt-2 overflow-hidden text-gray-250 typo-regular-4">
           {convertISODateToDateTime(comment.createdAt) || "1970. 01. 01. 00:00"}
         </div>
       </div>
@@ -153,7 +151,7 @@ const CommentProfile = ({ user }: { user: CommunityUser }) => {
           alt="alt"
         />
       </div>
-      <div className="overflow-hidden typo-medium-2 text-black">{user?.nickname}</div>
+      <div className="overflow-hidden text-black typo-medium-2">{user?.nickname}</div>
     </div>
   );
 };

@@ -73,8 +73,9 @@ const EmailSignUpForm = () => {
         onSuccess: (data) => {
           router.push(`/sign-up?token=${data.signUpToken}`);
         },
-        onError: (error: any) => {
-          toast.error(error.response?.data?.message || "회원가입에 실패했습니다.");
+        onError: (error: unknown) => {
+          const axiosError = error as { response?: { data?: { message?: string } } };
+          toast.error(axiosError.response?.data?.message || "회원가입에 실패했습니다.");
         },
       },
     );
@@ -85,7 +86,7 @@ const EmailSignUpForm = () => {
       <div className="px-5 pt-2.5">
         <Progress value={currentStep * 50} showPercentage={true} className="mt-4" />
         <div className="mt-10">
-          <span className="typo-bold-1 text-k-900">
+          <span className="text-k-900 typo-bold-1">
             이메일을
             <br />
             입력해주세요
@@ -159,12 +160,12 @@ const EmailSignUpForm = () => {
                     {passwordMatch ? (
                       <span className="flex items-center gap-1">
                         <IconCheckBlue />
-                        <p className="typo-regular-4 text-sub-a">입력한 비밀번호와 동일합니다.</p>
+                        <p className="text-sub-a typo-regular-4">입력한 비밀번호와 동일합니다.</p>
                       </span>
                     ) : (
                       <span className="flex items-center gap-1">
                         <IconExpRed />
-                        <p className="typo-regular-4 text-accent-custom-red">입력한 비밀번호와 동일하지 않습니다.</p>
+                        <p className="text-accent-custom-red typo-regular-4">입력한 비밀번호와 동일하지 않습니다.</p>
                       </span>
                     )}
                   </div>
@@ -175,7 +176,7 @@ const EmailSignUpForm = () => {
         </div>
       </div>
 
-      <div className="max-w-app fixed bottom-14 w-full bg-white">
+      <div className="fixed bottom-14 w-full max-w-app bg-white">
         <div className="mb-[37px] px-5">
           <BlockBtn onClick={emailSignUp} disabled={!email || !password || !passwordConfirm || !passwordMatch}>
             다음

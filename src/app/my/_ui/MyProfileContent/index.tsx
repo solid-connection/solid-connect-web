@@ -53,7 +53,7 @@ const MyProfileContent = () => {
         <div className="mb-4 flex gap-2">
           <button
             onClick={() => setShowMentorView(true)}
-            className={`flex-1 rounded-lg px-4 py-2.5 typo-sb-9 transition-colors ${
+            className={`flex-1 rounded-lg px-4 py-2.5 transition-colors typo-sb-9 ${
               showMentorView ? "bg-primary text-white" : "border border-k-200 bg-white text-k-600 hover:bg-k-50"
             }`}
           >
@@ -61,7 +61,7 @@ const MyProfileContent = () => {
           </button>
           <button
             onClick={() => setShowMentorView(false)}
-            className={`flex-1 rounded-lg px-4 py-2.5 typo-sb-9 transition-colors ${
+            className={`flex-1 rounded-lg px-4 py-2.5 transition-colors typo-sb-9 ${
               !showMentorView ? "bg-primary text-white" : "border border-k-200 bg-white text-k-600 hover:bg-k-50"
             }`}
           >
@@ -70,11 +70,11 @@ const MyProfileContent = () => {
         </div>
       )}
 
-      <div className="mb-4 text-start typo-sb-5 text-k-700">
+      <div className="mb-4 text-start text-k-700 typo-sb-5">
         <p>{nickname}님은</p>
         <p>
           현재{" "}
-          <span className="typo-medium-2 text-primary">
+          <span className="text-primary typo-medium-2">
             {profileData.role === UserRole.ADMIN ? "어드민" : isMentor ? "멘토" : "멘티"}
           </span>{" "}
           솔커예요.
@@ -86,7 +86,7 @@ const MyProfileContent = () => {
           <ProfileWithBadge profileImageUrl={profileImageUrl} width={48} height={48} />
           <div>
             <div className="flex items-center gap-3 space-x-2">
-              <h3 className="typo-sb-5 text-primary">{nickname}</h3>
+              <h3 className="text-primary typo-sb-5">{nickname}</h3>
               <span
                 className={`rounded-2xl px-2 py-1 typo-medium-4 ${
                   profileData.role === UserRole.ADMIN
@@ -99,20 +99,20 @@ const MyProfileContent = () => {
                 {profileData.role === UserRole.ADMIN ? "Admin" : isMentor ? "Mentor" : "Mentee"}
               </span>
             </div>
-            <p className="mt-2 typo-regular-2 text-k-600">
+            <p className="mt-2 text-k-600 typo-regular-2">
               {viewAsMentor ? "수학학교" : "관심지역"} |{" "}
-              <span className="typo-sb-9 text-primary">{viewAsMentor ? university : favoriteLocation}</span>
+              <span className="text-primary typo-sb-9">{viewAsMentor ? university : favoriteLocation}</span>
             </p>
           </div>
         </div>
 
         {viewAsMentor ? (
-          <div className="w-full cursor-pointer rounded-lg bg-secondary-500 py-2 text-center typo-medium-2 text-white">
+          <div className="w-full cursor-pointer rounded-lg bg-secondary-500 py-2 text-center text-white typo-medium-2">
             <Link href={"/my/modify"}>프로필 변경</Link>
           </div>
         ) : (
           <div className="mt-4 flex items-center justify-between gap-3">
-            <div className="w-full cursor-pointer rounded-lg bg-secondary-500 py-2 text-center typo-medium-2 text-white">
+            <div className="w-full cursor-pointer rounded-lg bg-secondary-500 py-2 text-center text-white typo-medium-2">
               <Link href={"/my/modify"}>프로필 변경</Link>
             </div>
             {/* <Link className="w-full" href={"/my/apply-mentor"}>
@@ -122,7 +122,7 @@ const MyProfileContent = () => {
               onClick={() => {
                 toast.info("조금만 기다려주세요. [업데이트 중]");
               }}
-              className="w-full rounded-lg bg-secondary-800 py-2 typo-medium-2 text-white"
+              className="w-full rounded-lg bg-secondary-800 py-2 text-white typo-medium-2"
             >
               멘토 회원 전환
             </button>
@@ -131,7 +131,7 @@ const MyProfileContent = () => {
       </div>
 
       {/* Quick Actions */}
-      <div className="grid grid-cols-3 gap-4 typo-sb-9 text-k-700">
+      <div className="grid grid-cols-3 gap-4 text-k-700 typo-sb-9">
         <Link href="/my/favorite" className="p-3 text-center">
           <div className="mx-auto mb-2 h-8 w-8">
             <IconInterestUniversity />
@@ -161,7 +161,7 @@ const MyProfileContent = () => {
 
       {/* My Information Section */}
       <div className="mt-6">
-        <h2 className="px-1 typo-sb-5 text-primary">내 지원 정보</h2>
+        <h2 className="px-1 text-primary typo-sb-5">내 지원 정보</h2>
 
         <LinkedTextWithIcon
           onClick={() => toast.error("현재 불가합니다.")}
@@ -180,7 +180,7 @@ const MyProfileContent = () => {
 
       {/* Account Management Section */}
       <div className="mt-6">
-        <h2 className="px-1 typo-sb-5 text-primary">계정 관리</h2>
+        <h2 className="px-1 text-primary typo-sb-5">계정 관리</h2>
 
         <LinkedTextWithIcon icon={<IconLock />} text="로그인한 계정" subText={email} />
 

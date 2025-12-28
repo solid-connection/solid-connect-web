@@ -106,7 +106,7 @@ const SchoolSearchForm = () => {
           control={control}
           render={({ field }) => (
             <CustomDropdown
-              value={field.value}
+              value={field.value ?? ""}
               onChange={field.onChange}
               placeholder="어학"
               placeholderSelect="선택"
@@ -134,7 +134,8 @@ const SchoolSearchForm = () => {
         />
 
         {countrySelectsToRender.map((index) => {
-          const name = `country${index}` as const;
+          const name: "country1" | "country2" | "country3" =
+            index === 1 ? "country1" : index === 2 ? "country2" : "country3";
           return (
             <Controller
               key={name}
@@ -152,7 +153,7 @@ const SchoolSearchForm = () => {
                     </svg>
                   }
                   placeholderSelect="나라"
-                  value={field.value}
+                  value={field.value ?? ""}
                   onChange={(value) => {
                     field.onChange(value);
                     if (!value) {
@@ -181,7 +182,7 @@ const SchoolSearchForm = () => {
       </div>
       <button
         type="submit"
-        className="mt-10 rounded-lg bg-primary px-4 py-3 text-center typo-sb-9 text-white transition-colors hover:bg-primary-600"
+        className="mt-10 rounded-lg bg-primary px-4 py-3 text-center text-white transition-colors typo-sb-9 hover:bg-primary-600"
       >
         학교 검색
       </button>

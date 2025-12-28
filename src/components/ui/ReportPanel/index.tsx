@@ -42,7 +42,7 @@ const ReportPanel = ({ idx }: ReportPanelProps) => {
                 <span className="h-5 w-5">
                   <IconReport />
                 </span>
-                <h2 className="typo-sb-5 text-k-800">Report</h2>
+                <h2 className="text-k-800 typo-sb-5">Report</h2>
               </div>
             </div>
 

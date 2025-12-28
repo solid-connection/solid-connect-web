@@ -68,7 +68,7 @@ const SignupProfileScreen = ({
     <div className="mb-40">
       <div className="px-5">
         <div className="mt-5">
-          <span className="typo-bold-1 text-k-900">
+          <span className="text-k-900 typo-bold-1">
             닉네임을
             <br />
             등록해주세요.
@@ -90,7 +90,7 @@ const SignupProfileScreen = ({
           </div>
 
           <div className="mt-[30px]">
-            <label htmlFor="nickname" className="mb-1 typo-sb-7 text-k-900">
+            <label htmlFor="nickname" className="mb-1 text-k-900 typo-sb-7">
               닉네임
             </label>
             <Input
@@ -106,7 +106,7 @@ const SignupProfileScreen = ({
         </div>
       </div>
 
-      <div className="max-w-app fixed bottom-14 w-full bg-white">
+      <div className="fixed bottom-14 w-full max-w-app bg-white">
         <div className="px-5">
           <BlockBtn className="mb-[29px]" disabled={!nickname} onClick={submit}>
             가입 완료

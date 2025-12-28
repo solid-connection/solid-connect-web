@@ -4,8 +4,8 @@ import { axiosInstance } from "@/utils/axiosInstance";
 
 import { QueryKeys } from "./queryKey";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "@/lib/zustand/useToastStore";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export interface UseMyMentorProfileRequest {
   nickname?: string;

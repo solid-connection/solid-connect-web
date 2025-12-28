@@ -53,7 +53,7 @@ const GpaStep = ({ gpaScoreList, curGpaScore, setCurGpaScore, onNext }: GpaStepP
           ))}
         </div>
       </div>
-      <div className="max-w-app fixed bottom-14 w-full bg-transparent">
+      <div className="fixed bottom-14 w-full max-w-app bg-transparent">
         <div className="mb-[37px] px-5">
           <BlockBtn
             onClick={() => {

@@ -54,7 +54,7 @@ const Toast = ({ toast }: { toast: ToastType }) => {
       <p className="flex-1 font-serif typo-medium-2">{toast.message}</p>
       <button
         onClick={() => removeToast(toast.id)}
-        className="ml-2 typo-bold-3 opacity-70 transition hover:opacity-100"
+        className="ml-2 opacity-70 transition typo-bold-3 hover:opacity-100"
         type="button"
         aria-label="닫기"
       >

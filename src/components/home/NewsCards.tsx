@@ -19,8 +19,8 @@ const NewsCards = ({ newsList }: NewsCardsProps) => (
             height={90}
           />
           <div className="mr-5 flex flex-col gap-0.5">
-            <div className="text-serif typo-sb-9 text-text-brown">{news.title}</div>
-            <div className="font-serif typo-regular-6 text-gray-150">{news.description}</div>
+            <div className="text-serif text-text-brown typo-sb-9">{news.title}</div>
+            <div className="font-serif text-gray-150 typo-regular-6">{news.description}</div>
           </div>
         </div>
       </a>

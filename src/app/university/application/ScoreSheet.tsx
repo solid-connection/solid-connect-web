@@ -16,7 +16,7 @@ const ScoreSheet = ({ scoreSheet }: { scoreSheet: ScoreSheet }) => {
     >
       {/* 테이블 헤더 */}
       <div className="flex h-10 items-center justify-between bg-gray-50 px-4">
-        <p className="truncate typo-sb-7 text-black">
+        <p className="truncate text-black typo-sb-7">
           {scoreSheet.koreanName} ({scoreSheet.applicants.length}/{scoreSheet.studentCapacity})
         </p>
         <button type="button" aria-label="더보기" className="cursor-pointer border-none bg-transparent p-1">
@@ -28,11 +28,8 @@ const ScoreSheet = ({ scoreSheet }: { scoreSheet: ScoreSheet }) => {
       {tableOpened && (
         <div className="divide-y divide-gray-200">
           {scoreSheet.applicants.map((applicant) => (
-            <div
-              key={applicant.nicknameForApply}
-              className="flex h-10 items-center px-3 typo-medium-3 text-gray-600"
-            >
-              <span className="min-w-[30px] flex-1 overflow-hidden whitespace-nowrap typo-regular-2 text-black">
+            <div key={applicant.nicknameForApply} className="flex h-10 items-center px-3 text-gray-600 typo-medium-3">
+              <span className="min-w-[30px] flex-1 overflow-hidden whitespace-nowrap text-black typo-regular-2">
                 {applicant.nicknameForApply}
               </span>
               <span className="min-w-[30px] flex-1 overflow-hidden whitespace-nowrap text-center typo-medium-2">

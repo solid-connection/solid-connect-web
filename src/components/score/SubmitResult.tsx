@@ -27,13 +27,13 @@ interface SubmitResultProps {
 // --- 메인 컴포넌트 ---
 const SubmitResult = ({ title, description, infoRows, buttonText, onClick, handleClose }: SubmitResultProps) => {
   return (
-    <div className="font-sans flex min-h-screen w-full flex-col items-center justify-center p-4">
+    <div className="flex min-h-screen w-full flex-col items-center justify-center p-4 font-sans">
       <div className="w-full max-w-md text-center">
         {/* 상단 아이콘 및 텍스트 */}
         <div className="mb-8 flex flex-col items-center">
           <IconCheck />
-          <h1 className="mt-4 typo-bold-1 text-gray-800">{title}</h1>
-          <p className="mt-2 typo-regular-2 text-gray-500">{description}</p>
+          <h1 className="mt-4 text-gray-800 typo-bold-1">{title}</h1>
+          <p className="mt-2 text-gray-500 typo-regular-2">{description}</p>
         </div>
 
         {/* 정보 카드 */}
@@ -47,7 +47,7 @@ const SubmitResult = ({ title, description, infoRows, buttonText, onClick, handl
                   index < infoRows.length - 1 && "border-b border-gray-100",
                 )}
               >
-                <span className="typo-medium-2 text-gray-600">{row.label}</span>
+                <span className="text-gray-600 typo-medium-2">{row.label}</span>
                 <div className="flex items-center gap-3">
                   <span className={clsx("typo-sb-9", row.statusColor || "text-gray-900")}>{row.status}</span>
                   {row.details && <span className="text-gray-400">{row.details}</span>}
@@ -61,11 +61,11 @@ const SubmitResult = ({ title, description, infoRows, buttonText, onClick, handl
         <div className="mt-8 grid grid-cols-2 gap-4">
           <button
             onClick={handleClose}
-            className="w-full rounded-lg border border-primary bg-primary-100 py-3 typo-sb-9 text-primary"
+            className="w-full rounded-lg border border-primary bg-primary-100 py-3 text-primary typo-sb-9"
           >
             닫기
           </button>
-          <button onClick={onClick} className="w-full rounded-lg bg-primary py-3 typo-sb-9 text-white">
+          <button onClick={onClick} className="w-full rounded-lg bg-primary py-3 text-white typo-sb-9">
             {buttonText}
           </button>
         </div>

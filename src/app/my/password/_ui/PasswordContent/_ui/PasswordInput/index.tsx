@@ -36,7 +36,7 @@ const PasswordInput = ({
 
         return (
           <div className="mb-6">
-            <label htmlFor={name} className="mb-2 block typo-bold-4 text-gray-800">
+            <label htmlFor={name} className="mb-2 block text-gray-800 typo-bold-4">
               {label}
             </label>
             <div className="relative flex items-center">
@@ -54,7 +54,7 @@ const PasswordInput = ({
                 )}
               />
               <div className="absolute right-3 flex items-center space-x-2">
-                <button type="button" onClick={togglePasswordVisibility} className="typo-bold-1 text-gray-500">
+                <button type="button" onClick={togglePasswordVisibility} className="text-gray-500 typo-bold-1">
                   {isPasswordVisible ? <IconVisibilityOn /> : <IconVisibilityOff />}
                 </button>
               </div>
@@ -68,7 +68,7 @@ const PasswordInput = ({
             {fieldState.error && (
               <div className="mt-1.5 flex items-center gap-1 typo-regular-2">
                 <IconAlertErrorRed />
-                <span className="typo-regular-4 text-red-500">{fieldState.error.message}</span>
+                <span className="text-red-500 typo-regular-4">{fieldState.error.message}</span>
               </div>
             )}
           </div>

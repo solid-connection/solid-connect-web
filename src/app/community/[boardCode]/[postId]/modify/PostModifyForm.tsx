@@ -92,7 +92,7 @@ const PostModifyForm = ({
           ref={titleRef}
         >
           <textarea
-            className="w-full resize-none overflow-hidden px-5 pb-2.5 pt-5 typo-sb-4 text-black outline-none transition-height duration-200 placeholder:text-gray-250/87"
+            className="placeholder:text-gray-250/87 w-full resize-none overflow-hidden px-5 pb-2.5 pt-5 text-black outline-none transition-height duration-200 typo-sb-4"
             placeholder="제목을 입력하세요"
             maxLength={40}
             rows={1}
@@ -107,7 +107,7 @@ const PostModifyForm = ({
           />
         </div>
         <div className="flex h-[42px] items-center justify-between border-b border-b-gray-c-100 px-5 py-2.5">
-          <div className="flex items-center gap-1 typo-regular-2 text-gray-250/87">
+          <div className="text-gray-250/87 flex items-center gap-1 typo-regular-2">
             <button type="button">
               {defaultIsQuestion ? <IconPostCheckboxFilled /> : <IconPostCheckboxOutlined />}
             </button>
@@ -128,14 +128,14 @@ const PostModifyForm = ({
         </div>
         <div>
           <textarea
-            className="mt-4 box-border h-90 w-full resize-none border-0 px-5 typo-regular-1 text-black outline-none placeholder:text-gray-250/87"
+            className="placeholder:text-gray-250/87 mt-4 box-border h-90 w-full resize-none border-0 px-5 text-black outline-none typo-regular-1"
             placeholder="내용을 입력하세요"
             value={content}
             onChange={(e) => setContent(e.target.value)}
           />
         </div>
         <div
-          className="px-5 pt-2.5 typo-regular-4 text-gray-100"
+          className="px-5 pt-2.5 text-gray-100 typo-regular-4"
           dangerouslySetInnerHTML={{ __html: notice.replace(/\n/g, "<br />") }}
         />
       </div>
@@ -151,14 +151,14 @@ type CustomTopDetailNavigationProps = {
 };
 
 const CustomTopDetailNavigation = ({ routeBack, submitPost }: CustomTopDetailNavigationProps) => (
-  <div className="max-w-app fixed top-0 z-30 box-border flex h-14 w-full items-center justify-between bg-white px-5">
+  <div className="fixed top-0 z-30 box-border flex h-14 w-full max-w-app items-center justify-between bg-white px-5">
     <button className="min-w-6 cursor-pointer" onClick={routeBack} type="button" aria-label="뒤로 가기">
       <IconArrowBackFilled />
     </button>
-    <div className="typo-sb-7 text-black/87">글 수정</div>
+    <div className="text-black/87 typo-sb-7">글 수정</div>
     <div className="min-w-6 cursor-pointer">
       <button
-        className="h-8 cursor-pointer rounded-full border-0 bg-primary px-3 py-[5px] typo-medium-2 text-white"
+        className="h-8 cursor-pointer rounded-full border-0 bg-primary px-3 py-[5px] text-white typo-medium-2"
         onClick={submitPost}
         type="button"
       >

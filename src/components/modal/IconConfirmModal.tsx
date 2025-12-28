@@ -35,10 +35,8 @@ const IconConfirmModal = ({
             </div>
           )}
           <div className="flex flex-col items-center gap-2">
-            <span className="font-serif typo-sb-5 text-k-900">{title}</span>
-            <span className="whitespace-pre-wrap text-center font-serif typo-regular-2 text-k-500">
-              {content}
-            </span>
+            <span className="font-serif text-k-900 typo-sb-5">{title}</span>
+            <span className="whitespace-pre-wrap text-center font-serif text-k-500 typo-regular-2">{content}</span>
           </div>
           <div className="mt-5 flex items-center justify-center gap-2">
             <button
@@ -46,16 +44,14 @@ const IconConfirmModal = ({
               onClick={onClose}
               type="button"
             >
-              <span className="text-center font-serif typo-regular-1 text-k-500">{rejectMessage}</span>
+              <span className="text-center font-serif text-k-500 typo-regular-1">{rejectMessage}</span>
             </button>
             <button
               className="flex h-11 w-36 items-center justify-center rounded-3xl bg-primary px-1.5 py-2"
               onClick={onConfirm}
               type="button"
             >
-              <span className="text-center font-serif typo-regular-1 text-white">
-                {approveMessage}
-              </span>
+              <span className="text-center font-serif text-white typo-regular-1">{approveMessage}</span>
             </button>
           </div>
         </div>

@@ -47,7 +47,7 @@ const PopularUniversityCard = ({
             }
           />
         </div>
-        <div className="absolute bottom-[9px] left-[10px] z-10 typo-sb-9 tracking-[0.15px] text-white">
+        <div className="absolute bottom-[9px] left-[10px] z-10 tracking-[0.15px] text-white typo-sb-9">
           {university.koreanName}
         </div>
       </div>

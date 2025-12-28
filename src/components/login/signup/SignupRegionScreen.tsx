@@ -37,7 +37,7 @@ const SignupRegionScreen = ({
     <div className="mb-40">
       <div className="px-5">
         <div className="mt-5">
-          <span className="typo-bold-1 text-k-900">
+          <span className="text-k-900 typo-bold-1">
             현재 나의
             <span className="text-primary"> 관심 국가</span>를
             <br />
@@ -50,7 +50,7 @@ const SignupRegionScreen = ({
           <CountryButtons curCountries={curCountries} setCurCountries={setCurCountries} region={curRegion} />
         </div>
       </div>
-      <div className="max-w-app fixed bottom-14 w-full bg-white">
+      <div className="fixed bottom-14 w-full max-w-app bg-white">
         <div className="px-5">
           <BlockBtn className="mb-[29px]" disabled={!curRegion} onClick={submit}>
             다음
@@ -80,12 +80,12 @@ const RegionButtons = ({ curRegion, setCurRegion }: RegionButtonsProps) => (
         onClick={() => setCurRegion(region.name)}
       >
         <div>{region.icon}</div>
-        <span className="typo-sb-7 text-k-800">{region.name}</span>
+        <span className="text-k-800 typo-sb-7">{region.name}</span>
         {curRegion === "아직 잘 모르겠어요" && region.name === "아직 잘 모르겠어요" && (
           <div className="absolute top-[100px] flex justify-center">
             <div className="absolute bottom-full left-1/2 h-0 w-0 -translate-x-1/2 border-x-8 border-b-[12px] border-x-transparent border-b-primary"></div>
             <div className="relative rounded-lg bg-primary px-4 py-3">
-              <p className="text-center typo-regular-2 text-white">
+              <p className="text-center text-white typo-regular-2">
                 괜찮아요,
                 <br />
                 솔커에서 다양한 정보를

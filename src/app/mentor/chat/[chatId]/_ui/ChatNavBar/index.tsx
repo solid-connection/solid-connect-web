@@ -97,7 +97,7 @@ const ChatNavBar = ({ chatId }: ChatNavBarProps) => {
           </div>
           <div className="mb-6 flex flex-col items-center">
             <ProfileWithBadge profileImageUrl={partnerInfo?.profileUrl} width={64} height={64} />
-            <h3 className="typo-sb-5 text-gray-800">{partnerInfo?.nickname || "상대방"}</h3>
+            <h3 className="text-gray-800 typo-sb-5">{partnerInfo?.nickname || "상대방"}</h3>
             <p className={clsx("typo-medium-2", { "text-sub-c-500": isMentor, "text-primary-500": !isMentor })}>
               {partnerInfo?.university || "예비솔커"}
             </p>
@@ -105,7 +105,7 @@ const ChatNavBar = ({ chatId }: ChatNavBarProps) => {
             <Link
               // TODO 멘티 페이지 라우터 변경 시 수정 필요
               href={`/mentor/${partnerInfo?.partnerId}`}
-              className={clsx("mt-3 w-full rounded-3xl px-4 py-2 text-center typo-medium-2 text-white", {
+              className={clsx("mt-3 w-full rounded-3xl px-4 py-2 text-center text-white typo-medium-2", {
                 "bg-sub-c-500": isMentor,
                 "bg-primary": !isMentor,
               })}
@@ -119,7 +119,7 @@ const ChatNavBar = ({ chatId }: ChatNavBarProps) => {
           <div className="mb-4 flex items-center justify-between py-2">
             <div className="flex items-center gap-1">
               <span className="h-[18px] w-[18px]">{isMentor ? <IconAlertSubC /> : <IconAlert />}</span>
-              <span className="typo-medium-3 text-k-800">알림</span>
+              <span className="text-k-800 typo-medium-3">알림</span>
             </div>
             <label className="relative inline-flex cursor-pointer items-center">
               <input type="checkbox" className="peer sr-only" defaultChecked disabled />
@@ -137,17 +137,17 @@ const ChatNavBar = ({ chatId }: ChatNavBarProps) => {
           </div>
           <hr className="mb-6 mt-6" />
           {/* 참여자 섹션 */}
-          <p className="typo-regular-2 text-gray-600">참여자 2</p>
+          <p className="text-gray-600 typo-regular-2">참여자 2</p>
           <div className="mt-2 space-y-3">
             {/* 현재 사용자 */}
             <div className="flex items-center gap-3">
               <ProfileWithBadge profileImageUrl={myInfo?.profileImageUrl} width={24} height={24} />
               {/* '나' 표시 div */}
               <div className="flex h-3 w-3 items-center justify-center rounded-full bg-pink-200">
-                <span className="text-center typo-medium-5 text-pink-600">나</span>
+                <span className="text-center text-pink-600 typo-medium-5">나</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="typo-medium-2 text-k-800">
+                <span className="text-k-800 typo-medium-2">
                   {myInfo?.nickname || "나"} ({myInfo?.role === UserRole.ADMIN ? "어드민" : isMentor ? "멘토" : "멘티"})
                 </span>
               </div>
@@ -156,7 +156,7 @@ const ChatNavBar = ({ chatId }: ChatNavBarProps) => {
             {/* 상대방 */}
             <div className="flex items-center gap-3">
               <ProfileWithBadge profileImageUrl={partnerInfo?.profileUrl} width={24} height={24} />
-              <span className="typo-medium-2 text-k-800">
+              <span className="text-k-800 typo-medium-2">
                 {partnerInfo?.nickname || "상대방"} ({isMentor ? "멘티" : "멘토"})
               </span>
             </div>

@@ -7,9 +7,8 @@ import clsx from "clsx";
 import UniversityRegionTabs from "@/components/search/UniversityRegionTabs";
 import UniversitySearchInput from "@/components/search/UniversitySearchInput";
 
-import { RegionKo } from "@/types/university";
+import { RegionKo, RegionOption } from "@/types/university";
 
-import { RegionOption } from "@/app/search/SearchContent";
 import { IconDownArrow, IconHatColor, IconHatGray, IconLocationColor, IconLocationGray } from "@/public/svgs/search";
 
 interface UniversityFilterSectionProps {
@@ -62,7 +61,7 @@ const UniversityFilterSection = ({
         >
           <div className="flex items-center gap-2.5">
             {language ? <IconHatColor /> : <IconHatGray />}
-            <span className="typo-sb-9 text-k-700">어학</span>
+            <span className="text-k-700 typo-sb-9">어학</span>
           </div>
           <select
             className={clsx(
@@ -96,7 +95,7 @@ const UniversityFilterSection = ({
                 >
                   <div className="flex items-center gap-2.5">
                     {countries[i] ? <IconLocationColor /> : <IconLocationGray />}
-                    <span className="typo-sb-9 text-k-700">관심있는 나라</span>
+                    <span className="text-k-700 typo-sb-9">관심있는 나라</span>
                   </div>
                   <select
                     className={clsx(

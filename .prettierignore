@@ -1,0 +1,38 @@
+# Dependencies
+node_modules
+
+# Build outputs
+.next
+out
+build
+dist
+
+# Generated files
+*.min.js
+*.min.css
+next-env.d.ts
+
+# Lock files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Cache
+.cache
+.turbo
+
+# Coverage
+coverage
+
+# Sentry
+.sentryclirc
+
+# Vercel
+.vercel
+
+# Environment
+.env*
+
+# IDE
+.idea
+.vscode

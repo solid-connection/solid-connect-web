@@ -3,4 +3,5 @@ export enum QueryKeys {
   univApplyInfosLike = "univApplyInfosLike",
   universitySearchText = "universitySearchText",
   universitySearchFilter = "universitySearchFilter",
+  universityDetail = "universityDetail",
 }

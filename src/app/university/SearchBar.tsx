@@ -68,7 +68,9 @@ const SearchForm = ({ initText }: SearchBarProps) => {
         <div className="absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400">
           <SearchIcon />
         </div>
-        {errors && errors.searchText && <p className="mt-1 typo-regular-2 text-red-600">{errors?.searchText.message}</p>}
+        {errors && errors.searchText && (
+          <p className="mt-1 text-red-600 typo-regular-2">{errors?.searchText.message}</p>
+        )}
       </div>
     </form>
   );

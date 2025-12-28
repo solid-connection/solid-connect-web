@@ -51,16 +51,14 @@ const ArticleBottomSheetModal = ({
         onClose={handleModalClose}
         titleChild={
           <div className="relative flex h-10 w-full items-center">
-            <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 typo-sb-5">
-              아티클 {mode}
-            </span>
+            <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 typo-sb-5">아티클 {mode}</span>
             <button
               type="button"
               onClick={(e) => {
                 e.preventDefault();
                 handleSubmit(handleFormSubmit)(e);
               }}
-              className="absolute right-0 top-1/2 -translate-y-1/2 rounded-lg px-3 py-1 typo-sb-9 text-secondary"
+              className="absolute right-0 top-1/2 -translate-y-1/2 rounded-lg px-3 py-1 text-secondary typo-sb-9"
             >
               저장
             </button>
@@ -78,7 +76,7 @@ const ArticleBottomSheetModal = ({
                 maxLength={20}
                 className="w-full border-b border-k-100 py-4 text-k-900 placeholder-k-100 focus:border-b focus:border-secondary-200 focus:outline-none"
               />
-              {errors.title && <p className="mt-2 typo-regular-2 text-red-600">{errors.title.message}</p>}
+              {errors.title && <p className="mt-2 text-red-600 typo-regular-2">{errors.title.message}</p>}
             </div>
 
             {/* 내용 */}
@@ -90,24 +88,24 @@ const ArticleBottomSheetModal = ({
                 rows={6}
                 className="w-full border-b border-k-100 py-4 text-k-900 placeholder-k-100 focus:border-b focus:border-secondary-200 focus:outline-none"
               />
-              {errors.description && <p className="mt-2 typo-regular-2 text-red-600">{errors.description.message}</p>}
+              {errors.description && <p className="mt-2 text-red-600 typo-regular-2">{errors.description.message}</p>}
             </div>
 
             {/* 아티클 링크 */}
             <div>
-              <label className="mb-3 block typo-regular-1 text-primary">아티클 링크</label>
+              <label className="mb-3 block text-primary typo-regular-1">아티클 링크</label>
               <input
                 type="url"
                 {...register("url")}
                 placeholder="링크주소"
-                className="w-full rounded-xl bg-k-50 p-4 typo-regular-2 placeholder-k-500 focus:border-secondary-200 focus:outline-none focus:ring-secondary-100"
+                className="w-full rounded-xl bg-k-50 p-4 placeholder-k-500 typo-regular-2 focus:border-secondary-200 focus:outline-none focus:ring-secondary-100"
               />
-              {errors.url && <p className="mt-2 typo-regular-2 text-red-600">{errors.url.message}</p>}
+              {errors.url && <p className="mt-2 text-red-600 typo-regular-2">{errors.url.message}</p>}
             </div>
 
             {/* 썸네일 등록 */}
             <div>
-              <label className="mb-3 block typo-regular-1 text-primary">썸네일 등록</label>
+              <label className="mb-3 block text-primary typo-regular-1">썸네일 등록</label>
               <div className="rounded-xl bg-k-50 p-12 text-center">
                 {imagePreview ? (
                   <div className="relative w-full">
@@ -132,7 +130,7 @@ const ArticleBottomSheetModal = ({
                     <div className="mx-auto mb-4 flex h-6 w-6 items-center justify-center rounded-full">
                       <IconCamera />
                     </div>
-                    <p className="mb-4 typo-regular-2 text-k-500">아티클 썸네일을 등록해주세요</p>
+                    <p className="mb-4 text-k-500 typo-regular-2">아티클 썸네일을 등록해주세요</p>
                   </label>
                 )}
                 <input type="file" accept="image/*" onChange={handleImageChange} className="hidden" id="image-upload" />

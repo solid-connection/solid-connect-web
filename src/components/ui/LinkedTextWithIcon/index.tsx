@@ -70,7 +70,7 @@ const Content = ({ icon, text, subText, textColor = "text-k-700" }: ContentProps
 
       {/* 오른쪽 subText + 아이콘 */}
       <div className="flex shrink-0 items-center gap-1">
-        {subText && <span className="typo-regular-2 text-k-600">{subText}</span>}
+        {subText && <span className="text-k-600 typo-regular-2">{subText}</span>}
         <span className="h-5 w-5">
           <IconDirectionRight />
         </span>
