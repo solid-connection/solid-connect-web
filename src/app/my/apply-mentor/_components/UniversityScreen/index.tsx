@@ -11,7 +11,7 @@ import { MentorApplicationFormData } from "../../_lib/schema";
 
 import { mentorRegionList } from "@/constants/regions";
 
-import useGetUniversitySearchByText from "@/api/university/client/useGetUniversitySearchByText";
+import { useUniversitySearch } from "@/apis/universities";
 import { toast } from "@/lib/zustand/useToastStore";
 
 type UniversityScreenProps = {
@@ -33,7 +33,7 @@ const UniversityScreen = ({ onNext }: UniversityScreenProps) => {
   const verificationFile = watch("verificationFile");
 
   // 모든 대학 목록 가져오기
-  const { data: allUniversities = [], isLoading } = useGetUniversitySearchByText("");
+  const { data: allUniversities = [], isLoading } = useUniversitySearch("");
 
   // regionList에서 모든 국가 추출 (중복 제거)
   const availableCountries = useMemo(() => {

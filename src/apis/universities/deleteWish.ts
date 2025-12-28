@@ -1,10 +1,20 @@
 import { AxiosError } from "axios";
-import { useMutation } from "@tanstack/react-query";
-import { universitiesApi, WishResponse, WishRequest } from "./api";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { universitiesApi, WishResponse } from "./api";
+import { QueryKeys } from "../queryKeys";
 
+/**
+ * @description 위시리스트에서 학교를 삭제하는 useMutation 커스텀 훅
+ */
 const useDeleteWish = () => {
-  return useMutation<WishResponse, AxiosError, { univApplyInfoId: string | number; data: WishRequest }>({
-    mutationFn: (variables) => universitiesApi.deleteWish(variables),
+  const queryClient = useQueryClient();
+
+  return useMutation<WishResponse, AxiosError, number>({
+    mutationFn: (universityInfoForApplyId) =>
+      universitiesApi.deleteWish({ univApplyInfoId: universityInfoForApplyId }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.universities.wishList] });
+    },
   });
 };
 

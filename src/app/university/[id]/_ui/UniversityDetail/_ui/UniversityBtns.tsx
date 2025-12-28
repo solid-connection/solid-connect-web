@@ -2,9 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import useDeleteUniversityFavorite from "@/api/university/client/useDeleteUniversityFavorite";
-import useGetMyWishUniversity from "@/api/university/client/useGetMyWishUniversity";
-import usePostUniversityFavorite from "@/api/university/client/usePostUniversityFavorite";
+import { useDeleteWish, useGetWishList, usePostAddWish } from "@/apis/universities";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { toast } from "@/lib/zustand/useToastStore";
 
@@ -46,9 +44,9 @@ const UniversityBtns = ({ universityId }: UniversityBtnsProps) => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
   const [isLiked, setIsLiked] = useState(false);
-  const { data: favoriteUniv } = useGetMyWishUniversity(isAuthenticated);
-  const { mutate: postUniversityFavorite } = usePostUniversityFavorite();
-  const { mutate: deleteUniversityFavorite } = useDeleteUniversityFavorite();
+  const { data: favoriteUniv } = useGetWishList(isAuthenticated);
+  const { mutate: postUniversityFavorite } = usePostAddWish();
+  const { mutate: deleteUniversityFavorite } = useDeleteWish();
 
   useEffect(() => {
     favoriteUniv?.forEach((univ) => {

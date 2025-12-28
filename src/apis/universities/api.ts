@@ -1,4 +1,4 @@
-import { axiosInstance } from "@/utils/axiosInstance";
+import { axiosInstance, publicAxiosInstance } from "@/utils/axiosInstance";
 
 export interface RecommendedUniversitiesResponseRecommendedUniversitiesItem {
   id: number;
@@ -130,9 +130,10 @@ export interface SearchFilterResponse {
 export type ByRegionCountryResponse = void;
 
 export const universitiesApi = {
-  getRecommendedUniversities: async (params: { params?: Record<string, any> }): Promise<RecommendedUniversitiesResponse> => {
-    const res = await axiosInstance.get<RecommendedUniversitiesResponse>(
-      `/univ-apply-infos/recommend`, { params: params?.params }
+  getRecommendedUniversities: async (params?: { isLogin?: boolean }): Promise<RecommendedUniversitiesResponse> => {
+    const instance = params?.isLogin ? axiosInstance : publicAxiosInstance;
+    const res = await instance.get<RecommendedUniversitiesResponse>(
+      `/univ-apply-infos/recommend`
     );
     return res.data;
   },
@@ -165,22 +166,22 @@ export const universitiesApi = {
     return res.data;
   },
 
-  getUniversityDetail: async (params: { univApplyInfoId: string | number, params?: Record<string, any> }): Promise<UniversityDetailResponse> => {
-    const res = await axiosInstance.get<UniversityDetailResponse>(
-      `/univ-apply-infos/${params.univApplyInfoId}`, { params: params?.params }
+  getUniversityDetail: async (params: { univApplyInfoId: string | number }): Promise<UniversityDetailResponse> => {
+    const res = await publicAxiosInstance.get<UniversityDetailResponse>(
+      `/univ-apply-infos/${params.univApplyInfoId}`
     );
     return res.data;
   },
 
-  getSearchText: async (params: { params?: Record<string, any> }): Promise<SearchTextResponse> => {
-    const res = await axiosInstance.get<SearchTextResponse>(
-      `/univ-apply-infos/search/text?value=괌`, { params: params?.params }
+  getSearchText: async (params?: { value?: string }): Promise<SearchTextResponse> => {
+    const res = await publicAxiosInstance.get<SearchTextResponse>(
+      `/univ-apply-infos/search/text`, { params: { value: params?.value ?? "" } }
     );
     return res.data;
   },
 
-  getSearchFilter: async (params: { params?: Record<string, any> }): Promise<SearchFilterResponse> => {
-    const res = await axiosInstance.get<SearchFilterResponse>(
+  getSearchFilter: async (params?: { params?: Record<string, any> }): Promise<SearchFilterResponse> => {
+    const res = await publicAxiosInstance.get<SearchFilterResponse>(
       `/univ-apply-infos/search/filter`, { params: params?.params }
     );
     return res.data;
