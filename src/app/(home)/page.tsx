@@ -79,10 +79,6 @@ const HomePage = async () => {
   // 권역별 전체 대학 리스트를 미리 가져와 빌드합니다
   const allRegionsUniversityList = await getCategorizedUniversities();
 
-  if (!allRegionsUniversityList || Object.keys(allRegionsUniversityList).length === 0) {
-    throw new Error("Failed to fetch categorized universities for home page");
-  }
-
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
