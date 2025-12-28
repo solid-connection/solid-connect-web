@@ -27,6 +27,16 @@ const UniversityCards = ({
   showCapacity = true,
   enableVirtualization = true,
 }: UniversityCardsProps) => {
+  // 훅은 항상 컴포넌트 상단에서 호출해야 함 (React Hooks 규칙)
+  const parentRef = useRef<HTMLDivElement>(null);
+
+  const virtualizer = useVirtualizer({
+    count: colleges.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => ITEM_HEIGHT,
+    overscan: 5,
+  });
+
   // 가상화가 비활성화된 경우 일반 렌더링
   if (!enableVirtualization) {
     return (
@@ -40,16 +50,7 @@ const UniversityCards = ({
     );
   }
 
-  // 가상화 사용 (기존 로직)
-  const parentRef = useRef<HTMLDivElement>(null);
-
-  const virtualizer = useVirtualizer({
-    count: colleges.length,
-    getScrollElement: () => parentRef.current,
-    estimateSize: () => ITEM_HEIGHT,
-    overscan: 5,
-  });
-
+  // 가상화 사용
   return (
     <div ref={parentRef} className={clsx("h-[calc(100vh-200px)] overflow-auto", className)} style={style}>
       <div
