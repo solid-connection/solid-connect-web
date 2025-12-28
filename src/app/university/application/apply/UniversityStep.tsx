@@ -31,14 +31,14 @@ const UniversityStep = ({ universityList, curUniversityList, setCurUniversityLis
     <>
       <div className="px-5">
         <div>
-          <span className="font-serif typo-regular-4 text-gray-50">
+          <span className="font-serif text-gray-50 typo-regular-4">
             본 과정 완료 후, 지원자 현황을 확인 할 수 있습니다.
           </span>
         </div>
         <div className="mt-5">해외 파견 학교를 검색하세요.</div>
         <div className="mt-5 flex flex-col gap-4">
           <div className="flex flex-col gap-1">
-            <label className="block font-serif typo-sb-9 text-k-900">1지망</label>
+            <label className="block font-serif text-k-900 typo-sb-9">1지망</label>
             <Select
               value={curUniversityList[0]?.toString() ?? null}
               onValueChange={(value: string) => handleSelect(0, parseInt(value, 10))}
@@ -60,7 +60,7 @@ const UniversityStep = ({ universityList, curUniversityList, setCurUniversityLis
             </Select>
           </div>
           <div className="flex flex-col gap-1">
-            <label className="block font-serif typo-sb-9 text-k-900">2지망</label>
+            <label className="block font-serif text-k-900 typo-sb-9">2지망</label>
             <Select
               value={curUniversityList[1]?.toString() ?? null}
               onValueChange={(value: string) => handleSelect(1, parseInt(value, 10))}
@@ -82,7 +82,7 @@ const UniversityStep = ({ universityList, curUniversityList, setCurUniversityLis
             </Select>
           </div>
           <div className="flex flex-col gap-1">
-            <label className="block font-serif typo-sb-9 text-k-900">3지망</label>
+            <label className="block font-serif text-k-900 typo-sb-9">3지망</label>
             <Select
               value={curUniversityList[2]?.toString() ?? null}
               onValueChange={(value: string) => handleSelect(2, parseInt(value, 10))}
@@ -105,7 +105,7 @@ const UniversityStep = ({ universityList, curUniversityList, setCurUniversityLis
           </div>
         </div>
       </div>
-      <div className="max-w-app fixed bottom-14 w-full bg-white">
+      <div className="fixed bottom-14 w-full max-w-app bg-white">
         <div className="mb-[37px] px-5">
           <BlockBtn
             onClick={() => {

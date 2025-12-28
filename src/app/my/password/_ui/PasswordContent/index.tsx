@@ -115,7 +115,7 @@ const PasswordContent = () => {
               onClick={handleNextStep}
               disabled={!isStep1ButtonEnabled}
               className={clsx(
-                "w-full rounded-lg py-4 typo-sb-9 text-white transition-colors",
+                "w-full rounded-lg py-4 text-white transition-colors typo-sb-9",
                 isStep1ButtonEnabled ? "bg-primary-600 hover:bg-primary-700" : "cursor-not-allowed bg-gray-400",
               )}
             >
@@ -128,7 +128,7 @@ const PasswordContent = () => {
               type="submit"
               disabled={!isStep2ButtonEnabled}
               className={clsx(
-                "w-full rounded-lg py-4 typo-sb-9 text-white transition-colors",
+                "w-full rounded-lg py-4 text-white transition-colors typo-sb-9",
                 isStep2ButtonEnabled ? "bg-primary-600 hover:bg-primary-700" : "cursor-not-allowed bg-gray-400",
               )}
             >

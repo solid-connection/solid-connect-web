@@ -39,8 +39,8 @@ const SignupPolicyScreen = ({ toNextStage }: SignupPolicyScreenProps) => {
           <div className="flex items-center gap-2">
             <Checkbox className="" checked={isChecked} onClick={() => setIsChecked(!isChecked)} />
             <div>
-              <span className="typo-regular-2 text-gray-400">이용 약관 동의 </span>
-              <span className="typo-regular-4 text-gray-400">(필수)</span>
+              <span className="text-gray-400 typo-regular-2">이용 약관 동의 </span>
+              <span className="text-gray-400 typo-regular-4">(필수)</span>
             </div>
           </div>
           <div>
@@ -48,14 +48,14 @@ const SignupPolicyScreen = ({ toNextStage }: SignupPolicyScreenProps) => {
               href="https://solid-connection.notion.site/1b5ac2cda9b28017a801d0cacf236ec7?pvs=4"
               target="_blank"
               rel="noopener noreferrer"
-              className="typo-regular-4 text-gray-400 underline"
+              className="text-gray-400 underline typo-regular-4"
             >
               전문보기
             </a>
           </div>
         </div>
       </div>
-      <div className="max-w-app fixed bottom-14 w-full bg-white">
+      <div className="fixed bottom-14 w-full max-w-app bg-white">
         <div className="px-5">
           <BlockBtn
             className="mb-[29px]"

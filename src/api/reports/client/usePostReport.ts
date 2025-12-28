@@ -6,8 +6,8 @@ import { axiosInstance } from "@/utils/axiosInstance";
 
 import { ReportType } from "@/types/reports";
 
-import { useMutation } from "@tanstack/react-query";
 import { toast } from "@/lib/zustand/useToastStore";
+import { useMutation } from "@tanstack/react-query";
 
 interface UsePostReportsRequest {
   targetType: "POST"; // 지금은 게시글 신고 기능만 존재

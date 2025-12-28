@@ -12,8 +12,8 @@ const TitleSection = ({ logoUrl, title, subTitle }: TitleSectionProps) => {
       <div className="flex gap-2.5">
         <Image src={logoUrl} alt="대학 로고" width={48} height={48} className="rounded-full object-cover" />
         <div className="flex flex-col">
-          <span className="typo-sb-4 text-k-900">{title}</span>
-          <span className="typo-medium-1 text-center text-k-400">{subTitle}</span>
+          <span className="text-k-900 typo-sb-4">{title}</span>
+          <span className="text-center text-k-400 typo-medium-1">{subTitle}</span>
         </div>
       </div>
     </div>

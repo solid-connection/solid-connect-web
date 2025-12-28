@@ -15,7 +15,7 @@ const ScoreSearchBar = ({ onClick, textRef, searchHandler }: ScoreSearchBarProps
     role="search"
   >
     <input
-      className="w-full border-0 pl-6 typo-regular-1 text-gray-400 outline-0"
+      className="w-full border-0 pl-6 text-gray-400 outline-0 typo-regular-1"
       placeholder="해외 파견 학교를 검색하세요."
       ref={textRef}
     />

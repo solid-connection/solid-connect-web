@@ -15,13 +15,11 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
  * @param request - 게시글 생성 요청 데이터
  * @returns Promise<PostIdResponse & { boardCode: string }>
  */
-const createPost = async (
-  request: PostCreateRequest
-): Promise<PostIdResponse & { boardCode: string }> => {
+const createPost = async (request: PostCreateRequest): Promise<PostIdResponse & { boardCode: string }> => {
   const convertedRequest: FormData = new FormData();
   convertedRequest.append(
     "postCreateRequest",
-    new Blob([JSON.stringify(request.postCreateRequest)], { type: "application/json" })
+    new Blob([JSON.stringify(request.postCreateRequest)], { type: "application/json" }),
   );
   request.file.forEach((file) => {
     convertedRequest.append("file", file);
@@ -30,7 +28,7 @@ const createPost = async (
   const response: AxiosResponse<PostIdResponse> = await axiosInstance.post(`/posts`, convertedRequest, {
     headers: { "Content-Type": "multipart/form-data" },
   });
-  
+
   return {
     ...response.data,
     boardCode: request.postCreateRequest.boardCode,
@@ -74,12 +72,12 @@ const useCreatePost = () => {
     onSuccess: async (data) => {
       // 게시글 목록 쿼리를 무효화하여 최신 목록 반영
       queryClient.invalidateQueries({ queryKey: [QueryKeys.posts] });
-      
+
       // ISR 페이지 revalidate (사용자 인증 토큰 사용)
       if (accessToken) {
         await revalidateCommunityPage(data.boardCode, accessToken);
       }
-      
+
       toast.success("게시글이 등록되었습니다.");
     },
     onError: (error) => {

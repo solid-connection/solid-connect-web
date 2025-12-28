@@ -8,9 +8,9 @@ import { QueryKeys } from "./queryKey";
 
 import { Article } from "@/types/news";
 
+import { toast } from "@/lib/zustand/useToastStore";
 import ArticleThumbUrlPng from "@/public/images/article-thumb.png";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { toast } from "@/lib/zustand/useToastStore";
 
 type ArticleMutationContext = {
   previousArticleContainer?: { newsResponseList: Article[] };

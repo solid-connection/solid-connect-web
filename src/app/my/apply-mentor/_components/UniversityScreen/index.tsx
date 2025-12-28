@@ -96,7 +96,7 @@ const UniversityScreen = ({ onNext }: UniversityScreenProps) => {
     <div className="pb-28">
       <div className="px-5">
         <div className="mt-5">
-          <span className="typo-bold-1 text-k-900">
+          <span className="text-k-900 typo-bold-1">
             나의
             <span className="text-primary"> 수학 학교</span>를
             <br />
@@ -107,17 +107,17 @@ const UniversityScreen = ({ onNext }: UniversityScreenProps) => {
         <div className="mt-10 flex flex-col gap-5">
           {/* 국가 선택 */}
           <div className="flex flex-col gap-2">
-            <label className="typo-sb-9 text-k-900">국가</label>
+            <label className="text-k-900 typo-sb-9">국가</label>
             <select
               value={country || ""}
               onChange={(e) => {
                 setValue("country", e.target.value);
                 setValue("universityName", ""); // 국가 변경 시 학교 선택 초기화
               }}
-                className={clsx(
-                  "h-12 rounded-lg border border-k-200 bg-k-50 px-4 typo-regular-2 focus:border-primary focus:outline-none [&>option:checked]:text-primary",
-                  country && "text-accent-custom-indigo",
-                )}
+              className={clsx(
+                "h-12 rounded-lg border border-k-200 bg-k-50 px-4 typo-regular-2 focus:border-primary focus:outline-none [&>option:checked]:text-primary",
+                country && "text-accent-custom-indigo",
+              )}
             >
               <option value="" className="text-k-400">
                 국가를 선택해주세요
@@ -128,14 +128,14 @@ const UniversityScreen = ({ onNext }: UniversityScreenProps) => {
                 </option>
               ))}
             </select>
-            {errors.country && <p className="typo-regular-2 text-red-500">{errors.country.message}</p>}
+            {errors.country && <p className="text-red-500 typo-regular-2">{errors.country.message}</p>}
           </div>
 
           {/* 학교 선택 */}
           <div className="flex flex-col gap-2">
-            <label className="typo-sb-9 text-k-900">학교</label>
+            <label className="text-k-900 typo-sb-9">학교</label>
             {isLoading ? (
-              <div className="flex h-12 items-center justify-center rounded-lg border border-k-200 bg-k-50 px-4 typo-regular-2 text-k-400">
+              <div className="flex h-12 items-center justify-center rounded-lg border border-k-200 bg-k-50 px-4 text-k-400 typo-regular-2">
                 학교 목록을 불러오는 중...
               </div>
             ) : (
@@ -162,16 +162,16 @@ const UniversityScreen = ({ onNext }: UniversityScreenProps) => {
                 ))}
               </select>
             )}
-            {errors.universityName && <p className="typo-regular-2 text-red-500">{errors.universityName.message}</p>}
+            {errors.universityName && <p className="text-red-500 typo-regular-2">{errors.universityName.message}</p>}
           </div>
 
           {/* 증명서 첨부 */}
           <div className="flex flex-col gap-2">
-            <label className="typo-sb-9 text-k-900">증명서 첨부</label>
+            <label className="text-k-900 typo-sb-9">증명서 첨부</label>
             <div className="rounded-lg border border-k-200 bg-k-50 p-4">
               {verificationFile ? (
                 <div className="flex items-center justify-between">
-                  <span className="typo-regular-2 text-primary">{verificationFile.name}</span>
+                  <span className="text-primary typo-regular-2">{verificationFile.name}</span>
                   <button onClick={handleRemoveFile} type="button" className="text-k-400 hover:text-k-600">
                     <span className="typo-sb-5">✕</span>
                   </button>
@@ -180,7 +180,7 @@ const UniversityScreen = ({ onNext }: UniversityScreenProps) => {
                 <button
                   onClick={() => fileInputRef.current?.click()}
                   type="button"
-                  className="w-full text-left typo-regular-2 text-k-400"
+                  className="w-full text-left text-k-400 typo-regular-2"
                 >
                   파일을 선택해주세요
                 </button>
@@ -193,12 +193,14 @@ const UniversityScreen = ({ onNext }: UniversityScreenProps) => {
                 className="hidden"
               />
             </div>
-            {errors.verificationFile && <p className="typo-regular-2 text-red-500">{errors.verificationFile.message}</p>}
+            {errors.verificationFile && (
+              <p className="text-red-500 typo-regular-2">{errors.verificationFile.message}</p>
+            )}
 
             {/* 증명서 안내 */}
             <div className="mt-2 rounded-lg bg-k-50 p-4">
-              <h4 className="mb-2 typo-sb-9 text-k-700">[증명서 예시]</h4>
-              <ul className="list-inside list-disc space-y-1 typo-regular-5 text-k-500">
+              <h4 className="mb-2 text-k-700 typo-sb-9">[증명서 예시]</h4>
+              <ul className="list-inside list-disc space-y-1 text-k-500 typo-regular-5">
                 <li>
                   합격증, 재학증명서 등 해당 해외 대학교에 재적 중인 사실을 증명할 수 있는 이미지나 서류를 첨부해
                   주세요.
@@ -212,7 +214,7 @@ const UniversityScreen = ({ onNext }: UniversityScreenProps) => {
       </div>
 
       <div className="fixed bottom-0 left-0 right-0 w-full bg-white pb-14">
-        <div className="max-w-app mx-auto w-full px-5">
+        <div className="mx-auto w-full max-w-app px-5">
           <BlockBtn
             className="mb-[29px]"
             disabled={!country || !universityName || !verificationFile}

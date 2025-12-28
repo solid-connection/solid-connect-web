@@ -57,7 +57,7 @@ const InterestCountriesScreen = ({ onNext }: InterestCountriesScreenProps) => {
     <div className="pb-28">
       <div className="px-5">
         <div className="mt-5">
-          <span className="typo-bold-1 text-k-900">
+          <span className="text-k-900 typo-bold-1">
             나의
             <span className="text-primary"> 수학 국가</span>를
             <br />
@@ -71,7 +71,7 @@ const InterestCountriesScreen = ({ onNext }: InterestCountriesScreenProps) => {
             {selectedCountries.map((country) => (
               <button
                 key={country}
-                className="relative h-10 rounded bg-primary-100 text-center typo-medium-2 text-k-800"
+                className="relative h-10 rounded bg-primary-100 text-center text-k-800 typo-medium-2"
                 onClick={() => removeCountry(country)}
                 type="button"
               >
@@ -84,7 +84,7 @@ const InterestCountriesScreen = ({ onNext }: InterestCountriesScreenProps) => {
 
         {/* Error Message */}
         {errors.interestedCountries && (
-          <p className="mt-2 typo-regular-2 text-red-500">{errors.interestedCountries.message}</p>
+          <p className="mt-2 text-red-500 typo-regular-2">{errors.interestedCountries.message}</p>
         )}
 
         {/* Region Tabs - Large Icon Buttons */}
@@ -120,7 +120,7 @@ const InterestCountriesScreen = ({ onNext }: InterestCountriesScreenProps) => {
           {currentRegion?.countries.map((country) => (
             <button
               key={country}
-                className={clsx("h-10 rounded border-none typo-medium-2 transition-colors", {
+              className={clsx("h-10 rounded border-none transition-colors typo-medium-2", {
                 "bg-k-50 text-k-600 hover:bg-k-100": !selectedCountries.includes(country),
                 "bg-primary-100 text-k-800": selectedCountries.includes(country),
               })}
@@ -134,7 +134,7 @@ const InterestCountriesScreen = ({ onNext }: InterestCountriesScreenProps) => {
       </div>
 
       <div className="fixed bottom-0 left-0 right-0 w-full bg-white pb-14">
-        <div className="max-w-app mx-auto w-full px-5">
+        <div className="mx-auto w-full max-w-app px-5">
           <BlockBtn className="mb-[29px]" disabled={selectedCountries.length === 0} onClick={handleNext}>
             다음
           </BlockBtn>

@@ -181,7 +181,7 @@ const SchoolSearchForm = () => {
       </div>
       <button
         type="submit"
-        className="mt-10 rounded-lg bg-primary px-4 py-3 text-center typo-sb-9 text-white transition-colors hover:bg-primary-600"
+        className="mt-10 rounded-lg bg-primary px-4 py-3 text-center text-white transition-colors typo-sb-9 hover:bg-primary-600"
       >
         학교 검색
       </button>

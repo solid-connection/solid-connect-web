@@ -14,7 +14,7 @@ type LayoutProps = {
 
 const GlobalLayout = ({ children }: LayoutProps) => {
   return (
-    <div className="min-w-app max-w-app mx-auto mb-14 w-full pt-14">
+    <div className="mx-auto mb-14 w-full min-w-app max-w-app pt-14">
       {children}
       <BottomNavigation />
       <ClientModal />

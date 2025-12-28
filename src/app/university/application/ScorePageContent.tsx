@@ -1,7 +1,5 @@
 "use client";
 
-import { toast } from "@/lib/zustand/useToastStore";
-
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 
@@ -19,6 +17,7 @@ import { ScoreSheet as ScoreSheetType } from "@/types/application";
 import { RegionKo } from "@/types/university";
 
 import useGetApplicationsList from "@/api/applications/client/useGetApplicationsList";
+import { toast } from "@/lib/zustand/useToastStore";
 
 const PREFERENCE_CHOICE: ("1순위" | "2순위" | "3순위")[] = ["1순위", "2순위", "3순위"];
 
@@ -140,9 +139,9 @@ const ScorePageContent = () => {
       <ScoreSearchBar onClick={handleSearchClick} textRef={searchRef} searchHandler={handleSearch} />
 
       {searchActive ? (
-        <div className="font-sans p-4">
+        <div className="p-4 font-sans">
           {/* Title for the popular searches section */}
-          <div className="ml-5 mt-[18px] typo-sb-7 text-black">인기 검색</div>
+          <div className="ml-5 mt-[18px] text-black typo-sb-7">인기 검색</div>
 
           {/* Container for the keyword buttons */}
           <div className="ml-5 mt-2.5 flex flex-wrap gap-2">
@@ -150,7 +149,7 @@ const ScorePageContent = () => {
               <button
                 key={word}
                 // Button styling for each keyword
-                className="flex items-center justify-center gap-2.5 rounded-full bg-gray-50 px-3 py-[5px] typo-medium-2 text-black transition-colors hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2"
+                className="flex items-center justify-center gap-2.5 rounded-full bg-gray-50 px-3 py-[5px] text-black transition-colors typo-medium-2 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2"
                 onClick={() => {
                   handleSearchField(word);
                   handleSearch(new Event("submit") as unknown as React.FormEvent);

@@ -86,10 +86,7 @@ const BottomSheet = ({ isOpen, onClose, children, titleChild, snap = DEFAULT_SNA
         {/* 헤더 (옵션) */}
         {titleChild && (
           <div className="flex-shrink-0 px-6 pb-4">
-            <div
-              id="bottom-sheet-title"
-              className="flex items-center justify-between typo-sb-5 text-gray-800"
-            >
+            <div id="bottom-sheet-title" className="flex items-center justify-between text-gray-800 typo-sb-5">
               {titleChild}
             </div>
           </div>

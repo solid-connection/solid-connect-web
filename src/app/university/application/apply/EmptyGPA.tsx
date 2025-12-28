@@ -13,7 +13,7 @@ const EmptyGPA = () => {
       </p>
       <Link
         href="/university/score"
-        className="mt-2 h-13 w-60 rounded-full bg-gradient-to-l from-primary to-secondary p-4 typo-sb-9 text-white"
+        className="mt-2 h-13 w-60 rounded-full bg-gradient-to-l from-primary to-secondary p-4 text-white typo-sb-9"
       >
         성적 등록하러가기
       </Link>

@@ -1,7 +1,5 @@
 "use client";
 
-import { toast } from "@/lib/zustand/useToastStore";
-
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -21,6 +19,7 @@ import usePostSubmitApplication from "@/api/applications/client/usePostSubmitApp
 import useGetMyGpaScore from "@/api/score/client/useGetMyGpaScore";
 import useGetMyLanguageTestScore from "@/api/score/client/useGetMyLanguageTestScore";
 import useGetUniversitySearchByText from "@/api/university/client/useGetUniversitySearchByText";
+import { toast } from "@/lib/zustand/useToastStore";
 
 const ApplyPageContent = () => {
   const router = useRouter();

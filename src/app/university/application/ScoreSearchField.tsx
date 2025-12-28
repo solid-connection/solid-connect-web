@@ -5,12 +5,12 @@ type ScoreSearchFieldProps = {
 
 const ScoreSearchField = ({ keyWords, setKeyWord }: ScoreSearchFieldProps) => (
   <div>
-    <div className="typo-sb-7 ml-5 mt-[18px] text-black">인기 검색</div>
+    <div className="ml-5 mt-[18px] text-black typo-sb-7">인기 검색</div>
     <div className="ml-5 mt-[10px] flex flex-wrap gap-2">
       {keyWords.map((keyWord) => (
         <button
           key={keyWord}
-          className="typo-medium-2 flex items-center justify-center gap-[10px] rounded-full bg-bg-50 px-3 py-[5px] text-black"
+          className="flex items-center justify-center gap-[10px] rounded-full bg-bg-50 px-3 py-[5px] text-black typo-medium-2"
           onClick={() => setKeyWord(keyWord)}
           type="button"
         >

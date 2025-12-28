@@ -28,22 +28,20 @@ const InfoSection = ({
         <div className="flex h-[50px] items-center justify-between px-3">
           <div className="flex items-center gap-2.5">
             <SemesterRequirementIcon />
-            <span className="typo-sb-7 text-k-900">최저 이수학기</span>
+            <span className="text-k-900 typo-sb-7">최저 이수학기</span>
           </div>
           <div className="flex h-7 w-[50px] items-center justify-center rounded-full bg-k-50">
-            <span className="typo-sb-10 text-primary">{semesterRequirement}</span>
+            <span className="text-primary typo-sb-10">{semesterRequirement}</span>
           </div>
         </div>
         {/* 파견 가능학기 */}
         <div className="flex h-[50px] items-center justify-between px-3">
           <div className="flex items-center gap-2.5">
             <SemesterAvailableForDispatchIcon />
-            <span className="typo-sb-7 text-k-900">파견 가능학기</span>
+            <span className="text-k-900 typo-sb-7">파견 가능학기</span>
           </div>
           <div className="flex h-7 w-[50px] items-center justify-center rounded-full bg-k-50">
-            <span className="typo-sb-10 text-primary">
-              {semesterAvailableForDispatch}
-            </span>
+            <span className="text-primary typo-sb-10">{semesterAvailableForDispatch}</span>
           </div>
         </div>
         {/* 자격요건 */}
@@ -60,7 +58,7 @@ const InfoSection = ({
           >
             <div className="flex items-center gap-2.5">
               <DetailsForApplyIcon />
-              <span className="typo-sb-7 text-k-900">자격요건</span>
+              <span className="text-k-900 typo-sb-7">자격요건</span>
             </div>
             <div className="flex h-7 w-[50px] items-center justify-center rounded-full bg-k-50">
               <FoldIcon />
@@ -80,14 +78,14 @@ const InfoSection = ({
             <div className="flex items-center justify-between rounded-sm">
               <div className="flex items-center gap-2.5">
                 <DetailsForApplyIcon />
-                <span className="typo-sb-7 text-k-900">자격요건</span>
+                <span className="text-k-900 typo-sb-7">자격요건</span>
               </div>
               <div className="flex h-7 w-[50px] items-center justify-center rounded-full bg-k-50">
                 <UnFoldIcon />
               </div>
             </div>
             <div className="pl-11">
-              <span className="typo-medium-2 text-k-700">
+              <span className="text-k-700 typo-medium-2">
                 <LinkifyText>{detailsForApply}</LinkifyText>
               </span>
             </div>
@@ -107,7 +105,7 @@ const InfoSection = ({
           >
             <div className="flex items-center gap-2.5">
               <DetailsForAccommodationIcon />
-              <span className="typo-sb-7 text-k-900">기숙사</span>
+              <span className="text-k-900 typo-sb-7">기숙사</span>
             </div>
             <div className="flex h-7 w-[50px] items-center justify-center rounded-full bg-k-50">
               <FoldIcon />
@@ -127,14 +125,14 @@ const InfoSection = ({
             <div className="flex items-center justify-between rounded-sm">
               <div className="flex items-center gap-2.5">
                 <DetailsForAccommodationIcon />
-                <span className="typo-sb-7 text-k-900">기숙사</span>
+                <span className="text-k-900 typo-sb-7">기숙사</span>
               </div>
               <div className="flex h-7 w-[50px] items-center justify-center rounded-full bg-k-50">
                 <UnFoldIcon />
               </div>
             </div>
             <div className="pl-11">
-              <span className="typo-medium-2 text-k-700">
+              <span className="text-k-700 typo-medium-2">
                 <LinkifyText>{detailsForAccommodation}</LinkifyText>
               </span>
             </div>
@@ -150,7 +148,13 @@ export default InfoSection;
 const FoldIcon = () => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
-      <path d="M9 13.5L15 19.5L21 13.5" stroke="currentColor" className="text-primary" stroke-linecap="round" stroke-linejoin="round" />
+      <path
+        d="M9 13.5L15 19.5L21 13.5"
+        stroke="currentColor"
+        className="text-primary"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
     </svg>
   );
 };
@@ -158,7 +162,13 @@ const FoldIcon = () => {
 const UnFoldIcon = () => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
-      <path d="M21 19.5L15 13.5L9 19.5" stroke="currentColor" className="text-primary" stroke-linecap="round" stroke-linejoin="round" />
+      <path
+        d="M21 19.5L15 13.5L9 19.5"
+        stroke="currentColor"
+        className="text-primary"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
     </svg>
   );
 };
@@ -210,7 +220,11 @@ const DetailsForAccommodationIcon = () => {
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect width="24" height="24" rx="12" fill="currentColor" className="text-sub-e-100" />
-      <path d="M7 17.5V10.1667L12 6.5L17 10.1667V17.5H13.25V13.2222H10.75V17.5H7Z" fill="currentColor" className="text-accent-custom-green-dark" />
+      <path
+        d="M7 17.5V10.1667L12 6.5L17 10.1667V17.5H13.25V13.2222H10.75V17.5H7Z"
+        fill="currentColor"
+        className="text-accent-custom-green-dark"
+      />
     </svg>
   );
 };

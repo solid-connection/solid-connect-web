@@ -70,8 +70,8 @@ const LoginContent = () => {
         </Link>
       </div>
       <div className="h-[229px] pt-[90px]">
-        <div className="text-center font-serif typo-sb-3 text-k-900">로그인</div>
-        <div className="text-center font-serif typo-medium-4 text-k-300">
+        <div className="text-center font-serif text-k-900 typo-sb-3">로그인</div>
+        <div className="text-center font-serif text-k-300 typo-medium-4">
           교환학생을 위한 여정
           <br />
           지금 솔리드 커넥션에서 시작하세요.
@@ -84,13 +84,13 @@ const LoginContent = () => {
             <input
               type="email"
               placeholder="이메일"
-              className="w-full rounded-lg border border-k-100 px-5 py-3 font-serif typo-regular-4 text-k-400 focus:outline-none"
+              className="w-full rounded-lg border border-k-100 px-5 py-3 font-serif text-k-400 typo-regular-4 focus:outline-none"
               {...register("email", {
                 onChange: handleEmailChange,
               })}
               onKeyDown={handleKeyDown}
             />
-            {errors.email && <p className="mt-1 typo-regular-4 text-red-500">{errors.email.message}</p>}
+            {errors.email && <p className="mt-1 text-red-500 typo-regular-4">{errors.email.message}</p>}
           </div>
 
           <div
@@ -101,18 +101,18 @@ const LoginContent = () => {
             <input
               type="password"
               placeholder="비밀번호"
-              className="w-full rounded-lg border border-k-100 px-5 py-3 font-serif typo-regular-4 text-k-400 focus:outline-none"
+              className="w-full rounded-lg border border-k-100 px-5 py-3 font-serif text-k-400 typo-regular-4 focus:outline-none"
               {...register("password")}
               onKeyDown={handleKeyDown}
             />
-            {errors.password && <p className="mt-1 typo-regular-4 text-red-500">{errors.password.message}</p>}
+            {errors.password && <p className="mt-1 text-red-500 typo-regular-4">{errors.password.message}</p>}
           </div>
 
           <div className="mx-5 transition active:scale-95">
             <button
               type="submit"
               disabled={isPending}
-              className="flex h-11 w-full items-center justify-center rounded-lg bg-primary p-2.5 font-serif typo-medium-1 text-white disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex h-11 w-full items-center justify-center rounded-lg bg-primary p-2.5 font-serif text-white typo-medium-1 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isPending ? "로그인 중..." : "로그인"}
             </button>
@@ -121,7 +121,7 @@ const LoginContent = () => {
       </form>
 
       <div className="mt-3">
-        <div className="text-center font-serif typo-medium-1 text-k-300">or</div>
+        <div className="text-center font-serif text-k-300 typo-medium-1">or</div>
         <div className="mt-3 flex flex-col gap-3">
           <div className="mx-5 transition active:scale-95">
             <button

@@ -42,7 +42,7 @@ const ChannelSelect = ({ name = "channel", control, onChannelChange }: ChannelSe
         <div className="absolute left-0 right-0 top-full z-50 mt-1 rounded-lg border border-gray-300 bg-white shadow-lg">
           <button
             type="button"
-              className={`w-full border-b border-gray-100 px-4 py-3 text-left typo-regular-2 text-gray-500 hover:bg-gray-50 hover:text-gray-700`}
+            className={`w-full border-b border-gray-100 px-4 py-3 text-left text-gray-500 typo-regular-2 hover:bg-gray-50 hover:text-gray-700`}
             onClick={() => handleChannelChange(null)}
           >
             선택 안함
@@ -52,7 +52,7 @@ const ChannelSelect = ({ name = "channel", control, onChannelChange }: ChannelSe
               key={option}
               type="button"
               onClick={() => handleChannelChange(option)}
-              className={`w-full px-4 py-3 text-left typo-regular-2 text-k-900 hover:bg-secondary-100 hover:text-secondary ${
+              className={`w-full px-4 py-3 text-left text-k-900 typo-regular-2 hover:bg-secondary-100 hover:text-secondary ${
                 optionIndex === Object.values(ChannelType).length - 1 ? "rounded-b-lg" : "border-b border-gray-100"
               }`}
             >

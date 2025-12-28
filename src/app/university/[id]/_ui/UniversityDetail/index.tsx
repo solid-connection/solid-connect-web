@@ -35,9 +35,9 @@ const UniversityDetail = ({ university, koreanName }: UniversityDetailProps) => 
         />
         {/* TODO: totalDispatchCount 추가시 연동, 나라에 국기 추가 */}
         <div className="mb-7 mt-10 flex justify-center divide-x">
-          <span className="typo-sb-9 px-[30px] text-k-900">{}0회 파견</span>
-          <span className="typo-sb-9 px-[30px] text-k-900">{university.country}</span>
-          <span className="typo-sb-9 px-[30px] text-k-900">모집 {university.studentCapacity}명</span>
+          <span className="px-[30px] text-k-900 typo-sb-9">{}0회 파견</span>
+          <span className="px-[30px] text-k-900 typo-sb-9">{university.country}</span>
+          <span className="px-[30px] text-k-900 typo-sb-9">모집 {university.studentCapacity}명</span>
         </div>
         <LanguageSection
           detailsForLanguage={university.detailsForLanguage}
@@ -51,16 +51,16 @@ const UniversityDetail = ({ university, koreanName }: UniversityDetailProps) => 
         />
         <div className="h-1 bg-k-50" />
         <div className="my-7 px-3">
-          <div className="typo-sb-7 mb-3 text-k-900">전공상세</div>
-          <div className="typo-medium-2 break-words text-k-600">
+          <div className="mb-3 text-k-900 typo-sb-7">전공상세</div>
+          <div className="break-words text-k-600 typo-medium-2">
             <LinkifyText>{university?.detailsForMajor}</LinkifyText>
           </div>
         </div>
         <div className="h-1 bg-k-50" />
         <div className="my-7 px-3">
-          <div className="typo-sb-7 mb-3 text-k-900">영어강의 리스트</div>
+          <div className="mb-3 text-k-900 typo-sb-7">영어강의 리스트</div>
           <div>
-            <span className="typo-medium-2 break-words text-k-600">
+            <span className="break-words text-k-600 typo-medium-2">
               <LinkifyText>{university?.detailsForEnglishCourse}</LinkifyText>
             </span>
           </div>

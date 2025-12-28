@@ -56,8 +56,12 @@ const GpaCertExamplePage = () => {
         증명서 포털에서 발급되는 성적표 또는 인하대 수강신청 또는 앱에서 직전학기 성적이 명시된 스크린 샷 허용
       </div>
       <div style={{ margin: "23px 20px 0 20px" }}>
-        <span style={h1Style} className="text-gray-800">성적 증명서 발급 방법</span>
-        <span style={h3Style} className="text-gray-800">1. 인하대 포털 {">"} 학사행정</span>
+        <span style={h1Style} className="text-gray-800">
+          성적 증명서 발급 방법
+        </span>
+        <span style={h3Style} className="text-gray-800">
+          1. 인하대 포털 {">"} 학사행정
+        </span>
         <Image
           style={{ marginTop: "10px" }}
           src="/images/gpa-cert-example-1.png"
@@ -65,7 +69,9 @@ const GpaCertExamplePage = () => {
           height={76}
           alt="성적 증명서 발급 방법"
         />
-        <span style={h3Style} className="text-gray-800">2. 성적 {">"} 성적 및 석차 확인</span>
+        <span style={h3Style} className="text-gray-800">
+          2. 성적 {">"} 성적 및 석차 확인
+        </span>
         <Image
           style={{ marginTop: "10px" }}
           src="/images/gpa-cert-example-2.png"
@@ -73,7 +79,9 @@ const GpaCertExamplePage = () => {
           height={80}
           alt="성적 증명서 발급 방법"
         />
-        <span style={h3Style} className="text-gray-800">3. PDF 다운로드</span>
+        <span style={h3Style} className="text-gray-800">
+          3. PDF 다운로드
+        </span>
         <Image
           style={{ marginTop: "10px" }}
           src="/images/gpa-cert-example-3.png"
@@ -81,7 +89,9 @@ const GpaCertExamplePage = () => {
           height={68}
           alt="성적 증명서 발급 방법"
         />
-        <span style={h3Style} className="text-gray-800">4. 파일 첨부하기 버튼 {">"} 업로드 완료</span>
+        <span style={h3Style} className="text-gray-800">
+          4. 파일 첨부하기 버튼 {">"} 업로드 완료
+        </span>
         <span style={{ ...h1Style, marginTop: "48px" }}>성적 증명서 발급 방법</span>
         <Link style={aStyle} className="text-black" href="https://portal.inha.ac.kr/" target="_blank">
           인하대학교 포털시스템 (inha.ac.kr)

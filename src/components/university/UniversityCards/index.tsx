@@ -4,11 +4,11 @@ import { useRef } from "react";
 
 import clsx from "clsx";
 
-import { useVirtualizer } from "@tanstack/react-virtual";
-
 import UniversityCard from "../../ui/UniverSityCard";
 
 import { ListUniversity } from "@/types/university";
+
+import { useVirtualizer } from "@tanstack/react-virtual";
 
 type UniversityCardsProps = {
   colleges: ListUniversity[];
@@ -30,11 +30,7 @@ const UniversityCards = ({ colleges, style, className, showCapacity = true }: Un
   });
 
   return (
-    <div
-      ref={parentRef}
-      className={clsx("h-[calc(100vh-200px)] overflow-auto", className)}
-      style={style}
-    >
+    <div ref={parentRef} className={clsx("h-[calc(100vh-200px)] overflow-auto", className)} style={style}>
       <div
         style={{
           height: `${virtualizer.getTotalSize()}px`,

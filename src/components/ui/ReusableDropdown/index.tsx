@@ -47,7 +47,7 @@ const ReusableDropdown = <T extends string | number>({
                 e.stopPropagation();
                 handleSelect(item);
               }}
-              className={`h-[40px] w-full px-4 text-left typo-medium-2 text-k-700 hover:bg-primary-100 ${
+              className={`h-[40px] w-full px-4 text-left text-k-700 typo-medium-2 hover:bg-primary-100 ${
                 index === 0 ? "rounded-t-md" : ""
               } ${index === items.length - 1 ? "rounded-b-md" : ""} ${
                 selectedValue === item ? "bg-primary-100" : "bg-k-0"

@@ -2,8 +2,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 import { AxiosResponse } from "axios";
 
-import { publicAxiosInstance } from "@/utils/axiosInstance";
 import { validateSafeRedirect } from "@/utils/authUtils";
+import { publicAxiosInstance } from "@/utils/axiosInstance";
 
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { toast } from "@/lib/zustand/useToastStore";

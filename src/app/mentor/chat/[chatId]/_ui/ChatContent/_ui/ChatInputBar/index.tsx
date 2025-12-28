@@ -96,7 +96,7 @@ const ChatInputBar = ({ onSendMessage, onSendImages, onSendFiles }: ChatInputBar
                 <button
                   type="button"
                   onClick={() => setSelectedImages((prev) => prev.filter((_, i) => i !== index))}
-                  className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 typo-regular-4 text-white hover:bg-red-600"
+                  className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-white typo-regular-4 hover:bg-red-600"
                 >
                   ✕
                 </button>
@@ -109,12 +109,12 @@ const ChatInputBar = ({ onSendMessage, onSendImages, onSendFiles }: ChatInputBar
                   onClick={() => downloadLocalFile(file)}
                   className="flex h-16 w-16 items-center justify-center rounded-lg bg-blue-200 transition-colors"
                 >
-                  <span className="typo-regular-4 text-blue-600">📁 {file.name.slice(0, 8)}...</span>
+                  <span className="text-blue-600 typo-regular-4">📁 {file.name.slice(0, 8)}...</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => setSelectedFiles((prev) => prev.filter((_, i) => i !== index))}
-                  className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 typo-regular-4 text-white"
+                  className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-white typo-regular-4"
                 >
                   ✕
                 </button>
@@ -147,7 +147,7 @@ const ChatInputBar = ({ onSendMessage, onSendImages, onSendFiles }: ChatInputBar
             <span className="h-4 w-4">
               {isAttachmentOptionsOpen ? (
                 // X 아이콘 (임시로 텍스트 사용)
-                <div className="flex h-full w-full items-center justify-center typo-bold-6 text-k-600">
+                <div className="flex h-full w-full items-center justify-center text-k-600 typo-bold-6">
                   <IconXWhite />
                 </div>
               ) : (
@@ -171,7 +171,7 @@ const ChatInputBar = ({ onSendMessage, onSendImages, onSendFiles }: ChatInputBar
               type="text"
               disabled={hasAttachments}
               className={clsx(
-                "flex-1 rounded-2xl py-2 pl-3 pr-2 typo-regular-2 text-k-800 outline-none transition-colors placeholder:text-k-500",
+                "flex-1 rounded-2xl py-2 pl-3 pr-2 text-k-800 outline-none transition-colors typo-regular-2 placeholder:text-k-500",
                 hasAttachments
                   ? "cursor-not-allowed bg-k-50 text-k-400"
                   : isMessageEmpty && !isAttachmentOptionsOpen
@@ -212,7 +212,7 @@ const ChatInputBar = ({ onSendMessage, onSendImages, onSendFiles }: ChatInputBar
               <div className="typo-regular-2">
                 <IconAlbum />
               </div>
-              <span className="typo-medium-5 text-k-700">앨범</span>
+              <span className="text-k-700 typo-medium-5">앨범</span>
             </button>
 
             {/* 파일 버튼 */}
@@ -224,7 +224,7 @@ const ChatInputBar = ({ onSendMessage, onSendImages, onSendFiles }: ChatInputBar
               <div className="typo-regular-2">
                 <IconFile />
               </div>
-              <span className="typo-medium-5 text-k-700">파일</span>
+              <span className="text-k-700 typo-medium-5">파일</span>
             </button>
           </div>
         </div>

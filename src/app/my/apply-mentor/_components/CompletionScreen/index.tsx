@@ -20,10 +20,10 @@ const CompletionScreen = () => {
         </div>
 
         {/* 타이틀 */}
-        <h1 className="mb-4 text-center typo-bold-1 text-primary">증명서 첨부 완료</h1>
+        <h1 className="mb-4 text-center text-primary typo-bold-1">증명서 첨부 완료</h1>
 
         {/* 설명 */}
-        <p className="mb-12 text-center typo-regular-2 text-k-600">
+        <p className="mb-12 text-center text-k-600 typo-regular-2">
           승인은 최대 7일이 소요되며
           <br />
           마이페이지에서 확인할 수 있습니다.
