@@ -10,6 +10,7 @@ dist
 # Generated files
 *.min.js
 *.min.css
+next-env.d.ts
 
 # Lock files
 package-lock.json
@@ -25,3 +26,13 @@ coverage
 
 # Sentry
 .sentryclirc
+
+# Vercel
+.vercel
+
+# Environment
+.env*
+
+# IDE
+.idea
+.vscode
