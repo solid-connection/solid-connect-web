@@ -42,12 +42,14 @@ const CommunityPage = async ({ params }: CommunityPageProps) => {
   // 서버에서 데이터 prefetch (ISR - 수동 revalidate만)
   const result = await getPostListServer({ boardCode, category: defaultCategory, revalidate: false });
 
-  if (result.ok) {
-    // React Query 캐시에 데이터 설정 (서버 fetch와 동일한 category 사용)
-    queryClient.setQueryData([CommunityQueryKeys.postList, boardCode, defaultCategory], {
-      data: result.data,
-    });
+  if (!result.ok) {
+    throw new Error(`Failed to fetch posts for board: ${boardCode}`);
   }
+
+  // React Query 캐시에 데이터 설정 (서버 fetch와 동일한 category 사용)
+  queryClient.setQueryData([CommunityQueryKeys.postList, boardCode, defaultCategory], {
+    data: result.data,
+  });
 
   return (
     <div className="w-full">
