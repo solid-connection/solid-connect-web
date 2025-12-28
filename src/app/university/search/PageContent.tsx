@@ -134,7 +134,8 @@ const SchoolSearchForm = () => {
         />
 
         {countrySelectsToRender.map((index) => {
-          const name: "country1" | "country2" | "country3" = index === 1 ? "country1" : index === 2 ? "country2" : "country3";
+          const name: "country1" | "country2" | "country3" =
+            index === 1 ? "country1" : index === 2 ? "country2" : "country3";
           return (
             <Controller
               key={name}
