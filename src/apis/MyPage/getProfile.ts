@@ -33,7 +33,7 @@ const useGetMyInfo = (): UseGetMyInfoResult => {
 
   const displayData = isOptimistic && queryResult.data ? { ...queryResult.data, ...pendingData } : queryResult.data;
 
-  return { ...queryResult, data: displayData };
+  return { ...queryResult, data: displayData as MyInfoResponse | undefined };
 };
 
 export default useGetMyInfo;

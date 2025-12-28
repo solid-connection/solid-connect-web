@@ -9,7 +9,7 @@ import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
 import { UserRole } from "@/types/mentor";
 
 import { useDeleteUserAccount, usePostLogout } from "@/apis/Auth";
-import { useGetMyInfo } from "@/apis/MyPage";
+import { MyInfoResponse, useGetMyInfo } from "@/apis/MyPage";
 import { toast } from "@/lib/zustand/useToastStore";
 import { IconLikeFill } from "@/public/svgs/mentor";
 import {
@@ -25,7 +25,7 @@ import {
 const NEXT_PUBLIC_CONTACT_LINK = process.env.NEXT_PUBLIC_CONTACT_LINK;
 
 const MyProfileContent = () => {
-  const { data: profileData = {} } = useGetMyInfo();
+  const { data: profileData = {} as MyInfoResponse } = useGetMyInfo();
   const { mutate: deleteUserAccount } = useDeleteUserAccount();
   const { mutate: postLogout } = usePostLogout();
 

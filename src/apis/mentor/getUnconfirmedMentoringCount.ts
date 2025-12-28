@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 
-import { MentorQueryKeys, mentorApi } from "./api";
+import { GetMentoringNewCountResponse, MentorQueryKeys, mentorApi } from "./api";
 
 import { useQuery } from "@tanstack/react-query";
 
@@ -8,7 +8,7 @@ import { useQuery } from "@tanstack/react-query";
  * @description 미확인 멘토링 수 조회 훅
  */
 const useGetMentoringUncheckedCount = (isEnable: boolean) => {
-  return useQuery<number, AxiosError>({
+  return useQuery<GetMentoringNewCountResponse, AxiosError, number>({
     queryKey: [MentorQueryKeys.mentoringNewCount],
     queryFn: mentorApi.getMentoringUncheckedCount,
     enabled: isEnable,

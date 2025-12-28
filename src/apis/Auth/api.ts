@@ -82,7 +82,7 @@ export interface SignUpRequest {
   signUpToken: string;
   nickname: string;
   profileImageUrl: string;
-  preparationStage: string;
+  preparationStatus: string;
   interestedRegions: string[];
   interestedCountries: string[];
 }

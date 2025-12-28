@@ -7,11 +7,11 @@ import MentorChatCard from "@/components/mentor/MentorChatCard";
 
 import { UserRole } from "@/types/mentor";
 
-import { useGetMyInfo } from "@/apis/MyPage";
+import { MyInfoResponse, useGetMyInfo } from "@/apis/MyPage";
 import { useGetChatRooms } from "@/apis/chat";
 
 const MatchContent = () => {
-  const { data: myInfo = {} } = useGetMyInfo();
+  const { data: myInfo = {} as MyInfoResponse } = useGetMyInfo();
   const { data: chatRoom = [] } = useGetChatRooms();
 
   const isAdmin = myInfo.role === UserRole.ADMIN;

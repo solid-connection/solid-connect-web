@@ -39,10 +39,10 @@ export interface BoardResponseItem {
 }
 
 export interface BoardResponse {
-  0: BoardResponse0;
-  1: BoardResponse1;
-  2: BoardResponse2;
-  3: BoardResponse3;
+  0: BoardResponseItem[];
+  1: BoardResponseItem[];
+  2: BoardResponseItem[];
+  3: BoardResponseItem[];
 }
 
 // Delete response types

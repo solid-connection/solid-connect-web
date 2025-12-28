@@ -8,6 +8,8 @@ export type BlockUserResponse = void;
 
 export type BlockUserRequest = Record<string, never>;
 
+export type UnblockUserRequest = Record<string, never>;
+
 export type UnblockUserResponse = void;
 
 export interface BlockedUsersResponseContentItem {

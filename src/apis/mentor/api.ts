@@ -40,6 +40,12 @@ export interface MentorListResponse {
   content: MentorCardDetail[];
 }
 
+export interface MatchedMentorsResponse {
+  content: MentorCardDetail[];
+  nextPageNumber: number;
+  totalElements: number;
+}
+
 export interface PatchApprovalStatusRequest {
   status: MentoringApprovalStatus;
   mentoringId: number;
@@ -170,6 +176,19 @@ export const mentorApi = {
 
   getMentorDetail: async (mentorId: number): Promise<MentorCardDetail> => {
     const res = await axiosInstance.get<MentorCardDetail>(`/mentors/${mentorId}`);
+    return res.data;
+  },
+
+  getMatchedMentors: async (params: {
+    defaultSize: string | number;
+    defaultPage: string | number;
+    params?: Record<string, any>;
+  }): Promise<MatchedMentorsResponse> => {
+    const { defaultSize, defaultPage, params: queryParams } = params;
+    const res = await axiosInstance.get<MatchedMentorsResponse>(
+      `/mentors/matched?size=${defaultSize}&page=${defaultPage}`,
+      { params: queryParams },
+    );
     return res.data;
   },
 };

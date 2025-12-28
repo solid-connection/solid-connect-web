@@ -31,7 +31,7 @@ export const getPostListServer = async ({
   return serverFetch<ListPost[]>(url, {
     method: "GET",
     next: {
-      revalidate,
+      ...(revalidate !== false && { revalidate }),
       tags: [`posts-${boardCode}`],
     },
   });

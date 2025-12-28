@@ -39,8 +39,8 @@ export interface WishListResponseItemLanguageRequirementsItem {
 }
 
 export interface WishListResponse {
-  0: WishListResponse0;
-  1: WishListResponse1;
+  0: WishListResponseItem[];
+  1: WishListResponseItem[];
 }
 
 export type WishResponse = void;
