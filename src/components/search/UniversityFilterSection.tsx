@@ -8,6 +8,7 @@ import UniversityRegionTabs from "@/components/search/UniversityRegionTabs";
 import UniversitySearchInput from "@/components/search/UniversitySearchInput";
 
 import { RegionKo, RegionOption } from "@/types/university";
+
 import { IconDownArrow, IconHatColor, IconHatGray, IconLocationColor, IconLocationGray } from "@/public/svgs/search";
 
 interface UniversityFilterSectionProps {
