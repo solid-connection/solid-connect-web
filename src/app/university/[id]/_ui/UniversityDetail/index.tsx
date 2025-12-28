@@ -4,11 +4,11 @@ import { convertImageUrl } from "@/utils/fileUtils";
 
 import LinkifyText from "@/components/ui/LinkifyText";
 
-import InfoSection from "../InfoSection";
-import LanguageSection from "../LanguageSection";
-import MapSection from "../MapSection";
-import TitleSection from "../TitleSection";
-import UniversityBtns from "../UniversityBtns";
+import InfoSection from "./_ui/InfoSection";
+import LanguageSection from "./_ui/LanguageSection";
+import MapSection from "./_ui/MapSection";
+import TitleSection from "./_ui/TitleSection";
+import UniversityBtns from "./_ui/UniversityBtns";
 
 import { University } from "@/types/university";
 

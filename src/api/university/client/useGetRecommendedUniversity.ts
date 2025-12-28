@@ -4,7 +4,7 @@ import { QueryKeys } from "./queryKey";
 
 import { ListUniversity } from "@/types/university";
 
-import { getAccessTokenWithReissue } from "@/lib/zustand/useAuthStore";
+import useAuthStore from "@/lib/zustand/useAuthStore";
 import { useQuery } from "@tanstack/react-query";
 
 type UseGetRecommendedUniversityResponse = { recommendedUniversities: ListUniversity[] };
@@ -15,11 +15,8 @@ type UseGetRecommendedUniversityRequest = {
 const getRecommendedUniversity = async (isLogin: boolean): Promise<UseGetRecommendedUniversityResponse> => {
   const endpoint = "/univ-apply-infos/recommend";
 
-  let instance = publicAxiosInstance;
-  if (isLogin) {
-    const isLoginState = await getAccessTokenWithReissue();
-    instance = isLoginState ? axiosInstance : publicAxiosInstance;
-  }
+  const accessToken = useAuthStore.getState().accessToken;
+  const instance = isLogin && accessToken ? axiosInstance : publicAxiosInstance;
   const res = await instance.get<UseGetRecommendedUniversityResponse>(endpoint);
   return res.data;
 };
