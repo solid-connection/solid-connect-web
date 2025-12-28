@@ -76,7 +76,7 @@ export const appleLogin = async () => {
   });
 
   try {
-    const res: appleOAuth2CodeResponse = await window.AppleID.auth.signIn();
+    const res = (await window.AppleID.auth.signIn()) as appleOAuth2CodeResponse;
     if (res.authorization) {
       // 검증된 redirect 파라미터를 callback URL에 전달
       let callbackUrl = `/login/apple/callback?code=${encodeURIComponent(res.authorization.code)}`;

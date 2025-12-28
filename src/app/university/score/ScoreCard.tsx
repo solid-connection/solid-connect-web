@@ -37,7 +37,7 @@ const getStatus = (status: ScoreSubmitStatus, rejectedReason?: string | null) =>
       return (
         <div
           className="flex h-5 cursor-pointer items-center gap-0.5 rounded-[20px] bg-accent-custom-red-light p-2.5"
-          onClick={() => toast.error(rejectedReason)}
+          onClick={() => toast.error(rejectedReason ?? "승인이 거절되었습니다.")}
         >
           <span className="font-serif text-accent-custom-red typo-bold-7">승인 거절</span>
           <div className="flex h-3 w-[11px] items-center justify-center rounded-[10px] bg-white font-serif text-accent-custom-red typo-medium-5">

@@ -106,7 +106,7 @@ const SchoolSearchForm = () => {
           control={control}
           render={({ field }) => (
             <CustomDropdown
-              value={field.value}
+              value={field.value ?? ""}
               onChange={field.onChange}
               placeholder="어학"
               placeholderSelect="선택"
@@ -134,7 +134,7 @@ const SchoolSearchForm = () => {
         />
 
         {countrySelectsToRender.map((index) => {
-          const name = `country${index}` as const;
+          const name: "country1" | "country2" | "country3" = index === 1 ? "country1" : index === 2 ? "country2" : "country3";
           return (
             <Controller
               key={name}
@@ -152,7 +152,7 @@ const SchoolSearchForm = () => {
                     </svg>
                   }
                   placeholderSelect="나라"
-                  value={field.value}
+                  value={field.value ?? ""}
                   onChange={(value) => {
                     field.onChange(value);
                     if (!value) {

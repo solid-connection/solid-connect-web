@@ -32,7 +32,7 @@ export const getPostList = async ({
   return serverFetch<ListPost[]>(url, {
     method: "GET",
     next: {
-      revalidate,
+      revalidate: revalidate === false ? undefined : revalidate,
       tags: [`posts-${boardCode}`], // 태그 기반 revalidation 지원 (글 작성 시만 revalidate)
     },
   });

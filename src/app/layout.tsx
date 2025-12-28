@@ -38,7 +38,18 @@ const AppleScriptLoader = dynamic(() => import("@/lib/ScriptLoader/AppleScriptLo
 
 declare global {
   interface Window {
-    Kakao: unknown;
+    Kakao: {
+      init: (key: string) => void;
+      Auth: {
+        authorize: (options: { redirectUri: string }) => void;
+      };
+    };
+    AppleID: {
+      auth: {
+        init: (config: object) => void;
+        signIn: () => Promise<unknown>;
+      };
+    };
   }
 }
 
