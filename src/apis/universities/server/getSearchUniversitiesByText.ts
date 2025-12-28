@@ -13,11 +13,17 @@ export const getUniversitiesByText = async (value: string): Promise<ListUniversi
   }
   const endpoint = `/univ-apply-infos/search/text?value=${encodeURIComponent(value)}`;
   const response = await serverFetch<UniversitySearchResponse>(endpoint);
-  return response.ok ? response.data.univApplyInfoPreviews : [];
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch universities by text: ${response.error}`);
+  }
+
+  return response.data.univApplyInfoPreviews;
 };
 
 export const getAllUniversities = async (): Promise<ListUniversity[]> => {
-  return getUniversitiesByText("");
+  const universities = await getUniversitiesByText("");
+  return universities;
 };
 
 export const getCategorizedUniversities = async (): Promise<AllRegionsUniversityList> => {
