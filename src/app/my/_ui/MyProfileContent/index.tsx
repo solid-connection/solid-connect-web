@@ -8,9 +8,8 @@ import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
 
 import { UserRole } from "@/types/mentor";
 
-import useDeleteUserAccount from "@/api/auth/client/useDeleteUserAccount";
-import usePostLogout from "@/api/auth/client/usePostLogout";
-import useGetMyInfo from "@/api/my/client/useGetMyInfo";
+import { useGetMyInfo } from "@/apis/MyPage";
+import { useDeleteUserAccount, usePostLogout } from "@/apis/Auth";
 import { toast } from "@/lib/zustand/useToastStore";
 import { IconLikeFill } from "@/public/svgs/mentor";
 import {

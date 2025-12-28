@@ -2,7 +2,7 @@
 
 import React, { useEffect } from "react";
 
-import postReissueToken from "@/api/auth/server/postReissueToken";
+import { postReissueToken } from "@/apis/Auth";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 
 interface ReissueProviderProps {

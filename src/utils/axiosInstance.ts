@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosInstance } from "axios";
 
-import postReissueToken from "@/api/auth/server/postReissueToken";
+import { postReissueToken } from "@/apis/Auth";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { toast } from "@/lib/zustand/useToastStore";
 

@@ -1,5 +1,5 @@
-export { myPageApi } from './api';
-export { default as getProfile } from './getProfile';
-export { default as patchInterestedRegionCountry } from './patchInterestedRegionCountry';
-export { default as patchPassword } from './patchPassword';
-export { default as patchProfile } from './patchProfile';
+export { myPageApi, type MyInfoResponse, type MenteeInfo, type MentorInfo, type AdminInfo, type ProfilePatchRequest, type PasswordPatchRequest } from './api';
+export { default as useGetMyInfo } from './getProfile';
+export { default as usePatchMyInfo } from './patchProfile';
+export { default as usePatchMyPassword } from './patchPassword';
+export { default as usePatchInterestedRegionCountry } from './patchInterestedRegionCountry';

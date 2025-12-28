@@ -11,7 +11,7 @@ import { appleLogin, kakaoLogin } from "@/utils/authUtils";
 
 import useInputHandler from "./_hooks/useInputHandler";
 
-import usePostEmailAuth from "@/api/auth/client/usePostEmailAuth";
+import { usePostEmailAuth } from "@/apis/Auth";
 import { toast } from "@/lib/zustand/useToastStore";
 import { IconSolidConnectionFullBlackLogo } from "@/public/svgs";
 import { IconAppleLogo, IconEmailIcon, IconKakaoLogo } from "@/public/svgs/auth";

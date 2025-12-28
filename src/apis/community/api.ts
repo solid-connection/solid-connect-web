@@ -1,4 +1,19 @@
+import { AxiosResponse } from "axios";
 import { axiosInstance } from "@/utils/axiosInstance";
+import { 
+  Post, 
+  PostCreateRequest, 
+  PostIdResponse, 
+  PostUpdateRequest, 
+  PostLikeResponse,
+  CommentCreateRequest,
+  CommentIdResponse
+} from "@/types/community";
+
+// QueryKeys for community domain
+export const CommunityQueryKeys = {
+  posts: "posts",
+} as const;
 
 export interface BoardListResponse {
   0: string;
@@ -26,172 +41,107 @@ export interface BoardResponse {
   3: BoardResponse3;
 }
 
-export interface CommentResponse {
-  id: number;
+// Delete response types
+export interface DeletePostResponse {
+  message: string;
+  postId: number;
 }
 
-export interface UpdateCommentResponse {
-  id: number;
-}
-
-export type UpdateCommentRequest = Record<string, never>;
-
-export interface CreateCommentResponse {
-  id: number;
-}
-
-export type CreateCommentRequest = Record<string, never>;
-
-export interface PostResponse {
-  id: number;
-}
-
-export interface UpdatePostResponse {
-  id: number;
-}
-
-export type UpdatePostRequest = Record<string, never>;
-
-export interface CreatePostResponse {
-  id: number;
-}
-
-export type CreatePostRequest = Record<string, never>;
-
-export interface PostDetailResponsePostFindPostImageResponsesItem {
-  id: number;
-  imageUrl: string;
-}
-
-export interface PostDetailResponsePostFindCommentResponsesItem {
-  id: number;
-  parentId: null | number;
-  content: string;
-  isOwner: boolean;
-  createdAt: string;
-  updatedAt: string;
-  postFindSiteUserResponse: PostDetailResponsePostFindCommentResponsesItemPostFindSiteUserResponse;
-}
-
-export interface PostDetailResponsePostFindCommentResponsesItemPostFindSiteUserResponse {
-  id: number;
-  nickname: string;
-  profileImageUrl: string;
-}
-
-export interface PostDetailResponsePostFindSiteUserResponse {
-  id: number;
-  nickname: string;
-  profileImageUrl: string;
-}
-
-export interface PostDetailResponsePostFindBoardResponse {
-  code: string;
-  koreanName: string;
-}
-
-export interface PostDetailResponse {
-  id: number;
-  title: string;
-  content: string;
-  isQuestion: boolean;
-  likeCount: number;
-  viewCount: number;
-  commentCount: number;
-  postCategory: string;
-  isOwner: boolean;
-  isLiked: boolean;
-  createdAt: string;
-  updatedAt: string;
-  postFindBoardResponse: PostDetailResponsePostFindBoardResponse;
-  postFindSiteUserResponse: PostDetailResponsePostFindSiteUserResponse;
-  postFindCommentResponses: PostDetailResponsePostFindCommentResponsesItem[];
-  postFindPostImageResponses: PostDetailResponsePostFindPostImageResponsesItem[];
-}
-
-export interface LikePostResponse {
-  likeCount: number;
-  isLiked: boolean;
-}
-
-export type LikePostRequest = Record<string, never>;
+// Re-export types from @/types/community for convenience
+export type { 
+  Post, 
+  PostCreateRequest, 
+  PostIdResponse, 
+  PostUpdateRequest, 
+  PostLikeResponse,
+  CommentCreateRequest,
+  CommentIdResponse
+};
 
 export const communityApi = {
-  getBoardList: async (params: { params?: Record<string, any> }): Promise<BoardListResponse> => {
+  getBoardList: async (params?: Record<string, any>): Promise<BoardListResponse> => {
     const res = await axiosInstance.get<BoardListResponse>(
-      `/boards`, { params: params?.params }
+      `/boards`, { params }
     );
     return res.data;
   },
 
-  getBoard: async (params: { boardCode: string | number, params?: Record<string, any> }): Promise<BoardResponse> => {
+  getBoard: async (boardCode: string, params?: Record<string, any>): Promise<BoardResponse> => {
     const res = await axiosInstance.get<BoardResponse>(
-      `/boards/${params.boardCode}`, { params: params?.params }
+      `/boards/${boardCode}`, { params }
     );
     return res.data;
   },
 
-  deleteComment: async (params: { commentId: string | number }): Promise<CommentResponse> => {
-    const res = await axiosInstance.delete<CommentResponse>(
-      `/comments/${params.commentId}`
+  getPostDetail: async (postId: number): Promise<Post> => {
+    const response: AxiosResponse<Post> = await axiosInstance.get(`/posts/${postId}`);
+    return response.data;
+  },
+
+  createPost: async (request: PostCreateRequest): Promise<PostIdResponse & { boardCode: string }> => {
+    const convertedRequest: FormData = new FormData();
+    convertedRequest.append(
+      "postCreateRequest",
+      new Blob([JSON.stringify(request.postCreateRequest)], { type: "application/json" })
+    );
+    request.file.forEach((file) => {
+      convertedRequest.append("file", file);
+    });
+
+    const response: AxiosResponse<PostIdResponse> = await axiosInstance.post(`/posts`, convertedRequest, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    
+    return {
+      ...response.data,
+      boardCode: request.postCreateRequest.boardCode,
+    };
+  },
+
+  updatePost: async (postId: number, request: PostUpdateRequest): Promise<PostIdResponse> => {
+    const convertedRequest: FormData = new FormData();
+    convertedRequest.append(
+      "postUpdateRequest",
+      new Blob([JSON.stringify(request.postUpdateRequest)], { type: "application/json" }),
+    );
+    request.file.forEach((file) => {
+      convertedRequest.append("file", file);
+    });
+
+    const response: AxiosResponse<PostIdResponse> = await axiosInstance.patch(`/posts/${postId}`, convertedRequest, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    return response.data;
+  },
+
+  deletePost: async (postId: number): Promise<AxiosResponse<DeletePostResponse>> => {
+    return axiosInstance.delete(`/posts/${postId}`);
+  },
+
+  likePost: async (postId: number): Promise<PostLikeResponse> => {
+    const response: AxiosResponse<PostLikeResponse> = await axiosInstance.post(`/posts/${postId}/like`);
+    return response.data;
+  },
+
+  unlikePost: async (postId: number): Promise<PostLikeResponse> => {
+    const response: AxiosResponse<PostLikeResponse> = await axiosInstance.delete(`/posts/${postId}/like`);
+    return response.data;
+  },
+
+  createComment: async (request: CommentCreateRequest): Promise<CommentIdResponse> => {
+    const response: AxiosResponse<CommentIdResponse> = await axiosInstance.post(`/comments`, request);
+    return response.data;
+  },
+
+  deleteComment: async (commentId: number): Promise<CommentIdResponse> => {
+    const response: AxiosResponse<CommentIdResponse> = await axiosInstance.delete(`/comments/${commentId}`);
+    return response.data;
+  },
+
+  updateComment: async (commentId: number, data: { content: string }): Promise<CommentIdResponse> => {
+    const res = await axiosInstance.patch<CommentIdResponse>(
+      `/comments/${commentId}`, data
     );
     return res.data;
   },
-
-  patchUpdateComment: async (params: { commentId: string | number, data?: UpdateCommentRequest }): Promise<UpdateCommentResponse> => {
-    const res = await axiosInstance.patch<UpdateCommentResponse>(
-      `/comments/${params.commentId}`, params?.data
-    );
-    return res.data;
-  },
-
-  postCreateComment: async (params: { data?: CreateCommentRequest }): Promise<CreateCommentResponse> => {
-    const res = await axiosInstance.post<CreateCommentResponse>(
-      `/comments`, params?.data
-    );
-    return res.data;
-  },
-
-  deletePost: async (params: { postId: string | number }): Promise<PostResponse> => {
-    const res = await axiosInstance.delete<PostResponse>(
-      `/posts/${params.postId}`
-    );
-    return res.data;
-  },
-
-  patchUpdatePost: async (params: { postId: string | number, data?: UpdatePostRequest }): Promise<UpdatePostResponse> => {
-    const res = await axiosInstance.patch<UpdatePostResponse>(
-      `/posts/${params.postId}`, params?.data
-    );
-    return res.data;
-  },
-
-  postCreatePost: async (params: { data?: CreatePostRequest }): Promise<CreatePostResponse> => {
-    const res = await axiosInstance.post<CreatePostResponse>(
-      `/posts`, params?.data
-    );
-    return res.data;
-  },
-
-  getPostDetail: async (params: { postId: string | number, params?: Record<string, any> }): Promise<PostDetailResponse> => {
-    const res = await axiosInstance.get<PostDetailResponse>(
-      `/posts/${params.postId}`, { params: params?.params }
-    );
-    return res.data;
-  },
-
-  postLikePost: async (params: { postId: string | number, data?: LikePostRequest }): Promise<LikePostResponse> => {
-    const res = await axiosInstance.post<LikePostResponse>(
-      `/posts/${params.postId}/like`, params?.data
-    );
-    return res.data;
-  },
-
-  deleteLikePost: async (params: { postId: string | number }): Promise<LikePostResponse> => {
-    const res = await axiosInstance.delete<LikePostResponse>(
-      `/posts/${params.postId}/like`
-    );
-    return res.data;
-  },
-
 };

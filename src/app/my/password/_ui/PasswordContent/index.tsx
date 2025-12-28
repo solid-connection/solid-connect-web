@@ -8,7 +8,7 @@ import { z } from "zod";
 
 import PasswordInput from "./_ui/PasswordInput";
 
-import usePatchMyPassword from "@/api/my/client/usePatchMyPassword";
+import { usePatchMyPassword } from "@/apis/MyPage";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 export const changePasswordSchema = z

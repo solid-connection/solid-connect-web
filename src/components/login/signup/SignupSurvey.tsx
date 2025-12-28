@@ -13,7 +13,7 @@ import SignupRegionScreen from "./SignupRegionScreen";
 import { PreparationStatus, SignUpRequest } from "@/types/auth";
 import { RegionKo } from "@/types/university";
 
-import usePostSignUp from "@/api/auth/client/usePostSignUp";
+import { usePostSignUp } from "@/apis/Auth";
 import useUploadProfileImagePublic from "@/api/file/client/useUploadProfileImagePublic";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { toast } from "@/lib/zustand/useToastStore";

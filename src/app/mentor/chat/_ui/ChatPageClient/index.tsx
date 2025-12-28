@@ -9,7 +9,7 @@ import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
 import { UserRole } from "@/types/mentor";
 
 import useGetChatRooms from "@/api/chat/clients/useGetChatRooms";
-import useGetMyInfo from "@/api/my/client/useGetMyInfo";
+import { useGetMyInfo } from "@/apis/MyPage";
 import { IconSearchBlue, IconSolidConnentionLogo } from "@/public/svgs/mentor";
 
 const ChatPageClient = () => {

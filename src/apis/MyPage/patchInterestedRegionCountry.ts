@@ -4,7 +4,7 @@ import { myPageApi, InterestedRegionCountryResponse, InterestedRegionCountryRequ
 
 const usePatchInterestedRegionCountry = () => {
   return useMutation<InterestedRegionCountryResponse, AxiosError, InterestedRegionCountryRequest>({
-    mutationFn: (data) => myPageApi.patchInterestedRegionCountry({ data }),
+    mutationFn: (data) => myPageApi.patchInterestedRegionCountry(data),
   });
 };
 
