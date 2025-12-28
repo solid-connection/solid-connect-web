@@ -2,7 +2,7 @@ import { useCallback } from "react";
 
 import { ArticleDropdownType } from "@/types/news";
 
-import useDeleteArticle from "@/api/news/client/useDeleteArticle";
+import { useDeleteArticle } from "@/apis/news";
 
 interface UseDeleteDropDownHandlerProps {
   articleId: number;

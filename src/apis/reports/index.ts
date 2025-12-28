@@ -1,2 +1,3 @@
 export { reportsApi } from './api';
-export { default as postReport } from './postReport';
+export type { UsePostReportsRequest } from './api';
+export { default as usePostReports } from './postReport';

@@ -9,8 +9,7 @@ import LinkifyText from "@/components/ui/LinkifyText";
 
 import { PostImage as PostImageType, Post as PostType } from "@/types/community";
 
-import useDeleteLike from "@/api/community/client/useDeleteLike";
-import usePostLike from "@/api/community/client/usePostLike";
+import { useDeleteLike, usePostLike } from "@/apis/community";
 import { IconCloseFilled, IconPostLikeFilled, IconPostLikeOutline } from "@/public/svgs";
 import { IconCommunication } from "@/public/svgs/community";
 

@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 
-import useCreatePost from "@/api/community/client/useCreatePost";
+import { useCreatePost } from "@/apis/community";
 import { IconImage, IconPostCheckboxFilled, IconPostCheckboxOutlined } from "@/public/svgs";
 
 type PostFormProps = {

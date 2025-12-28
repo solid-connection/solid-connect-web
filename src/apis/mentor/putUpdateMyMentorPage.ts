@@ -1,11 +1,22 @@
 import { AxiosError } from "axios";
-import { useMutation } from "@tanstack/react-query";
-import { mentorApi, UpdateMyMentorPageResponse, UpdateMyMentorPageRequest } from "./api";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { mentorApi, MentorQueryKeys, PutMyMentorProfileRequest } from "./api";
 
-const usePutUpdateMyMentorPage = () => {
-  return useMutation<UpdateMyMentorPageResponse, AxiosError, UpdateMyMentorPageRequest>({
-    mutationFn: (data) => mentorApi.putUpdateMyMentorPage({ data }),
+/**
+ * @description 내 멘토 프로필 수정 훅
+ */
+const usePutMyMentorProfile = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation<void, AxiosError, PutMyMentorProfileRequest>({
+    mutationFn: mentorApi.putMyMentorProfile,
+    onSuccess: () => {
+      // 멘토 프로필 데이터를 stale로 만들어 다음 요청 시 새로운 데이터를 가져오도록 함
+      queryClient.invalidateQueries({
+        queryKey: [MentorQueryKeys.myMentorProfile],
+      });
+    },
   });
 };
 
-export default usePutUpdateMyMentorPage;
+export default usePutMyMentorProfile;

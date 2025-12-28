@@ -1,34 +1,28 @@
-import { axiosInstance } from "@/utils/axiosInstance";
+import { AxiosResponse } from "axios";
+import { axiosInstance, publicAxiosInstance } from "@/utils/axiosInstance";
+import { FileResponse } from "@/types/file";
 
+// ====== Types ======
 export type SlackNotificationResponse = void;
-
 export type SlackNotificationRequest = Record<string, never>;
 
 export interface UploadLanguageTestReportResponse {
   fileUrl: string;
 }
 
-export type UploadLanguageTestReportRequest = Record<string, never>;
-
 export interface UploadProfileImageResponse {
   fileUrl: string;
 }
-
-export type UploadProfileImageRequest = Record<string, never>;
-
-export interface UploadProfileImageBeforeSignupResponse {
-  fileUrl: string;
-}
-
-export type UploadProfileImageBeforeSignupRequest = Record<string, never>;
 
 export interface UploadGpaReportResponse {
   fileUrl: string;
 }
 
-export type UploadGpaReportRequest = Record<string, never>;
-
+// ====== API Functions ======
 export const imageUploadApi = {
+  /**
+   * 슬랙 알림 전송
+   */
   postSlackNotification: async (params: { data?: SlackNotificationRequest }): Promise<SlackNotificationResponse> => {
     const res = await axiosInstance.post<SlackNotificationResponse>(
       `https://hooks.slack.com/services/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`, params?.data
@@ -36,32 +30,51 @@ export const imageUploadApi = {
     return res.data;
   },
 
-  postUploadLanguageTestReport: async (params: { data?: UploadLanguageTestReportRequest }): Promise<UploadLanguageTestReportResponse> => {
+  /**
+   * 어학 성적 증명서 업로드
+   */
+  postUploadLanguageTestReport: async (file: File): Promise<UploadLanguageTestReportResponse> => {
+    const formData = new FormData();
+    formData.append("file", file);
     const res = await axiosInstance.post<UploadLanguageTestReportResponse>(
-      `/file/language-test`, params?.data
+      `/file/language-test`, formData, { headers: { "Content-Type": "multipart/form-data" } }
     );
     return res.data;
   },
 
-  postUploadProfileImage: async (params: { data?: UploadProfileImageRequest }): Promise<UploadProfileImageResponse> => {
+  /**
+   * 프로필 이미지 업로드 (로그인 후)
+   */
+  postUploadProfileImage: async (file: File): Promise<UploadProfileImageResponse> => {
+    const formData = new FormData();
+    formData.append("file", file);
     const res = await axiosInstance.post<UploadProfileImageResponse>(
-      `/file/profile/post`, params?.data
+      `/file/profile/post`, formData, { headers: { "Content-Type": "multipart/form-data" } }
     );
     return res.data;
   },
 
-  postUploadProfileImageBeforeSignup: async (params: { data?: UploadProfileImageBeforeSignupRequest }): Promise<UploadProfileImageBeforeSignupResponse> => {
-    const res = await axiosInstance.post<UploadProfileImageBeforeSignupResponse>(
-      `/file/profile/pre`, params?.data
+  /**
+   * 프로필 이미지 업로드 (회원가입 전, 공개 API)
+   */
+  postUploadProfileImageBeforeSignup: async (file: File): Promise<FileResponse> => {
+    const formData = new FormData();
+    formData.append("file", file);
+    const response: AxiosResponse<FileResponse> = await publicAxiosInstance.post(
+      "/file/profile/pre", formData, { headers: { "Content-Type": "multipart/form-data" } }
     );
-    return res.data;
+    return response.data;
   },
 
-  postUploadGpaReport: async (params: { data?: UploadGpaReportRequest }): Promise<UploadGpaReportResponse> => {
+  /**
+   * 학점 증명서 업로드
+   */
+  postUploadGpaReport: async (file: File): Promise<UploadGpaReportResponse> => {
+    const formData = new FormData();
+    formData.append("file", file);
     const res = await axiosInstance.post<UploadGpaReportResponse>(
-      `/file/gpa`, params?.data
+      `/file/gpa`, formData, { headers: { "Content-Type": "multipart/form-data" } }
     );
     return res.data;
   },
-
 };

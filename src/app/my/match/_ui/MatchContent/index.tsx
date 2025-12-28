@@ -7,8 +7,8 @@ import MentorChatCard from "@/components/mentor/MentorChatCard";
 
 import { UserRole } from "@/types/mentor";
 
-import useGetChatRooms from "@/api/chat/clients/useGetChatRooms";
 import { useGetMyInfo } from "@/apis/MyPage";
+import { useGetChatRooms } from "@/apis/chat";
 
 const MatchContent = () => {
   const { data: myInfo = {} } = useGetMyInfo();

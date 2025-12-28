@@ -11,7 +11,7 @@ import PostWriteButton from "./PostWriteButton";
 
 import { COMMUNITY_BOARDS, COMMUNITY_CATEGORIES } from "@/constants/community";
 
-import useGetPostList from "@/api/boards/clients/useGetPostList";
+import { useGetPostList } from "@/apis/community";
 
 interface CommunityPageContentProps {
   boardCode: string;

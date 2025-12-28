@@ -1,12 +1,18 @@
 import { AxiosError } from "axios";
-import { useQuery } from "@tanstack/react-query";
-import { chatApi, ChatRoomsResponse } from "./api";
-import { QueryKeys } from "../queryKeys";
 
-const useGetChatRooms = (params?: Record<string, any>) => {
-  return useQuery<ChatRoomsResponse, AxiosError>({
-    queryKey: [QueryKeys.chat.chatRooms, params],
-    queryFn: () => chatApi.getChatRooms(params ? { params } : {}),
+import { ChatQueryKeys, ChatRoom, ChatRoomListResponse, chatApi } from "./api";
+
+import { useQuery } from "@tanstack/react-query";
+
+/**
+ * @description 채팅방 목록을 가져오는 훅
+ */
+const useGetChatRooms = () => {
+  return useQuery<ChatRoomListResponse, AxiosError, ChatRoom[]>({
+    queryKey: [ChatQueryKeys.chatRooms],
+    queryFn: chatApi.getChatRooms,
+    staleTime: 1000 * 60 * 5, // 5분간 캐시
+    select: (data) => data.chatRooms,
   });
 };
 

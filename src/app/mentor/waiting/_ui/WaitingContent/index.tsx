@@ -8,7 +8,7 @@ import MentorWaitingListBox from "./_ui/MentorWaitingListBox";
 
 import { VerifyStatus } from "@/types/mentee";
 
-import useGetApplyMentoringList from "@/api/mentee/client/useGetApplyMentoringList";
+import { useGetApplyMentoringList } from "@/apis/mentor";
 
 const DEFAULT_VISIBLE_ITEMS = 2;
 

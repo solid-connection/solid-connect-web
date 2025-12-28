@@ -14,7 +14,7 @@ import { PreparationStatus, SignUpRequest } from "@/types/auth";
 import { RegionKo } from "@/types/university";
 
 import { usePostSignUp } from "@/apis/Auth";
-import useUploadProfileImagePublic from "@/api/file/client/useUploadProfileImagePublic";
+import { useUploadProfileImagePublic } from "@/apis/image-upload";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { toast } from "@/lib/zustand/useToastStore";
 

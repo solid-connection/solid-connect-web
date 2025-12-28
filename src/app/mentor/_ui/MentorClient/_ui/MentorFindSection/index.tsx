@@ -11,7 +11,7 @@ import useSelectedTab from "./_hooks/useSelectedTab";
 
 import { FilterTab } from "@/types/mentor";
 
-import useGetMentorList from "@/api/mentors/client/useGetMentorList";
+import { useGetMentorList } from "@/apis/mentor";
 
 const MentorFindSection = () => {
   const { listRef, selectedTab, handleSelectTab } = useSelectedTab();

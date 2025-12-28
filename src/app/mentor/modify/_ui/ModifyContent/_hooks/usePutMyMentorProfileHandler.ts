@@ -1,6 +1,6 @@
 import { MentoModifyFormData } from "../_lib/mentoModifyScehma";
 
-import usePutMyMentorProfile, { PutMyMentorProfileRequest } from "@/api/mentor/client/usePutMyMentorProfile";
+import { usePutMyMentorProfile, PutMyMentorProfileRequest } from "@/apis/mentor";
 import { customConfirm } from "@/lib/zustand/useConfirmModalStore";
 import { IconModify } from "@/public/svgs/mentor";
 

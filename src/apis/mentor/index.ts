@@ -1,12 +1,29 @@
-export { mentorApi } from './api';
-export { default as getAppliedMentorings } from './getAppliedMentorings';
-export { default as getMatchedMentors } from './getMatchedMentors';
-export { default as getMentorDetail } from './getMentorDetail';
-export { default as getMentorList } from './getMentorList';
-export { default as getMyMentorPage } from './getMyMentorPage';
-export { default as getReceivedMentorings } from './getReceivedMentorings';
-export { default as getUnconfirmedMentoringCount } from './getUnconfirmedMentoringCount';
-export { default as patchConfirmMentoring } from './patchConfirmMentoring';
-export { default as patchMentoringStatus } from './patchMentoringStatus';
-export { default as postApplyMentoring } from './postApplyMentoring';
-export { default as putUpdateMyMentorPage } from './putUpdateMyMentorPage';
+export { mentorApi, MentorQueryKeys } from './api';
+export type { 
+  MentorCardPreview, 
+  MentorCardDetail, 
+  MentoringItem, 
+  MentoringApprovalStatus,
+  MentoringListItem,
+  VerifyStatus,
+  PutMyMentorProfileRequest,
+  PostMentorApplicationRequest
+} from './api';
+
+// Mentor (멘토) hooks
+export { default as useGetMentorMyProfile } from './getMyMentorPage';
+export { default as useGetMentoringList } from './getReceivedMentorings';
+export { default as useGetMentoringUncheckedCount } from './getUnconfirmedMentoringCount';
+export { default as usePatchApprovalStatus } from './patchMentoringStatus';
+export { default as usePatchMentorCheckMentorings } from './patchConfirmMentoring';
+export { default as usePostMentorApplication } from './postMentorApplication';
+export { default as usePutMyMentorProfile } from './putUpdateMyMentorPage';
+
+// Mentee (멘티) hooks
+export { default as useGetApplyMentoringList, usePrefetchApplyMentoringList } from './getAppliedMentorings';
+export { default as usePatchMenteeCheckMentorings } from './patchMenteeCheckMentorings';
+export { default as usePostApplyMentoring } from './postApplyMentoring';
+
+// Mentors (멘토 목록) hooks
+export { default as useGetMentorList, usePrefetchMentorList } from './getMentorList';
+export { default as useGetMentorDetail } from './getMentorDetail';

@@ -1,6 +1,6 @@
 import { MentoringApprovalStatus } from "@/types/mentor";
 
-import usePatchApprovalStatus from "@/api/mentor/client/usePatchApprovalStatus";
+import { usePatchApprovalStatus } from "@/apis/mentor";
 import { customConfirm } from "@/lib/zustand/useConfirmModalStore";
 import { IconUnSmile } from "@/public/svgs/mentor";
 

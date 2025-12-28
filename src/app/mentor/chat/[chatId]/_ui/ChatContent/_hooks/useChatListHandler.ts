@@ -5,7 +5,7 @@ import useInfinityScroll from "@/utils/useInfinityScroll";
 
 import { ChatMessage, ConnectionStatus } from "@/types/chat";
 
-import useGetChatHistories from "@/api/chat/clients/useGetChatHistories";
+import { useGetChatHistories } from "@/apis/chat";
 import useConnectWebSocket from "@/lib/web-socket/useConnectWebSocket";
 import { Client } from "@stomp/stompjs";
 

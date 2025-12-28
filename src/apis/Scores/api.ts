@@ -1,78 +1,79 @@
+import { AxiosResponse } from "axios";
 import { axiosInstance } from "@/utils/axiosInstance";
+import { GpaScore, LanguageTestScore, LanguageTestEnum } from "@/types/score";
 
-export interface CreateLanguageTestResponse {
-  id: number;
+// ====== Query Keys ======
+export const ScoresQueryKeys = {
+  myGpaScore: "myGpaScore",
+  myLanguageTestScore: "myLanguageTestScore",
+} as const;
+
+// ====== Types ======
+export interface UseMyGpaScoreResponse {
+  gpaScoreStatusResponseList: GpaScore[];
 }
 
-export type CreateLanguageTestRequest = Record<string, never>;
-
-export interface LanguageTestListResponseLanguageTestScoreStatusResponseListItem {
-  id: number;
-  languageTestResponse: LanguageTestListResponseLanguageTestScoreStatusResponseListItemLanguageTestResponse;
-  verifyStatus: string;
-  rejectedReason: null;
+export interface UseGetMyLanguageTestScoreResponse {
+  languageTestScoreStatusResponseList: LanguageTestScore[];
 }
 
-export interface LanguageTestListResponseLanguageTestScoreStatusResponseListItemLanguageTestResponse {
-  languageTestType: string;
-  languageTestScore: string;
-  languageTestReportUrl: string;
+export interface UsePostGpaScoreRequest {
+  gpaScoreRequest: {
+    gpa: number;
+    gpaCriteria: number;
+    issueDate: string; // yyyy-MM-dd
+  };
+  file: Blob;
 }
 
-export interface LanguageTestListResponse {
-  languageTestScoreStatusResponseList: LanguageTestListResponseLanguageTestScoreStatusResponseListItem[];
+export interface UsePostLanguageTestScoreRequest {
+  languageTestScoreRequest: {
+    languageTestType: LanguageTestEnum;
+    languageTestScore: string;
+    issueDate: string; // yyyy-MM-dd
+  };
+  file: File;
 }
 
-export interface CreateGpaResponse {
-  id: number;
-}
-
-export type CreateGpaRequest = Record<string, never>;
-
-export interface GpaListResponseGpaScoreStatusResponseListItem {
-  id: number;
-  gpaResponse: GpaListResponseGpaScoreStatusResponseListItemGpaResponse;
-  verifyStatus: string;
-  rejectedReason: null;
-}
-
-export interface GpaListResponseGpaScoreStatusResponseListItemGpaResponse {
-  gpa: number;
-  gpaCriteria: number;
-  gpaReportUrl: string;
-}
-
-export interface GpaListResponse {
-  gpaScoreStatusResponseList: GpaListResponseGpaScoreStatusResponseListItem[];
-}
-
+// ====== API Functions ======
 export const scoresApi = {
-  postCreateLanguageTest: async (params: { data?: CreateLanguageTestRequest }): Promise<CreateLanguageTestResponse> => {
-    const res = await axiosInstance.post<CreateLanguageTestResponse>(
-      `/scores/language-tests`, params?.data
-    );
-    return res.data;
+  /**
+   * 내 학점 점수 조회
+   */
+  getMyGpaScore: async (): Promise<AxiosResponse<UseMyGpaScoreResponse>> => {
+    return axiosInstance.get("/scores/gpas");
   },
 
-  getLanguageTestList: async (params: { params?: Record<string, any> }): Promise<LanguageTestListResponse> => {
-    const res = await axiosInstance.get<LanguageTestListResponse>(
-      `/scores/language-tests`, { params: params?.params }
-    );
-    return res.data;
+  /**
+   * 내 어학 점수 조회
+   */
+  getMyLanguageTestScore: async (): Promise<AxiosResponse<UseGetMyLanguageTestScoreResponse>> => {
+    return axiosInstance.get("/scores/language-tests");
   },
 
-  postCreateGpa: async (params: { data?: CreateGpaRequest }): Promise<CreateGpaResponse> => {
-    const res = await axiosInstance.post<CreateGpaResponse>(
-      `/scores/gpas`, params?.data
+  /**
+   * 학점 점수 제출
+   */
+  postGpaScore: async (request: UsePostGpaScoreRequest): Promise<AxiosResponse<null>> => {
+    const formData = new FormData();
+    formData.append(
+      "gpaScoreRequest",
+      new Blob([JSON.stringify(request.gpaScoreRequest)], { type: "application/json" }),
     );
-    return res.data;
+    formData.append("file", request.file);
+    return axiosInstance.post("/scores/gpas", formData);
   },
 
-  getGpaList: async (params: { params?: Record<string, any> }): Promise<GpaListResponse> => {
-    const res = await axiosInstance.get<GpaListResponse>(
-      `/scores/gpas`, { params: params?.params }
+  /**
+   * 어학 점수 제출
+   */
+  postLanguageTestScore: async (request: UsePostLanguageTestScoreRequest): Promise<AxiosResponse<null>> => {
+    const formData = new FormData();
+    formData.append(
+      "languageTestScoreRequest",
+      new Blob([JSON.stringify(request.languageTestScoreRequest)], { type: "application/json" }),
     );
-    return res.data;
+    formData.append("file", request.file);
+    return axiosInstance.post("/scores/language-tests", formData);
   },
-
 };

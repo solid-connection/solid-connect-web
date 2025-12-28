@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
-import useUpdatePost from "@/api/community/client/useUpdatePost";
+import { useUpdatePost } from "@/apis/community";
 import { IconArrowBackFilled, IconImage, IconPostCheckboxFilled, IconPostCheckboxOutlined } from "@/public/svgs";
 
 type PostModifyFormProps = {

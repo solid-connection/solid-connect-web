@@ -1,13 +1,19 @@
 import { AxiosError } from "axios";
 import { useQuery } from "@tanstack/react-query";
-import { mentorApi, UnconfirmedMentoringCountResponse } from "./api";
-import { QueryKeys } from "../queryKeys";
+import { mentorApi, MentorQueryKeys } from "./api";
 
-const useGetUnconfirmedMentoringCount = (params?: Record<string, any>) => {
-  return useQuery<UnconfirmedMentoringCountResponse, AxiosError>({
-    queryKey: [QueryKeys.mentor.unconfirmedMentoringCount, params],
-    queryFn: () => mentorApi.getUnconfirmedMentoringCount(params ? { params } : {}),
+/**
+ * @description 미확인 멘토링 수 조회 훅
+ */
+const useGetMentoringUncheckedCount = (isEnable: boolean) => {
+  return useQuery<number, AxiosError>({
+    queryKey: [MentorQueryKeys.mentoringNewCount],
+    queryFn: mentorApi.getMentoringUncheckedCount,
+    enabled: isEnable,
+    refetchInterval: 1000 * 60 * 10, // ⏱️ 10분마다 자동 재요청
+    staleTime: 1000 * 60 * 5, // fresh 상태 유지
+    select: (data) => data.uncheckedCount,
   });
 };
 
-export default useGetUnconfirmedMentoringCount;
+export default useGetMentoringUncheckedCount;

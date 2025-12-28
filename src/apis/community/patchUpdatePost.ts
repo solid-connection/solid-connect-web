@@ -1,7 +1,9 @@
 import { AxiosError } from "axios";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { communityApi, CommunityQueryKeys, PostIdResponse, PostUpdateRequest } from "./api";
+
+import { CommunityQueryKeys, PostIdResponse, PostUpdateRequest, communityApi } from "./api";
+
 import { toast } from "@/lib/zustand/useToastStore";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface UpdatePostVariables {
   postId: number;

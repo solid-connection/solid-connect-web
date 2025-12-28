@@ -4,8 +4,7 @@ import { tokenParse } from "@/utils/jwtUtils";
 
 import { UserRole } from "@/types/mentor";
 
-import usePatchMenteeCheckMentorings from "@/api/mentee/client/usePatchMenteeCheckMentorings";
-import usePatchMentorCheckMentorings from "@/api/mentor/client/usePatchMentorCheckMentorings";
+import { usePatchMenteeCheckMentorings, usePatchMentorCheckMentorings } from "@/apis/mentor";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 
 interface UseExpandCardClickHandlerReturn {

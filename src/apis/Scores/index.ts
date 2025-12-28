@@ -1,5 +1,12 @@
-export { scoresApi } from './api';
-export { default as getGpaList } from './getGpaList';
-export { default as getLanguageTestList } from './getLanguageTestList';
-export { default as postCreateGpa } from './postCreateGpa';
-export { default as postCreateLanguageTest } from './postCreateLanguageTest';
+export { scoresApi, ScoresQueryKeys } from './api';
+export type { 
+  UseMyGpaScoreResponse, 
+  UseGetMyLanguageTestScoreResponse,
+  UsePostGpaScoreRequest,
+  UsePostLanguageTestScoreRequest
+} from './api';
+
+export { default as useGetMyGpaScore } from './getGpaList';
+export { default as useGetMyLanguageTestScore } from './getLanguageTestList';
+export { default as usePostGpaScore } from './postCreateGpa';
+export { default as usePostLanguageTestScore } from './postCreateLanguageTest';

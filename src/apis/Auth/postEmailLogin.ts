@@ -4,7 +4,7 @@ import { AxiosError } from "axios";
 
 import { validateSafeRedirect } from "@/utils/authUtils";
 
-import { authApi, EmailLoginResponse, EmailLoginRequest } from "./api";
+import { EmailLoginRequest, EmailLoginResponse, authApi } from "./api";
 
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { toast } from "@/lib/zustand/useToastStore";

@@ -1,18 +1,22 @@
 import { AxiosResponse } from "axios";
-import { axiosInstance } from "@/utils/axiosInstance";
-import { 
-  Post, 
-  PostCreateRequest, 
-  PostIdResponse, 
-  PostUpdateRequest, 
-  PostLikeResponse,
+
+import { axiosInstance, publicAxiosInstance } from "@/utils/axiosInstance";
+
+import {
   CommentCreateRequest,
-  CommentIdResponse
+  CommentIdResponse,
+  ListPost,
+  Post,
+  PostCreateRequest,
+  PostIdResponse,
+  PostLikeResponse,
+  PostUpdateRequest,
 } from "@/types/community";
 
 // QueryKeys for community domain
 export const CommunityQueryKeys = {
   posts: "posts",
+  postList: "postList1", // 기존 api/boards와 동일한 키 유지
 } as const;
 
 export interface BoardListResponse {
@@ -48,28 +52,33 @@ export interface DeletePostResponse {
 }
 
 // Re-export types from @/types/community for convenience
-export type { 
-  Post, 
-  PostCreateRequest, 
-  PostIdResponse, 
-  PostUpdateRequest, 
+export type {
+  Post,
+  PostCreateRequest,
+  PostIdResponse,
+  PostUpdateRequest,
   PostLikeResponse,
   CommentCreateRequest,
-  CommentIdResponse
+  CommentIdResponse,
+  ListPost,
 };
 
 export const communityApi = {
+  /**
+   * 게시글 목록 조회 (클라이언트)
+   */
+  getPostList: (boardCode: string, category: string | null = null): Promise<AxiosResponse<ListPost[]>> => {
+    const params = category && category !== "전체" ? { category } : {};
+    return publicAxiosInstance.get(`/boards/${boardCode}`, { params });
+  },
+
   getBoardList: async (params?: Record<string, any>): Promise<BoardListResponse> => {
-    const res = await axiosInstance.get<BoardListResponse>(
-      `/boards`, { params }
-    );
+    const res = await axiosInstance.get<BoardListResponse>(`/boards`, { params });
     return res.data;
   },
 
   getBoard: async (boardCode: string, params?: Record<string, any>): Promise<BoardResponse> => {
-    const res = await axiosInstance.get<BoardResponse>(
-      `/boards/${boardCode}`, { params }
-    );
+    const res = await axiosInstance.get<BoardResponse>(`/boards/${boardCode}`, { params });
     return res.data;
   },
 
@@ -82,7 +91,7 @@ export const communityApi = {
     const convertedRequest: FormData = new FormData();
     convertedRequest.append(
       "postCreateRequest",
-      new Blob([JSON.stringify(request.postCreateRequest)], { type: "application/json" })
+      new Blob([JSON.stringify(request.postCreateRequest)], { type: "application/json" }),
     );
     request.file.forEach((file) => {
       convertedRequest.append("file", file);
@@ -91,7 +100,7 @@ export const communityApi = {
     const response: AxiosResponse<PostIdResponse> = await axiosInstance.post(`/posts`, convertedRequest, {
       headers: { "Content-Type": "multipart/form-data" },
     });
-    
+
     return {
       ...response.data,
       boardCode: request.postCreateRequest.boardCode,
@@ -139,9 +148,7 @@ export const communityApi = {
   },
 
   updateComment: async (commentId: number, data: { content: string }): Promise<CommentIdResponse> => {
-    const res = await axiosInstance.patch<CommentIdResponse>(
-      `/comments/${commentId}`, data
-    );
+    const res = await axiosInstance.patch<CommentIdResponse>(`/comments/${commentId}`, data);
     return res.data;
   },
 };

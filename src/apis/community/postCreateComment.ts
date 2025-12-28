@@ -1,7 +1,9 @@
 import { AxiosError } from "axios";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { communityApi, CommunityQueryKeys, CommentCreateRequest, CommentIdResponse } from "./api";
+
+import { CommentCreateRequest, CommentIdResponse, CommunityQueryKeys, communityApi } from "./api";
+
 import { toast } from "@/lib/zustand/useToastStore";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 /**
  * @description 댓글 생성을 위한 useMutation 커스텀 훅

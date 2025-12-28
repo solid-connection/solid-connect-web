@@ -8,8 +8,8 @@ import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
 
 import { UserRole } from "@/types/mentor";
 
-import useGetChatRooms from "@/api/chat/clients/useGetChatRooms";
 import { useGetMyInfo } from "@/apis/MyPage";
+import { useGetChatRooms } from "@/apis/chat";
 import { IconSearchBlue, IconSolidConnentionLogo } from "@/public/svgs/mentor";
 
 const ChatPageClient = () => {

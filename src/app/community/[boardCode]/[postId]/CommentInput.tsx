@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import useCreateComment from "@/api/community/client/useCreateComment";
+import { useCreateComment } from "@/apis/community";
 import { IconCloseFilled, IconFlight } from "@/public/svgs";
 
 type CommentInputProps = {

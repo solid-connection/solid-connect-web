@@ -1,6 +1,6 @@
 import { useRouter } from "next/navigation";
 
-import usePostApplyMentoring from "@/api/mentee/client/usePostApplyMentoring";
+import { usePostApplyMentoring } from "@/apis/mentor";
 import { customConfirm } from "@/lib/zustand/useConfirmModalStore";
 import { IconCheck } from "@/public/svgs/mentor";
 

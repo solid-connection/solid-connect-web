@@ -1,14 +1,17 @@
 import { AxiosError } from "axios";
 import { useQuery } from "@tanstack/react-query";
-import { chatApi, ChatPartnerResponse } from "./api";
-import { QueryKeys } from "../queryKeys";
+import { chatApi, ChatQueryKeys, ChatPartner } from "./api";
 
-const useGetChatPartner = (roomId: string | number, params?: Record<string, any>) => {
-  return useQuery<ChatPartnerResponse, AxiosError>({
-    queryKey: [QueryKeys.chat.chatPartner, roomId, params],
-    queryFn: () => chatApi.getChatPartner({ roomId, params }),
+/**
+ * @description 채팅 상대방 정보를 가져오는 훅
+ */
+const useGetPartnerInfo = (roomId: number) => {
+  return useQuery<ChatPartner, AxiosError>({
+    queryKey: [ChatQueryKeys.partnerInfo, roomId],
+    queryFn: () => chatApi.getChatPartner(roomId),
+    staleTime: 1000 * 60 * 5,
     enabled: !!roomId,
   });
 };
 
-export default useGetChatPartner;
+export default useGetPartnerInfo;

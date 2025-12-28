@@ -1,14 +1,40 @@
 import { AxiosError } from "axios";
-import { useQuery } from "@tanstack/react-query";
-import { mentorApi, MentorListResponse } from "./api";
-import { QueryKeys } from "../queryKeys";
+import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
+import type { QueryFunctionContext } from "@tanstack/react-query";
+import { mentorApi, MentorQueryKeys, MentorListResponse, MentorCardDetail } from "./api";
 
-const useGetMentorList = (defaultSize: string | number, defaultPage: string | number, params?: Record<string, any>) => {
-  return useQuery<MentorListResponse, AxiosError>({
-    queryKey: [QueryKeys.mentor.mentorList, defaultSize, defaultPage, params],
-    queryFn: () => mentorApi.getMentorList({ defaultSize, defaultPage, params }),
-    enabled: !!defaultSize && !!defaultPage,
+interface UseGetMentorListRequest {
+  region?: string;
+}
+
+/**
+ * @description 멘토 목록 조회 훅 (무한 스크롤)
+ */
+const useGetMentorList = ({ region = "" }: UseGetMentorListRequest = {}) => {
+  return useInfiniteQuery<MentorListResponse, AxiosError, MentorCardDetail[], [string, string], number>({
+    queryKey: [MentorQueryKeys.mentorList, region],
+    queryFn: ({ pageParam = 0 }) => mentorApi.getMentorList(region, pageParam),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => (lastPage.nextPageNumber === -1 ? undefined : lastPage.nextPageNumber),
+    staleTime: 1000 * 60 * 5,
+    select: (data) => data.pages.flatMap((p) => p.content),
   });
+};
+
+// 탭 프리페치용 훅
+export const usePrefetchMentorList = () => {
+  const queryClient = useQueryClient();
+
+  const prefetchMentorList = (region: string) => {
+    queryClient.prefetchInfiniteQuery({
+      queryKey: [MentorQueryKeys.mentorList, region],
+      queryFn: ({ pageParam = 0 }) => mentorApi.getMentorList(region, pageParam as number),
+      initialPageParam: 0,
+      staleTime: 1000 * 60 * 5,
+    });
+  };
+
+  return { prefetchMentorList };
 };
 
 export default useGetMentorList;

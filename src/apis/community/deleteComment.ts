@@ -1,7 +1,9 @@
 import { AxiosError } from "axios";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { communityApi, CommunityQueryKeys, CommentIdResponse } from "./api";
+
+import { CommentIdResponse, CommunityQueryKeys, communityApi } from "./api";
+
 import { toast } from "@/lib/zustand/useToastStore";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface DeleteCommentRequest {
   commentId: number;

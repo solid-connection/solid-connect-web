@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 
-import { authApi, SignUpResponse, SignUpRequest } from "./api";
+import { SignUpRequest, SignUpResponse, authApi } from "./api";
 
 import { toast } from "@/lib/zustand/useToastStore";
 import { useMutation } from "@tanstack/react-query";

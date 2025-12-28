@@ -1,8 +1,10 @@
 import { AxiosError } from "axios";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { communityApi, CommunityQueryKeys, PostCreateRequest, PostIdResponse } from "./api";
+
+import { CommunityQueryKeys, PostCreateRequest, PostIdResponse, communityApi } from "./api";
+
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { toast } from "@/lib/zustand/useToastStore";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 /**
  * @description ISR 페이지를 revalidate하는 함수
@@ -41,12 +43,12 @@ const useCreatePost = () => {
     onSuccess: async (data) => {
       // 게시글 목록 쿼리를 무효화하여 최신 목록 반영
       queryClient.invalidateQueries({ queryKey: [CommunityQueryKeys.posts] });
-      
+
       // ISR 페이지 revalidate (사용자 인증 토큰 사용)
       if (accessToken) {
         await revalidateCommunityPage(data.boardCode, accessToken);
       }
-      
+
       toast.success("게시글이 등록되었습니다.");
     },
     onError: (error) => {

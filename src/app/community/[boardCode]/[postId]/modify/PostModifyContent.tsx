@@ -7,7 +7,7 @@ import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 
 import PostModifyForm from "./PostModifyForm";
 
-import useGetPostDetail from "@/api/community/client/useGetPostDetail";
+import { useGetPostDetail } from "@/apis/community";
 
 interface PostModifyContentProps {
   boardCode: string;

@@ -1,9 +1,15 @@
 import { AxiosError } from "axios";
-import { useMutationState, useQuery } from "@tanstack/react-query";
-import { myPageApi, MyInfoResponse } from "./api";
-import { QueryKeys } from "../queryKeys";
 
-const useGetMyInfo = () => {
+import { QueryKeys } from "../queryKeys";
+import { MyInfoResponse, myPageApi } from "./api";
+
+import { UseQueryResult, useMutationState, useQuery } from "@tanstack/react-query";
+
+type UseGetMyInfoResult = Omit<UseQueryResult<MyInfoResponse, AxiosError>, "data"> & {
+  data: MyInfoResponse | undefined;
+};
+
+const useGetMyInfo = (): UseGetMyInfoResult => {
   const queryResult = useQuery<MyInfoResponse, AxiosError>({
     queryKey: [QueryKeys.MyPage.profile],
     queryFn: () => myPageApi.getProfile(),
@@ -25,7 +31,7 @@ const useGetMyInfo = () => {
   const isOptimistic = pendingMutations.length > 0;
   const pendingData = isOptimistic ? pendingMutations[0] : null;
 
-  const displayData = isOptimistic ? { ...queryResult.data, ...pendingData } : queryResult.data;
+  const displayData = isOptimistic && queryResult.data ? { ...queryResult.data, ...pendingData } : queryResult.data;
 
   return { ...queryResult, data: displayData };
 };

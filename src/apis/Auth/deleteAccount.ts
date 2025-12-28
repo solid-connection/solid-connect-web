@@ -2,7 +2,7 @@ import { useRouter } from "next/navigation";
 
 import { AxiosError } from "axios";
 
-import { authApi, AccountResponse } from "./api";
+import { AccountResponse, authApi } from "./api";
 
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { toast } from "@/lib/zustand/useToastStore";

@@ -1,8 +1,10 @@
 import { AxiosError } from "axios";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { myPageApi, ProfilePatchRequest } from "./api";
+
 import { QueryKeys } from "../queryKeys";
+import { ProfilePatchRequest, myPageApi } from "./api";
+
 import { toast } from "@/lib/zustand/useToastStore";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const usePatchMyInfo = () => {
   const queryClient = useQueryClient();

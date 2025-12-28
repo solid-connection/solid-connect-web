@@ -1,5 +1,4 @@
 import serverFetch, { ServerFetchResult } from "@/utils/serverFetchUtil";
-
 import { ListPost } from "@/types/community";
 
 interface GetPostListParams {
@@ -15,13 +14,12 @@ interface GetPostListParams {
  * @param revalidate - ISR revalidate 시간(초) 또는 false (무한 캐시)
  * @returns Promise<ServerFetchResult<ListPost[]>>
  */
-export const getPostList = async ({
+export const getPostListServer = async ({
   boardCode,
   category = null,
-  revalidate = false, // 기본값: 자동 재생성 비활성화 (수동 revalidate만)
+  revalidate = false,
 }: GetPostListParams): Promise<ServerFetchResult<ListPost[]>> => {
   const params = new URLSearchParams();
-  // "전체"는 필터 없음을 의미하므로 파라미터에 포함하지 않음
   if (category && category !== "전체") {
     params.append("category", category);
   }
@@ -32,8 +30,8 @@ export const getPostList = async ({
   return serverFetch<ListPost[]>(url, {
     method: "GET",
     next: {
-      revalidate: revalidate === false ? undefined : revalidate,
-      tags: [`posts-${boardCode}`], // 태그 기반 revalidation 지원 (글 작성 시만 revalidate)
+      revalidate,
+      tags: [`posts-${boardCode}`],
     },
   });
 };

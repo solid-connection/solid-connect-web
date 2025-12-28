@@ -7,7 +7,7 @@ import { tokenParse } from "@/utils/jwtUtils";
 
 import { UserRole } from "@/types/mentor";
 
-import useGetMentoringUncheckedCount from "@/api/mentor/client/useGetMentoringUncheckedCount";
+import { useGetMentoringUncheckedCount } from "@/apis/mentor";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 
 const MentorApplyCountContent = () => {

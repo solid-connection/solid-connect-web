@@ -1,7 +1,9 @@
 import { AxiosError } from "axios";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { communityApi, CommunityQueryKeys, PostLikeResponse } from "./api";
+
+import { CommunityQueryKeys, PostLikeResponse, communityApi } from "./api";
+
 import { toast } from "@/lib/zustand/useToastStore";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 /**
  * @description 게시글 좋아요를 위한 useMutation 커스텀 훅

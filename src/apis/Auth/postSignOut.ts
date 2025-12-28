@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 
-import { authApi, SignOutResponse } from "./api";
+import { SignOutResponse, authApi } from "./api";
 
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { useMutation, useQueryClient } from "@tanstack/react-query";

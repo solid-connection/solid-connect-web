@@ -4,7 +4,7 @@ import { AxiosError } from "axios";
 
 import { validateSafeRedirect } from "@/utils/authUtils";
 
-import { authApi, KakaoAuthResponse, KakaoAuthRequest } from "./api";
+import { KakaoAuthRequest, KakaoAuthResponse, authApi } from "./api";
 
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { toast } from "@/lib/zustand/useToastStore";

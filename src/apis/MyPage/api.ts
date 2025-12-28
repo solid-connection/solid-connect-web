@@ -1,5 +1,7 @@
 import { AxiosResponse } from "axios";
+
 import { axiosInstance } from "@/utils/axiosInstance";
+
 import { UserRole } from "@/types/mentor";
 import { BaseUserInfo } from "@/types/myInfo";
 
@@ -59,10 +61,10 @@ export const myPageApi = {
     return res.data;
   },
 
-  patchInterestedRegionCountry: async (data: InterestedRegionCountryRequest): Promise<InterestedRegionCountryResponse> => {
-    const res = await axiosInstance.patch<InterestedRegionCountryResponse>(
-      `/my/interested-location`, data
-    );
+  patchInterestedRegionCountry: async (
+    data: InterestedRegionCountryRequest,
+  ): Promise<InterestedRegionCountryResponse> => {
+    const res = await axiosInstance.patch<InterestedRegionCountryResponse>(`/my/interested-location`, data);
     return res.data;
   },
 };
