@@ -33,12 +33,14 @@ module.exports = {
   ],
   overrides: [
     {
+      // 설정 파일들은 TypeScript 프로젝트에 포함되지 않으므로 project 옵션 비활성화
       env: {
         node: true,
       },
-      files: [".eslintrc.{js,cjs}"],
+      files: [".eslintrc.{js,cjs}", "*.config.{js,mjs,ts}"],
       parserOptions: {
         sourceType: "script",
+        project: null,
       },
     },
   ],
