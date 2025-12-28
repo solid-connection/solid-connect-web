@@ -12,10 +12,6 @@ export const revalidate = false;
 export async function generateStaticParams() {
   const universities = await getAllUniversities();
 
-  if (!universities || universities.length === 0) {
-    throw new Error("Failed to fetch universities for static generation");
-  }
-
   return universities.map((university) => ({
     id: String(university.id),
   }));

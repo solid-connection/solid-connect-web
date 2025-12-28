@@ -23,11 +23,6 @@ export const getUniversitiesByText = async (value: string): Promise<ListUniversi
 
 export const getAllUniversities = async (): Promise<ListUniversity[]> => {
   const universities = await getUniversitiesByText("");
-
-  if (!universities || universities.length === 0) {
-    throw new Error("Failed to fetch universities: empty response");
-  }
-
   return universities;
 };
 
