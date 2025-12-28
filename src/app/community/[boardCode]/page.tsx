@@ -6,7 +6,8 @@ import CommunityPageContent from "./CommunityPageContent";
 
 import { COMMUNITY_BOARDS } from "@/constants/community";
 
-import { CommunityQueryKeys, getPostListServer } from "@/apis/community";
+import { CommunityQueryKeys } from "@/apis/community/api";
+import { getPostListServer } from "@/apis/community/server";
 import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
 
 export const metadata: Metadata = {
