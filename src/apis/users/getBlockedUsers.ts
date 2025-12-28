@@ -1,7 +1,9 @@
 import { AxiosError } from "axios";
-import { useQuery } from "@tanstack/react-query";
-import { usersApi, BlockedUsersResponse } from "./api";
+
 import { QueryKeys } from "../queryKeys";
+import { BlockedUsersResponse, usersApi } from "./api";
+
+import { useQuery } from "@tanstack/react-query";
 
 const useGetBlockedUsers = (params?: Record<string, any>) => {
   return useQuery<BlockedUsersResponse, AxiosError>({

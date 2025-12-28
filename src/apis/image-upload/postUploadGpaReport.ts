@@ -1,6 +1,8 @@
 import { AxiosError } from "axios";
+
+import { UploadGpaReportRequest, UploadGpaReportResponse, imageUploadApi } from "./api";
+
 import { useMutation } from "@tanstack/react-query";
-import { imageUploadApi, UploadGpaReportResponse, UploadGpaReportRequest } from "./api";
 
 const usePostUploadGpaReport = () => {
   return useMutation<UploadGpaReportResponse, AxiosError, UploadGpaReportRequest>({

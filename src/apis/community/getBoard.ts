@@ -1,7 +1,9 @@
 import { AxiosError } from "axios";
-import { useQuery } from "@tanstack/react-query";
-import { communityApi, BoardResponse } from "./api";
+
 import { QueryKeys } from "../queryKeys";
+import { BoardResponse, communityApi } from "./api";
+
+import { useQuery } from "@tanstack/react-query";
 
 const useGetBoard = (boardCode: string | number, params?: Record<string, any>) => {
   return useQuery<BoardResponse, AxiosError>({

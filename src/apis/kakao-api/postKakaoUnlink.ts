@@ -1,6 +1,8 @@
 import { AxiosError } from "axios";
+
+import { KakaoUnlinkRequest, KakaoUnlinkResponse, kakaoApiApi } from "./api";
+
 import { useMutation } from "@tanstack/react-query";
-import { kakaoApiApi, KakaoUnlinkResponse, KakaoUnlinkRequest } from "./api";
 
 const usePostKakaoUnlink = () => {
   return useMutation<KakaoUnlinkResponse, AxiosError, KakaoUnlinkRequest>({

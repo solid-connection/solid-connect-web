@@ -1,9 +1,15 @@
 import { AxiosError } from "axios";
+
+import { VerifyLanguageTestRequest, VerifyLanguageTestResponse, adminApi } from "./api";
+
 import { useMutation } from "@tanstack/react-query";
-import { adminApi, VerifyLanguageTestResponse, VerifyLanguageTestRequest } from "./api";
 
 const usePutVerifyLanguageTest = () => {
-  return useMutation<VerifyLanguageTestResponse, AxiosError, { languageTestScoreId: string | number; data: VerifyLanguageTestRequest }>({
+  return useMutation<
+    VerifyLanguageTestResponse,
+    AxiosError,
+    { languageTestScoreId: string | number; data: VerifyLanguageTestRequest }
+  >({
     mutationFn: (variables) => adminApi.putVerifyLanguageTest(variables),
   });
 };

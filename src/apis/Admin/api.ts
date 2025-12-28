@@ -143,32 +143,34 @@ export interface GpaListResponse {
 }
 
 export const adminApi = {
-  putVerifyLanguageTest: async (params: { languageTestScoreId: string | number, data?: VerifyLanguageTestRequest }): Promise<VerifyLanguageTestResponse> => {
+  putVerifyLanguageTest: async (params: {
+    languageTestScoreId: string | number;
+    data?: VerifyLanguageTestRequest;
+  }): Promise<VerifyLanguageTestResponse> => {
     const res = await axiosInstance.put<VerifyLanguageTestResponse>(
-      `/admin/scores/language-tests/${params.languageTestScoreId}`, params?.data
+      `/admin/scores/language-tests/${params.languageTestScoreId}`,
+      params?.data,
     );
     return res.data;
   },
 
   getLanguageTestList: async (params: { params?: Record<string, any> }): Promise<LanguageTestListResponse> => {
-    const res = await axiosInstance.get<LanguageTestListResponse>(
-      `/admin/scores/language-tests?page=1&size=10`, { params: params?.params }
-    );
+    const res = await axiosInstance.get<LanguageTestListResponse>(`/admin/scores/language-tests?page=1&size=10`, {
+      params: params?.params,
+    });
     return res.data;
   },
 
-  putVerifyGpa: async (params: { gpaScoreId: string | number, data?: VerifyGpaRequest }): Promise<VerifyGpaResponse> => {
-    const res = await axiosInstance.put<VerifyGpaResponse>(
-      `/admin/scores/gpas/${params.gpaScoreId}`, params?.data
-    );
+  putVerifyGpa: async (params: {
+    gpaScoreId: string | number;
+    data?: VerifyGpaRequest;
+  }): Promise<VerifyGpaResponse> => {
+    const res = await axiosInstance.put<VerifyGpaResponse>(`/admin/scores/gpas/${params.gpaScoreId}`, params?.data);
     return res.data;
   },
 
   getGpaList: async (params: { params?: Record<string, any> }): Promise<GpaListResponse> => {
-    const res = await axiosInstance.get<GpaListResponse>(
-      `/admin/scores/gpas`, { params: params?.params }
-    );
+    const res = await axiosInstance.get<GpaListResponse>(`/admin/scores/gpas`, { params: params?.params });
     return res.data;
   },
-
 };
