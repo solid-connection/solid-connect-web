@@ -52,11 +52,14 @@ const UniversityCard = ({ university, showCapacity = true }: UniversityCardProps
               {showCapacity && <span className="text-primary typo-sb-11">모집 {university.studentCapacity}명</span>}
             </div>
             <div className="flex gap-4">
-              {university.languageRequirements.slice(0, 3).map((requirement) => (
-                <span key={requirement.languageTestType} className="whitespace-nowrap text-primary typo-sb-11">
-                  {shortenLanguageTestName(requirement.languageTestType)} {requirement.minScore}
-                </span>
-              ))}
+              {university.languageRequirements.slice(0, 3).map((requirement) => {
+                const testName = shortenLanguageTestName(requirement.languageTestType);
+                return (
+                  <span key={requirement.languageTestType} className="whitespace-nowrap text-primary typo-sb-11">
+                    {testName ?? requirement.languageTestType} {requirement.minScore}
+                  </span>
+                );
+              })}
             </div>
           </div>
         </div>

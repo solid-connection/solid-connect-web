@@ -96,14 +96,14 @@ module.exports = {
     // 정의 전 사용 허용 (TypeScript에서 처리)
     "no-use-before-define": "off",
 
-    // 미사용 변수 경고
-    "no-unused-vars": "warn",
+    // 미사용 변수 - 기본 규칙 비활성화 (TypeScript 규칙과 충돌 방지)
+    "no-unused-vars": "off",
 
     // ==========================================
     // TypeScript 관련 규칙
     // ==========================================
 
-    // 미사용 변수 경고 (TypeScript용)
+    // 미사용 변수 경고 (TypeScript용 - 기본 규칙 대신 사용)
     "@typescript-eslint/no-unused-vars": "warn",
 
     // any 타입 관련 규칙 (경고로 설정)
