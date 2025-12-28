@@ -152,8 +152,8 @@ const FoldIcon = () => {
         d="M9 13.5L15 19.5L21 13.5"
         stroke="currentColor"
         className="text-primary"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -166,8 +166,8 @@ const UnFoldIcon = () => {
         d="M21 19.5L15 13.5L9 19.5"
         stroke="currentColor"
         className="text-primary"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
