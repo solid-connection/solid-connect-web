@@ -13,10 +13,11 @@ import SearchBar from "./SearchBar";
 import { CountryCode, LanguageTestType, RegionEnumExtend } from "@/types/university";
 
 // 필요한 타입과 훅 import
-import useGetUniversitySearchByFilter, {
-  UniversitySearchFilterParams,
-} from "@/api/university/client/useGetUniversitySearchByFilter";
-import useGetUniversitySearchByText from "@/api/university/client/useGetUniversitySearchByText";
+import {
+  type UniversitySearchFilterParams,
+  useGetUniversitySearchByFilter,
+  useUniversitySearch,
+} from "@/apis/universities";
 
 // --- URL 파라미터를 읽고 데이터를 처리하는 메인 컨텐츠 ---
 const SearchResultsContent = () => {
@@ -55,7 +56,7 @@ const SearchResultsContent = () => {
     }
   }, [searchParams, selectedRegion]);
 
-  const textSearchQuery = useGetUniversitySearchByText(searchText ?? "");
+  const textSearchQuery = useUniversitySearch(searchText ?? "");
   const filterSearchQuery = useGetUniversitySearchByFilter(filterParams);
 
   const { data: serachResult } = isTextSearch ? textSearchQuery : filterSearchQuery;

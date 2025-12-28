@@ -5,7 +5,7 @@ import { useEffect } from "react";
 
 import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 
-import usePostAppleAuth from "@/api/auth/client/usePostAppleAuth";
+import { usePostAppleAuth } from "@/apis/Auth";
 
 const AppleLoginCallbackPage = () => {
   const searchParams = useSearchParams();

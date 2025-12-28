@@ -18,7 +18,7 @@ import ChatMessageBox from "./_ui/ChatMessageBox";
 import { ConnectionStatus } from "@/types/chat";
 import { UserRole } from "@/types/mentor";
 
-import useGetPartnerInfo from "@/api/chat/clients/useGetPartnerInfo";
+import { useGetPartnerInfo } from "@/apis/chat";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 
 interface ChatContentProps {

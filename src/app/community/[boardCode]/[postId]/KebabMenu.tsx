@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 
 import ReportPanel from "@/components/ui/ReportPanel";
 
-import useDeletePost from "@/api/community/client/useDeletePost";
+import { useDeletePost } from "@/apis/community";
 import { toast } from "@/lib/zustand/useToastStore";
 import { IconSetting } from "@/public/svgs/mentor";
 

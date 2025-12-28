@@ -3,8 +3,7 @@ import { useForm } from "react-hook-form";
 
 import { z } from "zod";
 
-import useGetMyInfo, { MyInfoResponse } from "@/api/my/client/useGetMyInfo";
-import usePatchMyInfo from "@/api/my/client/usePatchMyInfo";
+import { type MyInfoResponse, useGetMyInfo, usePatchMyInfo } from "@/apis/MyPage";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 // Zod 스키마 정의 - 닉네임과 이미지

@@ -17,7 +17,7 @@ import { LanguageTestFormData, languageTestSchema } from "./_lib/schema";
 
 import { LanguageTestEnum } from "@/types/score";
 
-import { usePostLanguageTestScore } from "@/api/score/client/usePostLanguageTestScore";
+import { usePostLanguageTestScore } from "@/apis/Scores";
 import CustomDropdown from "@/app/university/CustomDropdown";
 import { toast } from "@/lib/zustand/useToastStore";
 import { zodResolver } from "@hookform/resolvers/zod";

@@ -10,8 +10,8 @@ import TabSelector from "@/components/ui/TabSelector";
 import { VerifyStatus } from "@/types/mentee";
 import { MenteeTab } from "@/types/mentor";
 
-import useGetChatRooms from "@/api/chat/clients/useGetChatRooms";
-import useGetMenteeMentoringList from "@/api/mentee/client/useGetApplyMentoringList";
+import { useGetChatRooms } from "@/apis/chat";
+import { useGetApplyMentoringList as useGetMenteeMentoringList } from "@/apis/mentor";
 import { IconDirectionRight } from "@/public/svgs/mentor";
 
 const MenteePageTabs = () => {

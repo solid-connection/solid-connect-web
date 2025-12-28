@@ -12,12 +12,12 @@ import AddArticleCard from "./_ui/AddArticleCard";
 import ArticlePanel from "./_ui/ArticlePanel";
 import ChannelBox from "./_ui/ChannelBox";
 
-import useGetMyMentorProfile from "@/api/mentor/client/useGetMentorMyProfile";
-import useGetArticleList from "@/api/news/client/useGetArticleList";
+import { useGetMentorMyProfile } from "@/apis/mentor";
+import { useGetArticleList } from "@/apis/news";
 import { IconUserPrimaryColor } from "@/public/svgs/mentor";
 
 const ModifyContent = () => {
-  const { data: myMentorProfile = null } = useGetMyMentorProfile();
+  const { data: myMentorProfile = null } = useGetMentorMyProfile();
   const { data: articleList = [] } = useGetArticleList(myMentorProfile?.id || 0);
 
   const method = useModifyHookForm(myMentorProfile);

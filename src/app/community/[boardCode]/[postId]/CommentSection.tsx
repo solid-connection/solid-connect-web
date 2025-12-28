@@ -14,7 +14,7 @@ import CommentInput from "./CommentInput";
 
 import { Comment as CommentType, CommunityUser } from "@/types/community";
 
-import useDeleteComment from "@/api/community/client/useDeleteComment";
+import { useDeleteComment } from "@/apis/community";
 import { IconMoreVertFilled, IconSubComment } from "@/public/svgs";
 
 type CommentSectionProps = {

@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/Inputa";
 import { Label } from "@/components/ui/Label";
 import { Progress } from "@/components/ui/Progress";
 
-import usePostEmailSignUp from "@/api/auth/client/usePostEmailSignUp";
+import { usePostEmailSignUp } from "@/apis/Auth";
 import { toast } from "@/lib/zustand/useToastStore";
 import { IconCheckBlue, IconExpRed, IconEyeOff, IconEyeOn } from "@/public/svgs/ui";
 

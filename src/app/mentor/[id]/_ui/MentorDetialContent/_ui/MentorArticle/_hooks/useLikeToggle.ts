@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
-import useDeleteArticleLike from "@/api/news/client/useDeleteArticleLike";
-import usePostArticleLike from "@/api/news/client/usePostArticleLike";
+import { useDeleteArticleLike, usePostArticleLike } from "@/apis/news";
 
 const useLikeToggle = (articleId: number, mentorId: number, articleIsLiked?: boolean) => {
   const { mutate: postArticleLike } = usePostArticleLike(mentorId);

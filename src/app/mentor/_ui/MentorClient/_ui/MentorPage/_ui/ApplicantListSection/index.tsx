@@ -3,7 +3,7 @@ import useInfinityScroll from "@/utils/useInfinityScroll";
 import MentorExpandChatCard from "@/components/mentor/MentorExpandChatCard";
 import EmptySdwBCards from "@/components/ui/EmptySdwBCards";
 
-import useGetMentoringList from "@/api/mentor/client/useGetMentoringList";
+import { useGetMentoringList } from "@/apis/mentor";
 
 const ApplicantListSection = () => {
   const { data: mentoringApplicantList = [], fetchNextPage, hasNextPage } = useGetMentoringList({ size: 6 });

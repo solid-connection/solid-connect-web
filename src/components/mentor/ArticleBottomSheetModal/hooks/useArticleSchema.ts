@@ -6,9 +6,8 @@ import { convertUploadedImageUrl } from "@/utils/fileUtils";
 import { InitialData } from "..";
 import { ArticleFormData, articleSchema } from "../lib/schema";
 
-import useGetMentorMyProfile from "@/api/mentor/client/useGetMentorMyProfile";
-import usePostAddArticle from "@/api/news/client/usePostAddArticle";
-import usePutModifyArticle from "@/api/news/client/usePutModifyArticle";
+import { useGetMentorMyProfile } from "@/apis/mentor";
+import { usePostAddArticle, usePutModifyArticle } from "@/apis/news";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 interface UseArticleSchemaProps {

@@ -9,7 +9,7 @@ import CommentSection from "./CommentSection";
 import Content from "./Content";
 import KebabMenu from "./KebabMenu";
 
-import useGetPostDetail from "@/api/community/client/useGetPostDetail";
+import { useGetPostDetail } from "@/apis/community";
 
 interface PostPageContentProps {
   boardCode: string;

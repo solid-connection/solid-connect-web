@@ -3,7 +3,7 @@ import { useState } from "react";
 import { reportReasons } from "@/constants/report";
 import { ReportType } from "@/types/reports";
 
-import usePostReports from "@/api/reports/client/usePostReport";
+import { usePostReports } from "@/apis/reports";
 import { customConfirm } from "@/lib/zustand/useConfirmModalStore";
 import { IconReport } from "@/public/svgs/mentor";
 

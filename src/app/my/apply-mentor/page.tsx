@@ -13,7 +13,7 @@ import StudyStatusScreen from "./_components/StudyStatusScreen";
 import UniversityScreen from "./_components/UniversityScreen";
 import { MentorApplicationFormData, mentorApplicationSchema } from "./_lib/schema";
 
-import usePostMentorApplication from "@/api/mentor/client/usePostMentorApplication";
+import { usePostMentorApplication } from "@/apis/mentor";
 import { toast } from "@/lib/zustand/useToastStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 

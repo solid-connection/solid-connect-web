@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-import usePutChatRead from "@/api/chat/clients/usePutChatRead";
+import { usePutChatRead } from "@/apis/chat";
 
 const usePutChatReadHandler = (chatId: number) => {
   const { mutate: putChatRead } = usePutChatRead();

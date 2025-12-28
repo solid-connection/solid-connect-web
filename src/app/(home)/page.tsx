@@ -7,8 +7,7 @@ import NewsSectionSkeleton from "./_ui/NewsSection/skeleton";
 import PopularUniversitySection from "./_ui/PopularUniversitySection";
 import UniversityList from "./_ui/UniversityList";
 
-import getRecommendedUniversity from "@/api/university/server/getRecommendedUniversity";
-import { getCategorizedUniversities } from "@/api/university/server/getSearchUniversitiesByText";
+import { getCategorizedUniversities, getRecommendedUniversity } from "@/apis/universities/server";
 import { fetchAllNews } from "@/lib/firebaseNews";
 import { IconIdCard, IconMagnifyingGlass, IconMuseum, IconPaper } from "@/public/svgs/home";
 

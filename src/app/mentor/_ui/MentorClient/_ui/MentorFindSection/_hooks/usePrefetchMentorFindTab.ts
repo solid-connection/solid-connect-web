@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 import { FilterTab } from "@/types/mentor";
 
-import { usePrefetchMentorList } from "@/api/mentors/client/useGetMentorList";
+import { usePrefetchMentorList } from "@/apis/mentor";
 
 const usePrefetchMentorFindTab = () => {
   const { prefetchMentorList } = usePrefetchMentorList();

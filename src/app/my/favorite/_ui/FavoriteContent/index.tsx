@@ -8,7 +8,7 @@ import useSelectUniversities from "./_hooks/useSelectUniversities";
 import useSortedUniversities from "./_hooks/useSortedUniversities";
 import FavoriteDropDown from "./_ui/FavoriteDropDown";
 
-import useGetMyInfo from "@/api/my/client/useGetMyInfo";
+import { useGetMyInfo } from "@/apis/MyPage";
 
 // 필터 타입 Enum
 export enum filterType {

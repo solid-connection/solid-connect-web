@@ -5,7 +5,7 @@ import { useEffect } from "react";
 
 import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 
-import usePostKakaoAuth from "@/api/auth/client/usePostKakaoAuth";
+import { usePostKakaoAuth } from "@/apis/Auth";
 
 const KakaoLoginCallbackPage = () => {
   const searchParams = useSearchParams();

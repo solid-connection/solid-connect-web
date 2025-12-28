@@ -16,7 +16,7 @@ import { REGIONS_KO } from "@/constants/university";
 import { ScoreSheet as ScoreSheetType } from "@/types/application";
 import { RegionKo } from "@/types/university";
 
-import useGetApplicationsList from "@/api/applications/client/useGetApplicationsList";
+import { useGetApplicationsList } from "@/apis/applications";
 import { toast } from "@/lib/zustand/useToastStore";
 
 const PREFERENCE_CHOICE: ("1순위" | "2순위" | "3순위")[] = ["1순위", "2순위", "3순위"];

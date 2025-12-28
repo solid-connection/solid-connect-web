@@ -4,7 +4,7 @@ import { filterType } from "..";
 
 import { ListUniversity, University } from "@/types/university";
 
-import useGetMyWishUniversity from "@/api/university/client/useGetMyWishUniversity";
+import { useGetWishList } from "@/apis/universities";
 
 interface UseSortedUniversitiesReturn {
   wishUniversity: ListUniversity[];
@@ -13,7 +13,7 @@ interface UseSortedUniversitiesReturn {
 }
 
 const useSortedUniversities = (): UseSortedUniversitiesReturn => {
-  const { data: wishUniversity = [] } = useGetMyWishUniversity();
+  const { data: wishUniversity = [] } = useGetWishList();
 
   const [sequence, setSequence] = useState<filterType>(filterType.LATEST);
 

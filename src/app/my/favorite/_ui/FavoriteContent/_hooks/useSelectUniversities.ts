@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-import { QueryKeys } from "@/api/university/client/queryKey";
-import useDeleteUniversityFavorite from "@/api/university/client/useDeleteUniversityFavorite";
+import { QueryKeys } from "@/apis/queryKeys";
+import { useDeleteWish } from "@/apis/universities";
 import { toast } from "@/lib/zustand/useToastStore";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -11,7 +11,7 @@ interface UseSelectUniversitiesReturn {
   handleDeleteAll: () => void;
 }
 const useSelectUniversities = (): UseSelectUniversitiesReturn => {
-  const { mutate: deleteUserAccount } = useDeleteUniversityFavorite();
+  const { mutate: deleteUserAccount } = useDeleteWish();
 
   const queryClient = useQueryClient();
   const [editSelected, setEditSelected] = useState<number[]>([]);
@@ -43,7 +43,7 @@ const useSelectUniversities = (): UseSelectUniversitiesReturn => {
       } else {
         toast.success("모든 학교가 삭제되었습니다.");
       }
-      queryClient.invalidateQueries({ queryKey: [QueryKeys.univApplyInfosLike] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.universities.wishList] });
     });
   };
 

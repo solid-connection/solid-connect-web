@@ -2,10 +2,10 @@
 
 import MentorCard from "@/components/mentor/MentorCard";
 
-import useGetMyMentorProfile from "@/api/mentor/client/useGetMentorMyProfile";
+import { useGetMentorMyProfile } from "@/apis/mentor";
 
 const MyMentorSection = () => {
-  const { data: myMentorProfile } = useGetMyMentorProfile();
+  const { data: myMentorProfile } = useGetMentorMyProfile();
 
   if (!myMentorProfile) {
     return <div className="text-gray-500">멘토 프로필을 불러오는 중...</div>;

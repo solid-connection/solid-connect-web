@@ -6,8 +6,8 @@ import CommunityPageContent from "./CommunityPageContent";
 
 import { COMMUNITY_BOARDS } from "@/constants/community";
 
-import { QueryKeys } from "@/api/boards/clients/QueryKeys";
-import { getPostList } from "@/api/boards/server/getPostList";
+import { CommunityQueryKeys } from "@/apis/community/api";
+import { getPostListServer } from "@/apis/community/server";
 import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
 
 export const metadata: Metadata = {
@@ -40,11 +40,11 @@ const CommunityPage = async ({ params }: CommunityPageProps) => {
   const defaultCategory = "전체";
 
   // 서버에서 데이터 prefetch (ISR - 수동 revalidate만)
-  const result = await getPostList({ boardCode, category: defaultCategory, revalidate: false });
+  const result = await getPostListServer({ boardCode, category: defaultCategory, revalidate: false });
 
   if (result.ok) {
     // React Query 캐시에 데이터 설정 (서버 fetch와 동일한 category 사용)
-    queryClient.setQueryData([QueryKeys.postList, boardCode, defaultCategory], {
+    queryClient.setQueryData([CommunityQueryKeys.postList, boardCode, defaultCategory], {
       data: result.data,
     });
   }

@@ -15,7 +15,7 @@ import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 // CustomDropdown 경로 확인 필요
 import { GpaFormData, gpaSchema } from "./_lib/schema";
 
-import { usePostGpaScore } from "@/api/score/client/usePostGpaScore";
+import { usePostGpaScore } from "@/apis/Scores";
 import CustomDropdown from "@/app/university/CustomDropdown";
 import { zodResolver } from "@hookform/resolvers/zod";
 

@@ -14,8 +14,8 @@ import ReportPanel from "../../../../../../components/ui/ReportPanel";
 
 import { UserRole } from "@/types/mentor";
 
-import useGetPartnerInfo from "@/api/chat/clients/useGetPartnerInfo";
-import useGetMyInfo from "@/api/my/client/useGetMyInfo";
+import { useGetMyInfo } from "@/apis/MyPage";
+import { useGetPartnerInfo } from "@/apis/chat";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { IconAlert, IconAlertSubC, IconDirectionRight, IconSetting } from "@/public/svgs/mentor";
 
