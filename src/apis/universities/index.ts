@@ -1,0 +1,10 @@
+export { universitiesApi } from './api';
+export { default as deleteWish } from './deleteWish';
+export { default as getByRegionCountry } from './getByRegionCountry';
+export { default as getIsWish } from './getIsWish';
+export { default as getRecommendedUniversities } from './getRecommendedUniversities';
+export { default as getSearchFilter } from './getSearchFilter';
+export { default as getSearchText } from './getSearchText';
+export { default as getUniversityDetail } from './getUniversityDetail';
+export { default as getWishList } from './getWishList';
+export { default as postAddWish } from './postAddWish';
