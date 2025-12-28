@@ -68,20 +68,11 @@ module.exports = {
     // import 순서는 Prettier 플러그인에서 처리
     "import/order": "off",
 
-    // import 시 파일 확장자 생략
-    "import/extensions": [
-      "error",
-      "ignorePackages",
-      {
-        js: "never",
-        jsx: "never",
-        ts: "never",
-        tsx: "never",
-      },
-    ],
+    // import 시 파일 확장자 생략 (warning으로 설정)
+    "import/extensions": "off",
 
     // 단일 export 시 default export 권장 (warning)
-    "import/prefer-default-export": 1,
+    "import/prefer-default-export": "off",
 
     // ==========================================
     // 일반 JavaScript 규칙
@@ -105,6 +96,9 @@ module.exports = {
 
     // 미사용 변수 경고 (TypeScript용 - 기본 규칙 대신 사용)
     "@typescript-eslint/no-unused-vars": "warn",
+
+    // any 타입 사용 경고 (error -> warn)
+    "@typescript-eslint/no-explicit-any": "warn",
 
     // any 타입 관련 규칙 (경고로 설정)
     "@typescript-eslint/no-unsafe-assignment": "warn",
