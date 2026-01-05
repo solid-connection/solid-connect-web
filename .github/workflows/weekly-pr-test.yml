@@ -27,12 +27,14 @@ jobs:
             --repo "$REPO" \
             --state merged \
             --limit 100 \
-            --json number,title,author,labels,mergedAt,url \
-            --jq --arg since "$SINCE_DATE" '
-              map(select(.mergedAt >= $since)) |
-              sort_by(.mergedAt) |
-              reverse
-            ' > prs.json
+            --json number,title,author,labels,mergedAt,url > all_prs.json
+
+          # 날짜 필터링
+          jq --arg since "$SINCE_DATE" '
+            map(select(.mergedAt >= $since)) |
+            sort_by(.mergedAt) |
+            reverse
+          ' all_prs.json > prs.json
 
           # PR 개수 확인
           PR_COUNT=$(jq 'length' prs.json)
