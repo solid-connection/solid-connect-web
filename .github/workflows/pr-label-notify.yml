@@ -13,6 +13,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Debug event info
+        run: |
+          echo "Event name: ${{ github.event_name }}"
+          echo "Label name: ${{ github.event.label.name }}"
+          echo "PR author: ${{ github.event.pull_request.user.login }}"
+
       - name: Send Discord notification for PR label
         if: github.event_name == 'pull_request_target' && github.event.label.name == 'need_review'
         env:
