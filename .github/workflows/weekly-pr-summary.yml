@@ -62,7 +62,7 @@ jobs:
                   ""
                 end
               ) +
-              "\n  🔗 " + .url
+              "\n  🔗 <" + .url + ">"
             ) | join("\n\n")
           ' prs.json)
 
