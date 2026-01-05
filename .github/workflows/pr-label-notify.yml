@@ -27,7 +27,9 @@ jobs:
           curl -X POST "$DISCORD_WEBHOOK_URL" \
             -H "Content-Type: application/json" \
             -d '{
-              "content": "리뷰가 필요합니다! @프론트",
+              "username": "프론트 PR 리뷰봇",
+              "avatar_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
+              "content": "리뷰가 필요합니다! <@&1368737911301865503>",
               "embeds": [{
                 "title": "PR #'"$PR_NUMBER"': '"$PR_TITLE"'",
                 "description": "리뷰 요청이 있습니다",
@@ -49,7 +51,10 @@ jobs:
                   "text": "GitHub Actions"
                 },
                 "timestamp": "'$(date -u +%Y-%m-%dT%H:%M:%SZ)'"
-              }]
+              }],
+              "allowed_mentions": {
+                "roles": ["1368737911301865503"]
+              }
             }'
 
       - name: Send Discord notification for webhook
@@ -57,8 +62,15 @@ jobs:
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL || 'https://discord.com/api/webhooks/1457757557438550177/8WvnhSLYFfxGRpsDD_ExCONT41dNKhpxw78D6m66nxEkwVMsuTdXifHQXm0JT4Z7dNp2' }}
         run: |
-          MESSAGE="${{ github.event.client_payload.message || '리뷰가 필요합니다! @프론트' }}"
+          MESSAGE="${{ github.event.client_payload.message || '리뷰가 필요합니다! <@&1368737911301865503>' }}"
 
           curl -X POST "$DISCORD_WEBHOOK_URL" \
             -H "Content-Type: application/json" \
-            -d "{\"content\": \"$MESSAGE\"}"
+            -d '{
+              "username": "프론트 PR 리뷰봇",
+              "avatar_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
+              "content": "'"$MESSAGE"'",
+              "allowed_mentions": {
+                "roles": ["1368737911301865503"]
+              }
+            }'
