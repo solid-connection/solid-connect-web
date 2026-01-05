@@ -1,0 +1,64 @@
+name: PR Label Notify
+
+on:
+  pull_request:
+    types: [labeled]
+  repository_dispatch:
+    types: [pr_notify]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Send Discord notification for PR label
+        if: github.event_name == 'pull_request' && github.event.label.name == 'need_review'
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL || 'https://discord.com/api/webhooks/1457757557438550177/8WvnhSLYFfxGRpsDD_ExCONT41dNKhpxw78D6m66nxEkwVMsuTdXifHQXm0JT4Z7dNp2' }}
+        run: |
+          PR_NUMBER="${{ github.event.pull_request.number }}"
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          PR_AUTHOR="${{ github.event.pull_request.user.login }}"
+          PR_URL="${{ github.event.pull_request.html_url }}"
+          REPO_NAME="${{ github.repository }}"
+
+          curl -X POST "$DISCORD_WEBHOOK_URL" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "content": "리뷰가 필요합니다! @프론트",
+              "embeds": [{
+                "title": "PR #'"$PR_NUMBER"': '"$PR_TITLE"'",
+                "description": "리뷰 요청이 있습니다",
+                "url": "'"$PR_URL"'",
+                "color": 3447003,
+                "fields": [
+                  {
+                    "name": "작성자",
+                    "value": "'"$PR_AUTHOR"'",
+                    "inline": true
+                  },
+                  {
+                    "name": "저장소",
+                    "value": "'"$REPO_NAME"'",
+                    "inline": true
+                  }
+                ],
+                "footer": {
+                  "text": "GitHub Actions"
+                },
+                "timestamp": "'$(date -u +%Y-%m-%dT%H:%M:%SZ)'"
+              }]
+            }'
+
+      - name: Send Discord notification for webhook
+        if: github.event_name == 'repository_dispatch'
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL || 'https://discord.com/api/webhooks/1457757557438550177/8WvnhSLYFfxGRpsDD_ExCONT41dNKhpxw78D6m66nxEkwVMsuTdXifHQXm0JT4Z7dNp2' }}
+        run: |
+          MESSAGE="${{ github.event.client_payload.message || '리뷰가 필요합니다! @프론트' }}"
+
+          curl -X POST "$DISCORD_WEBHOOK_URL" \
+            -H "Content-Type: application/json" \
+            -d "{\"content\": \"$MESSAGE\"}"
