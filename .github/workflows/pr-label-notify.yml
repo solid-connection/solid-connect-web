@@ -23,39 +23,50 @@ jobs:
           PR_URL: ${{ github.event.pull_request.html_url }}
           REPO_NAME: ${{ github.repository }}
         run: |
+          TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 
-          curl -X POST "$DISCORD_WEBHOOK_URL" \
-            -H "Content-Type: application/json" \
-            -d '{
-              "username": "프론트 PR 리뷰봇",
-              "avatar_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
-              "content": "리뷰가 필요합니다! <@&1368737911301865503>",
-              "embeds": [{
-                "title": "PR #'"$PR_NUMBER"': '"$PR_TITLE"'",
-                "description": "리뷰 요청이 있습니다",
-                "url": "'"$PR_URL"'",
-                "color": 3447003,
-                "fields": [
+          jq -n \
+            --arg username "프론트 PR 리뷰봇" \
+            --arg avatar_url "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" \
+            --arg content "리뷰가 필요합니다! <@&1368737911301865503>" \
+            --arg pr_number "$PR_NUMBER" \
+            --arg pr_title "$PR_TITLE" \
+            --arg pr_author "$PR_AUTHOR" \
+            --arg pr_url "$PR_URL" \
+            --arg repo_name "$REPO_NAME" \
+            --arg timestamp "$TIMESTAMP" \
+            '{
+              username: $username,
+              avatar_url: $avatar_url,
+              content: $content,
+              embeds: [{
+                title: ("PR #" + $pr_number + ": " + $pr_title),
+                description: "리뷰 요청이 있습니다",
+                url: $pr_url,
+                color: 3447003,
+                fields: [
                   {
-                    "name": "작성자",
-                    "value": "'"$PR_AUTHOR"'",
-                    "inline": true
+                    name: "작성자",
+                    value: $pr_author,
+                    inline: true
                   },
                   {
-                    "name": "저장소",
-                    "value": "'"$REPO_NAME"'",
-                    "inline": true
+                    name: "저장소",
+                    value: $repo_name,
+                    inline: true
                   }
                 ],
-                "footer": {
-                  "text": "GitHub Actions"
+                footer: {
+                  text: "GitHub Actions"
                 },
-                "timestamp": "'$(date -u +%Y-%m-%dT%H:%M:%SZ)'"
+                timestamp: $timestamp
               }],
-              "allowed_mentions": {
-                "roles": ["1368737911301865503"]
+              allowed_mentions: {
+                roles: ["1368737911301865503"]
               }
-            }'
+            }' | curl -X POST "$DISCORD_WEBHOOK_URL" \
+              -H "Content-Type: application/json" \
+              -d @-
 
       - name: Send Discord notification for webhook
         if: github.event_name == 'repository_dispatch'
@@ -65,13 +76,17 @@ jobs:
         run: |
           MESSAGE="${CUSTOM_MESSAGE:-리뷰가 필요합니다! <@&1368737911301865503>}"
 
-          curl -X POST "$DISCORD_WEBHOOK_URL" \
-            -H "Content-Type: application/json" \
-            -d '{
-              "username": "프론트 PR 리뷰봇",
-              "avatar_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
-              "content": "'"$MESSAGE"'",
-              "allowed_mentions": {
-                "roles": ["1368737911301865503"]
+          jq -n \
+            --arg username "프론트 PR 리뷰봇" \
+            --arg avatar_url "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" \
+            --arg content "$MESSAGE" \
+            '{
+              username: $username,
+              avatar_url: $avatar_url,
+              content: $content,
+              allowed_mentions: {
+                roles: ["1368737911301865503"]
               }
-            }'
+            }' | curl -X POST "$DISCORD_WEBHOOK_URL" \
+              -H "Content-Type: application/json" \
+              -d @-
