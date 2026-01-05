@@ -1,7 +1,7 @@
 name: Weekly PR Summary
 
 on:
-  pull_request:
+  pull_request_target:
     types: [opened]
   schedule:
     # 매주 금요일 13:00 UTC (22:00 KST)
