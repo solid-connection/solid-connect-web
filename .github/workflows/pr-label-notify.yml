@@ -16,7 +16,7 @@ jobs:
       - name: Send Discord notification for PR label
         if: github.event_name == 'pull_request' && github.event.label.name == 'need_review'
         env:
-          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL || 'https://discord.com/api/webhooks/1457757557438550177/8WvnhSLYFfxGRpsDD_ExCONT41dNKhpxw78D6m66nxEkwVMsuTdXifHQXm0JT4Z7dNp2' }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
           PR_NUMBER="${{ github.event.pull_request.number }}"
           PR_TITLE="${{ github.event.pull_request.title }}"
@@ -60,7 +60,7 @@ jobs:
       - name: Send Discord notification for webhook
         if: github.event_name == 'repository_dispatch'
         env:
-          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL || 'https://discord.com/api/webhooks/1457757557438550177/8WvnhSLYFfxGRpsDD_ExCONT41dNKhpxw78D6m66nxEkwVMsuTdXifHQXm0JT4Z7dNp2' }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
           MESSAGE="${{ github.event.client_payload.message || '리뷰가 필요합니다! <@&1368737911301865503>' }}"
 
