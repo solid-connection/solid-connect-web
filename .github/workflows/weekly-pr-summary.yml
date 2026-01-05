@@ -1,0 +1,106 @@
+name: Weekly PR Summary
+
+on:
+  pull_request:
+    types: [opened]
+  schedule:
+    # 매주 금요일 13:00 UTC (22:00 KST)
+    - cron: '0 13 * * 5'
+  workflow_dispatch:
+
+jobs:
+  summary:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Collect merged PRs from last 7 days
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          # 7일 전 날짜 계산
+          SINCE_DATE=$(date -u -d '7 days ago' +%Y-%m-%dT%H:%M:%SZ)
+
+          echo "Fetching PRs merged since: $SINCE_DATE"
+
+          # 최근 7일간 머지된 PR 목록 가져오기
+          gh pr list \
+            --repo "$REPO" \
+            --state merged \
+            --limit 100 \
+            --json number,title,author,labels,mergedAt,url \
+            --jq --arg since "$SINCE_DATE" '
+              map(select(.mergedAt >= $since)) |
+              sort_by(.mergedAt) |
+              reverse
+            ' > prs.json
+
+          # PR 개수 확인
+          PR_COUNT=$(jq 'length' prs.json)
+          echo "Found $PR_COUNT merged PRs"
+
+          # 결과 저장
+          echo "PR_COUNT=$PR_COUNT" >> $GITHUB_ENV
+
+      - name: Generate summary message
+        run: |
+          # 날짜 계산
+          END_DATE=$(date -u +%Y-%m-%d)
+          START_DATE=$(date -u -d '7 days ago' +%Y-%m-%d)
+
+          # PR 목록 생성
+          PR_LIST=$(jq -r '
+            map(
+              "- " + .title +
+              " (#" + (.number | tostring) + ") — " + .author.login +
+              (
+                if (.labels | length) > 0 then
+                  "\n  🏷 " + ([.labels[].name] | join(", "))
+                else
+                  ""
+                end
+              ) +
+              "\n  🔗 " + .url
+            ) | join("\n\n")
+          ' prs.json)
+
+          # 메시지가 비어있을 경우 처리
+          if [ "$PR_COUNT" -eq 0 ]; then
+            PR_LIST="이번 주에 머지된 PR이 없습니다."
+          fi
+
+          # 메시지 생성
+          cat > message.txt <<EOF
+**📊 이번 주 작업 요약**
+
+**기간:** $START_DATE ~ $END_DATE
+**총 머지된 PR:** $PR_COUNT개
+
+$PR_LIST
+EOF
+
+          echo "Generated summary message"
+
+      - name: Send to Discord
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          # 메시지 읽기
+          MESSAGE=$(cat message.txt)
+
+          # Discord로 전송
+          jq -n \
+            --arg username "주간 PR 요약봇" \
+            --arg avatar_url "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" \
+            --arg content "$MESSAGE" \
+            '{
+              username: $username,
+              avatar_url: $avatar_url,
+              content: $content
+            }' | curl -X POST "$DISCORD_WEBHOOK_URL" \
+              -H "Content-Type: application/json" \
+              -d @-
+
+          echo "✅ Weekly summary sent to Discord"
