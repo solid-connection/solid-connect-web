@@ -1,8 +1,6 @@
 name: Weekly PR Summary
 
 on:
-  pull_request_target:
-    types: [opened]
   schedule:
     # 매주 금요일 13:00 UTC (22:00 KST)
     - cron: '0 13 * * 5'
@@ -71,15 +69,15 @@ jobs:
             PR_LIST="이번 주에 머지된 PR이 없습니다."
           fi
 
-          # 메시지 생성
-          cat > message.txt <<EOF
-**📊 이번 주 작업 요약**
-
-**기간:** $START_DATE ~ $END_DATE
-**총 머지된 PR:** $PR_COUNT개
-
-$PR_LIST
-EOF
+          # 메시지 생성 (환경 변수로 저장)
+          echo "MESSAGE<<EOFMSG" >> $GITHUB_ENV
+          echo "**📊 이번 주 작업 요약**" >> $GITHUB_ENV
+          echo "" >> $GITHUB_ENV
+          echo "**기간:** $START_DATE ~ $END_DATE" >> $GITHUB_ENV
+          echo "**총 머지된 PR:** $PR_COUNT개" >> $GITHUB_ENV
+          echo "" >> $GITHUB_ENV
+          echo "$PR_LIST" >> $GITHUB_ENV
+          echo "EOFMSG" >> $GITHUB_ENV
 
           echo "Generated summary message"
 
@@ -87,9 +85,6 @@ EOF
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
-          # 메시지 읽기
-          MESSAGE=$(cat message.txt)
-
           # Discord로 전송
           jq -n \
             --arg username "주간 PR 요약봇" \
