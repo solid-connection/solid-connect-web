@@ -3,7 +3,7 @@ name: Weekly PR Summary
 on:
   schedule:
     # 매주 금요일 13:00 UTC (22:00 KST)
-    - cron: '0 13 * * 5'
+    - cron: "0 13 * * 5"
   workflow_dispatch:
 
 jobs:
