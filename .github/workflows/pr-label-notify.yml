@@ -1,7 +1,7 @@
 name: PR Label Notify
 
 on:
-  pull_request:
+  pull_request_target:
     types: [labeled]
   repository_dispatch:
     types: [pr_notify]
@@ -23,6 +23,13 @@ jobs:
           PR_URL: ${{ github.event.pull_request.html_url }}
           REPO_NAME: ${{ github.repository }}
         run: |
+          # Security: Only allow CODEOWNERS to trigger notifications
+          ALLOWED_AUTHORS=("wibaek" "manNomi" "enunsnv" "khwww")
+          if [[ ! " ${ALLOWED_AUTHORS[@]} " =~ " ${PR_AUTHOR} " ]]; then
+            echo "⚠️ Skipping notification: PR author is not a CODEOWNER"
+            exit 0
+          fi
+
           TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 
           jq -n \
