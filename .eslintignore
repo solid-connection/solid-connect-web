@@ -1,1 +1,26 @@
+# Dependencies
+node_modules
+
+# Build outputs
+.next
+out
+build
+dist
+
+# Generated files
+*.min.js
+*.min.css
+next-env.d.ts
+
+# Cache
+.cache
+.turbo
+
+# Coverage
+coverage
+
+# Vercel
+.vercel
+
+# Documentation
 클로드.md
