@@ -70,3 +70,7 @@
 .animate-slide-in {
   animation: slide-in 0.3s ease-out;
 }
+
+:root {
+  --radius: 8px;
+}
