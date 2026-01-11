@@ -20,7 +20,7 @@ module.exports = {
     es2021: true,
     node: true,
   },
-  plugins: ["@typescript-eslint"],
+  plugins: ["@typescript-eslint", "prettier"],
   extends: [
     // Next.js 기본 설정
     "next",
@@ -28,8 +28,8 @@ module.exports = {
     "next/typescript",
     // TypeScript ESLint 권장 규칙
     "plugin:@typescript-eslint/recommended",
-    // Prettier와 충돌하는 규칙 비활성화 (항상 마지막에 위치해야 함)
-    "prettier",
+    // Prettier를 ESLint 규칙으로 실행
+    "plugin:prettier/recommended",
   ],
   overrides: [
     {
