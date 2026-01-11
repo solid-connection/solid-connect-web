@@ -150,6 +150,7 @@ const config: Config = {
         "gray-c": {
           "100": "#ececec",
           "200": "#e5e7eb",
+          "300": "#f9fafb",
         },
         // 하드코딩된 회색 계열 색상
         gray: {
