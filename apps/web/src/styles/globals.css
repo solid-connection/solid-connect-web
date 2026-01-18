@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: var(--font-pretendard), system-ui, -apple-system, sans-serif;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply m-0 bg-white;
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+}
+
+@layer components {
+  .score-table {
+    @apply border-collapse;
+  }
+
+  .score-table tr {
+    @apply border border-bg-300;
+  }
+
+  .score-table button {
+    @apply cursor-pointer border-none bg-transparent;
+  }
+
+  .score-table thead {
+    @apply bg-bg-50;
+  }
+
+  .score-table thead tr {
+    @apply flex h-10 items-center justify-between px-3 py-0;
+  }
+
+  .score-table th {
+    @apply typo-sb-7 text-black;
+  }
+
+  .score-table tbody tr {
+    @apply flex h-10 items-center px-3 py-0;
+  }
+
+  .score-table td {
+    @apply min-w-[30px] flex-1 overflow-hidden whitespace-nowrap typo-medium-3 text-gray-600;
+  }
+
+  .score-table td:nth-of-type(5) {
+    @apply flex-none basis-[18px];
+  }
+}
+
+/* Toast 애니메이션 */
+@keyframes slide-in {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in {
+  animation: slide-in 0.3s ease-out;
+}
