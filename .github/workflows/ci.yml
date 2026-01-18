@@ -7,11 +7,11 @@ on:
     branches: [main, develop]
 
 jobs:
-  lint:
-    name: Lint & Type Check
+  quality-check:
+    name: Code Quality Check
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Install pnpm
@@ -28,20 +28,15 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Run ESLint
-        run: pnpm run lint
-
-      - name: Check Prettier formatting
-        run: pnpm run format:check
-
-      - name: TypeScript type check
-        run: pnpm run typecheck
+      - name: Run ESLint (includes Prettier) & TypeScript
+        run: pnpm run ci:check
 
   build:
-    name: Build
+    name: Build Verification
     runs-on: ubuntu-latest
+    needs: quality-check
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Install pnpm
@@ -58,7 +53,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build
+      - name: Build Next.js application
         run: pnpm run build
         env:
           NODE_ENV: production
