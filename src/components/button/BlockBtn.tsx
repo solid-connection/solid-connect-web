@@ -21,8 +21,7 @@ const blockBtnVariants = cva("h-13 w-full min-w-80 max-w-screen-sm rounded-lg fl
 });
 
 export interface BlockBtnProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof blockBtnVariants> {
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof blockBtnVariants> {
   onClick: () => void;
   children: React.ReactNode;
 }
