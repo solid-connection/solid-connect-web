@@ -7,11 +7,9 @@ const nextConfig = {
   images: {
     unoptimized: true,
     domains: [
-      "solid-connection.s3.ap-northeast-2.amazonaws.com",
-      "solid-connection-uploaded.s3.ap-northeast-2.amazonaws.com",
       "k.kakaocdn.net",
-      "d1q5o8tzvz4j3d.cloudfront.net",
-      "d23lwokhcc3r0c.cloudfront.net",
+      "cdn.default.solid-connection.com",
+      "cdn.upload.solid-connection.com",
     ],
     formats: ["image/avif", "image/webp"],
     deviceSizes: [360, 640, 768, 1024, 1280],
