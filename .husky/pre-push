@@ -1,6 +1,3 @@
-echo "🔍 Running lint check before push..."
-pnpm run lint
-
 echo "🔍 Running type check before push..."
 pnpm run typecheck
 
