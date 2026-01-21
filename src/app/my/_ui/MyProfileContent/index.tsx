@@ -80,7 +80,7 @@ const MyProfileContent = () => {
         </p>
       </div>
       {/* Profile Card */}
-      <div className="mb-4 rounded-lg bg-gray-50 p-4">
+      <div className="mb-4 rounded-lg bg-gray-c-300 p-4">
         <div className="mb-3 flex items-center space-x-3">
           <ProfileWithBadge profileImageUrl={profileImageUrl} width={48} height={48} />
           <div>

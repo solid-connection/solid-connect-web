@@ -149,6 +149,8 @@ const config: Config = {
         },
         "gray-c": {
           "100": "#ececec",
+          "200": "#e5e7eb",
+          "300": "#f9fafb",
         },
         // 하드코딩된 회색 계열 색상
         gray: {
@@ -317,9 +319,9 @@ const config: Config = {
         height: "height",
       },
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        lg: "8px",
+        md: "6px",
+        sm: "4px",
       },
       animation: {
         "slide-up": "slideUp 0.3s ease-out",
