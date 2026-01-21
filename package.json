@@ -1,12 +1,23 @@
 {
   "name": "solid-connect",
   "private": true,
+  "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "dev": "turbo dev",
     "build": "turbo build",
+    "start": "turbo start",
     "lint": "turbo lint",
+    "lint:fix": "turbo lint:fix",
     "typecheck": "turbo typecheck",
     "ci:check": "turbo ci:check",
+    "lint:all": "turbo lint:all",
+    "fix:all": "turbo fix:all",
+    "format": "turbo format",
+    "format:check": "turbo format:check",
     "prepare": "husky"
   },
   "devDependencies": {
@@ -14,9 +25,5 @@
     "@commitlint/config-conventional": "^20.2.0",
     "husky": "^9.1.7",
     "turbo": "^2.3.0"
-  },
-  "engines": {
-    "node": "22.x"
-  },
-  "packageManager": "pnpm@9.0.0"
+  }
 }
