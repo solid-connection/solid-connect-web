@@ -9,10 +9,47 @@
 - Prettier
 - Vercel
 
+## Prerequisites
+
+- Node.js 22.x
+- pnpm 9.x or later
+
+## Installation
+
+This project uses pnpm as the package manager.
+
+```bash
+# Install pnpm globally
+npm install -g pnpm
+
+# Install dependencies
+pnpm install
+```
+
 ## Commands
 
 ```bash
-npm run dev
+# Development server
+pnpm run dev
 
-npm run lint
+# Build for production
+pnpm run build
+
+# Linting
+pnpm run lint
+
+# Type checking
+pnpm run typecheck
+
+# Format code
+pnpm run format
+```
+
+## Migration from npm
+
+If you have an existing clone:
+
+```bash
+rm -rf node_modules package-lock.json
+pnpm install
 ```

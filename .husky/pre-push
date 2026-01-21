@@ -1,7 +1,7 @@
 echo "🔍 Running lint check before push..."
-npm run lint
+pnpm run lint
 
 echo "🔍 Running type check before push..."
-npm run typecheck
+pnpm run typecheck
 
 echo "✅ All checks passed!"

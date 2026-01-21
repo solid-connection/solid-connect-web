@@ -27,7 +27,7 @@ const ApplyMentorPage = () => {
       interestedCountries: [],
       country: "",
       universityName: "",
-      verificationFile: null,
+      verificationFile: undefined as any,
       studyStatus: undefined,
     },
     mode: "onChange",
