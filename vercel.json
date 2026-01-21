@@ -1,6 +1,6 @@
 {
   "git": {
-    "deploymentEnabled": false
+    "deploymentEnabled": true
   },
   "buildCommand": "pnpm turbo build --filter=@solid-connect/web",
   "outputDirectory": "apps/web/.next",
