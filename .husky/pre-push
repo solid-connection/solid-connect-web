@@ -1,4 +1,4 @@
 echo "🔍 Running type check before push..."
-npm run typecheck
+pnpm run typecheck
 
 echo "✅ All checks passed!"

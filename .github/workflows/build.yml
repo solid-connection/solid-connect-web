@@ -27,8 +27,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
       - name: Install Vercel CLI
-        run: npm install --global vercel@latest
+        run: pnpm add --global vercel@latest
 
       - name: Link Vercel Project
         run: vercel link --yes --project=${{ secrets.VERCEL_PROJECT_ID }} --token=${{ secrets.VERCEL_TOKEN }}

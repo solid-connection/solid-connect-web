@@ -2,17 +2,21 @@
   "name": "solid-connect-web",
   "version": "2.2445",
   "private": true,
+  "packageManager": "pnpm@9.15.0",
   "engines": {
     "node": "22.x"
   },
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint --dir src",
     "lint:fix": "next lint --dir src --fix",
     "typecheck": "tsc --noEmit",
-    "ci:check": "npm run lint && npm run typecheck",
+    "ci:check": "pnpm run lint && pnpm run typecheck",
+    "lint:all": "pnpm run lint && pnpm run format:check && pnpm run typecheck",
+    "fix:all": "pnpm run lint:fix && pnpm run format",
     "prepare": "husky"
   },
   "dependencies": {
