@@ -4,7 +4,11 @@
 
 @layer base {
   html {
-    font-family: var(--font-pretendard), system-ui, -apple-system, sans-serif;
+    font-family:
+      var(--font-pretendard),
+      system-ui,
+      -apple-system,
+      sans-serif;
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -13,7 +17,10 @@
 
   body {
     @apply m-0 bg-white;
-    font-family: system-ui, -apple-system, sans-serif;
+    font-family:
+      system-ui,
+      -apple-system,
+      sans-serif;
   }
 }
 
@@ -39,7 +46,7 @@
   }
 
   .score-table th {
-    @apply typo-sb-7 text-black;
+    @apply text-black typo-sb-7;
   }
 
   .score-table tbody tr {
@@ -47,7 +54,7 @@
   }
 
   .score-table td {
-    @apply min-w-[30px] flex-1 overflow-hidden whitespace-nowrap typo-medium-3 text-gray-600;
+    @apply min-w-[30px] flex-1 overflow-hidden whitespace-nowrap text-gray-600 typo-medium-3;
   }
 
   .score-table td:nth-of-type(5) {
