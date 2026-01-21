@@ -23,7 +23,8 @@ const roundBtnVariants = cva("h-[2.375rem] w-[6.375rem] rounded-3xl px-4 py-2.5 
 });
 
 export interface RoundBtnProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof roundBtnVariants> {
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof roundBtnVariants> {
   onClick?: () => void;
   children: React.ReactNode;
 }
