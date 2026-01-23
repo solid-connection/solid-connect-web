@@ -1,21 +1,18 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-
+import { usePostMentorApplication } from "@/apis/mentor";
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import { Progress } from "@/components/ui/Progress";
-
+import { toast } from "@/lib/zustand/useToastStore";
 import CompletionScreen from "./_components/CompletionScreen";
 import InterestCountriesScreen from "./_components/InterestCountriesScreen";
 import StudyStatusScreen from "./_components/StudyStatusScreen";
 import UniversityScreen from "./_components/UniversityScreen";
-import { MentorApplicationFormData, mentorApplicationSchema } from "./_lib/schema";
-
-import { usePostMentorApplication } from "@/apis/mentor";
-import { toast } from "@/lib/zustand/useToastStore";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { type MentorApplicationFormData, mentorApplicationSchema } from "./_lib/schema";
 
 const ApplyMentorPage = () => {
   const router = useRouter();

@@ -1,9 +1,11 @@
-import { AxiosResponse } from "axios";
-
+import type { MentoringListItem, VerifyStatus } from "@/types/mentee";
+import {
+  type MentorCardDetail,
+  type MentorCardPreview,
+  MentoringApprovalStatus,
+  type MentoringItem,
+} from "@/types/mentor";
 import { axiosInstance } from "@/utils/axiosInstance";
-
-import { MentoringListItem, VerifyStatus } from "@/types/mentee";
-import { MentorCardDetail, MentorCardPreview, MentoringApprovalStatus, MentoringItem } from "@/types/mentor";
 
 // QueryKeys for mentor domain
 export const MentorQueryKeys = {

@@ -1,15 +1,13 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-
+import { getCategorizedUniversities, getRecommendedUniversity } from "@/apis/universities/server";
+import { fetchAllNews } from "@/lib/firebaseNews";
+import { IconIdCard, IconMagnifyingGlass, IconMuseum, IconPaper } from "@/public/svgs/home";
 import FindLastYearScoreBar from "./_ui/FindLastYearScoreBar";
 import NewsSectionSkeleton from "./_ui/NewsSection/skeleton";
 import PopularUniversitySection from "./_ui/PopularUniversitySection";
 import UniversityList from "./_ui/UniversityList";
-
-import { getCategorizedUniversities, getRecommendedUniversity } from "@/apis/universities/server";
-import { fetchAllNews } from "@/lib/firebaseNews";
-import { IconIdCard, IconMagnifyingGlass, IconMuseum, IconPaper } from "@/public/svgs/home";
 
 const NewsSectionDynamic = dynamic(() => import("./_ui/NewsSection"), {
   ssr: false,

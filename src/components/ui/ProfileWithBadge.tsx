@@ -1,9 +1,6 @@
 import Image from "next/image";
-import React from "react";
-
-import { convertUploadedImageUrl } from "@/utils/fileUtils";
-
 import { IconDefaultProfile, IconGraduation } from "@/public/svgs/mentor";
+import { convertUploadedImageUrl } from "@/utils/fileUtils";
 
 interface ProfileWithBadgeProps {
   profileImageUrl?: string | null;

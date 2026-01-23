@@ -1,9 +1,8 @@
-import { AxiosError } from "axios";
-
-import { SignUpRequest, SignUpResponse, authApi } from "./api";
+import { useMutation } from "@tanstack/react-query";
+import type { AxiosError } from "axios";
 
 import { toast } from "@/lib/zustand/useToastStore";
-import { useMutation } from "@tanstack/react-query";
+import { authApi, type SignUpRequest, type SignUpResponse } from "./api";
 
 /**
  * @description 회원가입을 위한 useMutation 커스텀 훅

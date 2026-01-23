@@ -1,10 +1,8 @@
-import { Control, FieldValues, useController } from "react-hook-form";
-
-import useSelectHandler from "./_hooks/useSelectHandler";
+import { type Control, type FieldValues, useController } from "react-hook-form";
+import { IconDirectionDown, IconDirectionUp } from "@/public/svgs/mentor";
 
 import { ChannelType } from "@/types/mentor";
-
-import { IconDirectionDown, IconDirectionUp } from "@/public/svgs/mentor";
+import useSelectHandler from "./_hooks/useSelectHandler";
 
 interface ChannelSelectProps {
   name?: string;

@@ -1,19 +1,14 @@
 "use client";
 
-import Link from "next/link";
-
 import clsx from "clsx";
-
+import Link from "next/link";
+import { useGetMentorDetail, usePostApplyMentoring } from "@/apis/mentor";
+import { useGetArticleList } from "@/apis/news";
 import StudyDate from "@/components/mentor/StudyDate";
 import ChannelBadge from "@/components/ui/ChannelBadge";
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
-
+import type { ChannelType } from "@/types/mentor";
 import MentorArticle from "./_ui/MentorArticle";
-
-import { ChannelType } from "@/types/mentor";
-
-import { useGetMentorDetail, usePostApplyMentoring } from "@/apis/mentor";
-import { useGetArticleList } from "@/apis/news";
 
 interface MentorDetailContentProps {
   mentorId: number;

@@ -1,17 +1,14 @@
 "use client";
 
+import clsx from "clsx";
 import { FormProvider } from "react-hook-form";
 
-import clsx from "clsx";
-
 import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
-
+import { UserRole } from "@/types/mentor";
 import useModifyUserHookform from "./_hooks/useModifyUserHookform";
 import ImageInputFiled from "./_ui/ImageInputFiled";
 import InputField from "./_ui/InputFiled";
 import ReadOnlyField from "./_ui/ReadOnlyField";
-
-import { UserRole } from "@/types/mentor";
 
 const ModifyContent = () => {
   const { methods, myInfo, onSubmit } = useModifyUserHookform();

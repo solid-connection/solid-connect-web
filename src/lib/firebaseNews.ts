@@ -1,6 +1,5 @@
+import type { News } from "@/types/news";
 import initializeFirebaseAdmin from "./firebaseAdmin";
-
-import { News } from "@/types/news";
 
 export async function fetchAllNews(): Promise<News[]> {
   const db = initializeFirebaseAdmin();

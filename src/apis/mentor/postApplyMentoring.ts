@@ -1,9 +1,8 @@
-import { AxiosError } from "axios";
-
-import { MentorQueryKeys, PostApplyMentoringRequest, PostApplyMentoringResponse, mentorApi } from "./api";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import type { AxiosError } from "axios";
 
 import { toast } from "@/lib/zustand/useToastStore";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { MentorQueryKeys, mentorApi, type PostApplyMentoringRequest, type PostApplyMentoringResponse } from "./api";
 
 /**
  * @description 멘토링 신청 훅

@@ -1,18 +1,15 @@
 "use client";
 
+import { useVirtualizer } from "@tanstack/react-virtual";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
-
-import { convertISODateToDate } from "@/utils/datetimeUtils";
-import { convertUploadedImageUrl } from "@/utils/fileUtils";
-
-import { ListPost } from "@/types/community";
-
 import { IconPostLikeOutline } from "@/public/svgs";
 import { IconCommunication } from "@/public/svgs/community";
 import { IconSolidConnentionLogo } from "@/public/svgs/mentor";
-import { useVirtualizer } from "@tanstack/react-virtual";
+import type { ListPost } from "@/types/community";
+import { convertISODateToDate } from "@/utils/datetimeUtils";
+import { convertUploadedImageUrl } from "@/utils/fileUtils";
 
 type PostCardsProps = {
   posts: ListPost[];

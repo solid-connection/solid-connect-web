@@ -1,12 +1,9 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import React from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-
-import { z } from "zod";
-
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { type SubmitHandler, useForm } from "react-hook-form";
+import { z } from "zod";
 
 const searchSchema = z.object({
   searchText: z.string().min(1, "검색어를 입력해주세요.").max(50, "최대 50자까지 입력 가능합니다."),
@@ -68,9 +65,7 @@ const SearchForm = ({ initText }: SearchBarProps) => {
         <div className="absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400">
           <SearchIcon />
         </div>
-        {errors && errors.searchText && (
-          <p className="mt-1 text-red-600 typo-regular-2">{errors?.searchText.message}</p>
-        )}
+        {errors?.searchText && <p className="mt-1 text-red-600 typo-regular-2">{errors?.searchText.message}</p>}
       </div>
     </form>
   );

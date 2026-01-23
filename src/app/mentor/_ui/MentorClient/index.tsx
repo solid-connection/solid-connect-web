@@ -1,18 +1,13 @@
 "use client";
 
 import { useState } from "react";
-
-import { tokenParse } from "@/utils/jwtUtils";
-
 import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
-
+import useAuthStore from "@/lib/zustand/useAuthStore";
+import { UserRole } from "@/types/mentor";
+import { tokenParse } from "@/utils/jwtUtils";
 import MenteePageTabs from "./_ui/MenteePageTabs";
 import MentorFindSection from "./_ui/MentorFindSection";
 import MentorPage from "./_ui/MentorPage";
-
-import { UserRole } from "@/types/mentor";
-
-import useAuthStore from "@/lib/zustand/useAuthStore";
 
 const MentorClient = () => {
   const { isLoading, accessToken } = useAuthStore();

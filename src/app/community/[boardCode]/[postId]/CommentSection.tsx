@@ -1,21 +1,15 @@
 "use client";
 
+import clsx from "clsx";
 import Image from "next/image";
 import { useState } from "react";
-
-import clsx from "clsx";
-
+import { useDeleteComment } from "@/apis/community";
+import Dropdown from "@/components/ui/Dropdown";
+import { IconMoreVertFilled, IconSubComment } from "@/public/svgs";
+import type { Comment as CommentType, CommunityUser } from "@/types/community";
 import { convertISODateToDateTime } from "@/utils/datetimeUtils";
 import { convertUploadedImageUrl } from "@/utils/fileUtils";
-
-import Dropdown from "@/components/ui/Dropdown";
-
 import CommentInput from "./CommentInput";
-
-import { Comment as CommentType, CommunityUser } from "@/types/community";
-
-import { useDeleteComment } from "@/apis/community";
-import { IconMoreVertFilled, IconSubComment } from "@/public/svgs";
 
 type CommentSectionProps = {
   comments: CommentType[];

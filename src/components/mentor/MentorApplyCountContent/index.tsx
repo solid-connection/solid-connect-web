@@ -2,13 +2,10 @@
 
 import Link from "next/link";
 import { useState } from "react";
-
-import { tokenParse } from "@/utils/jwtUtils";
-
-import { UserRole } from "@/types/mentor";
-
 import { useGetMentoringUncheckedCount } from "@/apis/mentor";
 import useAuthStore from "@/lib/zustand/useAuthStore";
+import { UserRole } from "@/types/mentor";
+import { tokenParse } from "@/utils/jwtUtils";
 
 const MentorApplyCountContent = () => {
   // 로그인 된경우에만 신규 신청 카운트 모달 표시

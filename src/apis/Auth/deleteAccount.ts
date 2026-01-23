@@ -1,12 +1,11 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+import type { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
-
-import { AxiosError } from "axios";
-
-import { AccountResponse, authApi } from "./api";
 
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { toast } from "@/lib/zustand/useToastStore";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { type AccountResponse, authApi } from "./api";
 
 /**
  * @description 회원탈퇴를 위한 useMutation 커스텀 훅

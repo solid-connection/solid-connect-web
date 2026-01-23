@@ -2,13 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-
-import useSectionHandler from "./_hooks/useSectionHadnler";
-
-import { News } from "@/types/news";
-
 import { IconLoveLetter } from "@/public/svgs/home";
-import { IconDirectionRight } from "@/public/svgs/mentor";
+import type { News } from "@/types/news";
+import useSectionHandler from "./_hooks/useSectionHadnler";
 
 export type NewsSectionProps = {
   newsList: News[];

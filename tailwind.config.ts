@@ -1,6 +1,6 @@
 import type { Config } from "tailwindcss";
-import tailwindcssAnimate from "tailwindcss-animate";
 import plugin from "tailwindcss/plugin";
+import tailwindcssAnimate from "tailwindcss-animate";
 
 // 타이포그래피 유틸리티 플러그인 (typo- 접두사 사용)
 const typographyPlugin = plugin(({ addUtilities, theme }) => {

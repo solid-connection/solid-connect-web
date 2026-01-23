@@ -1,8 +1,6 @@
-import { AxiosError } from "axios";
-
-import { CommunityQueryKeys, Post, communityApi } from "./api";
-
 import { useQuery } from "@tanstack/react-query";
+import type { AxiosError } from "axios";
+import { CommunityQueryKeys, communityApi, type Post } from "./api";
 
 /**
  * @description 게시글 상세 조회를 위한 useQuery 커스텀 훅

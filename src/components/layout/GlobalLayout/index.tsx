@@ -1,5 +1,5 @@
 import dynamic from "next/dynamic";
-import React from "react";
+import type React from "react";
 
 import BottomNavigation from "./ui/BottomNavigation";
 

@@ -1,8 +1,6 @@
 import { AxiosError } from "axios";
-
-import { AuthenticationRequiredError } from "@/utils/axiosInstance";
-
 import { toast } from "@/lib/zustand/useToastStore";
+import { AuthenticationRequiredError } from "@/utils/axiosInstance";
 
 /**
  * 중앙화된 mutation 에러 처리 함수

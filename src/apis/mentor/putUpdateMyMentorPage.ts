@@ -1,8 +1,6 @@
-import { AxiosError } from "axios";
-
-import { MentorQueryKeys, PutMyMentorProfileRequest, mentorApi } from "./api";
-
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import type { AxiosError } from "axios";
+import { MentorQueryKeys, mentorApi, type PutMyMentorProfileRequest } from "./api";
 
 /**
  * @description 내 멘토 프로필 수정 훅

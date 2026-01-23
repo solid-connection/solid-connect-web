@@ -1,8 +1,6 @@
-import { AxiosResponse } from "axios";
-
+import type { AxiosResponse } from "axios";
+import type { ChatMessage, ChatPartner, ChatRoom } from "@/types/chat";
 import { axiosInstance } from "@/utils/axiosInstance";
-
-import { ChatMessage, ChatPartner, ChatRoom } from "@/types/chat";
 
 // QueryKeys for chat domain
 export const ChatQueryKeys = {

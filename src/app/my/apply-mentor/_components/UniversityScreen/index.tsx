@@ -1,18 +1,14 @@
 "use client";
 
+import clsx from "clsx";
 import { useMemo, useRef } from "react";
 import { useFormContext } from "react-hook-form";
-
-import clsx from "clsx";
-
+import { useUniversitySearch } from "@/apis/universities";
 import BlockBtn from "@/components/button/BlockBtn";
 
-import { MentorApplicationFormData } from "../../_lib/schema";
-
 import { mentorRegionList } from "@/constants/regions";
-
-import { useUniversitySearch } from "@/apis/universities";
 import { toast } from "@/lib/zustand/useToastStore";
+import type { MentorApplicationFormData } from "../../_lib/schema";
 
 type UniversityScreenProps = {
   onNext: () => void;

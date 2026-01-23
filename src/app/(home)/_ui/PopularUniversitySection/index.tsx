@@ -1,9 +1,7 @@
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
-
+import type { ListUniversity } from "@/types/university";
 import PopularUniversityCard from "./_ui/PopularUniversityCard";
-
-import { ListUniversity } from "@/types/university";
 
 // PopularUniversityCard를 동적 임포트
 const PopularUniversityCardDynamic = dynamic(() => import("./_ui/PopularUniversityCard"), {

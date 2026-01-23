@@ -1,13 +1,9 @@
 import Image from "next/image";
-
+import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
+import type { ChatMessage } from "@/types/chat";
 import { formatTime } from "@/utils/datetimeUtils";
 import { downloadFile, getFileExtension, getFileNamePrefix } from "@/utils/fileUtils";
-
-import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
-
 import { getMessageType, shouldShowContent } from "./_utils/messageUtils";
-
-import type { ChatMessage } from "@/types/chat";
 
 interface ChatMessageBoxProps {
   message: ChatMessage;

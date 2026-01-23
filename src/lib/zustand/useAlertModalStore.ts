@@ -1,4 +1,4 @@
-import { ComponentType, SVGProps } from "react";
+import type { ComponentType, SVGProps } from "react";
 
 import { create } from "zustand";
 

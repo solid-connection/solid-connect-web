@@ -2,14 +2,10 @@
 
 import Link from "next/link";
 import { useState } from "react";
-
+import { useDeleteUserAccount, usePostLogout } from "@/apis/Auth";
+import { type MyInfoResponse, useGetMyInfo } from "@/apis/MyPage";
 import LinkedTextWithIcon from "@/components/ui/LinkedTextWithIcon";
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
-
-import { UserRole } from "@/types/mentor";
-
-import { useDeleteUserAccount, usePostLogout } from "@/apis/Auth";
-import { MyInfoResponse, useGetMyInfo } from "@/apis/MyPage";
 import { toast } from "@/lib/zustand/useToastStore";
 import { IconLikeFill } from "@/public/svgs/mentor";
 import {
@@ -21,6 +17,7 @@ import {
   IconPassword,
   IconUniversity,
 } from "@/public/svgs/my";
+import { UserRole } from "@/types/mentor";
 
 const NEXT_PUBLIC_CONTACT_LINK = process.env.NEXT_PUBLIC_CONTACT_LINK;
 

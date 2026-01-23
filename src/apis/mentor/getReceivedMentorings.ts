@@ -1,8 +1,6 @@
-import { AxiosError } from "axios";
-
-import { MentorQueryKeys, MentoringItem, MentoringListResponse, mentorApi } from "./api";
-
 import { useInfiniteQuery } from "@tanstack/react-query";
+import type { AxiosError } from "axios";
+import { type MentoringItem, type MentoringListResponse, MentorQueryKeys, mentorApi } from "./api";
 
 const OFFSET = 5;
 

@@ -1,11 +1,9 @@
 import { useState } from "react";
-
-import { reportReasons } from "@/constants/report";
-import { ReportType } from "@/types/reports";
-
 import { usePostReports } from "@/apis/reports";
+import { reportReasons } from "@/constants/report";
 import { customConfirm } from "@/lib/zustand/useConfirmModalStore";
 import { IconReport } from "@/public/svgs/mentor";
+import type { ReportType } from "@/types/reports";
 
 interface UseSelectReportHandlerReturn {
   selectedReason: ReportType | null;

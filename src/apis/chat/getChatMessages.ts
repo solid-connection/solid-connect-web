@@ -1,8 +1,6 @@
-import { AxiosError } from "axios";
-
-import { ChatHistoriesResponse, ChatMessage, ChatQueryKeys, chatApi } from "./api";
-
 import { useInfiniteQuery } from "@tanstack/react-query";
+import type { AxiosError } from "axios";
+import { type ChatHistoriesResponse, type ChatMessage, ChatQueryKeys, chatApi } from "./api";
 
 /**
  * @description 채팅 히스토리를 무한 스크롤로 가져오는 훅

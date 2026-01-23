@@ -1,10 +1,8 @@
 import Image from "next/image";
 
 import BottomSheet from "@/components/ui/BottomSheet";
-
-import useArticleSchema from "./hooks/useArticleSchema";
-
 import { IconCamera } from "@/public/svgs/mentor";
+import useArticleSchema from "./hooks/useArticleSchema";
 
 export type InitialData = {
   title?: string;

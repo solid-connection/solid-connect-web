@@ -1,8 +1,6 @@
-import { AxiosError } from "axios";
-
-import { GetMentoringNewCountResponse, MentorQueryKeys, mentorApi } from "./api";
-
 import { useQuery } from "@tanstack/react-query";
+import type { AxiosError } from "axios";
+import { type GetMentoringNewCountResponse, MentorQueryKeys, mentorApi } from "./api";
 
 /**
  * @description 미확인 멘토링 수 조회 훅

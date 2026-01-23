@@ -5,8 +5,7 @@
 - Tailwind CSS
 - Clsx
 - Axios
-- ESLint
-- Prettier
+- Biome (Linter & Formatter)
 - Vercel
 
 ## Prerequisites
@@ -35,14 +34,26 @@ pnpm run dev
 # Build for production
 pnpm run build
 
-# Linting
+# Lint and auto-fix
 pnpm run lint
+
+# Lint check only (no fix)
+pnpm run lint:check
+
+# Format code
+pnpm run format
+
+# Format check only (no write)
+pnpm run format:check
 
 # Type checking
 pnpm run typecheck
 
-# Format code
-pnpm run format
+# Run all checks (CI)
+pnpm run ci:check
+
+# Fix all (lint + format)
+pnpm run fix:all
 ```
 
 ## Migration from npm

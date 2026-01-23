@@ -1,13 +1,10 @@
-import { useMemo } from "react";
-
-import { AxiosError } from "axios";
-
-import { QueryKeys } from "../queryKeys";
-import { SearchTextResponse, universitiesApi } from "./api";
-
-import { ListUniversity } from "@/types/university";
-
 import { useQuery } from "@tanstack/react-query";
+
+import type { AxiosError } from "axios";
+import { useMemo } from "react";
+import type { ListUniversity } from "@/types/university";
+import { QueryKeys } from "../queryKeys";
+import { type SearchTextResponse, universitiesApi } from "./api";
 
 /**
  * @description 대학 검색을 위한 useQuery 커스텀 훅

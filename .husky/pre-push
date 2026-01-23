@@ -1,5 +1,5 @@
-echo "🔍 Running lint check before push..."
-pnpm run lint
+echo "🔍 Running Biome check before push..."
+pnpm run lint:check
 
 echo "🔍 Running type check before push..."
 pnpm run typecheck

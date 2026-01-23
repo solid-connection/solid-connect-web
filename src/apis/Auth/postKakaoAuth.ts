@@ -1,14 +1,11 @@
+import { useMutation } from "@tanstack/react-query";
+
+import type { AxiosError } from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
-
-import { AxiosError } from "axios";
-
-import { validateSafeRedirect } from "@/utils/authUtils";
-
-import { KakaoAuthRequest, KakaoAuthResponse, authApi } from "./api";
-
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { toast } from "@/lib/zustand/useToastStore";
-import { useMutation } from "@tanstack/react-query";
+import { validateSafeRedirect } from "@/utils/authUtils";
+import { authApi, type KakaoAuthRequest, type KakaoAuthResponse } from "./api";
 
 /**
  * @description 카카오 로그인을 위한 useMutation 커스텀 훅

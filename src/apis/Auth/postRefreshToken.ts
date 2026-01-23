@@ -1,8 +1,6 @@
-import { AxiosError } from "axios";
-
-import { RefreshTokenRequest, RefreshTokenResponse, authApi } from "./api";
-
 import { useMutation } from "@tanstack/react-query";
+import type { AxiosError } from "axios";
+import { authApi, type RefreshTokenResponse } from "./api";
 
 const usePostRefreshToken = () => {
   return useMutation<RefreshTokenResponse, AxiosError, void>({

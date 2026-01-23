@@ -1,6 +1,5 @@
-import { Dispatch, SetStateAction } from "react";
-
 import clsx from "clsx";
+import type { Dispatch, SetStateAction } from "react";
 
 type ButtonTabProps = {
   choices: string[];

@@ -1,15 +1,12 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-
+import { useGetPostDetail } from "@/apis/community";
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
-
 import CommentSection from "./CommentSection";
 import Content from "./Content";
 import KebabMenu from "./KebabMenu";
-
-import { useGetPostDetail } from "@/apis/community";
 
 interface PostPageContentProps {
   boardCode: string;

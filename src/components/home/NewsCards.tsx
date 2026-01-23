@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import { News } from "@/types/news";
+import type { News } from "@/types/news";
 
 type NewsCardsProps = {
   newsList: News[];

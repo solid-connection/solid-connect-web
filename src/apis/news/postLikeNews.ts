@@ -1,10 +1,8 @@
-import { AxiosError } from "axios";
-
-import { ArticleListResponse, NewsQueryKeys, PostArticleLikeResponse, newsApi } from "./api";
-
-import { Article } from "@/types/news";
-
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import type { AxiosError } from "axios";
+
+import type { Article } from "@/types/news";
+import { type ArticleListResponse, NewsQueryKeys, newsApi, type PostArticleLikeResponse } from "./api";
 
 type ArticleLikeMutationContext = {
   previousArticleList?: Article[];
@@ -43,7 +41,7 @@ const usePostArticleLike = (userId: number | null) => {
       return { previousArticleList };
     },
 
-    onError: (err, variables, context) => {
+    onError: (_err, _variables, context) => {
       if (context?.previousArticleList) {
         queryClient.setQueryData<Article[]>(queryKey, context.previousArticleList);
       }

@@ -1,11 +1,8 @@
-import { AxiosError } from "axios";
-
-import { createMutationErrorHandler } from "@/utils/errorHandler";
-
-import { QueryKeys } from "../queryKeys";
-import { AddWishResponse, universitiesApi } from "./api";
-
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import type { AxiosError } from "axios";
+import { createMutationErrorHandler } from "@/utils/errorHandler";
+import { QueryKeys } from "../queryKeys";
+import { type AddWishResponse, universitiesApi } from "./api";
 
 /**
  * @description 위시리스트에 학교를 추가하는 useMutation 커스텀 훅
