@@ -1,8 +1,6 @@
 "use client";
 
-import React from "react";
-
-import { RegionKo, RegionOption } from "@/types/university";
+import type { RegionKo, RegionOption } from "@/types/university";
 
 interface UniversityRegionTabsProps {
   regions: RegionOption[];

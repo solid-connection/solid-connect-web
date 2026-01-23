@@ -12,7 +12,7 @@ const OptimisticImg = ({ src, alt }: { src: string; alt: string }) => {
   // (예: 다른 아티클을 보게 되어 src가 바뀔 경우를 대비)
   useEffect(() => {
     setFinalImageLoaded(false);
-  }, [src]);
+  }, []);
 
   return (
     <div className="relative h-full w-full">

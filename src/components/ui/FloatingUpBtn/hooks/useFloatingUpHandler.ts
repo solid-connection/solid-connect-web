@@ -23,7 +23,7 @@ const useFloatingUpHandler = (scrollYThreshold: number = 400) => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [handleScroll]);
 
   return { isVisible, handleClick };
 };

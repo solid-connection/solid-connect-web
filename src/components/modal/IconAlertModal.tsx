@@ -1,4 +1,4 @@
-import React, { ComponentType, SVGProps } from "react";
+import React, { type ComponentType, type SVGProps } from "react";
 
 import ModalBase from "./ModalBase";
 

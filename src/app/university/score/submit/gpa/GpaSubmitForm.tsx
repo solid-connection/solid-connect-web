@@ -1,23 +1,18 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import clsx from "clsx";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Suspense, useState } from "react";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-
-import clsx from "clsx";
-
-import SubmitLinkTab from "@/components/score/SubmitLinkTab";
-import SubmitResult from "@/components/score/SubmitResult";
-import { InfoRowProps } from "@/components/score/SubmitResult";
-import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
-
-// CustomDropdown 경로 확인 필요
-import { GpaFormData, gpaSchema } from "./_lib/schema";
-
+import { Controller, type SubmitHandler, useForm } from "react-hook-form";
 import { usePostGpaScore } from "@/apis/Scores";
 import CustomDropdown from "@/app/university/CustomDropdown";
-import { zodResolver } from "@hookform/resolvers/zod";
+import SubmitLinkTab from "@/components/score/SubmitLinkTab";
+import SubmitResult, { type InfoRowProps } from "@/components/score/SubmitResult";
+import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
+// CustomDropdown 경로 확인 필요
+import { type GpaFormData, gpaSchema } from "./_lib/schema";
 
 const GpaSubmitForm = () => {
   const router = useRouter();

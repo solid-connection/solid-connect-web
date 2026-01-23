@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import ChatContent from "./_ui/ChatContent";
@@ -17,7 +17,7 @@ interface ChatDetailPageProps {
 const ChatDetailPage = ({ params }: ChatDetailPageProps) => {
   const chatId = Number(params.chatId);
 
-  if (isNaN(chatId)) notFound();
+  if (Number.isNaN(chatId)) notFound();
   return (
     <div className="flex w-full flex-col">
       <ChatNavBar chatId={chatId} />

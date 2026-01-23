@@ -1,14 +1,11 @@
+import { useMutation } from "@tanstack/react-query";
+
+import type { AxiosError } from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
-
-import { AxiosError } from "axios";
-
-import { validateSafeRedirect } from "@/utils/authUtils";
-
-import { EmailLoginRequest, EmailLoginResponse, authApi } from "./api";
-
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { toast } from "@/lib/zustand/useToastStore";
-import { useMutation } from "@tanstack/react-query";
+import { validateSafeRedirect } from "@/utils/authUtils";
+import { authApi, type EmailLoginRequest, type EmailLoginResponse } from "./api";
 
 /**
  * @description 이메일 로그인을 위한 useMutation 커스텀 훅

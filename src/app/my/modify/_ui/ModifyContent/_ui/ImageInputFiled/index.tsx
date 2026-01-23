@@ -1,8 +1,6 @@
 import Image from "next/image";
-
-import useImageInputHandler from "./_hooks/useImageInputHandler";
-
 import { IconAlbumWhite, IconSolidConnectionSmallLogo } from "@/public/svgs/my";
+import useImageInputHandler from "./_hooks/useImageInputHandler";
 
 interface ImageInputFiledProps {
   initImagePreview: string | null;

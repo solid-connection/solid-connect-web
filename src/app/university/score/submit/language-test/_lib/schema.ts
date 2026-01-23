@@ -1,8 +1,6 @@
 import { z } from "zod";
-
-import validateLanguageScore from "@/utils/scoreUtils";
-
 import { LanguageTestEnum } from "@/types/score";
+import validateLanguageScore from "@/utils/scoreUtils";
 
 // 1. Zod 스키마 정의: 폼 데이터의 유효성 규칙
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB

@@ -1,17 +1,13 @@
 "use client";
 
+import clsx from "clsx";
 import { useState } from "react";
 
-import clsx from "clsx";
-
 import ModalBase from "@/components/modal/ModalBase";
-
-import useSelectReportHandler from "./_hooks/useSelectReportHandler";
-
 import { reportReasons } from "@/constants/report";
-import { ReportType } from "@/types/reports";
-
 import { IconReport } from "@/public/svgs/mentor";
+import { ReportType } from "@/types/reports";
+import useSelectReportHandler from "./_hooks/useSelectReportHandler";
 
 interface ReportPanelProps {
   idx: number;

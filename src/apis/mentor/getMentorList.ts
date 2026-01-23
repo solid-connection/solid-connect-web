@@ -1,9 +1,6 @@
-import { AxiosError } from "axios";
-
-import { MentorCardDetail, MentorListResponse, MentorQueryKeys, mentorApi } from "./api";
-
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
-import type { QueryFunctionContext } from "@tanstack/react-query";
+import type { AxiosError } from "axios";
+import { type MentorCardDetail, type MentorListResponse, MentorQueryKeys, mentorApi } from "./api";
 
 interface UseGetMentorListRequest {
   region?: string;

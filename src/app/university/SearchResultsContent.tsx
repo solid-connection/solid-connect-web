@@ -2,22 +2,18 @@
 
 import { useSearchParams } from "next/navigation";
 import React, { Suspense, useMemo, useState } from "react";
-
-import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
-import FloatingUpBtn from "@/components/ui/FloatingUpBtn";
-import UniversityCards from "@/components/university/UniversityCards";
-
-import RegionFilter from "./RegionFilter";
-import SearchBar from "./SearchBar";
-
-import { CountryCode, LanguageTestType, RegionEnumExtend } from "@/types/university";
-
 // 필요한 타입과 훅 import
 import {
   type UniversitySearchFilterParams,
   useGetUniversitySearchByFilter,
   useUniversitySearch,
 } from "@/apis/universities";
+import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
+import FloatingUpBtn from "@/components/ui/FloatingUpBtn";
+import UniversityCards from "@/components/university/UniversityCards";
+import { type CountryCode, type LanguageTestType, RegionEnumExtend } from "@/types/university";
+import RegionFilter from "./RegionFilter";
+import SearchBar from "./SearchBar";
 
 // --- URL 파라미터를 읽고 데이터를 처리하는 메인 컨텐츠 ---
 const SearchResultsContent = () => {
@@ -54,7 +50,7 @@ const SearchResultsContent = () => {
         },
       };
     }
-  }, [searchParams, selectedRegion]);
+  }, [searchParams]);
 
   const textSearchQuery = useUniversitySearch(searchText ?? "");
   const filterSearchQuery = useGetUniversitySearchByFilter(filterParams);
@@ -88,9 +84,7 @@ const SearchResultsContent = () => {
       {!filteredData || filteredData.length === 0 ? (
         <div className="p-5 text-center text-gray-500">검색 결과가 없습니다.</div>
       ) : (
-        <>
-          <UniversityCards colleges={filteredData} className="mt-3" />
-        </>
+        <UniversityCards colleges={filteredData} className="mt-3" />
       )}
       <FloatingUpBtn />
     </div>

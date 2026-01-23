@@ -1,24 +1,21 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import React, { useMemo } from "react";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-
+import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
+import { useRouter } from "next/navigation";
+import { useMemo } from "react";
+import { Controller, type SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
-
-import CustomDropdown from "../CustomDropdown";
 
 // --- 상수, 타입, 아이콘 등 ---
 import {
   COUNTRY_CODE_MAP,
   LANGUAGE_TEST_TYPE_MAP,
-  REGIONS_SEARCH,
   REGION_TO_COUNTRIES_MAP,
+  REGIONS_SEARCH,
 } from "@/constants/university";
 import { CountryCode, LanguageTestType } from "@/types/university";
-
-import { zodResolver } from "@hookform/resolvers/zod";
+import CustomDropdown from "../CustomDropdown";
 
 // --- 커스텀 드롭다운 컴포넌트 ---
 

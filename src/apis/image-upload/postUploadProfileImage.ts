@@ -1,8 +1,6 @@
-import { AxiosError } from "axios";
-
-import { UploadProfileImageResponse, imageUploadApi } from "./api";
-
 import { useMutation } from "@tanstack/react-query";
+import type { AxiosError } from "axios";
+import { imageUploadApi, type UploadProfileImageResponse } from "./api";
 
 const usePostUploadProfileImage = () => {
   return useMutation<UploadProfileImageResponse, AxiosError, File>({

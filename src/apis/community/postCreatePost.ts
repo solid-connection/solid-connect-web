@@ -1,10 +1,9 @@
-import { AxiosError } from "axios";
-
-import { CommunityQueryKeys, PostCreateRequest, PostIdResponse, communityApi } from "./api";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import type { AxiosError } from "axios";
 
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { toast } from "@/lib/zustand/useToastStore";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { CommunityQueryKeys, communityApi, type PostCreateRequest, type PostIdResponse } from "./api";
 
 /**
  * @description ISR 페이지를 revalidate하는 함수

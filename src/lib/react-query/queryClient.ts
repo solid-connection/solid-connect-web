@@ -1,7 +1,6 @@
-import type { AxiosError } from "axios";
-
-import { toast } from "@/lib/zustand/useToastStore";
 import { QueryClient } from "@tanstack/react-query";
+import type { AxiosError } from "axios";
+import { toast } from "@/lib/zustand/useToastStore";
 
 const queryClient = new QueryClient({
   defaultOptions: {

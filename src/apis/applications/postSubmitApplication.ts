@@ -1,9 +1,8 @@
-import { AxiosError, AxiosResponse } from "axios";
-
-import { UseSubmitApplicationRequest, UseSubmitApplicationResponse, applicationsApi } from "./api";
+import { type UseMutationOptions, type UseMutationResult, useMutation } from "@tanstack/react-query";
+import type { AxiosError, AxiosResponse } from "axios";
 
 import { toast } from "@/lib/zustand/useToastStore";
-import { UseMutationOptions, UseMutationResult, useMutation } from "@tanstack/react-query";
+import { applicationsApi, type UseSubmitApplicationRequest, type UseSubmitApplicationResponse } from "./api";
 
 /**
  * @description 지원 제출 훅

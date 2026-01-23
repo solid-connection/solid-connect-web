@@ -1,13 +1,10 @@
-import { useEffect, useState } from "react";
+import { Client } from "@stomp/stompjs";
 import type { MutableRefObject } from "react";
-
+import { useEffect, useState } from "react";
 import SockJS from "sockjs-client";
 
+import { type ChatMessage, ConnectionStatus } from "@/types/chat";
 import useAuthStore from "../zustand/useAuthStore";
-
-import { ChatMessage, ConnectionStatus } from "@/types/chat";
-
-import { Client } from "@stomp/stompjs";
 
 interface UseConnectWebSocketProps {
   roomId: number | null;
@@ -69,8 +66,8 @@ const useConnectWebSocket = ({ roomId, clientRef }: UseConnectWebSocketProps): U
         };
 
         client.onStompError = (frame) => {
-          console.error("Broker reported error: " + frame.headers["message"]);
-          console.error("Additional details: " + frame.body);
+          console.error(`Broker reported error: ${frame.headers.message}`);
+          console.error(`Additional details: ${frame.body}`);
           setConnectionStatus(ConnectionStatus.Error);
         };
 
@@ -95,7 +92,7 @@ const useConnectWebSocket = ({ roomId, clientRef }: UseConnectWebSocketProps): U
       }
       clientRef.current = null;
     };
-  }, [roomId, setSubmittedMessages, clientRef]);
+  }, [roomId, clientRef]);
 
   // 관리하는 connectionStatus를 반환
   return { connectionStatus, submittedMessages, setSubmittedMessages };

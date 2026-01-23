@@ -1,17 +1,13 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-
-import { convertISODateToDateTime } from "@/utils/datetimeUtils";
-import { convertUploadedImageUrl } from "@/utils/fileUtils";
-
-import LinkifyText from "@/components/ui/LinkifyText";
-
-import { PostImage as PostImageType, Post as PostType } from "@/types/community";
-
 import { useDeleteLike, usePostLike } from "@/apis/community";
+import LinkifyText from "@/components/ui/LinkifyText";
 import { IconCloseFilled, IconPostLikeFilled, IconPostLikeOutline } from "@/public/svgs";
 import { IconCommunication } from "@/public/svgs/community";
+import type { PostImage as PostImageType, Post as PostType } from "@/types/community";
+import { convertISODateToDateTime } from "@/utils/datetimeUtils";
+import { convertUploadedImageUrl } from "@/utils/fileUtils";
 
 export const metadata: Metadata = {
   title: "글 상세보기",

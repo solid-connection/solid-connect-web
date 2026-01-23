@@ -2,17 +2,14 @@
 
 import Link from "next/link";
 import { useState } from "react";
-
+import { useGetChatRooms } from "@/apis/chat";
+import { useGetApplyMentoringList as useGetMenteeMentoringList } from "@/apis/mentor";
 import MentorChatCard from "@/components/mentor/MentorChatCard";
 import EmptyMentorChatCards from "@/components/ui/EmptySdwBCards";
 import TabSelector from "@/components/ui/TabSelector";
-
+import { IconDirectionRight } from "@/public/svgs/mentor";
 import { VerifyStatus } from "@/types/mentee";
 import { MenteeTab } from "@/types/mentor";
-
-import { useGetChatRooms } from "@/apis/chat";
-import { useGetApplyMentoringList as useGetMenteeMentoringList } from "@/apis/mentor";
-import { IconDirectionRight } from "@/public/svgs/mentor";
 
 const MenteePageTabs = () => {
   // api

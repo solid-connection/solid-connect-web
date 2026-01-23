@@ -5,12 +5,10 @@ import { useMemo } from "react";
 
 import ButtonTab from "@/components/ui/ButtonTab";
 import UniversityCards from "@/components/university/UniversityCards";
-
-import useRegionHandler from "./_hooks/useRegionHandler";
-
-import { AllRegionsUniversityList, ListUniversity, RegionEnumExtend } from "@/types/university";
-
 import { IconDirectionRight } from "@/public/svgs/mentor";
+
+import { type AllRegionsUniversityList, type ListUniversity, RegionEnumExtend } from "@/types/university";
+import useRegionHandler from "./_hooks/useRegionHandler";
 
 interface UniversityListProps {
   allRegionsUniversityList: AllRegionsUniversityList;

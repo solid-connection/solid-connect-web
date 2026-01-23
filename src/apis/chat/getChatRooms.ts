@@ -1,8 +1,6 @@
-import { AxiosError } from "axios";
-
-import { ChatQueryKeys, ChatRoom, ChatRoomListResponse, chatApi } from "./api";
-
 import { useQuery } from "@tanstack/react-query";
+import type { AxiosError } from "axios";
+import { ChatQueryKeys, type ChatRoom, type ChatRoomListResponse, chatApi } from "./api";
 
 /**
  * @description 채팅방 목록을 가져오는 훅

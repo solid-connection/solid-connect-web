@@ -1,16 +1,12 @@
 "use client";
 
 import Link from "next/link";
-
-import { convertISODateToKoreanTime } from "@/utils/datetimeUtils";
-
-import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
-
-import { UserRole } from "@/types/mentor";
-
-import { useGetMyInfo } from "@/apis/MyPage";
 import { useGetChatRooms } from "@/apis/chat";
+import { useGetMyInfo } from "@/apis/MyPage";
+import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
 import { IconSearchBlue, IconSolidConnentionLogo } from "@/public/svgs/mentor";
+import { UserRole } from "@/types/mentor";
+import { convertISODateToKoreanTime } from "@/utils/datetimeUtils";
 
 const ChatPageClient = () => {
   const { data: chatRooms = [] } = useGetChatRooms();

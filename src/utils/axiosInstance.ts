@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosInstance } from "axios";
+import axios, { type AxiosError, type AxiosInstance } from "axios";
 
 import { postReissueToken } from "@/apis/Auth/server";
 import useAuthStore from "@/lib/zustand/useAuthStore";

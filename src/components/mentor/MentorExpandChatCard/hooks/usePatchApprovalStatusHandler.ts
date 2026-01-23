@@ -1,8 +1,7 @@
-import { MentoringApprovalStatus } from "@/types/mentor";
-
 import { usePatchApprovalStatus } from "@/apis/mentor";
 import { customConfirm } from "@/lib/zustand/useConfirmModalStore";
 import { IconUnSmile } from "@/public/svgs/mentor";
+import { MentoringApprovalStatus } from "@/types/mentor";
 
 const usePatchApprovalStatusHandler = () => {
   const { mutate: patchApprovalStatus } = usePatchApprovalStatus();

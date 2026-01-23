@@ -1,8 +1,6 @@
-import { AxiosResponse } from "axios";
-
+import type { AxiosResponse } from "axios";
+import type { ReportType } from "@/types/reports";
 import { axiosInstance } from "@/utils/axiosInstance";
-
-import { ReportType } from "@/types/reports";
 
 // ====== Types ======
 export interface UsePostReportsRequest {

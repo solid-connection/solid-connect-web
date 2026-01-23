@@ -1,6 +1,5 @@
+import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
-
-import { type VariantProps, cva } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
 
@@ -23,7 +22,8 @@ const roundBtnVariants = cva("h-[2.375rem] w-[6.375rem] rounded-3xl px-4 py-2.5 
 });
 
 export interface RoundBtnProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof roundBtnVariants> {
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof roundBtnVariants> {
   onClick?: () => void;
   children: React.ReactNode;
 }

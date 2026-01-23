@@ -71,7 +71,7 @@ export interface KakaoAuthRequest {
   code: string;
 }
 
-export type AccountResponse = void;
+export type AccountResponse = undefined;
 
 export interface SignUpResponse {
   accessToken: string;

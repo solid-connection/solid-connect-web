@@ -1,19 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState } from "react";
-
+import { useState } from "react";
+import { useGetChatRooms } from "@/apis/chat";
 import MentorChatCard from "@/components/mentor/MentorChatCard";
 import EmptySdwBCards from "@/components/ui/EmptySdwBCards";
 import TabSelector from "@/components/ui/TabSelector";
-
-import ApplicantListSection from "./_ui/ApplicantListSection";
-import MyMentorSection from "./_ui/MyMentorSection";
+import { IconDirectionRight } from "@/public/svgs/mentor";
 
 import { MentorTab } from "@/types/mentor";
-
-import { useGetChatRooms } from "@/apis/chat";
-import { IconDirectionRight } from "@/public/svgs/mentor";
+import ApplicantListSection from "./_ui/ApplicantListSection";
+import MyMentorSection from "./_ui/MyMentorSection";
 
 const MentorPage = () => {
   const [selectedTab, setSelectedTab] = useState<MentorTab>(MentorTab.MY_MENTEE);

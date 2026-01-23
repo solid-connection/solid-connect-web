@@ -1,9 +1,7 @@
-import { AxiosError } from "axios";
-
-import { QueryKeys } from "../queryKeys";
-import { MatchedMentorsResponse, mentorApi } from "./api";
-
 import { useQuery } from "@tanstack/react-query";
+import type { AxiosError } from "axios";
+import { QueryKeys } from "../queryKeys";
+import { type MatchedMentorsResponse, mentorApi } from "./api";
 
 const useGetMatchedMentors = (
   defaultSize: string | number,

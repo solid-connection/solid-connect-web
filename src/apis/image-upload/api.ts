@@ -1,11 +1,9 @@
-import { AxiosResponse } from "axios";
-
+import type { AxiosResponse } from "axios";
+import type { FileResponse } from "@/types/file";
 import { axiosInstance, publicAxiosInstance } from "@/utils/axiosInstance";
 
-import { FileResponse } from "@/types/file";
-
 // ====== Types ======
-export type SlackNotificationResponse = void;
+export type SlackNotificationResponse = undefined;
 export type SlackNotificationRequest = Record<string, never>;
 
 export interface UploadLanguageTestReportResponse {

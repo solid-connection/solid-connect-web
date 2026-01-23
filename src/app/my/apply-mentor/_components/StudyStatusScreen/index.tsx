@@ -1,14 +1,11 @@
 "use client";
 
+import clsx from "clsx";
 import { useFormContext } from "react-hook-form";
 
-import clsx from "clsx";
-
 import BlockBtn from "@/components/button/BlockBtn";
-
-import { MentorApplicationFormData } from "../../_lib/schema";
-
 import { IconPrepare1, IconPrepare2, IconPrepare3 } from "@/public/svgs/auth";
+import type { MentorApplicationFormData } from "../../_lib/schema";
 
 type StudyStatusScreenProps = {
   onNext: () => void;

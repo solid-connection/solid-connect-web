@@ -1,15 +1,12 @@
 "use client";
 
-import { Dispatch, SetStateAction } from "react";
-
 import clsx from "clsx";
+import type { Dispatch, SetStateAction } from "react";
 
 import BlockBtn from "@/components/button/BlockBtn";
-
-import { PreparationStatus, PreparationStatusEnum } from "@/types/auth";
-
 import { toast } from "@/lib/zustand/useToastStore";
 import { IconPrepare1, IconPrepare2, IconPrepare3 } from "@/public/svgs/auth";
+import { type PreparationStatus, PreparationStatusEnum } from "@/types/auth";
 
 type SignupPrepareScreenProps = {
   preparation: PreparationStatus | null;

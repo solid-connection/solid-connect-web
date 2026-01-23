@@ -2,15 +2,12 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-
+import { useGetMyGpaScore, useGetMyLanguageTestScore } from "@/apis/Scores";
 import BlockBtn from "@/components/button/BlockBtn";
 import Tab from "@/components/ui/Tab";
 
-import ScoreCard from "./ScoreCard";
-
 import { languageTestMapping } from "@/types/score";
-
-import { useGetMyGpaScore, useGetMyLanguageTestScore } from "@/apis/Scores";
+import ScoreCard from "./ScoreCard";
 
 const ScoreScreen = () => {
   const router = useRouter();

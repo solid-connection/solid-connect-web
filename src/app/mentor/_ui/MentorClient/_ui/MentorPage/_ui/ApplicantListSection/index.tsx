@@ -1,9 +1,8 @@
-import useInfinityScroll from "@/utils/useInfinityScroll";
+import { useGetMentoringList } from "@/apis/mentor";
 
 import MentorExpandChatCard from "@/components/mentor/MentorExpandChatCard";
 import EmptySdwBCards from "@/components/ui/EmptySdwBCards";
-
-import { useGetMentoringList } from "@/apis/mentor";
+import useInfinityScroll from "@/utils/useInfinityScroll";
 
 const ApplicantListSection = () => {
   const { data: mentoringApplicantList = [], fetchNextPage, hasNextPage } = useGetMentoringList({ size: 6 });

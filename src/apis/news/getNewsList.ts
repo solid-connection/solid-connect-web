@@ -1,10 +1,8 @@
-import { AxiosError } from "axios";
-
-import { ArticleListResponse, NewsQueryKeys, newsApi } from "./api";
-
-import { Article } from "@/types/news";
-
 import { useQuery } from "@tanstack/react-query";
+import type { AxiosError } from "axios";
+
+import type { Article } from "@/types/news";
+import { type ArticleListResponse, NewsQueryKeys, newsApi } from "./api";
 
 /**
  * @description 아티클 목록 조회 훅

@@ -1,6 +1,6 @@
 import IconAlbum from "./album.svg";
-import IconAlertSubC from "./alert-sub-c.svg";
 import IconAlert from "./alert.svg";
+import IconAlertSubC from "./alert-sub-c.svg";
 import IconCamera from "./camera.svg";
 import IconCheck from "./check.svg";
 import IconDefaultProfile from "./default-profile.svg";
@@ -14,8 +14,8 @@ import IconLikeFill from "./like-fill.svg";
 import IconLikeNotFill from "./like-not-fill.svg";
 import IconModify from "./modify.svg";
 import IconPencil from "./pencil.svg";
-import IconPlusK200 from "./plus-k-200.svg";
 import IconPlus from "./plus.svg";
+import IconPlusK200 from "./plus-k-200.svg";
 import IconPoligon from "./poligon.svg";
 import IconReport from "./report.svg";
 import IconSearchBlue from "./search-blue.svg";

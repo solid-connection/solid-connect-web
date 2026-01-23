@@ -1,13 +1,10 @@
-import React, { useCallback } from "react";
 import { useController, useFormContext } from "react-hook-form";
 
 import ChannelBadge from "@/components/ui/ChannelBadge";
-
-import ChannelSelect from "../../../../../../../components/mentor/ChannelSelct";
-
-import { ChannelType } from "@/types/mentor";
-
 import getErrorMessage from "@/lib/react-hook-form/getErrorMessage";
+
+import type { ChannelType } from "@/types/mentor";
+import ChannelSelect from "../../../../../../../components/mentor/ChannelSelct";
 
 interface ChannelItemProps {
   index: number;

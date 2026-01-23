@@ -1,10 +1,8 @@
 import clsx from "clsx";
 
 import BlockBtn from "@/components/button/BlockBtn";
-
-import { ListUniversity } from "@/types/university";
-
 import { IconCheck } from "@/public/svgs/mentor";
+import type { ListUniversity } from "@/types/university";
 
 type ConfirmStepProps = {
   universityList: ListUniversity[];

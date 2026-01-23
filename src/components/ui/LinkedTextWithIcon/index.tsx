@@ -1,6 +1,5 @@
-import Link from "next/link";
-
 import clsx from "clsx";
+import Link from "next/link";
 
 import { IconDirectionRight } from "@/public/svgs/mentor";
 

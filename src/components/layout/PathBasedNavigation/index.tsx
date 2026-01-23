@@ -1,10 +1,8 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-
-import getTitle from "./lib/getTitle";
-
 import { IconArrowBackFilled } from "@/public/svgs";
+import getTitle from "./lib/getTitle";
 
 interface PathBasedNavigationProps {
   handleBack?: () => void;

@@ -1,6 +1,5 @@
-import { publicAxiosInstance } from "@/utils/axiosInstance";
-
 import useAuthStore from "@/lib/zustand/useAuthStore";
+import { publicAxiosInstance } from "@/utils/axiosInstance";
 
 /**
  * @description 토큰 재발급 서버사이드 함수

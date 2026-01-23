@@ -1,15 +1,13 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import clsx from "clsx";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-
-import clsx from "clsx";
 import { z } from "zod";
 
-import PasswordInput from "./_ui/PasswordInput";
-
 import { usePatchMyPassword } from "@/apis/MyPage";
-import { zodResolver } from "@hookform/resolvers/zod";
+import PasswordInput from "./_ui/PasswordInput";
 
 export const changePasswordSchema = z
   .object({

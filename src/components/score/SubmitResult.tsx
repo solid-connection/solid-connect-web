@@ -1,5 +1,3 @@
-import React from "react";
-
 import clsx from "clsx";
 
 import { IconCheck } from "@/public/svgs/mentor";
@@ -75,7 +73,7 @@ const SubmitResult = ({ title, description, infoRows, buttonText, onClick, handl
 };
 
 // --- 컴포넌트 사용 예시 ---
-const ExamplePage = () => {
+const _ExamplePage = () => {
   const infoRows = [
     {
       label: "공인어학",

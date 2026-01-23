@@ -1,12 +1,9 @@
 "use client";
 
 import Image from "next/image";
-
-import { formatLanguageTestName, getLanguageTestLogo } from "@/utils/languageUtils";
-
 import LinkifyText from "@/components/ui/LinkifyText";
-
-import { LanguageRequirement } from "@/types/university";
+import type { LanguageRequirement } from "@/types/university";
+import { formatLanguageTestName, getLanguageTestLogo } from "@/utils/languageUtils";
 
 interface LanguageSectionProps {
   languageRequirements: LanguageRequirement[];

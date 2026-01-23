@@ -1,6 +1,5 @@
-import { appleOAuth2CodeResponse } from "@/types/auth";
-
 import { toast } from "@/lib/zustand/useToastStore";
+import type { appleOAuth2CodeResponse } from "@/types/auth";
 
 // 오픈 리다이렉트 공격 방지를 위한 redirect 파라미터 검증
 // 단일 "/"로 시작하고 "//"나 "://"를 포함하지 않는 내부 경로만 허용
@@ -29,7 +28,7 @@ export const authProviderName = (provider: "KAKAO" | "APPLE" | "EMAIL"): string 
 };
 
 export const kakaoLogin = () => {
-  if (window.Kakao && window.Kakao.Auth) {
+  if (window.Kakao?.Auth) {
     // 현재 URL에서 redirect 파라미터 추출 및 검증
     const urlParams = new URLSearchParams(window.location.search);
     const redirectParam = urlParams.get("redirect");

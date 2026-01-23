@@ -1,5 +1,5 @@
-import { Metadata } from "next";
-import React, { Suspense } from "react";
+import type { Metadata } from "next";
+import { Suspense } from "react";
 
 import KakaoLoginCallbackPage from "./KakaoLoginCallbackPage";
 

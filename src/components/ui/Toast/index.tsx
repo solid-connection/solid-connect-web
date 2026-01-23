@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-import { Toast as ToastType, useToastStore } from "@/lib/zustand/useToastStore";
+import { type Toast as ToastType, useToastStore } from "@/lib/zustand/useToastStore";
 
 const Toast = ({ toast }: { toast: ToastType }) => {
   const removeToast = useToastStore((state) => state.removeToast);
@@ -25,7 +25,6 @@ const Toast = ({ toast }: { toast: ToastType }) => {
         return "bg-red-500 text-white";
       case "warning":
         return "bg-yellow-500 text-white";
-      case "info":
       default:
         return "bg-k-900 text-white";
     }
@@ -39,7 +38,6 @@ const Toast = ({ toast }: { toast: ToastType }) => {
         return "⚠";
       case "warning":
         return "⚠";
-      case "info":
       default:
         return "ℹ";
     }

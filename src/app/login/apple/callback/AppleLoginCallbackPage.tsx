@@ -2,10 +2,8 @@
 
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
-
-import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
-
 import { usePostAppleAuth } from "@/apis/Auth";
+import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 
 const AppleLoginCallbackPage = () => {
   const searchParams = useSearchParams();
