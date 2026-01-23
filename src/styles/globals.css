@@ -4,11 +4,7 @@
 
 @layer base {
   html {
-    font-family:
-      var(--font-pretendard),
-      system-ui,
-      -apple-system,
-      sans-serif;
+    font-family: var(--font-pretendard), system-ui, -apple-system, sans-serif;
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -17,10 +13,7 @@
 
   body {
     @apply m-0 bg-white;
-    font-family:
-      system-ui,
-      -apple-system,
-      sans-serif;
+    font-family: system-ui, -apple-system, sans-serif;
   }
 }
 
