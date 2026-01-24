@@ -23,7 +23,9 @@ const ClientModal = () => {
     checkAndOpen,
   } = useSurveyModalStore();
 
-  const isFetching = useIsFetching();
+  const isFetching = useIsFetching({
+    predicate: (query) => query.meta?.showGlobalSpinner !== false,
+  });
 
   // 페이지 로드 시 만족도 조사 모달 표시 여부 확인
   useEffect(() => {
