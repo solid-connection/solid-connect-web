@@ -40,7 +40,6 @@ jobs:
           vercel pull \
             --yes \
             --environment=${{ env.VERCEL_ENV }} \
-            --scope=${{ env.VERCEL_ORG_ID }} \
             --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Build Project Artifacts
@@ -48,7 +47,7 @@ jobs:
           vercel build \
             --yes \
             --target=${{ env.VERCEL_ENV }} \
-            --scope=${{ secrets.VERCEL_ORG_ID }} \
+
             --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy Project Artifacts to Vercel
@@ -56,7 +55,7 @@ jobs:
           vercel deploy \
             --prebuilt \
             --target=${{ env.VERCEL_ENV }} \
-            --scope=${{ secrets.VERCEL_ORG_ID }} \
+
             --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Output Tag Version
