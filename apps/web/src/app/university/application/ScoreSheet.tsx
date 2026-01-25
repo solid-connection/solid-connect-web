@@ -13,7 +13,7 @@ const ScoreSheet = ({ scoreSheet }: { scoreSheet: ScoreSheet }) => {
       className="w-full overflow-hidden rounded-lg border border-gray-200"
     >
       {/* 테이블 헤더 */}
-      <div className="flex h-10 items-center justify-between bg-gray-50 px-4">
+      <div className="flex h-10 items-center justify-between bg-k-50 px-4">
         <p className="truncate text-black typo-sb-7">
           {scoreSheet.koreanName} ({scoreSheet.applicants.length}/{scoreSheet.studentCapacity})
         </p>

@@ -66,7 +66,7 @@ const ChannelItem = ({ index, channel }: ChannelItemProps) => {
         className={`mt-2 h-11 w-full rounded-lg border px-4 py-3 typo-regular-2 ${
           isChannelSelected
             ? "border-gray-300 bg-white text-k-300 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-            : "cursor-not-allowed border-gray-200 bg-gray-50 text-gray-400"
+            : "cursor-not-allowed border-gray-200 bg-k-50 text-gray-400"
         }`}
         placeholder={isChannelSelected ? "URL을 입력해주세요." : "채널을 먼저 선택해주세요."}
       />

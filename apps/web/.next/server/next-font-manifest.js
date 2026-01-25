@@ -1,1 +1,0 @@
-self.__NEXT_FONT_MANIFEST="{\"pages\":{},\"app\":{\"/Users/manwook-han/Desktop/code/solid-connect/solid-connect-web/apps/web/src/app/layout\":[\"static/media/ff840cfebfb63b0c-s.p.woff2\"]},\"appUsingSizeAdjust\":true,\"pagesUsingSizeAdjust\":false}"
