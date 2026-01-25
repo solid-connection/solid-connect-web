@@ -14,6 +14,7 @@ type UniversityCardsProps = {
   className?: string;
   showCapacity?: boolean;
   enableVirtualization?: boolean;
+  linkPrefix?: string;
 };
 
 const ITEM_HEIGHT = 101;
@@ -24,6 +25,7 @@ const UniversityCards = ({
   className,
   showCapacity = true,
   enableVirtualization = true,
+  linkPrefix,
 }: UniversityCardsProps) => {
   // 훅은 항상 컴포넌트 상단에서 호출해야 함 (React Hooks 규칙)
   const parentRef = useRef<HTMLDivElement>(null);
@@ -41,7 +43,7 @@ const UniversityCards = ({
       <div className={clsx("flex flex-col gap-2.5", className)} style={style}>
         {colleges.map((college) => (
           <div key={college.id} className="pb-2.5">
-            <UniversityCard university={college} showCapacity={showCapacity} />
+            <UniversityCard university={college} showCapacity={showCapacity} linkPrefix={linkPrefix} />
           </div>
         ))}
       </div>
@@ -71,7 +73,7 @@ const UniversityCards = ({
             }}
           >
             <div className="pb-2.5">
-              <UniversityCard university={colleges[virtualItem.index]} showCapacity={showCapacity} />
+              <UniversityCard university={colleges[virtualItem.index]} showCapacity={showCapacity} linkPrefix={linkPrefix} />
             </div>
           </div>
         ))}

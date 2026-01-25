@@ -1,5 +1,19 @@
 export type RegionKo = "유럽권" | "미주권" | "아시아권";
 
+/**
+ * 홈 대학교 (소속 대학)
+ */
+export enum HomeUniversity {
+  INHA = "인하대학교",
+  INCHEON = "인천대학교",
+  SUNGSHIN = "성신여자대학교",
+}
+
+/**
+ * 홈 대학교 URL 슬러그
+ */
+export type HomeUniversitySlug = "inha" | "incheon" | "sungshin";
+
 export interface RegionOption {
   value: string;
   label: string;
@@ -71,6 +85,7 @@ export interface ListUniversity {
   id: number;
   term: string;
   koreanName: string;
+  homeUniversityName?: HomeUniversity;
   region: string;
   country: string;
   logoImageUrl: string;

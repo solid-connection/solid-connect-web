@@ -8,9 +8,10 @@ import shortenLanguageTestName from "@/utils/universityUtils";
 type UniversityCardProps = {
   university: ListUniversity;
   showCapacity?: boolean;
+  linkPrefix?: string;
 };
 
-const UniversityCard = ({ university, showCapacity = true }: UniversityCardProps) => {
+const UniversityCard = ({ university, showCapacity = true, linkPrefix = "/university" }: UniversityCardProps) => {
   const convertedKoreanName =
     university.term !== process.env.NEXT_PUBLIC_CURRENT_TERM
       ? `${university.koreanName}(${university.term})`
@@ -19,7 +20,7 @@ const UniversityCard = ({ university, showCapacity = true }: UniversityCardProps
   return (
     <Link
       className="relative h-[91px] w-full overflow-hidden rounded-lg border border-solid border-k-100 hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/10"
-      href={`/university/${university.id}`}
+      href={`${linkPrefix}/${university.id}`}
       aria-labelledby={`university-name-${university.id}`}
     >
       <div className="flex justify-between px-5 py-3.5">
