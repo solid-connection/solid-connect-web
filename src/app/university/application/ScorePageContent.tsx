@@ -43,13 +43,7 @@ const ScorePageContent = () => {
     thirdChoice: [],
   };
 
-  const {
-    data: scoreResponseData = initialData,
-    isError,
-    isLoading,
-  } = useGetApplicationsList({
-    retry: false,
-  });
+  const { data: scoreResponseData = initialData, isError, isLoading } = useGetApplicationsList();
 
   const filteredAndSortedData = useMemo(() => {
     // ✨ 1. 대학 이름(koreanName)을 기준으로 중복을 제거하는 헬퍼 함수
