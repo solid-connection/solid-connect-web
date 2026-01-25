@@ -9,18 +9,22 @@ import shortenLanguageTestName from "@/utils/universityUtils";
 type UniversityCardProps = {
   university: ListUniversity;
   showCapacity?: boolean;
+  linkPrefix?: string;
 };
 
-const UniversityCard = ({ university, showCapacity = true }: UniversityCardProps) => {
+const UniversityCard = ({ university, showCapacity = true, linkPrefix = "/university" }: UniversityCardProps) => {
   const { getSrc, handleError } = useImageFallback("/svgs/placeholders/university-logo-placeholder.svg");
-
   const convertedKoreanName =
     university.term !== process.env.NEXT_PUBLIC_CURRENT_TERM
       ? `${university.koreanName}(${university.term})`
       : university.koreanName;
 
   return (
-    <Link className="block" href={`/university/${university.id}`} aria-labelledby={`university-name-${university.id}`}>
+    <Link
+      className="block"
+      href={`${linkPrefix}/${university.id}`}
+      aria-labelledby={`university-name-${university.id}`}
+    >
       <div className="relative h-[91px] w-full overflow-hidden rounded-lg border border-solid border-k-100 hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/10">
         <div className="flex justify-between px-5 py-3.5">
           <div className="flex gap-[23.5px]">

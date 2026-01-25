@@ -1,8 +1,84 @@
-import { CountryCode, LanguageTestType, RegionEnumExtend, type TestScoreInfo } from "@/types/university";
+import {
+  CountryCode,
+  HomeUniversity,
+  type HomeUniversitySlug,
+  LanguageTestType,
+  RegionEnumExtend,
+  type TestScoreInfo,
+} from "@/types/university";
 
 export const REGIONS_SEARCH = ["유럽권", "미주권", "아시아권"] as const;
 
 export const REGIONS_KO = ["유럽권", "미주권", "아시아권", "중국권"];
+
+/**
+ * 홈 대학교 URL 슬러그 매핑
+ */
+export const HOME_UNIVERSITY_SLUG_MAP: Record<HomeUniversitySlug, HomeUniversity> = {
+  inha: HomeUniversity.INHA,
+  incheon: HomeUniversity.INCHEON,
+  sungshin: HomeUniversity.SUNGSHIN,
+};
+
+/**
+ * 홈 대학교 enum에서 슬러그로 역매핑
+ */
+export const HOME_UNIVERSITY_TO_SLUG_MAP: Record<HomeUniversity, HomeUniversitySlug> = {
+  [HomeUniversity.INHA]: "inha",
+  [HomeUniversity.INCHEON]: "incheon",
+  [HomeUniversity.SUNGSHIN]: "sungshin",
+};
+
+/**
+ * 홈 대학교 정보 (온보딩 카드에서 사용)
+ */
+export interface HomeUniversityInfo {
+  name: HomeUniversity;
+  slug: HomeUniversitySlug;
+  shortName: string;
+  logoUrl: string;
+  description: string;
+  color: string;
+}
+
+export const HOME_UNIVERSITY_LIST: HomeUniversityInfo[] = [
+  {
+    name: HomeUniversity.INHA,
+    slug: "inha",
+    shortName: "인하대",
+    logoUrl: "/images/home-university/inha-logo.png",
+    description: "인하대학교 교환학생 프로그램",
+    color: "#004C98",
+  },
+  {
+    name: HomeUniversity.INCHEON,
+    slug: "incheon",
+    shortName: "인천대",
+    logoUrl: "/images/home-university/incheon-logo.png",
+    description: "인천대학교 교환학생 프로그램",
+    color: "#003876",
+  },
+  {
+    name: HomeUniversity.SUNGSHIN,
+    slug: "sungshin",
+    shortName: "성신여대",
+    logoUrl: "/images/home-university/sungshin-logo.png",
+    description: "성신여자대학교 교환학생 프로그램",
+    color: "#7B1FA2",
+  },
+];
+
+/**
+ * 슬러그로 홈 대학교 정보 조회
+ */
+export const getHomeUniversityBySlug = (slug: string): HomeUniversityInfo | undefined => {
+  return HOME_UNIVERSITY_LIST.find((uni) => uni.slug === slug);
+};
+
+/**
+ * 유효한 홈 대학교 슬러그 목록
+ */
+export const HOME_UNIVERSITY_SLUGS: HomeUniversitySlug[] = ["inha", "incheon", "sungshin"];
 
 export const COUNTRIES_KO = [
   // 2024-2 기준
