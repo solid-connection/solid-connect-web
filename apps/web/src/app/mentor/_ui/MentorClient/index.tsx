@@ -1,7 +1,7 @@
 "use client";
 
-import { lazy, Suspense, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { postReissueToken } from "@/apis/Auth";
 import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 import useAuthStore from "@/lib/zustand/useAuthStore";
@@ -88,9 +88,7 @@ const MentorClient = () => {
         </div>
       )}
 
-      <Suspense fallback={<CloudSpinnerPage />}>
-        {shouldShowMentorView ? <MentorPage /> : <MenteePage />}
-      </Suspense>
+      <Suspense fallback={<CloudSpinnerPage />}>{shouldShowMentorView ? <MentorPage /> : <MenteePage />}</Suspense>
     </>
   );
 };
