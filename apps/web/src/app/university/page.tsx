@@ -8,7 +8,8 @@ import { HOME_UNIVERSITIES } from "@/types/university";
 
 export const metadata: Metadata = {
   title: "파견 학교 목록 | 대학교 선택",
-  description: "교환학생 파견 대학을 선택하세요. 인하대학교, 인천대학교, 성신여자대학교의 교환학생 프로그램 정보를 확인할 수 있습니다.",
+  description:
+    "교환학생 파견 대학을 선택하세요. 인하대학교, 인천대학교, 성신여자대학교의 교환학생 프로그램 정보를 확인할 수 있습니다.",
 };
 
 // ISR: 정적 페이지 생성
@@ -26,11 +27,7 @@ const UniversityOnboardingPage = () => {
 
         <div className="flex flex-col gap-2.5">
           {HOME_UNIVERSITIES.map((university) => (
-            <Link
-              key={university.slug}
-              href={`/university/list/${university.slug}`}
-              className="block"
-            >
+            <Link key={university.slug} href={`/university/list/${university.slug}`} className="block">
               <div className="relative h-[91px] w-full overflow-hidden rounded-lg border border-solid border-k-100 hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/10">
                 <div className="flex justify-between px-5 py-3.5">
                   <div className="flex gap-[23.5px]">

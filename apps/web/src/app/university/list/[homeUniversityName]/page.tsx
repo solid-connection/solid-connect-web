@@ -2,11 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
-import {
-  HOME_UNIVERSITIES,
-  HOME_UNIVERSITY_SLUG,
-  type HomeUniversityName,
-} from "@/types/university";
+import { HOME_UNIVERSITIES, HOME_UNIVERSITY_SLUG, type HomeUniversityName } from "@/types/university";
 
 import SearchResultsContent from "./SearchResultsContent";
 

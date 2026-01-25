@@ -49,9 +49,7 @@ const useUniversitySearch = (searchValue: string, homeUniversityName?: HomeUnive
 
     // 검색어 필터링
     if (normalizedSearchValue) {
-      filtered = filtered.filter((university) =>
-        university.koreanName.toLowerCase().includes(normalizedSearchValue)
-      );
+      filtered = filtered.filter((university) => university.koreanName.toLowerCase().includes(normalizedSearchValue));
     }
 
     return filtered;

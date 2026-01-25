@@ -21,7 +21,10 @@ interface ListUniversityWithHome extends ListUniversity {
  * @param filters - 검색 필터 파라미터
  * @param homeUniversityName - 홈 대학교 이름 (선택적 필터)
  */
-const useGetUniversitySearchByFilter = (filters: UniversitySearchFilterParams, homeUniversityName?: HomeUniversityName) => {
+const useGetUniversitySearchByFilter = (
+  filters: UniversitySearchFilterParams,
+  homeUniversityName?: HomeUniversityName,
+) => {
   // 필터 파라미터 구성
   const buildParams = () => {
     const params: Record<string, any> = {};

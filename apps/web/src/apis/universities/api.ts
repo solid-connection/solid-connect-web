@@ -1,5 +1,5 @@
-import { axiosInstance, publicAxiosInstance } from "@/utils/axiosInstance";
 import type { HomeUniversityName } from "@/types/university";
+import { axiosInstance, publicAxiosInstance } from "@/utils/axiosInstance";
 
 export interface RecommendedUniversitiesResponseRecommendedUniversitiesItem {
   id: number;

@@ -11,12 +11,7 @@ import {
 import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 import FloatingUpBtn from "@/components/ui/FloatingUpBtn";
 import UniversityCards from "@/components/university/UniversityCards";
-import {
-  type CountryCode,
-  type HomeUniversityName,
-  type LanguageTestType,
-  RegionEnumExtend,
-} from "@/types/university";
+import { type CountryCode, type HomeUniversityName, type LanguageTestType, RegionEnumExtend } from "@/types/university";
 import RegionFilter from "../../RegionFilter";
 import SearchBar from "../../SearchBar";
 
