@@ -18,7 +18,7 @@ const MentorApplyCountContent = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(true);
 
   // 신규 신청 없으면 표시
-  if (!isMentor || isLoading || !isSuccess || !isModalOpen || count === 0) return null;
+  if (!isMentor || isLoading || !isSuccess || !isModalOpen || count?.uncheckedCount === 0) return null;
 
   return (
     <div className="fixed left-1/2 top-16 z-50 w-[80%] max-w-md -translate-x-1/2 rounded-xl bg-secondary px-6 py-4 text-white shadow-md">
@@ -50,7 +50,7 @@ const MentorApplyCountContent = () => {
           {/* right: count */}
           <div className="min-w-[80px] text-center">
             <span className="typo-regular-4">신규 신청</span>
-            <div className="typo-bold-1">{count}명</div>
+            <div className="typo-bold-1">{count?.uncheckedCount}명</div>
           </div>
         </div>
       </Link>
