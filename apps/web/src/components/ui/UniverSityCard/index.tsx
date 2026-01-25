@@ -18,11 +18,12 @@ const UniversityCard = ({ university, showCapacity = true }: UniversityCardProps
 
   return (
     <Link
-      className="relative h-[91px] w-full overflow-hidden rounded-lg border border-solid border-k-100 hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/10"
+      className="block"
       href={`/university/${university.id}`}
       aria-labelledby={`university-name-${university.id}`}
     >
-      <div className="flex justify-between px-5 py-3.5">
+      <div className="relative h-[91px] w-full overflow-hidden rounded-lg border border-solid border-k-100 hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/10">
+        <div className="flex justify-between px-5 py-3.5">
         <div className="flex gap-[23.5px]">
           <div className="flex flex-shrink-0 items-center">
             <Image
@@ -63,6 +64,7 @@ const UniversityCard = ({ university, showCapacity = true }: UniversityCardProps
         <div className="flex items-center">
           <CheveronRightFilled color="black" opacity="0.54" />
         </div>
+      </div>
       </div>
     </Link>
   );
