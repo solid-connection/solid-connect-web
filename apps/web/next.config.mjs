@@ -6,11 +6,7 @@ const nextConfig = {
   swcMinify: true,
   images: {
     unoptimized: true,
-    domains: [
-      "k.kakaocdn.net",
-      "cdn.default.solid-connection.com",
-      "cdn.upload.solid-connection.com",
-    ],
+    domains: ["k.kakaocdn.net", "cdn.default.solid-connection.com", "cdn.upload.solid-connection.com"],
     formats: ["image/avif", "image/webp"],
     deviceSizes: [360, 640, 768, 1024, 1280],
   },

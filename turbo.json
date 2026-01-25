@@ -12,7 +12,11 @@
     },
     "lint": {
       "dependsOn": ["^lint"],
-      "outputs": [".eslintcache"]
+      "outputs": []
+    },
+    "lint:check": {
+      "dependsOn": ["^lint:check"],
+      "outputs": []
     },
     "typecheck": {
       "dependsOn": ["^typecheck"],
@@ -23,8 +27,8 @@
       "persistent": true
     },
     "ci:check": {
-      "dependsOn": ["^ci:check"],
-      "outputs": [".eslintcache", "*.tsbuildinfo"]
+      "dependsOn": ["lint:check", "typecheck"],
+      "outputs": []
     }
   }
 }
