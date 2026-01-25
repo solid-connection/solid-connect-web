@@ -1,6 +1,6 @@
+import { MutationCache, QueryCache, QueryClient } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
 import { toast } from "@/lib/zustand/useToastStore";
-import { MutationCache, QueryCache, QueryClient } from "@tanstack/react-query";
 
 const queryClient = new QueryClient({
   queryCache: new QueryCache({
