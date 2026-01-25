@@ -1,4 +1,4 @@
-// File: /Users/manwook-han/Desktop/code/solid-connect/solid-connect-2/apps/web/src/app/layout.tsx
+// File: /Users/manwook-han/Desktop/code/solid-connect/solid-connect-web/apps/web/src/app/layout.tsx
 import * as entry from '../../../src/app/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

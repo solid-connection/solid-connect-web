@@ -137,7 +137,7 @@ const ScorePageContent = () => {
               <button
                 key={word}
                 // Button styling for each keyword
-                className="flex items-center justify-center gap-2.5 rounded-full bg-gray-50 px-3 py-[5px] text-black transition-colors typo-medium-2 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2"
+                className="flex items-center justify-center gap-2.5 rounded-full bg-k-50 px-3 py-[5px] text-black transition-colors typo-medium-2 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2"
                 onClick={() => {
                   handleSearchField(word);
                   handleSearch(new Event("submit") as unknown as React.FormEvent);

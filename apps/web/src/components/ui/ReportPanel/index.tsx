@@ -20,7 +20,7 @@ const ReportPanel = ({ idx }: ReportPanelProps) => {
   return (
     <>
       <button
-        className="flex items-center gap-3 rounded-lg px-4 py-2 hover:bg-gray-50"
+        className="flex items-center gap-3 rounded-lg px-4 py-2 hover:bg-k-50"
         onClick={() => setIsExpanded(true)}
       >
         <span className="h-5 w-5">

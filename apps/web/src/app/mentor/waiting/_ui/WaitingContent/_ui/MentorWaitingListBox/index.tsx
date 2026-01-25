@@ -30,7 +30,7 @@ const MentorWaitingListBox = ({ hasExpand = false, className = "", children }: M
           type="button"
           aria-expanded={isExpanded}
           onClick={toggle}
-          className="flex w-full items-center justify-center border-t py-3 hover:bg-gray-50"
+          className="flex w-full items-center justify-center border-t py-3 hover:bg-k-50"
         >
           <span className="h-6 w-6">{isExpanded ? <IconDirectionUp /> : <IconDirectionDown />}</span>
         </button>

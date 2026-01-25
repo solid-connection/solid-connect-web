@@ -95,7 +95,7 @@ const MentorExpandChatCard = ({
                     e.stopPropagation();
                     handleReject(mentoringId);
                   }}
-                  className="w-1/3 rounded-full border border-secondary bg-white px-4 py-2 text-gray-700 transition-colors typo-medium-2 hover:bg-gray-50"
+                  className="w-1/3 rounded-full border border-secondary bg-white px-4 py-2 text-gray-700 transition-colors typo-medium-2 hover:bg-k-50"
                 >
                   거절하기
                 </button>
