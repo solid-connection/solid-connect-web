@@ -1,15 +1,19 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+type RefreshStatus = "idle" | "refreshing" | "success" | "failed";
+
 interface AuthState {
   accessToken: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
   isInitialized: boolean;
+  refreshStatus: RefreshStatus;
   setAccessToken: (token: string) => void;
   clearAccessToken: () => void;
   setLoading: (loading: boolean) => void;
   setInitialized: (initialized: boolean) => void;
+  setRefreshStatus: (status: RefreshStatus) => void;
 }
 
 const useAuthStore = create<AuthState>()(
@@ -19,6 +23,7 @@ const useAuthStore = create<AuthState>()(
       isAuthenticated: false,
       isLoading: false,
       isInitialized: false,
+      refreshStatus: "idle",
 
       setAccessToken: (token) => {
         set({
@@ -26,6 +31,7 @@ const useAuthStore = create<AuthState>()(
           isAuthenticated: true,
           isLoading: false,
           isInitialized: true,
+          refreshStatus: "success",
         });
       },
 
@@ -35,6 +41,7 @@ const useAuthStore = create<AuthState>()(
           isAuthenticated: false,
           isLoading: false,
           isInitialized: true,
+          refreshStatus: "idle",
         });
       },
 
@@ -45,13 +52,17 @@ const useAuthStore = create<AuthState>()(
       setInitialized: (initialized) => {
         set({ isInitialized: initialized });
       },
+
+      setRefreshStatus: (status) => {
+        set({ refreshStatus: status });
+      },
     }),
     {
-      name: "auth-storage", // localStorage에 저장될 키 이름
+      name: "auth-storage",
       partialize: (state) => ({
         accessToken: state.accessToken,
         isAuthenticated: state.isAuthenticated,
-      }), // accessToken과 isAuthenticated만 localStorage에 저장
+      }),
     },
   ),
 );
