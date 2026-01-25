@@ -42,7 +42,7 @@ jobs:
 
       - name: Generate Hooks
         run: |
-          node /tmp/bruno-api-typescript/dist/cli/index.js generate-hooks -i /tmp/bruno -o ./src/apis
+          node /tmp/bruno-api-typescript/dist/cli/index.js generate-hooks -i /tmp/bruno -o ./apps/web/src/apis
 
       - name: Create PR
         uses: peter-evans/create-pull-request@v5
