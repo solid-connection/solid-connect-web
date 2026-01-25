@@ -1,3 +1,4 @@
+import type { HomeUniversityName } from "@/types/university";
 import { axiosInstance, publicAxiosInstance } from "@/utils/axiosInstance";
 
 export interface RecommendedUniversitiesResponseRecommendedUniversitiesItem {
@@ -95,6 +96,7 @@ export interface SearchTextResponseUnivApplyInfoPreviewsItem {
   backgroundImageUrl: string;
   studentCapacity: number;
   languageRequirements: SearchTextResponseUnivApplyInfoPreviewsItemLanguageRequirementsItem[];
+  homeUniversityName?: HomeUniversityName;
 }
 
 export interface SearchTextResponseUnivApplyInfoPreviewsItemLanguageRequirementsItem {
