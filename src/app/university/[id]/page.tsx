@@ -24,9 +24,7 @@ export async function generateMetadata({ params }: MetadataProps): Promise<Metad
   const universityData = await getUniversityDetail(Number(id));
 
   if (!universityData) {
-    return {
-      title: "파견 학교 상세",
-    };
+    throw new Error(`Failed to fetch university detail for id: ${id}`);
   }
 
   const convertedKoreanName =
