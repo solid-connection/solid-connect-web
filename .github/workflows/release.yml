@@ -57,7 +57,14 @@ jobs:
         run: vercel pull --yes --environment=${{ env.VERCEL_ENV }} --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Build Project Artifacts
-        run: vercel build --yes --target=${{ env.VERCEL_ENV }} --token=${{ secrets.VERCEL_TOKEN }}
+        run: |
+          vercel build \
+            --yes \
+            --target=${{ env.VERCEL_ENV }} \
+            --build-env NEXT_PUBLIC_WEB_URL=https://www.solid-connection.com \
+            --build-env NEXT_PUBLIC_API_SERVER_URL=https://api.solid-connection.com \
+            --build-env NEXT_PUBLIC_KAKAO_JS_KEY=b285223d3e57a6820552018b93805658 \
+            --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy Project Artifacts to Vercel
         run: vercel deploy --prebuilt --target=${{ env.VERCEL_ENV }} --token=${{ secrets.VERCEL_TOKEN }}
