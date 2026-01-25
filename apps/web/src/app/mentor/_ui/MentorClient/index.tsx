@@ -9,8 +9,7 @@ import { UserRole } from "@/types/mentor";
 import { tokenParse } from "@/utils/jwtUtils";
 
 // 레이지 로드 컴포넌트
-const MenteePageTabs = lazy(() => import("./_ui/MenteePageTabs"));
-const MentorFindSection = lazy(() => import("./_ui/MentorFindSection"));
+const MenteePage = lazy(() => import("./_ui/MenteePage"));
 const MentorPage = lazy(() => import("./_ui/MentorPage"));
 
 const MentorClient = () => {
@@ -90,18 +89,7 @@ const MentorClient = () => {
       )}
 
       <Suspense fallback={<CloudSpinnerPage />}>
-        {shouldShowMentorView ? (
-          // 멘토페이지
-          <MentorPage />
-        ) : (
-          // 멘티페이지
-          <>
-            {/* 탭 및 나의 멘토 , 멘티요청 리스트 채팅카드 */}
-            <MenteePageTabs />
-            {/* 멘토찾기 섹션 */}
-            <MentorFindSection />
-          </>
-        )}
+        {shouldShowMentorView ? <MentorPage /> : <MenteePage />}
       </Suspense>
     </>
   );
