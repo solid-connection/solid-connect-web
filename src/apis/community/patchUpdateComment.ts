@@ -1,10 +1,10 @@
+import { AxiosError } from "axios";
 import { useMutation } from "@tanstack/react-query";
-import type { AxiosError } from "axios";
-import { type CommentIdResponse, communityApi } from "./api";
+import { communityApi, UpdateCommentResponse, UpdateCommentRequest } from "./api";
 
 const usePatchUpdateComment = () => {
-  return useMutation<CommentIdResponse, AxiosError, { commentId: number; content: string }>({
-    mutationFn: ({ commentId, content }) => communityApi.updateComment(commentId, { content }),
+  return useMutation<UpdateCommentResponse, AxiosError, { commentId: string | number; data: UpdateCommentRequest }>({
+    mutationFn: (variables) => communityApi.patchUpdateComment(variables),
   });
 };
 

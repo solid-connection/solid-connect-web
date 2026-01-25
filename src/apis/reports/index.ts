@@ -1,3 +1,3 @@
-export type { UsePostReportsRequest } from "./api";
-export { reportsApi } from "./api";
-export { default as usePostReports } from "./postReport";
+export { reportsApi } from './api';
+export { default as index } from './index';
+export { default as postReport } from './postReport';
