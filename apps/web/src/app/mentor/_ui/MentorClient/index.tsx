@@ -23,6 +23,11 @@ const MentorClient = () => {
   // 토큰 재발급 로직
   useEffect(() => {
     const attemptTokenRefresh = async () => {
+      // 이미 실패한 경우 재시도하지 않음 (무한 루프 방지)
+      if (refreshStatus === "failed") {
+        return;
+      }
+
       // 이미 초기화되었고 토큰이 없는 경우에만 재발급 시도
       if (!isInitialized || accessToken || isRefreshing || refreshStatus === "refreshing") {
         return;
