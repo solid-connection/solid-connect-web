@@ -1,17 +1,13 @@
+import { AxiosError } from "axios";
 import { useQuery } from "@tanstack/react-query";
+import { scoresApi, LanguageTestListResponse } from "./api";
+import { QueryKeys } from "../queryKeys";
 
-import { ScoresQueryKeys, scoresApi } from "./api";
-
-/**
- * @description 내 어학 점수 조회 훅
- */
-const useGetMyLanguageTestScore = () => {
-  return useQuery({
-    queryKey: [ScoresQueryKeys.myLanguageTestScore],
-    queryFn: scoresApi.getMyLanguageTestScore,
-    staleTime: Infinity,
-    select: (data) => data.data.languageTestScoreStatusResponseList,
+const useGetLanguageTestList = (params?: Record<string, any>) => {
+  return useQuery<LanguageTestListResponse, AxiosError>({
+    queryKey: [QueryKeys.Scores.languageTestList, params],
+    queryFn: () => scoresApi.getLanguageTestList(params ? { params } : {}),
   });
 };
 
-export default useGetMyLanguageTestScore;
+export default useGetLanguageTestList;

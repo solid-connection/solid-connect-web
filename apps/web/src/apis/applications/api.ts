@@ -1,58 +1,147 @@
-import type { AxiosResponse } from "axios";
-import type { ApplicationListResponse } from "@/types/application";
 import { axiosInstance } from "@/utils/axiosInstance";
 
-// ====== Query Keys ======
-export const ApplicationsQueryKeys = {
-  competitorsApplicationList: "competitorsApplicationList",
-} as const;
-
-// ====== Types ======
-export interface UseSubmitApplicationResponse {
-  isSuccess: boolean;
+export interface CompetitorsResponseThirdChoiceItem {
+  koreanName: string;
+  studentCapacity: number;
+  region: string;
+  country: string;
+  applicants: CompetitorsResponseThirdChoiceItemApplicantsItem[];
 }
 
-export interface UseSubmitApplicationRequest {
-  gpaScoreId: number;
-  languageTestScoreId: number;
-  universityChoiceRequest: {
-    firstChoiceUniversityId: number | null;
-    secondChoiceUniversityId: number | null;
-    thirdChoiceUniversityId: number | null;
-  };
+export interface CompetitorsResponseThirdChoiceItemApplicantsItem {
+  nicknameForApply: string;
+  gpa: number;
+  testType: string;
+  testScore: string;
+  isMine: boolean;
+}
+
+export interface CompetitorsResponseSecondChoiceItem {
+  koreanName: string;
+  studentCapacity: number;
+  region: string;
+  country: string;
+  applicants: CompetitorsResponseSecondChoiceItemApplicantsItem[];
+}
+
+export interface CompetitorsResponseSecondChoiceItemApplicantsItem {
+  nicknameForApply: string;
+  gpa: number;
+  testType: string;
+  testScore: string;
+  isMine: boolean;
+}
+
+export interface CompetitorsResponseFirstChoiceItem {
+  koreanName: string;
+  studentCapacity: number;
+  region: string;
+  country: string;
+  applicants: CompetitorsResponseFirstChoiceItemApplicantsItem[];
+}
+
+export interface CompetitorsResponseFirstChoiceItemApplicantsItem {
+  nicknameForApply: string;
+  gpa: number;
+  testType: string;
+  testScore: string;
+  isMine: boolean;
 }
 
 export interface CompetitorsResponse {
-  competitors: Array<{
-    id: number;
-    name: string;
-    score: number;
-  }>;
+  firstChoice: CompetitorsResponseFirstChoiceItem[];
+  secondChoice: CompetitorsResponseSecondChoiceItem[];
+  thirdChoice: CompetitorsResponseThirdChoiceItem[];
 }
 
-// ====== API Functions ======
+export interface SubmitApplicationResponseAppliedUniversities {
+  firstChoiceUniversity: string;
+  secondChoiceUniversity: string;
+  thirdChoiceUniversity: string;
+}
+
+export interface SubmitApplicationResponse {
+  totalApplyCount: number;
+  applyCount: number;
+  appliedUniversities: SubmitApplicationResponseAppliedUniversities;
+}
+
+export type SubmitApplicationRequest = Record<string, never>;
+
+export interface ApplicantsResponseThirdChoiceItem {
+  koreanName: string;
+  studentCapacity: number;
+  region: string;
+  country: string;
+  applicants: ApplicantsResponseThirdChoiceItemApplicantsItem[];
+}
+
+export interface ApplicantsResponseThirdChoiceItemApplicantsItem {
+  nicknameForApply: string;
+  gpa: number;
+  testType: string;
+  testScore: string;
+  isMine: boolean;
+}
+
+export interface ApplicantsResponseSecondChoiceItem {
+  koreanName: string;
+  studentCapacity: number;
+  region: string;
+  country: string;
+  applicants: ApplicantsResponseSecondChoiceItemApplicantsItem[];
+}
+
+export interface ApplicantsResponseSecondChoiceItemApplicantsItem {
+  nicknameForApply: string;
+  gpa: number;
+  testType: string;
+  testScore: string;
+  isMine: boolean;
+}
+
+export interface ApplicantsResponseFirstChoiceItem {
+  koreanName: string;
+  studentCapacity: number;
+  region: string;
+  country: string;
+  applicants: ApplicantsResponseFirstChoiceItemApplicantsItem[];
+}
+
+export interface ApplicantsResponseFirstChoiceItemApplicantsItem {
+  nicknameForApply: string;
+  gpa: number;
+  testType: string;
+  testScore: string;
+  isMine: boolean;
+}
+
+export interface ApplicantsResponse {
+  firstChoice: ApplicantsResponseFirstChoiceItem[];
+  secondChoice: ApplicantsResponseSecondChoiceItem[];
+  thirdChoice: ApplicantsResponseThirdChoiceItem[];
+}
+
 export const applicationsApi = {
-  /**
-   * 지원 목록 조회
-   */
-  getApplicationsList: async (): Promise<AxiosResponse<ApplicationListResponse>> => {
-    return axiosInstance.get("/applications");
-  },
-
-  /**
-   * 지원 제출
-   */
-  postSubmitApplication: async (
-    request: UseSubmitApplicationRequest,
-  ): Promise<AxiosResponse<UseSubmitApplicationResponse>> => {
-    return axiosInstance.post("/applications", request);
-  },
-
-  /**
-   * 경쟁자 목록 조회
-   */
-  getCompetitors: async (config?: { params?: Record<string, any> }): Promise<CompetitorsResponse> => {
-    const res = await axiosInstance.get<CompetitorsResponse>("/applications/competitors", config);
+  getCompetitors: async (params: { params?: Record<string, any> }): Promise<CompetitorsResponse> => {
+    const res = await axiosInstance.get<CompetitorsResponse>(
+      `/applications/competitors`, { params: params?.params }
+    );
     return res.data;
   },
+
+  postSubmitApplication: async (params: { data?: SubmitApplicationRequest }): Promise<SubmitApplicationResponse> => {
+    const res = await axiosInstance.post<SubmitApplicationResponse>(
+      `/applications`, params?.data
+    );
+    return res.data;
+  },
+
+  getApplicants: async (params: { params?: Record<string, any> }): Promise<ApplicantsResponse> => {
+    const res = await axiosInstance.get<ApplicantsResponse>(
+      `/applications`, { params: params?.params }
+    );
+    return res.data;
+  },
+
 };
