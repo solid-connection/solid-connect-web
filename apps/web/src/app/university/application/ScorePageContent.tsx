@@ -2,22 +2,16 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
-
+import { useGetApplicationsList } from "@/apis/applications";
 import ConfirmCancelModal from "@/components/modal/ConfirmCancelModal";
 import ButtonTab from "@/components/ui/ButtonTab";
-import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 import Tab from "@/components/ui/Tab";
-
-import ScoreSearchBar from "./ScoreSearchBar";
-import ScoreSearchField from "./ScoreSearchField";
-import ScoreSheet from "./ScoreSheet";
-
 import { REGIONS_KO } from "@/constants/university";
-import { ScoreSheet as ScoreSheetType } from "@/types/application";
-import { RegionKo } from "@/types/university";
-
-import { useGetApplicationsList } from "@/apis/applications";
 import { toast } from "@/lib/zustand/useToastStore";
+import type { ScoreSheet as ScoreSheetType } from "@/types/application";
+import type { RegionKo } from "@/types/university";
+import ScoreSearchBar from "./ScoreSearchBar";
+import ScoreSheet from "./ScoreSheet";
 
 const PREFERENCE_CHOICE: ("1순위" | "2순위" | "3순위")[] = ["1순위", "2순위", "3순위"];
 
@@ -35,7 +29,7 @@ const ScorePageContent = () => {
   const [preference, setPreference] = useState<"1순위" | "2순위" | "3순위">("1순위");
   const [regionFilter, setRegionFilter] = useState<RegionKo | "">("");
   const [searchValue, setSearchValue] = useState("");
-  const [showNeedApply, setShowNeedApply] = useState(false);
+  const [showNeedApply, _setShowNeedApply] = useState(false);
 
   const initialData: ScoreData = {
     firstChoice: [],
@@ -43,13 +37,7 @@ const ScorePageContent = () => {
     thirdChoice: [],
   };
 
-  const {
-    data: scoreResponseData = initialData,
-    isError,
-    isLoading,
-  } = useGetApplicationsList({
-    retry: false,
-  });
+  const { data: scoreResponseData = initialData, isError, isLoading } = useGetApplicationsList();
 
   const filteredAndSortedData = useMemo(() => {
     // ✨ 1. 대학 이름(koreanName)을 기준으로 중복을 제거하는 헬퍼 함수

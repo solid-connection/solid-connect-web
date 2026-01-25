@@ -1,11 +1,8 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-
-import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
-
-import UniversityDetail from "./_ui/UniversityDetail";
-
 import { getAllUniversities, getUniversityDetail } from "@/apis/universities/server";
+import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
+import UniversityDetail from "./_ui/UniversityDetail";
 
 export const revalidate = false;
 

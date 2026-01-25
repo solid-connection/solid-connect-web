@@ -1,9 +1,7 @@
-import { AxiosError } from "axios";
-
-import { QueryKeys } from "../queryKeys";
-import { LanguageTestListResponse, adminApi } from "./api";
-
 import { useQuery } from "@tanstack/react-query";
+import type { AxiosError } from "axios";
+import { QueryKeys } from "../queryKeys";
+import { adminApi, type LanguageTestListResponse } from "./api";
 
 const useGetLanguageTestList = (params?: Record<string, any>) => {
   return useQuery<LanguageTestListResponse, AxiosError>({

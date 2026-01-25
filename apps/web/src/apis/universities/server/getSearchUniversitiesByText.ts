@@ -1,6 +1,5 @@
+import { type AllRegionsUniversityList, type ListUniversity, RegionEnumExtend } from "@/types/university";
 import serverFetch from "@/utils/serverFetchUtil";
-
-import { AllRegionsUniversityList, ListUniversity, RegionEnumExtend } from "@/types/university";
 
 // --- 타입 정의 ---
 interface UniversitySearchResponse {
@@ -36,7 +35,7 @@ export const getCategorizedUniversities = async (): Promise<AllRegionsUniversity
   for (const university of allUniversities) {
     const region = university.region as RegionEnumExtend; // API 응답의 region 타입을 enum으로 간주
 
-    if (region && categorizedList.hasOwnProperty(region)) {
+    if (region && Object.hasOwn(categorizedList, region)) {
       categorizedList[region].push(university);
     }
   }

@@ -2,23 +2,19 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-
+import { usePostSubmitApplication } from "@/apis/applications";
+import { useGetMyGpaScore, useGetMyLanguageTestScore } from "@/apis/Scores";
+import { useUniversitySearch } from "@/apis/universities";
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import ProgressBar from "@/components/ui/ProgressBar";
-
+import { toast } from "@/lib/zustand/useToastStore";
+import type { ListUniversity } from "@/types/university";
 import ConfirmStep from "./ConfirmStep";
 import DoneStep from "./DoneStep";
 import EmptyGPA from "./EmptyGPA";
 import GpaStep from "./GpaStep";
 import LanguageStep from "./LanguageStep";
 import UniversityStep from "./UniversityStep";
-
-import { ListUniversity } from "@/types/university";
-
-import { useGetMyGpaScore, useGetMyLanguageTestScore } from "@/apis/Scores";
-import { usePostSubmitApplication } from "@/apis/applications";
-import { useUniversitySearch } from "@/apis/universities";
-import { toast } from "@/lib/zustand/useToastStore";
 
 const ApplyPageContent = () => {
   const router = useRouter();

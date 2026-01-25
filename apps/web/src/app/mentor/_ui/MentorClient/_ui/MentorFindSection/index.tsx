@@ -1,17 +1,14 @@
 "use client";
 
-import useInfinityScroll from "@/utils/useInfinityScroll";
+import { useGetMentorList } from "@/apis/mentor";
 
 import MentorCard from "@/components/mentor/MentorCard";
 import EmptySdwBCards from "@/components/ui/EmptySdwBCards";
 import FloatingUpBtn from "@/components/ui/FloatingUpBtn";
-
+import { FilterTab } from "@/types/mentor";
+import useInfinityScroll from "@/utils/useInfinityScroll";
 import usePrefetchMentorFindTab from "./_hooks/usePrefetchMentorFindTab";
 import useSelectedTab from "./_hooks/useSelectedTab";
-
-import { FilterTab } from "@/types/mentor";
-
-import { useGetMentorList } from "@/apis/mentor";
 
 const MentorFindSection = () => {
   const { listRef, selectedTab, handleSelectTab } = useSelectedTab();

@@ -1,21 +1,17 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-
 import { z } from "zod";
-
-import { appleLogin, kakaoLogin } from "@/utils/authUtils";
-
-import useInputHandler from "./_hooks/useInputHandler";
-
 import { usePostEmailAuth } from "@/apis/Auth";
 import { toast } from "@/lib/zustand/useToastStore";
 import { IconSolidConnectionFullBlackLogo } from "@/public/svgs";
 import { IconAppleLogo, IconEmailIcon, IconKakaoLogo } from "@/public/svgs/auth";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { appleLogin, kakaoLogin } from "@/utils/authUtils";
+import useInputHandler from "./_hooks/useInputHandler";
 
 // Zod 스키마 정의
 const loginSchema = z.object({

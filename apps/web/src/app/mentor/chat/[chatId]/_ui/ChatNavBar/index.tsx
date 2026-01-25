@@ -1,23 +1,17 @@
 "use client";
 
+import clsx from "clsx";
 import Link from "next/link";
 import { useState } from "react";
-
-import clsx from "clsx";
-
-import { tokenParse } from "@/utils/jwtUtils";
-
+import { useGetPartnerInfo } from "@/apis/chat";
+import { useGetMyInfo } from "@/apis/MyPage";
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
-
-import ReportPanel from "../../../../../../components/ui/ReportPanel";
-
-import { UserRole } from "@/types/mentor";
-
-import { useGetMyInfo } from "@/apis/MyPage";
-import { useGetPartnerInfo } from "@/apis/chat";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { IconAlert, IconAlertSubC, IconDirectionRight, IconSetting } from "@/public/svgs/mentor";
+import { UserRole } from "@/types/mentor";
+import { tokenParse } from "@/utils/jwtUtils";
+import ReportPanel from "../../../../../../components/ui/ReportPanel";
 
 interface ChatNavBarProps {
   chatId: number;

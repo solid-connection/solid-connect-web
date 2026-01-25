@@ -2,16 +2,12 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-
+import { useGetPostList } from "@/apis/community";
 import ButtonTab from "@/components/ui/ButtonTab";
-
+import { COMMUNITY_BOARDS, COMMUNITY_CATEGORIES } from "@/constants/community";
 import CommunityRegionSelector from "./CommunityRegionSelector";
 import PostCards from "./PostCards";
 import PostWriteButton from "./PostWriteButton";
-
-import { COMMUNITY_BOARDS, COMMUNITY_CATEGORIES } from "@/constants/community";
-
-import { useGetPostList } from "@/apis/community";
 
 interface CommunityPageContentProps {
   boardCode: string;

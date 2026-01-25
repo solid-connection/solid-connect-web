@@ -2,10 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-
-import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
-
 import { useCreatePost } from "@/apis/community";
+import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import { IconImage, IconPostCheckboxFilled, IconPostCheckboxOutlined } from "@/public/svgs";
 
 type PostFormProps = {
@@ -55,7 +53,7 @@ const PostForm = ({ boardCode }: PostFormProps) => {
           content,
           isQuestion,
         },
-        file: imageUploadRef.current && imageUploadRef.current.files ? Array.from(imageUploadRef.current.files) : [],
+        file: imageUploadRef.current?.files ? Array.from(imageUploadRef.current.files) : [],
       },
       {
         onSuccess: (data) => {

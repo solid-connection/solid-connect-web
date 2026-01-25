@@ -1,9 +1,7 @@
 import { useState } from "react";
-
+import { IconExpandMoreFilled } from "@/public/svgs/community";
 import type { ScoreSheet } from "@/types/application";
 import { languageTestMapping } from "@/types/score";
-
-import { IconExpandMoreFilled } from "@/public/svgs/community";
 
 const ScoreSheet = ({ scoreSheet }: { scoreSheet: ScoreSheet }) => {
   const [tableOpened, setTableOpened] = useState(false);

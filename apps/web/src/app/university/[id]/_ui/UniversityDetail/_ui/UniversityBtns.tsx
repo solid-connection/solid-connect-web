@@ -54,7 +54,7 @@ const UniversityBtns = ({ universityId }: UniversityBtnsProps) => {
         setIsLiked(true);
       }
     });
-  }, [favoriteUniv]);
+  }, [favoriteUniv, universityId]);
 
   useEffect(() => {
     if (!isAuthenticated) {

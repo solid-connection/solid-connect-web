@@ -1,14 +1,11 @@
 "use client";
 
 import { useState } from "react";
-
+import { useGetChatRooms } from "@/apis/chat";
+import { type MyInfoResponse, useGetMyInfo } from "@/apis/MyPage";
 import MentorCard from "@/components/mentor/MentorCard";
 import MentorChatCard from "@/components/mentor/MentorChatCard";
-
 import { UserRole } from "@/types/mentor";
-
-import { MyInfoResponse, useGetMyInfo } from "@/apis/MyPage";
-import { useGetChatRooms } from "@/apis/chat";
 
 const MatchContent = () => {
   const { data: myInfo = {} as MyInfoResponse } = useGetMyInfo();

@@ -1,9 +1,7 @@
-import { AxiosError } from "axios";
-
+import { type UseQueryResult, useMutationState, useQuery } from "@tanstack/react-query";
+import type { AxiosError } from "axios";
 import { QueryKeys } from "../queryKeys";
-import { MyInfoResponse, myPageApi } from "./api";
-
-import { UseQueryResult, useMutationState, useQuery } from "@tanstack/react-query";
+import { type MyInfoResponse, myPageApi } from "./api";
 
 type UseGetMyInfoResult = Omit<UseQueryResult<MyInfoResponse, AxiosError>, "data"> & {
   data: MyInfoResponse | undefined;

@@ -1,9 +1,8 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-
 import { QueryKeys } from "@/apis/queryKeys";
 import { useDeleteWish } from "@/apis/universities";
 import { toast } from "@/lib/zustand/useToastStore";
-import { useQueryClient } from "@tanstack/react-query";
 
 interface UseSelectUniversitiesReturn {
   editSelected: number[];

@@ -1,4 +1,4 @@
-import { UserRole } from "./mentor";
+import type { UserRole } from "./mentor";
 
 export type AuthType = "EMAIL" | "KAKAO" | "APPLE";
 

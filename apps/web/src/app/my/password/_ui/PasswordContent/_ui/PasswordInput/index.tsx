@@ -1,8 +1,8 @@
 // src/components/PasswordInput.jsx
-import React, { useState } from "react";
-import { Controller, useFormContext } from "react-hook-form";
 
 import clsx from "clsx";
+import { useState } from "react";
+import { Controller, useFormContext } from "react-hook-form";
 
 import { IconAlertErrorRed, IconCheckBlue, IconVisibilityOff, IconVisibilityOn } from "@/public/svgs/my";
 
@@ -45,7 +45,6 @@ const PasswordInput = ({
                 id={name}
                 type={isPasswordVisible ? "text" : "password"}
                 placeholder={placeholder}
-                autoFocus={autoFocus}
                 className={clsx(
                   "w-full rounded-lg border p-4 pr-20 transition-colors focus:outline-none focus:ring-2",
                   hasError

@@ -6,7 +6,7 @@ import BlockBtn from "@/components/button/BlockBtn";
 import TextModal from "@/components/modal/TextModal";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/Select";
 
-import { ListUniversity } from "@/types/university";
+import type { ListUniversity } from "@/types/university";
 
 type UniversityStepProps = {
   universityList: ListUniversity[];

@@ -21,7 +21,7 @@ if (process.env.NODE_ENV === "production") {
     replaysOnErrorSampleRate: 1.0, // 에러 발생 시 100%
 
     // tracePropagationTargets는 최상위 옵션으로 설정
-    tracePropagationTargets: ["solid-connection.com", /^https:\/\/(www\.)?solid[\-]?connection\.com/],
+    tracePropagationTargets: ["solid-connection.com", /^https:\/\/(www\.)?solid[-]?connection\.com/],
 
     integrations: [
       // Browser Tracing: 페이지 로드 및 네비게이션 성능 측정

@@ -1,11 +1,10 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+import type { AxiosError, AxiosResponse } from "axios";
 import { useRouter } from "next/navigation";
 
-import { AxiosError, AxiosResponse } from "axios";
-
-import { CommunityQueryKeys, DeletePostResponse, communityApi } from "./api";
-
 import { toast } from "@/lib/zustand/useToastStore";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { CommunityQueryKeys, communityApi, type DeletePostResponse } from "./api";
 
 /**
  * @description 게시글 삭제를 위한 useMutation 커스텀 훅

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { Control, FieldValues, useController } from "react-hook-form";
+import { type Control, type FieldValues, useController } from "react-hook-form";
 
-import { ChannelType } from "@/types/mentor";
+import type { ChannelType } from "@/types/mentor";
 
 interface useSelectHandlerReturn {
   isOpen: boolean;

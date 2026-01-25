@@ -1,14 +1,10 @@
 "use client";
 
 import Image from "next/image";
-
-import { convertUploadedImageUrl } from "@/utils/fileUtils";
-
-import useLikeToggle from "./_hooks/useLikeToggle";
-
-import { Article } from "@/types/news";
-
 import { IconLikeFill, IconLikeNotFill } from "@/public/svgs/mentor";
+import type { Article } from "@/types/news";
+import { convertUploadedImageUrl } from "@/utils/fileUtils";
+import useLikeToggle from "./_hooks/useLikeToggle";
 
 interface MentorArticleProps {
   article: Article;

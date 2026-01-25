@@ -1,8 +1,6 @@
 import { useEffect } from "react";
-
-import { FilterTab } from "@/types/mentor";
-
 import { usePrefetchMentorList } from "@/apis/mentor";
+import { FilterTab } from "@/types/mentor";
 
 const usePrefetchMentorFindTab = () => {
   const { prefetchMentorList } = usePrefetchMentorList();
@@ -20,6 +18,6 @@ const usePrefetchMentorFindTab = () => {
     // 1초 후에 프리페치 실행 (초기 로딩 후)
     const timer = setTimeout(prefetchAllTabs, 1000);
     return () => clearTimeout(timer);
-  }, []);
+  }, [prefetchMentorList]);
 };
 export default usePrefetchMentorFindTab;

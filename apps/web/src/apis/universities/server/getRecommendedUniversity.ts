@@ -1,6 +1,5 @@
+import type { ListUniversity } from "@/types/university";
 import serverFetch from "@/utils/serverFetchUtil";
-
-import { ListUniversity } from "@/types/university";
 
 type GetRecommendedUniversityResponse = { recommendedUniversities: ListUniversity[] };
 

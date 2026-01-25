@@ -1,9 +1,8 @@
-import { AxiosError } from "axios";
-
-import { SignOutResponse, authApi } from "./api";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import type { AxiosError } from "axios";
 
 import useAuthStore from "@/lib/zustand/useAuthStore";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { authApi, type SignOutResponse } from "./api";
 
 /**
  * @description 로그아웃을 위한 useMutation 커스텀 훅

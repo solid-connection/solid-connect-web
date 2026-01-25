@@ -1,10 +1,10 @@
-export { scoresApi, ScoresQueryKeys } from "./api";
 export type {
-  UseMyGpaScoreResponse,
   UseGetMyLanguageTestScoreResponse,
+  UseMyGpaScoreResponse,
   UsePostGpaScoreRequest,
   UsePostLanguageTestScoreRequest,
 } from "./api";
+export { ScoresQueryKeys, scoresApi } from "./api";
 
 export { default as useGetMyGpaScore } from "./getGpaList";
 export { default as useGetMyLanguageTestScore } from "./getLanguageTestList";

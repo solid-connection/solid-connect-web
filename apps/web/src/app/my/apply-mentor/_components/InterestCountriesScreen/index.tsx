@@ -1,15 +1,12 @@
 "use client";
 
+import clsx from "clsx";
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 
-import clsx from "clsx";
-
 import BlockBtn from "@/components/button/BlockBtn";
-
-import { MentorApplicationFormData } from "../../_lib/schema";
-
 import { mentorRegionList } from "@/constants/regions";
+import type { MentorApplicationFormData } from "../../_lib/schema";
 
 type InterestCountriesScreenProps = {
   onNext: () => void;

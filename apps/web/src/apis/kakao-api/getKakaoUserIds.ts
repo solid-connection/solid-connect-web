@@ -1,9 +1,7 @@
-import { AxiosError } from "axios";
-
-import { QueryKeys } from "../queryKeys";
-import { KakaoUserIdsResponse, kakaoApiApi } from "./api";
-
 import { useQuery } from "@tanstack/react-query";
+import type { AxiosError } from "axios";
+import { QueryKeys } from "../queryKeys";
+import { type KakaoUserIdsResponse, kakaoApiApi } from "./api";
 
 const useGetKakaoUserIds = (params?: Record<string, any>) => {
   return useQuery<KakaoUserIdsResponse, AxiosError>({

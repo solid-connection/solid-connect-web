@@ -1,16 +1,12 @@
 import Image from "next/image";
-
-import { convertImageUrl } from "@/utils/fileUtils";
-
 import LinkifyText from "@/components/ui/LinkifyText";
-
+import type { University } from "@/types/university";
+import { convertImageUrl } from "@/utils/fileUtils";
 import InfoSection from "./_ui/InfoSection";
 import LanguageSection from "./_ui/LanguageSection";
 import MapSection from "./_ui/MapSection";
 import TitleSection from "./_ui/TitleSection";
 import UniversityBtns from "./_ui/UniversityBtns";
-
-import { University } from "@/types/university";
 
 interface UniversityDetailProps {
   university: University;

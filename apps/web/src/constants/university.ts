@@ -1,4 +1,4 @@
-import { CountryCode, LanguageTestType, RegionEnumExtend, TestScoreInfo } from "@/types/university";
+import { CountryCode, LanguageTestType, RegionEnumExtend, type TestScoreInfo } from "@/types/university";
 
 export const REGIONS_SEARCH = ["유럽권", "미주권", "아시아권"] as const;
 

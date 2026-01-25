@@ -1,15 +1,11 @@
+import clsx from "clsx";
 import Image from "next/image";
 import { useState } from "react";
-
-import clsx from "clsx";
-
+import { IconAlbum, IconDirectMessage, IconFile, IconPlusK200, IconXWhite } from "@/public/svgs/mentor";
 import { downloadLocalFile } from "@/utils/fileUtils";
-
 import useFileHandler from "./_hooks/useFileHandler";
 import useImageHandler from "./_hooks/useImageHandler";
 import useMessageHandler from "./_hooks/useMessageHandler";
-
-import { IconAlbum, IconDirectMessage, IconFile, IconPlusK200, IconXWhite } from "@/public/svgs/mentor";
 
 interface ChatInputBarProps {
   onSendMessage: (data: { message: string }) => void;

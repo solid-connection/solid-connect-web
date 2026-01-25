@@ -1,8 +1,6 @@
-import { AxiosError } from "axios";
-
-import { MentorCardDetail, MentorQueryKeys, mentorApi } from "./api";
-
 import { useQuery } from "@tanstack/react-query";
+import type { AxiosError } from "axios";
+import { type MentorCardDetail, MentorQueryKeys, mentorApi } from "./api";
 
 /**
  * @description 멘토 상세 조회 훅

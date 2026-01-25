@@ -69,7 +69,7 @@ export const useSurveyModalStore = create<SurveyModalState>((set) => ({
     // 저장된 값 검증
     if (hideUntil) {
       const hideTimestamp = Number(hideUntil);
-      if (isNaN(hideTimestamp) || hideTimestamp <= 0) {
+      if (Number.isNaN(hideTimestamp) || hideTimestamp <= 0) {
         // 잘못된 값인 경우 저장된 키 제거
         try {
           localStorage.removeItem(SURVEY_MODAL_STORAGE_KEY);

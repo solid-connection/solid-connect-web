@@ -1,10 +1,8 @@
 import { useMemo, useState } from "react";
-
-import { filterType } from "..";
-
-import { ListUniversity, University } from "@/types/university";
-
 import { useGetWishList } from "@/apis/universities";
+
+import type { ListUniversity, University } from "@/types/university";
+import { filterType } from "..";
 
 interface UseSortedUniversitiesReturn {
   wishUniversity: ListUniversity[];
@@ -31,13 +29,6 @@ const useSortedUniversities = (): UseSortedUniversitiesReturn => {
       // '모집인원 순'일 경우 studentCapacity를 기준으로 내림차순 정렬
       case filterType.NUMBER_OF_RECRUIT:
         return newWishUniversity.sort((a: University, b: University) => b.studentCapacity - a.studentCapacity);
-
-      // TODO 성적순 정렬 기능 구현
-      // '낮은 성적순'은 데이터에 없으므로 기본값(최신순)으로 처리
-      case filterType.LOW_SCORE:
-      // '편집하기'는 정렬 기능이 아니므로 기본값(최신순)으로 처리
-
-      case filterType.LATEST:
       default:
         return wishUniversity; // 원본 순서(최신순) 그대로 반환
     }

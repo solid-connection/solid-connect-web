@@ -1,14 +1,12 @@
 "use client";
 
+import { useGetApplyMentoringList } from "@/apis/mentor";
 import MentorChatCard from "@/components/mentor/MentorChatCard/index";
 import MentorExpandChatCard from "@/components/mentor/MentorExpandChatCard";
 import EmptySdwBCards from "@/components/ui/EmptySdwBCards";
 
-import MentorWaitingListBox from "./_ui/MentorWaitingListBox";
-
 import { VerifyStatus } from "@/types/mentee";
-
-import { useGetApplyMentoringList } from "@/apis/mentor";
+import MentorWaitingListBox from "./_ui/MentorWaitingListBox";
 
 const DEFAULT_VISIBLE_ITEMS = 2;
 

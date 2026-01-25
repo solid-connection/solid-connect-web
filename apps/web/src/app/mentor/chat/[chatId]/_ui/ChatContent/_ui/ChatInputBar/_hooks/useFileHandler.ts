@@ -1,9 +1,7 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-
 import { z } from "zod";
-
-import { zodResolver } from "@hookform/resolvers/zod";
 
 // Zod 스키마 정의
 const fileSchema = z.object({

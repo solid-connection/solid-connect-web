@@ -1,11 +1,9 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
-import { MentoModifyFormData, mentoModifySchema } from "../_lib/mentoModifyScehma";
-
-import { MentorCardPreview } from "@/types/mentor";
-
-import { zodResolver } from "@hookform/resolvers/zod";
+import type { MentorCardPreview } from "@/types/mentor";
+import { type MentoModifyFormData, mentoModifySchema } from "../_lib/mentoModifyScehma";
 
 type UseModifyHookFormReturn = ReturnType<typeof useForm<MentoModifyFormData>>;
 

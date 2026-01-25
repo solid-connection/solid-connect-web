@@ -1,8 +1,6 @@
-import { AxiosError } from "axios";
-
-import { ChatPartner, ChatQueryKeys, chatApi } from "./api";
-
 import { useQuery } from "@tanstack/react-query";
+import type { AxiosError } from "axios";
+import { type ChatPartner, ChatQueryKeys, chatApi } from "./api";
 
 /**
  * @description 채팅 상대방 정보를 가져오는 훅

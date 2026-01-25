@@ -1,13 +1,11 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+import type { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
-
-import { AxiosError } from "axios";
-
-import { QueryKeys } from "../queryKeys";
-import { PasswordPatchRequest, myPageApi } from "./api";
-
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { toast } from "@/lib/zustand/useToastStore";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { QueryKeys } from "../queryKeys";
+import { myPageApi, type PasswordPatchRequest } from "./api";
 
 const usePatchMyPassword = () => {
   const queryClient = useQueryClient();

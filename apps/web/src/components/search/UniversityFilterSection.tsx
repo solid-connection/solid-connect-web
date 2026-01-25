@@ -1,15 +1,11 @@
 "use client";
 
-import React, { Dispatch, SetStateAction } from "react";
-
 import clsx from "clsx";
 
 import UniversityRegionTabs from "@/components/search/UniversityRegionTabs";
 import UniversitySearchInput from "@/components/search/UniversitySearchInput";
-
-import { RegionKo, RegionOption } from "@/types/university";
-
 import { IconDownArrow, IconHatColor, IconHatGray, IconLocationColor, IconLocationGray } from "@/public/svgs/search";
+import type { RegionKo, RegionOption } from "@/types/university";
 
 interface UniversityFilterSectionProps {
   // optional: region tabs data
@@ -83,7 +79,7 @@ const UniversityFilterSection = ({
       </div>
 
       <div className="flex flex-col gap-1">
-        {countries.map((cty, i) => {
+        {countries.map((_cty, i) => {
           if (i === 0 || countries[i - 1]) {
             return (
               <div key={i} className="relative flex flex-col gap-2">

@@ -1,10 +1,8 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-
 import { z } from "zod";
-
 import { type MyInfoResponse, useGetMyInfo, usePatchMyInfo } from "@/apis/MyPage";
-import { zodResolver } from "@hookform/resolvers/zod";
 
 // Zod 스키마 정의 - 닉네임과 이미지
 const profileSchema = z.object({
@@ -39,7 +37,7 @@ const useModifyUserHookform = (): UseModifyUserHookformReturn => {
         nickname: myInfo.nickname || "",
       });
     }
-  }, [myInfo]);
+  }, [myInfo, reset]);
 
   // 폼 제출 시 닉네임과 이미지 함께 처리
   const onSubmit = (data: ProfileFormData) => {

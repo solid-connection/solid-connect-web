@@ -1,10 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
-import ModalBase from "./ModalBase";
-
 import { toast } from "@/lib/zustand/useToastStore";
+import ModalBase from "./ModalBase";
 
 type SurveyModalProps = {
   isOpen: boolean;

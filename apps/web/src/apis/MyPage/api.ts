@@ -1,9 +1,7 @@
-import { AxiosResponse } from "axios";
-
+import type { AxiosResponse } from "axios";
+import type { UserRole } from "@/types/mentor";
+import type { BaseUserInfo } from "@/types/myInfo";
 import { axiosInstance } from "@/utils/axiosInstance";
-
-import { UserRole } from "@/types/mentor";
-import { BaseUserInfo } from "@/types/myInfo";
 
 // --- 타입 정의 ---
 export interface MenteeInfo extends BaseUserInfo {
@@ -23,7 +21,7 @@ export interface AdminInfo extends BaseUserInfo {
 
 export type MyInfoResponse = MenteeInfo | MentorInfo | AdminInfo;
 
-export type InterestedRegionCountryResponse = void;
+export type InterestedRegionCountryResponse = undefined;
 
 export type InterestedRegionCountryRequest = string[];
 

@@ -1,9 +1,8 @@
-import { AxiosError } from "axios";
-
-import { CommentCreateRequest, CommentIdResponse, CommunityQueryKeys, communityApi } from "./api";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import type { AxiosError } from "axios";
 
 import { toast } from "@/lib/zustand/useToastStore";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { type CommentCreateRequest, type CommentIdResponse, CommunityQueryKeys, communityApi } from "./api";
 
 /**
  * @description 댓글 생성을 위한 useMutation 커스텀 훅
@@ -13,7 +12,7 @@ const useCreateComment = () => {
 
   return useMutation<CommentIdResponse, AxiosError, CommentCreateRequest>({
     mutationFn: communityApi.createComment,
-    onSuccess: (data, variables) => {
+    onSuccess: (_data, variables) => {
       // 해당 게시글 상세 쿼리를 무효화하여 댓글 목록 갱신
       queryClient.invalidateQueries({ queryKey: [CommunityQueryKeys.posts, variables.postId] });
       toast.success("댓글이 등록되었습니다.");

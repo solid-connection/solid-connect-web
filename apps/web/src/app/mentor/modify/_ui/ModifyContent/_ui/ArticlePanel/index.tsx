@@ -1,19 +1,13 @@
 import { useState } from "react";
-
-import { convertISODateToDate } from "@/utils/datetimeUtils";
-import { convertUploadedImageUrl } from "@/utils/fileUtils";
-
 import ArticleBottomSheetModal from "@/components/mentor/ArticleBottomSheetModal";
 import OptimisticImg from "@/components/ui/OptimisticImg";
 import ReusableDropdown from "@/components/ui/ReusableDropdown";
-
-import useDeleteDropDownHandler from "./_hooks/useDropDownHandler";
-
-import { ArticleDropdownType } from "@/types/news";
-import { Article } from "@/types/news";
-
 import ArticleThumbPng from "@/public/images/article-thumb.png";
 import { IconPencil } from "@/public/svgs/mentor";
+import { type Article, ArticleDropdownType } from "@/types/news";
+import { convertISODateToDate } from "@/utils/datetimeUtils";
+import { convertUploadedImageUrl } from "@/utils/fileUtils";
+import useDeleteDropDownHandler from "./_hooks/useDropDownHandler";
 
 interface ArticlePanelProps {
   article: Article;
