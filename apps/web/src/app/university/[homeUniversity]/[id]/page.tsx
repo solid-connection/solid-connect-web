@@ -6,8 +6,8 @@ import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import { getHomeUniversityBySlug, HOME_UNIVERSITY_SLUGS } from "@/constants/university";
 import type { HomeUniversitySlug } from "@/types/university";
 
-// 기존 UniversityDetail 컴포넌트 재사용
-import UniversityDetail from "../../[id]/_ui/UniversityDetail";
+// UniversityDetail 컴포넌트
+import UniversityDetail from "./_ui/UniversityDetail";
 
 export const revalidate = false; // 완전 정적 생성
 
