@@ -57,11 +57,7 @@ const SignupPolicyScreen = ({ toNextStage }: SignupPolicyScreenProps) => {
       </div>
 
       <div className="mt-10 px-5 pb-7">
-        <BlockBtn
-          className={isChecked ? "bg-primary" : "bg-bg-800"}
-          disabled={!isChecked}
-          onClick={toNextStage}
-        >
+        <BlockBtn className={isChecked ? "bg-primary" : "bg-bg-800"} disabled={!isChecked} onClick={toNextStage}>
           다음
         </BlockBtn>
       </div>
