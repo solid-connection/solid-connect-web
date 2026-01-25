@@ -1,8 +1,6 @@
-import { URLSearchParams } from "url";
-
+import { URLSearchParams } from "node:url";
+import type { CountryCode, LanguageTestType, ListUniversity } from "@/types/university";
 import serverFetch from "@/utils/serverFetchUtil";
-
-import { CountryCode, LanguageTestType, ListUniversity } from "@/types/university";
 
 interface UniversitySearchResponse {
   univApplyInfoPreviews: ListUniversity[];

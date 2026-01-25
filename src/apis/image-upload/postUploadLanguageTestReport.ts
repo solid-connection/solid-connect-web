@@ -1,8 +1,6 @@
-import { AxiosError } from "axios";
-
-import { UploadLanguageTestReportResponse, imageUploadApi } from "./api";
-
 import { useMutation } from "@tanstack/react-query";
+import type { AxiosError } from "axios";
+import { imageUploadApi, type UploadLanguageTestReportResponse } from "./api";
 
 const usePostUploadLanguageTestReport = () => {
   return useMutation<UploadLanguageTestReportResponse, AxiosError, File>({

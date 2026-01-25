@@ -1,6 +1,5 @@
-import serverFetch, { ServerFetchResult } from "@/utils/serverFetchUtil";
-
-import { ListPost } from "@/types/community";
+import type { ListPost } from "@/types/community";
+import serverFetch, { type ServerFetchResult } from "@/utils/serverFetchUtil";
 
 interface GetPostListParams {
   boardCode: string;

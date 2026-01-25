@@ -1,12 +1,9 @@
-import { AxiosError } from "axios";
-
-import { ArticleListResponse, NewsQueryKeys, UsePostAddArticleRequest, newsApi } from "./api";
-
-import { Article } from "@/types/news";
-
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import type { AxiosError } from "axios";
 import { toast } from "@/lib/zustand/useToastStore";
 import ArticleThumbUrlPng from "@/public/images/article-thumb.png";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import type { Article } from "@/types/news";
+import { type ArticleListResponse, NewsQueryKeys, newsApi, type UsePostAddArticleRequest } from "./api";
 
 type ArticleMutationContext = {
   previousArticleContainer?: ArticleListResponse;
@@ -44,12 +41,12 @@ const usePostAddArticle = (userId: number | null) => {
       });
       return { previousArticleContainer };
     },
-    onError: (error, variables, context) => {
+    onError: (error, _variables, context) => {
       const errorMessage = error.response?.data?.message || "";
       if (context?.previousArticleContainer) {
         queryClient.setQueryData(queryKey, context.previousArticleContainer);
       }
-      toast.error("아티클 추가에 실패했습니다: " + errorMessage);
+      toast.error(`아티클 추가에 실패했습니다: ${errorMessage}`);
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey });

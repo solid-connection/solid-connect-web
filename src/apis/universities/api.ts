@@ -43,13 +43,13 @@ export interface WishListResponse {
   1: WishListResponseItem[];
 }
 
-export type WishResponse = void;
+export type WishResponse = undefined;
 
-export type AddWishResponse = void;
+export type AddWishResponse = undefined;
 
 export type AddWishRequest = Record<string, never>;
 
-export type IsWishResponse = void;
+export type IsWishResponse = undefined;
 
 export interface UniversityDetailResponseLanguageRequirementsItem {
   languageTestType: string;
@@ -127,7 +127,7 @@ export interface SearchFilterResponse {
   univApplyInfoPreviews: SearchFilterResponseUnivApplyInfoPreviewsItem[];
 }
 
-export type ByRegionCountryResponse = void;
+export type ByRegionCountryResponse = undefined;
 
 export const universitiesApi = {
   getRecommendedUniversities: async (params?: { isLogin?: boolean }): Promise<RecommendedUniversitiesResponse> => {

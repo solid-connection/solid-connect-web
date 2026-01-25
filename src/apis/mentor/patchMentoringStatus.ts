@@ -1,19 +1,18 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+import type { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
-
-import { AxiosError } from "axios";
-
-import {
-  MentorQueryKeys,
-  MentoringApprovalStatus,
-  PatchApprovalStatusRequest,
-  PatchApprovalStatusResponse,
-  mentorApi,
-} from "./api";
 
 import { customAlert } from "@/lib/zustand/useAlertModalStore";
 import { customConfirm } from "@/lib/zustand/useConfirmModalStore";
 import { IconSmile, IconUnSmile } from "@/public/svgs/mentor";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  MentoringApprovalStatus,
+  MentorQueryKeys,
+  mentorApi,
+  type PatchApprovalStatusRequest,
+  type PatchApprovalStatusResponse,
+} from "./api";
 
 /**
  * @description 멘토링 승인/거절 훅
@@ -51,7 +50,7 @@ const usePatchApprovalStatus = () => {
         }
       }
     },
-    onError: (error) => {
+    onError: (_error) => {
       customAlert({
         title: "멘토링 상태 변경 실패",
         content: "멘토링 상태 변경 중 오류가 발생했습니다. 다시 시도해주세요.",

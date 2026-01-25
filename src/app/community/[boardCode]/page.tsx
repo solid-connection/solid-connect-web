@@ -1,14 +1,10 @@
-import { Metadata } from "next";
-
-import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
-
-import CommunityPageContent from "./CommunityPageContent";
-
-import { COMMUNITY_BOARDS } from "@/constants/community";
-
+import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
+import type { Metadata } from "next";
 import { CommunityQueryKeys } from "@/apis/community/api";
 import { getPostListServer } from "@/apis/community/server";
-import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
+import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
+import { COMMUNITY_BOARDS } from "@/constants/community";
+import CommunityPageContent from "./CommunityPageContent";
 
 export const metadata: Metadata = {
   title: "커뮤니티",

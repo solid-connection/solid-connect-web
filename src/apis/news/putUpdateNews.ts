@@ -1,11 +1,8 @@
-import { AxiosError } from "axios";
-
-import { ArticleListResponse, NewsQueryKeys, UsePutModifyArticleRequest, newsApi } from "./api";
-
-import { Article } from "@/types/news";
-
-import { toast } from "@/lib/zustand/useToastStore";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import type { AxiosError } from "axios";
+import { toast } from "@/lib/zustand/useToastStore";
+import type { Article } from "@/types/news";
+import { type ArticleListResponse, NewsQueryKeys, newsApi, type UsePutModifyArticleRequest } from "./api";
 
 type ArticleMutationContext = {
   previousArticleList?: Article[];
@@ -46,12 +43,12 @@ const usePutModifyArticle = (userId: number | null) => {
       });
       return { previousArticleList };
     },
-    onError: (error, variables, context) => {
+    onError: (error, _variables, context) => {
       const errorMessage = error.response?.data?.message || "";
       if (context?.previousArticleList) {
         queryClient.setQueryData(queryKey, context.previousArticleList);
       }
-      toast.error("아티클 수정에 실패했습니다." + errorMessage);
+      toast.error(`아티클 수정에 실패했습니다.${errorMessage}`);
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey });

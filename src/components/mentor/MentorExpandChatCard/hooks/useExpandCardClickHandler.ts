@@ -1,11 +1,8 @@
 import { useState } from "react";
-
-import { tokenParse } from "@/utils/jwtUtils";
-
-import { UserRole } from "@/types/mentor";
-
 import { usePatchMenteeCheckMentorings, usePatchMentorCheckMentorings } from "@/apis/mentor";
 import useAuthStore from "@/lib/zustand/useAuthStore";
+import { UserRole } from "@/types/mentor";
+import { tokenParse } from "@/utils/jwtUtils";
 
 interface UseExpandCardClickHandlerReturn {
   isExpanded: boolean;

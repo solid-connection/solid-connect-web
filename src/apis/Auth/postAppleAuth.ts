@@ -1,14 +1,11 @@
+import { useMutation } from "@tanstack/react-query";
+
+import type { AxiosError } from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
-
-import { AxiosError } from "axios";
-
-import { validateSafeRedirect } from "@/utils/authUtils";
-
-import { AppleAuthRequest, AppleAuthResponse, authApi } from "./api";
-
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { toast } from "@/lib/zustand/useToastStore";
-import { useMutation } from "@tanstack/react-query";
+import { validateSafeRedirect } from "@/utils/authUtils";
+import { type AppleAuthRequest, type AppleAuthResponse, authApi } from "./api";
 
 /**
  * @description 애플 로그인을 위한 useMutation 커스텀 훅

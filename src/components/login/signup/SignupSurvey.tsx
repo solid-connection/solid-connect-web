@@ -2,21 +2,18 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-
+import { usePostSignUp } from "@/apis/Auth";
+import { useUploadProfileImagePublic } from "@/apis/image-upload";
 import { Progress } from "@/components/ui/Progress";
+import useAuthStore from "@/lib/zustand/useAuthStore";
+import { toast } from "@/lib/zustand/useToastStore";
 
+import type { PreparationStatus, SignUpRequest } from "@/types/auth";
+import type { RegionKo } from "@/types/university";
 import SignupPolicyScreen from "./SignupPolicyScreen";
 import SignupPrepareScreen from "./SignupPrepareScreen";
 import SignupProfileScreen from "./SignupProfileScreen";
 import SignupRegionScreen from "./SignupRegionScreen";
-
-import { PreparationStatus, SignUpRequest } from "@/types/auth";
-import { RegionKo } from "@/types/university";
-
-import { usePostSignUp } from "@/apis/Auth";
-import { useUploadProfileImagePublic } from "@/apis/image-upload";
-import useAuthStore from "@/lib/zustand/useAuthStore";
-import { toast } from "@/lib/zustand/useToastStore";
 
 type SignupSurveyProps = {
   baseNickname: string;

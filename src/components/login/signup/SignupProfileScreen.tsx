@@ -1,6 +1,6 @@
 "use client";
 
-import { Dispatch, SetStateAction, useRef, useState } from "react";
+import { type Dispatch, type SetStateAction, useRef, useState } from "react";
 
 import BlockBtn from "@/components/button/BlockBtn";
 import { Input } from "@/components/ui/Inputa";

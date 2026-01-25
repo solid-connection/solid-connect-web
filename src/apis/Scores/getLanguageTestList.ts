@@ -1,10 +1,6 @@
-import { AxiosError } from "axios";
+import { useQuery } from "@tanstack/react-query";
 
 import { ScoresQueryKeys, scoresApi } from "./api";
-
-import { LanguageTestScore } from "@/types/score";
-
-import { useQuery } from "@tanstack/react-query";
 
 /**
  * @description 내 어학 점수 조회 훅

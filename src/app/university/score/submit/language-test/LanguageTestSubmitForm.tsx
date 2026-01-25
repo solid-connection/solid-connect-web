@@ -1,26 +1,20 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import clsx from "clsx";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Suspense, useState } from "react";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-
-import clsx from "clsx";
-
-import SubmitLinkTab from "@/components/score/SubmitLinkTab";
-import SubmitResult from "@/components/score/SubmitResult";
-// CustomDropdown 경로 확인 필요
-import { InfoRowProps } from "@/components/score/SubmitResult";
-import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
-
-import { LanguageTestFormData, languageTestSchema } from "./_lib/schema";
-
-import { LanguageTestEnum } from "@/types/score";
-
+import { Controller, type SubmitHandler, useForm } from "react-hook-form";
 import { usePostLanguageTestScore } from "@/apis/Scores";
 import CustomDropdown from "@/app/university/CustomDropdown";
+import SubmitLinkTab from "@/components/score/SubmitLinkTab";
+// CustomDropdown 경로 확인 필요
+import SubmitResult, { type InfoRowProps } from "@/components/score/SubmitResult";
+import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 import { toast } from "@/lib/zustand/useToastStore";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { LanguageTestEnum } from "@/types/score";
+import { type LanguageTestFormData, languageTestSchema } from "./_lib/schema";
 
 const LanguageTestSubmitForm = () => {
   const router = useRouter();

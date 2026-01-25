@@ -1,8 +1,6 @@
-import { AxiosError } from "axios";
-
-import { ChatQueryKeys, chatApi } from "./api";
-
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import type { AxiosError } from "axios";
+import { ChatQueryKeys, chatApi } from "./api";
 
 /**
  * @description 채팅방 읽음 처리 훅

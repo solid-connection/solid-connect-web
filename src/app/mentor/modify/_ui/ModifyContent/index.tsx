@@ -1,20 +1,17 @@
 "use client";
 
 import { FormProvider } from "react-hook-form";
-
+import { useGetMentorMyProfile } from "@/apis/mentor";
+import { useGetArticleList } from "@/apis/news";
 import StudyDate from "@/components/mentor/StudyDate";
 import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 import MentoProfile from "@/components/ui/ProfileWithBadge";
-
+import { IconUserPrimaryColor } from "@/public/svgs/mentor";
 import useModifyHookForm from "./_hooks/useModifyHookForm";
 import usePutMyMentorProfileHandler from "./_hooks/usePutMyMentorProfileHandler";
 import AddArticleCard from "./_ui/AddArticleCard";
 import ArticlePanel from "./_ui/ArticlePanel";
 import ChannelBox from "./_ui/ChannelBox";
-
-import { useGetMentorMyProfile } from "@/apis/mentor";
-import { useGetArticleList } from "@/apis/news";
-import { IconUserPrimaryColor } from "@/public/svgs/mentor";
 
 const ModifyContent = () => {
   const { data: myMentorProfile = null } = useGetMentorMyProfile();

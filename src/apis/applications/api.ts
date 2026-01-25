@@ -1,8 +1,6 @@
-import { AxiosResponse } from "axios";
-
+import type { AxiosResponse } from "axios";
+import type { ApplicationListResponse } from "@/types/application";
 import { axiosInstance } from "@/utils/axiosInstance";
-
-import { ApplicationListResponse } from "@/types/application";
 
 // ====== Query Keys ======
 export const ApplicationsQueryKeys = {

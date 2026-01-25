@@ -41,7 +41,7 @@ async function internalFetch<T = unknown>(
   /* 요청 헤더 구성 - 인증 제거 */
   const reqHeaders = new Headers(headers);
 
-  let requestBody: RequestInit["body"] = undefined;
+  let requestBody: RequestInit["body"];
   if (body !== undefined) {
     // JSON 직렬화 여부 판단
     if (typeof body === "string" || body instanceof Blob || body instanceof FormData || body instanceof ArrayBuffer) {

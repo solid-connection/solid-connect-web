@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useEffect } from "react";
+import type React from "react";
+import { useEffect } from "react";
 
 import { postReissueToken } from "@/apis/Auth";
 import useAuthStore from "@/lib/zustand/useAuthStore";
@@ -34,7 +35,7 @@ const ReissueProvider: React.FC<ReissueProviderProps> = ({ children }) => {
           await postReissueToken();
 
           // reissueAccessToken이 성공하면 Zustand store에 토큰이 자동으로 설정됨
-        } catch (error) {
+        } catch (_error) {
           // 토큰 재발급 실패 시 (로그인되지 않은 상태)
 
           // 컴포넌트가 아직 마운트되어 있을 때만 상태 업데이트

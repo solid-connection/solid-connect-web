@@ -1,18 +1,14 @@
 "use client";
 
-import Link from "next/link";
-import React, { useState } from "react";
-
 import clsx from "clsx";
-
+import Link from "next/link";
+import { useState } from "react";
+import { IconDirectionDown, IconDirectionUp } from "@/public/svgs/mentor";
+import type { MentorCardDetail, MentorCardPreview } from "@/types/mentor";
 import ChannelBadge from "../../ui/ChannelBadge";
 import ProfileWithBadge from "../../ui/ProfileWithBadge";
 import StudyDate from "../StudyDate";
 import usePostApplyMentorHandler from "./hooks/usePostApplyMentorHandler";
-
-import { MentorCardDetail, MentorCardPreview } from "@/types/mentor";
-
-import { IconDirectionDown, IconDirectionUp } from "@/public/svgs/mentor";
 
 interface MentorCardProps {
   mentor: MentorCardDetail | MentorCardPreview;

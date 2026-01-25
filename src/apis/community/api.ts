@@ -1,8 +1,5 @@
-import { AxiosResponse } from "axios";
-
-import { axiosInstance, publicAxiosInstance } from "@/utils/axiosInstance";
-
-import {
+import type { AxiosResponse } from "axios";
+import type {
   CommentCreateRequest,
   CommentIdResponse,
   ListPost,
@@ -12,6 +9,7 @@ import {
   PostLikeResponse,
   PostUpdateRequest,
 } from "@/types/community";
+import { axiosInstance, publicAxiosInstance } from "@/utils/axiosInstance";
 
 // QueryKeys for community domain
 export const CommunityQueryKeys = {

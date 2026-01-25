@@ -1,8 +1,6 @@
 import { useCallback } from "react";
-
-import { ArticleDropdownType } from "@/types/news";
-
 import { useDeleteArticle } from "@/apis/news";
+import { ArticleDropdownType } from "@/types/news";
 
 interface UseDeleteDropDownHandlerProps {
   articleId: number;

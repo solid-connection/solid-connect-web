@@ -1,16 +1,12 @@
 "use client";
 
 import { useState } from "react";
-
+import ScoreCard from "@/app/university/score/ScoreCard";
 import BlockBtn from "@/components/button/BlockBtn";
 import TextModal from "@/components/modal/TextModal";
 import Tab from "@/components/ui/Tab";
-
-import { LanguageTestScore, languageTestScoreInfo } from "@/types/score";
-import { ScoreSubmitStatus } from "@/types/score";
-
-import ScoreCard from "@/app/university/score/ScoreCard";
 import { toast } from "@/lib/zustand/useToastStore";
+import { type LanguageTestScore, languageTestScoreInfo, ScoreSubmitStatus } from "@/types/score";
 
 type LanguageStepProps = {
   languageTestScoreList: LanguageTestScore[];

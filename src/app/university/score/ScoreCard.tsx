@@ -1,8 +1,6 @@
 import clsx from "clsx";
-
-import { ScoreSubmitStatus } from "@/types/score";
-
 import { toast } from "@/lib/zustand/useToastStore";
+import type { ScoreSubmitStatus } from "@/types/score";
 
 type ScoreCardProps = {
   name: string;

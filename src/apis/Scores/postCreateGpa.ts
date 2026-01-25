@@ -1,9 +1,7 @@
-import { AxiosError } from "axios";
-
-import { ScoresQueryKeys, UsePostGpaScoreRequest, scoresApi } from "./api";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { toast } from "@/lib/zustand/useToastStore";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { ScoresQueryKeys, scoresApi, type UsePostGpaScoreRequest } from "./api";
 
 /**
  * @description 학점 점수 제출 훅

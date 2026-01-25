@@ -1,17 +1,12 @@
 "use client";
 
 import Link from "next/link";
-
-import { convertISODateToKoreanTime } from "@/utils/datetimeUtils";
-
 import usePatchApprovalStatusHandler from "@/components/mentor/MentorExpandChatCard/hooks/usePatchApprovalStatusHandler";
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
-
-import useExpandCardClickHandler from "./hooks/useExpandCardClickHandler";
-
-import { MentoringApplyStatus } from "@/types/mentor";
-
 import { IconDirectionDown, IconDirectionUp } from "@/public/svgs/mentor";
+import { MentoringApplyStatus } from "@/types/mentor";
+import { convertISODateToKoreanTime } from "@/utils/datetimeUtils";
+import useExpandCardClickHandler from "./hooks/useExpandCardClickHandler";
 
 interface MentorExpandChatCardProps {
   isChecked?: boolean;

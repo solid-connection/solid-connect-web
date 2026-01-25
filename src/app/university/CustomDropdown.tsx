@@ -1,6 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-
 import clsx from "clsx";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { IconDirectionDown } from "@/public/svgs/mentor";
 

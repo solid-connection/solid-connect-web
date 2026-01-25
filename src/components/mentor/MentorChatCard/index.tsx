@@ -1,5 +1,3 @@
-import React from "react";
-
 import { convertISODateToKoreanTime } from "@/utils/datetimeUtils";
 
 import ProfileWithBadge from "../../ui/ProfileWithBadge";

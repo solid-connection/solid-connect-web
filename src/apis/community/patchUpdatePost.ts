@@ -1,9 +1,8 @@
-import { AxiosError } from "axios";
-
-import { CommunityQueryKeys, PostIdResponse, PostUpdateRequest, communityApi } from "./api";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import type { AxiosError } from "axios";
 
 import { toast } from "@/lib/zustand/useToastStore";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { CommunityQueryKeys, communityApi, type PostIdResponse, type PostUpdateRequest } from "./api";
 
 interface UpdatePostVariables {
   postId: number;
@@ -18,7 +17,7 @@ const useUpdatePost = () => {
 
   return useMutation<PostIdResponse, AxiosError, UpdatePostVariables>({
     mutationFn: ({ postId, data }) => communityApi.updatePost(postId, data),
-    onSuccess: (result, variables) => {
+    onSuccess: (_result, variables) => {
       // 해당 게시글 상세 쿼리와 목록 쿼리를 무효화
       queryClient.invalidateQueries({ queryKey: [CommunityQueryKeys.posts, variables.postId] });
       queryClient.invalidateQueries({ queryKey: [CommunityQueryKeys.posts] });

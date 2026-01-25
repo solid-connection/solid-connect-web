@@ -1,14 +1,11 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-
-import { convertUploadedImageUrl } from "@/utils/fileUtils";
-
-import { InitialData } from "..";
-import { ArticleFormData, articleSchema } from "../lib/schema";
-
 import { useGetMentorMyProfile } from "@/apis/mentor";
 import { usePostAddArticle, usePutModifyArticle } from "@/apis/news";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { convertUploadedImageUrl } from "@/utils/fileUtils";
+import type { InitialData } from "..";
+import { type ArticleFormData, articleSchema } from "../lib/schema";
 
 interface UseArticleSchemaProps {
   initialData?: InitialData;

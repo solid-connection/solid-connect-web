@@ -1,11 +1,8 @@
-import { AxiosError } from "axios";
-
-import { ArticleListResponse, NewsQueryKeys, newsApi } from "./api";
-
-import { Article } from "@/types/news";
-
-import { toast } from "@/lib/zustand/useToastStore";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import type { AxiosError } from "axios";
+import { toast } from "@/lib/zustand/useToastStore";
+import type { Article } from "@/types/news";
+import { type ArticleListResponse, NewsQueryKeys, newsApi } from "./api";
 
 type ArticleDeleteMutationContext = {
   previousArticleList?: Article[];
@@ -36,7 +33,7 @@ const useDeleteArticle = (userId: number | null) => {
       return { previousArticleList };
     },
 
-    onError: (error, variables, context) => {
+    onError: (error, _variables, context) => {
       if (context?.previousArticleList) {
         queryClient.setQueryData<Article[]>(queryKey, context.previousArticleList);
       }

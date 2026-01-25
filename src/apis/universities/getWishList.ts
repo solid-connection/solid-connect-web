@@ -1,11 +1,8 @@
-import { AxiosError } from "axios";
-
-import { QueryKeys } from "../queryKeys";
-import { WishListResponse, universitiesApi } from "./api";
-
-import { ListUniversity } from "@/types/university";
-
 import { useQuery } from "@tanstack/react-query";
+import type { AxiosError } from "axios";
+import type { ListUniversity } from "@/types/university";
+import { QueryKeys } from "../queryKeys";
+import { universitiesApi, type WishListResponse } from "./api";
 
 /**
  * @description 내 위시리스트 대학 목록 조회를 위한 useQuery 커스텀 훅

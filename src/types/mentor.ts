@@ -1,5 +1,3 @@
-import { VerifyStatus } from "./mentee";
-
 export interface MentorResponse {
   nextPageNumber: number;
   content: Mentor[];

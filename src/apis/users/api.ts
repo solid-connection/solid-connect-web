@@ -4,13 +4,13 @@ export interface NicknameExistsResponse {
   exists: boolean;
 }
 
-export type BlockUserResponse = void;
+export type BlockUserResponse = undefined;
 
 export type BlockUserRequest = Record<string, never>;
 
 export type UnblockUserRequest = Record<string, never>;
 
-export type UnblockUserResponse = void;
+export type UnblockUserResponse = undefined;
 
 export interface BlockedUsersResponseContentItem {
   id: number;

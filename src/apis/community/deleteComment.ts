@@ -1,9 +1,8 @@
-import { AxiosError } from "axios";
-
-import { CommentIdResponse, CommunityQueryKeys, communityApi } from "./api";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import type { AxiosError } from "axios";
 
 import { toast } from "@/lib/zustand/useToastStore";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { type CommentIdResponse, CommunityQueryKeys, communityApi } from "./api";
 
 interface DeleteCommentRequest {
   commentId: number;
@@ -18,7 +17,7 @@ const useDeleteComment = () => {
 
   return useMutation<CommentIdResponse, AxiosError, DeleteCommentRequest>({
     mutationFn: ({ commentId }) => communityApi.deleteComment(commentId),
-    onSuccess: (data, variables) => {
+    onSuccess: (_data, variables) => {
       // 해당 게시글 상세 쿼리를 무효화하여 댓글 목록 갱신
       queryClient.invalidateQueries({ queryKey: [CommunityQueryKeys.posts, variables.postId] });
       toast.success("댓글이 삭제되었습니다.");

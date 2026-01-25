@@ -1,14 +1,12 @@
 "use client";
 
-import { useRef } from "react";
+import { useVirtualizer } from "@tanstack/react-virtual";
 
 import clsx from "clsx";
+import { useRef } from "react";
 
+import type { ListUniversity } from "@/types/university";
 import UniversityCard from "../../ui/UniverSityCard";
-
-import { ListUniversity } from "@/types/university";
-
-import { useVirtualizer } from "@tanstack/react-virtual";
 
 type UniversityCardsProps = {
   colleges: ListUniversity[];

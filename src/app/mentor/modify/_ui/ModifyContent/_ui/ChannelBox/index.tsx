@@ -1,8 +1,5 @@
-import React from "react";
-
+import type { ChannelType } from "@/types/mentor";
 import ChannelItem from "./ChannelItem";
-
-import { ChannelType } from "@/types/mentor";
 
 interface ChannelBoxProps {
   channels: Array<{ type: ChannelType; url: string }>;

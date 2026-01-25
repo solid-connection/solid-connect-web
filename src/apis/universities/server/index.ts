@@ -1,9 +1,9 @@
 // Server-side exports
 export { default as getRecommendedUniversity } from "./getRecommendedUniversity";
-export { getUniversityDetail } from "./getUniversityDetail";
-export { getUniversitiesByText, getAllUniversities, getCategorizedUniversities } from "./getSearchUniversitiesByText";
 export {
-  getSearchUniversitiesByFilter,
   getSearchUniversitiesAllRegions,
+  getSearchUniversitiesByFilter,
   type UniversitySearchFilterParams,
 } from "./getSearchUniversitiesByFilter";
+export { getAllUniversities, getCategorizedUniversities, getUniversitiesByText } from "./getSearchUniversitiesByText";
+export { getUniversityDetail } from "./getUniversityDetail";

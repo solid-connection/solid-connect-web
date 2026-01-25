@@ -1,4 +1,4 @@
-import React from "react";
+import type React from "react";
 
 interface ProgressBarProps {
   /** 현재 단계 (예: 1) */

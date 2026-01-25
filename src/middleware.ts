@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 
 const loginNeedPages = ["/mentor", "/my"]; // 로그인 필요페이지
 
@@ -27,7 +27,7 @@ export function middleware(request: NextRequest) {
   // 정확한 경로 매칭
   const needLogin =
     loginNeedPages.some((path) => {
-      return url.pathname === path || url.pathname.startsWith(path + "/");
+      return url.pathname === path || url.pathname.startsWith(`${path}/`);
     }) || isCommunitySubRoute; // /community/ 하위 경로도 로그인 필요
 
   if (needLogin && !refreshToken) {

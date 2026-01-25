@@ -1,25 +1,19 @@
 "use client";
 
-import Link from "next/link";
-import React from "react";
-
 import clsx from "clsx";
-
-import { tokenParse } from "@/utils/jwtUtils";
+import Link from "next/link";
+import { useGetPartnerInfo } from "@/apis/chat";
 
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
-
+import useAuthStore from "@/lib/zustand/useAuthStore";
+import { ConnectionStatus } from "@/types/chat";
+import { UserRole } from "@/types/mentor";
+import { tokenParse } from "@/utils/jwtUtils";
 import useChatListHandler from "./_hooks/useChatListHandler";
 import usePutChatReadHandler from "./_hooks/usePutChatReadHandler";
 import { formatDateSeparator, isSameDay } from "./_lib/dateUtils";
 import ChatInputBar from "./_ui/ChatInputBar";
 import ChatMessageBox from "./_ui/ChatMessageBox";
-
-import { ConnectionStatus } from "@/types/chat";
-import { UserRole } from "@/types/mentor";
-
-import { useGetPartnerInfo } from "@/apis/chat";
-import useAuthStore from "@/lib/zustand/useAuthStore";
 
 interface ChatContentProps {
   chatId: number;

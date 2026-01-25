@@ -69,7 +69,7 @@ const PostModifyForm = ({
             title,
             content,
           },
-          file: imageUploadRef.current && imageUploadRef.current.files ? Array.from(imageUploadRef.current.files) : [],
+          file: imageUploadRef.current?.files ? Array.from(imageUploadRef.current.files) : [],
         },
       },
       {

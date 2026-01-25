@@ -1,8 +1,7 @@
-import { MentoModifyFormData } from "../_lib/mentoModifyScehma";
-
-import { PutMyMentorProfileRequest, usePutMyMentorProfile } from "@/apis/mentor";
+import { type PutMyMentorProfileRequest, usePutMyMentorProfile } from "@/apis/mentor";
 import { customConfirm } from "@/lib/zustand/useConfirmModalStore";
 import { IconModify } from "@/public/svgs/mentor";
+import type { MentoModifyFormData } from "../_lib/mentoModifyScehma";
 
 interface UsePutMyMentorProfileHandlerReturn {
   onSubmit: (data: MentoModifyFormData) => Promise<void>;

@@ -1,16 +1,16 @@
-export { authApi } from "./api";
 export type {
-  KakaoAuthRequest,
-  KakaoAuthResponse,
   AppleAuthRequest,
   AppleAuthResponse,
   EmailLoginRequest,
   EmailLoginResponse,
-  SignUpRequest,
-  SignUpResponse,
   EmailSignUpRequest,
   EmailSignUpResponse,
+  KakaoAuthRequest,
+  KakaoAuthResponse,
+  SignUpRequest,
+  SignUpResponse,
 } from "./api";
+export { authApi } from "./api";
 
 // Client-side hooks
 export { default as useDeleteUserAccount } from "./deleteAccount";

@@ -2,12 +2,9 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-
-import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
-
-import PostModifyForm from "./PostModifyForm";
-
 import { useGetPostDetail } from "@/apis/community";
+import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
+import PostModifyForm from "./PostModifyForm";
 
 interface PostModifyContentProps {
   boardCode: string;

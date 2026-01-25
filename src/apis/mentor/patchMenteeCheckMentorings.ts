@@ -1,8 +1,6 @@
-import { AxiosError } from "axios";
-
-import { PatchCheckMentoringsRequest, PatchCheckMentoringsResponse, mentorApi } from "./api";
-
 import { useMutation } from "@tanstack/react-query";
+import type { AxiosError } from "axios";
+import { mentorApi, type PatchCheckMentoringsRequest, type PatchCheckMentoringsResponse } from "./api";
 
 /**
  * @description 멘티 멘토링 확인 처리 훅

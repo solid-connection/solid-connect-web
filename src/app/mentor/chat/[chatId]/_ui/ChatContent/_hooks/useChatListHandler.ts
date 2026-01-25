@@ -1,13 +1,10 @@
+import type { Client } from "@stomp/stompjs";
 import { useCallback, useEffect, useRef } from "react";
-
-// --- 프로젝트 내부 의존성 ---
-import useInfinityScroll from "@/utils/useInfinityScroll";
-
-import { ChatMessage, ConnectionStatus } from "@/types/chat";
-
 import { useGetChatHistories } from "@/apis/chat";
 import useConnectWebSocket from "@/lib/web-socket/useConnectWebSocket";
-import { Client } from "@stomp/stompjs";
+import { type ChatMessage, ConnectionStatus } from "@/types/chat";
+// --- 프로젝트 내부 의존성 ---
+import useInfinityScroll from "@/utils/useInfinityScroll";
 
 const useChatListHandler = (chatId: number) => {
   // --- 1. State 및 Ref 선언 ---
@@ -67,7 +64,7 @@ const useChatListHandler = (chatId: number) => {
     if (!isFetchingNextPage && messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView();
     }
-  }, [submittedMessages, isFetchingNextPage]);
+  }, [isFetchingNextPage]);
 
   // --- 4. Handler 함수 ---
 

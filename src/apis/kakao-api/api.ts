@@ -1,12 +1,12 @@
 import { axiosInstance } from "@/utils/axiosInstance";
 
-export type KakaoUserIdsResponse = void;
+export type KakaoUserIdsResponse = undefined;
 
-export type KakaoUnlinkResponse = void;
+export type KakaoUnlinkResponse = undefined;
 
 export type KakaoUnlinkRequest = Record<string, never>;
 
-export type KakaoInfoResponse = void;
+export type KakaoInfoResponse = undefined;
 
 export const kakaoApiApi = {
   getKakaoUserIds: async (params: { params?: Record<string, any> }): Promise<KakaoUserIdsResponse> => {

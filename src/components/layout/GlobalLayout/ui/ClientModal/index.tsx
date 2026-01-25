@@ -1,17 +1,15 @@
 "use client";
 
+import { useIsFetching } from "@tanstack/react-query";
 import { useEffect } from "react";
-
 import MentorApplyCountContent from "@/components/mentor/MentorApplyCountContent";
 import IconAlertModal from "@/components/modal/IconAlertModal";
 import IconConfirmModal from "@/components/modal/IconConfirmModal";
 import SurveyModal from "@/components/modal/SurveyModal";
 import CloudSpinner from "@/components/ui/CloudSpinner";
-
 import { useAlertModalStore } from "@/lib/zustand/useAlertModalStore";
 import { useConfirmModalStore } from "@/lib/zustand/useConfirmModalStore";
 import { useSurveyModalStore } from "@/lib/zustand/useSurveyModalStore";
-import { useIsFetching } from "@tanstack/react-query";
 
 const ClientModal = () => {
   const { isOpen, payload, confirm, reject } = useConfirmModalStore();
