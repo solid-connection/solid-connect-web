@@ -1,7 +1,7 @@
+import { AxiosError } from "axios";
 import { useQuery } from "@tanstack/react-query";
-import type { AxiosError } from "axios";
+import { communityApi, BoardListResponse } from "./api";
 import { QueryKeys } from "../queryKeys";
-import { type BoardListResponse, communityApi } from "./api";
 
 const useGetBoardList = (params?: Record<string, any>) => {
   return useQuery<BoardListResponse, AxiosError>({

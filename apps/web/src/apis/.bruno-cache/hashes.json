@@ -1,0 +1,669 @@
+{
+  "version": "1.0",
+  "hashes": {
+    "/tmp/bruno/Solid Connection/1) 인증 [Auth]/folder.bru": {
+      "hash": "8e91265cf125a3cf72adbb5f1d5da9060a4d91e482d7f2deb494c8e49b5edee5",
+      "lastGenerated": "2026-01-25T15:44:19.169Z",
+      "outputFiles": []
+    },
+    "/tmp/bruno/Solid Connection/1) 인증 [Auth]/로그아웃 [sign-out].bru": {
+      "hash": "25517b361f9c899eb841e477f7490a86f14dca603bcb5ebe3ae0a672cdf2a261",
+      "lastGenerated": "2026-01-25T15:44:19.169Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/Auth/postSignOut.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/1) 인증 [Auth]/애플 인증 [apple-auth].bru": {
+      "hash": "0c465126248a544c43d2e31aa2bcb6509b76404dc19d05f63762b8b98e46658e",
+      "lastGenerated": "2026-01-25T15:44:19.169Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/Auth/postAppleAuth.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/1) 인증 [Auth]/엑세스 토큰 재발급 [refresh-token].bru": {
+      "hash": "fa5f5b0551470c64fa4c46973d9a0e142ee83fea519ec402c2241075f7b926ac",
+      "lastGenerated": "2026-01-25T15:44:19.170Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/Auth/postRefreshToken.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/1) 인증 [Auth]/이메일 로그인 [email-login].bru": {
+      "hash": "14841bd2bb8fe0ea0df09bb3f78b46f1cc27b0afcc73d78e0a94dea7ddd6dd1a",
+      "lastGenerated": "2026-01-25T15:44:19.170Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/Auth/postEmailLogin.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/1) 인증 [Auth]/이메일 인증 [email-verification].bru": {
+      "hash": "eb2bf7b06ad35c038fb0bcb8c50260c567ba437eb5f426706dc10a7d82c79def",
+      "lastGenerated": "2026-01-25T15:44:19.170Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/Auth/postEmailVerification.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/1) 인증 [Auth]/카카오 인증 [kakao-auth].bru": {
+      "hash": "10f82cf1ecb3d77a697c63b5532be860f29d00adb960678eafed7c66ec91ee15",
+      "lastGenerated": "2026-01-25T15:44:19.170Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/Auth/postKakaoAuth.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/1) 인증 [Auth]/회원 탈퇴 [account].bru": {
+      "hash": "131b2d3c540f7ce07a82d2691920c0da11431f8f4dc7bd4401b6a8d7c402230b",
+      "lastGenerated": "2026-01-25T15:44:19.171Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/Auth/deleteAccount.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/1) 인증 [Auth]/회원가입 [sign-up].bru": {
+      "hash": "5e62a63352a4ee87784d767c63a51134fd5c3986a8af9c0cb1204db313a3ae55",
+      "lastGenerated": "2026-01-25T15:44:19.171Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/Auth/postSignUp.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/10) 소식지 [news]/folder.bru": {
+      "hash": "77d250ab9a6916aa139953f7ecf63ead0fe28f4ca59c6adf6a2578c03f0a97ae",
+      "lastGenerated": "2026-01-25T15:44:19.171Z",
+      "outputFiles": []
+    },
+    "/tmp/bruno/Solid Connection/10) 소식지 [news]/소식지 목록 [news-list].bru": {
+      "hash": "94aa9bcbac824d0a939ab6ea2599b4ae0eab3c80b7befd4cd2da0e9e9f99e080",
+      "lastGenerated": "2026-01-25T15:44:19.172Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/news/getNewsList.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/10) 소식지 [news]/소식지 삭제 [news].bru": {
+      "hash": "8f20e5a662c4f08fb4d870c304f54fd3996f7a37cac7d5854a3d32a6edf88c6a",
+      "lastGenerated": "2026-01-25T15:44:19.172Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/news/deleteNews.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/10) 소식지 [news]/소식지 수정 [update-news].bru": {
+      "hash": "9f3f4b0266d0f24938f828f1edd56f65b0720adfbae4b7bc25c26da7f2593b45",
+      "lastGenerated": "2026-01-25T15:44:19.172Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/news/putUpdateNews.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/10) 소식지 [news]/소식지 좋아요 [like-news].bru": {
+      "hash": "e68b301ce17e142128b8be86fcc6fde3ce160bfea415e41941a5a6e29c2c25be",
+      "lastGenerated": "2026-01-25T15:44:19.172Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/news/postLikeNews.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/10) 소식지 [news]/소식지 좋아요 취소 [like-news].bru": {
+      "hash": "da6a6301da82e9fa986f6452a47007e9f4c4fd11b4aad21512f1fab5bbcd6fa9",
+      "lastGenerated": "2026-01-25T15:44:19.173Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/news/deleteLikeNews.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/10) 소식지 [news]/소식지 추가 [create-news].bru": {
+      "hash": "a7cd6c83cefeb515bceaa886db980975b8ba39453348b8939e667b025a827638",
+      "lastGenerated": "2026-01-25T15:44:19.173Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/news/postCreateNews.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/11) 신고 [reports]/folder.bru": {
+      "hash": "e74c3068cfeb9a71ea1175258c3ae0030b5dbd10a0e34aa89f92d23e65c3df2d",
+      "lastGenerated": "2026-01-25T15:44:19.173Z",
+      "outputFiles": []
+    },
+    "/tmp/bruno/Solid Connection/11) 신고 [reports]/신고하기 [report].bru": {
+      "hash": "75e57efa5746b4593d00f47bf99e39f27b286ee40175b37f18aefbf35fa13461",
+      "lastGenerated": "2026-01-25T15:44:19.173Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/reports/postReport.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/11) 채팅 [chat]/folder.bru": {
+      "hash": "0dff2d5c0f3e2990704653e992ef17f8d7396bc5b67b1777c183fd5b41dcda73",
+      "lastGenerated": "2026-01-25T15:44:19.173Z",
+      "outputFiles": []
+    },
+    "/tmp/bruno/Solid Connection/11) 채팅 [chat]/채팅 내역 [chat-messages].bru": {
+      "hash": "55ddf51cbcf809898d575c9b912678ce62a3bf04f241aa223c550652bcf16628",
+      "lastGenerated": "2026-01-25T15:44:19.174Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/chat/getChatMessages.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/11) 채팅 [chat]/채팅방 목록 [chat-rooms].bru": {
+      "hash": "042d1632b86576a277c1369a91bb04231d568c3dacfab932fa9b4d3ea42aabe0",
+      "lastGenerated": "2026-01-25T15:44:19.174Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/chat/getChatRooms.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/11) 채팅 [chat]/채팅방 읽음 [read-chat-room].bru": {
+      "hash": "87036c469e658bf48b7ddc6226caa6aa43dffed86fcaabac659ebb29dd7e604e",
+      "lastGenerated": "2026-01-25T15:44:19.174Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/chat/putReadChatRoom.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/11) 채팅 [chat]/채팅방 파트너 [chat-partner].bru": {
+      "hash": "6fb7336c127afd330a806d3deb03b3ecadcb341185f9c9e0f4c2afc036d772ad",
+      "lastGenerated": "2026-01-25T15:44:19.175Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/chat/getChatPartner.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/2) 대학교 [universities]/folder.bru": {
+      "hash": "b2ecc044eba5b951c1e0bf3d204f45996bed91ddcf86cf55efd717aae98590ff",
+      "lastGenerated": "2026-01-25T15:44:19.175Z",
+      "outputFiles": []
+    },
+    "/tmp/bruno/Solid Connection/2) 대학교 [universities]/univ-apply-infos/folder.bru": {
+      "hash": "419e88968bddd7d83ae2bf4e43d5ba08ba586f855219d7adfd9b438e1e6055ff",
+      "lastGenerated": "2026-01-25T15:44:19.175Z",
+      "outputFiles": []
+    },
+    "/tmp/bruno/Solid Connection/2) 대학교 [universities]/univ-apply-infos/맞춤 대학 추천 [recommended-universities].bru": {
+      "hash": "5e655440fe597146c451bf42b712a78b00653437854bc794e0f6dfd175d7de8e",
+      "lastGenerated": "2026-01-25T15:44:19.175Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/universities/getRecommendedUniversities.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/2) 대학교 [universities]/univ-apply-infos/위시 학교 목록 [wish-list].bru": {
+      "hash": "1974840ffbfbe742fcdbe4ca74ed928986848a20acb22e6a04b4e9ffff03bfed",
+      "lastGenerated": "2026-01-25T15:44:19.175Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/universities/getWishList.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/2) 대학교 [universities]/univ-apply-infos/위시 학교 삭제 [wish].bru": {
+      "hash": "85e1414b164549bebdb4998de2c3e99c544891bb7c0afd89f5f8d924c2ff7925",
+      "lastGenerated": "2026-01-25T15:44:19.175Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/universities/deleteWish.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/2) 대학교 [universities]/univ-apply-infos/위시 학교 추가 [add-wish].bru": {
+      "hash": "764146688e833c0cdc4fc735972c97ed88d4872e243eea88a507495f82ac1163",
+      "lastGenerated": "2026-01-25T15:44:19.175Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/universities/postAddWish.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/2) 대학교 [universities]/univ-apply-infos/위시 학교 확인 [is-wish].bru": {
+      "hash": "a9791d3d2ee69ec8e2e99ce7885450e24e668df29800e5c013c1468eda87a8d1",
+      "lastGenerated": "2026-01-25T15:44:19.176Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/universities/getIsWish.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/2) 대학교 [universities]/univ-apply-infos/학교 상세 정보 [university-detail].bru": {
+      "hash": "c642309fe0143efefb56f309fb11c4f4df0003e8101c639d484ada49ae2a48d5",
+      "lastGenerated": "2026-01-25T15:44:19.176Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/universities/getUniversityDetail.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/2) 대학교 [universities]/univ-apply-infos/학교 텍스트 검색 [search-text].bru": {
+      "hash": "26de3e34862e6211e55542b5a5573318fb4d7d317a5038121704f881d448abd7",
+      "lastGenerated": "2026-01-25T15:44:19.176Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/universities/getSearchText.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/2) 대학교 [universities]/universities/folder.bru": {
+      "hash": "df66fcd336e7d2961d8177eda63e497d085a07056bce3f45711532046b00190f",
+      "lastGenerated": "2026-01-25T15:44:19.176Z",
+      "outputFiles": []
+    },
+    "/tmp/bruno/Solid Connection/2) 대학교 [universities]/universities/권역-국가별 대학 [by-region-country].bru": {
+      "hash": "9a960d71ef2c7fd6d5d4e8fb0379c5aeb32501e957f08bcd3c129b2483704b24",
+      "lastGenerated": "2026-01-25T15:44:19.177Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/universities/getByRegionCountry.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/3) 마이페이지 [MyPage]/folder.bru": {
+      "hash": "ee40d5ac24c6faf84a2948a74ea3ea21015cf35e39b2a3d94bf03c1e40bd726d",
+      "lastGenerated": "2026-01-25T15:44:19.177Z",
+      "outputFiles": []
+    },
+    "/tmp/bruno/Solid Connection/3) 마이페이지 [MyPage]/관심 권역-국가 변경 [interested-region-country].bru": {
+      "hash": "24d5ef7f09224a0d63efe24b6e28dbe3fb7a3e8962e7027c40685de9226797ec",
+      "lastGenerated": "2026-01-25T15:44:19.177Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/MyPage/patchInterestedRegionCountry.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/3) 마이페이지 [MyPage]/내 정보 수정 [profile].bru": {
+      "hash": "c9d0813e061a3d930093acdf7424fea70e203e7f237798076b0b4cdf79daed9b",
+      "lastGenerated": "2026-01-25T15:44:19.177Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/MyPage/patchProfile.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/3) 마이페이지 [MyPage]/내 정보 조회 [profile].bru": {
+      "hash": "f6fa9594c4553623229c4ba76e3c6c89fcb0c218894a8e34b2730780320ad0be",
+      "lastGenerated": "2026-01-25T15:44:19.177Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/MyPage/getProfile.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/3) 마이페이지 [MyPage]/비밀번호 변경 [password].bru": {
+      "hash": "290e59dd88d636fcfb883e4d581e5d1a726c5d34ce1e2488a228f14df108715d",
+      "lastGenerated": "2026-01-25T15:44:19.178Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/MyPage/patchPassword.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/4) 지원정보 [applications]/folder.bru": {
+      "hash": "0c6da4142e7d342d09544c4e3d5e11e8942c099256ed844baccdce08e472f08b",
+      "lastGenerated": "2026-01-25T15:44:19.178Z",
+      "outputFiles": []
+    },
+    "/tmp/bruno/Solid Connection/4) 지원정보 [applications]/경쟁자 현황 [competitors].bru": {
+      "hash": "04b9c5905d7efe479a42a4dda65dc4606a9a95566cea674f388b36a4615d17ed",
+      "lastGenerated": "2026-01-25T15:44:19.178Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/applications/getCompetitors.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/4) 지원정보 [applications]/지원서 제출 [submit-application].bru": {
+      "hash": "b2d23f77f434c6b461db69923826e798aa17bc1e0e47b9717f6bef21c48e2bd1",
+      "lastGenerated": "2026-01-25T15:44:19.178Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/applications/postSubmitApplication.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/4) 지원정보 [applications]/지원자 현황 [applicants].bru": {
+      "hash": "36a2c14b7a5b985de9854c1c3ba7e2d1ca453e3428defa158f7d12e5afec3279",
+      "lastGenerated": "2026-01-25T15:44:19.178Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/applications/getApplicants.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/5) 커뮤니티 [community]/boards/folder.bru": {
+      "hash": "a6b155502eef19cb047e473f8de89a30279aa539ad87f5639ffe5e993d1c3dc4",
+      "lastGenerated": "2026-01-25T15:44:19.178Z",
+      "outputFiles": []
+    },
+    "/tmp/bruno/Solid Connection/5) 커뮤니티 [community]/boards/게시판 목록 [board-list].bru": {
+      "hash": "394d5d4736e5e47c74cdb0a26d2b51af7391012d724fb6e14534365c017ce471",
+      "lastGenerated": "2026-01-25T15:44:19.179Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/community/getBoardList.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/5) 커뮤니티 [community]/boards/게시판 조회 [board].bru": {
+      "hash": "07a90ceb0610dd4d59f202f94a13b3257e8d441e8eb390ed1c91320ca69f9e82",
+      "lastGenerated": "2026-01-25T15:44:19.179Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/community/getBoard.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/5) 커뮤니티 [community]/comments/folder.bru": {
+      "hash": "ba47363fc0ca5bf12c050c78cd9730fc630cc2fd88ba51dba22a1fa1e39413b8",
+      "lastGenerated": "2026-01-25T15:44:19.179Z",
+      "outputFiles": []
+    },
+    "/tmp/bruno/Solid Connection/5) 커뮤니티 [community]/comments/댓글 삭제 [comment].bru": {
+      "hash": "cc52f32359e90a5628c989572bcfd0c12733eba0ffbe808196592f2643750c7e",
+      "lastGenerated": "2026-01-25T15:44:19.179Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/community/deleteComment.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/5) 커뮤니티 [community]/comments/댓글 수정 [update-comment].bru": {
+      "hash": "51091a654511add0b4e2e272d107d265fe6a9f9bf272fd14582aa8d57a3276d1",
+      "lastGenerated": "2026-01-25T15:44:19.179Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/community/patchUpdateComment.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/5) 커뮤니티 [community]/comments/댓글 작성 [create-comment].bru": {
+      "hash": "610d59af217778cf3ccf941ffbce53f88743a5e4d3ec6ff63e9ad60bb5ab7ca3",
+      "lastGenerated": "2026-01-25T15:44:19.180Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/community/postCreateComment.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/5) 커뮤니티 [community]/folder.bru": {
+      "hash": "0a5ff57df866db18f569df2b1c433653249752d3088cd10eced762f39009ea4a",
+      "lastGenerated": "2026-01-25T15:44:19.180Z",
+      "outputFiles": []
+    },
+    "/tmp/bruno/Solid Connection/5) 커뮤니티 [community]/posts/folder.bru": {
+      "hash": "12ad1ad8f64c94eb8503b32864ca8603787f6fba742c826cb42902f2d2611618",
+      "lastGenerated": "2026-01-25T15:44:19.180Z",
+      "outputFiles": []
+    },
+    "/tmp/bruno/Solid Connection/5) 커뮤니티 [community]/posts/게시글 삭제 [post].bru": {
+      "hash": "b08c636fb60c50c90ef92ceaa3859cf90d08f62665feff3716487c36988c69c3",
+      "lastGenerated": "2026-01-25T15:44:19.180Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/community/deletePost.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/5) 커뮤니티 [community]/posts/게시글 수정 [update-post].bru": {
+      "hash": "c8a74d3734252099a9b3c1469b3e69778350f0036458297c199cd4a555f4daa7",
+      "lastGenerated": "2026-01-25T15:44:19.180Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/community/patchUpdatePost.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/5) 커뮤니티 [community]/posts/게시글 작성 [create-post].bru": {
+      "hash": "677ea297c854b23f0a81e5e462dff6b3c76e36e16f01a2436ad2b749ffc010b6",
+      "lastGenerated": "2026-01-25T15:44:19.180Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/community/postCreatePost.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/5) 커뮤니티 [community]/posts/게시글 조회 [post-detail].bru": {
+      "hash": "716a48fb6a7da3d65c847e0ed69eaa009412deb3dfdbcd1743cd7ce01a35074e",
+      "lastGenerated": "2026-01-25T15:44:19.181Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/community/getPostDetail.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/5) 커뮤니티 [community]/posts/게시글 좋아요 [like-post].bru": {
+      "hash": "225951fdd4400a052b6448cc213499bd17f496cae39cf004558ee480342b465f",
+      "lastGenerated": "2026-01-25T15:44:19.181Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/community/postLikePost.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/5) 커뮤니티 [community]/posts/게시글 좋아요 취소 [like-post].bru": {
+      "hash": "89a4567c80d225badd7f2279d55fc83b2ef88c2420c2c02474fbdb0b023c04c5",
+      "lastGenerated": "2026-01-25T15:44:19.181Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/community/deleteLikePost.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/6) 성적 [Scores]/folder.bru": {
+      "hash": "f0f1e22e55cbf59434a31261c5e6a7bc31e5756190354e67f18dac224f1386d6",
+      "lastGenerated": "2026-01-25T15:44:19.181Z",
+      "outputFiles": []
+    },
+    "/tmp/bruno/Solid Connection/6) 성적 [Scores]/어학 성적 등록 [create-language-test].bru": {
+      "hash": "0ba4e708ae523dacf5923652107b417ea7dd48126241a4a9d0efa7e104dd1f60",
+      "lastGenerated": "2026-01-25T15:44:19.181Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/Scores/postCreateLanguageTest.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/6) 성적 [Scores]/어학 성적 조회 [language-test-list].bru": {
+      "hash": "a4920b60fd5d7b32100f521ce9674d6c90d95f8d599377d0f2b1e5b19dc0a35a",
+      "lastGenerated": "2026-01-25T15:44:19.181Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/Scores/getLanguageTestList.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/6) 성적 [Scores]/학점 등록 [create-gpa].bru": {
+      "hash": "2cda7a34a3fbac0fd1d6a17249c7c7599da720ac931aceab90dd258001a9707a",
+      "lastGenerated": "2026-01-25T15:44:19.182Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/Scores/postCreateGpa.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/6) 성적 [Scores]/학점 조회 [gpa-list].bru": {
+      "hash": "e51910e94eb0332399c59ea1bfe467c006832097f58cf300b183a398106257b6",
+      "lastGenerated": "2026-01-25T15:44:19.182Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/Scores/getGpaList.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/7) 어드민 [Admin]/folder.bru": {
+      "hash": "c12f1c3d068a98a389f58739bb2248ad7ca46bee451767fe8cb3604ab2086db4",
+      "lastGenerated": "2026-01-25T15:44:19.182Z",
+      "outputFiles": []
+    },
+    "/tmp/bruno/Solid Connection/7) 어드민 [Admin]/어학 검증 및 수정 [verify-language-test].bru": {
+      "hash": "90c81b09eb92bdd54ea29dc7d09b68989f3b78695030b01c469b45a21c259c9b",
+      "lastGenerated": "2026-01-25T15:44:19.182Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/Admin/putVerifyLanguageTest.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/7) 어드민 [Admin]/어학 조회 [language-test-list].bru": {
+      "hash": "805896643a8bd6ebebdc344bfba80e60e593f535355b06955a41b1c3b040ef53",
+      "lastGenerated": "2026-01-25T15:44:19.182Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/Admin/getLanguageTestList.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/7) 어드민 [Admin]/학점 검증 및 수정 [verify-gpa].bru": {
+      "hash": "b20528ee4bd55f451806e88b49036e43625a0e24039081005c14b0bb3431c04a",
+      "lastGenerated": "2026-01-25T15:44:19.183Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/Admin/putVerifyGpa.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/7) 어드민 [Admin]/학점 조회 [gpa-list].bru": {
+      "hash": "2eac63409036a461b8cc3eca5694949ce3f9724b4356165bfcdc015b182ca589",
+      "lastGenerated": "2026-01-25T15:44:19.183Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/Admin/getGpaList.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/8) 사용자 [users]/folder.bru": {
+      "hash": "6e63f3ece2b1f9780a444178433aad1216ef07a2f420f2e4c93eee99fc5d697e",
+      "lastGenerated": "2026-01-25T15:44:19.183Z",
+      "outputFiles": []
+    },
+    "/tmp/bruno/Solid Connection/8) 사용자 [users]/닉네임 중복 검증 [nickname-exists].bru": {
+      "hash": "95558c2dd0a7049f4b24ff7dcf58346ea80519f2d8d70d6428c6daefb35fd8ed",
+      "lastGenerated": "2026-01-25T15:44:19.183Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/users/getNicknameExists.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/8) 사용자 [users]/유저 차단 [block-user].bru": {
+      "hash": "fa0aca42761f35fc4fc9ce1bd57ea100076e450ab7874f88f9cc7e27e1375a5a",
+      "lastGenerated": "2026-01-25T15:44:19.183Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/users/postBlockUser.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/8) 사용자 [users]/유저 차단 취소 [unblock-user].bru": {
+      "hash": "faea682b3e75c55710ec4b92c30112aa8e811f4e50aa5d05925fcfc30b228e58",
+      "lastGenerated": "2026-01-25T15:44:19.184Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/users/deleteUnblockUser.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/8) 사용자 [users]/차단한 유저 목록 [blocked-users].bru": {
+      "hash": "b71235470d88d230dc0f78be82fe88f83b5d27be5374c722423994d96e86223c",
+      "lastGenerated": "2026-01-25T15:44:19.184Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/users/getBlockedUsers.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/9) 멘토 [mentor]/folder.bru": {
+      "hash": "0991756e4421a2e651828883b9bd3d77ee1a0122557ee7d86b99f4f7fc8fbb02",
+      "lastGenerated": "2026-01-25T15:44:19.184Z",
+      "outputFiles": []
+    },
+    "/tmp/bruno/Solid Connection/9) 멘토 [mentor]/mentee-only/folder.bru": {
+      "hash": "3763a8a195748562e91d4cb01b9bea9b50a378572f6ede24e6e6a4f3051e0108",
+      "lastGenerated": "2026-01-25T15:44:19.184Z",
+      "outputFiles": []
+    },
+    "/tmp/bruno/Solid Connection/9) 멘토 [mentor]/mentee-only/매칭된 멘토 목록 [matched-mentors].bru": {
+      "hash": "0af0fdc81eb2cafff9bf91f634a6caab39ec8674a3e5961e5b422aa90ac447a1",
+      "lastGenerated": "2026-01-25T15:44:19.184Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/mentor/getMatchedMentors.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/9) 멘토 [mentor]/mentee-only/멘토링 신청 [apply-mentoring].bru": {
+      "hash": "f01db17b66f4860bea554e711f8adf45d2f6aaf0224e916fe3ad30d15b1b2b38",
+      "lastGenerated": "2026-01-25T15:44:19.184Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/mentor/postApplyMentoring.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/9) 멘토 [mentor]/mentee-only/멘토링 확인 [confirm-mentoring].bru": {
+      "hash": "1cae59951d931b2817e779087d71a3f082622681b9a9a5467aa656eceae620bc",
+      "lastGenerated": "2026-01-25T15:44:19.185Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/mentor/patchConfirmMentoring.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/9) 멘토 [mentor]/mentee-only/신청한 멘토링 목록 [applied-mentorings].bru": {
+      "hash": "58ffa494789c972151bee9d3d1fd5f1d59dccd47b9ecb55f626a3fba870fea24",
+      "lastGenerated": "2026-01-25T15:44:19.185Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/mentor/getAppliedMentorings.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/9) 멘토 [mentor]/mentor/folder.bru": {
+      "hash": "0309228eefe216ce5d99274be87b1672f7f60dafbf64560ba6f82326029a53f6",
+      "lastGenerated": "2026-01-25T15:44:19.185Z",
+      "outputFiles": []
+    },
+    "/tmp/bruno/Solid Connection/9) 멘토 [mentor]/mentor/멘토 목록 [mentor-list].bru": {
+      "hash": "817be70c53925e39d7503d737c1cc3bdb99e5a4fb043f4e266493befa4576cd6",
+      "lastGenerated": "2026-01-25T15:44:19.185Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/mentor/getMentorList.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/9) 멘토 [mentor]/mentor/멘토 상세 [mentor-detail].bru": {
+      "hash": "830a8a800e3aade7678b40cd5ddcdfb45e58b5e9393afbf030baa1aa8b014ea0",
+      "lastGenerated": "2026-01-25T15:44:19.185Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/mentor/getMentorDetail.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/9) 멘토 [mentor]/mentor-only/folder.bru": {
+      "hash": "3176b71042e68048761678dc33e46ea34a24b11cbaa4fb3373662c287ecf8140",
+      "lastGenerated": "2026-01-25T15:44:19.185Z",
+      "outputFiles": []
+    },
+    "/tmp/bruno/Solid Connection/9) 멘토 [mentor]/mentor-only/나의 멘토 페이지 [my-mentor-page].bru": {
+      "hash": "af32af4f06e745b9328b761b112ecd44f9dbfb9918a131a7abd9c72488a508fe",
+      "lastGenerated": "2026-01-25T15:44:19.186Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/mentor/getMyMentorPage.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/9) 멘토 [mentor]/mentor-only/나의 멘토 페이지 수정 [update-my-mentor-page].bru": {
+      "hash": "26ed6a8dc111253f4b34a93cd3df4d6f730f758a2b8a77c6af50af018395560d",
+      "lastGenerated": "2026-01-25T15:44:19.186Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/mentor/putUpdateMyMentorPage.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/9) 멘토 [mentor]/mentor-only/멘토링 수락-거절 [mentoring-status].bru": {
+      "hash": "9869b8f41bd4337e47b941a47887d55c465f94d530a7a688f742ba29859bfcc5",
+      "lastGenerated": "2026-01-25T15:44:19.186Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/mentor/patchMentoringStatus.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/9) 멘토 [mentor]/mentor-only/멘토링 확인 [confirm-mentoring].bru": {
+      "hash": "4d6dd27804baa1abfbf2c830f4a4909479c8b66bbb8d375e81b94686f66d9360",
+      "lastGenerated": "2026-01-25T15:44:19.186Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/mentor/patchConfirmMentoring.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/9) 멘토 [mentor]/mentor-only/신청받은 멘토링 목록 [received-mentorings].bru": {
+      "hash": "f193dd8236f296c9f7a1a019a2373f37f9c1ae11ed811f62ad4ba7bc85b2c642",
+      "lastGenerated": "2026-01-25T15:44:19.187Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/mentor/getReceivedMentorings.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/9) 멘토 [mentor]/mentor-only/확인하지 않은 멘토링 수 [unconfirmed-mentoring-count].bru": {
+      "hash": "3015bf13815f41cf207cce046ab98a6a5e08e8fa2071af5e3aaf3f4e48253a84",
+      "lastGenerated": "2026-01-25T15:44:19.187Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/mentor/getUnconfirmedMentoringCount.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/99) 카카오 API [kakao-api]/folder.bru": {
+      "hash": "beda2c003d02394e0afa2775dd617e700412635638dd0f67009cebe4fb45c289",
+      "lastGenerated": "2026-01-25T15:44:19.187Z",
+      "outputFiles": []
+    },
+    "/tmp/bruno/Solid Connection/99) 카카오 API [kakao-api]/카카오 사용자 ID 목록 [kakao-user-ids].bru": {
+      "hash": "43efbd034ff7451fbb0e26d885d5439ee7d70c4fe5df6321d9d0712f137b7ae1",
+      "lastGenerated": "2026-01-25T15:44:19.187Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/kakao-api/getKakaoUserIds.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/99) 카카오 API [kakao-api]/카카오 연결 끊기 [kakao-unlink].bru": {
+      "hash": "d0c47c341f87a46e15799ee8ed244a8cf5e2371693379101a57701ba4c86dd46",
+      "lastGenerated": "2026-01-25T15:44:19.187Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/kakao-api/postKakaoUnlink.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/99) 카카오 API [kakao-api]/카카오 정보 조회 [kakao-info].bru": {
+      "hash": "8ed6efdb7133151694d33c3378dc0b8691d8f7e865616c8fff16182078430c24",
+      "lastGenerated": "2026-01-25T15:44:19.188Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/kakao-api/getKakaoInfo.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/environments/dev.bru": {
+      "hash": "859dbdba0f24522be318a5e07a706330527ae5adfd036eba073ff1f12e5a4bc0",
+      "lastGenerated": "2026-01-25T15:44:19.188Z",
+      "outputFiles": []
+    },
+    "/tmp/bruno/Solid Connection/environments/local.bru": {
+      "hash": "608fe37e11d05512f91884e62b55b0c23d3075d0cde747d61e990577d1f22114",
+      "lastGenerated": "2026-01-25T15:44:19.188Z",
+      "outputFiles": []
+    },
+    "/tmp/bruno/Solid Connection/environments/prod.bru": {
+      "hash": "5cbd9c94dcd58e9bf3f745bd2fe2394e8a99dfe3ec83ef568667a70a8e9d2812",
+      "lastGenerated": "2026-01-25T15:44:19.188Z",
+      "outputFiles": []
+    },
+    "/tmp/bruno/Solid Connection/이미지 업로드 [image-upload]/folder.bru": {
+      "hash": "f294e3f7b8f7b16fdc0d091949fcb0b0654db6c53195e7def953c1d1a2ca80e6",
+      "lastGenerated": "2026-01-25T15:44:19.188Z",
+      "outputFiles": []
+    },
+    "/tmp/bruno/Solid Connection/이미지 업로드 [image-upload]/슬랙 알림 [slack-notification].bru": {
+      "hash": "c8ad069d7a05fc8e15783e0f4d2d08f8f84f6af5edc3ae3f1ebffe94435eec34",
+      "lastGenerated": "2026-01-25T15:44:19.188Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/image-upload/postSlackNotification.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/이미지 업로드 [image-upload]/어학 성적표 업로드 [upload-language-test-report].bru": {
+      "hash": "0a1b2191be71cef5b605bd645df0d43f084db5da1db44bf465c3a40754fd0f4f",
+      "lastGenerated": "2026-01-25T15:44:19.188Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/image-upload/postUploadLanguageTestReport.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/이미지 업로드 [image-upload]/프로필 사진 업로드 [upload-profile-image].bru": {
+      "hash": "37a4dac04578a030de4fc83574b52c0c0c5968fb7ca00fdfcdf40ae243d28ff8",
+      "lastGenerated": "2026-01-25T15:44:19.189Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/image-upload/postUploadProfileImage.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/이미지 업로드 [image-upload]/프로필 사진 업로드 가입전 [upload-profile-image-before-signup].bru": {
+      "hash": "134ab99c4221821407a41d1471b5a73ce04b7c3c1055bb6168ea269fbce66e0b",
+      "lastGenerated": "2026-01-25T15:44:19.189Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/image-upload/postUploadProfileImageBeforeSignup.ts"
+      ]
+    },
+    "/tmp/bruno/Solid Connection/이미지 업로드 [image-upload]/학적 성적표 업로드 [upload-gpa-report].bru": {
+      "hash": "a65ca1a81af6b2cf74ba6594589928581b0a816368adaeee25c0da5c6eb088da",
+      "lastGenerated": "2026-01-25T15:44:19.189Z",
+      "outputFiles": [
+        "/home/runner/work/solid-connect-web/solid-connect-web/apps/web/src/apis/image-upload/postUploadGpaReport.ts"
+      ]
+    }
+  }
+}

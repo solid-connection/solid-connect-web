@@ -1,4 +1,4 @@
-import { axiosInstance, publicAxiosInstance } from "@/utils/axiosInstance";
+import { axiosInstance } from "@/utils/axiosInstance";
 
 export interface RecommendedUniversitiesResponseRecommendedUniversitiesItem {
   id: number;
@@ -39,17 +39,17 @@ export interface WishListResponseItemLanguageRequirementsItem {
 }
 
 export interface WishListResponse {
-  0: WishListResponseItem[];
-  1: WishListResponseItem[];
+  0: WishListResponse0;
+  1: WishListResponse1;
 }
 
-export type WishResponse = undefined;
+export type WishResponse = void;
 
-export type AddWishResponse = undefined;
+export type AddWishResponse = void;
 
 export type AddWishRequest = Record<string, never>;
 
-export type IsWishResponse = undefined;
+export type IsWishResponse = void;
 
 export interface UniversityDetailResponseLanguageRequirementsItem {
   languageTestType: string;
@@ -89,6 +89,7 @@ export interface SearchTextResponseUnivApplyInfoPreviewsItem {
   id: number;
   term: string;
   koreanName: string;
+  homeUniversityName: string;
   region: string;
   country: string;
   logoImageUrl: string;
@@ -106,88 +107,63 @@ export interface SearchTextResponse {
   univApplyInfoPreviews: SearchTextResponseUnivApplyInfoPreviewsItem[];
 }
 
-export interface SearchFilterResponseUnivApplyInfoPreviewsItem {
-  id: number;
-  term: string;
-  koreanName: string;
-  region: string;
-  country: string;
-  logoImageUrl: string;
-  backgroundImageUrl: string;
-  studentCapacity: number;
-  languageRequirements: SearchFilterResponseUnivApplyInfoPreviewsItemLanguageRequirementsItem[];
-}
-
-export interface SearchFilterResponseUnivApplyInfoPreviewsItemLanguageRequirementsItem {
-  languageTestType: string;
-  minScore: string;
-}
-
-export interface SearchFilterResponse {
-  univApplyInfoPreviews: SearchFilterResponseUnivApplyInfoPreviewsItem[];
-}
-
-export type ByRegionCountryResponse = undefined;
+export type ByRegionCountryResponse = void;
 
 export const universitiesApi = {
-  getRecommendedUniversities: async (params?: { isLogin?: boolean }): Promise<RecommendedUniversitiesResponse> => {
-    const instance = params?.isLogin ? axiosInstance : publicAxiosInstance;
-    const res = await instance.get<RecommendedUniversitiesResponse>(`/univ-apply-infos/recommend`);
-    return res.data;
-  },
-
-  getWishList: async (params: { params?: Record<string, any> }): Promise<WishListResponse> => {
-    const res = await axiosInstance.get<WishListResponse>(`/univ-apply-infos/like`, { params: params?.params });
-    return res.data;
-  },
-
-  deleteWish: async (params: { univApplyInfoId: string | number }): Promise<WishResponse> => {
-    const res = await axiosInstance.delete<WishResponse>(`/univ-apply-infos/${params.univApplyInfoId}/like`);
-    return res.data;
-  },
-
-  postAddWish: async (params: {
-    univApplyInfoId: string | number;
-    data?: AddWishRequest;
-  }): Promise<AddWishResponse> => {
-    const res = await axiosInstance.post<AddWishResponse>(
-      `/univ-apply-infos/${params.univApplyInfoId}/like`,
-      params?.data,
+  getRecommendedUniversities: async (params: { params?: Record<string, any> }): Promise<RecommendedUniversitiesResponse> => {
+    const res = await axiosInstance.get<RecommendedUniversitiesResponse>(
+      `/univ-apply-infos/recommend`, { params: params?.params }
     );
     return res.data;
   },
 
-  getIsWish: async (params: {
-    univApplyInfoId: string | number;
-    params?: Record<string, any>;
-  }): Promise<IsWishResponse> => {
-    const res = await axiosInstance.get<IsWishResponse>(`/univ-apply-infos/${params.univApplyInfoId}/like`, {
-      params: params?.params,
-    });
+  getWishList: async (params: { params?: Record<string, any> }): Promise<WishListResponse> => {
+    const res = await axiosInstance.get<WishListResponse>(
+      `/univ-apply-infos/like`, { params: params?.params }
+    );
     return res.data;
   },
 
-  getUniversityDetail: async (params: { univApplyInfoId: string | number }): Promise<UniversityDetailResponse> => {
-    const res = await publicAxiosInstance.get<UniversityDetailResponse>(`/univ-apply-infos/${params.univApplyInfoId}`);
+  deleteWish: async (params: { univApplyInfoId: string | number }): Promise<WishResponse> => {
+    const res = await axiosInstance.delete<WishResponse>(
+      `/univ-apply-infos/${params.univApplyInfoId}/like`
+    );
     return res.data;
   },
 
-  getSearchText: async (params?: { value?: string }): Promise<SearchTextResponse> => {
-    const res = await publicAxiosInstance.get<SearchTextResponse>(`/univ-apply-infos/search/text`, {
-      params: { value: params?.value ?? "" },
-    });
+  postAddWish: async (params: { univApplyInfoId: string | number, data?: AddWishRequest }): Promise<AddWishResponse> => {
+    const res = await axiosInstance.post<AddWishResponse>(
+      `/univ-apply-infos/${params.univApplyInfoId}/like`, params?.data
+    );
     return res.data;
   },
 
-  getSearchFilter: async (params?: { params?: Record<string, any> }): Promise<SearchFilterResponse> => {
-    const res = await publicAxiosInstance.get<SearchFilterResponse>(`/univ-apply-infos/search/filter`, {
-      params: params?.params,
-    });
+  getIsWish: async (params: { univApplyInfoId: string | number, params?: Record<string, any> }): Promise<IsWishResponse> => {
+    const res = await axiosInstance.get<IsWishResponse>(
+      `/univ-apply-infos/${params.univApplyInfoId}/like`, { params: params?.params }
+    );
+    return res.data;
+  },
+
+  getUniversityDetail: async (params: { univApplyInfoId: string | number, params?: Record<string, any> }): Promise<UniversityDetailResponse> => {
+    const res = await axiosInstance.get<UniversityDetailResponse>(
+      `/univ-apply-infos/${params.univApplyInfoId}`, { params: params?.params }
+    );
+    return res.data;
+  },
+
+  getSearchText: async (params: { params?: Record<string, any> }): Promise<SearchTextResponse> => {
+    const res = await axiosInstance.get<SearchTextResponse>(
+      `/univ-apply-infos/search/text?value=일본`, { params: params?.params }
+    );
     return res.data;
   },
 
   getByRegionCountry: async (params: { params?: Record<string, any> }): Promise<ByRegionCountryResponse> => {
-    const res = await axiosInstance.get<ByRegionCountryResponse>(`/universities/search`, { params: params?.params });
+    const res = await axiosInstance.get<ByRegionCountryResponse>(
+      `/universities/search`, { params: params?.params }
+    );
     return res.data;
   },
+
 };
