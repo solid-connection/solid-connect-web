@@ -33,7 +33,7 @@ const SignupRegionScreen = ({
   };
 
   return (
-    <div className="mb-40">
+    <div>
       <div className="px-5">
         <div className="mt-5">
           <span className="text-k-900 typo-bold-1">
@@ -49,12 +49,11 @@ const SignupRegionScreen = ({
           <CountryButtons curCountries={curCountries} setCurCountries={setCurCountries} region={curRegion} />
         </div>
       </div>
-      <div className="fixed bottom-14 w-full max-w-app bg-white">
-        <div className="px-5">
-          <BlockBtn className="mb-[29px]" disabled={!curRegion} onClick={submit}>
-            다음
-          </BlockBtn>
-        </div>
+
+      <div className="mt-10 px-5 pb-7">
+        <BlockBtn disabled={!curRegion} onClick={submit}>
+          다음
+        </BlockBtn>
       </div>
     </div>
   );
