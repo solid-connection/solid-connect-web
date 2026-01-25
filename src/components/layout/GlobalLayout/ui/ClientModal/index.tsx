@@ -21,7 +21,9 @@ const ClientModal = () => {
     checkAndOpen,
   } = useSurveyModalStore();
 
-  const isFetching = useIsFetching();
+  const isFetching = useIsFetching({
+    predicate: (query) => query.meta?.showGlobalSpinner !== false,
+  });
 
   // 페이지 로드 시 만족도 조사 모달 표시 여부 확인
   useEffect(() => {
@@ -31,7 +33,11 @@ const ClientModal = () => {
   return (
     <>
       {isFetching ? (
-        <div aria-live="polite" aria-busy="true" className="fixed inset-0 z-50 flex items-center justify-center">
+        <div
+          aria-live="polite"
+          aria-busy="true"
+          className="fixed inset-0 z-50 flex cursor-wait items-center justify-center bg-black/30"
+        >
           <CloudSpinner />
         </div>
       ) : null}
