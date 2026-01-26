@@ -1,7 +1,7 @@
+import { AxiosError } from "axios";
 import { useQuery } from "@tanstack/react-query";
-import type { AxiosError } from "axios";
+import { universitiesApi, IsWishResponse } from "./api";
 import { QueryKeys } from "../queryKeys";
-import { type IsWishResponse, universitiesApi } from "./api";
 
 const useGetIsWish = (univApplyInfoId: string | number, params?: Record<string, any>) => {
   return useQuery<IsWishResponse, AxiosError>({
