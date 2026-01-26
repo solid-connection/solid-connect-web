@@ -1,5 +1,11 @@
-export { adminApi } from "./api";
-export { default as getGpaList } from "./getGpaList";
-export { default as getLanguageTestList } from "./getLanguageTestList";
-export { default as putVerifyGpa } from "./putVerifyGpa";
-export { default as putVerifyLanguageTest } from "./putVerifyLanguageTest";
+export { adminApi } from './api';
+export { default as getGpaList } from './getGpaList';
+export { default as getLanguageTestList } from './getLanguageTestList';
+export { default as get멘토 승격 요청 내역 조회 } from './get멘토 승격 요청 내역 조회';
+export { default as get멘토 지원서 상태별 개수 조회 } from './get멘토 지원서 상태별 개수 조회';
+export { default as get멘토 지원서 이력 조회 } from './get멘토 지원서 이력 조회';
+export { default as post멘토 승격 요청 거절 } from './post멘토 승격 요청 거절';
+export { default as post멘토 요청 승격 처리 } from './post멘토 요청 승격 처리';
+export { default as post멘토 지원서 대학 매핑 } from './post멘토 지원서 대학 매핑';
+export { default as putVerifyGpa } from './putVerifyGpa';
+export { default as putVerifyLanguageTest } from './putVerifyLanguageTest';

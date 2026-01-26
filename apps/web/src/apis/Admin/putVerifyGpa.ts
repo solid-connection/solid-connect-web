@@ -1,6 +1,6 @@
+import { AxiosError } from "axios";
 import { useMutation } from "@tanstack/react-query";
-import type { AxiosError } from "axios";
-import { adminApi, type VerifyGpaRequest, type VerifyGpaResponse } from "./api";
+import { adminApi, VerifyGpaResponse, VerifyGpaRequest } from "./api";
 
 const usePutVerifyGpa = () => {
   return useMutation<VerifyGpaResponse, AxiosError, { gpaScoreId: string | number; data: VerifyGpaRequest }>({

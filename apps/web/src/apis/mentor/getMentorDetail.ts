@@ -1,16 +1,13 @@
+import { AxiosError } from "axios";
 import { useQuery } from "@tanstack/react-query";
-import type { AxiosError } from "axios";
-import { type MentorCardDetail, MentorQueryKeys, mentorApi } from "./api";
+import { mentorApi, MentorDetailResponse } from "./api";
+import { QueryKeys } from "../queryKeys";
 
-/**
- * @description 멘토 상세 조회 훅
- */
-const useGetMentorDetail = (mentorId: number | null) => {
-  return useQuery<MentorCardDetail, AxiosError>({
-    queryKey: [MentorQueryKeys.mentorDetail, mentorId!],
-    queryFn: () => mentorApi.getMentorDetail(mentorId!),
-    enabled: mentorId !== null,
-    staleTime: 1000 * 60 * 5, // 5분간 캐시
+const useGetMentorDetail = (mentorId: string | number, params?: Record<string, any>) => {
+  return useQuery<MentorDetailResponse, AxiosError>({
+    queryKey: [QueryKeys.mentor.mentorDetail, mentorId, params],
+    queryFn: () => mentorApi.getMentorDetail({ mentorId, params }),
+    enabled: !!mentorId,
   });
 };
 
