@@ -1,7 +1,7 @@
+import { AxiosError } from "axios";
 import { useQuery } from "@tanstack/react-query";
-import type { AxiosError } from "axios";
+import { universitiesApi, ByRegionCountryResponse } from "./api";
 import { QueryKeys } from "../queryKeys";
-import { type ByRegionCountryResponse, universitiesApi } from "./api";
 
 const useGetByRegionCountry = (params?: Record<string, any>) => {
   return useQuery<ByRegionCountryResponse, AxiosError>({
