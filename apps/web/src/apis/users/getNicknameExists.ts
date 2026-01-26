@@ -1,7 +1,7 @@
+import { AxiosError } from "axios";
 import { useQuery } from "@tanstack/react-query";
-import type { AxiosError } from "axios";
+import { usersApi, NicknameExistsResponse } from "./api";
 import { QueryKeys } from "../queryKeys";
-import { type NicknameExistsResponse, usersApi } from "./api";
 
 const useGetNicknameExists = (params?: Record<string, any>) => {
   return useQuery<NicknameExistsResponse, AxiosError>({

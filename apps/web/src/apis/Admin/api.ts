@@ -71,6 +71,14 @@ export interface LanguageTestListResponse {
   empty: boolean;
 }
 
+export type 유저 차단 수동 해제Response = Record<string, never>;
+
+export type 유저 차단 수동 해제Request = Record<string, never>;
+
+export type 유저 차단Response = Record<string, never>;
+
+export type 유저 차단Request = Record<string, never>;
+
 export interface VerifyGpaResponse {
   id: number;
   gpa: number;
@@ -143,34 +151,46 @@ export interface GpaListResponse {
 }
 
 export const adminApi = {
-  putVerifyLanguageTest: async (params: {
-    languageTestScoreId: string | number;
-    data?: VerifyLanguageTestRequest;
-  }): Promise<VerifyLanguageTestResponse> => {
+  putVerifyLanguageTest: async (params: { languageTestScoreId: string | number, data?: VerifyLanguageTestRequest }): Promise<VerifyLanguageTestResponse> => {
     const res = await axiosInstance.put<VerifyLanguageTestResponse>(
-      `/admin/scores/language-tests/${params.languageTestScoreId}`,
-      params?.data,
+      `/admin/scores/language-tests/${params.languageTestScoreId}`, params?.data
     );
     return res.data;
   },
 
   getLanguageTestList: async (params: { params?: Record<string, any> }): Promise<LanguageTestListResponse> => {
-    const res = await axiosInstance.get<LanguageTestListResponse>(`/admin/scores/language-tests?page=1&size=10`, {
-      params: params?.params,
-    });
+    const res = await axiosInstance.get<LanguageTestListResponse>(
+      `/admin/scores/language-tests?page=1&size=10`, { params: params?.params }
+    );
     return res.data;
   },
 
-  putVerifyGpa: async (params: {
-    gpaScoreId: string | number;
-    data?: VerifyGpaRequest;
-  }): Promise<VerifyGpaResponse> => {
-    const res = await axiosInstance.put<VerifyGpaResponse>(`/admin/scores/gpas/${params.gpaScoreId}`, params?.data);
+  patch유저 차단 수동 해제: async (params: { userId: string | number, data?: 유저 차단 수동 해제Request }): Promise<유저 차단 수동 해제Response> => {
+    const res = await axiosInstance.patch<유저 차단 수동 해제Response>(
+      `/admin/users/${params.userId}/unban`, params?.data
+    );
+    return res.data;
+  },
+
+  post유저 차단: async (params: { userId: string | number, data?: 유저 차단Request }): Promise<유저 차단Response> => {
+    const res = await axiosInstance.post<유저 차단Response>(
+      `/admin/users/${params.userId}/ban`, params?.data
+    );
+    return res.data;
+  },
+
+  putVerifyGpa: async (params: { gpaScoreId: string | number, data?: VerifyGpaRequest }): Promise<VerifyGpaResponse> => {
+    const res = await axiosInstance.put<VerifyGpaResponse>(
+      `/admin/scores/gpas/${params.gpaScoreId}`, params?.data
+    );
     return res.data;
   },
 
   getGpaList: async (params: { params?: Record<string, any> }): Promise<GpaListResponse> => {
-    const res = await axiosInstance.get<GpaListResponse>(`/admin/scores/gpas`, { params: params?.params });
+    const res = await axiosInstance.get<GpaListResponse>(
+      `/admin/scores/gpas`, { params: params?.params }
+    );
     return res.data;
   },
+
 };
