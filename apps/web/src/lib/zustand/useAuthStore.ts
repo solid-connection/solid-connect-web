@@ -63,6 +63,12 @@ const useAuthStore = create<AuthState>()(
         accessToken: state.accessToken,
         isAuthenticated: state.isAuthenticated,
       }),
+      onRehydrateStorage: () => (state) => {
+        // hydration 완료 후 isInitialized를 true로 설정
+        if (state) {
+          state.isInitialized = true;
+        }
+      },
     },
   ),
 );

@@ -19,18 +19,17 @@ const UniversityOnboardingPage = () => {
   return (
     <>
       <TopDetailNavigation title="대학교 선택" />
-      <div className="mt-14 w-full px-5 py-6">
-        <h1 className="mb-2 text-k-800 typo-bold-1">파견 대학교를 선택해주세요</h1>
-        <p className="mb-6 text-k-500 typo-medium-4">
-          소속 대학교를 선택하면 해당 대학교의 교환학생 파견 정보를 확인할 수 있습니다.
-        </p>
-
-        <div className="flex flex-col gap-2.5">
-          {HOME_UNIVERSITIES.map((university) => (
-            <Link key={university.slug} href={`/university/list/${university.slug}`} className="block">
-              <div className="relative h-[91px] w-full overflow-hidden rounded-lg border border-solid border-k-100 hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/10">
-                <div className="flex justify-between px-5 py-3.5">
-                  <div className="flex gap-[23.5px]">
+      <div className="mt-14 w-full px-5">
+      <h1 className="mb-2 text-k-800 typo-bold-1">출신 학교 정보를 선택해주세요</h1>
+      <p className="mb-6 text-k-500 typo-medium-4">
+        해당 학교에서 제공되는 교환학생 파견 정보를 확인할 수 있습니다.
+      </p>
+      <div className="flex flex-col gap-2.5">
+        {HOME_UNIVERSITIES.map((university) => (
+          <Link key={university.slug} href={`/university/list/${university.slug}`} className="block">
+            <div className="relative h-[91px] w-full overflow-hidden rounded-lg border border-solid border-k-100 hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/10">
+              <div className="flex justify-between px-5 py-3.5">
+                <div className="flex gap-[23.5px]">
                     <div className="flex flex-shrink-0 items-center">
                       <Image
                         src={university.imageUrl}
