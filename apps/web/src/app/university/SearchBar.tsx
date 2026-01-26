@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -27,6 +27,7 @@ interface SearchBarProps {
 // --- 폼 로직을 관리하는 부모 컴포넌트 ---
 const SearchForm = ({ initText }: SearchBarProps) => {
   const router = useRouter();
+  const pathname = usePathname();
 
   const {
     register,
@@ -48,12 +49,13 @@ const SearchForm = ({ initText }: SearchBarProps) => {
 
     const queryString = queryParams.toString();
 
-    router.push(`/university?${queryString}`);
+    // 현재 경로에서 쿼리 파라미터만 업데이트
+    router.push(`${pathname}?${queryString}`);
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-      <div className="relative mb-2">
+    <form onSubmit={handleSubmit(onSubmit)} className="sticky top-14 z-10 w-full bg-white pb-2">
+      <div className="relative">
         <input
           type="text"
           placeholder={"대학명을 검색해보세요..."}
