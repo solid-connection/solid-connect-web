@@ -1,22 +1,11 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { AxiosError } from "axios";
-import { MentorQueryKeys, mentorApi, type PatchCheckMentoringsRequest, type PatchCheckMentoringsResponse } from "./api";
+import { AxiosError } from "axios";
+import { useMutation } from "@tanstack/react-query";
+import { mentorApi, ConfirmMentoringResponse, ConfirmMentoringRequest } from "./api";
 
-/**
- * @description 멘토 멘토링 확인 처리 훅
- */
-const usePatchMentorCheckMentorings = () => {
-  const queriesClient = useQueryClient();
-  return useMutation<PatchCheckMentoringsResponse, AxiosError, PatchCheckMentoringsRequest>({
-    onSuccess: () => {
-      // 멘토링 체크 상태 변경 후 멘토링 목록 쿼리 무효화
-      Promise.all([
-        queriesClient.invalidateQueries({ queryKey: [MentorQueryKeys.mentoringList] }),
-        queriesClient.invalidateQueries({ queryKey: [MentorQueryKeys.mentoringNewCount] }),
-      ]);
-    },
-    mutationFn: mentorApi.patchMentorCheckMentorings,
+const usePatchConfirmMentoring = () => {
+  return useMutation<ConfirmMentoringResponse, AxiosError, ConfirmMentoringRequest>({
+    mutationFn: (data) => mentorApi.patchConfirmMentoring({ data }),
   });
 };
 
-export default usePatchMentorCheckMentorings;
+export default usePatchConfirmMentoring;
