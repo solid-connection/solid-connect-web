@@ -1,6 +1,6 @@
+import { AxiosError } from "axios";
 import { useMutation } from "@tanstack/react-query";
-import type { AxiosError } from "axios";
-import { type BlockUserRequest, type BlockUserResponse, usersApi } from "./api";
+import { usersApi, BlockUserResponse, BlockUserRequest } from "./api";
 
 const usePostBlockUser = () => {
   return useMutation<BlockUserResponse, AxiosError, { blockedId: string | number; data: BlockUserRequest }>({
