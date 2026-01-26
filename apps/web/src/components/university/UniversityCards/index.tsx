@@ -12,12 +12,7 @@ type UniversityCardsProps = {
   showCapacity?: boolean;
 };
 
-const UniversityCards = ({
-  colleges,
-  style,
-  className,
-  showCapacity = true,
-}: UniversityCardsProps) => {
+const UniversityCards = ({ colleges, style, className, showCapacity = true }: UniversityCardsProps) => {
   return (
     <div className={clsx("flex flex-col gap-2.5", className)} style={style}>
       {colleges.map((college) => (
