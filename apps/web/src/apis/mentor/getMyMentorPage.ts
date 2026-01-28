@@ -1,16 +1,13 @@
+import { AxiosError } from "axios";
 import { useQuery } from "@tanstack/react-query";
-import type { AxiosError } from "axios";
-import { type MentorCardPreview, MentorQueryKeys, mentorApi } from "./api";
+import { mentorApi, MyMentorPageResponse } from "./api";
+import { QueryKeys } from "../queryKeys";
 
-/**
- * @description 멘토 마이 프로필 조회 훅
- */
-const useGetMentorMyProfile = () => {
-  return useQuery<MentorCardPreview, AxiosError>({
-    queryKey: [MentorQueryKeys.myMentorProfile],
-    queryFn: mentorApi.getMentorMyProfile,
-    staleTime: 1000 * 60 * 5, // 5분간 캐시
+const useGetMyMentorPage = (params?: Record<string, any>) => {
+  return useQuery<MyMentorPageResponse, AxiosError>({
+    queryKey: [QueryKeys.mentor.myMentorPage, params],
+    queryFn: () => mentorApi.getMyMentorPage(params ? { params } : {}),
   });
 };
 
-export default useGetMentorMyProfile;
+export default useGetMyMentorPage;

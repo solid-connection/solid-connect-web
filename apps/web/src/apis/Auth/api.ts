@@ -1,29 +1,18 @@
-import { axiosInstance, publicAxiosInstance } from "@/utils/axiosInstance";
+import { axiosInstance } from "@/utils/axiosInstance";
 
 export type SignOutResponse = Record<string, never>;
 
 export type SignOutRequest = Record<string, never>;
 
-// Apple Auth Types
-export interface RegisteredAppleAuthResponse {
-  isRegistered: true;
-  accessToken: string;
-  refreshToken: string;
-}
-
-export interface UnregisteredAppleAuthResponse {
-  isRegistered: false;
+export interface AppleAuthResponse {
+  isRegistered: boolean;
   nickname: null;
   email: string;
   profileImageUrl: null;
   signUpToken: string;
 }
 
-export type AppleAuthResponse = RegisteredAppleAuthResponse | UnregisteredAppleAuthResponse;
-
-export interface AppleAuthRequest {
-  code: string;
-}
+export type AppleAuthRequest = Record<string, never>;
 
 export interface RefreshTokenResponse {
   accessToken: string;
@@ -36,110 +25,88 @@ export interface EmailLoginResponse {
   refreshToken: string;
 }
 
-export interface EmailLoginRequest {
-  email: string;
-  password: string;
-}
+export type EmailLoginRequest = Record<string, never>;
 
 export interface EmailVerificationResponse {
   signUpToken: string;
 }
 
-export interface EmailVerificationRequest {
-  email: string;
-  verificationCode: string;
-}
+export type EmailVerificationRequest = Record<string, never>;
 
-// Kakao Auth Types
-export interface RegisteredKakaoAuthResponse {
-  isRegistered: true;
-  accessToken: string;
-  refreshToken: string;
-}
-
-export interface UnregisteredKakaoAuthResponse {
-  isRegistered: false;
+export interface KakaoAuthResponse {
+  isRegistered: boolean;
   nickname: string;
   email: string;
   profileImageUrl: string;
   signUpToken: string;
 }
 
-export type KakaoAuthResponse = RegisteredKakaoAuthResponse | UnregisteredKakaoAuthResponse;
+export type KakaoAuthRequest = Record<string, never>;
 
-export interface KakaoAuthRequest {
-  code: string;
-}
-
-export type AccountResponse = undefined;
+export type AccountResponse = void;
 
 export interface SignUpResponse {
   accessToken: string;
   refreshToken: string;
 }
 
-export interface SignUpRequest {
-  signUpToken: string;
-  nickname: string;
-  profileImageUrl: string;
-  preparationStatus: string;
-  interestedRegions: string[];
-  interestedCountries: string[];
-}
-
-export interface EmailSignUpRequest {
-  email: string;
-  password: string;
-}
-
-export interface EmailSignUpResponse {
-  signUpToken: string;
-}
+export type SignUpRequest = Record<string, never>;
 
 export const authApi = {
-  postSignOut: async (): Promise<SignOutResponse> => {
-    const res = await axiosInstance.post<SignOutResponse>(`/auth/sign-out`);
+  postSignOut: async (params: { data?: SignOutRequest }): Promise<SignOutResponse> => {
+    const res = await axiosInstance.post<SignOutResponse>(
+      `/auth/sign-out`, params?.data
+    );
     return res.data;
   },
 
-  postAppleAuth: async (data: AppleAuthRequest): Promise<AppleAuthResponse> => {
-    const res = await publicAxiosInstance.post<AppleAuthResponse>(`/auth/apple`, data);
+  postAppleAuth: async (params: { data?: AppleAuthRequest }): Promise<AppleAuthResponse> => {
+    const res = await axiosInstance.post<AppleAuthResponse>(
+      `/auth/apple`, params?.data
+    );
     return res.data;
   },
 
-  postRefreshToken: async (): Promise<RefreshTokenResponse> => {
-    const res = await publicAxiosInstance.post<RefreshTokenResponse>(`/auth/reissue`);
+  postRefreshToken: async (params: { data?: RefreshTokenRequest }): Promise<RefreshTokenResponse> => {
+    const res = await axiosInstance.post<RefreshTokenResponse>(
+      `/auth/reissue`, params?.data
+    );
     return res.data;
   },
 
-  postEmailLogin: async (data: EmailLoginRequest): Promise<EmailLoginResponse> => {
-    const res = await publicAxiosInstance.post<EmailLoginResponse>(`/auth/email/sign-in`, data);
+  postEmailLogin: async (params: { data?: EmailLoginRequest }): Promise<EmailLoginResponse> => {
+    const res = await axiosInstance.post<EmailLoginResponse>(
+      `/auth/email/sign-in`, params?.data
+    );
     return res.data;
   },
 
-  postEmailSignUp: async (data: EmailSignUpRequest): Promise<EmailSignUpResponse> => {
-    const res = await publicAxiosInstance.post<EmailSignUpResponse>(`/auth/email/sign-up`, data);
+  postEmailVerification: async (params: { data?: EmailVerificationRequest }): Promise<EmailVerificationResponse> => {
+    const res = await axiosInstance.post<EmailVerificationResponse>(
+      `/auth/email/sign-up`, params?.data
+    );
     return res.data;
   },
 
-  postKakaoAuth: async (data: KakaoAuthRequest): Promise<KakaoAuthResponse> => {
-    const res = await publicAxiosInstance.post<KakaoAuthResponse>(`/auth/kakao`, data);
+  postKakaoAuth: async (params: { data?: KakaoAuthRequest }): Promise<KakaoAuthResponse> => {
+    const res = await axiosInstance.post<KakaoAuthResponse>(
+      `/auth/kakao`, params?.data
+    );
     return res.data;
   },
 
   deleteAccount: async (): Promise<AccountResponse> => {
-    const res = await axiosInstance.delete<AccountResponse>(`/auth/quit`);
+    const res = await axiosInstance.delete<AccountResponse>(
+      `/auth/quit`
+    );
     return res.data;
   },
 
-  postSignUp: async (data: SignUpRequest): Promise<SignUpResponse> => {
-    // 임시 성별, 생년월일 추가. API 변경 시 삭제
-    const payload = {
-      ...data,
-      birth: "2000-01-01",
-      gender: "PREFER_NOT_TO_SAY",
-    };
-    const res = await publicAxiosInstance.post<SignUpResponse>(`/auth/sign-up`, payload);
+  postSignUp: async (params: { data?: SignUpRequest }): Promise<SignUpResponse> => {
+    const res = await axiosInstance.post<SignUpResponse>(
+      `/auth/sign-up`, params?.data
+    );
     return res.data;
   },
+
 };
