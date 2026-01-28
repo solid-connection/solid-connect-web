@@ -1,7 +1,7 @@
+import { AxiosError } from "axios";
 import { useQuery } from "@tanstack/react-query";
-import type { AxiosError } from "axios";
+import { applicationsApi, CompetitorsResponse } from "./api";
 import { QueryKeys } from "../queryKeys";
-import { applicationsApi, type CompetitorsResponse } from "./api";
 
 const useGetCompetitors = (params?: Record<string, any>) => {
   return useQuery<CompetitorsResponse, AxiosError>({

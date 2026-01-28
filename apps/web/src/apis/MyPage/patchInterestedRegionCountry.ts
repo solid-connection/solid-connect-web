@@ -1,10 +1,10 @@
+import { AxiosError } from "axios";
 import { useMutation } from "@tanstack/react-query";
-import type { AxiosError } from "axios";
-import { type InterestedRegionCountryRequest, type InterestedRegionCountryResponse, myPageApi } from "./api";
+import { myPageApi, InterestedRegionCountryResponse, InterestedRegionCountryRequest } from "./api";
 
 const usePatchInterestedRegionCountry = () => {
   return useMutation<InterestedRegionCountryResponse, AxiosError, InterestedRegionCountryRequest>({
-    mutationFn: (data) => myPageApi.patchInterestedRegionCountry(data),
+    mutationFn: (data) => myPageApi.patchInterestedRegionCountry({ data }),
   });
 };
 

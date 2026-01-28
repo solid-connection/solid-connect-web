@@ -1,7 +1,7 @@
+import { AxiosError } from "axios";
 import { useQuery } from "@tanstack/react-query";
-import type { AxiosError } from "axios";
+import { adminApi, GpaListResponse } from "./api";
 import { QueryKeys } from "../queryKeys";
-import { adminApi, type GpaListResponse } from "./api";
 
 const useGetGpaList = (params?: Record<string, any>) => {
   return useQuery<GpaListResponse, AxiosError>({

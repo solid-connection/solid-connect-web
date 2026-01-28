@@ -1,5 +1,11 @@
-export { adminApi } from "./api";
-export { default as getGpaList } from "./getGpaList";
-export { default as getLanguageTestList } from "./getLanguageTestList";
-export { default as putVerifyGpa } from "./putVerifyGpa";
-export { default as putVerifyLanguageTest } from "./putVerifyLanguageTest";
+export { adminApi } from './api';
+export { default as getCountMentorApplicationByStatus } from './getCountMentorApplicationByStatus';
+export { default as getGpaList } from './getGpaList';
+export { default as getLanguageTestList } from './getLanguageTestList';
+export { default as getMentorApplicationHistoryList } from './getMentorApplicationHistoryList';
+export { default as getMentorApplicationList } from './getMentorApplicationList';
+export { default as postApproveMentorApplication } from './postApproveMentorApplication';
+export { default as postMappingMentorapplicationUniversity } from './postMappingMentorapplicationUniversity';
+export { default as postRejectMentorApplication } from './postRejectMentorApplication';
+export { default as putVerifyGpa } from './putVerifyGpa';
+export { default as putVerifyLanguageTest } from './putVerifyLanguageTest';
