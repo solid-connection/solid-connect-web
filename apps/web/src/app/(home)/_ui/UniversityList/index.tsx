@@ -47,7 +47,7 @@ const UniversityList = ({ allRegionsUniversityList }: UniversityListProps) => {
           background: "white",
         }}
       />
-      <UniversityCards colleges={previewUniversities} showCapacity={false} enableVirtualization={false} />
+      <UniversityCards colleges={previewUniversities} showCapacity={false} />
     </div>
   );
 };
