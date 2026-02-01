@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import CheveronRightFilled from "@/components/ui/icon/ChevronRightFilled";
+import { useImageFallback } from "@/hooks/useImageFallback";
 import type { ListUniversity } from "@/types/university";
 import { convertImageUrl } from "@/utils/fileUtils";
 import shortenLanguageTestName from "@/utils/universityUtils";
@@ -11,6 +12,8 @@ type UniversityCardProps = {
 };
 
 const UniversityCard = ({ university, showCapacity = true }: UniversityCardProps) => {
+  const { getSrc, handleError } = useImageFallback("/svgs/placeholders/university-logo-placeholder.svg");
+
   const convertedKoreanName =
     university.term !== process.env.NEXT_PUBLIC_CURRENT_TERM
       ? `${university.koreanName}(${university.term})`
@@ -24,10 +27,11 @@ const UniversityCard = ({ university, showCapacity = true }: UniversityCardProps
             <div className="flex flex-shrink-0 items-center">
               <Image
                 className="h-14 w-14 rounded-full object-cover"
-                src={convertImageUrl(university.logoImageUrl)}
+                src={getSrc(convertImageUrl(university.logoImageUrl))}
                 width={56}
                 height={56}
                 alt="대학 이미지"
+                onError={handleError}
               />
             </div>
 
