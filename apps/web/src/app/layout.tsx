@@ -8,6 +8,7 @@ import ToastContainer from "@/components/ui/Toast";
 import QueryProvider from "@/lib/react-query/QueryProvider";
 import "@/styles/globals.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
   title: "솔리드 커넥션",
@@ -65,6 +66,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => (
     <body className={pretendard.className}>
       <AppleScriptLoader />
       <GoogleAnalytics gaId="G-V1KLYZC1DS" />
+      <SpeedInsights />
       <QueryProvider>
         <GlobalLayout>{children}</GlobalLayout>
         <ToastContainer />
