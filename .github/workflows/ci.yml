@@ -7,9 +7,40 @@ on:
     branches: [main, develop]
 
 jobs:
-  quality-check:
-    name: Code Quality Check
+  # 변경 감지
+  detect-changes:
+    name: Detect Changes
     runs-on: ubuntu-latest
+    outputs:
+      web: ${{ steps.filter.outputs.web }}
+      admin: ${{ steps.filter.outputs.admin }}
+      root: ${{ steps.filter.outputs.root }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Check changed files
+        uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            web:
+              - 'apps/web/**'
+            admin:
+              - 'apps/admin/**'
+            root:
+              - 'package.json'
+              - 'pnpm-lock.yaml'
+              - 'pnpm-workspace.yaml'
+              - 'turbo.json'
+              - '.github/workflows/**'
+
+  # Web 앱 품질 체크
+  web-quality-check:
+    name: Web - Quality Check
+    runs-on: ubuntu-latest
+    needs: detect-changes
+    if: needs.detect-changes.outputs.web == 'true' || needs.detect-changes.outputs.root == 'true'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -28,13 +59,15 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Run Biome (lint & format) & TypeScript
-        run: pnpm run ci:check
+      - name: Run checks (lint & typecheck)
+        run: pnpm --filter @solid-connect/web run ci:check
 
-  build:
-    name: Build Verification
+  # Admin 앱 품질 체크
+  admin-quality-check:
+    name: Admin - Quality Check
     runs-on: ubuntu-latest
-    needs: quality-check
+    needs: detect-changes
+    if: needs.detect-changes.outputs.admin == 'true' || needs.detect-changes.outputs.root == 'true'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -53,7 +86,72 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build Next.js application
-        run: pnpm run build
+      - name: Run lint check
+        run: pnpm --filter @solid-connect/admin run lint
+
+      - name: Run format check
+        run: pnpm --filter @solid-connect/admin run format
+
+  # Web 앱 빌드
+  web-build:
+    name: Web - Build
+    runs-on: ubuntu-latest
+    needs: [detect-changes, web-quality-check]
+    if: |
+      always() &&
+      (needs.detect-changes.outputs.web == 'true' || needs.detect-changes.outputs.root == 'true') &&
+      needs.web-quality-check.result == 'success'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.x"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build web application
+        run: pnpm --filter @solid-connect/web run build
+        env:
+          NODE_ENV: production
+
+  # Admin 앱 빌드
+  admin-build:
+    name: Admin - Build
+    runs-on: ubuntu-latest
+    needs: [detect-changes, admin-quality-check]
+    if: |
+      always() &&
+      (needs.detect-changes.outputs.admin == 'true' || needs.detect-changes.outputs.root == 'true') &&
+      needs.admin-quality-check.result == 'success'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.x"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build admin application
+        run: pnpm --filter @solid-connect/admin run build
         env:
           NODE_ENV: production
