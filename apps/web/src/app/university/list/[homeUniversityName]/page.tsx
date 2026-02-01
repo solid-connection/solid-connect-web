@@ -49,9 +49,7 @@ const UniversityListPage = async ({ params }: PageProps) => {
   return (
     <>
       <TopDetailNavigation title={`${universityName} 파견학교`} />
-      <div className="mt-14 w-full px-5">
-        <SearchResultsContent homeUniversityName={universityName} />
-      </div>
+      <SearchResultsContent homeUniversityName={universityName} />
     </>
   );
 };

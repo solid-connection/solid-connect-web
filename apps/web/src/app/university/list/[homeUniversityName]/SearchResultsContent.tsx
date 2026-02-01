@@ -83,7 +83,7 @@ const SearchResultsContentInner = ({ homeUniversityName }: SearchResultsContentI
   }, [searchParams]);
 
   return (
-    <div className="pt-4">
+    <div>
       <SearchBar initText={searchText || undefined} />
 
       {/* 지역 필터 */}
