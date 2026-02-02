@@ -21,7 +21,7 @@ const WaitingContent = () => {
         <div className="flex items-center">
           <h2 className="mr-2 text-k-900 typo-sb-5">대기 중인 멘토링</h2>
           {totalLength > DEFAULT_VISIBLE_ITEMS && (
-            <span className="rounded-2xl bg-primary-1 px-2 text-k-0">{totalLength - 2}+</span>
+            <span className="rounded-2xl bg-primary-1 px-2 text-k-0">{totalLength - DEFAULT_VISIBLE_ITEMS}+</span>
           )}
         </div>
       </div>
@@ -36,15 +36,15 @@ const WaitingContent = () => {
                 </div>
               ) : (
                 (isExpanded ? approveList : approveList.slice(0, DEFAULT_VISIBLE_ITEMS)).map((item) => (
-                  <MentorExpandChatCard
-                    key={item.mentoringId}
-                    isChecked={item.isChecked}
-                    mentoringId={item.mentoringId}
-                    profileImageUrl={item.profileImageUrl}
-                    nickname={item.nickname}
-                    message={` 멘토가 멘티 신청을 수락했어요.`}
-                    date={item.createdAt}
-                  />
+                    <MentorExpandChatCard
+                      key={item.mentoringId}
+                      isChecked={item.isChecked}
+                      mentoringId={item.mentoringId}
+                      profileImageUrl={item.profileImageUrl}
+                      nickname={item.nickname}
+                      message="멘토가 멘티 신청을 수락했어요."
+                      date={item.createdAt}
+                    />
                 ))
               )}
             </div>
@@ -63,12 +63,12 @@ const WaitingContent = () => {
                 </div>
               ) : (
                 (isExpanded ? pendingList : pendingList.slice(0, DEFAULT_VISIBLE_ITEMS)).map((item) => (
-                  <MentorChatCard
-                    key={item.mentoringId}
-                    profileImageUrl={item.profileImageUrl}
-                    nickname={item.nickname}
-                    description={` 멘토에게 멘티 신청을 보냈어요.`}
-                  />
+                    <MentorChatCard
+                      key={item.mentoringId}
+                      profileImageUrl={item.profileImageUrl}
+                      nickname={item.nickname}
+                      description="멘토에게 멘티 신청을 보냈어요."
+                    />
                 ))
               )}
             </div>

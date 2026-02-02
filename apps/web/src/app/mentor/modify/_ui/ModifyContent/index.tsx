@@ -63,6 +63,7 @@ const ModifyContent = () => {
               {...register("introduction")}
               className="mt-2.5 h-30 w-full rounded-lg bg-k-50 p-5 text-k-900 placeholder:text-k-300 typo-regular-2"
               placeholder="최대 200자 이내"
+              maxLength={200}
             />
             {errors.introduction && (
               <p className="mt-1 text-red-500 typo-regular-2">
@@ -76,6 +77,7 @@ const ModifyContent = () => {
               {...register("passTip")}
               className="mt-2.5 h-30 w-full rounded-lg bg-k-50 p-5 text-k-900 placeholder:text-k-300 typo-regular-2"
               placeholder="최대 200자 이내"
+              maxLength={200}
             />
             {errors.passTip && (
               <p className="mt-1 text-red-500 typo-regular-2">

@@ -1,16 +1,19 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type RefObject } from "react";
 import { useDeletePost } from "@/apis/community";
 import ReportPanel from "@/components/ui/ReportPanel";
 import { toast } from "@/lib/zustand/useToastStore";
 import { IconSetting } from "@/public/svgs/mentor";
 
-const useClickOutside = (ref, handler) => {
+const useClickOutside = (ref: RefObject<HTMLDivElement>, handler: (event: MouseEvent | TouchEvent) => void) => {
   useEffect(() => {
-    const listener = (event) => {
-      if (!ref.current || ref.current.contains(event.target)) return;
+    const listener = (event: MouseEvent | TouchEvent) => {
+      const current = ref.current;
+      if (!current) return;
+      if (!(event.target instanceof Node)) return;
+      if (current.contains(event.target)) return;
       handler(event);
     };
     document.addEventListener("mousedown", listener);

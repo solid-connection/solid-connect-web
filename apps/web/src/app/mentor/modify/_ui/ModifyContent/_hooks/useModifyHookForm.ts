@@ -35,6 +35,6 @@ const useModifyHookForm = (myMentorProfile: MentorCardPreview | null): UseModify
       });
     }
   }, [myMentorProfile, reset]);
-  return { ...method };
+  return method;
 };
 export default useModifyHookForm;
