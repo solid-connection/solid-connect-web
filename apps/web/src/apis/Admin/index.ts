@@ -1,5 +1,6 @@
-export { adminApi } from "./api";
-export { default as getGpaList } from "./getGpaList";
-export { default as getLanguageTestList } from "./getLanguageTestList";
-export { default as putVerifyGpa } from "./putVerifyGpa";
-export { default as putVerifyLanguageTest } from "./putVerifyLanguageTest";
+export { adminApi } from './api';
+export { adminApiDefinitions, AdminApiDefinitions } from './apiDefinitions';
+export * from './getGpaList';
+export * from './getLanguageTestList';
+export * from './putVerifyGpa';
+export * from './putVerifyLanguageTest';

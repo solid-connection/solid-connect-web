@@ -1,5 +1,6 @@
-export { usersApi } from "./api";
-export { default as deleteUnblockUser } from "./deleteUnblockUser";
-export { default as getBlockedUsers } from "./getBlockedUsers";
-export { default as getNicknameExists } from "./getNicknameExists";
-export { default as postBlockUser } from "./postBlockUser";
+export { usersApi } from './api';
+export { usersApiDefinitions, UsersApiDefinitions } from './apiDefinitions';
+export * from './deleteUnblockUser';
+export * from './getBlockedUsers';
+export * from './getNicknameExists';
+export * from './postBlockUser';

@@ -1,55 +1,65 @@
-import type { AxiosResponse } from "axios";
-import type { ChatMessage, ChatPartner, ChatRoom } from "@/types/chat";
 import { axiosInstance } from "@/utils/axiosInstance";
 
-// QueryKeys for chat domain
-export const ChatQueryKeys = {
-  chatRooms: "chatRooms",
-  chatHistories: "chatHistories",
-  partnerInfo: "partnerInfo",
-} as const;
-
-// Re-export types from @/types/chat
-export type { ChatMessage, ChatRoom, ChatPartner };
-
-export interface ChatHistoriesResponse {
-  nextPageNumber: number; // 다음 페이지가 없다면 -1
-  content: ChatMessage[];
+export interface ChatMessagesResponseContentItem {
+  id: number;
+  content: string;
+  senderId: number;
+  createdAt: string;
+  attachments: ChatMessagesResponseContentItemAttachmentsItem[];
 }
 
-export interface ChatRoomListResponse {
-  chatRooms: ChatRoom[];
+export interface ChatMessagesResponseContentItemAttachmentsItem {
+  id: number;
+  isImage: boolean;
+  url: string;
+  thumbnailUrl: string | null;
+  createdAt: string;
 }
 
-interface GetChatHistoriesParams {
-  roomId: number;
-  size?: number;
-  page?: number;
+export interface ChatMessagesResponse {
+  nextPageNumber: number;
+  content: ChatMessagesResponseContentItem[];
+}
+
+export type ChatRoomsResponse = void;
+
+export type ReadChatRoomResponse = void;
+
+export type ReadChatRoomRequest = Record<string, never>;
+
+export interface ChatPartnerResponse {
+  partnerId: number;
+  nickname: string;
+  profileUrl: string;
 }
 
 export const chatApi = {
-  getChatHistories: async ({ roomId, size = 20, page = 0 }: GetChatHistoriesParams): Promise<ChatHistoriesResponse> => {
-    const res = await axiosInstance.get<ChatHistoriesResponse>(`/chats/rooms/${roomId}`, {
-      params: {
-        size,
-        page,
-      },
-    });
+  getChatMessages: async (params: { roomId: string | number, defaultSize: string | number, defaultPage: string | number, params?: Record<string, unknown> }): Promise<ChatMessagesResponse> => {
+    const res = await axiosInstance.get<ChatMessagesResponse>(
+      `/chats/rooms/${params.roomId}?size=${params.defaultSize}&page=${params.defaultPage}`, { params: params?.params }
+    );
     return res.data;
   },
 
-  getChatRooms: async (): Promise<ChatRoomListResponse> => {
-    const res = await axiosInstance.get<ChatRoomListResponse>("/chats/rooms");
+  getChatRooms: async (params: { params?: Record<string, unknown> }): Promise<ChatRoomsResponse> => {
+    const res = await axiosInstance.get<ChatRoomsResponse>(
+      `/chats/rooms`, { params: params?.params }
+    );
     return res.data;
   },
 
-  putReadChatRoom: async (roomId: number): Promise<void> => {
-    const response: AxiosResponse<void> = await axiosInstance.put(`/chats/rooms/${roomId}/read`);
-    return response.data;
-  },
-
-  getChatPartner: async (roomId: number): Promise<ChatPartner> => {
-    const res = await axiosInstance.get<ChatPartner>(`/chats/rooms/${roomId}/partner`);
+  putReadChatRoom: async (params: { roomId: string | number, data?: ReadChatRoomRequest }): Promise<ReadChatRoomResponse> => {
+    const res = await axiosInstance.put<ReadChatRoomResponse>(
+      `//chats/rooms/${params.roomId}/read`, params?.data
+    );
     return res.data;
   },
+
+  getChatPartner: async (params: { roomId: string | number, params?: Record<string, unknown> }): Promise<ChatPartnerResponse> => {
+    const res = await axiosInstance.get<ChatPartnerResponse>(
+      `/chats/rooms/${params.roomId}/partner`, { params: params?.params }
+    );
+    return res.data;
+  },
+
 };

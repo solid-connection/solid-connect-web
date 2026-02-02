@@ -1,26 +1,15 @@
-export type {
-  CommentCreateRequest,
-  CommentIdResponse,
-  ListPost,
-  Post,
-  PostCreateRequest,
-  PostIdResponse,
-  PostLikeResponse,
-  PostUpdateRequest,
-} from "./api";
-export { CommunityQueryKeys, communityApi } from "./api";
-export { default as useDeleteComment } from "./deleteComment";
-export { default as useDeleteLike } from "./deleteLikePost";
-export { default as useDeletePost } from "./deletePost";
-export { default as useGetBoard } from "./getBoard";
-export { default as useGetBoardList } from "./getBoardList";
-export { default as useGetPostDetail } from "./getPostDetail";
-export { default as useGetPostList } from "./getPostList";
-export { default as usePatchUpdateComment } from "./patchUpdateComment";
-export { default as useUpdatePost } from "./patchUpdatePost";
-export { default as useCreateComment } from "./postCreateComment";
-export { default as useCreatePost } from "./postCreatePost";
-export { default as usePostLike } from "./postLikePost";
-
-// Server-side functions
-export { getPostListServer } from "./server";
+export { communityApi } from './api';
+export { communityApiDefinitions, CommunityApiDefinitions } from './apiDefinitions';
+export * from './deleteComment';
+export * from './deleteLikePost';
+export * from './deletePost';
+export * from './getBoard';
+export * from './getBoardList';
+export * from './getPostDetail';
+export * from './getPostList';
+export * from './patchUpdateComment';
+export * from './patchUpdatePost';
+export * from './postCreateComment';
+export * from './postCreatePost';
+export * from './postLikePost';
+export * from './server';

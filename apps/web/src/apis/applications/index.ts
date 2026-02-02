@@ -1,5 +1,5 @@
-export type { UseSubmitApplicationRequest, UseSubmitApplicationResponse } from "./api";
-export { ApplicationsQueryKeys, applicationsApi } from "./api";
-export { default as useGetApplicationsList } from "./getApplicants";
-export { default as useGetCompetitors } from "./getCompetitors";
-export { default as usePostSubmitApplication } from "./postSubmitApplication";
+export { applicationsApi } from './api';
+export { applicationsApiDefinitions, ApplicationsApiDefinitions } from './apiDefinitions';
+export * from './getApplicants';
+export * from './getCompetitors';
+export * from './postSubmitApplication';

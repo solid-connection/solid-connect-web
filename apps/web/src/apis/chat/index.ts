@@ -1,6 +1,6 @@
-export type { ChatHistoriesResponse, ChatMessage, ChatPartner, ChatRoom, ChatRoomListResponse } from "./api";
-export { ChatQueryKeys, chatApi } from "./api";
-export { default as useGetChatHistories } from "./getChatMessages";
-export { default as useGetPartnerInfo } from "./getChatPartner";
-export { default as useGetChatRooms } from "./getChatRooms";
-export { default as usePutChatRead } from "./putReadChatRoom";
+export { chatApi } from './api';
+export { chatApiDefinitions, ChatApiDefinitions } from './apiDefinitions';
+export * from './getChatMessages';
+export * from './getChatPartner';
+export * from './getChatRooms';
+export * from './putReadChatRoom';
