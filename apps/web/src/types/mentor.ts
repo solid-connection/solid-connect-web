@@ -22,7 +22,7 @@ export interface Mentor {
   isApplied: boolean;
 }
 /** 리스트(미리보기) 용 – passTip / isApplied 없이 사용 */
-export type MentorCardPreview = (MentorCardBase & { term: string }) | null; // 학업 학기 (예: "2026-1")
+export type MentorCardPreview = (MentorCardBase & { term: string; passTip?: string }) | null; // 학업 학기 (예: "2026-1")
 
 /** 상세 뷰 용 – 추가 정보 포함 */
 export interface MentorCardDetail extends MentorCardBase {
