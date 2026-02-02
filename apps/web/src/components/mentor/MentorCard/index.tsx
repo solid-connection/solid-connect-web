@@ -112,7 +112,7 @@ const MentorCard = ({ mentor, observeRef, isMine = false }: MentorCardProps) => 
                   onClick={() => id && handlePostApplyMentor(id)}
                   className="flex h-10 w-1/2 flex-shrink-0 items-center justify-center gap-3 rounded-[20px] bg-primary px-5 py-2.5 text-white typo-medium-2"
                 >
-                  멘티 신청하기
+                  멘토링 신청하기
                 </button>
               </>
             )}
