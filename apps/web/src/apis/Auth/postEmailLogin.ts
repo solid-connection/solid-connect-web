@@ -29,7 +29,12 @@ const usePostEmailAuth = () => {
       const safeRedirect = validateSafeRedirect(redirectParam);
 
       toast.success("로그인에 성공했습니다.");
-      router.replace(safeRedirect);
+
+      // Zustand persist middleware가 localStorage에 저장할 시간을 보장
+      // 토큰 저장 후 리다이렉트하여 타이밍 이슈 방지
+      setTimeout(() => {
+        router.push(safeRedirect);
+      }, 100);
     },
   });
 };
