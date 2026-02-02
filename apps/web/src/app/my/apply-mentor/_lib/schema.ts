@@ -8,11 +8,14 @@ export const mentorApplicationSchema = z.object({
   country: z.string().min(1, "국가를 선택해주세요."),
   universityName: z.string().min(1, "학교를 선택해주세요."),
   verificationFile: z
-    .instanceof(File, {
+    .instanceof(File)
+    .nullable()
+    .refine((file) => file !== null, {
       message: "증명 서류(파일)를 업로드해 주세요.",
     })
     .refine(
       (file) => {
+        if (!file) return false;
         const allowedTypes = ["image/png", "image/jpeg", "image/jpg", "application/pdf"];
         return allowedTypes.includes(file.type);
       },

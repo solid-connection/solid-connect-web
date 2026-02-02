@@ -56,7 +56,7 @@ const UniversityScreen = ({ onNext }: UniversityScreenProps) => {
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
-      setValue("verificationFile", null as any);
+      setValue("verificationFile", null);
       toast.error("파일 형식은 png, jpg, pdf만 허용됩니다.");
       return;
     }
@@ -66,7 +66,7 @@ const UniversityScreen = ({ onNext }: UniversityScreenProps) => {
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
-      setValue("verificationFile", null as any);
+      setValue("verificationFile", null);
       toast.error("파일 크기는 10MB 이하여야 합니다.");
       return;
     }

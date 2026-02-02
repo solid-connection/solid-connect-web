@@ -32,7 +32,7 @@
         "noNonNullAssertion": "off"
       },
       "suspicious": {
-        "noExplicitAny": "off",
+        "noExplicitAny": "error",
         "noUnknownAtRules": "off",
         "useIterableCallbackReturn": "off"
       }
