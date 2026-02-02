@@ -42,7 +42,7 @@ const WaitingContent = () => {
                     mentoringId={item.mentoringId}
                     profileImageUrl={item.profileImageUrl}
                     nickname={item.nickname}
-                    message={`님이 멘티 신청을 수락했어요.`}
+                    message={` 멘토가 멘티 신청을 수락했어요.`}
                     date={item.createdAt}
                   />
                 ))
@@ -56,7 +56,7 @@ const WaitingContent = () => {
         {({ isExpanded }) => (
           <div className="space-y-2">
             <h3 className="mt-3 px-5 text-k-900 typo-sb-5">수락 대기중</h3>
-            <div className="space-y-2 p-4">
+            <div className="space-y-2">
               {pendingList.length === 0 ? (
                 <div className="px-4 py-3">
                   <EmptySdwBCards message="멘토 신청 내역이 없습니다." />
@@ -67,7 +67,7 @@ const WaitingContent = () => {
                     key={item.mentoringId}
                     profileImageUrl={item.profileImageUrl}
                     nickname={item.nickname}
-                    description={`님에게 멘티 신청을 보냈어요.`}
+                    description={` 멘토에게 멘티 신청을 보냈어요.`}
                   />
                 ))
               )}
