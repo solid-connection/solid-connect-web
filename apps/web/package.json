@@ -14,7 +14,7 @@
     "ci:check": "pnpm run lint:check && pnpm run typecheck"
   },
   "dependencies": {
-    "@hookform/resolvers": "^5.1.1",
+    "@hookform/resolvers": "^5.2.2",
     "@next/third-parties": "^14.2.4",
     "@radix-ui/react-checkbox": "^1.1.4",
     "@radix-ui/react-label": "^2.1.2",
@@ -42,7 +42,7 @@
     "sockjs-client": "^1.6.1",
     "tailwind-merge": "^3.0.2",
     "tailwindcss-animate": "^1.0.7",
-    "zod": "^4.0.5",
+    "zod": "^4.0.0",
     "zustand": "^5.0.7"
   },
   "devDependencies": {
