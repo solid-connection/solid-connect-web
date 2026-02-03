@@ -17,6 +17,9 @@
 **/build
 **/dist
 
+# generated api schema
+packages/api-schema/src/apis/
+
 # misc
 .DS_Store
 *.pem

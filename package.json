@@ -4,10 +4,14 @@
   "scripts": {
     "dev": "turbo dev",
     "build": "turbo build",
+    "sync:bruno": "turbo run sync:bruno",
     "lint": "turbo lint",
     "typecheck": "turbo typecheck",
     "ci:check": "turbo ci:check",
     "prepare": "husky"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["bruno-api-typescript"]
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.11",

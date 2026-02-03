@@ -1,0 +1,13 @@
+{
+  "name": "@solid-connect/api-schema",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "sync:bruno": "pnpm -C ../bruno-api-typescript run build && node ../bruno-api-typescript/dist/cli/index.js generate-hooks -i \"../../../api-docs/Solid Connection\" -o \"./src/apis\" --axios-path \"../axiosInstance\"",
+    "build": "pnpm run sync:bruno",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "axios": "^1.6.7"
+  }
+}
