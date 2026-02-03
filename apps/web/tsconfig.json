@@ -12,6 +12,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
+    "types": ["react", "react-dom"],
+    "typeRoots": ["./node_modules/@types"],
     "paths": {
       "@/public/*": ["./public/*"],
       "@/*": ["./src/*"]

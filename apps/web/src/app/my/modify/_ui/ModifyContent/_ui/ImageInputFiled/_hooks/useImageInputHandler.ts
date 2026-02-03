@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ChangeEvent, type RefObject } from "react";
 import { useController, useFormContext } from "react-hook-form";
 
 import { convertUploadedImageUrl } from "@/utils/fileUtils";
@@ -6,17 +6,9 @@ import { convertUploadedImageUrl } from "@/utils/fileUtils";
 interface ImageInputHandlerReturn {
   selectedImage: File | undefined;
   imagePreviewUrl: string | null;
-  fileInputRef: React.RefObject<HTMLInputElement>;
+  fileInputRef: RefObject<HTMLInputElement>;
   handleImageSelect: () => void;
-  handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-}
-
-interface ImageInputHandlerReturn {
-  selectedImage: File | undefined;
-  imagePreviewUrl: string | null;
-  fileInputRef: React.RefObject<HTMLInputElement>;
-  handleImageSelect: () => void;
-  handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleFileChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const useImageInputHandler = (initImagePreview: string | null): ImageInputHandlerReturn => {
@@ -42,7 +34,7 @@ const useImageInputHandler = (initImagePreview: string | null): ImageInputHandle
     fileInputRef.current?.click();
   };
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       setFormValue(file); // useController로 폼 값 설정

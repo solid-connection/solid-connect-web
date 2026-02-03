@@ -1,11 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type RefObject } from "react";
 import { type Control, type FieldValues, useController } from "react-hook-form";
 
 import type { ChannelType } from "@/types/mentor";
 
 interface useSelectHandlerReturn {
   isOpen: boolean;
-  dropdownRef: React.RefObject<HTMLDivElement>;
+  dropdownRef: RefObject<HTMLDivElement>;
   handleChannelChange: (val: ChannelType | null) => void;
   toggleDropdown: () => void;
 }

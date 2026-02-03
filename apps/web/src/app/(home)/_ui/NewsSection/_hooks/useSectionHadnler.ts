@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type RefObject } from "react";
 
 interface UseSectionHandlerReturn {
-  sectionRef: React.RefObject<HTMLDivElement>;
+  sectionRef: RefObject<HTMLDivElement>;
   visible: boolean;
 }
 
