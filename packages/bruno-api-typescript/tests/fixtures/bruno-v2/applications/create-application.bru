@@ -1,0 +1,35 @@
+meta {
+  name: Create Application
+  type: http
+  seq: 2
+}
+
+post /applications
+
+headers {
+  Authorization: Bearer {{token}}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "universityId": 1,
+    "choice": "first",
+    "documents": [
+      "transcript.pdf",
+      "recommendation.pdf"
+    ]
+  }
+}
+
+docs {
+  ```json
+  {
+    "id": 123,
+    "status": "pending",
+    "submittedAt": "2025-11-12T05:00:00Z",
+    "universityId": 1,
+    "choice": "first"
+  }
+  ```
+}

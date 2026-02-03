@@ -1,0 +1,56 @@
+meta {
+  name: 멘토 목록 조회
+  type: http
+  seq: 1
+}
+
+get /mentors?region=미주권&size=3&page=1
+
+headers {
+  Authorization: Bearer {{token}}
+}
+
+docs {
+  RequestParam중, region에 올 수 있는 것들
+  - 미주권
+  - 아시아권
+  - 중국권
+  - 유럽권
+  
+  ---
+  
+  ## 200 OK
+  ```
+  {
+    "nextPageNumber": 1,
+    "content": [
+      {
+        "id": 1,
+        "profileImageUrl": "https://example.com/image.jpg",
+        "nickname": "닉네임",
+        "country": "프랑스",
+        "universityName": "파리 대학교",
+        "term": "2025-1",
+        "menteeCount": 7,
+        "hasBadge": true,
+        "introduction": "안녕하세요",
+        "channels": [
+          {
+            "type": "BLOG",
+            "url": "https://blog.example.com"
+          }
+        ],
+        "isApplied": true
+      }
+    ]
+  }
+  ```
+  
+  ## 404 Not Found
+  
+  ```
+  {
+    "message": "이름에 해당하는 지역을 찾을 수 없습니다."
+  }
+  ```
+}

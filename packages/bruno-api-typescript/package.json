@@ -1,0 +1,36 @@
+{
+  "name": "bruno-api-typescript",
+  "version": "0.3.0",
+  "description": "Automate API sync between Bruno and Frontend via GitHub Apps",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "bruno-api": "./dist/cli/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "node --test"
+  },
+  "private": true,
+  "keywords": [
+    "bruno",
+    "openapi",
+    "github-apps",
+    "automation"
+  ],
+  "author": "MANWOOK",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^11.1.0",
+    "glob": "^10.3.10",
+    "yaml": "^2.3.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.6",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

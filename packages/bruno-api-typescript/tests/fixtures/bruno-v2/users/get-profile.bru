@@ -1,0 +1,24 @@
+meta {
+  name: Get User Profile
+  type: http
+  seq: 1
+}
+
+get /users/profile
+
+headers {
+  Authorization: Bearer {{token}}
+}
+
+docs {
+  ```json
+  {
+    "id": 1,
+    "username": "johndoe",
+    "email": "john@example.com",
+    "firstName": "John",
+    "lastName": "Doe",
+    "createdAt": "2025-01-01T00:00:00Z"
+  }
+  ```
+}

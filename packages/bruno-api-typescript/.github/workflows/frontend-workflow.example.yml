@@ -1,0 +1,87 @@
+name: Update API Hooks (Frontend Repo)
+
+# 🎯 이 파일은 프론트엔드 리포에 추가하세요
+# Repository Dispatch 이벤트를 받아서 API 훅을 업데이트합니다
+
+on:
+  repository_dispatch:
+    types: [bruno_updated]
+  workflow_dispatch:  # 수동 실행도 가능
+
+jobs:
+  update-hooks:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 프론트엔드 리포 체크아웃
+      - name: Checkout Frontend Repo
+        uses: actions/checkout@v4
+
+      # Bruno 리포 체크아웃
+      - name: Checkout Bruno Repo
+        uses: actions/checkout@v4
+        with:
+          # ⚠️ 변경 필요: Bruno 리포 경로
+          repository: YOUR_USERNAME/YOUR_BRUNO_REPO
+          path: bruno-repo
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      # bruno-api-typescript 설치
+      - name: Install Dependencies
+        run: |
+          npm install -D github:manNomi/bruno-api-typescript
+
+      # React Query 훅 생성
+      - name: Generate React Query Hooks
+        run: |
+          npx bruno-api generate-hooks \
+            -i bruno-repo/bruno \
+            -o ./src/apis \
+            --axios-path "@/utils/axiosInstance"
+
+      # 변경사항 확인
+      - name: Check for changes
+        id: git-check
+        run: |
+          if [[ -n $(git status -s) ]]; then
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          fi
+
+      # 브랜치 생성 및 커밋
+      - name: Commit and Push
+        if: steps.git-check.outputs.has_changes == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          BRANCH_NAME="auto/api-hooks-$(date +%Y%m%d-%H%M%S)"
+          git checkout -b $BRANCH_NAME
+
+          git add src/apis
+          git commit -m "chore: update API hooks
+
+          🤖 Triggered by Bruno repository update
+          Source SHA: ${{ github.event.client_payload.sha }}"
+
+          git push origin $BRANCH_NAME
+
+          echo "branch_name=$BRANCH_NAME" >> $GITHUB_OUTPUT
+        id: commit
+
+      # PR 생성
+      - name: Create Pull Request
+        if: steps.git-check.outputs.has_changes == 'true'
+        run: |
+          gh pr create \
+            --title "🔄 Update API Hooks" \
+            --body "Auto-generated from Bruno repository update" \
+            --base main \
+            --head ${{ steps.commit.outputs.branch_name }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
