@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import { z } from "zod";
 import { usePostMentorApplication } from "@/apis/mentor";
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import { Progress } from "@/components/ui/Progress";
@@ -12,19 +13,22 @@ import CompletionScreen from "./_components/CompletionScreen";
 import InterestCountriesScreen from "./_components/InterestCountriesScreen";
 import StudyStatusScreen from "./_components/StudyStatusScreen";
 import UniversityScreen from "./_components/UniversityScreen";
-import { type MentorApplicationFormData, mentorApplicationSchema } from "./_lib/schema";
+import { mentorApplicationSchema } from "./_lib/schema";
+
+type FormInputValues = z.input<typeof mentorApplicationSchema>;
+type FormOutputValues = z.output<typeof mentorApplicationSchema>;
 
 const ApplyMentorPage = () => {
   const router = useRouter();
   const [step, setStep] = useState<number>(1);
 
-  const methods = useForm<MentorApplicationFormData>({
+  const methods = useForm<FormInputValues>({
     resolver: zodResolver(mentorApplicationSchema),
     defaultValues: {
       interestedCountries: [],
       country: "",
       universityName: "",
-      verificationFile: undefined as any,
+      verificationFile: undefined,
       studyStatus: undefined,
     },
     mode: "onChange",
@@ -42,12 +46,7 @@ const ApplyMentorPage = () => {
 
   const progress = ((step - 1) / 3) * 100;
 
-  const onSubmit = methods.handleSubmit((data) => {
-    if (!data.verificationFile) {
-      toast.error("증명서 파일을 업로드해주세요.");
-      return;
-    }
-
+  const onSubmit = methods.handleSubmit((data: FormOutputValues) => {
     postMentorApplication(
       {
         interestedCountries: data.interestedCountries,
@@ -59,7 +58,7 @@ const ApplyMentorPage = () => {
       {
         onSuccess: () => {
           toast.success("멘토 신청이 완료되었습니다.");
-          goNextStep(); // Go to completion screen
+          goNextStep();
         },
       },
     );

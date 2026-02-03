@@ -3,12 +3,15 @@
 import clsx from "clsx";
 import { useMemo, useRef } from "react";
 import { useFormContext } from "react-hook-form";
+import { z } from "zod";
 import { useUniversitySearch } from "@/apis/universities";
 import BlockBtn from "@/components/button/BlockBtn";
 
 import { mentorRegionList } from "@/constants/regions";
 import { toast } from "@/lib/zustand/useToastStore";
-import type { MentorApplicationFormData } from "../../_lib/schema";
+import { mentorApplicationSchema } from "../../_lib/schema";
+
+type FormValues = z.input<typeof mentorApplicationSchema>;
 
 type UniversityScreenProps = {
   onNext: () => void;
@@ -20,7 +23,7 @@ const UniversityScreen = ({ onNext }: UniversityScreenProps) => {
     setValue,
     trigger,
     formState: { errors },
-  } = useFormContext<MentorApplicationFormData>();
+  } = useFormContext<FormValues>();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
