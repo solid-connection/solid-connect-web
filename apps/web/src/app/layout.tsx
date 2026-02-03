@@ -59,6 +59,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 5,
   userScalable: true,
+  viewportFit: "cover", // iOS Safe Area support
 };
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => (
