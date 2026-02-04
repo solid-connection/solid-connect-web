@@ -1,4 +1,12 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type MutableRefObject,
+  type RefObject,
+} from "react";
 
 // 드래그 핸들에서 제외해야 하는 인터랙티브 엘리먼트 판별
 const isInteractiveElement = (el: EventTarget | null): boolean => {
@@ -6,10 +14,10 @@ const isInteractiveElement = (el: EventTarget | null): boolean => {
 };
 
 interface UseHandleModalReturn {
-  elementRef: React.RefObject<HTMLDivElement>;
+  elementRef: RefObject<HTMLDivElement>;
   isVisible: boolean;
   translateY: number;
-  isDraggingRef: React.MutableRefObject<boolean>;
+  isDraggingRef: MutableRefObject<boolean>;
   handleClose: () => void;
   handleTouchStart: (e: React.TouchEvent | React.MouseEvent) => void;
   handleTouchMove: (e: React.TouchEvent | React.MouseEvent) => void;

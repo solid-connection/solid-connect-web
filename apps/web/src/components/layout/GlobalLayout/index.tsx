@@ -1,5 +1,5 @@
 import dynamic from "next/dynamic";
-import type React from "react";
+import type { ReactNode } from "react";
 
 import BottomNavigation from "./ui/BottomNavigation";
 
@@ -9,7 +9,7 @@ import BottomNavigation from "./ui/BottomNavigation";
 const ClientModal = dynamic(() => import("./ui/ClientModal"), { ssr: false, loading: () => null });
 
 type LayoutProps = {
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 const GlobalLayout = ({ children }: LayoutProps) => {

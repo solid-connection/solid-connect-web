@@ -1,8 +1,9 @@
 import { IconSearchFilled } from "@/public/svgs";
+import type { RefObject } from "react";
 
 type ScoreSearchBarProps = {
   onClick: () => void;
-  textRef: React.RefObject<HTMLInputElement>;
+  textRef: RefObject<HTMLInputElement>;
   searchHandler: (_e: React.FormEvent) => void;
 };
 

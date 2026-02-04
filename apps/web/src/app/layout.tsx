@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import type { ReactNode } from "react";
 import dynamic from "next/dynamic";
 import localFont from "next/font/local";
 
@@ -61,7 +62,7 @@ export const viewport: Viewport = {
   userScalable: true,
 };
 
-const RootLayout = ({ children }: { children: React.ReactNode }) => (
+const RootLayout = ({ children }: { children: ReactNode }) => (
   <html lang="ko" className={pretendard.variable}>
     <body className={pretendard.className}>
       <AppleScriptLoader />
