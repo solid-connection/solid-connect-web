@@ -25,6 +25,19 @@ const nextConfig = {
     gzipSize: true,
     // Sentry instrumentation 활성화 (Web Vitals 수집에 필요)
     instrumentationHook: true,
+    optimizePackageImports: [
+      "lucide-react",
+      "@radix-ui/react-select",
+      "@radix-ui/react-checkbox",
+      "@radix-ui/react-label",
+      "@radix-ui/react-progress",
+      "@tanstack/react-query",
+      "class-variance-authority",
+      "tailwind-merge",
+      "zod",
+      "react-hook-form",
+      "@hookform/resolvers",
+    ],
   },
   eslint: {
     // Warning: This allows production builds to successfully complete even if
