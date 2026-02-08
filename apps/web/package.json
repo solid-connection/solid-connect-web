@@ -11,7 +11,8 @@
     "format": "biome format --write .",
     "format:check": "biome format .",
     "typecheck": "tsc --noEmit",
-    "ci:check": "pnpm run lint:check && pnpm run typecheck",
+    "typecheck:ci": "tsc --noEmit -p tsconfig.ci.json",
+    "ci:check": "pnpm run lint:check && pnpm run typecheck:ci",
     "analyze": "ANALYZE=true next build"
   },
   "dependencies": {
