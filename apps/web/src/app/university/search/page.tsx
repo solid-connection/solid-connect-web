@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 
-import SchoolSearchForm from "./PageContent";
-import SearchBar from "./SearchBar";
+const SearchBar = dynamic(() => import("./SearchBar"), { ssr: false });
+const SchoolSearchForm = dynamic(() => import("./PageContent"), { ssr: false });
 
 export const metadata: Metadata = {
   title: "파견 학교 목록",

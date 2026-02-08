@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 
-import ScoreScreen from "./ScoreScreen";
+const ScoreScreen = dynamic(() => import("./ScoreScreen"), { ssr: false });
 
 export const metadata: Metadata = {
   title: "성적 확인하기",
