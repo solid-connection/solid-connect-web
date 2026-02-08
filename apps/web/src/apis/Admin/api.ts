@@ -154,7 +154,7 @@ export const adminApi = {
     return res.data;
   },
 
-  getLanguageTestList: async (params: { params?: Record<string, any> }): Promise<LanguageTestListResponse> => {
+  getLanguageTestList: async (params: { params?: Record<string, unknown> }): Promise<LanguageTestListResponse> => {
     const res = await axiosInstance.get<LanguageTestListResponse>(`/admin/scores/language-tests?page=1&size=10`, {
       params: params?.params,
     });
@@ -169,7 +169,7 @@ export const adminApi = {
     return res.data;
   },
 
-  getGpaList: async (params: { params?: Record<string, any> }): Promise<GpaListResponse> => {
+  getGpaList: async (params: { params?: Record<string, unknown> }): Promise<GpaListResponse> => {
     const res = await axiosInstance.get<GpaListResponse>(`/admin/scores/gpas`, { params: params?.params });
     return res.data;
   },

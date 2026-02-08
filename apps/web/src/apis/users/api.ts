@@ -25,7 +25,7 @@ export interface BlockedUsersResponse {
 }
 
 export const usersApi = {
-  getNicknameExists: async (params: { params?: Record<string, any> }): Promise<NicknameExistsResponse> => {
+  getNicknameExists: async (params: { params?: Record<string, unknown> }): Promise<NicknameExistsResponse> => {
     const res = await axiosInstance.get<NicknameExistsResponse>(`/users/exists?nickname=abc`, {
       params: params?.params,
     });
@@ -45,7 +45,7 @@ export const usersApi = {
     return res.data;
   },
 
-  getBlockedUsers: async (params: { params?: Record<string, any> }): Promise<BlockedUsersResponse> => {
+  getBlockedUsers: async (params: { params?: Record<string, unknown> }): Promise<BlockedUsersResponse> => {
     const res = await axiosInstance.get<BlockedUsersResponse>(`/users/blocks`, { params: params?.params });
     return res.data;
   },

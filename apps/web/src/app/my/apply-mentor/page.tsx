@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { z } from "zod";
+import type { z } from "zod";
 import { usePostMentorApplication } from "@/apis/mentor";
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import { Progress } from "@/components/ui/Progress";

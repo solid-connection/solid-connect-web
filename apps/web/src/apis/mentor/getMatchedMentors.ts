@@ -6,7 +6,7 @@ import { type MatchedMentorsResponse, mentorApi } from "./api";
 const useGetMatchedMentors = (
   defaultSize: string | number,
   defaultPage: string | number,
-  params?: Record<string, any>,
+  params?: Record<string, unknown>,
 ) => {
   return useQuery<MatchedMentorsResponse, AxiosError>({
     queryKey: [QueryKeys.mentor.matchedMentors, defaultSize, defaultPage, params],

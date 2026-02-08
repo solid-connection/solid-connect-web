@@ -51,7 +51,7 @@ export const applicationsApi = {
   /**
    * 경쟁자 목록 조회
    */
-  getCompetitors: async (config?: { params?: Record<string, any> }): Promise<CompetitorsResponse> => {
+  getCompetitors: async (config?: { params?: Record<string, unknown> }): Promise<CompetitorsResponse> => {
     const res = await axiosInstance.get<CompetitorsResponse>("/applications/competitors", config);
     return res.data;
   },

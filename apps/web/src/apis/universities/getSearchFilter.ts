@@ -27,7 +27,7 @@ const useGetUniversitySearchByFilter = (
 ) => {
   // 필터 파라미터 구성
   const buildParams = () => {
-    const params: Record<string, any> = {};
+    const params: Record<string, unknown> = {};
     if (filters.languageTestType) {
       params.languageTestType = filters.languageTestType;
     }

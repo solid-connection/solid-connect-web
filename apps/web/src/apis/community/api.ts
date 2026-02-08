@@ -70,12 +70,12 @@ export const communityApi = {
     return publicAxiosInstance.get(`/boards/${boardCode}`, { params });
   },
 
-  getBoardList: async (params?: Record<string, any>): Promise<BoardListResponse> => {
+  getBoardList: async (params?: Record<string, unknown>): Promise<BoardListResponse> => {
     const res = await axiosInstance.get<BoardListResponse>(`/boards`, { params });
     return res.data;
   },
 
-  getBoard: async (boardCode: string, params?: Record<string, any>): Promise<BoardResponse> => {
+  getBoard: async (boardCode: string, params?: Record<string, unknown>): Promise<BoardResponse> => {
     const res = await axiosInstance.get<BoardResponse>(`/boards/${boardCode}`, { params });
     return res.data;
   },

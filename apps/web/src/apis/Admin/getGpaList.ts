@@ -3,7 +3,7 @@ import type { AxiosError } from "axios";
 import { QueryKeys } from "../queryKeys";
 import { adminApi, type GpaListResponse } from "./api";
 
-const useGetGpaList = (params?: Record<string, any>) => {
+const useGetGpaList = (params?: Record<string, unknown>) => {
   return useQuery<GpaListResponse, AxiosError>({
     queryKey: [QueryKeys.Admin.gpaList, params],
     queryFn: () => adminApi.getGpaList(params ? { params } : {}),

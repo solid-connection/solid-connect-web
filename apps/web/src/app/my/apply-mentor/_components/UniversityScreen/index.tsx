@@ -3,13 +3,13 @@
 import clsx from "clsx";
 import { useMemo, useRef } from "react";
 import { useFormContext } from "react-hook-form";
-import { z } from "zod";
+import type { z } from "zod";
 import { useUniversitySearch } from "@/apis/universities";
 import BlockBtn from "@/components/button/BlockBtn";
 
 import { mentorRegionList } from "@/constants/regions";
 import { toast } from "@/lib/zustand/useToastStore";
-import { mentorApplicationSchema } from "../../_lib/schema";
+import type { mentorApplicationSchema } from "../../_lib/schema";
 
 type FormValues = z.input<typeof mentorApplicationSchema>;
 
@@ -78,7 +78,7 @@ const UniversityScreen = ({ onNext }: UniversityScreenProps) => {
   };
 
   const handleRemoveFile = () => {
-    setValue("verificationFile", null as any);
+    setValue("verificationFile", null as File | null);
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }

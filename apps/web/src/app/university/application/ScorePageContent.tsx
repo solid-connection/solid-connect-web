@@ -7,7 +7,6 @@ import ConfirmCancelModal from "@/components/modal/ConfirmCancelModal";
 import ButtonTab from "@/components/ui/ButtonTab";
 import Tab from "@/components/ui/Tab";
 import { REGIONS_KO } from "@/constants/university";
-import { toast } from "@/lib/zustand/useToastStore";
 import type { ScoreSheet as ScoreSheetType } from "@/types/application";
 import type { RegionKo } from "@/types/university";
 import ScoreSearchBar from "./ScoreSearchBar";
@@ -23,7 +22,7 @@ interface ScoreData {
 
 const ScorePageContent = () => {
   const router = useRouter();
-  const searchRef = useRef<HTMLInputElement>(null);
+  const searchRef = useRef<HTMLInputElement | null>(null);
 
   const [searchActive, setSearchActive] = useState(false);
   const [preference, setPreference] = useState<"1순위" | "2순위" | "3순위">("1순위");
