@@ -11,7 +11,8 @@
     "format": "biome format --write .",
     "format:check": "biome format .",
     "typecheck": "tsc --noEmit",
-    "ci:check": "pnpm run lint:check && pnpm run typecheck"
+    "ci:check": "pnpm run lint:check && pnpm run typecheck",
+    "analyze": "ANALYZE=true next build"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
@@ -46,6 +47,7 @@
     "zustand": "^5.0.7"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^16.1.6",
     "@svgr/webpack": "^8.1.0",
     "@types/node": "^20.11.19",
     "@types/react": "18.3.27",
