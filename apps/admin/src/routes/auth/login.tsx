@@ -53,13 +53,13 @@ function LoginPage() {
 				</CardHeader>
 				<CardContent>
 					<form onSubmit={handleSubmit} className="space-y-3">
-					<div className="space-y-1">
-						<Label htmlFor="email" className="text-sm">
-							이메일
-						</Label>
-						{/* biome-ignore lint/correctness/useUniqueElementIds: login form is singleton */}
-						<Input
-							id="email"
+						<div className="space-y-1">
+							<Label htmlFor="email" className="text-sm">
+								이메일
+							</Label>
+							{/* biome-ignore lint/correctness/useUniqueElementIds: login form is singleton */}
+							<Input
+								id="email"
 								type="email"
 								placeholder="admin@example.com"
 								value={email}
@@ -69,13 +69,13 @@ function LoginPage() {
 								className="h-9"
 							/>
 						</div>
-					<div className="space-y-1">
-						<Label htmlFor="password" className="text-sm">
-							비밀번호
-						</Label>
-						{/* biome-ignore lint/correctness/useUniqueElementIds: login form is singleton */}
-						<Input
-							id="password"
+						<div className="space-y-1">
+							<Label htmlFor="password" className="text-sm">
+								비밀번호
+							</Label>
+							{/* biome-ignore lint/correctness/useUniqueElementIds: login form is singleton */}
+							<Input
+								id="password"
 								type="password"
 								value={password}
 								onChange={(e) => setPassword(e.target.value)}
