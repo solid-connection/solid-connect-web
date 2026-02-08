@@ -29,12 +29,17 @@ if (process.env.NODE_ENV === "production") {
         // Web Vitals 자동 수집 활성화
         enableInp: true, // Interaction to Next Paint (INP) 측정
       }),
+    ],
+  });
 
-      // Session Replay: 사용자 세션 녹화 (클라이언트 전용)
-      Sentry.replayIntegration({
+  // Session Replay: 초기 번들에서 제외하고 lazy load (~30-40kB 절감)
+  // https://docs.sentry.io/platforms/javascript/session-replay/#lazy-loading-replay
+  Sentry.lazyLoadIntegration("replayIntegration").then((replay) => {
+    Sentry.addIntegration(
+      replay({
         maskAllText: true,
         blockAllMedia: true,
       }),
-    ],
+    );
   });
 }
