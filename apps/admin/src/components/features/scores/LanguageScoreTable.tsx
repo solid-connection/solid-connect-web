@@ -233,10 +233,10 @@ export function LanguageScoreTable({ verifyFilter }: Props) {
 				<Button onClick={() => handlePageChange(page - 1)} disabled={page === 1} variant="secondary">
 					이전
 				</Button>
-			{Array.from({ length: totalPages }, (_, idx) => (
-				<Button
-					// biome-ignore lint/suspicious/noArrayIndexKey: pagination buttons are static
-					key={idx + 1}
+				{Array.from({ length: totalPages }, (_, idx) => (
+					<Button
+						// biome-ignore lint/suspicious/noArrayIndexKey: pagination buttons are static
+						key={idx + 1}
 						onClick={() => handlePageChange(idx + 1)}
 						variant={page === idx + 1 ? "default" : "secondary"}
 					>
