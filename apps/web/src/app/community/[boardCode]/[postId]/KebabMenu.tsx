@@ -1,13 +1,13 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState, type RefObject } from "react";
+import { type RefObject, useEffect, useRef, useState } from "react";
 import { useDeletePost } from "@/apis/community";
 import ReportPanel from "@/components/ui/ReportPanel";
 import { toast } from "@/lib/zustand/useToastStore";
 import { IconSetting } from "@/public/svgs/mentor";
 
-const useClickOutside = (ref: RefObject<HTMLDivElement>, handler: (event: MouseEvent | TouchEvent) => void) => {
+const useClickOutside = (ref: RefObject<HTMLDivElement | null>, handler: (event: MouseEvent | TouchEvent) => void) => {
   useEffect(() => {
     const listener = (event: MouseEvent | TouchEvent) => {
       const current = ref.current;

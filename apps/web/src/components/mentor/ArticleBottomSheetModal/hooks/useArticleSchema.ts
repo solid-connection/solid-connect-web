@@ -94,7 +94,7 @@ const useArticleSchema = ({
             handleClose();
             reset();
           },
-        }
+        },
       );
     } else {
       postAddArticle(data, {

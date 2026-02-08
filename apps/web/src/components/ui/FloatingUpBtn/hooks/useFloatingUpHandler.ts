@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const useFloatingUpHandler = (scrollYThreshold: number = 400) => {
   const [isVisible, setIsVisible] = useState(false);
 
-  const handleScroll = () => {
+  const handleScroll = useCallback(() => {
     if (window.scrollY > scrollYThreshold) {
       setIsVisible(true);
     } else {
       setIsVisible(false);
     }
-  };
+  }, [scrollYThreshold]);
 
   const handleClick = () => {
     window.scrollTo({
