@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type RefObject } from "react";
+import { type RefObject, useEffect, useRef, useState } from "react";
 import { type Control, type FieldValues, useController } from "react-hook-form";
 
 import type { ChannelType } from "@/types/mentor";

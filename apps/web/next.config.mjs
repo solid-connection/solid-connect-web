@@ -1,6 +1,7 @@
 // Injected content via Sentry wizard below
-import { withSentryConfig } from "@sentry/nextjs";
+
 import bundleAnalyzer from "@next/bundle-analyzer";
+import { withSentryConfig } from "@sentry/nextjs";
 
 const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === "true",

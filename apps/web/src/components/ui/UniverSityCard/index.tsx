@@ -36,7 +36,11 @@ const UniversityCard = ({ university, showCapacity = true }: UniversityCardProps
             </div>
 
             <div className="flex flex-col">
-              <span id={`university-name-${university.id}`} className="truncate text-k-700 typo-bold-4">
+              <span
+                id={`university-name-${university.id}`}
+                className="truncate text-k-700 typo-bold-4"
+                title={convertedKoreanName}
+              >
                 {convertedKoreanName}
               </span>
               <div className="flex items-center gap-2.5">

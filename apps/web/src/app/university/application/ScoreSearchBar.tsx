@@ -1,5 +1,5 @@
-import { IconSearchFilled } from "@/public/svgs";
 import type { RefObject } from "react";
+import { IconSearchFilled } from "@/public/svgs";
 
 type ScoreSearchBarProps = {
   onClick: () => void;
