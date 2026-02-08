@@ -75,8 +75,8 @@ export default withSentryConfig(
     // Upload a larger set of source maps for prettier stack traces (increases build time)
     widenClientFileUpload: true,
 
-    // Transpiles SDK to be compatible with IE11 (increases bundle size)
-    transpileClientSDK: true,
+    // IE11 지원 불필요 - 번들 사이즈 최적화를 위해 비활성화
+    transpileClientSDK: false,
 
     // Routes browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers. (increases server load)
     // Note: Check that the configured route will not match with your Next.js middleware, otherwise reporting of client-
