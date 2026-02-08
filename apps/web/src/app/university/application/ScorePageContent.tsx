@@ -7,7 +7,7 @@ import ConfirmCancelModal from "@/components/modal/ConfirmCancelModal";
 import ButtonTab from "@/components/ui/ButtonTab";
 import Tab from "@/components/ui/Tab";
 import { REGIONS_KO } from "@/constants/university";
-import { toast } from "@/lib/zustand/useToastStore";
+
 import type { ScoreSheet as ScoreSheetType } from "@/types/application";
 import type { RegionKo } from "@/types/university";
 import ScoreSearchBar from "./ScoreSearchBar";

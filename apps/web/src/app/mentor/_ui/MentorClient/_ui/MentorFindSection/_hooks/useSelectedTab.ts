@@ -1,4 +1,4 @@
-import { useRef, useState, type RefObject } from "react";
+import { type RefObject, useRef, useState } from "react";
 
 import { FilterTab } from "@/types/mentor";
 

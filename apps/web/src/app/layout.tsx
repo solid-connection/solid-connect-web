@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
-import type { ReactNode } from "react";
 import dynamic from "next/dynamic";
 import localFont from "next/font/local";
+import type { ReactNode } from "react";
 
 import GlobalLayout from "@/components/layout/GlobalLayout";
 import ToastContainer from "@/components/ui/Toast";

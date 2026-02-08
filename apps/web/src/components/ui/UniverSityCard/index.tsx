@@ -39,7 +39,7 @@ const UniversityCard = ({ university, showCapacity = true }: UniversityCardProps
               <span
                 id={`university-name-${university.id}`}
                 className="truncate text-k-700 typo-bold-4"
-                aria-label={convertedKoreanName}
+                title={convertedKoreanName}
               >
                 {convertedKoreanName}
               </span>
