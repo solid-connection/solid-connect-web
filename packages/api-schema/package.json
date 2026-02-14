@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "sync:bruno": "pnpm -C ../bruno-api-typescript run build && node ../bruno-api-typescript/dist/cli/index.js generate-hooks -i \"../../../api-docs/Solid Connection\" -o \"./src/apis\" --axios-path \"../axiosInstance\"",
+    "sync:bruno": "node ./scripts/sync-bruno.mjs",
+    "sync:bruno:remote": "BRUNO_SOURCE_MODE=remote node ./scripts/sync-bruno.mjs",
     "build": "pnpm run sync:bruno",
     "typecheck": "tsc --noEmit"
   },
