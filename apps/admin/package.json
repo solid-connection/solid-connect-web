@@ -9,6 +9,10 @@
     "test": "vitest run",
     "format": "biome format",
     "lint": "biome lint",
+    "lint:check": "biome check .",
+    "typecheck": "tsc --noEmit",
+    "typecheck:ci": "tsc --noEmit",
+    "ci:check": "pnpm run lint:check && pnpm run typecheck:ci",
     "check": "biome check"
   },
   "dependencies": {

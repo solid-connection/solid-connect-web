@@ -86,11 +86,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Run lint check
-        run: pnpm --filter @solid-connect/admin run lint
-
-      - name: Run format check
-        run: pnpm --filter @solid-connect/admin run format
+      - name: Run checks (lint & typecheck)
+        run: pnpm --filter @solid-connect/admin run ci:check
 
   # Web 앱 빌드
   web-build:
