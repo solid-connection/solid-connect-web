@@ -6,7 +6,7 @@ const isInteractiveElement = (el: EventTarget | null): boolean => {
 };
 
 interface UseHandleModalReturn {
-  elementRef: RefObject<HTMLDivElement | null>;
+  elementRef: RefObject<HTMLDivElement>;
   isVisible: boolean;
   translateY: number;
   isDraggingRef: MutableRefObject<boolean>;

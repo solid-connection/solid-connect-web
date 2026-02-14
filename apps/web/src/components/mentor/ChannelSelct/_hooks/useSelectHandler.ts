@@ -5,7 +5,7 @@ import type { ChannelType } from "@/types/mentor";
 
 interface useSelectHandlerReturn {
   isOpen: boolean;
-  dropdownRef: RefObject<HTMLDivElement | null>;
+  dropdownRef: RefObject<HTMLDivElement>;
   handleChannelChange: (val: ChannelType | null) => void;
   toggleDropdown: () => void;
 }

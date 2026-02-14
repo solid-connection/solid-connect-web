@@ -6,7 +6,7 @@ import { convertUploadedImageUrl } from "@/utils/fileUtils";
 interface ImageInputHandlerReturn {
   selectedImage: File | undefined;
   imagePreviewUrl: string | null;
-  fileInputRef: RefObject<HTMLInputElement | null>;
+  fileInputRef: RefObject<HTMLInputElement>;
   handleImageSelect: () => void;
   handleFileChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }

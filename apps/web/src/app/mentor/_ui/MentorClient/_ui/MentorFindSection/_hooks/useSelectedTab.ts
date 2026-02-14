@@ -3,7 +3,7 @@ import { type RefObject, useRef, useState } from "react";
 import { FilterTab } from "@/types/mentor";
 
 interface UseSelectedTabReturn {
-  listRef: RefObject<HTMLDivElement | null>;
+  listRef: RefObject<HTMLDivElement>;
   selectedTab: FilterTab;
   handleSelectTab: (tab: FilterTab) => void;
 }
