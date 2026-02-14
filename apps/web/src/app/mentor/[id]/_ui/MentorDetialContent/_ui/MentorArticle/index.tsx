@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/ui/FallbackImage";
 import { IconLikeFill, IconLikeNotFill } from "@/public/svgs/mentor";
 import type { Article } from "@/types/news";
 import { convertUploadedImageUrl } from "@/utils/fileUtils";

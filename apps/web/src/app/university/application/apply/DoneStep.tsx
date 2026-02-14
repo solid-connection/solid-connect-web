@@ -1,7 +1,6 @@
-import Image from "next/image";
 import { useRouter } from "next/navigation";
-
 import BlockBtn from "@/components/button/BlockBtn";
+import Image from "@/components/ui/FallbackImage";
 
 const DoneStep = () => {
   const router = useRouter();

@@ -1,5 +1,4 @@
-import Image from "next/image";
-import { useImageFallback } from "@/hooks/useImageFallback";
+import Image from "@/components/ui/FallbackImage";
 
 import type { News } from "@/types/news";
 
@@ -8,8 +7,6 @@ type NewsCardsProps = {
 };
 
 const NewsCards = ({ newsList }: NewsCardsProps) => {
-  const { getSrc, handleError } = useImageFallback("/svgs/placeholders/news-thumbnail-placeholder.svg");
-
   return (
     <div className="flex flex-col gap-4">
       {newsList.map((news) => (
@@ -17,11 +14,11 @@ const NewsCards = ({ newsList }: NewsCardsProps) => {
           <div className="flex gap-4">
             <Image
               className="h-[90px] w-[170px] shrink-0 rounded-xl object-cover"
-              src={getSrc(news.imageUrl)}
+              src={news.imageUrl}
               alt={news.title}
               width={170}
               height={90}
-              onError={handleError}
+              fallbackSrc="/svgs/placeholders/news-thumbnail-placeholder.svg"
             />
             <div className="mr-5 flex flex-col gap-0.5">
               <div className="text-serif text-text-brown typo-sb-9">{news.title}</div>

@@ -20,7 +20,8 @@ interface ChatNavBarProps {
 const ChatNavBar = ({ chatId }: ChatNavBarProps) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
-  const result = tokenParse(useAuthStore.getState().accessToken);
+  const accessToken = useAuthStore((state) => state.accessToken);
+  const result = tokenParse(accessToken);
   const isMentor = result?.role === UserRole.MENTOR || result?.role === UserRole.ADMIN;
 
   // 파트너 정보 가져오기

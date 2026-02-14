@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useDeleteLike, usePostLike } from "@/apis/community";
+import Image from "@/components/ui/FallbackImage";
 import LinkifyText from "@/components/ui/LinkifyText";
 import { IconCloseFilled, IconPostLikeFilled, IconPostLikeOutline } from "@/public/svgs";
 import { IconCommunication } from "@/public/svgs/community";

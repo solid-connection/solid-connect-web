@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/ui/FallbackImage";
 import LinkifyText from "@/components/ui/LinkifyText";
 import type { LanguageRequirement } from "@/types/university";
 import { formatLanguageTestName, getLanguageTestLogo } from "@/utils/languageUtils";
@@ -48,7 +48,7 @@ const Language = ({ name, logoUrl, score }: { name: string; logoUrl: string; sco
       <div className="flex">
         <div className="w-[140px] text-k-900 typo-sb-10">{name}</div>
         <div>
-          <Image src={logoUrl} alt="어학시험" width={50} height={50} />
+          <Image src={logoUrl} alt="어학시험" width={50} height={50} fallbackSrc="/images/language/default.png" />
         </div>
       </div>
       <div className="text-secondary typo-sb-7">{score}</div>

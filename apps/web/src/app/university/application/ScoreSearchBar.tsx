@@ -3,7 +3,7 @@ import { IconSearchFilled } from "@/public/svgs";
 
 type ScoreSearchBarProps = {
   onClick: () => void;
-  textRef: RefObject<HTMLInputElement>;
+  textRef: RefObject<HTMLInputElement | null>;
   searchHandler: (_e: React.FormEvent) => void;
 };
 

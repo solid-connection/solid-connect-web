@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
+import Image from "@/components/ui/FallbackImage";
 
 import type { HomeUniversityInfo } from "@/constants/university";
 
@@ -25,11 +25,7 @@ const HomeUniversityCard = ({ university }: HomeUniversityCardProps) => {
           width={48}
           height={48}
           className="h-12 w-12 object-contain"
-          onError={(e) => {
-            // 이미지 로드 실패 시 기본 텍스트 표시
-            const target = e.target as HTMLImageElement;
-            target.style.display = "none";
-          }}
+          fallbackSrc="/svgs/placeholders/university-logo-placeholder.svg"
         />
       </div>
 

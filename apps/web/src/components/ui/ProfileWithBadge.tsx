@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/ui/FallbackImage";
 import { IconDefaultProfile, IconGraduation } from "@/public/svgs/mentor";
 import { convertUploadedImageUrl } from "@/utils/fileUtils";
 
@@ -37,6 +37,7 @@ const ProfileWithBadge = ({
             width={width}
             height={height}
             className="h-full w-full object-cover"
+            fallbackSrc="/images/placeholder/profile112.png"
           />
         ) : (
           <IconDefaultProfile />

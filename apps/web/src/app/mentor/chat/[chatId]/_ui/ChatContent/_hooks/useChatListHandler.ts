@@ -87,6 +87,25 @@ const useChatListHandler = (chatId: number) => {
     [chatId, connectionStatus],
   ); // chatId와 connectionStatus가 변경될 경우에만 함수를 재생성
 
+  const sendImageMessage = useCallback(
+    (imageUrls: string[]) => {
+      if (imageUrls.length === 0) return false;
+
+      if (clientRef.current?.active && connectionStatus === ConnectionStatus.Connected) {
+        clientRef.current.publish({
+          destination: `/publish/chat/${chatId}/image`,
+          body: JSON.stringify({ imageUrls }),
+        });
+
+        return true;
+      }
+
+      console.error("WebSocket is not connected. Image message could not be sent.");
+      return false;
+    },
+    [chatId, connectionStatus],
+  );
+
   // Track created object URLs for cleanup
   const objectUrlsRef = useRef<string[]>([]);
 
@@ -172,6 +191,7 @@ const useChatListHandler = (chatId: number) => {
 
     // Handlers
     sendTextMessage,
+    sendImageMessage,
     addImageMessagePreview,
     addFileMessagePreview,
   };
