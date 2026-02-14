@@ -1,13 +1,21 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useGetPostList } from "@/apis/community";
 import ButtonTab from "@/components/ui/ButtonTab";
 import { COMMUNITY_BOARDS, COMMUNITY_CATEGORIES } from "@/constants/community";
+import useReportedPostsStore from "@/lib/zustand/useReportedPostsStore";
+import type { ListPost } from "@/types/community";
 import CommunityRegionSelector from "./CommunityRegionSelector";
 import PostCards from "./PostCards";
 import PostWriteButton from "./PostWriteButton";
+
+type ListPostWithAuthor = ListPost & {
+  postFindSiteUserResponse?: {
+    id: number;
+  };
+};
 
 interface CommunityPageContentProps {
   boardCode: string;
@@ -16,12 +24,36 @@ interface CommunityPageContentProps {
 const CommunityPageContent = ({ boardCode }: CommunityPageContentProps) => {
   const router = useRouter();
   const [category, setCategory] = useState<string | null>("전체");
+  const reportedPostIds = useReportedPostsStore((state) => state.reportedPostIds);
+  const blockedUserIds = useReportedPostsStore((state) => state.blockedUserIds);
 
-  // HydrationBoundary로부터 자동으로 prefetch된 데이터 사용
   const { data: posts = [] } = useGetPostList({
     boardCode,
     category,
   });
+
+  const visiblePosts = useMemo(() => {
+    if (reportedPostIds.length === 0 && blockedUserIds.length === 0) {
+      return posts;
+    }
+
+    const reportedIdSet = new Set(reportedPostIds);
+    const blockedUserIdSet = new Set(blockedUserIds);
+
+    return posts.filter((post) => {
+      if (reportedIdSet.has(post.id)) {
+        return false;
+      }
+
+      const authorId = (post as ListPostWithAuthor).postFindSiteUserResponse?.id;
+
+      if (typeof authorId === "number" && blockedUserIdSet.has(authorId)) {
+        return false;
+      }
+
+      return true;
+    });
+  }, [posts, reportedPostIds, blockedUserIds]);
 
   const handleBoardChange = (newBoard: string) => {
     router.push(`/community/${newBoard}`);
@@ -49,7 +81,7 @@ const CommunityPageContent = ({ boardCode }: CommunityPageContentProps) => {
         setChoice={setCategory}
         style={{ padding: "10px 0 10px 18px" }}
       />
-      {<PostCards posts={posts} boardCode={boardCode} />}
+      {<PostCards posts={visiblePosts} boardCode={boardCode} />}
       <PostWriteButton onClick={postWriteHandler} />
     </div>
   );
