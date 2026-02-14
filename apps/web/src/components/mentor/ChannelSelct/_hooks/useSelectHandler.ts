@@ -21,7 +21,7 @@ const useSelectHandler = ({
   onChannelChange,
 }: UseSelectHandlerProps): useSelectHandlerReturn => {
   const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null!);
 
   const { field } = useController({ name, control, defaultValue: null });
 

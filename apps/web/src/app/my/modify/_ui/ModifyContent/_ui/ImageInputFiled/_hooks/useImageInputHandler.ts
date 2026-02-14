@@ -22,7 +22,7 @@ const useImageInputHandler = (initImagePreview: string | null): ImageInputHandle
   });
 
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null!);
 
   useEffect(() => {
     if (initImagePreview) {

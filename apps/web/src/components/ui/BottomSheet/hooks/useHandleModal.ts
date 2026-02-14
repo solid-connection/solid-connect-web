@@ -23,7 +23,7 @@ const useHandleModal = (onClose: () => void, snap: number[] = [0]): UseHandleMod
   const startYRef = useRef<number>(0); // 시작 Y좌표
   const currentYRef = useRef<number>(0); // 현재 Y좌표
   const isDraggingRef = useRef<boolean>(false); // 드래그 상태
-  const elementRef = useRef<HTMLDivElement>(null);
+  const elementRef = useRef<HTMLDivElement>(null!);
 
   const snapPoints = useMemo((): number[] => {
     if (typeof window === "undefined") return [0]; // SSR 대응

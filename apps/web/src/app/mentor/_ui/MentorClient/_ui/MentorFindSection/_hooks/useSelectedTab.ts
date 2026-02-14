@@ -10,7 +10,7 @@ interface UseSelectedTabReturn {
 
 const useSelectedTab = (): UseSelectedTabReturn => {
   const [selectedTab, setSelectedTab] = useState<FilterTab>(FilterTab.ALL);
-  const listRef = useRef<HTMLDivElement>(null);
+  const listRef = useRef<HTMLDivElement>(null!);
 
   const handleSelectTab = (tab: FilterTab) => {
     setSelectedTab(tab);
