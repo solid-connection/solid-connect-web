@@ -1,4 +1,4 @@
-echo "🏗️ Running CI parity builds before push..."
+echo "🏗️ Running CI parity checks before push..."
 
 UPSTREAM=$(git rev-parse --abbrev-ref --symbolic-full-name "@{upstream}" 2>/dev/null || true)
 
@@ -33,10 +33,13 @@ for FILE in $CHANGED_FILES; do
 done
 
 if [ "$RUN_WEB" -eq 1 ]; then
+  pnpm --filter @solid-connect/web run ci:check
   NODE_ENV=production pnpm --filter @solid-connect/web run build
 fi
 
 if [ "$RUN_ADMIN" -eq 1 ]; then
+  pnpm --filter @solid-connect/admin run lint
+  pnpm --filter @solid-connect/admin run format
   NODE_ENV=production pnpm --filter @solid-connect/admin run build
 fi
 
@@ -44,4 +47,4 @@ if [ "$RUN_WEB" -eq 0 ] && [ "$RUN_ADMIN" -eq 0 ]; then
   echo "ℹ️ No CI-targeted changes detected; skipping parity builds."
 fi
 
-echo "✅ CI parity builds passed!"
+echo "✅ CI parity checks passed!"
