@@ -1,13 +1,7 @@
 import ClientModal from "./ui/ClientModal";
-import ServerModal from "./ui/ServerModal";
 
 const RootModal = () => {
-  return (
-    <>
-      <ServerModal />
-      <ClientModal />
-    </>
-  );
+  return <ClientModal />;
 };
 
 export default RootModal;

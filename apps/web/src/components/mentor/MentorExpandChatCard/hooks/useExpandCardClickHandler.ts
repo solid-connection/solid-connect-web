@@ -2,7 +2,6 @@ import { useState } from "react";
 import { usePatchMenteeCheckMentorings, usePatchMentorCheckMentorings } from "@/apis/mentor";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { UserRole } from "@/types/mentor";
-import { tokenParse } from "@/utils/jwtUtils";
 
 interface UseExpandCardClickHandlerReturn {
   isExpanded: boolean;
@@ -18,9 +17,8 @@ const useExpandCardClickHandler = ({
   mentoringId,
   initChecked = false,
 }: UseExpandCardClickHandlerProps): UseExpandCardClickHandlerReturn => {
-  const { accessToken } = useAuthStore();
-  const isMentor =
-    tokenParse(accessToken)?.role === UserRole.MENTOR || tokenParse(accessToken)?.role === UserRole.ADMIN;
+  const userRole = useAuthStore((state) => state.userRole);
+  const isMentor = userRole === UserRole.MENTOR;
 
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const [isCheckedState, setIsCheckedState] = useState<boolean>(initChecked || false);

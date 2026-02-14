@@ -1,10 +1,28 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { UserRole } from "@/types/mentor";
+
+const parseUserRoleFromToken = (token: string | null): UserRole | null => {
+  if (!token) return null;
+
+  try {
+    const payload = JSON.parse(atob(token.split(".")[1])) as { role?: string };
+
+    if (payload.role === UserRole.MENTOR || payload.role === UserRole.MENTEE || payload.role === UserRole.ADMIN) {
+      return payload.role;
+    }
+
+    return null;
+  } catch {
+    return null;
+  }
+};
 
 type RefreshStatus = "idle" | "refreshing" | "success" | "failed";
 
 interface AuthState {
   accessToken: string | null;
+  userRole: UserRole | null;
   isAuthenticated: boolean;
   isLoading: boolean;
   isInitialized: boolean;
@@ -20,6 +38,7 @@ const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
       accessToken: null,
+      userRole: null,
       isAuthenticated: false,
       isLoading: false,
       isInitialized: false,
@@ -28,6 +47,7 @@ const useAuthStore = create<AuthState>()(
       setAccessToken: (token) => {
         set({
           accessToken: token,
+          userRole: parseUserRoleFromToken(token),
           isAuthenticated: true,
           isLoading: false,
           isInitialized: true,
@@ -38,6 +58,7 @@ const useAuthStore = create<AuthState>()(
       clearAccessToken: () => {
         set({
           accessToken: null,
+          userRole: null,
           isAuthenticated: false,
           isLoading: false,
           isInitialized: true,
@@ -66,6 +87,7 @@ const useAuthStore = create<AuthState>()(
       onRehydrateStorage: () => (state) => {
         // hydration 완료 후 isInitialized를 true로 설정
         if (state) {
+          state.userRole = parseUserRoleFromToken(state.accessToken);
           state.isInitialized = true;
         }
       },

@@ -1,5 +1,6 @@
 "use client";
 
+import MentorApplyCountModal from "@/components/mentor/MentorApplyCountModal";
 import IconConfirmModal from "@/components/modal/IconConfirmModal";
 
 import { useConfirmModalStore } from "@/lib/zustand/useConfirmModalStore";
@@ -7,8 +8,10 @@ import { useConfirmModalStore } from "@/lib/zustand/useConfirmModalStore";
 const ClientModal = () => {
   const { isOpen, payload, confirm, reject } = useConfirmModalStore();
 
-  return (
+  return [
+    <MentorApplyCountModal key="mentor-apply-count-modal" />,
     <IconConfirmModal
+      key="icon-confirm-modal"
       isOpen={isOpen}
       title={payload?.title || "확인"}
       content={payload?.content || "정말로 이 작업을 진행하시겠습니까?"}
@@ -17,7 +20,7 @@ const ClientModal = () => {
       rejectMessage={payload?.rejectMessage || "취소"}
       onConfirm={confirm}
       onClose={reject}
-    />
-  );
+    />,
+  ];
 };
 export default ClientModal;

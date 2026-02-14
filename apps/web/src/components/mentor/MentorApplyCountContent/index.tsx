@@ -1,19 +1,17 @@
 "use client";
 
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useGetUnconfirmedMentoringCount } from "@/apis/mentor";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { UserRole } from "@/types/mentor";
-import { tokenParse } from "@/utils/jwtUtils";
 
 const MentorApplyCountContent = () => {
-  // 로그인 된경우에만 신규 신청 카운트 모달 표시
-  const { accessToken, isInitialized } = useAuthStore();
-  const isMentor =
-    tokenParse(accessToken)?.role === UserRole.MENTOR || tokenParse(accessToken)?.role === UserRole.ADMIN;
+  const router = useRouter();
+  const { isInitialized, isAuthenticated, userRole } = useAuthStore();
+  const isMentor = userRole === UserRole.MENTOR;
 
-  const { data: count, isSuccess } = useGetUnconfirmedMentoringCount(isInitialized && !!accessToken && isMentor);
+  const { data: count, isSuccess } = useGetUnconfirmedMentoringCount(isInitialized && isAuthenticated && isMentor);
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(true);
 
@@ -35,7 +33,14 @@ const MentorApplyCountContent = () => {
       >
         ✕
       </button>
-      <Link href={`/mentor`} onClick={() => setIsModalOpen(false)}>
+      <button
+        type="button"
+        onClick={() => {
+          setIsModalOpen(false);
+          router.push("/mentor");
+        }}
+        className="w-full text-left"
+      >
         <div className="flex items-center">
           {/* left: message */}
           <div className="flex-1">
@@ -53,7 +58,7 @@ const MentorApplyCountContent = () => {
             <div className="typo-bold-1">{count}명</div>
           </div>
         </div>
-      </Link>
+      </button>
     </div>
   );
 };
