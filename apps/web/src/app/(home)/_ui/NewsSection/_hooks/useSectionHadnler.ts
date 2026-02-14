@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type RefObject } from "react";
+import { type RefObject, useEffect, useRef, useState } from "react";
 
 interface UseSectionHandlerReturn {
   sectionRef: RefObject<HTMLDivElement>;
