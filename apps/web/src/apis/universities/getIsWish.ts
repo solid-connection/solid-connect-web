@@ -3,7 +3,7 @@ import type { AxiosError } from "axios";
 import { QueryKeys } from "../queryKeys";
 import { type IsWishResponse, universitiesApi } from "./api";
 
-const useGetIsWish = (univApplyInfoId: string | number, params?: Record<string, any>) => {
+const useGetIsWish = (univApplyInfoId: string | number, params?: Record<string, unknown>) => {
   return useQuery<IsWishResponse, AxiosError>({
     queryKey: [QueryKeys.universities.isWish, univApplyInfoId, params],
     queryFn: () => universitiesApi.getIsWish({ univApplyInfoId, params }),

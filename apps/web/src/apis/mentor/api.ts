@@ -184,7 +184,7 @@ export const mentorApi = {
   getMatchedMentors: async (params: {
     defaultSize: string | number;
     defaultPage: string | number;
-    params?: Record<string, any>;
+    params?: Record<string, unknown>;
   }): Promise<MatchedMentorsResponse> => {
     const { defaultSize, defaultPage, params: queryParams } = params;
     const res = await axiosInstance.get<MatchedMentorsResponse>(

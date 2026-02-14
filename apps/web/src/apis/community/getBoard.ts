@@ -3,7 +3,7 @@ import type { AxiosError } from "axios";
 import { QueryKeys } from "../queryKeys";
 import { type BoardResponse, communityApi } from "./api";
 
-const useGetBoard = (boardCode: string | number, params?: Record<string, any>) => {
+const useGetBoard = (boardCode: string | number, params?: Record<string, unknown>) => {
   return useQuery<BoardResponse, AxiosError>({
     queryKey: [QueryKeys.community.board, boardCode, params],
     queryFn: () => communityApi.getBoard(boardCode as string, params),

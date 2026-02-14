@@ -1,5 +1,22 @@
 import { z } from "zod";
 
+const verificationFileSchema = z
+  .union([z.instanceof(File), z.null(), z.undefined()])
+  .refine((file) => file !== null && file !== undefined, {
+    message: "증명 서류(파일)를 업로드해 주세요.",
+  })
+  .refine(
+    (file) => {
+      if (!file) return false;
+      const allowedTypes = ["image/png", "image/jpeg", "image/jpg", "application/pdf"];
+      return allowedTypes.includes(file.type);
+    },
+    {
+      message: "파일 형식은 png, jpg, pdf만 허용됩니다.",
+    },
+  )
+  .transform((file) => file!);
+
 export const mentorApplicationSchema = z.object({
   // Step 1: 관심 국가
   interestedCountries: z.array(z.string()).min(1, "관심 국가를 하나 이상 선택해주세요."),
@@ -7,19 +24,7 @@ export const mentorApplicationSchema = z.object({
   // Step 2: 수학 학교
   country: z.string().min(1, "국가를 선택해주세요."),
   universityName: z.string().min(1, "학교를 선택해주세요."),
-  verificationFile: z
-    .instanceof(File, {
-      message: "증명 서류(파일)를 업로드해 주세요.",
-    })
-    .refine(
-      (file) => {
-        const allowedTypes = ["image/png", "image/jpeg", "image/jpg", "application/pdf"];
-        return allowedTypes.includes(file.type);
-      },
-      {
-        message: "파일 형식은 png, jpg, pdf만 허용됩니다.",
-      },
-    ),
+  verificationFile: verificationFileSchema,
 
   // Step 3: 준비 단계
   studyStatus: z.enum(["PLANNING", "STUDYING", "COMPLETED"], {

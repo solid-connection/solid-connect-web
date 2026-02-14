@@ -3,7 +3,7 @@ import type { AxiosError } from "axios";
 import { QueryKeys } from "../queryKeys";
 import { type ByRegionCountryResponse, universitiesApi } from "./api";
 
-const useGetByRegionCountry = (params?: Record<string, any>) => {
+const useGetByRegionCountry = (params?: Record<string, unknown>) => {
   return useQuery<ByRegionCountryResponse, AxiosError>({
     queryKey: [QueryKeys.universities.byRegionCountry, params],
     queryFn: () => universitiesApi.getByRegionCountry(params ? { params } : {}),

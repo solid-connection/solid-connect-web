@@ -3,7 +3,7 @@ import type { AxiosError } from "axios";
 import { QueryKeys } from "../queryKeys";
 import { type NicknameExistsResponse, usersApi } from "./api";
 
-const useGetNicknameExists = (params?: Record<string, any>) => {
+const useGetNicknameExists = (params?: Record<string, unknown>) => {
   return useQuery<NicknameExistsResponse, AxiosError>({
     queryKey: [QueryKeys.users.nicknameExists, params],
     queryFn: () => usersApi.getNicknameExists(params ? { params } : {}),

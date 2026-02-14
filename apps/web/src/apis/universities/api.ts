@@ -138,7 +138,7 @@ export const universitiesApi = {
     return res.data;
   },
 
-  getWishList: async (params: { params?: Record<string, any> }): Promise<WishListResponse> => {
+  getWishList: async (params: { params?: Record<string, unknown> }): Promise<WishListResponse> => {
     const res = await axiosInstance.get<WishListResponse>(`/univ-apply-infos/like`, { params: params?.params });
     return res.data;
   },
@@ -161,7 +161,7 @@ export const universitiesApi = {
 
   getIsWish: async (params: {
     univApplyInfoId: string | number;
-    params?: Record<string, any>;
+    params?: Record<string, unknown>;
   }): Promise<IsWishResponse> => {
     const res = await axiosInstance.get<IsWishResponse>(`/univ-apply-infos/${params.univApplyInfoId}/like`, {
       params: params?.params,
@@ -181,14 +181,14 @@ export const universitiesApi = {
     return res.data;
   },
 
-  getSearchFilter: async (params?: { params?: Record<string, any> }): Promise<SearchFilterResponse> => {
+  getSearchFilter: async (params?: { params?: Record<string, unknown> }): Promise<SearchFilterResponse> => {
     const res = await publicAxiosInstance.get<SearchFilterResponse>(`/univ-apply-infos/search/filter`, {
       params: params?.params,
     });
     return res.data;
   },
 
-  getByRegionCountry: async (params: { params?: Record<string, any> }): Promise<ByRegionCountryResponse> => {
+  getByRegionCountry: async (params: { params?: Record<string, unknown> }): Promise<ByRegionCountryResponse> => {
     const res = await axiosInstance.get<ByRegionCountryResponse>(`/universities/search`, { params: params?.params });
     return res.data;
   },

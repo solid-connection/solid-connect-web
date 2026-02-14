@@ -3,7 +3,7 @@ import type { AxiosError } from "axios";
 import { QueryKeys } from "../queryKeys";
 import { type BlockedUsersResponse, usersApi } from "./api";
 
-const useGetBlockedUsers = (params?: Record<string, any>) => {
+const useGetBlockedUsers = (params?: Record<string, unknown>) => {
   return useQuery<BlockedUsersResponse, AxiosError>({
     queryKey: [QueryKeys.users.blockedUsers, params],
     queryFn: () => usersApi.getBlockedUsers(params ? { params } : {}),
