@@ -3,14 +3,54 @@ import { existsSync, mkdirSync, rmSync } from "node:fs";
 import { resolve } from "node:path";
 
 const rootDir = resolve(process.cwd());
+const monorepoRootDir = resolve(rootDir, "../..");
+
+loadEnvFiles([
+  resolve(rootDir, ".env.local"),
+  resolve(rootDir, ".env"),
+  resolve(monorepoRootDir, ".env.local"),
+  resolve(monorepoRootDir, ".env"),
+]);
+
 const defaultLocalCollectionDir = resolve(rootDir, "../../../api-docs/Solid Connection");
 const cacheRoot = resolve(rootDir, ".cache");
 const checkoutDir = resolve(cacheRoot, "bruno-source");
-const sourceMode = process.env.BRUNO_SOURCE_MODE ?? "auto";
+const sourceMode = normalizeSourceMode(process.env.BRUNO_SOURCE_MODE ?? "remote");
 const remoteRepoUrl = process.env.BRUNO_REPO_URL;
 const remoteRepoRef = process.env.BRUNO_REPO_REF ?? "main";
 const remoteCollectionPath = process.env.BRUNO_COLLECTION_PATH ?? "Solid Connection";
 const explicitCollectionDir = process.env.BRUNO_COLLECTION_DIR;
+
+function loadEnvFiles(filePaths) {
+  for (const filePath of filePaths) {
+    loadEnvFile(filePath);
+  }
+}
+
+function loadEnvFile(filePath) {
+  if (typeof process.loadEnvFile !== "function") {
+    return;
+  }
+
+  try {
+    process.loadEnvFile(filePath);
+  } catch (error) {
+    if (error?.code === "ENOENT") {
+      return;
+    }
+
+    throw error;
+  }
+}
+
+function normalizeSourceMode(mode) {
+  const allowedModes = new Set(["auto", "local", "remote"]);
+  if (!allowedModes.has(mode)) {
+    throw new Error(`Invalid BRUNO_SOURCE_MODE: ${mode}. Expected one of auto, local, remote.`);
+  }
+
+  return mode;
+}
 
 function run(command, args, cwd = rootDir) {
   const result = spawnSync(command, args, {
@@ -26,7 +66,9 @@ function run(command, args, cwd = rootDir) {
 
 function ensureRemoteCollectionDir() {
   if (!remoteRepoUrl) {
-    throw new Error("BRUNO_REPO_URL is required when BRUNO source is remote.");
+    throw new Error(
+      "BRUNO_REPO_URL is required for remote sync. Set it in packages/api-schema/.env, repo root .env, or shell environment.",
+    );
   }
 
   mkdirSync(cacheRoot, { recursive: true });
