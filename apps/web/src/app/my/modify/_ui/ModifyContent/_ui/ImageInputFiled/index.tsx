@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/ui/FallbackImage";
 import { IconAlbumWhite, IconSolidConnectionSmallLogo } from "@/public/svgs/my";
 import useImageInputHandler from "./_hooks/useImageInputHandler";
 

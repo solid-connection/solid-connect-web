@@ -1,9 +1,9 @@
 "use client";
 
 import { useVirtualizer } from "@tanstack/react-virtual";
-import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
+import Image from "@/components/ui/FallbackImage";
 import { IconPostLikeOutline } from "@/public/svgs";
 import { IconCommunication } from "@/public/svgs/community";
 import { IconSolidConnentionLogo } from "@/public/svgs/mentor";
@@ -102,6 +102,7 @@ export const PostCard = ({ post }: { post: ListPost }) => (
           height={82}
           width={82}
           alt="게시글 사진"
+          fallbackSrc="/images/article-thumb.png"
         />
       ) : (
         <div className="bg-gray-c-50 flex h-20 w-20 items-center justify-center rounded border border-k-100">

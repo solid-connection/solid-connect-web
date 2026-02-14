@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/ui/FallbackImage";
 import LinkifyText from "@/components/ui/LinkifyText";
 import type { University } from "@/types/university";
 import { convertImageUrl } from "@/utils/fileUtils";
@@ -21,7 +21,13 @@ const UniversityDetail = ({ university, koreanName }: UniversityDetailProps) => 
       </div>
 
       <div className="relative -z-10 h-60 w-full bg-blue-100">
-        <Image alt="대학 이미지" src={convertImageUrl(university.backgroundImageUrl)} fill className="object-cover" />
+        <Image
+          alt="대학 이미지"
+          src={convertImageUrl(university.backgroundImageUrl)}
+          fill
+          className="object-cover"
+          fallbackSrc="/svgs/placeholders/image-placeholder.svg"
+        />
       </div>
       <div className="z-30 -mt-16 rounded-t-3xl bg-white px-5">
         <TitleSection

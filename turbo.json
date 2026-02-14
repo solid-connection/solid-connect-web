@@ -4,7 +4,12 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": [".next/**", "!.next/cache/**", "dist/**", ".output/**"],
+      "outputs": ["dist/**", ".output/**"],
+      "env": ["NODE_ENV", "NEXT_PUBLIC_*"]
+    },
+    "@solid-connect/web#build": {
+      "dependsOn": ["^build"],
+      "outputs": [".next/**", "!.next/cache/**"],
       "env": ["NODE_ENV", "NEXT_PUBLIC_*"]
     },
     "sync:bruno": {

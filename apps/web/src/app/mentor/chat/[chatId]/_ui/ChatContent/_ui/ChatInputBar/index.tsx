@@ -1,6 +1,6 @@
 import clsx from "clsx";
-import Image from "next/image";
 import { useState } from "react";
+import Image from "@/components/ui/FallbackImage";
 import { IconAlbum, IconDirectMessage, IconFile, IconPlusK200, IconXWhite } from "@/public/svgs/mentor";
 import { downloadLocalFile } from "@/utils/fileUtils";
 import useFileHandler from "./_hooks/useFileHandler";

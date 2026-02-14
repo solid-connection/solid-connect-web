@@ -3,54 +3,48 @@ import serverFetch from "@/utils/serverFetchUtil";
 
 // --- 타입 정의 ---
 interface UniversitySearchResponse {
-	univApplyInfoPreviews: ListUniversity[];
+  univApplyInfoPreviews: ListUniversity[];
 }
 
-export const getUniversitiesByText = async (
-	value: string,
-): Promise<ListUniversity[]> => {
-	if (value === null || value === undefined) {
-		return [];
-	}
-	const endpoint = `/univ-apply-infos/search/text?value=${encodeURIComponent(value)}`;
-	const response = await serverFetch<UniversitySearchResponse>(endpoint);
+export const getUniversitiesByText = async (value: string): Promise<ListUniversity[]> => {
+  if (value === null || value === undefined) {
+    return [];
+  }
+  const endpoint = `/univ-apply-infos/search/text?value=${encodeURIComponent(value)}`;
+  const response = await serverFetch<UniversitySearchResponse>(endpoint);
 
-	if (!response.ok) {
-		console.error(
-			`Failed to search universities by text (value: "${value}"):`,
-			response.error,
-		);
-		return [];
-	}
+  if (!response.ok) {
+    console.error(`Failed to search universities by text (value: "${value}"):`, response.error);
+    return [];
+  }
 
-	return response.data.univApplyInfoPreviews;
+  return response.data.univApplyInfoPreviews;
 };
 
 export const getAllUniversities = async (): Promise<ListUniversity[]> => {
-	return getUniversitiesByText("");
+  return getUniversitiesByText("");
 };
 
-export const getCategorizedUniversities =
-	async (): Promise<AllRegionsUniversityList> => {
-		// 1. 단 한 번의 API 호출로 모든 대학 데이터를 가져옵니다.
-		const allUniversities = await getAllUniversities();
+export const getCategorizedUniversities = async (): Promise<AllRegionsUniversityList> => {
+  // 1. 단 한 번의 API 호출로 모든 대학 데이터를 가져옵니다.
+  const allUniversities = await getAllUniversities();
 
-		const categorizedList: AllRegionsUniversityList = {
-			[RegionEnumExtend.ALL]: allUniversities,
-			[RegionEnumExtend.AMERICAS]: [],
-			[RegionEnumExtend.EUROPE]: [],
-			[RegionEnumExtend.ASIA]: [],
-			[RegionEnumExtend.CHINA]: [],
-		};
-		if (!allUniversities) return categorizedList;
+  const categorizedList: AllRegionsUniversityList = {
+    [RegionEnumExtend.ALL]: allUniversities,
+    [RegionEnumExtend.AMERICAS]: [],
+    [RegionEnumExtend.EUROPE]: [],
+    [RegionEnumExtend.ASIA]: [],
+    [RegionEnumExtend.CHINA]: [],
+  };
+  if (!allUniversities) return categorizedList;
 
-		for (const university of allUniversities) {
-			const region = university.region as RegionEnumExtend; // API 응답의 region 타입을 enum으로 간주
+  for (const university of allUniversities) {
+    const region = university.region as RegionEnumExtend; // API 응답의 region 타입을 enum으로 간주
 
-			if (region && Object.hasOwn(categorizedList, region)) {
-				categorizedList[region].push(university);
-			}
-		}
+    if (region && Object.hasOwn(categorizedList, region)) {
+      categorizedList[region].push(university);
+    }
+  }
 
-		return categorizedList;
-	};
+  return categorizedList;
+};

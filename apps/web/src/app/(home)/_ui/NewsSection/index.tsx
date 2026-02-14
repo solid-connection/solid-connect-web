@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
+import Image from "@/components/ui/FallbackImage";
 import { IconLoveLetter } from "@/public/svgs/home";
 import type { News } from "@/types/news";
 import useSectionHandler from "./_hooks/useSectionHadnler";

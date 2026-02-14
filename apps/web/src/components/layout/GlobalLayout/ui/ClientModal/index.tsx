@@ -7,6 +7,7 @@ import IconAlertModal from "@/components/modal/IconAlertModal";
 import IconConfirmModal from "@/components/modal/IconConfirmModal";
 import SurveyModal from "@/components/modal/SurveyModal";
 import CloudSpinner from "@/components/ui/CloudSpinner";
+import QueryProvider from "@/lib/react-query/QueryProvider";
 import { useAlertModalStore } from "@/lib/zustand/useAlertModalStore";
 import { useConfirmModalStore } from "@/lib/zustand/useConfirmModalStore";
 import { useSurveyModalStore } from "@/lib/zustand/useSurveyModalStore";
@@ -31,7 +32,7 @@ const ClientModal = () => {
   }, [checkAndOpen]);
 
   return (
-    <>
+    <QueryProvider>
       {isFetching ? (
         <div
           aria-live="polite"
@@ -65,7 +66,7 @@ const ClientModal = () => {
         onConfirm={confirm}
         onClose={reject}
       />
-    </>
+    </QueryProvider>
   );
 };
 export default ClientModal;
