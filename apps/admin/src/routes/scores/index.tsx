@@ -64,9 +64,7 @@ function ScoresPage() {
 								type="button"
 								className={cn(
 									"flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-[13px] font-medium transition-colors",
-									menu.active
-										? "bg-indigo-50 text-indigo-600"
-										: "text-slate-400 hover:bg-white hover:text-slate-600",
+									menu.active ? "bg-indigo-50 text-indigo-600" : "text-slate-400 hover:bg-white hover:text-slate-600",
 								)}
 							>
 								<menu.icon className="h-4 w-4" />
@@ -85,9 +83,7 @@ function ScoresPage() {
 									type="button"
 									className={cn(
 										"rounded-md px-3 py-1.5 text-xs font-semibold tracking-[-0.01em] transition-colors",
-										tab === "권역/나라"
-											? "bg-white text-indigo-600 shadow-sm"
-											: "text-slate-500 hover:text-slate-700",
+										tab === "권역/나라" ? "bg-white text-indigo-600 shadow-sm" : "text-slate-500 hover:text-slate-700",
 									)}
 								>
 									{tab}
@@ -108,7 +104,10 @@ function ScoresPage() {
 								<Search className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
 							</div>
 
-							<Button type="button" className="h-9 rounded-md bg-indigo-500 px-3 text-xs text-white hover:bg-indigo-600">
+							<Button
+								type="button"
+								className="h-9 rounded-md bg-indigo-500 px-3 text-xs text-white hover:bg-indigo-600"
+							>
 								<SquarePen className="h-3.5 w-3.5" />
 								권역/나라 생성하기
 							</Button>
@@ -128,9 +127,7 @@ function ScoresPage() {
 									<span
 										className={cn(
 											"h-2.5 w-2.5 rounded-full border",
-											verifyFilter === option.value
-												? "border-indigo-500 bg-indigo-500"
-												: "border-slate-300 bg-white",
+											verifyFilter === option.value ? "border-indigo-500 bg-indigo-500" : "border-slate-300 bg-white",
 										)}
 									/>
 									{option.label}
