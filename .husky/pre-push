@@ -1,4 +1,47 @@
-echo "🔍 Running type check before push..."
-pnpm run typecheck
+echo "🏗️ Running CI parity builds before push..."
 
-echo "✅ All checks passed!"
+UPSTREAM=$(git rev-parse --abbrev-ref --symbolic-full-name "@{upstream}" 2>/dev/null || true)
+
+if [ -n "$UPSTREAM" ]; then
+  CHANGED_FILES=$(git diff --name-only "$UPSTREAM"...HEAD)
+else
+  BASE_BRANCH="origin/main"
+  MERGE_BASE=$(git merge-base HEAD "$BASE_BRANCH" 2>/dev/null || true)
+  if [ -n "$MERGE_BASE" ]; then
+    CHANGED_FILES=$(git diff --name-only "$MERGE_BASE"...HEAD)
+  else
+    CHANGED_FILES=$(git diff --name-only HEAD~1..HEAD)
+  fi
+fi
+
+RUN_WEB=0
+RUN_ADMIN=0
+
+for FILE in $CHANGED_FILES; do
+  case "$FILE" in
+    apps/web/*)
+      RUN_WEB=1
+      ;;
+    apps/admin/*)
+      RUN_ADMIN=1
+      ;;
+    package.json|pnpm-lock.yaml|pnpm-workspace.yaml|turbo.json|.github/workflows/*)
+      RUN_WEB=1
+      RUN_ADMIN=1
+      ;;
+  esac
+done
+
+if [ "$RUN_WEB" -eq 1 ]; then
+  NODE_ENV=production pnpm --filter @solid-connect/web run build
+fi
+
+if [ "$RUN_ADMIN" -eq 1 ]; then
+  NODE_ENV=production pnpm --filter @solid-connect/admin run build
+fi
+
+if [ "$RUN_WEB" -eq 0 ] && [ "$RUN_ADMIN" -eq 0 ]; then
+  echo "ℹ️ No CI-targeted changes detected; skipping parity builds."
+fi
+
+echo "✅ CI parity builds passed!"
