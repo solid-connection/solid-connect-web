@@ -1,7 +1,7 @@
 import { type RefObject, useEffect, useRef, useState } from "react";
 
 interface UseSectionHandlerReturn {
-  sectionRef: RefObject<HTMLDivElement>;
+  sectionRef: RefObject<HTMLDivElement | null>;
   visible: boolean;
 }
 
