@@ -52,7 +52,8 @@ export const axiosInstance: AxiosInstance = axios.create({
 // 1. 요청 인터셉터 (Request Interceptor)
 axiosInstance.interceptors.request.use(
   async (config) => {
-    const { accessToken, isInitialized, setLoading, clearAccessToken, setInitialized } = useAuthStore.getState();
+    const { accessToken, setLoading, clearAccessToken, setInitialized, refreshStatus, setRefreshStatus } =
+      useAuthStore.getState();
 
     // 토큰이 있으면 헤더에 추가하고 진행
     if (accessToken) {
@@ -60,8 +61,7 @@ axiosInstance.interceptors.request.use(
       return config;
     }
 
-    // 토큰이 없고 아직 초기화되지 않은 경우 reissue 시도
-    if (!isInitialized) {
+    if (refreshStatus !== "failed") {
       try {
         // 이미 reissue가 진행 중인지 확인
         if (reissuePromise) {
@@ -69,11 +69,14 @@ axiosInstance.interceptors.request.use(
         } else {
           // 새로운 reissue 프로세스 시작 (HTTP-only 쿠키의 refreshToken 사용)
           reissuePromise = (async () => {
+            setRefreshStatus("refreshing");
             setLoading(true);
             try {
               await postReissueToken();
+              setRefreshStatus("success");
             } catch {
               clearAccessToken();
+              setRefreshStatus("failed");
             } finally {
               setLoading(false);
               setInitialized(true);
@@ -101,8 +104,10 @@ axiosInstance.interceptors.request.use(
       }
     }
 
+    const { isInitialized: currentInitialized, accessToken: currentAccessToken } = useAuthStore.getState();
+
     // 초기화는 되었지만 토큰이 없는 경우 로그인 필요
-    if (isInitialized && !accessToken) {
+    if (currentInitialized && !currentAccessToken) {
       redirectToLogin("로그인이 필요합니다. 다시 로그인해주세요.");
       return Promise.reject(new AuthenticationRequiredError());
     }

@@ -23,6 +23,8 @@ const useConnectWebSocket = ({ roomId, clientRef }: UseConnectWebSocketProps): U
   // Hook 내부에서 연결 상태를 직접 관리
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>(ConnectionStatus.Disconnected);
   const [submittedMessages, setSubmittedMessages] = useState<ChatMessage[]>([]);
+  const accessToken = useAuthStore((state) => state.accessToken);
+  const isInitialized = useAuthStore((state) => state.isInitialized);
 
   useEffect(() => {
     if (!roomId) {
@@ -30,14 +32,14 @@ const useConnectWebSocket = ({ roomId, clientRef }: UseConnectWebSocketProps): U
       return;
     }
 
+    if (!isInitialized || !accessToken || accessToken.trim() === "") {
+      setConnectionStatus(ConnectionStatus.Pending);
+      return;
+    }
+
     const connect = async () => {
       setConnectionStatus(ConnectionStatus.Pending); // 연결 시도 중 상태로 설정
-      const token = useAuthStore.getState().accessToken;
-      if (!token || typeof token !== "string" || token.trim() === "") {
-        console.error("WebSocket connection aborted: Access token is missing or invalid.");
-        setConnectionStatus(ConnectionStatus.Error);
-        return;
-      }
+      const token = accessToken;
 
       try {
         const client = new Client({
@@ -92,7 +94,7 @@ const useConnectWebSocket = ({ roomId, clientRef }: UseConnectWebSocketProps): U
       }
       clientRef.current = null;
     };
-  }, [roomId, clientRef]);
+  }, [roomId, clientRef, accessToken, isInitialized]);
 
   // 관리하는 connectionStatus를 반환
   return { connectionStatus, submittedMessages, setSubmittedMessages };
