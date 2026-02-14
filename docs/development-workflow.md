@@ -84,8 +84,7 @@ feat : 로그인 업데이트    # ❌ 콜론 앞에 공백
 - 커밋 전 GitHub CI 품질 검사와 동일한 체크를 실행합니다.
 - 실행 명령:
   - `pnpm --filter @solid-connect/web run ci:check`
-  - `pnpm --filter @solid-connect/admin run lint`
-  - `pnpm --filter @solid-connect/admin run format`
+  - `pnpm --filter @solid-connect/admin run ci:check`
 
 #### pre-push
 
@@ -98,7 +97,7 @@ feat : 로그인 업데이트    # ❌ 콜론 앞에 공백
 
 ```bash
 # Husky 재설치
-npm run prepare
+pnpm run prepare
 
 # 실행 권한 부여 (macOS/Linux)
 chmod +x .husky/commit-msg
@@ -112,36 +111,44 @@ chmod +x .husky/pre-commit
 ### 개발
 
 ```bash
-npm run dev          # 개발 서버 실행
-npm run build        # 프로덕션 빌드
-npm run start        # 프로덕션 서버 실행
+pnpm dev                 # 터보레포 전체 개발 서버 실행
+pnpm build               # 터보레포 전체 빌드
+pnpm --filter @solid-connect/web run dev
+pnpm --filter @solid-connect/admin run dev
 ```
 
 ### 린트
 
 ```bash
-npm run lint         # ESLint 실행
-npm run lint:fix     # ESLint 자동 수정
+pnpm --filter @solid-connect/web run lint        # Biome check + write
+pnpm --filter @solid-connect/web run lint:check  # Biome check only
+pnpm --filter @solid-connect/admin run lint      # Biome check + write
+pnpm --filter @solid-connect/admin run lint:check
 ```
 
 ### 포맷팅
 
 ```bash
-npm run format       # Prettier로 코드 포맷팅
-npm run format:check # Prettier 포맷팅 체크 (CI용)
+pnpm --filter @solid-connect/web run format
+pnpm --filter @solid-connect/web run format:check
+pnpm --filter @solid-connect/admin run format
+pnpm --filter @solid-connect/admin run format:check
 ```
 
 ### 타입 체크
 
 ```bash
-npm run typecheck    # TypeScript 타입 체크
+pnpm typecheck
+pnpm --filter @solid-connect/web run typecheck
+pnpm --filter @solid-connect/admin run typecheck
 ```
 
 ### 통합 명령어
 
 ```bash
-npm run lint:all     # lint + format:check + typecheck
-npm run fix:all      # lint:fix + format (자동 수정)
+pnpm ci:check
+pnpm --filter @solid-connect/web run ci:check
+pnpm --filter @solid-connect/admin run ci:check
 ```
 
 ### 추천 워크플로우
@@ -149,7 +156,8 @@ npm run fix:all      # lint:fix + format (자동 수정)
 코드 수정 후 커밋 전에:
 
 ```bash
-npm run fix:all      # 모든 자동 수정 적용
+pnpm --filter @solid-connect/web run lint
+pnpm --filter @solid-connect/admin run lint
 ```
 
 ---
@@ -166,8 +174,7 @@ npm run fix:all      # 모든 자동 수정 적용
 
 #### 1. Lint & Type Check
 
-- ESLint 실행
-- Prettier 포맷팅 체크
+- Biome check 실행
 - TypeScript 타입 체크
 
 #### 2. Build
@@ -180,10 +187,9 @@ npm run fix:all      # 모든 자동 수정 적용
 
 ### CI 실패 대응
 
-1. **ESLint 실패**: `npm run lint:fix`로 자동 수정
-2. **Prettier 실패**: `npm run format`으로 자동 수정
-3. **타입 체크 실패**: TypeScript 오류 직접 수정
-4. **빌드 실패**: 빌드 로그 확인 후 오류 수정
+1. **Biome 실패**: `pnpm --filter @solid-connect/<app> run lint`로 자동 수정
+2. **타입 체크 실패**: TypeScript 오류 직접 수정
+3. **빌드 실패**: 빌드 로그 확인 후 오류 수정
 
 ---
 
@@ -196,7 +202,7 @@ npm run fix:all      # 모든 자동 수정 적용
 git checkout -b feat/new-feature
 
 # 2. 개발 서버 실행
-npm run dev
+pnpm dev
 
 # 3. 코드 작성...
 ```
@@ -205,12 +211,12 @@ npm run dev
 
 ```bash
 # 자동 수정 및 검증
-npm run fix:all
+pnpm ci:check
 
 # 또는 개별 실행
-npm run lint:fix
-npm run format
-npm run typecheck
+pnpm --filter @solid-connect/web run lint
+pnpm --filter @solid-connect/admin run lint
+pnpm typecheck
 ```
 
 ### 3. 커밋
@@ -261,13 +267,14 @@ git push --force-with-lease origin branch-name
 
 ```bash
 # 1. 로컬에서 동일한 검증 실행
-npm run lint:all
+pnpm ci:check
 
 # 2. 자동 수정 시도
-npm run fix:all
+pnpm --filter @solid-connect/web run lint
+pnpm --filter @solid-connect/admin run lint
 
 # 3. 빌드 테스트
-npm run build
+pnpm build
 
 # 4. 수정 후 다시 푸시
 git add .
@@ -283,7 +290,7 @@ git push
 
 ```bash
 # 1. Husky 재설치
-npm run prepare
+pnpm run prepare
 
 # 2. .husky/commit-msg 파일 확인
 cat .husky/commit-msg
@@ -301,7 +308,7 @@ chmod +x .husky/commit-msg
 ```bash
 # node_modules 삭제 후 재설치
 rm -rf node_modules
-npm install
+pnpm install
 ```
 
 ---
@@ -311,5 +318,4 @@ npm install
 - [Husky Documentation](https://typicode.github.io/husky/)
 - [Commitlint Documentation](https://commitlint.js.org/)
 - [Conventional Commits](https://www.conventionalcommits.org/)
-- [ESLint Documentation](https://eslint.org/)
-- [Prettier Documentation](https://prettier.io/)
+- [Biome Documentation](https://biomejs.dev/)

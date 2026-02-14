@@ -38,8 +38,7 @@ if [ "$RUN_WEB" -eq 1 ]; then
 fi
 
 if [ "$RUN_ADMIN" -eq 1 ]; then
-  pnpm --filter @solid-connect/admin run lint
-  pnpm --filter @solid-connect/admin run format
+  pnpm --filter @solid-connect/admin run ci:check
   NODE_ENV=production pnpm --filter @solid-connect/admin run build
 fi
 
