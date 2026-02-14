@@ -1,4 +1,4 @@
-import { type MutableRefObject, type RefObject, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { type MutableRefObject, useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 // 드래그 핸들에서 제외해야 하는 인터랙티브 엘리먼트 판별
 const isInteractiveElement = (el: EventTarget | null): boolean => {
@@ -6,7 +6,6 @@ const isInteractiveElement = (el: EventTarget | null): boolean => {
 };
 
 interface UseHandleModalReturn {
-  elementRef: RefObject<HTMLDivElement>;
   isVisible: boolean;
   translateY: number;
   isDraggingRef: MutableRefObject<boolean>;
@@ -23,7 +22,6 @@ const useHandleModal = (onClose: () => void, snap: number[] = [0]): UseHandleMod
   const startYRef = useRef<number>(0); // 시작 Y좌표
   const currentYRef = useRef<number>(0); // 현재 Y좌표
   const isDraggingRef = useRef<boolean>(false); // 드래그 상태
-  const elementRef = useRef<HTMLDivElement>(null);
 
   const snapPoints = useMemo((): number[] => {
     if (typeof window === "undefined") return [0]; // SSR 대응
@@ -115,7 +113,6 @@ const useHandleModal = (onClose: () => void, snap: number[] = [0]): UseHandleMod
   }, [isVisible, translateY, snapPoints, handleClose]);
 
   return {
-    elementRef,
     isVisible,
     translateY,
     isDraggingRef,
