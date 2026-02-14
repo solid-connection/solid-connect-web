@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { useEffect, useState } from "react";
+import Image from "@/components/ui/FallbackImage";
 
 const OptimisticImg = ({ src, alt }: { src: string; alt: string }) => {
   // 실제 서버 URL인지, 아니면 로컬 blob URL인지 판단

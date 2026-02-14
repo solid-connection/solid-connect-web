@@ -1,10 +1,10 @@
 "use client";
 
 import clsx from "clsx";
-import Image from "next/image";
 import { useState } from "react";
 import { useDeleteComment } from "@/apis/community";
 import Dropdown from "@/components/ui/Dropdown";
+import Image from "@/components/ui/FallbackImage";
 import { IconMoreVertFilled, IconSubComment } from "@/public/svgs";
 import type { Comment as CommentType, CommunityUser } from "@/types/community";
 import { convertISODateToDateTime } from "@/utils/datetimeUtils";

@@ -1,6 +1,5 @@
-import Image from "next/image";
-
 import BottomSheet from "@/components/ui/BottomSheet";
+import Image from "@/components/ui/FallbackImage";
 import { IconCamera } from "@/public/svgs/mentor";
 import useArticleSchema from "./hooks/useArticleSchema";
 

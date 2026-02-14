@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/ui/FallbackImage";
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
 import type { ChatMessage } from "@/types/chat";
 import { formatTime } from "@/utils/datetimeUtils";
