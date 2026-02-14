@@ -81,7 +81,18 @@ feat : 로그인 업데이트    # ❌ 콜론 앞에 공백
 
 #### pre-commit
 
-현재는 비활성화 상태입니다. 필요시 린트 검사 등을 추가할 수 있습니다.
+- 커밋 전 GitHub CI 품질 검사와 동일한 체크를 실행합니다.
+- 실행 명령:
+  - `pnpm --filter @solid-connect/web run ci:check`
+  - `pnpm --filter @solid-connect/admin run lint`
+  - `pnpm --filter @solid-connect/admin run format`
+
+#### pre-push
+
+- 푸시 전 GitHub CI 빌드 단계와 동일한 빌드를 실행합니다.
+- 실행 명령:
+  - `pnpm --filter @solid-connect/web run build`
+  - `pnpm --filter @solid-connect/admin run build`
 
 ### Hooks가 동작하지 않는 경우
 
