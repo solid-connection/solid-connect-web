@@ -28,8 +28,7 @@ const UniversityListContent = ({ universities, homeUniversity, homeUniversitySlu
     if (searchText.trim()) {
       const searchLower = searchText.toLowerCase().trim();
       result = result.filter(
-        (uni) =>
-          uni.koreanName.toLowerCase().includes(searchLower) || uni.country.toLowerCase().includes(searchLower),
+        (uni) => uni.koreanName.toLowerCase().includes(searchLower) || uni.country.toLowerCase().includes(searchLower),
       );
     }
 

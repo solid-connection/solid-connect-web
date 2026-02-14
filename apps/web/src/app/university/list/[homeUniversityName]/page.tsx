@@ -41,7 +41,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 const UniversityListPage = async ({ params }: PageProps) => {
   const { homeUniversityName } = await params;
 
-  const universityName = HOME_UNIVERSITY_SLUG_MAP[homeUniversityName as HomeUniversitySlug] as HomeUniversityName | undefined;
+  const universityName = HOME_UNIVERSITY_SLUG_MAP[homeUniversityName as HomeUniversitySlug] as
+    | HomeUniversityName
+    | undefined;
 
   if (!universityName) {
     notFound();
