@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import { useUpdatePost } from "@/apis/community";
+import { toast } from "@/lib/zustand/useToastStore";
 import { IconArrowBackFilled, IconImage, IconPostCheckboxFilled, IconPostCheckboxOutlined } from "@/public/svgs";
 
 type PostModifyFormProps = {
@@ -25,6 +26,7 @@ const PostModifyForm = ({
 }: PostModifyFormProps) => {
   const [title, setTitle] = useState<string>(defaultTitle);
   const [content, setContent] = useState<string>(defaultContent);
+  const [isQuestion, setIsQuestion] = useState<boolean>(defaultIsQuestion);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
   const imageUploadRef = useRef<HTMLInputElement>(null);
@@ -60,12 +62,23 @@ const PostModifyForm = ({
   }, []);
 
   const submitPost = async () => {
+    if (!title.trim()) {
+      toast.error("제목을 입력해주세요.");
+      return;
+    }
+
+    if (!content.trim()) {
+      toast.error("내용을 입력해주세요.");
+      return;
+    }
+
     updatePostMutation.mutate(
       {
         postId,
+        boardCode,
         data: {
           postUpdateRequest: {
-            postCategory: defaultPostCategory,
+            postCategory: isQuestion ? "질문" : "자유",
             title,
             content,
           },
@@ -108,8 +121,8 @@ const PostModifyForm = ({
         </div>
         <div className="flex h-[42px] items-center justify-between border-b border-b-gray-c-100 px-5 py-2.5">
           <div className="text-gray-250/87 flex items-center gap-1 typo-regular-2">
-            <button type="button">
-              {defaultIsQuestion ? <IconPostCheckboxFilled /> : <IconPostCheckboxOutlined />}
+            <button onClick={() => setIsQuestion(!isQuestion)} type="button">
+              {isQuestion ? <IconPostCheckboxFilled /> : <IconPostCheckboxOutlined />}
             </button>
             질문으로 업로드 하기
           </div>

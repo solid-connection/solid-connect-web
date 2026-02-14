@@ -61,8 +61,9 @@ const ModifyContent = () => {
             <h2 className="mt-10 text-primary-1 typo-sb-5">멘토 한마디</h2>
             <textarea
               {...register("introduction")}
-              className="mt-2.5 h-30 w-full rounded-lg bg-k-50 p-5 text-k-300 typo-regular-2"
+              className="mt-2.5 h-30 w-full rounded-lg bg-k-50 p-5 text-k-900 placeholder:text-k-300 typo-regular-2"
               placeholder="최대 200자 이내"
+              maxLength={200}
             />
             {errors.introduction && (
               <p className="mt-1 text-red-500 typo-regular-2">
@@ -74,8 +75,9 @@ const ModifyContent = () => {
             <h2 className="mt-10 text-primary-1 typo-sb-5">합격 레시피</h2>
             <textarea
               {...register("passTip")}
-              className="mt-2.5 h-30 w-full rounded-lg bg-k-50 p-5 text-k-300 typo-regular-2"
+              className="mt-2.5 h-30 w-full rounded-lg bg-k-50 p-5 text-k-900 placeholder:text-k-300 typo-regular-2"
               placeholder="최대 200자 이내"
+              maxLength={200}
             />
             {errors.passTip && (
               <p className="mt-1 text-red-500 typo-regular-2">

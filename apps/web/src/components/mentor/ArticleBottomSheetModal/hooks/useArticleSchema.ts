@@ -87,12 +87,23 @@ const useArticleSchema = ({
 
   const handleFormSubmit = (data: ArticleFormData) => {
     if (isEdit) {
-      putModifyArticle({ body: data, articleId });
+      putModifyArticle(
+        { body: data, articleId },
+        {
+          onSuccess: () => {
+            handleClose();
+            reset();
+          },
+        },
+      );
     } else {
-      postAddArticle(data);
+      postAddArticle(data, {
+        onSuccess: () => {
+          handleClose();
+          reset();
+        },
+      });
     }
-    handleClose();
-    reset();
   };
 
   const handleModalClose = () => {

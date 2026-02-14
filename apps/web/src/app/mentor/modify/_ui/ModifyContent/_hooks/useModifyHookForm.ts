@@ -24,7 +24,7 @@ const useModifyHookForm = (myMentorProfile: MentorCardPreview | null): UseModify
       reset({
         channels,
         introduction: myMentorProfile.introduction,
-        passTip: "",
+        passTip: myMentorProfile.passTip ?? "",
       });
     } else {
       // myMentorProfile이 없을 때도 4개의 빈 채널 슬롯 제공
@@ -35,6 +35,6 @@ const useModifyHookForm = (myMentorProfile: MentorCardPreview | null): UseModify
       });
     }
   }, [myMentorProfile, reset]);
-  return { ...method };
+  return method;
 };
 export default useModifyHookForm;
