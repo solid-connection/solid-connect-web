@@ -1,0 +1,27 @@
+meta {
+  name: Submit Application
+  type: http
+  seq: 3
+}
+
+post /applications/submit?region=미주권&size=3&page=1
+
+headers {
+  Authorization: Bearer {{token}}
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "applicationId": 123
+  }
+}
+
+docs {
+  ```json
+  {
+    "success": true,
+    "submittedAt": "2025-11-12T05:00:00Z"
+  }
+  ```
+}

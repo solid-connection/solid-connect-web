@@ -1,0 +1,210 @@
+# 프론트엔드 저장소용 Workflow
+# 이 파일을 프론트엔드 저장소의 .github/workflows/ 폴더에 복사하세요
+
+name: Sync Bruno API Changes
+
+on:
+  repository_dispatch:
+    types: [bruno_updated]
+  workflow_dispatch:
+    inputs:
+      bruno_repo:
+        description: 'Bruno Repository (org/repo)'
+        required: false
+        default: 'YOUR-ORG/BRUNO-REPO'
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Frontend Repository
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Get Bruno Repository Info
+        id: bruno_info
+        run: |
+          if [ "${{ github.event_name }}" = "repository_dispatch" ]; then
+            echo "repo=${{ github.event.client_payload.bruno_repo }}" >> $GITHUB_OUTPUT
+            echo "sha=${{ github.event.client_payload.commit_sha }}" >> $GITHUB_OUTPUT
+            echo "message=${{ github.event.client_payload.commit_message }}" >> $GITHUB_OUTPUT
+          else
+            echo "repo=${{ github.event.inputs.bruno_repo }}" >> $GITHUB_OUTPUT
+            echo "sha=main" >> $GITHUB_OUTPUT
+            echo "message=Manual sync" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Clone Bruno Repository
+        run: |
+          echo "📥 Cloning Bruno repository: ${{ steps.bruno_info.outputs.repo }}"
+          git clone https://github.com/${{ steps.bruno_info.outputs.repo }}.git /tmp/bruno
+          cd /tmp/bruno
+          git checkout ${{ steps.bruno_info.outputs.sha }} || git checkout main
+          echo "✅ Bruno repository cloned successfully"
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Generate OpenAPI and Detect Changes
+        run: |
+          echo "🔄 Generating OpenAPI spec..."
+
+          # 이전 버전 백업 (변경사항 감지용)
+          if [ -f public/openapi.json ]; then
+            cp public/openapi.json public/openapi.json.old
+          fi
+
+          # OpenAPI 생성
+          npx bruno-sync generate \
+            -i /tmp/bruno/bruno \
+            -o ./public/openapi.json \
+            --title "우리팀 API" \
+            --version "1.0.0"
+
+          # 변경사항 감지
+          if [ -f public/openapi.json.old ]; then
+            echo "🔍 Detecting changes..."
+            cp public/openapi.json.old public/openapi.json.old.bak
+            npx bruno-sync generate \
+              -i /tmp/bruno/bruno \
+              -o ./public/openapi.json \
+              --diff \
+              --changelog ./public/CHANGELOG.md \
+              --changelog-format markdown
+
+            # HTML Changelog도 생성
+            npx bruno-sync generate \
+              -i /tmp/bruno/bruno \
+              -o ./public/openapi.json \
+              --diff \
+              --changelog ./public/changelog.html \
+              --changelog-format html
+
+            echo "✅ Changes detected and documented"
+          else
+            echo "ℹ️  No previous version found, skipping diff"
+          fi
+
+      - name: Check for Changes
+        id: changes
+        run: |
+          git add public/
+          if git diff --staged --quiet; then
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+            echo "ℹ️  No changes detected"
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            echo "✅ Changes detected!"
+
+            # Breaking changes 확인
+            if [ -f public/CHANGELOG.md ]; then
+              if grep -q "Breaking Changes" public/CHANGELOG.md; then
+                echo "has_breaking=true" >> $GITHUB_OUTPUT
+                echo "⚠️  Breaking changes detected!"
+              else
+                echo "has_breaking=false" >> $GITHUB_OUTPUT
+              fi
+            fi
+          fi
+
+      - name: Create Pull Request
+        if: steps.changes.outputs.has_changes == 'true'
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: |
+            chore: sync API spec from Bruno
+
+            Bruno Repository: ${{ steps.bruno_info.outputs.repo }}
+            Commit: ${{ steps.bruno_info.outputs.sha }}
+            Message: ${{ steps.bruno_info.outputs.message }}
+          branch: api-sync-${{ steps.bruno_info.outputs.sha }}
+          delete-branch: true
+          title: "🔄 API 변경사항 동기화 (${{ steps.bruno_info.outputs.sha }})"
+          body: |
+            ## 🔄 Bruno API 변경사항 자동 동기화
+
+            **Bruno Repository**: [`${{ steps.bruno_info.outputs.repo }}`](https://github.com/${{ steps.bruno_info.outputs.repo }})
+            **Commit**: `${{ steps.bruno_info.outputs.sha }}`
+            **Author**: ${{ github.event.client_payload.author || 'N/A' }}
+            **Message**:
+            ```
+            ${{ steps.bruno_info.outputs.message }}
+            ```
+
+            ---
+
+            ### 📊 변경사항 요약
+
+            ${{ steps.changes.outputs.has_breaking == 'true' && '### ⚠️ **Breaking Changes 발견!**\n\n> 기존 코드를 깨뜨릴 수 있는 변경사항이 있습니다. 주의 깊게 리뷰해주세요.\n\n' || '' }}
+
+            상세 변경사항은 아래 파일들을 확인하세요:
+            - 📄 [OpenAPI Spec](../blob/${{ github.ref_name }}/public/openapi.json)
+            - 📝 [Changelog (Markdown)](../blob/${{ github.ref_name }}/public/CHANGELOG.md)
+            - 🎨 [Changelog (HTML)](../blob/${{ github.ref_name }}/public/changelog.html)
+
+            ---
+
+            ### ✅ 리뷰 체크리스트
+
+            - [ ] Breaking changes 확인 및 대응 방안 수립
+            - [ ] 영향받는 프론트엔드 코드 파악
+            - [ ] Swagger UI에서 새 API 스펙 확인
+            - [ ] 타입 에러 없는지 확인 (`npm run build`)
+            - [ ] 테스트 통과 확인 (`npm run test`)
+
+            ---
+
+            ### 🔗 유용한 링크
+
+            - 🌐 [Swagger UI로 보기](https://your-org.github.io/your-repo/api-viewer.html)
+            - 📊 [변경사항 대시보드](https://your-org.github.io/your-repo/changelog.html)
+            - 📚 [Bruno 저장소](https://github.com/${{ steps.bruno_info.outputs.repo }})
+
+            ---
+
+            <sub>🤖 이 PR은 자동으로 생성되었습니다.</sub>
+          labels: |
+            api-sync
+            autogenerated
+            ${{ steps.changes.outputs.has_breaking == 'true' && 'breaking-change' || '' }}
+
+      - name: Summary
+        if: steps.changes.outputs.has_changes == 'true'
+        run: |
+          echo "## 🎉 API 동기화 완료!" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📝 정보" >> $GITHUB_STEP_SUMMARY
+          echo "- **Bruno Commit**: \`${{ steps.bruno_info.outputs.sha }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **Message**: ${{ steps.bruno_info.outputs.message }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [ "${{ steps.changes.outputs.has_breaking }}" = "true" ]; then
+            echo "### ⚠️ Breaking Changes" >> $GITHUB_STEP_SUMMARY
+            echo "Breaking changes가 감지되었습니다. PR을 주의깊게 리뷰해주세요." >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          echo "### 🔗 다음 단계" >> $GITHUB_STEP_SUMMARY
+          echo "1. [Pull Requests](../../pulls)에서 자동 생성된 PR 확인" >> $GITHUB_STEP_SUMMARY
+          echo "2. Changelog 확인" >> $GITHUB_STEP_SUMMARY
+          echo "3. 코드 리뷰 및 머지" >> $GITHUB_STEP_SUMMARY
+
+      - name: No Changes
+        if: steps.changes.outputs.has_changes == 'false'
+        run: |
+          echo "ℹ️  변경사항이 없습니다."
+          echo "Bruno repository가 업데이트되었지만 OpenAPI 스펙에는 변경이 없습니다."
+
+# 설정 방법:
+# 1. YOUR-ORG/BRUNO-REPO를 실제 Bruno 저장소 경로로 변경
+# 2. public/ 경로를 프로젝트에 맞게 수정 (예: src/api/, docs/ 등)
+# 3. Swagger UI 링크를 실제 배포 URL로 변경

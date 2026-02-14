@@ -1,54 +1,75 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+
 import { getAllUniversities, getUniversityDetail } from "@/apis/universities/server";
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
+import { getHomeUniversityBySlug, HOME_UNIVERSITY_SLUGS } from "@/constants/university";
+import type { HomeUniversitySlug } from "@/types/university";
+
+// UniversityDetail 컴포넌트
 import UniversityDetail from "./_ui/UniversityDetail";
 
-export const revalidate = false;
+export const revalidate = false; // 완전 정적 생성
 
+// 모든 homeUniversity + id 조합에 대해 정적 경로 생성
 export async function generateStaticParams() {
   const universities = await getAllUniversities();
 
-  return universities.map((university) => ({
-    id: String(university.id),
-  }));
+  const params: { homeUniversity: string; id: string }[] = [];
+
+  // 각 대학에 대해 모든 homeUniversity 슬러그와 조합
+  for (const slug of HOME_UNIVERSITY_SLUGS) {
+    const homeUniversityInfo = getHomeUniversityBySlug(slug);
+    if (!homeUniversityInfo) continue;
+
+    // 해당 홈대학에 속하는 대학들만 필터링
+    const filteredUniversities = universities.filter((uni) => uni.homeUniversityName === homeUniversityInfo.name);
+
+    for (const university of filteredUniversities) {
+      params.push({
+        homeUniversity: slug,
+        id: String(university.id),
+      });
+    }
+  }
+
+  return params;
 }
 
-type MetadataProps = {
-  params: Promise<{ id: string }>;
+type PageProps = {
+  params: Promise<{ homeUniversity: string; id: string }>;
 };
 
-export async function generateMetadata({ params }: MetadataProps): Promise<Metadata> {
-  const { id } = await params;
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { homeUniversity, id } = await params;
+
+  // 유효한 슬러그인지 확인
+  if (!HOME_UNIVERSITY_SLUGS.includes(homeUniversity as HomeUniversitySlug)) {
+    return { title: "파견 학교 상세" };
+  }
 
   const universityData = await getUniversityDetail(Number(id));
 
   if (!universityData) {
-    return {
-      title: "파견 학교 상세",
-    };
+    return { title: "파견 학교 상세" };
   }
 
+  const homeUniversityInfo = getHomeUniversityBySlug(homeUniversity);
   const convertedKoreanName =
     universityData.term !== process.env.NEXT_PUBLIC_CURRENT_TERM
       ? `${universityData.koreanName}(${universityData.term})`
       : universityData.koreanName;
 
   const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://solid-connection.com";
-  const pageUrl = `${baseUrl}/university/${id}`;
+  const pageUrl = `${baseUrl}/university/${homeUniversity}/${id}`;
   const imageUrl = universityData.backgroundImageUrl
     ? universityData.backgroundImageUrl.startsWith("http")
       ? universityData.backgroundImageUrl
       : `${baseUrl}${universityData.backgroundImageUrl}`
     : `${baseUrl}/images/article-thumb.png`;
 
-  // [나라] 교환학생 키워드 생성
   const countryExchangeKeyword = `${universityData.country} 교환학생`;
-
-  // Description 생성: 대학교 이름과 [나라] 교환학생 키워드 포함
-  const description = `${convertedKoreanName}(${universityData.englishName}) ${countryExchangeKeyword} 프로그램. 모집인원 ${universityData.studentCapacity}명. 솔리드커넥션에서 ${convertedKoreanName} ${countryExchangeKeyword} 지원 정보 확인.`;
-
-  // Title 생성: 대학교 이름과 [나라] 교환학생 키워드 포함 (검색 최적화)
+  const description = `${convertedKoreanName}(${universityData.englishName}) ${countryExchangeKeyword} 프로그램. 모집인원 ${universityData.studentCapacity}명. ${homeUniversityInfo?.shortName || ""} 학생을 위한 교환학생 정보.`;
   const title = `${convertedKoreanName} - ${countryExchangeKeyword} 정보 | 솔리드커넥션`;
 
   return {
@@ -82,13 +103,20 @@ export async function generateMetadata({ params }: MetadataProps): Promise<Metad
   };
 }
 
-type CollegeDetailPageProps = {
-  params: { id: string };
-};
+const CollegeDetailPage = async ({ params }: PageProps) => {
+  const { homeUniversity, id } = await params;
 
-const CollegeDetailPage = async ({ params }: CollegeDetailPageProps) => {
-  const collegeId = Number(params.id);
+  // 유효한 슬러그인지 확인
+  if (!HOME_UNIVERSITY_SLUGS.includes(homeUniversity as HomeUniversitySlug)) {
+    notFound();
+  }
 
+  const homeUniversityInfo = getHomeUniversityBySlug(homeUniversity);
+  if (!homeUniversityInfo) {
+    notFound();
+  }
+
+  const collegeId = Number(id);
   const universityData = await getUniversityDetail(collegeId);
 
   if (!universityData) {
@@ -101,21 +129,10 @@ const CollegeDetailPage = async ({ params }: CollegeDetailPageProps) => {
       : universityData.koreanName;
 
   const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://solid-connection.com";
-  const pageUrl = `${baseUrl}/university/${collegeId}`;
-
-  // [나라] 교환학생 키워드 생성
+  const pageUrl = `${baseUrl}/university/${homeUniversity}/${collegeId}`;
   const countryExchangeKeyword = `${universityData.country} 교환학생`;
 
-  // Structured Data (JSON-LD) for SEO - 검색 엔진이 대학 정보를 더 잘 이해하도록
-  const structuredData: {
-    "@context": string;
-    "@type": string;
-    name: string;
-    alternateName?: string;
-    url: string;
-    description: string;
-    image: string;
-  } = {
+  const structuredData = {
     "@context": "https://schema.org",
     "@type": "EducationalOrganization",
     name: convertedKoreanName,
@@ -132,7 +149,7 @@ const CollegeDetailPage = async ({ params }: CollegeDetailPageProps) => {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
-      <TopDetailNavigation title={convertedKoreanName} />
+      <TopDetailNavigation title={convertedKoreanName} backHref={`/university/${homeUniversity}`} />
       <div className="w-full px-5">
         <UniversityDetail koreanName={convertedKoreanName} university={universityData} />
       </div>

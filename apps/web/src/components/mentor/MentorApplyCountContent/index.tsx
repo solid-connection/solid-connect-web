@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { useGetMentoringUncheckedCount } from "@/apis/mentor";
+import { useGetUnconfirmedMentoringCount } from "@/apis/mentor";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { UserRole } from "@/types/mentor";
 import { tokenParse } from "@/utils/jwtUtils";
@@ -14,7 +14,7 @@ const MentorApplyCountContent = () => {
 		tokenParse(accessToken)?.role === UserRole.MENTOR ||
 		tokenParse(accessToken)?.role === UserRole.ADMIN;
 
-	const { data: count, isSuccess } = useGetMentoringUncheckedCount(
+	const { data: count, isSuccess } = useGetUnconfirmedMentoringCount(
 		isInitialized && !!accessToken && isMentor,
 	);
 

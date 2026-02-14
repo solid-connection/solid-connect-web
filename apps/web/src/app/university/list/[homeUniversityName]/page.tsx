@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
-import { HOME_UNIVERSITIES, HOME_UNIVERSITY_SLUG, type HomeUniversityName } from "@/types/university";
+import { HOME_UNIVERSITY_LIST, HOME_UNIVERSITY_SLUG_MAP } from "@/constants/university";
+import type { HomeUniversityName, HomeUniversitySlug } from "@/types/university";
 
 import SearchResultsContent from "./SearchResultsContent";
 
@@ -11,7 +12,7 @@ export const revalidate = false;
 
 // 정적 경로 생성 (ISR)
 export async function generateStaticParams() {
-  return HOME_UNIVERSITIES.map((university) => ({
+  return HOME_UNIVERSITY_LIST.map((university) => ({
     homeUniversityName: university.slug,
   }));
 }
@@ -23,7 +24,7 @@ type PageProps = {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { homeUniversityName } = await params;
 
-  const universityName = HOME_UNIVERSITY_SLUG[homeUniversityName];
+  const universityName = HOME_UNIVERSITY_SLUG_MAP[homeUniversityName as HomeUniversitySlug];
 
   if (!universityName) {
     return {
@@ -40,7 +41,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 const UniversityListPage = async ({ params }: PageProps) => {
   const { homeUniversityName } = await params;
 
-  const universityName = HOME_UNIVERSITY_SLUG[homeUniversityName] as HomeUniversityName | undefined;
+  const universityName = HOME_UNIVERSITY_SLUG_MAP[homeUniversityName as HomeUniversitySlug] as HomeUniversityName | undefined;
 
   if (!universityName) {
     notFound();

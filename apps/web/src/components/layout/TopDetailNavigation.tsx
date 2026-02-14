@@ -4,17 +4,22 @@ import { useRouter } from "next/navigation";
 
 import { IconArrowBackFilled } from "@/public/svgs";
 
-interface TopDetailNavigationProps {
+export interface TopDetailNavigationProps {
   title: string;
   handleBack?: () => void;
+  backHref?: string;
   icon?: React.ReactNode;
 }
 
-const TopDetailNavigation = ({ title, handleBack, icon }: TopDetailNavigationProps) => {
+const TopDetailNavigation = ({ title, handleBack, backHref, icon }: TopDetailNavigationProps) => {
   const router = useRouter();
 
   const routeBack = () => {
-    router.back(); // 라우터의 back 함수를 사용하여 이전 페이지로 이동
+    if (backHref) {
+      router.push(backHref);
+    } else {
+      router.back(); // 라우터의 back 함수를 사용하여 이전 페이지로 이동
+    }
   };
 
   return (

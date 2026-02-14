@@ -1,0 +1,49 @@
+# Bruno 저장소용 Workflow
+# 이 파일을 Bruno 저장소의 .github/workflows/ 폴더에 복사하세요
+
+name: Notify Frontend on Bruno Changes
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'bruno/**'
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Bruno Repository
+        uses: actions/checkout@v3
+
+      - name: Repository Dispatch to Frontend
+        run: |
+          curl -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.FRONTEND_REPO_TOKEN }}" \
+            https://api.github.com/repos/YOUR-ORG/FRONTEND-REPO/dispatches \
+            -d '{
+              "event_type": "bruno_updated",
+              "client_payload": {
+                "bruno_repo": "${{ github.repository }}",
+                "commit_sha": "${{ github.sha }}",
+                "commit_message": "${{ github.event.head_commit.message }}",
+                "author": "${{ github.event.head_commit.author.name }}",
+                "timestamp": "${{ github.event.head_commit.timestamp }}"
+              }
+            }'
+
+      - name: Notify Complete
+        run: |
+          echo "✅ Frontend repository has been notified!"
+          echo "🔗 Check Actions: https://github.com/YOUR-ORG/FRONTEND-REPO/actions"
+          echo ""
+          echo "📝 Commit: ${{ github.event.head_commit.message }}"
+          echo "👤 Author: ${{ github.event.head_commit.author.name }}"
+
+# 설정 방법:
+# 1. YOUR-ORG/FRONTEND-REPO를 실제 프론트엔드 저장소 경로로 변경
+# 2. Bruno 저장소 Settings → Secrets → FRONTEND_REPO_TOKEN 추가
+#    (GitHub Personal Access Token with repo, workflow permissions)

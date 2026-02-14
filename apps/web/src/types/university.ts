@@ -1,62 +1,14 @@
 export type RegionKo = "유럽권" | "미주권" | "아시아권";
 
-/**
- * 홈 대학교 이름 (협정 대학)
- */
 export enum HomeUniversityName {
   INHA = "인하대학교",
   INCHEON = "인천대학교",
   SUNGSHIN = "성신여자대학교",
 }
 
-/**
- * 홈 대학교 URL 슬러그 매핑
- */
-export const HOME_UNIVERSITY_SLUG: Record<string, HomeUniversityName> = {
-  inha: HomeUniversityName.INHA,
-  incheon: HomeUniversityName.INCHEON,
-  sungshin: HomeUniversityName.SUNGSHIN,
-};
+export { HomeUniversityName as HomeUniversity };
 
-/**
- * 홈 대학교 이름에서 슬러그로 매핑
- */
-export const HOME_UNIVERSITY_TO_SLUG: Record<HomeUniversityName, string> = {
-  [HomeUniversityName.INHA]: "inha",
-  [HomeUniversityName.INCHEON]: "incheon",
-  [HomeUniversityName.SUNGSHIN]: "sungshin",
-};
-
-/**
- * 홈 대학교 정보 (이미지, 설명 등)
- */
-export interface HomeUniversityInfo {
-  name: HomeUniversityName;
-  slug: string;
-  imageUrl: string;
-  description: string;
-}
-
-export const HOME_UNIVERSITIES: HomeUniversityInfo[] = [
-  {
-    name: HomeUniversityName.INHA,
-    slug: "inha",
-    imageUrl: "/images/unvis/inha.png",
-    description: "인하대학교 파견 교환학생 정보",
-  },
-  {
-    name: HomeUniversityName.INCHEON,
-    slug: "incheon",
-    imageUrl: "/images/unvis/incheon.png",
-    description: "인천대학교 파견 교환학생 정보",
-  },
-  {
-    name: HomeUniversityName.SUNGSHIN,
-    slug: "sungshin",
-    imageUrl: "/images/unvis/sungsin.jpg",
-    description: "성신여자대학교 파견 교환학생 정보",
-  },
-];
+export type HomeUniversitySlug = "inha" | "incheon" | "sungshin";
 
 export interface RegionOption {
   value: string;
@@ -129,13 +81,13 @@ export interface ListUniversity {
   id: number;
   term: string;
   koreanName: string;
+  homeUniversityName?: HomeUniversityName;
   region: string;
   country: string;
   logoImageUrl: string;
   backgroundImageUrl: string;
   studentCapacity: number;
   languageRequirements: LanguageRequirement[];
-  homeUniversityName?: HomeUniversityName;
 }
 
 /**
