@@ -3,9 +3,11 @@
 import clsx from "clsx";
 import Link from "next/link";
 import { useGetPartnerInfo } from "@/apis/chat";
+import { useUploadProfileImage } from "@/apis/image-upload";
 
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
 import useAuthStore from "@/lib/zustand/useAuthStore";
+import { toast } from "@/lib/zustand/useToastStore";
 import { ConnectionStatus } from "@/types/chat";
 import { UserRole } from "@/types/mentor";
 import { tokenParse } from "@/utils/jwtUtils";
@@ -43,8 +45,11 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
 
     // Handlers
     sendTextMessage,
+    sendImageMessage,
     addImageMessagePreview,
   } = useChatListHandler(chatId);
+
+  const uploadProfileImageMutation = useUploadProfileImage();
 
   const { data: partnerInfo } = useGetPartnerInfo(chatId);
 
@@ -170,8 +175,21 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
         onSendMessage={(data) => {
           sendTextMessage(data.message, userId);
         }}
-        onSendImages={(data) => {
-          addImageMessagePreview(data.images, userId);
+        onSendImages={async (data) => {
+          try {
+            const uploadedImages = await Promise.all(
+              data.images.map((image) => uploadProfileImageMutation.mutateAsync(image)),
+            );
+
+            const imageUrls = uploadedImages.map((image) => image.fileUrl);
+            const isSent = sendImageMessage(imageUrls);
+
+            if (!isSent) {
+              toast.error("채팅 연결이 원활하지 않아 이미지를 전송하지 못했어요.");
+            }
+          } catch {
+            toast.error("이미지 전송에 실패했어요. 다시 시도해주세요.");
+          }
         }}
         onSendFiles={(data) => {
           addImageMessagePreview(data.files, userId);
