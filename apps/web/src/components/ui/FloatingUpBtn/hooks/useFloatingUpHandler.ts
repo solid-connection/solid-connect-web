@@ -4,11 +4,7 @@ const useFloatingUpHandler = (scrollYThreshold: number = 400) => {
   const [isVisible, setIsVisible] = useState(false);
 
   const handleScroll = useCallback(() => {
-    if (window.scrollY > scrollYThreshold) {
-      setIsVisible(true);
-    } else {
-      setIsVisible(false);
-    }
+    setIsVisible(window.scrollY > scrollYThreshold);
   }, [scrollYThreshold]);
 
   const handleClick = () => {

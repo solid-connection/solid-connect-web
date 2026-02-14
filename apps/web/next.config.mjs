@@ -1,5 +1,11 @@
 // Injected content via Sentry wizard below
+
+import bundleAnalyzer from "@next/bundle-analyzer";
 import { withSentryConfig } from "@sentry/nextjs";
+
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === "true",
+});
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -20,6 +26,19 @@ const nextConfig = {
     gzipSize: true,
     // Sentry instrumentation 활성화 (Web Vitals 수집에 필요)
     instrumentationHook: true,
+    optimizePackageImports: [
+      "lucide-react",
+      "@radix-ui/react-select",
+      "@radix-ui/react-checkbox",
+      "@radix-ui/react-label",
+      "@radix-ui/react-progress",
+      "@tanstack/react-query",
+      "class-variance-authority",
+      "tailwind-merge",
+      "zod",
+      "react-hook-form",
+      "@hookform/resolvers",
+    ],
   },
   eslint: {
     // Warning: This allows production builds to successfully complete even if
@@ -57,7 +76,7 @@ const nextConfig = {
 };
 
 export default withSentryConfig(
-  nextConfig,
+  withBundleAnalyzer(nextConfig),
   {
     // For all available options, see:
     // https://github.com/getsentry/sentry-webpack-plugin#options
@@ -75,8 +94,8 @@ export default withSentryConfig(
     // Upload a larger set of source maps for prettier stack traces (increases build time)
     widenClientFileUpload: true,
 
-    // Transpiles SDK to be compatible with IE11 (increases bundle size)
-    transpileClientSDK: true,
+    // IE11 지원 불필요 - 번들 사이즈 최적화를 위해 비활성화
+    transpileClientSDK: false,
 
     // Routes browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers. (increases server load)
     // Note: Check that the configured route will not match with your Next.js middleware, otherwise reporting of client-
