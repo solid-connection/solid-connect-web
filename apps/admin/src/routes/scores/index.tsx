@@ -44,27 +44,27 @@ function ScoresPage() {
 	];
 
 	return (
-		<div className="mx-auto w-full max-w-[1280px] rounded-[24px] border border-slate-200 bg-white shadow-[0_16px_40px_-28px_rgba(15,23,42,0.45)]">
+		<div className="mx-auto w-full max-w-[1280px] rounded-[24px] border border-k-100 bg-k-0 shadow-sdw-a">
 			<div className="flex min-h-[calc(100vh-96px)]">
-				<aside className="flex w-[212px] flex-col border-r border-slate-100 bg-slate-50/70 px-5 py-7">
+				<aside className="flex w-[212px] flex-col border-r border-k-100 bg-bg-100 px-5 py-7">
 					<div className="mb-10">
-						<p className="text-[11px] font-semibold text-indigo-400">Solid Connection</p>
-						<h1 className="mt-1 text-[34px] font-extrabold leading-[1.04] tracking-[-0.03em] text-indigo-500">
+						<p className="typo-sb-11 text-primary">Solid Connection</p>
+						<h1 className="mt-1 typo-bold-1 tracking-[-0.03em] text-primary-700">
 							Admin
 							<br />
 							boards
 						</h1>
 					</div>
 
-					<p className="mb-4 text-xs font-semibold text-slate-400">관리 메뉴</p>
+					<p className="mb-4 typo-sb-11 text-k-400">관리 메뉴</p>
 					<nav className="space-y-1.5">
 						{sideMenus.map((menu) => (
 							<button
 								key={menu.label}
 								type="button"
 								className={cn(
-									"flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-[13px] font-medium transition-colors",
-									menu.active ? "bg-indigo-50 text-indigo-600" : "text-slate-400 hover:bg-white hover:text-slate-600",
+									"flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left typo-medium-3 transition-colors",
+									menu.active ? "bg-primary-100 text-primary" : "text-k-400 hover:bg-k-0 hover:text-k-700",
 								)}
 							>
 								<menu.icon className="h-4 w-4" />
@@ -74,16 +74,16 @@ function ScoresPage() {
 					</nav>
 				</aside>
 
-				<section className="flex-1 bg-slate-50/30 p-7">
-					<div className="h-full rounded-2xl border border-slate-100 bg-white p-6 shadow-[0_8px_24px_-22px_rgba(15,23,42,0.55)]">
-						<div className="inline-flex items-center gap-1.5 rounded-lg bg-slate-100 p-1">
+				<section className="flex-1 bg-bg-50 p-7">
+					<div className="h-full rounded-2xl border border-k-100 bg-k-0 p-6 shadow-[0_8px_24px_-22px_rgba(26,31,39,0.45)]">
+						<div className="inline-flex items-center gap-1.5 rounded-lg bg-k-50 p-1">
 							{topTabs.map((tab) => (
 								<button
 									key={tab}
 									type="button"
 									className={cn(
-										"rounded-md px-3 py-1.5 text-xs font-semibold tracking-[-0.01em] transition-colors",
-										tab === "권역/나라" ? "bg-white text-indigo-600 shadow-sm" : "text-slate-500 hover:text-slate-700",
+										"rounded-md px-3 py-1.5 typo-sb-11 tracking-[-0.01em] transition-colors",
+										tab === "권역/나라" ? "bg-k-0 text-primary shadow-sm" : "text-k-500 hover:text-k-700",
 									)}
 								>
 									{tab}
@@ -92,22 +92,19 @@ function ScoresPage() {
 						</div>
 
 						<div className="mt-6 flex flex-wrap items-center gap-2">
-							<h2 className="mr-auto text-xl font-bold tracking-[-0.02em] text-slate-800">권역/나라</h2>
+							<h2 className="mr-auto typo-bold-4 tracking-[-0.01em] text-k-800">권역/나라</h2>
 
 							<div className="relative min-w-[300px] flex-1">
 								<Input
 									value={searchKeyword}
 									onChange={(event) => setSearchKeyword(event.target.value)}
 									placeholder="검색어를 입력한 후 검색할 카테고리를 선택해주세요"
-									className="h-9 border-slate-200 bg-slate-50 pr-10 text-xs"
+									className="h-9 border-k-100 bg-bg-50 pr-10 typo-regular-4 text-k-700"
 								/>
-								<Search className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+								<Search className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-k-400" />
 							</div>
 
-							<Button
-								type="button"
-								className="h-9 rounded-md bg-indigo-500 px-3 text-xs text-white hover:bg-indigo-600"
-							>
+							<Button type="button" className="h-9 rounded-md bg-primary px-3 typo-sb-11 text-k-0 hover:bg-primary-600">
 								<SquarePen className="h-3.5 w-3.5" />
 								권역/나라 생성하기
 							</Button>
@@ -120,14 +117,14 @@ function ScoresPage() {
 									type="button"
 									onClick={() => setVerifyFilter(option.value)}
 									className={cn(
-										"inline-flex items-center gap-2 text-xs font-medium transition-colors",
-										verifyFilter === option.value ? "text-indigo-600" : "text-slate-400 hover:text-slate-600",
+										"inline-flex items-center gap-2 typo-medium-4 transition-colors",
+										verifyFilter === option.value ? "text-primary" : "text-k-400 hover:text-k-600",
 									)}
 								>
 									<span
 										className={cn(
 											"h-2.5 w-2.5 rounded-full border",
-											verifyFilter === option.value ? "border-indigo-500 bg-indigo-500" : "border-slate-300 bg-white",
+											verifyFilter === option.value ? "border-primary bg-primary" : "border-k-300 bg-k-0",
 										)}
 									/>
 									{option.label}
@@ -135,18 +132,18 @@ function ScoresPage() {
 							))}
 						</div>
 
-						<div className="mt-5 rounded-xl border border-slate-100 bg-white p-3">
+						<div className="mt-5 rounded-xl border border-k-100 bg-k-0 p-3">
 							<Tabs defaultValue="gpa">
-								<TabsList className="h-9 rounded-md bg-slate-100 p-1">
+								<TabsList className="h-9 rounded-md bg-k-50 p-1">
 									<TabsTrigger
 										value="gpa"
-										className="rounded-md px-4 text-xs font-semibold data-[state=active]:bg-white data-[state=active]:text-indigo-600"
+										className="rounded-md px-4 typo-sb-11 data-[state=active]:bg-k-0 data-[state=active]:text-primary"
 									>
 										GPA 성적
 									</TabsTrigger>
 									<TabsTrigger
 										value="language"
-										className="rounded-md px-4 text-xs font-semibold data-[state=active]:bg-white data-[state=active]:text-indigo-600"
+										className="rounded-md px-4 typo-sb-11 data-[state=active]:bg-k-0 data-[state=active]:text-primary"
 									>
 										어학성적
 									</TabsTrigger>

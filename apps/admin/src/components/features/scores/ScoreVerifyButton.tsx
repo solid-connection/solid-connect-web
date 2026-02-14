@@ -33,7 +33,7 @@ export function ScoreVerifyButton({ currentStatus, onVerifyChange }: Props) {
 			<button
 				type="button"
 				onClick={handleApprove}
-				className="rounded bg-green-500 px-3 py-1 text-white hover:bg-green-600"
+				className="rounded bg-[#15A861] px-3 py-1 typo-sb-11 text-k-0 hover:bg-[#10814A]"
 			>
 				승인
 			</button>
@@ -45,12 +45,12 @@ export function ScoreVerifyButton({ currentStatus, onVerifyChange }: Props) {
 						value={rejectReason}
 						onChange={(e) => setRejectReason(e.target.value)}
 						placeholder="거절 사유"
-						className="rounded border px-2 py-1"
+						className="rounded border border-k-200 bg-k-0 px-2 py-1 typo-regular-4 text-k-700"
 					/>
 					<button
 						type="button"
 						onClick={handleReject}
-						className="rounded bg-red-500 px-3 py-1 text-white hover:bg-red-600"
+						className="rounded bg-[#E22A2D] px-3 py-1 typo-sb-11 text-k-0 hover:bg-[#BA1E21]"
 					>
 						확인
 					</button>
@@ -59,7 +59,7 @@ export function ScoreVerifyButton({ currentStatus, onVerifyChange }: Props) {
 				<button
 					type="button"
 					onClick={handleReject}
-					className="rounded bg-red-500 px-3 py-1 text-white hover:bg-red-600"
+					className="rounded bg-[#E22A2D] px-3 py-1 typo-sb-11 text-k-0 hover:bg-[#BA1E21]"
 				>
 					거절
 				</button>

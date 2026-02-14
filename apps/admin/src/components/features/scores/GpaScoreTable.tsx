@@ -90,7 +90,7 @@ export function GpaScoreTable({ verifyFilter }: Props) {
 	};
 
 	return (
-		<div className="rounded-lg border bg-white shadow">
+		<div className="rounded-lg border border-k-100 bg-k-0">
 			<div className="overflow-x-auto">
 				<Table>
 					<TableHeader>
@@ -111,27 +111,27 @@ export function GpaScoreTable({ verifyFilter }: Props) {
 							<TableRow>
 								<TableCell colSpan={9} className="text-center">
 									<div className="flex items-center justify-center">
-										<div className="h-5 w-5 animate-spin rounded-full border-b-2 border-gray-900" />
-										<span className="ml-2">로딩중...</span>
+										<div className="h-5 w-5 animate-spin rounded-full border-b-2 border-primary" />
+										<span className="ml-2 typo-regular-4 text-k-500">로딩중...</span>
 									</div>
 								</TableCell>
 							</TableRow>
 						) : scores.length === 0 ? (
 							<TableRow>
-								<TableCell colSpan={9} className="text-center text-gray-500">
+								<TableCell colSpan={9} className="text-center typo-regular-4 text-k-500">
 									데이터가 없습니다
 								</TableCell>
 							</TableRow>
 						) : (
 							scores.map((score) => (
-								<TableRow key={score.gpaScoreStatusResponse.id} className="hover:bg-gray-50">
+								<TableRow key={score.gpaScoreStatusResponse.id} className="hover:bg-bg-50">
 									<TableCell>{score.gpaScoreStatusResponse.id}</TableCell>
 									<TableCell>
 										<div className="flex items-center">
 											<img
 												src={score.siteUserResponse.profileImageUrl}
 												alt="프로필"
-												className="mr-2 h-8 w-8 rounded-full"
+												className="mr-2 h-8 w-8 rounded-full border border-k-100"
 											/>
 											{score.siteUserResponse.nickname}
 										</div>
@@ -144,7 +144,7 @@ export function GpaScoreTable({ verifyFilter }: Props) {
 													step="0.01"
 													value={editingGpa}
 													onChange={(e) => setEditingGpa(Number.parseFloat(e.target.value))}
-													className="w-20 rounded border px-2 py-1"
+													className="w-20 rounded border border-k-200 bg-k-0 px-2 py-1 typo-regular-4 text-k-700"
 												/>
 											</div>
 										) : (
@@ -159,7 +159,7 @@ export function GpaScoreTable({ verifyFilter }: Props) {
 													step="0.01"
 													value={editingGpaCriteria}
 													onChange={(e) => setEditingGpaCriteria(Number.parseFloat(e.target.value))}
-													className="w-20 rounded border px-2 py-1"
+													className="w-20 rounded border border-k-200 bg-k-0 px-2 py-1 typo-regular-4 text-k-700"
 												/>
 												<Button onClick={() => handleSave(score)} variant="default">
 													저장
@@ -187,7 +187,7 @@ export function GpaScoreTable({ verifyFilter }: Props) {
 											href={`${S3_BASE_URL}${score.gpaScoreStatusResponse.gpaResponse.gpaReportUrl}`}
 											target="_blank"
 											rel="noopener noreferrer"
-											className="text-blue-600 hover:text-blue-800 hover:underline"
+											className="typo-medium-4 text-primary hover:text-primary-700 hover:underline"
 										>
 											파일 보기
 										</a>
@@ -207,7 +207,7 @@ export function GpaScoreTable({ verifyFilter }: Props) {
 				</Table>
 			</div>
 			{/* 페이지네이션 */}
-			<div className="mt-4 flex items-center justify-center gap-2 p-4">
+			<div className="mt-4 flex items-center justify-center gap-2 border-t border-k-100 p-4">
 				<Button onClick={() => handlePageChange(page - 1)} disabled={page === 1} variant="secondary">
 					이전
 				</Button>
