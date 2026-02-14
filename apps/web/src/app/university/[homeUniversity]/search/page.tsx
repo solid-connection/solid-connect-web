@@ -49,7 +49,10 @@ const SearchPage = async ({ params }: PageProps) => {
 
   return (
     <>
-      <TopDetailNavigation title={`${universityInfo.shortName} 파견학교 검색`} backHref={`/university/${homeUniversity}`} />
+      <TopDetailNavigation
+        title={`${universityInfo.shortName} 파견학교 검색`}
+        backHref={`/university/${homeUniversity}`}
+      />
       <div className="w-full">
         <main className="flex flex-1 flex-col p-5">
           <h2 className="mb-1 typo-bold-1">오직 나를 위한</h2>
