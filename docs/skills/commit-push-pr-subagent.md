@@ -16,17 +16,18 @@
 1. 작업 브랜치 확인: `git branch --show-current`
 2. 변경사항 확인: `git status --short --branch`, `git diff --stat`
 3. 커밋 스타일 준수: 저장소 규칙(`<type>: <subject>`) 사용
+4. 커밋 메시지와 PR 제목/본문은 한국어로 작성
 
 ## Execution Steps
 
 ```bash
 git add <files>
-git commit -m "docs: add commit-push-pr subagent skill"
+git commit -m "docs: 커밋/푸시/PR 서브에이전트 스킬 문서 추가"
 git push -u origin <branch>
 gh pr create --base <base> --head <branch> --title "<title>" --body "$(cat <<'EOF'
-## Summary
-- <summary bullet 1>
-- <summary bullet 2>
+## 요약
+- <요약 항목 1>
+- <요약 항목 2>
 EOF
 )"
 ```
@@ -42,3 +43,9 @@ EOF
 - 생성된 커밋 해시
 - 푸시 결과(업스트림 연결 여부)
 - PR URL
+
+## Language Policy
+
+- 커밋 메시지는 한국어를 기본으로 사용한다.
+- PR 제목과 본문은 한국어로 작성한다.
+- 영문 용어가 필요한 경우에도 설명 문장은 한국어로 유지한다.

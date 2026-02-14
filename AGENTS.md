@@ -29,6 +29,7 @@
 
 - Branch from `main` for new work.
 - Keep commit messages aligned with repository conventions.
+- Write commit messages and PR title/body in Korean by default.
 - Run `pnpm typecheck` (and relevant app checks) before push.
 
 ## Architecture References
