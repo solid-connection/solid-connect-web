@@ -29,6 +29,7 @@ const ChatMessageBox = ({ message, currentUserId = 1, partnerNickname = "상대�
               <div className="relative overflow-hidden rounded-lg">
                 <Image
                   src={attachment.url}
+                  cdnHostType="upload"
                   alt="첨부 이미지"
                   width={200}
                   height={150}
