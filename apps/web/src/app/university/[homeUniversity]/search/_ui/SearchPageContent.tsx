@@ -6,17 +6,15 @@ import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { Controller, type SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
-
-import { IconSearch } from "@/public/svgs/search";
+import CustomDropdown from "@/app/university/CustomDropdown";
 import {
   COUNTRY_CODE_MAP,
   LANGUAGE_TEST_TYPE_MAP,
   REGION_TO_COUNTRIES_MAP,
   REGIONS_SEARCH,
 } from "@/constants/university";
+import { IconSearch } from "@/public/svgs/search";
 import { CountryCode, LanguageTestType } from "@/types/university";
-
-import CustomDropdown from "@/app/university/CustomDropdown";
 
 // Zod 스키마
 const searchSchema = z.object({
