@@ -45,9 +45,10 @@ type KebabMenuProps = {
   postId: number;
   boardCode: string;
   isOwner?: boolean;
+  authorId?: number;
 };
 
-const KebabMenu = ({ postId, boardCode, isOwner = false }: KebabMenuProps) => {
+const KebabMenu = ({ postId, boardCode, isOwner = false, authorId }: KebabMenuProps) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { mutate: deletePost } = useDeletePost();
   const router = useRouter();
@@ -87,7 +88,7 @@ const KebabMenu = ({ postId, boardCode, isOwner = false }: KebabMenuProps) => {
         <div className="absolute right-0 top-full z-10 mt-2 w-40 origin-top-right rounded-lg border border-gray-100 bg-white shadow-lg">
           <ul className="p-1">
             <li>
-              <ReportPanel idx={postId} />
+              <ReportPanel idx={postId} blockUserId={authorId} />
             </li>
             <li key={"URL 복사"}>
               <button
