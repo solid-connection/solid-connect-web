@@ -14,16 +14,8 @@ interface BottomSheetProps {
 const DEFAULT_SNAP = [0];
 
 const BottomSheet = ({ isOpen, onClose, children, titleChild, snap = DEFAULT_SNAP }: BottomSheetProps) => {
-  const {
-    elementRef,
-    isVisible,
-    translateY,
-    isDraggingRef,
-    handleClose,
-    handleTouchStart,
-    handleTouchMove,
-    handleTouchEnd,
-  } = useHandleModal(onClose, snap);
+  const { isVisible, translateY, isDraggingRef, handleClose, handleTouchStart, handleTouchMove, handleTouchEnd } =
+    useHandleModal(onClose, snap);
 
   if (!isOpen) return null;
 
@@ -45,7 +37,6 @@ const BottomSheet = ({ isOpen, onClose, children, titleChild, snap = DEFAULT_SNA
 
       {/* 바텀 시트 */}
       <div
-        ref={elementRef}
         className={clsx(
           "fixed bottom-0 left-0 z-50 flex h-[90vh] max-h-screen w-full flex-col rounded-t-2xl bg-white shadow-2xl",
           !isDraggingRef.current && "transition-transform duration-300 ease-out",

@@ -13,7 +13,7 @@ import SubmitLinkTab from "@/components/score/SubmitLinkTab";
 import SubmitResult, { type InfoRowProps } from "@/components/score/SubmitResult";
 import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 import { toast } from "@/lib/zustand/useToastStore";
-import { LanguageTestEnum } from "@/types/score";
+import { LanguageTestEnum, languageTestScoreInfo } from "@/types/score";
 import { type LanguageTestFormData, languageTestSchema } from "./_lib/schema";
 
 const LanguageTestSubmitForm = () => {
@@ -61,11 +61,13 @@ const LanguageTestSubmitForm = () => {
   };
 
   if (showResult && submittedData) {
+    const submittedTestInfo = languageTestScoreInfo[submittedData.testType];
+
     const infoRows: InfoRowProps[] = [
       {
         label: "공인어학",
-        status: "TOEIC",
-        details: `${submittedData.score}/500`,
+        status: submittedTestInfo.label,
+        details: `${submittedData.score}/${submittedTestInfo.max}`,
       },
       {
         label: "어학증명서",

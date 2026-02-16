@@ -21,10 +21,10 @@
 
 1. 기본 실행
    - `pnpm run sync:bruno`
-2. 원격 명세 강제 동기화
-   - `BRUNO_REPO_URL=<repo-url> pnpm --filter @solid-connect/api-schema run sync:bruno:remote`
+2. 원격 명세 강제 동기화 (기본과 동일 동작 명시)
+   - `pnpm --filter @solid-connect/api-schema run sync:bruno:remote`
 3. 모드 제어
-   - `BRUNO_SOURCE_MODE=local|remote|auto`
+   - `BRUNO_SOURCE_MODE=local|remote|auto` (기본: `remote`)
 
 ## 환경 변수 규칙
 
@@ -32,6 +32,7 @@
 - `BRUNO_REPO_URL`: 원격 Bruno 저장소 URL
 - `BRUNO_REPO_REF`: 원격 브랜치/태그 (기본 `main`)
 - `BRUNO_COLLECTION_PATH`: 저장소 내부 명세 폴더 (기본 `Solid Connection`)
+- 권장 파일: `packages/api-schema/.env`
 
 ## 검증 체크리스트
 
@@ -41,5 +42,5 @@
 
 ## 실패 대응
 
-- 로컬 명세 폴더 미존재 + `BRUNO_REPO_URL` 미설정이면 즉시 실패한다.
+- `BRUNO_SOURCE_MODE=remote`에서 `BRUNO_REPO_URL` 미설정이면 즉시 실패한다.
 - 원격 clone 성공 후 `BRUNO_COLLECTION_PATH` 경로가 없으면 즉시 실패한다.

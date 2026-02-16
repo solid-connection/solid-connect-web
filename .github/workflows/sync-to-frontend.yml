@@ -4,6 +4,9 @@ on:
   repository_dispatch:
     types: [bruno_updated]
 
+env:
+  BRUNO_REPO_URL: ${{ vars.BRUNO_REPO_URL || format('https://github.com/{0}/api-docs.git', github.repository_owner) }}
+
 jobs:
   sync:
     runs-on: ubuntu-latest
@@ -22,8 +25,16 @@ jobs:
         run: |
           rm -rf /tmp/bruno
           BRANCH="${{ github.event.client_payload.branch || 'main' }}"
+          REPO_PATH="${BRUNO_REPO_URL#https://github.com/}"
+
+          if [ "$REPO_PATH" = "$BRUNO_REPO_URL" ]; then
+            echo "BRUNO_REPO_URL must start with https://github.com/: $BRUNO_REPO_URL"
+            exit 1
+          fi
+
           echo "Cloning Bruno repo from branch: $BRANCH"
-          git clone -b "$BRANCH" https://x-access-token:${{ steps.app-token.outputs.token }}@github.com/${{ github.repository_owner }}/api-docs.git /tmp/bruno
+          echo "Bruno source repo: $BRUNO_REPO_URL"
+          git clone -b "$BRANCH" "https://x-access-token:${{ steps.app-token.outputs.token }}@github.com/${REPO_PATH}" /tmp/bruno
 
       - name: Clone bruno-api-typescript
         run: |
