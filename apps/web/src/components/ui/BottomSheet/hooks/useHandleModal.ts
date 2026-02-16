@@ -1,4 +1,4 @@
-import { type MutableRefObject, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { type MutableRefObject, type RefObject, useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 // 드래그 핸들에서 제외해야 하는 인터랙티브 엘리먼트 판별
 const isInteractiveElement = (el: EventTarget | null): boolean => {
@@ -115,6 +115,7 @@ const useHandleModal = (onClose: () => void, snap: number[] = [0]): UseHandleMod
   }, [isVisible, translateY, snapPoints, handleClose]);
 
   return {
+    elementRef,
     isVisible,
     translateY,
     isDraggingRef,
