@@ -1,0 +1,209 @@
+name: Stage Deployment
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  detect-changes:
+    name: Detect Changes
+    runs-on: ubuntu-latest
+    outputs:
+      web: ${{ steps.filter.outputs.web }}
+      admin: ${{ steps.filter.outputs.admin }}
+      root: ${{ steps.filter.outputs.root }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check changed files
+        uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            web:
+              - 'apps/web/**'
+            admin:
+              - 'apps/admin/**'
+            root:
+              - 'package.json'
+              - 'pnpm-lock.yaml'
+              - 'pnpm-workspace.yaml'
+              - 'turbo.json'
+              - '.github/workflows/**'
+
+  deploy-web-stage:
+    name: Deploy Web (Stage)
+    runs-on: ubuntu-latest
+    needs: detect-changes
+    if: needs.detect-changes.outputs.web == 'true' || needs.detect-changes.outputs.root == 'true'
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_WEB_STAGE }}
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+      TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.x"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Vercel CLI
+        run: pnpm add --global vercel@latest
+
+      - name: Turbo cached build (web)
+        run: pnpm turbo run build --filter=@solid-connect/web
+
+      - name: Prepare Vercel project metadata (web)
+        run: |
+          rm -rf .vercel
+          mkdir -p .vercel-ci
+        working-directory: apps/web
+
+      - name: Pull Vercel environment (web stage)
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }} 2>&1 | tee .vercel-ci/pull.log
+        working-directory: apps/web
+
+      - name: Build prebuilt artifacts (web stage)
+        run: vercel build --yes --target=preview --token=${{ secrets.VERCEL_TOKEN }} 2>&1 | tee .vercel-ci/build.log
+        working-directory: apps/web
+
+      - name: Verify prebuilt artifacts (web)
+        run: |
+          test -f .vercel/output/config.json
+          test -d .vercel/output/functions
+        working-directory: apps/web
+
+      - name: Deploy prebuilt artifacts (web stage)
+        id: deploy_web
+        run: |
+          set -euo pipefail
+          vercel deploy --prebuilt --target=preview --token=${{ secrets.VERCEL_TOKEN }} 2>&1 | tee .vercel-ci/deploy.log
+          URL=$(grep -Eo 'https://[^ ]+\.vercel\.app' .vercel-ci/deploy.log | head -n 1)
+          if [ -z "$URL" ]; then
+            echo "Failed to parse deployment URL from Vercel output" >&2
+            exit 1
+          fi
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
+          {
+            echo "## Web Stage Deployment"
+            echo "- Status: success"
+            echo "- URL: $URL"
+          } >> "$GITHUB_STEP_SUMMARY"
+        working-directory: apps/web
+
+      - name: Append failure summary (web stage)
+        if: failure()
+        run: |
+          {
+            echo "## Web Stage Deployment Failed"
+            echo "- Inspect artifact: web-stage-vercel-logs"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload Vercel logs (web stage)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-stage-vercel-logs
+          path: apps/web/.vercel-ci/*.log
+          if-no-files-found: ignore
+
+  deploy-admin-stage:
+    name: Deploy Admin (Stage)
+    runs-on: ubuntu-latest
+    needs: detect-changes
+    if: needs.detect-changes.outputs.admin == 'true' || needs.detect-changes.outputs.root == 'true'
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_ADMIN_STAGE }}
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+      TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.x"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Vercel CLI
+        run: pnpm add --global vercel@latest
+
+      - name: Turbo cached build (admin)
+        run: pnpm turbo run build --filter=@solid-connect/admin
+
+      - name: Prepare Vercel project metadata (admin)
+        run: |
+          rm -rf .vercel
+          mkdir -p .vercel-ci
+        working-directory: apps/admin
+
+      - name: Pull Vercel environment (admin stage)
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }} 2>&1 | tee .vercel-ci/pull.log
+        working-directory: apps/admin
+
+      - name: Build prebuilt artifacts (admin stage)
+        run: vercel build --yes --target=preview --token=${{ secrets.VERCEL_TOKEN }} 2>&1 | tee .vercel-ci/build.log
+        working-directory: apps/admin
+
+      - name: Verify prebuilt artifacts (admin)
+        run: |
+          test -f .vercel/output/config.json
+          test -d .vercel/output/functions
+        working-directory: apps/admin
+
+      - name: Deploy prebuilt artifacts (admin stage)
+        id: deploy_admin
+        run: |
+          set -euo pipefail
+          vercel deploy --prebuilt --target=preview --token=${{ secrets.VERCEL_TOKEN }} 2>&1 | tee .vercel-ci/deploy.log
+          URL=$(grep -Eo 'https://[^ ]+\.vercel\.app' .vercel-ci/deploy.log | head -n 1)
+          if [ -z "$URL" ]; then
+            echo "Failed to parse deployment URL from Vercel output" >&2
+            exit 1
+          fi
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
+          {
+            echo "## Admin Stage Deployment"
+            echo "- Status: success"
+            echo "- URL: $URL"
+          } >> "$GITHUB_STEP_SUMMARY"
+        working-directory: apps/admin
+
+      - name: Append failure summary (admin stage)
+        if: failure()
+        run: |
+          {
+            echo "## Admin Stage Deployment Failed"
+            echo "- Inspect artifact: admin-stage-vercel-logs"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload Vercel logs (admin stage)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: admin-stage-vercel-logs
+          path: apps/admin/.vercel-ci/*.log
+          if-no-files-found: ignore

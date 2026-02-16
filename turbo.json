@@ -4,7 +4,7 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**", ".output/**"],
+      "outputs": ["dist/**", ".output/**", ".vercel/output/**"],
       "env": ["NODE_ENV", "NEXT_PUBLIC_*"]
     },
     "@solid-connect/web#build": {
