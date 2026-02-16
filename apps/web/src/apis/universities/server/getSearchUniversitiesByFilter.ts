@@ -48,7 +48,7 @@ export const getSearchUniversitiesByFilter = async (
 };
 
 export const getSearchUniversitiesAllRegions = async (): Promise<ListUniversity[]> => {
-  const endpoint = `/univ-apply-infos/search/filter`;
+  const endpoint = `/univ-apply-infos/search/text?value=`;
   const response = await serverFetch<UniversitySearchResponse>(endpoint);
 
   if (!response.ok) {
