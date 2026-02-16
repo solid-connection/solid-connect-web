@@ -43,6 +43,7 @@ jobs:
     env:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_WEB }}
+      STAGE_ALIAS_DOMAIN: ${{ secrets.VERCEL_STAGE_WEB_ALIAS }}
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
       TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
     steps:
@@ -107,6 +108,27 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
         working-directory: apps/web
 
+      - name: Bind fixed stage alias (web)
+        if: steps.deploy_web.outputs.url != ''
+        run: |
+          set -euo pipefail
+          if [ -z "$STAGE_ALIAS_DOMAIN" ]; then
+            {
+              echo "## Web Stage Alias"
+              echo "- Status: skipped"
+              echo "- Reason: \\`VERCEL_STAGE_WEB_ALIAS\\` secret is not configured"
+            } >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          vercel alias set "${{ steps.deploy_web.outputs.url }}" "$STAGE_ALIAS_DOMAIN" --token=${{ secrets.VERCEL_TOKEN }} 2>&1 | tee .vercel-ci/alias.log
+          {
+            echo "## Web Stage Alias"
+            echo "- Status: success"
+            echo "- Alias: $STAGE_ALIAS_DOMAIN"
+          } >> "$GITHUB_STEP_SUMMARY"
+        working-directory: apps/web
+
       - name: Append failure summary (web stage)
         if: failure()
         run: |
@@ -131,6 +153,7 @@ jobs:
     env:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_ADMIN }}
+      STAGE_ALIAS_DOMAIN: ${{ secrets.VERCEL_STAGE_ADMIN_ALIAS }}
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
       TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
     steps:
@@ -192,6 +215,27 @@ jobs:
             echo "## Admin Stage Deployment"
             echo "- Status: success"
             echo "- URL: $URL"
+          } >> "$GITHUB_STEP_SUMMARY"
+        working-directory: apps/admin
+
+      - name: Bind fixed stage alias (admin)
+        if: steps.deploy_admin.outputs.url != ''
+        run: |
+          set -euo pipefail
+          if [ -z "$STAGE_ALIAS_DOMAIN" ]; then
+            {
+              echo "## Admin Stage Alias"
+              echo "- Status: skipped"
+              echo "- Reason: \\`VERCEL_STAGE_ADMIN_ALIAS\\` secret is not configured"
+            } >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          vercel alias set "${{ steps.deploy_admin.outputs.url }}" "$STAGE_ALIAS_DOMAIN" --token=${{ secrets.VERCEL_TOKEN }} 2>&1 | tee .vercel-ci/alias.log
+          {
+            echo "## Admin Stage Alias"
+            echo "- Status: success"
+            echo "- Alias: $STAGE_ALIAS_DOMAIN"
           } >> "$GITHUB_STEP_SUMMARY"
         working-directory: apps/admin
 
