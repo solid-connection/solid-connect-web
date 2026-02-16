@@ -15,6 +15,11 @@ on:
           - both
           - web
           - admin
+      force_redeploy:
+        description: "Create empty commit when release branch is already up to date"
+        required: true
+        default: false
+        type: boolean
 
 jobs:
   generate_tag:
@@ -57,6 +62,7 @@ jobs:
           MAIN_SHA=$(git rev-parse origin/main)
 
           TARGET="${{ github.event.inputs.target }}"
+          FORCE_REDEPLOY="${{ github.event.inputs.force_redeploy }}"
 
           case "$TARGET" in
             web)
@@ -98,6 +104,18 @@ jobs:
             fi
 
             if [ "$MAIN_SHA" = "$RELEASE_SHA" ]; then
+              if [ "$FORCE_REDEPLOY" = "true" ]; then
+                git checkout -B "$BRANCH" "origin/$BRANCH"
+                git config user.name "github-actions[bot]"
+                git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+                git commit --allow-empty -m "chore: force redeploy trigger for $BRANCH"
+                git push origin "HEAD:refs/heads/$BRANCH"
+                {
+                  echo "- $BRANCH: force redeploy commit created"
+                } >> "$GITHUB_STEP_SUMMARY"
+                continue
+              fi
+
               {
                 echo "- $BRANCH: already up to date"
               } >> "$GITHUB_STEP_SUMMARY"
