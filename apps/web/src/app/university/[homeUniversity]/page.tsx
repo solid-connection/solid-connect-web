@@ -8,7 +8,7 @@ import type { HomeUniversitySlug } from "@/types/university";
 
 import UniversityListContent from "./_ui/UniversityListContent";
 
-export const revalidate = 3600; // 1시간마다 재검증 (ISR)
+export const revalidate = 15552000; // 6개월마다 재검증 (ISR)
 
 // 정적 경로 생성
 export async function generateStaticParams() {
