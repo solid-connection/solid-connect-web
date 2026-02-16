@@ -8,6 +8,8 @@ const monorepoRootDir = resolve(rootDir, "../..");
 loadEnvFiles([
   resolve(rootDir, ".env.local"),
   resolve(rootDir, ".env"),
+  resolve(rootDir, "../api-schema/.env.local"),
+  resolve(rootDir, "../api-schema/.env"),
   resolve(monorepoRootDir, ".env.local"),
   resolve(monorepoRootDir, ".env"),
 ]);
@@ -122,4 +124,7 @@ run("node", [
   "./src/generated/apis",
   "--axios-path",
   "../../../runtime/axiosInstance",
+  "--root-index",
+  "./src/generated/index.ts",
+  "--clean-output",
 ]);

@@ -7,12 +7,14 @@
     "sync:bruno:remote": "BRUNO_SOURCE_MODE=remote node ./scripts/sync-bruno.mjs",
     "build": "pnpm run sync:bruno",
     "typecheck": "tsc --noEmit",
-    "codegen:check": "pnpm run sync:bruno && git diff --exit-code src/generated/apis || (echo \"Generated API client is out of sync. Run: pnpm --filter @solid-connect/api-client run sync:bruno\" && exit 1)"
+    "codegen:check": "pnpm run sync:bruno && git diff --exit-code src/generated || (echo \"Generated API client is out of sync. Run: pnpm --filter @solid-connect/api-client run sync:bruno\" && exit 1)"
   },
   "exports": {
     ".": "./src/index.ts",
     "./runtime": "./src/runtime/index.ts",
+    "./generated": "./src/generated/index.ts",
     "./generated/admin": "./src/generated/admin/index.ts",
+    "./generated/apis/*": "./src/generated/apis/*/index.ts",
     "./hooks": "./src/hooks/index.ts"
   },
   "dependencies": {

@@ -3,9 +3,23 @@
  * 도메인별로 모든 API 함수를 객체로 묶어서 export
  */
 
-import { ParsedBrunoFile, extractJsonFromDocs } from '../parser/bruParser';
-import { ApiFunction } from './apiClientGenerator';
-import { generateTypeScriptInterface, toCamelCase, functionNameToTypeName } from './typeGenerator';
+import { extractJsonFromDocs, type ParsedBrunoFile } from "../parser/bruParser";
+import type { ApiFunction } from "./apiClientGenerator";
+import { generateTypeScriptInterface, toCamelCase } from "./typeGenerator";
+
+function splitRequestUrl(url: string): { path: string; hasQuery: boolean } {
+  const normalized = url.replace(/\{\{URL\}\}/g, "");
+  const questionMarkIndex = normalized.indexOf("?");
+
+  if (questionMarkIndex === -1) {
+    return { path: normalized, hasQuery: false };
+  }
+
+  return {
+    path: normalized.slice(0, questionMarkIndex),
+    hasQuery: true,
+  };
+}
 
 /**
  * 빈 인터페이스를 Record<string, never> 타입으로 변환
@@ -22,8 +36,8 @@ function convertEmptyInterfaceToType(content: string, typeName: string): string 
 /**
  * 팩토리용 API 함수 코드 생성 (객체 속성으로 사용)
  */
-function generateApiFunctionForFactory(apiFunc: ApiFunction, parsed: ParsedBrunoFile): string {
-  const { name, method, url, responseType, hasParams, hasBody } = apiFunc;
+function generateApiFunctionForFactory(apiFunc: ApiFunction): string {
+  const { method, url, responseType, hasBody } = apiFunc;
 
   const lines: string[] = [];
 
@@ -31,28 +45,28 @@ function generateApiFunctionForFactory(apiFunc: ApiFunction, parsed: ParsedBruno
   const paramsList: string[] = [];
   const urlParams: string[] = [];
 
+  const { path: requestPath, hasQuery } = splitRequestUrl(url);
+
   // URL 생성 로직
-  // 1. {{URL}} 제거
-  let processedUrl = url.replace(/\{\{URL\}\}/g, '');
+  let processedUrl = requestPath;
 
   // 2. 브루노 변수 {{변수명}} 처리 (URL 파라미터로 변환)
-  const brunoVarPattern = /\{\{([^}]+)\}\}/g;
-  let match;
   const processedBrunoVars = new Set<string>();
 
-  while ((match = brunoVarPattern.exec(processedUrl)) !== null) {
-    const varName = match[1];
-    // URL 변수는 제외
-    if (varName === 'URL') continue;
-    
-    const camelVarName = varName.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
+  processedUrl = processedUrl.replace(/\{\{([^}]+)\}\}/g, (_fullMatch, rawVarName: string) => {
+    if (rawVarName === "URL") {
+      return "";
+    }
+
+    const camelVarName = rawVarName.replace(/-([a-z])/g, (_, character: string) => character.toUpperCase());
     if (!urlParams.includes(camelVarName) && !processedBrunoVars.has(camelVarName)) {
       urlParams.push(camelVarName);
       paramsList.push(`${camelVarName}: string | number`);
       processedBrunoVars.add(camelVarName);
     }
-    processedUrl = processedUrl.replace(match[0], `\${params.${camelVarName}}`);
-  }
+
+    return `\${params.${camelVarName}}`;
+  });
 
   // 3. 기존 URL 파라미터 패턴 처리 (:param, {param})
   const urlParamMatches = processedUrl.matchAll(/:(\w+)|\{(\w+)\}/g);
@@ -67,31 +81,31 @@ function generateApiFunctionForFactory(apiFunc: ApiFunction, parsed: ParsedBruno
   }
 
   // Query 파라미터
-  if (method === 'GET') {
-    paramsList.push('params?: Record<string, unknown>');
+  if (method === "GET" || hasQuery) {
+    paramsList.push("params?: Record<string, unknown>");
   }
 
   // Body 파라미터
   if (hasBody) {
-    paramsList.push(`data?: ${responseType.replace('Response', 'Request')}`);
+    paramsList.push(`data?: ${responseType.replace("Response", "Request")}`);
   }
 
   // 함수 시그니처
-  const paramsStr = paramsList.length > 0 ? `{ ${paramsList.join(', ')} }` : '';
-  const paramsType = paramsList.length > 0 ? `params: ${paramsStr}` : '';
+  const paramsStr = paramsList.length > 0 ? `{ ${paramsList.join(", ")} }` : "";
+  const paramsType = paramsList.length > 0 ? `params: ${paramsStr}` : "";
 
-  let urlExpression = `\`${processedUrl}\``;
+  const urlExpression = `\`${processedUrl}\``;
 
   // 함수 생성 (화살표 함수로)
   lines.push(`async (${paramsType}): Promise<${responseType}> => {`);
 
   const configParts: string[] = [];
-  if (method === 'GET' && paramsList.some(p => p.includes('params?'))) {
-    configParts.push('params: params?.params');
+  if (method === "GET" && paramsList.some((p) => p.includes("params?"))) {
+    configParts.push("params: params?.params");
   }
 
-  const configStr = configParts.length > 0 ? `, { ${configParts.join(', ')} }` : '';
-  const bodyStr = hasBody ? ', params?.data' : '';
+  const configStr = configParts.length > 0 ? `, { ${configParts.join(", ")} }` : "";
+  const bodyStr = hasBody ? ", params?.data" : "";
 
   lines.push(`  const res = await axiosInstance.${method.toLowerCase()}<${responseType}>(`);
   lines.push(`    ${urlExpression}${bodyStr}${configStr}`);
@@ -99,7 +113,7 @@ function generateApiFunctionForFactory(apiFunc: ApiFunction, parsed: ParsedBruno
   lines.push(`  return res.data;`);
   lines.push(`}`);
 
-  return lines.join('\n');
+  return lines.join("\n");
 }
 
 /**
@@ -108,32 +122,29 @@ function generateApiFunctionForFactory(apiFunc: ApiFunction, parsed: ParsedBruno
 export function generateApiFactory(
   apiFunctions: Array<{ apiFunc: ApiFunction; parsed: ParsedBrunoFile }>,
   domain: string,
-  axiosInstancePath: string
+  axiosInstancePath: string,
 ): string {
-  const lines: string[] = [
-    `import { axiosInstance } from "${axiosInstancePath}";`,
-    '',
-  ];
+  const lines: string[] = [`import { axiosInstance } from "${axiosInstancePath}";`, ""];
 
   // 모든 타입 정의 수집
   const typeDefinitions = new Set<string>();
 
   for (const { apiFunc, parsed } of apiFunctions) {
     const { responseType } = apiFunc;
-    const requestType = responseType.replace('Response', 'Request');
+    const requestType = responseType.replace("Response", "Request");
 
     // Response 타입 생성
     if (parsed.docs) {
       const jsonData = extractJsonFromDocs(parsed.docs);
       if (jsonData !== null && jsonData !== undefined) {
         // 빈 객체 체크
-        if (typeof jsonData === 'object' && !Array.isArray(jsonData) && Object.keys(jsonData).length === 0) {
+        if (typeof jsonData === "object" && !Array.isArray(jsonData) && Object.keys(jsonData).length === 0) {
           // 빈 객체인 경우 Record<string, never> 타입 생성
           const emptyType = `export type ${responseType} = Record<string, never>;`;
           if (!typeDefinitions.has(emptyType)) {
             typeDefinitions.add(emptyType);
             lines.push(emptyType);
-            lines.push('');
+            lines.push("");
           }
         } else {
           const typeDefs = generateTypeScriptInterface(jsonData, responseType);
@@ -143,7 +154,7 @@ export function generateApiFactory(
             if (!typeDefinitions.has(processedContent)) {
               typeDefinitions.add(processedContent);
               lines.push(processedContent);
-              lines.push('');
+              lines.push("");
             }
           }
         }
@@ -153,7 +164,7 @@ export function generateApiFactory(
         if (!typeDefinitions.has(defaultType)) {
           typeDefinitions.add(defaultType);
           lines.push(defaultType);
-          lines.push('');
+          lines.push("");
         }
       }
     } else {
@@ -162,12 +173,12 @@ export function generateApiFactory(
       if (!typeDefinitions.has(defaultType)) {
         typeDefinitions.add(defaultType);
         lines.push(defaultType);
-        lines.push('');
+        lines.push("");
       }
     }
 
     // Request 타입 생성 (POST, PUT, PATCH인 경우)
-    if (['POST', 'PUT', 'PATCH'].includes(apiFunc.method)) {
+    if (["POST", "PUT", "PATCH"].includes(apiFunc.method)) {
       if (parsed.body?.content) {
         try {
           const bodyData = JSON.parse(parsed.body.content);
@@ -176,7 +187,7 @@ export function generateApiFactory(
             if (!typeDefinitions.has(typeDef.content)) {
               typeDefinitions.add(typeDef.content);
               lines.push(typeDef.content);
-              lines.push('');
+              lines.push("");
             }
           }
         } catch {
@@ -185,7 +196,7 @@ export function generateApiFactory(
           if (!typeDefinitions.has(defaultRequestType)) {
             typeDefinitions.add(defaultRequestType);
             lines.push(defaultRequestType);
-            lines.push('');
+            lines.push("");
           }
         }
       } else {
@@ -194,7 +205,7 @@ export function generateApiFactory(
         if (!typeDefinitions.has(defaultRequestType)) {
           typeDefinitions.add(defaultRequestType);
           lines.push(defaultRequestType);
-          lines.push('');
+          lines.push("");
         }
       }
     }
@@ -204,18 +215,21 @@ export function generateApiFactory(
   const factoryName = `${toCamelCase(domain)}Api`;
   lines.push(`export const ${factoryName} = {`);
 
-  for (const { apiFunc, parsed } of apiFunctions) {
-    const functionCode = generateApiFunctionForFactory(apiFunc, parsed);
+  for (const { apiFunc } of apiFunctions) {
+    const functionCode = generateApiFunctionForFactory(apiFunc);
     // 들여쓰기 추가 (2칸)
-    const indentedCode = functionCode.split('\n').map((line, index) => {
-      if (index === 0) return `  ${apiFunc.name}: ${line}`;
-      return `  ${line}`;
-    }).join('\n');
-    lines.push(indentedCode + ',');
-    lines.push('');
+    const indentedCode = functionCode
+      .split("\n")
+      .map((line, index) => {
+        if (index === 0) return `  ${apiFunc.name}: ${line}`;
+        return `  ${line}`;
+      })
+      .join("\n");
+    lines.push(indentedCode + ",");
+    lines.push("");
   }
 
   lines.push(`};`);
 
-  return lines.join('\n');
+  return lines.join("\n");
 }
