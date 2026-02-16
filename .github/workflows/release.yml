@@ -1,10 +1,20 @@
-name: Promote Main to Release
+name: Promote Main to Release Branches
 
 permissions:
   contents: write
 
 on:
   workflow_dispatch:
+    inputs:
+      target:
+        description: "Promote target"
+        required: true
+        default: "both"
+        type: choice
+        options:
+          - both
+          - web
+          - admin
 
 jobs:
   generate_tag:
@@ -30,7 +40,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
   promote_release_branch:
-    name: Promote main -> release
+    name: Promote main -> release branch(es)
     runs-on: ubuntu-latest
     needs: create_release
     steps:
@@ -39,53 +49,72 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Promote main branch to release branch
+      - name: Promote main branch to selected release branch(es)
         run: |
           set -euo pipefail
 
           git fetch origin main
-          git fetch origin release || true
-
           MAIN_SHA=$(git rev-parse origin/main)
 
-          if git show-ref --verify --quiet refs/remotes/origin/release; then
-            RELEASE_SHA=$(git rev-parse origin/release)
-          else
-            RELEASE_SHA=""
-          fi
+          TARGET="${{ github.event.inputs.target }}"
 
-          if [ -z "$RELEASE_SHA" ]; then
-            git push origin origin/main:refs/heads/release
-            {
-              echo "## Release Promotion"
-              echo "- Status: success (release branch created)"
-              echo "- Promoted main SHA: $MAIN_SHA"
-              echo "- Target branch: release"
-              echo "- Note: Vercel production deploy is triggered by release branch update"
-            } >> "$GITHUB_STEP_SUMMARY"
-            exit 0
-          fi
-
-          if [ "$MAIN_SHA" = "$RELEASE_SHA" ]; then
-            {
-              echo "## Release Promotion"
-              echo "- Status: skipped (release is already up to date)"
-              echo "- main: $MAIN_SHA"
-            } >> "$GITHUB_STEP_SUMMARY"
-            exit 0
-          fi
-
-          if ! git merge-base --is-ancestor origin/release origin/main; then
-            echo "release branch is not an ancestor of main. Resolve release history before promotion." >&2
-            exit 1
-          fi
-
-          git push origin origin/main:refs/heads/release
+          case "$TARGET" in
+            web)
+              RELEASE_BRANCHES="release-web"
+              ;;
+            admin)
+              RELEASE_BRANCHES="release-admin"
+              ;;
+            both)
+              RELEASE_BRANCHES="release-web release-admin"
+              ;;
+            *)
+              echo "Unsupported target: $TARGET" >&2
+              exit 1
+              ;;
+          esac
 
           {
             echo "## Release Promotion"
-            echo "- Status: success"
+            echo "- Selected target: $TARGET"
             echo "- Promoted main SHA: $MAIN_SHA"
-            echo "- Target branch: release"
-            echo "- Note: Vercel production deploy is triggered by release branch update"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          for BRANCH in $RELEASE_BRANCHES; do
+            git fetch origin "$BRANCH" || true
+
+            if git show-ref --verify --quiet "refs/remotes/origin/$BRANCH"; then
+              RELEASE_SHA=$(git rev-parse "origin/$BRANCH")
+            else
+              RELEASE_SHA=""
+            fi
+
+            if [ -z "$RELEASE_SHA" ]; then
+              git push origin origin/main:"refs/heads/$BRANCH"
+              {
+                echo "- $BRANCH: created from main"
+              } >> "$GITHUB_STEP_SUMMARY"
+              continue
+            fi
+
+            if [ "$MAIN_SHA" = "$RELEASE_SHA" ]; then
+              {
+                echo "- $BRANCH: already up to date"
+              } >> "$GITHUB_STEP_SUMMARY"
+              continue
+            fi
+
+            if ! git merge-base --is-ancestor "origin/$BRANCH" origin/main; then
+              echo "$BRANCH is not an ancestor of main. Resolve release history before promotion." >&2
+              exit 1
+            fi
+
+            git push origin origin/main:"refs/heads/$BRANCH"
+            {
+              echo "- $BRANCH: updated"
+            } >> "$GITHUB_STEP_SUMMARY"
+          done
+
+          {
+            echo "- Note: Vercel production deploy is triggered by corresponding release branch update"
           } >> "$GITHUB_STEP_SUMMARY"
