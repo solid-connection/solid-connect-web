@@ -1,14 +1,14 @@
 import { type RefObject, useEffect, useRef, useState } from "react";
 
 interface UseSectionHandlerReturn {
-  sectionRef: RefObject<HTMLDivElement | null>;
+  sectionRef: RefObject<HTMLDivElement>;
   visible: boolean;
 }
 
 const useSectionHandler = (): UseSectionHandlerReturn => {
   const [visible, setVisible] = useState<boolean>(false);
 
-  const sectionRef = useRef<HTMLDivElement | null>(null);
+  const sectionRef = useRef<HTMLDivElement>(null!);
   useEffect(() => {
     if (!sectionRef.current) return;
 

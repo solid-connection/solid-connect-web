@@ -1,6 +1,5 @@
 import Image from "@/components/ui/FallbackImage";
 import { IconDefaultProfile, IconGraduation } from "@/public/svgs/mentor";
-import { convertUploadedImageUrl } from "@/utils/fileUtils";
 
 interface ProfileWithBadgeProps {
   profileImageUrl?: string | null;
@@ -32,7 +31,8 @@ const ProfileWithBadge = ({
         {profileImageUrl ? (
           <Image
             unoptimized
-            src={convertUploadedImageUrl(profileImageUrl)}
+            src={profileImageUrl}
+            cdnHostType="upload"
             alt="프로필 이미지"
             width={width}
             height={height}
