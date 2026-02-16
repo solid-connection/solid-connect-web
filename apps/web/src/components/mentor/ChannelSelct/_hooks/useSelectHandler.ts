@@ -5,7 +5,7 @@ import type { ChannelType } from "@/types/mentor";
 
 interface useSelectHandlerReturn {
   isOpen: boolean;
-  dropdownRef: RefObject<HTMLDivElement | null>;
+  dropdownRef: RefObject<HTMLDivElement>;
   handleChannelChange: (val: ChannelType | null) => void;
   toggleDropdown: () => void;
 }
@@ -21,7 +21,7 @@ const useSelectHandler = ({
   onChannelChange,
 }: UseSelectHandlerProps): useSelectHandlerReturn => {
   const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null!);
 
   const { field } = useController({ name, control, defaultValue: null });
 
