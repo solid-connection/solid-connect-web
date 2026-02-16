@@ -10,11 +10,14 @@
 ## 2) 주요 명령어
 
 ```bash
-# 스키마 동기화 (필요할 때 수동 실행)
+# 스키마 동기화 (기본: 원격 api-docs 기준)
 pnpm run sync:bruno
 
-# 항상 원격 명세 저장소에서 동기화
-BRUNO_REPO_URL=https://github.com/<org>/<repo>.git pnpm --filter @solid-connect/api-schema run sync:bruno:remote
+# 원격 강제 모드 (동일 동작을 명시적으로 실행)
+pnpm --filter @solid-connect/api-schema run sync:bruno:remote
+
+# 로컬 명세 폴더 강제 모드
+BRUNO_SOURCE_MODE=local pnpm --filter @solid-connect/api-schema run sync:bruno
 
 # 전체 빌드 시에도 자동으로 실행되도록 turbo에 연동
 pnpm run build
@@ -24,18 +27,28 @@ pnpm run build
 
 1. Bruno 정의 위치(우선순위)
    - `BRUNO_COLLECTION_DIR` 환경 변수 지정 경로
-   - 로컬 기본 경로: `api-docs/Solid Connection/**/*.bru`
-   - 로컬 경로가 없을 때 원격 저장소(`BRUNO_REPO_URL`)를 clone 후 `BRUNO_COLLECTION_PATH` 하위 경로
+   - 원격 저장소(`BRUNO_REPO_URL`) clone 후 `BRUNO_COLLECTION_PATH` 하위 경로 (기본)
+   - `BRUNO_SOURCE_MODE=auto`일 때만 로컬 기본 경로(`api-docs/Solid Connection/**/*.bru`) fallback
 2. 생성 명령: `bruno-api generate-hooks`
 3. 생성 결과: `packages/api-schema/src/apis/**`
 
 ### 원격 동기화용 환경 변수
 
-- `BRUNO_SOURCE_MODE`: `auto` | `local` | `remote` (기본값: `auto`)
+- `BRUNO_SOURCE_MODE`: `auto` | `local` | `remote` (기본값: `remote`)
 - `BRUNO_COLLECTION_DIR`: 명세 폴더 절대/상대 경로
 - `BRUNO_REPO_URL`: 원격 Bruno 저장소 URL (`remote` 모드에서 필수)
 - `BRUNO_REPO_REF`: 원격 브랜치/태그 (기본값: `main`)
 - `BRUNO_COLLECTION_PATH`: 저장소 내부 컬렉션 경로 (기본값: `Solid Connection`)
+
+### 권장 환경 변수 파일
+
+`packages/api-schema/.env`
+
+```env
+BRUNO_REPO_URL=https://github.com/solid-connection/api-docs.git
+BRUNO_REPO_REF=main
+BRUNO_COLLECTION_PATH="Solid Connection"
+```
 
 ## 4) 파일/폴더 네이밍 규칙
 
