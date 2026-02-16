@@ -1,9 +1,5 @@
 {
   "git": {
     "deploymentEnabled": true
-  },
-  "buildCommand": "pnpm --filter @solid-connect/web run build",
-  "outputDirectory": "apps/web/.next",
-  "installCommand": "pnpm install",
-  "framework": "nextjs"
+  }
 }
