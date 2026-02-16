@@ -13,7 +13,7 @@
       "env": ["NODE_ENV", "NEXT_PUBLIC_*"]
     },
     "sync:bruno": {
-      "outputs": ["src/apis/**", "src/generated/apis/**"],
+      "outputs": ["src/apis/**", "src/generated/**"],
       "cache": false
     },
     "codegen:check": {
