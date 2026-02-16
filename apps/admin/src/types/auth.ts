@@ -1,8 +1,1 @@
-export interface AdminSignInResponse {
-	accessToken: string;
-	refreshToken: string;
-}
-
-export interface ReissueAccessTokenResponse {
-	accessToken: string;
-}
+export type { AdminSignInResponse, ReissueAccessTokenResponse } from "@solid-connect/api-client/generated/admin";
