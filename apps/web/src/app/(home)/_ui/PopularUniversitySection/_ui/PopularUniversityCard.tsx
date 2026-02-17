@@ -21,13 +21,13 @@ const PopularUniversityCard = ({
   return (
     <Link key={university.id} href={`/university/${university.id}`}>
       <div className="relative w-[153px]">
-        <div className="relative h-[120px] w-[153px] overflow-hidden rounded-lg bg-gray-200">
+        <div className="relative h-[120px] w-[153px] overflow-hidden rounded-lg bg-k-700">
           <Image
             className="h-[120px] rounded-lg object-cover"
             src={
               university.backgroundImageUrl
                 ? convertImageUrl(university.backgroundImageUrl)
-                : "@/images/default-university.jpg"
+                : "/svgs/placeholders/university-background-placeholder.svg"
             }
             width={153}
             height={120}
@@ -43,6 +43,7 @@ const PopularUniversityCard = ({
                 ? "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkrHB0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
                 : undefined
             }
+            fallbackSrc="/svgs/placeholders/university-background-placeholder.svg"
           />
         </div>
         <div className="absolute bottom-[9px] left-[10px] z-10 tracking-[0.15px] text-white typo-sb-9">
