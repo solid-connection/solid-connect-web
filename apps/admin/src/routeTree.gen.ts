@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ScoresIndexRouteImport } from './routes/scores/index'
+import { Route as BrunoIndexRouteImport } from './routes/bruno/index'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
 
 const IndexRoute = IndexRouteImport.update({
@@ -23,6 +24,11 @@ const ScoresIndexRoute = ScoresIndexRouteImport.update({
   path: '/scores/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BrunoIndexRoute = BrunoIndexRouteImport.update({
+  id: '/bruno/',
+  path: '/bruno/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthLoginRoute = AuthLoginRouteImport.update({
   id: '/auth/login',
   path: '/auth/login',
@@ -32,30 +38,34 @@ const AuthLoginRoute = AuthLoginRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth/login': typeof AuthLoginRoute
+  '/bruno/': typeof BrunoIndexRoute
   '/scores/': typeof ScoresIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth/login': typeof AuthLoginRoute
+  '/bruno': typeof BrunoIndexRoute
   '/scores': typeof ScoresIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/auth/login': typeof AuthLoginRoute
+  '/bruno/': typeof BrunoIndexRoute
   '/scores/': typeof ScoresIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth/login' | '/scores/'
+  fullPaths: '/' | '/auth/login' | '/bruno/' | '/scores/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth/login' | '/scores'
-  id: '__root__' | '/' | '/auth/login' | '/scores/'
+  to: '/' | '/auth/login' | '/bruno' | '/scores'
+  id: '__root__' | '/' | '/auth/login' | '/bruno/' | '/scores/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthLoginRoute: typeof AuthLoginRoute
+  BrunoIndexRoute: typeof BrunoIndexRoute
   ScoresIndexRoute: typeof ScoresIndexRoute
 }
 
@@ -75,6 +85,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ScoresIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/bruno/': {
+      id: '/bruno/'
+      path: '/bruno'
+      fullPath: '/bruno/'
+      preLoaderRoute: typeof BrunoIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth/login': {
       id: '/auth/login'
       path: '/auth/login'
@@ -88,6 +105,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthLoginRoute: AuthLoginRoute,
+  BrunoIndexRoute: BrunoIndexRoute,
   ScoresIndexRoute: ScoresIndexRoute,
 }
 export const routeTree = rootRouteImport
