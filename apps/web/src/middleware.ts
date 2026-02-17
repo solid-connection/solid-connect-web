@@ -32,9 +32,6 @@ export function middleware(request: NextRequest) {
 
   if (needLogin && !refreshToken) {
     url.pathname = "/login";
-    // 전체 URL(pathname + search) 보존하여 리다이렉트 파라미터에 설정
-    const redirectUrl = request.nextUrl.pathname + request.nextUrl.search;
-    url.searchParams.set("redirect", redirectUrl);
     return NextResponse.redirect(url);
   }
 
