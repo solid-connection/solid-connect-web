@@ -35,6 +35,9 @@ importers:
       '@radix-ui/react-tabs':
         specifier: ^1.1.13
         version: 1.1.13(@types/react-dom@19.2.3(@types/react@19.2.10))(@types/react@19.2.10)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      '@solid-connect/api-client':
+        specifier: workspace:*
+        version: link:../../packages/api-client
       '@tailwindcss/vite':
         specifier: ^4.0.6
         version: 4.1.18(vite@7.3.1(@types/node@22.19.7)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
@@ -250,6 +253,16 @@ importers:
       tailwindcss:
         specifier: ^3.4.10
         version: 3.4.19(tsx@4.21.0)(yaml@2.8.2)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.9.3
+
+  packages/api-client:
+    dependencies:
+      axios:
+        specifier: ^1.6.7
+        version: 1.13.2
+    devDependencies:
       typescript:
         specifier: ^5.3.3
         version: 5.9.3

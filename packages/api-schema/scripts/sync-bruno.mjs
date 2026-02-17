@@ -122,4 +122,7 @@ run("node", [
   "./src/apis",
   "--axios-path",
   "../axiosInstance",
+  "--root-index",
+  "./src/apis/index.ts",
+  "--clean-output",
 ]);
