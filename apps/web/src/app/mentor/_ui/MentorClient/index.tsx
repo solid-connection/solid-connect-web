@@ -42,7 +42,7 @@ const MentorClient = () => {
       } catch {
         // 재발급 실패 시 로그인 페이지로 리다이렉트
         setRefreshStatus("failed");
-        router.push("/login?redirect=/mentor");
+        router.push("/login");
       } finally {
         setIsRefreshing(false);
       }

@@ -1,10 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
 
 import type { AxiosError } from "axios";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { toast } from "@/lib/zustand/useToastStore";
-import { validateSafeRedirect } from "@/utils/authUtils";
 import { authApi, type EmailLoginRequest, type EmailLoginResponse } from "./api";
 
 /**
@@ -12,7 +11,6 @@ import { authApi, type EmailLoginRequest, type EmailLoginResponse } from "./api"
  */
 const usePostEmailAuth = () => {
   const { setAccessToken } = useAuthStore();
-  const searchParams = useSearchParams();
   const router = useRouter();
 
   return useMutation<EmailLoginResponse, AxiosError, EmailLoginRequest>({
@@ -24,16 +22,12 @@ const usePostEmailAuth = () => {
       // refreshToken은 서버에서 HTTP-only 쿠키로 자동 설정됨
       setAccessToken(accessToken);
 
-      // 안전한 리다이렉트 처리 - 오픈 리다이렉트 방지
-      const redirectParam = searchParams.get("redirect");
-      const safeRedirect = validateSafeRedirect(redirectParam);
-
       toast.success("로그인에 성공했습니다.");
 
       // Zustand persist middleware가 localStorage에 저장할 시간을 보장
       // 토큰 저장 후 리다이렉트하여 타이밍 이슈 방지
       setTimeout(() => {
-        router.push(safeRedirect);
+        router.push("/");
       }, 100);
     },
   });
