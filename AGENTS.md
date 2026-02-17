@@ -28,9 +28,16 @@
 ## Git / Workflow Notes
 
 - Branch from `main` for new work.
+- Always start every new task from a fresh branch created from `main`, and name the branch to match the task scope (for example: `fix/university-fallback-image-contrast`).
 - Keep commit messages aligned with repository conventions.
 - Write commit messages and PR title/body in Korean by default.
 - Run `pnpm typecheck` (and relevant app checks) before push.
+
+## UI Guardrails (University Fallback)
+
+- For university background image fallback UI, keep existing text color unchanged in surrounding UI.
+- Do not render text inside fallback image assets.
+- Use a fallback background that preserves readability for overlaid white text (e.g. dark neutral/gradient placeholder).
 
 ## Architecture References
 
