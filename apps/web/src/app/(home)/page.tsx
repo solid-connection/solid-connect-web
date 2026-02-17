@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import { getHomeNewsList } from "@/apis/news/server/getNewsList";
 import { getCategorizedUniversities, getRecommendedUniversity } from "@/apis/universities/server";
-import { fetchAllNews } from "@/lib/firebaseNews";
 import { IconIdCard, IconMagnifyingGlass, IconMuseum, IconPaper } from "@/public/svgs/home";
 import FindLastYearScoreBar from "./_ui/FindLastYearScoreBar";
 import NewsSectionSkeleton from "./_ui/NewsSection/skeleton";
@@ -64,7 +64,7 @@ const structuredData = {
 };
 
 const HomePage = async () => {
-  const newsList = await fetchAllNews();
+  const newsList = await getHomeNewsList();
   const { data } = await getRecommendedUniversity();
   const recommendedUniversities = data?.recommendedUniversities || [];
   // 권역별 전체 대학 리스트를 미리 가져와 빌드합니다
@@ -147,4 +147,4 @@ const HomePage = async () => {
 
 export default HomePage;
 
-export const revalidate = 60 * 60 * 24; // 1 day
+export const revalidate = 86400; // 1 day
