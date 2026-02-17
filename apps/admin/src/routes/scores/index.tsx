@@ -1,9 +1,10 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { Building2, Database, FileText, Search, SquarePen, UserCircle2 } from "lucide-react";
+import { Database, Search, SquarePen, UserCircle2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { GpaScoreTable } from "@/components/features/scores/GpaScoreTable";
 import { LanguageScoreTable } from "@/components/features/scores/LanguageScoreTable";
+import { AdminSidebar } from "@/components/layout/AdminSidebar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -58,13 +59,6 @@ function AdminApiDashboardPage() {
 	const [countryName, setCountryName] = useState("");
 	const [countryRegionCode, setCountryRegionCode] = useState("");
 	const [regionActionResult, setRegionActionResult] = useState<unknown>(null);
-
-	const sideMenus = [
-		{ label: "대학 관리", icon: Building2, active: true },
-		{ label: "멘토 관리", icon: UserCircle2, active: true },
-		{ label: "유저 관리", icon: UserCircle2, active: false },
-		{ label: "성적 관리", icon: FileText, active: true },
-	] as const;
 
 	const topTabs = ["권역/나라", "멘토 지원", "성적 검증", "API 응답"] as const;
 
@@ -299,33 +293,7 @@ function AdminApiDashboardPage() {
 	return (
 		<div className="mx-auto w-full max-w-[1440px] rounded-[24px] border border-k-100 bg-k-0 shadow-sdw-a">
 			<div className="flex min-h-[calc(100vh-96px)]">
-				<aside className="flex w-[212px] flex-col border-r border-k-100 bg-bg-100 px-5 py-7">
-					<div className="mb-10">
-						<p className="typo-sb-11 text-primary">Solid Connection</p>
-						<h1 className="mt-1 typo-bold-1 tracking-[-0.03em] text-primary-700">
-							Admin
-							<br />
-							boards
-						</h1>
-					</div>
-
-					<p className="mb-4 typo-sb-11 text-k-400">관리 메뉴</p>
-					<nav className="space-y-1.5">
-						{sideMenus.map((menu) => (
-							<button
-								key={menu.label}
-								type="button"
-								className={cn(
-									"flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left typo-medium-3 transition-colors",
-									menu.active ? "bg-primary-100 text-primary" : "text-k-400 hover:bg-k-0 hover:text-k-700",
-								)}
-							>
-								<menu.icon className="h-4 w-4" />
-								{menu.label}
-							</button>
-						))}
-					</nav>
-				</aside>
+				<AdminSidebar activeMenu="scores" />
 
 				<section className="flex-1 bg-bg-50 p-7">
 					<div className="h-full rounded-2xl border border-k-100 bg-k-0 p-6 shadow-[0_8px_24px_-22px_rgba(26,31,39,0.45)]">
