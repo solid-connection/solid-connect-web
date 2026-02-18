@@ -2,11 +2,12 @@
 
 import { useState } from "react";
 import ScoreCard from "@/app/university/score/ScoreCard";
-import BlockBtn from "@/components/button/BlockBtn";
 import TextModal from "@/components/modal/TextModal";
 import Tab from "@/components/ui/Tab";
 import { toast } from "@/lib/zustand/useToastStore";
 import { type GpaScore, ScoreSubmitStatus } from "@/types/score";
+import ApplicationBottomActionBar from "../_components/ApplicationBottomActionBar";
+import ApplicationSectionTitle from "../_components/ApplicationSectionTitle";
 
 type GpaStepProps = {
   gpaScoreList: GpaScore[];
@@ -17,11 +18,21 @@ type GpaStepProps = {
 
 const GpaStep = ({ gpaScoreList, curGpaScore, setCurGpaScore, onNext }: GpaStepProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleNext = () => {
+    if (curGpaScore === null) {
+      setIsModalOpen(true);
+      return;
+    }
+    onNext();
+  };
+
   return (
     <>
       <div className="my-5 px-5">
+        <ApplicationSectionTitle title="학점 성적 선택" description="지원에 사용할 학점 성적을 선택해주세요." />
         <Tab choices={["공인어학", "학점"]} choice="학점" setChoice={() => {}} />
-        <div className="my-[14px] mb-40 flex flex-col gap-[14px]">
+        <div className="my-[14px] mb-40 flex flex-col gap-3">
           {gpaScoreList.map((score) => (
             <button
               key={score.id}
@@ -50,21 +61,7 @@ const GpaStep = ({ gpaScoreList, curGpaScore, setCurGpaScore, onNext }: GpaStepP
           ))}
         </div>
       </div>
-      <div className="fixed bottom-14 w-full max-w-app bg-transparent">
-        <div className="mb-[37px] px-5">
-          <BlockBtn
-            onClick={() => {
-              if (curGpaScore === null) {
-                setIsModalOpen(true);
-                return;
-              }
-              onNext();
-            }}
-          >
-            다음
-          </BlockBtn>
-        </div>
-      </div>
+      <ApplicationBottomActionBar label="다음" onClick={handleNext} />
       <TextModal
         isOpen={isModalOpen}
         handleClose={() => setIsModalOpen(false)}
