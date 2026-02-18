@@ -12,7 +12,7 @@ const ScorePage = () => {
   return (
     <>
       <TopDetailNavigation title="점수 공유 현황" />
-      <div className="w-full px-5">
+      <div className="w-full">
         <ScorePageContent />
       </div>
     </>

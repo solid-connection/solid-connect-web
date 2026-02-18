@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { type FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { useGetApplicationsList } from "@/apis/applications";
 import ConfirmCancelModal from "@/components/modal/ConfirmCancelModal";
 import ButtonTab from "@/components/ui/ButtonTab";
@@ -9,7 +9,9 @@ import Tab from "@/components/ui/Tab";
 import { REGIONS_KO } from "@/constants/university";
 import type { ScoreSheet as ScoreSheetType } from "@/types/application";
 import type { RegionKo } from "@/types/university";
+import ApplicationSectionTitle from "./_components/ApplicationSectionTitle";
 import ScoreSearchBar from "./ScoreSearchBar";
+import ScoreSearchField from "./ScoreSearchField";
 import ScoreSheet from "./ScoreSheet";
 
 const PREFERENCE_CHOICE: ("1순위" | "2순위" | "3순위")[] = ["1순위", "2순위", "3순위"];
@@ -79,7 +81,7 @@ const ScorePageContent = () => {
   }, [scoreResponseData, regionFilter, searchValue]);
 
   // (이하 코드는 동일)
-  const handleSearch = (event: React.FormEvent) => {
+  const handleSearch = (event: FormEvent) => {
     event.preventDefault();
     const keyword = searchRef.current?.value || "";
     setRegionFilter("");
@@ -91,6 +93,9 @@ const ScorePageContent = () => {
     if (searchRef.current) {
       searchRef.current.value = keyword;
     }
+    setRegionFilter("");
+    setSearchValue(keyword);
+    setSearchActive(false);
   };
 
   const handleSearchClick = () => {
@@ -121,35 +126,23 @@ const ScorePageContent = () => {
   const hotKeyWords = ["RMIT", "오스트라바", "칼스루에", "그라츠", "추오", "프라하", "보라스", "빈", "메모리얼"];
 
   return (
-    <div className="gap-4 px-5">
+    <div className="px-5">
+      <ApplicationSectionTitle
+        className="mb-3 mt-5"
+        title="지원자 현황"
+        description="지원 순위와 지역 필터로 원하는 학교 현황을 빠르게 확인할 수 있어요."
+      />
       <ScoreSearchBar onClick={handleSearchClick} textRef={searchRef} searchHandler={handleSearch} />
 
       {searchActive ? (
-        <div className="p-4 font-sans">
-          {/* Title for the popular searches section */}
-          <div className="ml-5 mt-[18px] text-black typo-sb-7">인기 검색</div>
-
-          {/* Container for the keyword buttons */}
-          <div className="ml-5 mt-2.5 flex flex-wrap gap-2">
-            {hotKeyWords.map((word) => (
-              <button
-                key={word}
-                // Button styling for each keyword
-                className="flex items-center justify-center gap-2.5 rounded-full bg-k-50 px-3 py-[5px] text-black transition-colors typo-medium-2 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2"
-                onClick={() => {
-                  handleSearchField(word);
-                  handleSearch(new Event("submit") as unknown as React.FormEvent);
-                }}
-                type="button"
-              >
-                {word}
-              </button>
-            ))}
-          </div>
+        <div className="mt-3 rounded-lg bg-white py-4 shadow-sdwB">
+          <ScoreSearchField keyWords={hotKeyWords} setKeyWord={handleSearchField} />
         </div>
       ) : (
         <>
-          <Tab choices={PREFERENCE_CHOICE} choice={preference} setChoice={setPreference} />
+          <div className="mt-4 rounded-lg bg-white px-2 shadow-sdwB">
+            <Tab choices={PREFERENCE_CHOICE} choice={preference} setChoice={setPreference} />
+          </div>
           <ButtonTab
             choices={REGIONS_KO}
             choice={regionFilter}
@@ -158,10 +151,10 @@ const ScorePageContent = () => {
               setSearchValue("");
               setRegionFilter(newRegion as RegionKo | "");
             }}
-            style={{ padding: "10px 0 10px 18px" }}
+            style={{ padding: "10px 0 10px 8px" }}
           />
 
-          <div className="mx-auto mt-2.5 flex w-full flex-col gap-3 overflow-x-auto">
+          <div className="mx-auto mt-3 flex w-full flex-col gap-3 overflow-x-auto pb-4">
             {scoreSheets.map((choice) => (
               <ScoreSheet key={choice.koreanName} scoreSheet={choice} />
             ))}
