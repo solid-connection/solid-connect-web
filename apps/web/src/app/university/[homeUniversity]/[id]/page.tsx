@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { getAllUniversities, getUniversityDetail } from "@/apis/universities/server";
+import { getAllUniversities, getUniversityDetail, getUniversityDetailWithStatus } from "@/apis/universities/server";
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import { getHomeUniversityBySlug, HOME_UNIVERSITY_SLUGS } from "@/constants/university";
 import type { HomeUniversitySlug } from "@/types/university";
 
 // UniversityDetail 컴포넌트
 import UniversityDetail from "./_ui/UniversityDetail";
+import UniversityDetailPreparingFallback from "./_ui/UniversityDetailPreparingFallback";
 
 export const revalidate = false; // 완전 정적 생성
 
@@ -117,11 +118,26 @@ const CollegeDetailPage = async ({ params }: PageProps) => {
   }
 
   const collegeId = Number(id);
-  const universityData = await getUniversityDetail(collegeId);
-
-  if (!universityData) {
+  if (Number.isNaN(collegeId)) {
     notFound();
   }
+
+  const universityDetailResult = await getUniversityDetailWithStatus(collegeId);
+
+  if (!universityDetailResult.ok) {
+    if (universityDetailResult.status === 404) {
+      notFound();
+    }
+
+    return (
+      <>
+        <TopDetailNavigation title="파견 학교 상세" backHref={`/university/${homeUniversity}`} />
+        <UniversityDetailPreparingFallback backHref={`/university/${homeUniversity}`} />
+      </>
+    );
+  }
+
+  const universityData = universityDetailResult.data;
 
   const convertedKoreanName =
     universityData.term !== process.env.NEXT_PUBLIC_CURRENT_TERM

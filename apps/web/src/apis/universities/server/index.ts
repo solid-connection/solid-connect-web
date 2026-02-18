@@ -6,4 +6,8 @@ export {
   type UniversitySearchFilterParams,
 } from "./getSearchUniversitiesByFilter";
 export { getAllUniversities, getCategorizedUniversities, getUniversitiesByText } from "./getSearchUniversitiesByText";
-export { getUniversityDetail } from "./getUniversityDetail";
+export {
+  getUniversityDetail,
+  getUniversityDetailWithStatus,
+  type UniversityDetailFetchResult,
+} from "./getUniversityDetail";
