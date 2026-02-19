@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
 import { useMemo } from "react";
+import { isMatchedHomeUniversityName } from "@/constants/university";
 import type { CountryCode, HomeUniversityName, LanguageTestType, ListUniversity } from "@/types/university";
 import { QueryKeys } from "../queryKeys";
 import { type SearchFilterResponse, universitiesApi } from "./api";
@@ -53,7 +54,9 @@ const useGetUniversitySearchByFilter = (
   // homeUniversityName으로 필터링
   const filteredData = useMemo(() => {
     if (!query.data || !homeUniversityName) return query.data;
-    return query.data.filter((university) => university.homeUniversityName === homeUniversityName);
+    return query.data.filter((university) =>
+      isMatchedHomeUniversityName(university.homeUniversityName, homeUniversityName),
+    );
   }, [query.data, homeUniversityName]);
 
   return {

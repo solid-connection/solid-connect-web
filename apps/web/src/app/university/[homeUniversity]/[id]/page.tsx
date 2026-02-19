@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 
 import { getAllUniversities, getUniversityDetail, getUniversityDetailWithStatus } from "@/apis/universities/server";
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
-import { getHomeUniversityBySlug, HOME_UNIVERSITY_SLUGS } from "@/constants/university";
+import { getHomeUniversityBySlug, HOME_UNIVERSITY_SLUGS, isMatchedHomeUniversityName } from "@/constants/university";
 import type { HomeUniversitySlug } from "@/types/university";
 
 // UniversityDetail 컴포넌트
@@ -24,7 +24,9 @@ export async function generateStaticParams() {
     if (!homeUniversityInfo) continue;
 
     // 해당 홈대학에 속하는 대학들만 필터링
-    const filteredUniversities = universities.filter((uni) => uni.homeUniversityName === homeUniversityInfo.name);
+    const filteredUniversities = universities.filter((uni) =>
+      isMatchedHomeUniversityName(uni.homeUniversityName, homeUniversityInfo.name),
+    );
 
     for (const university of filteredUniversities) {
       params.push({
@@ -125,14 +127,18 @@ const CollegeDetailPage = async ({ params }: PageProps) => {
   const universityDetailResult = await getUniversityDetailWithStatus(collegeId);
 
   if (!universityDetailResult.ok) {
-    if (universityDetailResult.status === 404) {
-      notFound();
-    }
+    const isNotFoundError = universityDetailResult.status === 404;
 
     return (
       <>
         <TopDetailNavigation title="파견 학교 상세" backHref={`/university/${homeUniversity}`} />
-        <UniversityDetailPreparingFallback backHref={`/university/${homeUniversity}`} />
+        <UniversityDetailPreparingFallback
+          backHref={`/university/${homeUniversity}`}
+          title={isNotFoundError ? "해당 대학 정보를 찾을 수 없어요." : undefined}
+          description={
+            isNotFoundError ? "요청하신 파견학교를 찾지 못했습니다. 목록에서 다른 학교를 선택해 주세요." : undefined
+          }
+        />
       </>
     );
   }
