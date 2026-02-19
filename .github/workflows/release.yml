@@ -16,7 +16,7 @@ on:
           - web
           - admin
       force_redeploy:
-        description: "Create empty commit when release branch is already up to date"
+        description: "When up to date, skip divergence and print manual redeploy guidance"
         required: true
         default: false
         type: boolean
@@ -105,13 +105,11 @@ jobs:
 
             if [ "$MAIN_SHA" = "$RELEASE_SHA" ]; then
               if [ "$FORCE_REDEPLOY" = "true" ]; then
-                git checkout -B "$BRANCH" "origin/$BRANCH"
-                git config user.name "github-actions[bot]"
-                git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-                git commit --allow-empty -m "chore: force redeploy trigger for $BRANCH"
-                git push origin "HEAD:refs/heads/$BRANCH"
                 {
-                  echo "- $BRANCH: force redeploy commit created"
+                  echo "- $BRANCH: already up to date"
+                  echo "  - force_redeploy=true requested"
+                  echo "  - skipped empty commit to keep release branch ancestry clean"
+                  echo "  - trigger redeploy manually in Vercel if needed"
                 } >> "$GITHUB_STEP_SUMMARY"
                 continue
               fi
@@ -123,11 +121,12 @@ jobs:
             fi
 
             if ! git merge-base --is-ancestor "origin/$BRANCH" origin/main; then
-              echo "$BRANCH is not an ancestor of main. Resolve release history before promotion." >&2
-              exit 1
+              {
+                echo "- $BRANCH: non-ancestor detected, forcing reset to main"
+              } >> "$GITHUB_STEP_SUMMARY"
             fi
 
-            git push origin origin/main:"refs/heads/$BRANCH"
+            git push --force-with-lease origin origin/main:"refs/heads/$BRANCH"
             {
               echo "- $BRANCH: updated"
             } >> "$GITHUB_STEP_SUMMARY"
