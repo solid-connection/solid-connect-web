@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "@/components/ui/FallbackImage";
 import CheveronRightFilled from "@/components/ui/icon/ChevronRightFilled";
+import { getHomeUniversitySlugByName } from "@/constants/university";
 import type { ListUniversity } from "@/types/university";
 import { convertImageUrl } from "@/utils/fileUtils";
 import shortenLanguageTestName from "@/utils/universityUtils";
@@ -17,12 +18,16 @@ const UniversityCard = ({ university, showCapacity = true, linkPrefix = "/univer
       ? `${university.koreanName}(${university.term})`
       : university.koreanName;
 
+  const mappedHomeUniversitySlug = getHomeUniversitySlugByName(university.homeUniversityName);
+  const hasExplicitPrefix = linkPrefix !== "/university";
+  const universityDetailHref = mappedHomeUniversitySlug
+    ? `/university/${mappedHomeUniversitySlug}/${university.id}`
+    : hasExplicitPrefix
+      ? `${linkPrefix}/${university.id}`
+      : "/university";
+
   return (
-    <Link
-      className="block"
-      href={`${linkPrefix}/${university.id}`}
-      aria-labelledby={`university-name-${university.id}`}
-    >
+    <Link className="block" href={universityDetailHref} aria-labelledby={`university-name-${university.id}`}>
       <div className="relative h-[91px] w-full overflow-hidden rounded-lg border border-solid border-k-100 hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/10">
         <div className="flex justify-between px-5 py-3.5">
           <div className="flex gap-[23.5px]">

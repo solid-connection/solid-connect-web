@@ -98,6 +98,16 @@ export const isMatchedHomeUniversityName = (
   return normalizedLeft !== undefined && normalizedRight !== undefined && normalizedLeft === normalizedRight;
 };
 
+export const getHomeUniversitySlugByName = (value: string | null | undefined): HomeUniversitySlug | undefined => {
+  const normalizedUniversityName = normalizeHomeUniversityName(value);
+
+  if (!normalizedUniversityName) {
+    return undefined;
+  }
+
+  return HOME_UNIVERSITY_TO_SLUG_MAP[normalizedUniversityName];
+};
+
 /**
  * 유효한 홈 대학교 슬러그 목록
  */

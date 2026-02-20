@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "@/components/ui/FallbackImage";
+import { getHomeUniversitySlugByName } from "@/constants/university";
 import type { ListUniversity } from "@/types/university";
 import { convertImageUrl } from "@/utils/fileUtils";
 
@@ -18,8 +19,13 @@ const PopularUniversityCard = ({
   fetchPriority = "low",
   quality = 60, // 기본값을 60으로 낮춤
 }: PopularUniversityCardProps) => {
+  const homeUniversitySlug = getHomeUniversitySlugByName(university.homeUniversityName);
+  const universityDetailHref = homeUniversitySlug
+    ? `/university/${homeUniversitySlug}/${university.id}`
+    : "/university";
+
   return (
-    <Link key={university.id} href={`/university/${university.id}`}>
+    <Link key={university.id} href={universityDetailHref}>
       <div className="relative w-[153px]">
         <div className="relative h-[120px] w-[153px] overflow-hidden rounded-lg bg-k-700">
           <Image
