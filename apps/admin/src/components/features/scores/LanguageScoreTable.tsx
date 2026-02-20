@@ -1,5 +1,6 @@
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -12,7 +13,7 @@ interface Props {
 	verifyFilter: VerifyStatus;
 }
 
-const S3_BASE_URL = import.meta.env.VITE_S3_BASE_URL;
+const S3_BASE_URL = (import.meta.env.VITE_S3_BASE_URL as string | undefined) || "";
 
 const LANGUAGE_TEST_OPTIONS: { value: LanguageTestType; label: string }[] = [
 	{ value: "TOEIC", label: "TOEIC" },
@@ -30,36 +31,46 @@ const LANGUAGE_TEST_OPTIONS: { value: LanguageTestType; label: string }[] = [
 ];
 
 export function LanguageScoreTable({ verifyFilter }: Props) {
-	const [scores, setScores] = useState<LanguageScoreWithUser[]>([]);
+	const queryClient = useQueryClient();
 	const [page, setPage] = useState(1);
-	const [totalPages, setTotalPages] = useState(1);
-	const [loading, setLoading] = useState(false);
 	const [editingId, setEditingId] = useState<number | null>(null);
 	const [editingScore, setEditingScore] = useState<string>("");
 	const [editingType, setEditingType] = useState<LanguageTestType>("TOEIC");
 
-	const fetchScores = useCallback(async () => {
-		setLoading(true);
-		try {
-			const response = await scoreApi.getLanguageScores({ verifyStatus: verifyFilter }, page);
-			setScores(response.content);
-			setTotalPages(response.totalPages);
-		} catch (error) {
-			console.error("Failed to fetch Language scores:", error);
-		} finally {
-			setLoading(false);
-		}
-	}, [verifyFilter, page]);
+	const { data, isLoading, isFetching } = useQuery({
+		queryKey: ["scores", "language", verifyFilter, page],
+		queryFn: () => scoreApi.getLanguageScores({ verifyStatus: verifyFilter }, page),
+		placeholderData: keepPreviousData,
+	});
 
-	useEffect(() => {
-		fetchScores();
-	}, [fetchScores]);
+	const updateLanguageMutation = useMutation({
+		mutationFn: ({
+			id,
+			status,
+			reason,
+			score,
+		}: {
+			id: number;
+			status: VerifyStatus;
+			reason?: string;
+			score: LanguageScoreWithUser;
+		}) => scoreApi.updateLanguageScore(id, status, reason, score),
+		onSuccess: async () => {
+			await queryClient.invalidateQueries({ queryKey: ["scores", "language"] });
+		},
+	});
+
+	const scores = data?.content ?? [];
+	const totalPages = data?.totalPages ?? 1;
 
 	const handleVerifyStatus = async (id: number, status: VerifyStatus, reason?: string) => {
 		try {
 			const score = scores.find((s) => s.languageTestScoreStatusResponse.id === id);
-			await scoreApi.updateLanguageScore(id, status, reason, score);
-			fetchScores();
+			if (!score) {
+				throw new Error("Score data is required");
+			}
+
+			await updateLanguageMutation.mutateAsync({ id, status, reason, score });
 		} catch (error) {
 			console.error("Failed to update Language score:", error);
 			toast.error("성적 상태 업데이트에 실패했습니다");
@@ -74,11 +85,11 @@ export function LanguageScoreTable({ verifyFilter }: Props) {
 
 	const handleSave = async (score: LanguageScoreWithUser) => {
 		try {
-			await scoreApi.updateLanguageScore(
-				score.languageTestScoreStatusResponse.id,
-				score.languageTestScoreStatusResponse.verifyStatus,
-				score.languageTestScoreStatusResponse.rejectedReason || undefined,
-				{
+			await updateLanguageMutation.mutateAsync({
+				id: score.languageTestScoreStatusResponse.id,
+				status: score.languageTestScoreStatusResponse.verifyStatus,
+				reason: score.languageTestScoreStatusResponse.rejectedReason || undefined,
+				score: {
 					...score,
 					languageTestScoreStatusResponse: {
 						...score.languageTestScoreStatusResponse,
@@ -89,9 +100,8 @@ export function LanguageScoreTable({ verifyFilter }: Props) {
 						},
 					},
 				},
-			);
+			});
 			setEditingId(null);
-			fetchScores();
 			toast.success("어학성적이 수정되었습니다");
 		} catch (error) {
 			console.error("Failed to update language score:", error);
@@ -106,6 +116,9 @@ export function LanguageScoreTable({ verifyFilter }: Props) {
 
 	return (
 		<div className="rounded-lg border border-k-100 bg-k-0">
+			{isFetching && !isLoading ? (
+				<div className="border-b border-k-100 px-4 py-2 typo-regular-4 text-k-500">최신 데이터를 불러오는 중...</div>
+			) : null}
 			<div className="overflow-x-auto">
 				<Table>
 					<TableHeader>
@@ -122,7 +135,7 @@ export function LanguageScoreTable({ verifyFilter }: Props) {
 						</TableRow>
 					</TableHeader>
 					<TableBody>
-						{loading ? (
+						{isLoading ? (
 							<TableRow>
 								<TableCell colSpan={9} className="text-center">
 									<div className="flex items-center justify-center">

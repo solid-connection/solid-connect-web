@@ -9,11 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ScoresIndexRouteImport } from './routes/scores/index'
 import { Route as BrunoIndexRouteImport } from './routes/bruno/index'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
 
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -37,12 +43,14 @@ const AuthLoginRoute = AuthLoginRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
   '/auth/login': typeof AuthLoginRoute
   '/bruno/': typeof BrunoIndexRoute
   '/scores/': typeof ScoresIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
   '/auth/login': typeof AuthLoginRoute
   '/bruno': typeof BrunoIndexRoute
   '/scores': typeof ScoresIndexRoute
@@ -50,20 +58,22 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
   '/auth/login': typeof AuthLoginRoute
   '/bruno/': typeof BrunoIndexRoute
   '/scores/': typeof ScoresIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth/login' | '/bruno/' | '/scores/'
+  fullPaths: '/' | '/login' | '/auth/login' | '/bruno/' | '/scores/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth/login' | '/bruno' | '/scores'
-  id: '__root__' | '/' | '/auth/login' | '/bruno/' | '/scores/'
+  to: '/' | '/login' | '/auth/login' | '/bruno' | '/scores'
+  id: '__root__' | '/' | '/login' | '/auth/login' | '/bruno/' | '/scores/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  LoginRoute: typeof LoginRoute
   AuthLoginRoute: typeof AuthLoginRoute
   BrunoIndexRoute: typeof BrunoIndexRoute
   ScoresIndexRoute: typeof ScoresIndexRoute
@@ -71,6 +81,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -104,6 +121,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  LoginRoute: LoginRoute,
   AuthLoginRoute: AuthLoginRoute,
   BrunoIndexRoute: BrunoIndexRoute,
   ScoresIndexRoute: ScoresIndexRoute,
