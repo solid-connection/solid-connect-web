@@ -13,10 +13,7 @@ type UniversityCardProps = {
 };
 
 const UniversityCard = ({ university, showCapacity = true, linkPrefix = "/university" }: UniversityCardProps) => {
-  const convertedKoreanName =
-    university.term !== process.env.NEXT_PUBLIC_CURRENT_TERM
-      ? `${university.koreanName}(${university.term})`
-      : university.koreanName;
+  const convertedKoreanName = university.koreanName;
 
   const mappedHomeUniversitySlug = getHomeUniversitySlugByName(university.homeUniversityName);
   const hasExplicitPrefix = linkPrefix !== "/university";
