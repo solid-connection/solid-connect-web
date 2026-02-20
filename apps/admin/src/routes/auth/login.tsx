@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { type FormEvent, useState } from "react";
+import { type FormEvent, useId, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -14,6 +14,8 @@ export const Route = createFileRoute("/auth/login")({
 
 function LoginPage() {
 	const navigate = useNavigate();
+	const emailInputId = useId();
+	const passwordInputId = useId();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
@@ -45,46 +47,49 @@ function LoginPage() {
 	};
 
 	return (
-		<div className="flex h-screen items-center justify-center bg-slate-50">
-			<Card className="w-[360px]">
-				<CardHeader className="space-y-1 pb-4">
-					<CardTitle className="text-center text-xl">관리자 로그인</CardTitle>
-					<CardDescription className="text-center text-sm">솔리드 커넥션 관리자 페이지입니다</CardDescription>
+		<div className="flex min-h-[calc(100vh-132px)] items-center justify-center px-4 py-8">
+			<Card className="w-full max-w-[400px] border-k-100 bg-k-0 shadow-sdw-a">
+				<CardHeader className="space-y-1.5 pb-4">
+					<div className="mx-auto mb-1 flex h-12 w-12 items-center justify-center rounded-full bg-primary-100 text-primary typo-bold-4">
+						SC
+					</div>
+					<CardTitle className="text-center typo-bold-4 text-k-900">관리자 로그인</CardTitle>
+					<CardDescription className="text-center typo-regular-3 text-k-500">
+						솔리드 커넥션 운영 콘솔에 접속합니다
+					</CardDescription>
 				</CardHeader>
 				<CardContent>
-					<form onSubmit={handleSubmit} className="space-y-3">
+					<form onSubmit={handleSubmit} className="space-y-4">
 						<div className="space-y-1">
-							<Label htmlFor="email" className="text-sm">
+							<Label htmlFor={emailInputId} className="typo-sb-11 text-k-700">
 								이메일
 							</Label>
-							{/* biome-ignore lint/correctness/useUniqueElementIds: login form is singleton */}
 							<Input
-								id="email"
+								id={emailInputId}
 								type="email"
 								placeholder="admin@example.com"
 								value={email}
 								onChange={(e) => setEmail(e.target.value)}
 								disabled={isLoading}
 								required
-								className="h-9"
+								className="h-11 border-k-100 bg-bg-50 typo-regular-3 text-k-800 placeholder:text-k-400"
 							/>
 						</div>
 						<div className="space-y-1">
-							<Label htmlFor="password" className="text-sm">
+							<Label htmlFor={passwordInputId} className="typo-sb-11 text-k-700">
 								비밀번호
 							</Label>
-							{/* biome-ignore lint/correctness/useUniqueElementIds: login form is singleton */}
 							<Input
-								id="password"
+								id={passwordInputId}
 								type="password"
 								value={password}
 								onChange={(e) => setPassword(e.target.value)}
 								disabled={isLoading}
 								required
-								className="h-9"
+								className="h-11 border-k-100 bg-bg-50 typo-regular-3 text-k-800"
 							/>
 						</div>
-						<Button type="submit" className="mt-2 h-9 w-full" disabled={isLoading}>
+						<Button type="submit" className="mt-2 h-11 w-full rounded-lg typo-sb-9" disabled={isLoading}>
 							{isLoading ? "로그인 중..." : "로그인"}
 						</Button>
 					</form>
