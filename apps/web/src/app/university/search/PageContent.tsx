@@ -10,12 +10,11 @@ import { z } from "zod";
 // --- 상수, 타입, 아이콘 등 ---
 import {
   COUNTRY_CODE_MAP,
-  HOME_UNIVERSITY_TO_SLUG_MAP,
   LANGUAGE_TEST_TYPE_MAP,
   REGION_TO_COUNTRIES_MAP,
   REGIONS_SEARCH,
 } from "@/constants/university";
-import { CountryCode, HomeUniversity, LanguageTestType } from "@/types/university";
+import { CountryCode, type HomeUniversitySlug, LanguageTestType } from "@/types/university";
 import CustomDropdown from "../CustomDropdown";
 
 // --- 커스텀 드롭다운 컴포넌트 ---
@@ -31,10 +30,13 @@ const searchSchema = z.object({
 });
 type SearchFormData = z.infer<typeof searchSchema>;
 
+interface SchoolSearchFormProps {
+  homeUniversitySlug: HomeUniversitySlug;
+}
+
 // --- 메인 폼 컴포넌트 ---
-const SchoolSearchForm = () => {
+const SchoolSearchForm = ({ homeUniversitySlug }: SchoolSearchFormProps) => {
   const router = useRouter();
-  const defaultHomeUniversitySlug = HOME_UNIVERSITY_TO_SLUG_MAP[HomeUniversity.INHA];
 
   const { handleSubmit, control, watch, setValue } = useForm<SearchFormData>({
     resolver: zodResolver(searchSchema),
@@ -61,7 +63,7 @@ const SchoolSearchForm = () => {
     });
 
     const queryString = queryParams.toString();
-    router.push(`/university/${defaultHomeUniversitySlug}?${queryString}`);
+    router.push(`/university/${homeUniversitySlug}?${queryString}`);
   };
 
   const availableCountries = useMemo(() => {
