@@ -11,10 +11,10 @@ import {
 
 const convertToBearer = (token: string) => `Bearer ${token}`;
 
-const API_SERVER_URL = (import.meta.env.VITE_API_SERVER_URL as string | undefined) || "";
+const API_SERVER_URL = import.meta.env.VITE_API_SERVER_URL?.trim();
 
-if (import.meta.env.DEV && API_SERVER_URL.length === 0) {
-	console.warn("[admin] VITE_API_SERVER_URL is not configured. API requests will use current origin.");
+if (!API_SERVER_URL) {
+	throw new Error("[admin] VITE_API_SERVER_URL is required. Configure it in your environment.");
 }
 
 export const axiosInstance: AxiosInstance = axios.create({

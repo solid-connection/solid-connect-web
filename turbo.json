@@ -5,7 +5,7 @@
     "build": {
       "dependsOn": ["^build"],
       "outputs": ["dist/**", ".output/**"],
-      "env": ["NODE_ENV", "NEXT_PUBLIC_*"]
+      "env": ["NODE_ENV", "NEXT_PUBLIC_*", "VITE_*"]
     },
     "@solid-connect/web#build": {
       "dependsOn": ["^build"],
