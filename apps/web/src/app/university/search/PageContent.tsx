@@ -48,6 +48,7 @@ const SchoolSearchForm = ({ homeUniversitySlug }: SchoolSearchFormProps) => {
 
   const onSubmit: SubmitHandler<SearchFormData> = (data) => {
     const queryParams = new URLSearchParams();
+    const availableCountryCodeSet = new Set(availableCountries.map(([code]) => code as CountryCode));
 
     if (data.searchText) {
       queryParams.append("searchText", data.searchText);
@@ -57,10 +58,14 @@ const SchoolSearchForm = ({ homeUniversitySlug }: SchoolSearchFormProps) => {
     }
 
     [data.country1, data.country2, data.country3].forEach((code) => {
-      if (code) {
+      if (code && availableCountryCodeSet.has(code)) {
         queryParams.append("countryCode", code);
       }
     });
+
+    if (data.regions && data.regions.length > 0) {
+      data.regions.forEach((region) => queryParams.append("region", region));
+    }
 
     const queryString = queryParams.toString();
     router.push(`/university/${homeUniversitySlug}?${queryString}`);

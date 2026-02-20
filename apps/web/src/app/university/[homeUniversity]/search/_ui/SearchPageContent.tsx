@@ -54,13 +54,14 @@ const SearchPageContent = ({ homeUniversitySlug }: SearchPageContentProps) => {
   // 필터 검색
   const onSubmit: SubmitHandler<SearchFormData> = (data) => {
     const queryParams = new URLSearchParams();
+    const availableCountryCodeSet = new Set(availableCountries.map(([code]) => code as CountryCode));
 
     if (data.languageTestType) {
       queryParams.append("languageTestType", data.languageTestType);
     }
 
     [data.country1, data.country2, data.country3].forEach((code) => {
-      if (code) {
+      if (code && availableCountryCodeSet.has(code)) {
         queryParams.append("countryCode", code);
       }
     });
