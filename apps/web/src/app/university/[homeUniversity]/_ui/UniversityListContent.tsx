@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import FloatingUpBtn from "@/components/ui/FloatingUpBtn";
 import UniversityCards from "@/components/university/UniversityCards";
@@ -14,11 +14,27 @@ interface UniversityListContentProps {
   universities: ListUniversity[];
   homeUniversity: HomeUniversityInfo;
   homeUniversitySlug: string;
+  initialSearchText?: string;
+  initialRegion?: RegionEnumExtend | "전체";
 }
 
-const UniversityListContent = ({ universities, homeUniversity, homeUniversitySlug }: UniversityListContentProps) => {
-  const [searchText, setSearchText] = useState("");
-  const [selectedRegion, setSelectedRegion] = useState<RegionEnumExtend | "전체">("전체");
+const UniversityListContent = ({
+  universities,
+  homeUniversity,
+  homeUniversitySlug,
+  initialSearchText = "",
+  initialRegion = "전체",
+}: UniversityListContentProps) => {
+  const [searchText, setSearchText] = useState(initialSearchText.trim());
+  const [selectedRegion, setSelectedRegion] = useState<RegionEnumExtend | "전체">(initialRegion);
+
+  useEffect(() => {
+    setSearchText(initialSearchText.trim());
+  }, [initialSearchText]);
+
+  useEffect(() => {
+    setSelectedRegion(initialRegion);
+  }, [initialRegion]);
 
   // 검색어 및 지역 필터링
   const filteredUniversities = useMemo(() => {
