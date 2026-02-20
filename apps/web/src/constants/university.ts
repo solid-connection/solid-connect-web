@@ -75,6 +75,39 @@ export const getHomeUniversityBySlug = (slug: string): HomeUniversityInfo | unde
   return HOME_UNIVERSITY_LIST.find((uni) => uni.slug === slug);
 };
 
+export const normalizeHomeUniversityName = (value: string | null | undefined): HomeUniversity | undefined => {
+  if (!value) {
+    return undefined;
+  }
+
+  const normalized = value.trim();
+  const matchedUniversity = HOME_UNIVERSITY_LIST.find(
+    (university) => university.name === normalized || university.shortName === normalized,
+  );
+
+  return matchedUniversity?.name;
+};
+
+export const isMatchedHomeUniversityName = (
+  left: string | null | undefined,
+  right: string | null | undefined,
+): boolean => {
+  const normalizedLeft = normalizeHomeUniversityName(left);
+  const normalizedRight = normalizeHomeUniversityName(right);
+
+  return normalizedLeft !== undefined && normalizedRight !== undefined && normalizedLeft === normalizedRight;
+};
+
+export const getHomeUniversitySlugByName = (value: string | null | undefined): HomeUniversitySlug | undefined => {
+  const normalizedUniversityName = normalizeHomeUniversityName(value);
+
+  if (!normalizedUniversityName) {
+    return undefined;
+  }
+
+  return HOME_UNIVERSITY_TO_SLUG_MAP[normalizedUniversityName];
+};
+
 /**
  * 유효한 홈 대학교 슬러그 목록
  */

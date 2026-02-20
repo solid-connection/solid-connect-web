@@ -1,10 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
 
 import type { AxiosError } from "axios";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { toast } from "@/lib/zustand/useToastStore";
-import { validateSafeRedirect } from "@/utils/authUtils";
 import { authApi, type KakaoAuthRequest, type KakaoAuthResponse } from "./api";
 
 /**
@@ -13,7 +12,6 @@ import { authApi, type KakaoAuthRequest, type KakaoAuthResponse } from "./api";
 const usePostKakaoAuth = () => {
   const { setAccessToken } = useAuthStore();
   const router = useRouter();
-  const searchParams = useSearchParams();
 
   return useMutation<KakaoAuthResponse, AxiosError, KakaoAuthRequest>({
     mutationFn: (data) => authApi.postKakaoAuth(data),
@@ -23,14 +21,10 @@ const usePostKakaoAuth = () => {
         // refreshToken은 서버에서 HTTP-only 쿠키로 자동 설정됨
         setAccessToken(data.accessToken);
 
-        // 안전한 리다이렉트 처리 - 오픈 리다이렉트 방지
-        const redirectParam = searchParams.get("redirect");
-        const safeRedirect = validateSafeRedirect(redirectParam);
-
         toast.success("로그인에 성공했습니다.");
 
         setTimeout(() => {
-          router.push(safeRedirect);
+          router.push("/");
         }, 100);
       } else {
         // 새로운 회원일 시 - 회원가입 페이지로 이동

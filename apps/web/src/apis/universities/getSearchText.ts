@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import type { AxiosError } from "axios";
 import { useMemo } from "react";
+import { isMatchedHomeUniversityName } from "@/constants/university";
 import type { HomeUniversityName, ListUniversity } from "@/types/university";
 import { QueryKeys } from "../queryKeys";
 import { type SearchTextResponse, universitiesApi } from "./api";
@@ -44,7 +45,9 @@ const useUniversitySearch = (searchValue: string, homeUniversityName?: HomeUnive
 
     // homeUniversityName 필터링
     if (homeUniversityName) {
-      filtered = filtered.filter((university) => university.homeUniversityName === homeUniversityName);
+      filtered = filtered.filter((university) =>
+        isMatchedHomeUniversityName(university.homeUniversityName, homeUniversityName),
+      );
     }
 
     // 검색어 필터링

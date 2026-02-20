@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { getAllUniversities, getUniversityDetail } from "@/apis/universities/server";
+import { getAllUniversities, getUniversityDetail, getUniversityDetailWithStatus } from "@/apis/universities/server";
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
-import { getHomeUniversityBySlug, HOME_UNIVERSITY_SLUGS } from "@/constants/university";
+import { getHomeUniversityBySlug, HOME_UNIVERSITY_SLUGS, isMatchedHomeUniversityName } from "@/constants/university";
 import type { HomeUniversitySlug } from "@/types/university";
 
 // UniversityDetail 컴포넌트
 import UniversityDetail from "./_ui/UniversityDetail";
+import UniversityDetailPreparingFallback from "./_ui/UniversityDetailPreparingFallback";
 
 export const revalidate = false; // 완전 정적 생성
 
@@ -23,7 +24,9 @@ export async function generateStaticParams() {
     if (!homeUniversityInfo) continue;
 
     // 해당 홈대학에 속하는 대학들만 필터링
-    const filteredUniversities = universities.filter((uni) => uni.homeUniversityName === homeUniversityInfo.name);
+    const filteredUniversities = universities.filter((uni) =>
+      isMatchedHomeUniversityName(uni.homeUniversityName, homeUniversityInfo.name),
+    );
 
     for (const university of filteredUniversities) {
       params.push({
@@ -55,10 +58,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   const homeUniversityInfo = getHomeUniversityBySlug(homeUniversity);
-  const convertedKoreanName =
-    universityData.term !== process.env.NEXT_PUBLIC_CURRENT_TERM
-      ? `${universityData.koreanName}(${universityData.term})`
-      : universityData.koreanName;
+  const convertedKoreanName = universityData.koreanName;
 
   const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://solid-connection.com";
   const pageUrl = `${baseUrl}/university/${homeUniversity}/${id}`;
@@ -117,16 +117,32 @@ const CollegeDetailPage = async ({ params }: PageProps) => {
   }
 
   const collegeId = Number(id);
-  const universityData = await getUniversityDetail(collegeId);
-
-  if (!universityData) {
+  if (Number.isNaN(collegeId)) {
     notFound();
   }
 
-  const convertedKoreanName =
-    universityData.term !== process.env.NEXT_PUBLIC_CURRENT_TERM
-      ? `${universityData.koreanName}(${universityData.term})`
-      : universityData.koreanName;
+  const universityDetailResult = await getUniversityDetailWithStatus(collegeId);
+
+  if (!universityDetailResult.ok) {
+    const isNotFoundError = universityDetailResult.status === 404;
+
+    return (
+      <>
+        <TopDetailNavigation title="파견 학교 상세" backHref={`/university/${homeUniversity}`} />
+        <UniversityDetailPreparingFallback
+          backHref={`/university/${homeUniversity}`}
+          title={isNotFoundError ? "해당 대학 정보를 찾을 수 없어요." : undefined}
+          description={
+            isNotFoundError ? "요청하신 파견학교를 찾지 못했습니다. 목록에서 다른 학교를 선택해 주세요." : undefined
+          }
+        />
+      </>
+    );
+  }
+
+  const universityData = universityDetailResult.data;
+
+  const convertedKoreanName = universityData.koreanName;
 
   const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://solid-connection.com";
   const pageUrl = `${baseUrl}/university/${homeUniversity}/${collegeId}`;

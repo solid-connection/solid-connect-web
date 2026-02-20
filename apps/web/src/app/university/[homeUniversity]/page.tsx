@@ -3,12 +3,12 @@ import { notFound } from "next/navigation";
 
 import { getSearchUniversitiesAllRegions } from "@/apis/universities/server";
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
-import { getHomeUniversityBySlug, HOME_UNIVERSITY_SLUGS } from "@/constants/university";
+import { getHomeUniversityBySlug, HOME_UNIVERSITY_SLUGS, isMatchedHomeUniversityName } from "@/constants/university";
 import type { HomeUniversitySlug } from "@/types/university";
 
 import UniversityListContent from "./_ui/UniversityListContent";
 
-export const revalidate = 3600; // 1시간마다 재검증 (ISR)
+export const revalidate = 15552000; // 6개월마다 재검증 (ISR)
 
 // 정적 경로 생성
 export async function generateStaticParams() {
@@ -55,8 +55,8 @@ const UniversityListPage = async ({ params }: PageProps) => {
   const allUniversities = await getSearchUniversitiesAllRegions();
 
   // homeUniversityName으로 프론트에서 필터링
-  const filteredUniversities = allUniversities.filter(
-    (university) => university.homeUniversityName === universityInfo.name,
+  const filteredUniversities = allUniversities.filter((university) =>
+    isMatchedHomeUniversityName(university.homeUniversityName, universityInfo.name),
   );
 
   return (

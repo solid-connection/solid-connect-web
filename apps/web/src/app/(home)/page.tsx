@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import { getHomeNewsList } from "@/apis/news/server/getNewsList";
 import { getCategorizedUniversities, getRecommendedUniversity } from "@/apis/universities/server";
-import { fetchAllNews } from "@/lib/firebaseNews";
 import { IconIdCard, IconMagnifyingGlass, IconMuseum, IconPaper } from "@/public/svgs/home";
+import { RegionEnumExtend } from "@/types/university";
 import FindLastYearScoreBar from "./_ui/FindLastYearScoreBar";
 import NewsSectionSkeleton from "./_ui/NewsSection/skeleton";
 import PopularUniversitySection from "./_ui/PopularUniversitySection";
@@ -64,11 +65,19 @@ const structuredData = {
 };
 
 const HomePage = async () => {
-  const newsList = await fetchAllNews();
+  const newsList = await getHomeNewsList();
   const { data } = await getRecommendedUniversity();
   const recommendedUniversities = data?.recommendedUniversities || [];
   // 권역별 전체 대학 리스트를 미리 가져와 빌드합니다
   const allRegionsUniversityList = await getCategorizedUniversities();
+  const allUniversities = allRegionsUniversityList[RegionEnumExtend.ALL] || [];
+  const homeUniversityNameById = new Map(
+    allUniversities.map((university) => [university.id, university.homeUniversityName]),
+  );
+  const resolvedRecommendedUniversities = recommendedUniversities.map((university) => ({
+    ...university,
+    homeUniversityName: university.homeUniversityName ?? homeUniversityNameById.get(university.id),
+  }));
 
   return (
     <>
@@ -132,7 +141,7 @@ const HomePage = async () => {
 
         <div className="border-t-[5px] border-k-50 py-5 pl-5">
           <div className="mb-2 flex items-center gap-1.5 font-serif text-k-700 typo-sb-7">실시간 인기있는 파견학교</div>
-          <PopularUniversitySection universities={recommendedUniversities} />
+          <PopularUniversitySection universities={resolvedRecommendedUniversities} />
         </div>
 
         <div className="p-5">
@@ -147,4 +156,4 @@ const HomePage = async () => {
 
 export default HomePage;
 
-export const revalidate = 60 * 60 * 24; // 1 day
+export const revalidate = 86400; // 1 day

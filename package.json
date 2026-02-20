@@ -3,6 +3,9 @@
   "private": true,
   "scripts": {
     "dev": "turbo dev",
+    "dev:web": "pnpm --filter @solid-connect/web run dev",
+    "dev:admin": "pnpm --filter @solid-connect/admin run dev",
+    "dev:debug": "turbo dev --filter=@solid-connect/web --filter=@solid-connect/admin",
     "build": "turbo build",
     "sync:bruno": "turbo run sync:bruno",
     "lint": "turbo lint",
@@ -11,7 +14,9 @@
     "prepare": "husky"
   },
   "pnpm": {
-    "onlyBuiltDependencies": ["bruno-api-typescript"]
+    "onlyBuiltDependencies": [
+      "bruno-api-typescript"
+    ]
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.11",

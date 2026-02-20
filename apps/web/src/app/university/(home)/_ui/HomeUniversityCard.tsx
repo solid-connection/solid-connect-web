@@ -15,10 +15,7 @@ const HomeUniversityCard = ({ university }: HomeUniversityCardProps) => {
       href={`/university/${university.slug}`}
       className="group flex items-center gap-5 rounded-2xl border border-k-100 bg-white p-5 transition-all hover:-translate-y-0.5 hover:border-primary-300 hover:shadow-lg"
     >
-      <div
-        className="flex h-16 w-16 flex-shrink-0 items-center justify-center overflow-hidden rounded-full bg-k-50"
-        style={{ backgroundColor: `${university.color}10` }}
-      >
+      <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center overflow-hidden rounded-full border border-k-100 bg-white">
         <Image
           src={university.logoUrl}
           alt={`${university.name} 로고`}
