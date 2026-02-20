@@ -11,6 +11,7 @@ import {
 import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 import FloatingUpBtn from "@/components/ui/FloatingUpBtn";
 import UniversityCards from "@/components/university/UniversityCards";
+import { COUNTRY_CODE_MAP } from "@/constants/university";
 import { type CountryCode, type LanguageTestType, RegionEnumExtend } from "@/types/university";
 import RegionFilter from "./RegionFilter";
 import SearchBar from "./SearchBar";
@@ -32,9 +33,12 @@ const SearchResultsContent = () => {
     const countries = searchParams.getAll("countryCode");
 
     // URL에서 전달된 국가 목록을 기본으로 사용
-    const filteredCountries = countries as CountryCode[];
+    const filteredCountries = countries.filter((country): country is CountryCode =>
+      Object.hasOwn(COUNTRY_CODE_MAP, country),
+    );
+    const hasFilterParams = Boolean(lang) || filteredCountries.length > 0;
 
-    if (!lang || !countries) {
+    if (!hasFilterParams) {
       return {
         isTextSearch: true,
         searchText: text,
