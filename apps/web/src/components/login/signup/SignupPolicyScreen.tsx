@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 
 import BlockBtn from "@/components/button/BlockBtn";
@@ -44,14 +45,14 @@ const SignupPolicyScreen = ({ toNextStage }: SignupPolicyScreenProps) => {
             </div>
           </div>
           <div>
-            <a
-              href="https://solid-connection.notion.site/1b5ac2cda9b28017a801d0cacf236ec7?pvs=4"
+            <Link
+              href="/terms"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-400 underline typo-regular-4"
             >
               전문보기
-            </a>
+            </Link>
           </div>
         </div>
       </div>
