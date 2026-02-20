@@ -4,6 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
+import { HOME_UNIVERSITY_TO_SLUG_MAP } from "@/constants/university";
+import { HomeUniversity } from "@/types/university";
 
 const searchSchema = z.object({
   searchText: z.string().min(1, "검색어를 입력해주세요.").max(50, "최대 50자까지 입력 가능합니다."),
@@ -27,6 +29,7 @@ interface SearchBarProps {
 // --- 폼 로직을 관리하는 부모 컴포넌트 ---
 const SearchBar = ({ initText }: SearchBarProps) => {
   const router = useRouter();
+  const defaultHomeUniversitySlug = HOME_UNIVERSITY_TO_SLUG_MAP[HomeUniversity.INHA];
 
   const {
     register,
@@ -47,7 +50,7 @@ const SearchBar = ({ initText }: SearchBarProps) => {
     }
 
     const queryString = queryParams.toString();
-    router.push(`/university?${queryString}`);
+    router.push(`/university/${defaultHomeUniversitySlug}?${queryString}`);
   };
 
   return (
