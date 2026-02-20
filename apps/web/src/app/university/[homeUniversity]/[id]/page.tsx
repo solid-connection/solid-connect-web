@@ -56,10 +56,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   const homeUniversityInfo = getHomeUniversityBySlug(homeUniversity);
-  const convertedKoreanName =
-    universityData.term !== process.env.NEXT_PUBLIC_CURRENT_TERM
-      ? `${universityData.koreanName}(${universityData.term})`
-      : universityData.koreanName;
+  const convertedKoreanName = universityData.koreanName;
 
   const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://solid-connection.com";
   const pageUrl = `${baseUrl}/university/${homeUniversity}/${id}`;
@@ -139,10 +136,7 @@ const CollegeDetailPage = async ({ params }: PageProps) => {
 
   const universityData = universityDetailResult.data;
 
-  const convertedKoreanName =
-    universityData.term !== process.env.NEXT_PUBLIC_CURRENT_TERM
-      ? `${universityData.koreanName}(${universityData.term})`
-      : universityData.koreanName;
+  const convertedKoreanName = universityData.koreanName;
 
   const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://solid-connection.com";
   const pageUrl = `${baseUrl}/university/${homeUniversity}/${collegeId}`;
