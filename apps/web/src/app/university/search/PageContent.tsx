@@ -14,7 +14,7 @@ import {
   REGION_TO_COUNTRIES_MAP,
   REGIONS_SEARCH,
 } from "@/constants/university";
-import { CountryCode, LanguageTestType } from "@/types/university";
+import { CountryCode, type HomeUniversitySlug, LanguageTestType } from "@/types/university";
 import CustomDropdown from "../CustomDropdown";
 
 // --- 커스텀 드롭다운 컴포넌트 ---
@@ -30,8 +30,12 @@ const searchSchema = z.object({
 });
 type SearchFormData = z.infer<typeof searchSchema>;
 
+interface SchoolSearchFormProps {
+  homeUniversitySlug: HomeUniversitySlug;
+}
+
 // --- 메인 폼 컴포넌트 ---
-const SchoolSearchForm = () => {
+const SchoolSearchForm = ({ homeUniversitySlug }: SchoolSearchFormProps) => {
   const router = useRouter();
 
   const { handleSubmit, control, watch, setValue } = useForm<SearchFormData>({
@@ -59,7 +63,7 @@ const SchoolSearchForm = () => {
     });
 
     const queryString = queryParams.toString();
-    router.push(`/university?${queryString}`);
+    router.push(`/university/${homeUniversitySlug}?${queryString}`);
   };
 
   const availableCountries = useMemo(() => {

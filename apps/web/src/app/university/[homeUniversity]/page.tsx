@@ -1,10 +1,15 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { getSearchUniversitiesAllRegions } from "@/apis/universities/server";
+import { getSearchUniversitiesAllRegions, getSearchUniversitiesByFilter } from "@/apis/universities/server";
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
-import { getHomeUniversityBySlug, HOME_UNIVERSITY_SLUGS, isMatchedHomeUniversityName } from "@/constants/university";
-import type { HomeUniversitySlug } from "@/types/university";
+import {
+  COUNTRY_CODE_MAP,
+  getHomeUniversityBySlug,
+  HOME_UNIVERSITY_SLUGS,
+  isMatchedHomeUniversityName,
+} from "@/constants/university";
+import { type CountryCode, type HomeUniversitySlug, LanguageTestType, RegionEnumExtend } from "@/types/university";
 
 import UniversityListContent from "./_ui/UniversityListContent";
 
@@ -19,6 +24,42 @@ export async function generateStaticParams() {
 
 type PageProps = {
   params: Promise<{ homeUniversity: string }>;
+  searchParams?: Record<string, string | string[] | undefined>;
+};
+
+type SearchParamValue = string | string[] | undefined;
+
+const getSearchParamValues = (value: SearchParamValue): string[] => {
+  if (!value) {
+    return [];
+  }
+
+  return Array.isArray(value) ? value : [value];
+};
+
+const getFirstSearchParamValue = (value: SearchParamValue): string => {
+  if (Array.isArray(value)) {
+    return value[0] ?? "";
+  }
+
+  return value ?? "";
+};
+
+const isCountryCode = (value: string): value is CountryCode => {
+  return Object.hasOwn(COUNTRY_CODE_MAP, value);
+};
+
+const isLanguageTestType = (value: string): value is LanguageTestType => {
+  return Object.values(LanguageTestType).includes(value as LanguageTestType);
+};
+
+const isRegionFilterValue = (value: string): value is RegionEnumExtend => {
+  return (
+    value === RegionEnumExtend.AMERICAS ||
+    value === RegionEnumExtend.EUROPE ||
+    value === RegionEnumExtend.ASIA ||
+    value === RegionEnumExtend.CHINA
+  );
 };
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -37,8 +78,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-const UniversityListPage = async ({ params }: PageProps) => {
+const UniversityListPage = async ({ params, searchParams }: PageProps) => {
   const { homeUniversity } = await params;
+  const initialSearchText = getFirstSearchParamValue(searchParams?.searchText).trim();
+  const languageTestTypeParam = getFirstSearchParamValue(searchParams?.languageTestType).trim();
+  const countryCodeParams = getSearchParamValues(searchParams?.countryCode).filter(isCountryCode);
+  const regionParams = getSearchParamValues(searchParams?.region).filter(isRegionFilterValue);
+  const initialRegion = regionParams.length === 1 ? regionParams[0] : RegionEnumExtend.ALL;
+  const languageTestType = isLanguageTestType(languageTestTypeParam) ? languageTestTypeParam : undefined;
 
   // 유효한 슬러그인지 확인
   if (!HOME_UNIVERSITY_SLUGS.includes(homeUniversity as HomeUniversitySlug)) {
@@ -51,13 +98,25 @@ const UniversityListPage = async ({ params }: PageProps) => {
     notFound();
   }
 
-  // 전체 대학 목록을 서버에서 가져옴 (ISR 캐시됨)
-  const allUniversities = await getSearchUniversitiesAllRegions();
+  const shouldUseFilterApi = Boolean(languageTestType) || countryCodeParams.length > 0;
+
+  const allUniversities = shouldUseFilterApi
+    ? await getSearchUniversitiesByFilter({
+        languageTestType,
+        countryCode: countryCodeParams.length > 0 ? countryCodeParams : undefined,
+      })
+    : await getSearchUniversitiesAllRegions();
 
   // homeUniversityName으로 프론트에서 필터링
-  const filteredUniversities = allUniversities.filter((university) =>
+  let filteredUniversities = allUniversities.filter((university) =>
     isMatchedHomeUniversityName(university.homeUniversityName, universityInfo.name),
   );
+
+  if (regionParams.length > 0) {
+    filteredUniversities = filteredUniversities.filter((university) =>
+      regionParams.includes(university.region as RegionEnumExtend),
+    );
+  }
 
   return (
     <>
@@ -66,6 +125,8 @@ const UniversityListPage = async ({ params }: PageProps) => {
         universities={filteredUniversities}
         homeUniversity={universityInfo}
         homeUniversitySlug={homeUniversity}
+        initialSearchText={initialSearchText}
+        initialRegion={initialRegion}
       />
     </>
   );
