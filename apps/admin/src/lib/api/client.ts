@@ -11,8 +11,14 @@ import {
 
 const convertToBearer = (token: string) => `Bearer ${token}`;
 
+const API_SERVER_URL = (import.meta.env.VITE_API_SERVER_URL as string | undefined) || "";
+
+if (import.meta.env.DEV && API_SERVER_URL.length === 0) {
+	console.warn("[admin] VITE_API_SERVER_URL is not configured. API requests will use current origin.");
+}
+
 export const axiosInstance: AxiosInstance = axios.create({
-	baseURL: import.meta.env.VITE_API_SERVER_URL,
+	baseURL: API_SERVER_URL,
 	withCredentials: true,
 });
 
@@ -84,5 +90,5 @@ axiosInstance.interceptors.response.use(
 );
 
 export const publicAxiosInstance: AxiosInstance = axios.create({
-	baseURL: import.meta.env.VITE_API_SERVER_URL,
+	baseURL: API_SERVER_URL,
 });

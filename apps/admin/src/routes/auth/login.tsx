@@ -1,3 +1,4 @@
+import { useMutation } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { type FormEvent, useId, useState } from "react";
 import { toast } from "sonner";
@@ -18,14 +19,19 @@ function LoginPage() {
 	const passwordInputId = useId();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const [isLoading, setIsLoading] = useState(false);
+
+	const signInMutation = useMutation({
+		mutationFn: ({ nextEmail, nextPassword }: { nextEmail: string; nextPassword: string }) =>
+			adminSignInApi(nextEmail, nextPassword),
+	});
+
+	const isLoading = signInMutation.isPending;
 
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
-		setIsLoading(true);
 
 		try {
-			const response = await adminSignInApi(email, password);
+			const response = await signInMutation.mutateAsync({ nextEmail: email, nextPassword: password });
 			const { accessToken, refreshToken } = response.data;
 
 			saveAccessToken(accessToken);
@@ -41,8 +47,6 @@ function LoginPage() {
 			toast.error("로그인 실패", {
 				description: error.response?.data?.message || "로그인에 실패했습니다.",
 			});
-		} finally {
-			setIsLoading(false);
 		}
 	};
 

@@ -1,5 +1,6 @@
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -12,39 +13,49 @@ interface Props {
 	verifyFilter: VerifyStatus;
 }
 
-const S3_BASE_URL = import.meta.env.VITE_S3_BASE_URL;
+const S3_BASE_URL = (import.meta.env.VITE_S3_BASE_URL as string | undefined) || "";
 
 export function GpaScoreTable({ verifyFilter }: Props) {
-	const [scores, setScores] = useState<GpaScoreWithUser[]>([]);
+	const queryClient = useQueryClient();
 	const [page, setPage] = useState(1);
-	const [totalPages, setTotalPages] = useState(1);
-	const [loading, setLoading] = useState(false);
 	const [editingId, setEditingId] = useState<number | null>(null);
 	const [editingGpa, setEditingGpa] = useState<number>(0);
 	const [editingGpaCriteria, setEditingGpaCriteria] = useState<number>(0);
 
-	const fetchScores = useCallback(async () => {
-		setLoading(true);
-		try {
-			const response = await scoreApi.getGpaScores({ verifyStatus: verifyFilter }, page);
-			setScores(response.content);
-			setTotalPages(response.totalPages);
-		} catch (error) {
-			console.error("Failed to fetch GPA scores:", error);
-		} finally {
-			setLoading(false);
-		}
-	}, [verifyFilter, page]);
+	const { data, isLoading, isFetching } = useQuery({
+		queryKey: ["scores", "gpa", verifyFilter, page],
+		queryFn: () => scoreApi.getGpaScores({ verifyStatus: verifyFilter }, page),
+		placeholderData: keepPreviousData,
+	});
 
-	useEffect(() => {
-		fetchScores();
-	}, [fetchScores]);
+	const updateGpaMutation = useMutation({
+		mutationFn: ({
+			id,
+			status,
+			reason,
+			score,
+		}: {
+			id: number;
+			status: VerifyStatus;
+			reason?: string;
+			score: GpaScoreWithUser;
+		}) => scoreApi.updateGpaScore(id, status, reason, score),
+		onSuccess: async () => {
+			await queryClient.invalidateQueries({ queryKey: ["scores", "gpa"] });
+		},
+	});
+
+	const scores = data?.content ?? [];
+	const totalPages = data?.totalPages ?? 1;
 
 	const handleVerifyStatus = async (id: number, status: VerifyStatus, reason?: string) => {
 		try {
 			const score = scores.find((s) => s.gpaScoreStatusResponse.id === id);
-			await scoreApi.updateGpaScore(id, status, reason, score);
-			fetchScores();
+			if (!score) {
+				throw new Error("Score data is required");
+			}
+
+			await updateGpaMutation.mutateAsync({ id, status, reason, score });
 		} catch (error) {
 			console.error("Failed to update GPA score:", error);
 			toast.error("성적 상태 업데이트에 실패했습니다");
@@ -59,11 +70,11 @@ export function GpaScoreTable({ verifyFilter }: Props) {
 
 	const handleSave = async (score: GpaScoreWithUser) => {
 		try {
-			await scoreApi.updateGpaScore(
-				score.gpaScoreStatusResponse.id,
-				score.gpaScoreStatusResponse.verifyStatus,
-				score.gpaScoreStatusResponse.rejectedReason || undefined,
-				{
+			await updateGpaMutation.mutateAsync({
+				id: score.gpaScoreStatusResponse.id,
+				status: score.gpaScoreStatusResponse.verifyStatus,
+				reason: score.gpaScoreStatusResponse.rejectedReason || undefined,
+				score: {
 					...score,
 					gpaScoreStatusResponse: {
 						...score.gpaScoreStatusResponse,
@@ -74,9 +85,8 @@ export function GpaScoreTable({ verifyFilter }: Props) {
 						},
 					},
 				},
-			);
+			});
 			setEditingId(null);
-			fetchScores();
 			toast.success("GPA가 수정되었습니다");
 		} catch (error) {
 			console.error("Failed to update GPA:", error);
@@ -91,6 +101,9 @@ export function GpaScoreTable({ verifyFilter }: Props) {
 
 	return (
 		<div className="rounded-lg border border-k-100 bg-k-0">
+			{isFetching && !isLoading ? (
+				<div className="border-b border-k-100 px-4 py-2 typo-regular-4 text-k-500">최신 데이터를 불러오는 중...</div>
+			) : null}
 			<div className="overflow-x-auto">
 				<Table>
 					<TableHeader>
@@ -107,7 +120,7 @@ export function GpaScoreTable({ verifyFilter }: Props) {
 						</TableRow>
 					</TableHeader>
 					<TableBody>
-						{loading ? (
+						{isLoading ? (
 							<TableRow>
 								<TableCell colSpan={9} className="text-center">
 									<div className="flex items-center justify-center">
