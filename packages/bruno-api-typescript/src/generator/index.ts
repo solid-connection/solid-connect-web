@@ -326,11 +326,15 @@ export async function generateHooks(options: GenerateHooksOptions): Promise<void
   hashCache.save();
   console.log(`\n💾 Hash cache saved: ${hashCache.getCachePath()}`);
 
+  const defaultDomain = "applications";
+  const firstDomain = sortedAllDomains[0] ?? defaultDomain;
+  const firstDomainApiName = `${toCamelCase(firstDomain)}Api`;
+
   console.log("\n✨ All API clients generated successfully!");
   console.log(`\n📂 Output directory: ${outputDir}`);
   console.log("\n📚 Usage example:");
-  console.log(`import { applicationsApi } from './${relative(process.cwd(), join(outputDir, "applications"))}';\n`);
-  console.log(`const data = await applicationsApi.getCompetitors({ params: { page: 1 } });`);
+  console.log(`import { ${firstDomainApiName} } from './${relative(process.cwd(), join(outputDir, firstDomain))}';\n`);
+  console.log(`const data = await ${firstDomainApiName}.someEndpoint({ params: { page: 1 } });`);
 
   if (mswOutputDir && (force || changedFiles.length > 0)) {
     console.log("\n🎭 Generating MSW handlers...");
