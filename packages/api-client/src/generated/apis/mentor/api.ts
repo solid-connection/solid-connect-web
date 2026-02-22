@@ -78,100 +78,128 @@ export type GetMentorDetailResponse = void;
 
 export const mentorApi = {
   getMatchedMentors: async (params: { params?: Record<string, unknown> }): Promise<GetMatchedMentorsResponse> => {
-    const res = await axiosInstance.get<GetMatchedMentorsResponse>(
-      `/mentee/mentorings/matched-mentors`, { params: params?.params }
-    );
+    const res = await axiosInstance.request<GetMatchedMentorsResponse>({
+      url: `/mentee/mentorings/matched-mentors`,
+      method: "GET",
+      params: params?.params,
+    });
     return res.data;
   },
 
   postApplyMentorApplication: async (params: { data?: PostApplyMentorApplicationRequest }): Promise<PostApplyMentorApplicationResponse> => {
-    const res = await axiosInstance.post<PostApplyMentorApplicationResponse>(
-      `/mentees/mentor-applications`, params?.data
-    );
+    const res = await axiosInstance.request<PostApplyMentorApplicationResponse>({
+      url: `/mentees/mentor-applications`,
+      method: "POST",
+      data: params?.data,
+    });
     return res.data;
   },
 
   postApplyMentoring: async (params: { data?: PostApplyMentoringRequest }): Promise<PostApplyMentoringResponse> => {
-    const res = await axiosInstance.post<PostApplyMentoringResponse>(
-      `/mentee/mentorings`, params?.data
-    );
+    const res = await axiosInstance.request<PostApplyMentoringResponse>({
+      url: `/mentee/mentorings`,
+      method: "POST",
+      data: params?.data,
+    });
     return res.data;
   },
 
   patchConfirmMentoring: async (params: { data?: PatchConfirmMentoringRequest }): Promise<PatchConfirmMentoringResponse> => {
-    const res = await axiosInstance.patch<PatchConfirmMentoringResponse>(
-      `/mentee/mentorings/check`, params?.data
-    );
+    const res = await axiosInstance.request<PatchConfirmMentoringResponse>({
+      url: `/mentee/mentorings/check`,
+      method: "PATCH",
+      data: params?.data,
+    });
     return res.data;
   },
 
   getAppliedMentorings: async (params: { params?: Record<string, unknown> }): Promise<GetAppliedMentoringsResponse> => {
-    const res = await axiosInstance.get<GetAppliedMentoringsResponse>(
-      `/mentee/mentorings`, { params: params?.params }
-    );
+    const res = await axiosInstance.request<GetAppliedMentoringsResponse>({
+      url: `/mentee/mentorings`,
+      method: "GET",
+      params: params?.params,
+    });
     return res.data;
   },
 
   getMyMentorPage: async (params: { params?: Record<string, unknown> }): Promise<GetMyMentorPageResponse> => {
-    const res = await axiosInstance.get<GetMyMentorPageResponse>(
-      `/mentor/my`, { params: params?.params }
-    );
+    const res = await axiosInstance.request<GetMyMentorPageResponse>({
+      url: `/mentor/my`,
+      method: "GET",
+      params: params?.params,
+    });
     return res.data;
   },
 
   putUpdateMyMentorPage: async (params: { data?: PutUpdateMyMentorPageRequest }): Promise<PutUpdateMyMentorPageResponse> => {
-    const res = await axiosInstance.put<PutUpdateMyMentorPageResponse>(
-      `/mentor/my`, params?.data
-    );
+    const res = await axiosInstance.request<PutUpdateMyMentorPageResponse>({
+      url: `/mentor/my`,
+      method: "PUT",
+      data: params?.data,
+    });
     return res.data;
   },
 
   postCreateMentorMyPage: async (params: { data?: PostCreateMentorMyPageRequest }): Promise<PostCreateMentorMyPageResponse> => {
-    const res = await axiosInstance.post<PostCreateMentorMyPageResponse>(
-      `/mentor/my`, params?.data
-    );
+    const res = await axiosInstance.request<PostCreateMentorMyPageResponse>({
+      url: `/mentor/my`,
+      method: "POST",
+      data: params?.data,
+    });
     return res.data;
   },
 
   patchMentoringStatus: async (params: { mentoringId: string | number, data?: PatchMentoringStatusRequest }): Promise<PatchMentoringStatusResponse> => {
-    const res = await axiosInstance.patch<PatchMentoringStatusResponse>(
-      `/mentor/mentorings/${params.mentoringId}`, params?.data
-    );
+    const res = await axiosInstance.request<PatchMentoringStatusResponse>({
+      url: `/mentor/mentorings/${params.mentoringId}`,
+      method: "PATCH",
+      data: params?.data,
+    });
     return res.data;
   },
 
   patchConfirmMentoring2: async (params: { data?: PatchConfirmMentoring2Request }): Promise<PatchConfirmMentoring2Response> => {
-    const res = await axiosInstance.patch<PatchConfirmMentoring2Response>(
-      `/mentor/mentorings/check`, params?.data
-    );
+    const res = await axiosInstance.request<PatchConfirmMentoring2Response>({
+      url: `/mentor/mentorings/check`,
+      method: "PATCH",
+      data: params?.data,
+    });
     return res.data;
   },
 
   getReceivedMentorings: async (params: { params?: Record<string, unknown> }): Promise<GetReceivedMentoringsResponse> => {
-    const res = await axiosInstance.get<GetReceivedMentoringsResponse>(
-      `/mentor/mentorings`, { params: params?.params }
-    );
+    const res = await axiosInstance.request<GetReceivedMentoringsResponse>({
+      url: `/mentor/mentorings`,
+      method: "GET",
+      params: params?.params,
+    });
     return res.data;
   },
 
   getUnconfirmedMentoringCount: async (params: { params?: Record<string, unknown> }): Promise<GetUnconfirmedMentoringCountResponse> => {
-    const res = await axiosInstance.get<GetUnconfirmedMentoringCountResponse>(
-      `/mentor/mentorings/check`, { params: params?.params }
-    );
+    const res = await axiosInstance.request<GetUnconfirmedMentoringCountResponse>({
+      url: `/mentor/mentorings/check`,
+      method: "GET",
+      params: params?.params,
+    });
     return res.data;
   },
 
   getMentorList: async (params: { params?: Record<string, unknown> }): Promise<GetMentorListResponse> => {
-    const res = await axiosInstance.get<GetMentorListResponse>(
-      `/mentors`, { params: params?.params }
-    );
+    const res = await axiosInstance.request<GetMentorListResponse>({
+      url: `/mentors`,
+      method: "GET",
+      params: params?.params,
+    });
     return res.data;
   },
 
   getMentorDetail: async (params: { siteUserId: string | number, params?: Record<string, unknown> }): Promise<GetMentorDetailResponse> => {
-    const res = await axiosInstance.get<GetMentorDetailResponse>(
-      `/mentors/${params.siteUserId}`, { params: params?.params }
-    );
+    const res = await axiosInstance.request<GetMentorDetailResponse>({
+      url: `/mentors/${params.siteUserId}`,
+      method: "GET",
+      params: params?.params,
+    });
     return res.data;
   },
 

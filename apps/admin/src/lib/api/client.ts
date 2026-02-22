@@ -14,6 +14,12 @@ import {
 	saveAccessToken,
 } from "@/lib/utils/localStorage";
 
+const API_SERVER_URL = import.meta.env.VITE_API_SERVER_URL?.trim();
+
+if (!API_SERVER_URL) {
+	throw new Error("[admin] VITE_API_SERVER_URL is required. Configure it in your environment.");
+}
+
 const tokenStorage: TokenStorageAdapter = {
 	loadAccessToken,
 	loadRefreshToken,
@@ -21,12 +27,6 @@ const tokenStorage: TokenStorageAdapter = {
 	removeAccessToken,
 	removeRefreshToken,
 };
-
-const API_SERVER_URL = import.meta.env.VITE_API_SERVER_URL?.trim();
-
-if (!API_SERVER_URL) {
-	throw new Error("[admin] VITE_API_SERVER_URL is required. Configure it in your environment.");
-}
 
 configureApiClientRuntime({
 	baseURL: API_SERVER_URL,

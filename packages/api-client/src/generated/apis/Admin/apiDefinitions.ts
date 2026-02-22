@@ -1,4 +1,4 @@
-import type { DeleteAdminCountriesCodeResponse, DeleteAdminRegionsCodeResponse, GetAdminCountriesResponse, GetAdminRegionsResponse, GetCountMentorApplicationByStatusResponse, GetGpaListResponse, GetLanguageTestListResponse, GetMentorApplicationHistoryListResponse, GetMentorApplicationListResponse, PostAdminCountriesRequest, PostAdminCountriesResponse, PostAdminRegionsRequest, PostAdminRegionsResponse, PostApproveMentorApplicationResponse, PostMappingMentorapplicationUniversityRequest, PostMappingMentorapplicationUniversityResponse, PostRejectMentorApplicationRequest, PostRejectMentorApplicationResponse, PutAdminCountriesCodeRequest, PutAdminCountriesCodeResponse, PutAdminRegionsCodeRequest, PutAdminRegionsCodeResponse, PutVerifyGpaRequest, PutVerifyGpaResponse, PutVerifyLanguageTestRequest, PutVerifyLanguageTestResponse } from './api';
+import type { DeleteAdminCountriesCodeResponse, DeleteAdminRegionsCodeRequest, DeleteAdminRegionsCodeResponse, GetAdminCountriesResponse, GetAdminRegionsResponse, GetCountMentorApplicationByStatusResponse, GetGpaListResponse, GetLanguageTestListResponse, GetMentorApplicationHistoryListResponse, GetMentorApplicationListResponse, PostAdminCountriesRequest, PostAdminCountriesResponse, PostAdminRegionsRequest, PostAdminRegionsResponse, PostApproveMentorApplicationResponse, PostMappingMentorapplicationUniversityRequest, PostMappingMentorapplicationUniversityResponse, PostRejectMentorApplicationRequest, PostRejectMentorApplicationResponse, PutAdminCountriesCodeRequest, PutAdminCountriesCodeResponse, PutAdminRegionsCodeRequest, PutAdminRegionsCodeResponse, PutVerifyGpaRequest, PutVerifyGpaResponse, PutVerifyLanguageTestRequest, PutVerifyLanguageTestResponse } from './api';
 
 export const adminApiDefinitions = {
   deleteAdminRegionsCode: {
@@ -6,7 +6,7 @@ export const adminApiDefinitions = {
     path: '/admin/regions/{{code}}' as const,
     pathParams: undefined as unknown as { code: string | number },
     queryParams: undefined as unknown as Record<string, never>,
-    body: undefined as unknown as Record<string, never>,
+    body: undefined as unknown as DeleteAdminRegionsCodeRequest,
     response: undefined as unknown as DeleteAdminRegionsCodeResponse,
   },
   postAdminRegions: {

@@ -45,6 +45,8 @@ export type PostKakaoAuthRequest = Record<string, never>;
 
 export type DeleteAccountResponse = void;
 
+export type DeleteAccountRequest = Record<string, never>;
+
 export interface PostSignUpResponse {
   accessToken: string;
   refreshToken: string;
@@ -54,58 +56,74 @@ export type PostSignUpRequest = Record<string, never>;
 
 export const authApi = {
   postSignOut: async (params: { data?: PostSignOutRequest }): Promise<PostSignOutResponse> => {
-    const res = await axiosInstance.post<PostSignOutResponse>(
-      `/auth/sign-out`, params?.data
-    );
+    const res = await axiosInstance.request<PostSignOutResponse>({
+      url: `/auth/sign-out`,
+      method: "POST",
+      data: params?.data,
+    });
     return res.data;
   },
 
   postAppleAuth: async (params: { data?: PostAppleAuthRequest }): Promise<PostAppleAuthResponse> => {
-    const res = await axiosInstance.post<PostAppleAuthResponse>(
-      `/auth/apple`, params?.data
-    );
+    const res = await axiosInstance.request<PostAppleAuthResponse>({
+      url: `/auth/apple`,
+      method: "POST",
+      data: params?.data,
+    });
     return res.data;
   },
 
   postRefreshToken: async (params: { data?: PostRefreshTokenRequest }): Promise<PostRefreshTokenResponse> => {
-    const res = await axiosInstance.post<PostRefreshTokenResponse>(
-      `/auth/reissue`, params?.data
-    );
+    const res = await axiosInstance.request<PostRefreshTokenResponse>({
+      url: `/auth/reissue`,
+      method: "POST",
+      data: params?.data,
+    });
     return res.data;
   },
 
   postEmailLogin: async (params: { data?: PostEmailLoginRequest }): Promise<PostEmailLoginResponse> => {
-    const res = await axiosInstance.post<PostEmailLoginResponse>(
-      `/auth/email/sign-in`, params?.data
-    );
+    const res = await axiosInstance.request<PostEmailLoginResponse>({
+      url: `/auth/email/sign-in`,
+      method: "POST",
+      data: params?.data,
+    });
     return res.data;
   },
 
   postEmailVerification: async (params: { data?: PostEmailVerificationRequest }): Promise<PostEmailVerificationResponse> => {
-    const res = await axiosInstance.post<PostEmailVerificationResponse>(
-      `/auth/email/sign-up`, params?.data
-    );
+    const res = await axiosInstance.request<PostEmailVerificationResponse>({
+      url: `/auth/email/sign-up`,
+      method: "POST",
+      data: params?.data,
+    });
     return res.data;
   },
 
   postKakaoAuth: async (params: { data?: PostKakaoAuthRequest }): Promise<PostKakaoAuthResponse> => {
-    const res = await axiosInstance.post<PostKakaoAuthResponse>(
-      `/auth/kakao`, params?.data
-    );
+    const res = await axiosInstance.request<PostKakaoAuthResponse>({
+      url: `/auth/kakao`,
+      method: "POST",
+      data: params?.data,
+    });
     return res.data;
   },
 
-  deleteAccount: async (): Promise<DeleteAccountResponse> => {
-    const res = await axiosInstance.delete<DeleteAccountResponse>(
-      `/auth/quit`
-    );
+  deleteAccount: async (params: { data?: DeleteAccountRequest }): Promise<DeleteAccountResponse> => {
+    const res = await axiosInstance.request<DeleteAccountResponse>({
+      url: `/auth/quit`,
+      method: "DELETE",
+      data: params?.data,
+    });
     return res.data;
   },
 
   postSignUp: async (params: { data?: PostSignUpRequest }): Promise<PostSignUpResponse> => {
-    const res = await axiosInstance.post<PostSignUpResponse>(
-      `/auth/sign-up`, params?.data
-    );
+    const res = await axiosInstance.request<PostSignUpResponse>({
+      url: `/auth/sign-up`,
+      method: "POST",
+      data: params?.data,
+    });
     return res.data;
   },
 

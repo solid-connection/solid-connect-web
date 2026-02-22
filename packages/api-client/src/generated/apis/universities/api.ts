@@ -42,6 +42,8 @@ export type GetWishListResponse = GetWishListResponseItem[];
 
 export type DeleteWishResponse = void;
 
+export type DeleteWishRequest = Record<string, never>;
+
 export type PostAddWishResponse = void;
 
 export type PostAddWishRequest = Record<string, never>;
@@ -108,58 +110,74 @@ export type GetByRegionCountryResponse = void;
 
 export const universitiesApi = {
   getRecommendedUniversities: async (params: { params?: Record<string, unknown> }): Promise<GetRecommendedUniversitiesResponse> => {
-    const res = await axiosInstance.get<GetRecommendedUniversitiesResponse>(
-      `/univ-apply-infos/recommend`, { params: params?.params }
-    );
+    const res = await axiosInstance.request<GetRecommendedUniversitiesResponse>({
+      url: `/univ-apply-infos/recommend`,
+      method: "GET",
+      params: params?.params,
+    });
     return res.data;
   },
 
   getWishList: async (params: { params?: Record<string, unknown> }): Promise<GetWishListResponse> => {
-    const res = await axiosInstance.get<GetWishListResponse>(
-      `/univ-apply-infos/like`, { params: params?.params }
-    );
+    const res = await axiosInstance.request<GetWishListResponse>({
+      url: `/univ-apply-infos/like`,
+      method: "GET",
+      params: params?.params,
+    });
     return res.data;
   },
 
-  deleteWish: async (params: { univApplyInfoId: string | number }): Promise<DeleteWishResponse> => {
-    const res = await axiosInstance.delete<DeleteWishResponse>(
-      `/univ-apply-infos/${params.univApplyInfoId}/like`
-    );
+  deleteWish: async (params: { univApplyInfoId: string | number, data?: DeleteWishRequest }): Promise<DeleteWishResponse> => {
+    const res = await axiosInstance.request<DeleteWishResponse>({
+      url: `/univ-apply-infos/${params.univApplyInfoId}/like`,
+      method: "DELETE",
+      data: params?.data,
+    });
     return res.data;
   },
 
   postAddWish: async (params: { univApplyInfoId: string | number, data?: PostAddWishRequest }): Promise<PostAddWishResponse> => {
-    const res = await axiosInstance.post<PostAddWishResponse>(
-      `/univ-apply-infos/${params.univApplyInfoId}/like`, params?.data
-    );
+    const res = await axiosInstance.request<PostAddWishResponse>({
+      url: `/univ-apply-infos/${params.univApplyInfoId}/like`,
+      method: "POST",
+      data: params?.data,
+    });
     return res.data;
   },
 
   getIsWish: async (params: { univApplyInfoId: string | number, params?: Record<string, unknown> }): Promise<GetIsWishResponse> => {
-    const res = await axiosInstance.get<GetIsWishResponse>(
-      `/univ-apply-infos/${params.univApplyInfoId}/like`, { params: params?.params }
-    );
+    const res = await axiosInstance.request<GetIsWishResponse>({
+      url: `/univ-apply-infos/${params.univApplyInfoId}/like`,
+      method: "GET",
+      params: params?.params,
+    });
     return res.data;
   },
 
   getUniversityDetail: async (params: { univApplyInfoId: string | number, params?: Record<string, unknown> }): Promise<GetUniversityDetailResponse> => {
-    const res = await axiosInstance.get<GetUniversityDetailResponse>(
-      `/univ-apply-infos/${params.univApplyInfoId}`, { params: params?.params }
-    );
+    const res = await axiosInstance.request<GetUniversityDetailResponse>({
+      url: `/univ-apply-infos/${params.univApplyInfoId}`,
+      method: "GET",
+      params: params?.params,
+    });
     return res.data;
   },
 
   getSearchText: async (params: { params?: Record<string, unknown> }): Promise<GetSearchTextResponse> => {
-    const res = await axiosInstance.get<GetSearchTextResponse>(
-      `/univ-apply-infos/search/text`, { params: params?.params }
-    );
+    const res = await axiosInstance.request<GetSearchTextResponse>({
+      url: `/univ-apply-infos/search/text`,
+      method: "GET",
+      params: params?.params,
+    });
     return res.data;
   },
 
   getByRegionCountry: async (params: { params?: Record<string, unknown> }): Promise<GetByRegionCountryResponse> => {
-    const res = await axiosInstance.get<GetByRegionCountryResponse>(
-      `/universities/search`, { params: params?.params }
-    );
+    const res = await axiosInstance.request<GetByRegionCountryResponse>({
+      url: `/universities/search`,
+      method: "GET",
+      params: params?.params,
+    });
     return res.data;
   },
 

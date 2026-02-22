@@ -48,30 +48,38 @@ export interface GetGpaListResponse {
 
 export const scoresApi = {
   postCreateLanguageTest: async (params: { data?: PostCreateLanguageTestRequest }): Promise<PostCreateLanguageTestResponse> => {
-    const res = await axiosInstance.post<PostCreateLanguageTestResponse>(
-      `/scores/language-tests`, params?.data
-    );
+    const res = await axiosInstance.request<PostCreateLanguageTestResponse>({
+      url: `/scores/language-tests`,
+      method: "POST",
+      data: params?.data,
+    });
     return res.data;
   },
 
   getLanguageTestList: async (params: { params?: Record<string, unknown> }): Promise<GetLanguageTestListResponse> => {
-    const res = await axiosInstance.get<GetLanguageTestListResponse>(
-      `/scores/language-tests`, { params: params?.params }
-    );
+    const res = await axiosInstance.request<GetLanguageTestListResponse>({
+      url: `/scores/language-tests`,
+      method: "GET",
+      params: params?.params,
+    });
     return res.data;
   },
 
   postCreateGpa: async (params: { data?: PostCreateGpaRequest }): Promise<PostCreateGpaResponse> => {
-    const res = await axiosInstance.post<PostCreateGpaResponse>(
-      `/scores/gpas`, params?.data
-    );
+    const res = await axiosInstance.request<PostCreateGpaResponse>({
+      url: `/scores/gpas`,
+      method: "POST",
+      data: params?.data,
+    });
     return res.data;
   },
 
   getGpaList: async (params: { params?: Record<string, unknown> }): Promise<GetGpaListResponse> => {
-    const res = await axiosInstance.get<GetGpaListResponse>(
-      `/scores/gpas`, { params: params?.params }
-    );
+    const res = await axiosInstance.request<GetGpaListResponse>({
+      url: `/scores/gpas`,
+      method: "GET",
+      params: params?.params,
+    });
     return res.data;
   },
 

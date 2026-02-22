@@ -124,23 +124,29 @@ export interface GetApplicantsResponse {
 
 export const applicationsApi = {
   getCompetitors: async (params: { params?: Record<string, unknown> }): Promise<GetCompetitorsResponse> => {
-    const res = await axiosInstance.get<GetCompetitorsResponse>(
-      `/applications/competitors`, { params: params?.params }
-    );
+    const res = await axiosInstance.request<GetCompetitorsResponse>({
+      url: `/applications/competitors`,
+      method: "GET",
+      params: params?.params,
+    });
     return res.data;
   },
 
   postSubmitApplication: async (params: { data?: PostSubmitApplicationRequest }): Promise<PostSubmitApplicationResponse> => {
-    const res = await axiosInstance.post<PostSubmitApplicationResponse>(
-      `/applications`, params?.data
-    );
+    const res = await axiosInstance.request<PostSubmitApplicationResponse>({
+      url: `/applications`,
+      method: "POST",
+      data: params?.data,
+    });
     return res.data;
   },
 
   getApplicants: async (params: { params?: Record<string, unknown> }): Promise<GetApplicantsResponse> => {
-    const res = await axiosInstance.get<GetApplicantsResponse>(
-      `/applications`, { params: params?.params }
-    );
+    const res = await axiosInstance.request<GetApplicantsResponse>({
+      url: `/applications`,
+      method: "GET",
+      params: params?.params,
+    });
     return res.data;
   },
 

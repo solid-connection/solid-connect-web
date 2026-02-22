@@ -78,7 +78,7 @@ export function generateApiDefinitionMeta(apiFunc: ApiFunction, parsed: ParsedBr
   const queryParamsType = method === "GET" || hasInlineQuery ? "Record<string, unknown>" : "Record<string, never>";
 
   const requestType = responseType.replace("Response", "Request");
-  const hasBody = ["POST", "PUT", "PATCH"].includes(method) && Boolean(parsed.body?.content?.trim());
+  const hasBody = apiFunc.hasBody && Boolean(parsed.body?.content?.trim());
   const bodyType = hasBody ? requestType : "Record<string, never>";
 
   return {

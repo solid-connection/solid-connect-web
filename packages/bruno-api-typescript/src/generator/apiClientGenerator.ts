@@ -16,7 +16,8 @@ export interface ApiFunction {
   hasBody: boolean;
 }
 
-const METHOD_PREFIX_PATTERN = /^(get|post|put|patch|delete|head|options)/i;
+const METHOD_PREFIX_PATTERN = /^(get|post|put|patch|delete|head|options|trace|connect)/i;
+const BODY_METHODS = new Set(["POST", "PUT", "PATCH", "DELETE", "OPTIONS", "TRACE", "CONNECT"]);
 
 function normalizeUrlPath(url: string): string {
   return url.replace(/\{\{URL\}\}/g, "").split("?")[0];
@@ -135,8 +136,7 @@ export function extractApiFunction(parsed: ParsedBrunoFile, filePath: string): A
   // URL에 파라미터가 있는지 확인
   const hasParams = http.url.includes(":") || http.url.includes("{");
 
-  // POST, PUT, PATCH는 body를 가질 수 있음
-  const hasBody = ["POST", "PUT", "PATCH"].includes(http.method.toUpperCase());
+  const hasBody = BODY_METHODS.has(http.method.toUpperCase());
 
   return {
     name: functionName,
@@ -192,17 +192,16 @@ export function generateApiFunction(apiFunc: ApiFunction, _domain: string): stri
   // 함수 생성
   lines.push(`const ${name} = async (${paramsType}): Promise<${responseType}> => {`);
 
-  const configParts: string[] = [];
-  if (method === "GET" && paramsList.some((p) => p.includes("params?"))) {
-    configParts.push("params: params?.params");
+  lines.push(`  const res = await axiosInstance.request<${responseType}>({`);
+  lines.push(`    url: ${urlExpression},`);
+  lines.push(`    method: "${method}",`);
+  if (paramsList.some((p) => p.includes("params?"))) {
+    lines.push(`    params: params?.params,`);
   }
-
-  const configStr = configParts.length > 0 ? `, { ${configParts.join(", ")} }` : "";
-  const bodyStr = hasBody ? ", params?.data" : "";
-
-  lines.push(`  const res = await axiosInstance.${method.toLowerCase()}<${responseType}>(`);
-  lines.push(`    ${urlExpression}${bodyStr}${configStr}`);
-  lines.push(`  );`);
+  if (hasBody) {
+    lines.push(`    data: params?.data,`);
+  }
+  lines.push(`  });`);
   lines.push(`  return res.data;`);
   lines.push(`};`);
 

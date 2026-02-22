@@ -1,12 +1,34 @@
 import { TanStackDevtools } from "@tanstack/react-devtools";
-import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
+import { createRootRoute, HeadContent, redirect, Scripts } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { Toaster } from "sonner";
 import { QueryProvider } from "@/components/providers/QueryProvider";
+import { isTokenExpired } from "@/lib/utils/jwtUtils";
+import { loadAccessToken } from "@/lib/utils/localStorage";
 
 import appCss from "../styles.css?url";
 
+const PUBLIC_PATHS = new Set(["/auth/login", "/login"]);
+
 export const Route = createRootRoute({
+	beforeLoad: ({ location }) => {
+		if (typeof window === "undefined") {
+			return;
+		}
+
+		const pathname = location.pathname;
+		const isPublicPath = PUBLIC_PATHS.has(pathname);
+		const accessToken = loadAccessToken();
+		const isAuthenticated = accessToken !== null && !isTokenExpired(accessToken);
+
+		if (!isAuthenticated && !isPublicPath) {
+			throw redirect({ to: "/auth/login" });
+		}
+
+		if (isAuthenticated && isPublicPath) {
+			throw redirect({ to: "/scores" });
+		}
+	},
 	head: () => ({
 		meta: [
 			{

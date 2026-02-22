@@ -35,30 +35,38 @@ export interface GetChatPartnerResponse {
 
 export const chatApi = {
   getChatMessages: async (params: { roomId: string | number, params?: Record<string, unknown> }): Promise<GetChatMessagesResponse> => {
-    const res = await axiosInstance.get<GetChatMessagesResponse>(
-      `/chats/rooms/${params.roomId}`, { params: params?.params }
-    );
+    const res = await axiosInstance.request<GetChatMessagesResponse>({
+      url: `/chats/rooms/${params.roomId}`,
+      method: "GET",
+      params: params?.params,
+    });
     return res.data;
   },
 
   getChatRooms: async (params: { params?: Record<string, unknown> }): Promise<GetChatRoomsResponse> => {
-    const res = await axiosInstance.get<GetChatRoomsResponse>(
-      `/chats/rooms`, { params: params?.params }
-    );
+    const res = await axiosInstance.request<GetChatRoomsResponse>({
+      url: `/chats/rooms`,
+      method: "GET",
+      params: params?.params,
+    });
     return res.data;
   },
 
   putReadChatRoom: async (params: { roomId: string | number, data?: PutReadChatRoomRequest }): Promise<PutReadChatRoomResponse> => {
-    const res = await axiosInstance.put<PutReadChatRoomResponse>(
-      `/chats/rooms/${params.roomId}/read`, params?.data
-    );
+    const res = await axiosInstance.request<PutReadChatRoomResponse>({
+      url: `/chats/rooms/${params.roomId}/read`,
+      method: "PUT",
+      data: params?.data,
+    });
     return res.data;
   },
 
   getChatPartner: async (params: { roomId: string | number, params?: Record<string, unknown> }): Promise<GetChatPartnerResponse> => {
-    const res = await axiosInstance.get<GetChatPartnerResponse>(
-      `/chats/rooms/${params.roomId}/partner`, { params: params?.params }
-    );
+    const res = await axiosInstance.request<GetChatPartnerResponse>({
+      url: `/chats/rooms/${params.roomId}/partner`,
+      method: "GET",
+      params: params?.params,
+    });
     return res.data;
   },
 

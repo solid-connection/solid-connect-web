@@ -1,22 +1,12 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useId, useState } from "react";
 import { GpaScoreTable } from "@/components/features/scores/GpaScoreTable";
 import { LanguageScoreTable } from "@/components/features/scores/LanguageScoreTable";
 import { AdminSidebar } from "@/components/layout/AdminSidebar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { isTokenExpired } from "@/lib/utils/jwtUtils";
-import { loadAccessToken } from "@/lib/utils/localStorage";
 import type { VerifyStatus } from "@/types/scores";
 
 export const Route = createFileRoute("/scores/")({
-	beforeLoad: () => {
-		if (typeof window !== "undefined") {
-			const token = loadAccessToken();
-			if (!token || isTokenExpired(token)) {
-				throw redirect({ to: "/auth/login" });
-			}
-		}
-	},
 	component: ScoresPage,
 });
 

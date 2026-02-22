@@ -2,6 +2,8 @@ import { axiosInstance } from "../../../runtime/axiosInstance";
 
 export type DeleteAdminRegionsCodeResponse = void;
 
+export type DeleteAdminRegionsCodeRequest = Record<string, never>;
+
 export interface PostAdminRegionsResponse {
   code: string;
   koreanName: string;
@@ -114,6 +116,8 @@ export interface GetLanguageTestListResponse {
 
 export type DeleteAdminCountriesCodeResponse = void;
 
+export type DeleteAdminCountriesCodeRequest = Record<string, never>;
+
 export interface PostAdminCountriesResponse {
   code: string;
   koreanName: string;
@@ -210,129 +214,165 @@ export interface GetGpaListResponse {
 }
 
 export const adminApi = {
-  deleteAdminRegionsCode: async (params: { code: string | number }): Promise<DeleteAdminRegionsCodeResponse> => {
-    const res = await axiosInstance.delete<DeleteAdminRegionsCodeResponse>(
-      `/admin/regions/${params.code}`
-    );
+  deleteAdminRegionsCode: async (params: { code: string | number, data?: DeleteAdminRegionsCodeRequest }): Promise<DeleteAdminRegionsCodeResponse> => {
+    const res = await axiosInstance.request<DeleteAdminRegionsCodeResponse>({
+      url: `/admin/regions/${params.code}`,
+      method: "DELETE",
+      data: params?.data,
+    });
     return res.data;
   },
 
   postAdminRegions: async (params: { data?: PostAdminRegionsRequest }): Promise<PostAdminRegionsResponse> => {
-    const res = await axiosInstance.post<PostAdminRegionsResponse>(
-      `/admin/regions`, params?.data
-    );
+    const res = await axiosInstance.request<PostAdminRegionsResponse>({
+      url: `/admin/regions`,
+      method: "POST",
+      data: params?.data,
+    });
     return res.data;
   },
 
   putAdminRegionsCode: async (params: { code: string | number, data?: PutAdminRegionsCodeRequest }): Promise<PutAdminRegionsCodeResponse> => {
-    const res = await axiosInstance.put<PutAdminRegionsCodeResponse>(
-      `/admin/regions/${params.code}`, params?.data
-    );
+    const res = await axiosInstance.request<PutAdminRegionsCodeResponse>({
+      url: `/admin/regions/${params.code}`,
+      method: "PUT",
+      data: params?.data,
+    });
     return res.data;
   },
 
   getAdminRegions: async (params: { params?: Record<string, unknown> }): Promise<GetAdminRegionsResponse> => {
-    const res = await axiosInstance.get<GetAdminRegionsResponse>(
-      `/admin/regions`, { params: params?.params }
-    );
+    const res = await axiosInstance.request<GetAdminRegionsResponse>({
+      url: `/admin/regions`,
+      method: "GET",
+      params: params?.params,
+    });
     return res.data;
   },
 
   postRejectMentorApplication: async (params: { mentorApplicationId: string | number, data?: PostRejectMentorApplicationRequest }): Promise<PostRejectMentorApplicationResponse> => {
-    const res = await axiosInstance.post<PostRejectMentorApplicationResponse>(
-      `/admin/mentor-applications/${params.mentorApplicationId}/reject`, params?.data
-    );
+    const res = await axiosInstance.request<PostRejectMentorApplicationResponse>({
+      url: `/admin/mentor-applications/${params.mentorApplicationId}/reject`,
+      method: "POST",
+      data: params?.data,
+    });
     return res.data;
   },
 
   getMentorApplicationList: async (params: { params?: Record<string, unknown> }): Promise<GetMentorApplicationListResponse> => {
-    const res = await axiosInstance.get<GetMentorApplicationListResponse>(
-      `/admin/mentor-applications`, { params: params?.params }
-    );
+    const res = await axiosInstance.request<GetMentorApplicationListResponse>({
+      url: `/admin/mentor-applications`,
+      method: "GET",
+      params: params?.params,
+    });
     return res.data;
   },
 
   postApproveMentorApplication: async (params: { mentorApplicationId: string | number, data?: PostApproveMentorApplicationRequest }): Promise<PostApproveMentorApplicationResponse> => {
-    const res = await axiosInstance.post<PostApproveMentorApplicationResponse>(
-      `/admin/mentor-applications/${params.mentorApplicationId}/approve`, params?.data
-    );
+    const res = await axiosInstance.request<PostApproveMentorApplicationResponse>({
+      url: `/admin/mentor-applications/${params.mentorApplicationId}/approve`,
+      method: "POST",
+      data: params?.data,
+    });
     return res.data;
   },
 
   postMappingMentorapplicationUniversity: async (params: { mentorApplicationId: string | number, data?: PostMappingMentorapplicationUniversityRequest }): Promise<PostMappingMentorapplicationUniversityResponse> => {
-    const res = await axiosInstance.post<PostMappingMentorapplicationUniversityResponse>(
-      `/admin/mentor-applications/${params.mentorApplicationId}/assign-university`, params?.data
-    );
+    const res = await axiosInstance.request<PostMappingMentorapplicationUniversityResponse>({
+      url: `/admin/mentor-applications/${params.mentorApplicationId}/assign-university`,
+      method: "POST",
+      data: params?.data,
+    });
     return res.data;
   },
 
   getCountMentorApplicationByStatus: async (params: { params?: Record<string, unknown> }): Promise<GetCountMentorApplicationByStatusResponse> => {
-    const res = await axiosInstance.get<GetCountMentorApplicationByStatusResponse>(
-      `/admin/mentor-applications/count`, { params: params?.params }
-    );
+    const res = await axiosInstance.request<GetCountMentorApplicationByStatusResponse>({
+      url: `/admin/mentor-applications/count`,
+      method: "GET",
+      params: params?.params,
+    });
     return res.data;
   },
 
   getMentorApplicationHistoryList: async (params: { site_user_id: string | number, params?: Record<string, unknown> }): Promise<GetMentorApplicationHistoryListResponse> => {
-    const res = await axiosInstance.get<GetMentorApplicationHistoryListResponse>(
-      `/admin/mentor-applications/${params.site_user_id}/history`, { params: params?.params }
-    );
+    const res = await axiosInstance.request<GetMentorApplicationHistoryListResponse>({
+      url: `/admin/mentor-applications/${params.site_user_id}/history`,
+      method: "GET",
+      params: params?.params,
+    });
     return res.data;
   },
 
   putVerifyLanguageTest: async (params: { languageTestScoreId: string | number, data?: PutVerifyLanguageTestRequest }): Promise<PutVerifyLanguageTestResponse> => {
-    const res = await axiosInstance.put<PutVerifyLanguageTestResponse>(
-      `/admin/scores/language-tests/${params.languageTestScoreId}`, params?.data
-    );
+    const res = await axiosInstance.request<PutVerifyLanguageTestResponse>({
+      url: `/admin/scores/language-tests/${params.languageTestScoreId}`,
+      method: "PUT",
+      data: params?.data,
+    });
     return res.data;
   },
 
   getLanguageTestList: async (params: { params?: Record<string, unknown> }): Promise<GetLanguageTestListResponse> => {
-    const res = await axiosInstance.get<GetLanguageTestListResponse>(
-      `/admin/scores/language-tests`, { params: params?.params }
-    );
+    const res = await axiosInstance.request<GetLanguageTestListResponse>({
+      url: `/admin/scores/language-tests`,
+      method: "GET",
+      params: params?.params,
+    });
     return res.data;
   },
 
-  deleteAdminCountriesCode: async (params: { code: string | number }): Promise<DeleteAdminCountriesCodeResponse> => {
-    const res = await axiosInstance.delete<DeleteAdminCountriesCodeResponse>(
-      `/admin/countries/${params.code}`
-    );
+  deleteAdminCountriesCode: async (params: { code: string | number, data?: DeleteAdminCountriesCodeRequest }): Promise<DeleteAdminCountriesCodeResponse> => {
+    const res = await axiosInstance.request<DeleteAdminCountriesCodeResponse>({
+      url: `/admin/countries/${params.code}`,
+      method: "DELETE",
+      data: params?.data,
+    });
     return res.data;
   },
 
   postAdminCountries: async (params: { data?: PostAdminCountriesRequest }): Promise<PostAdminCountriesResponse> => {
-    const res = await axiosInstance.post<PostAdminCountriesResponse>(
-      `/admin/countries`, params?.data
-    );
+    const res = await axiosInstance.request<PostAdminCountriesResponse>({
+      url: `/admin/countries`,
+      method: "POST",
+      data: params?.data,
+    });
     return res.data;
   },
 
   putAdminCountriesCode: async (params: { code: string | number, data?: PutAdminCountriesCodeRequest }): Promise<PutAdminCountriesCodeResponse> => {
-    const res = await axiosInstance.put<PutAdminCountriesCodeResponse>(
-      `/admin/countries/${params.code}`, params?.data
-    );
+    const res = await axiosInstance.request<PutAdminCountriesCodeResponse>({
+      url: `/admin/countries/${params.code}`,
+      method: "PUT",
+      data: params?.data,
+    });
     return res.data;
   },
 
   getAdminCountries: async (params: { params?: Record<string, unknown> }): Promise<GetAdminCountriesResponse> => {
-    const res = await axiosInstance.get<GetAdminCountriesResponse>(
-      `/admin/countries`, { params: params?.params }
-    );
+    const res = await axiosInstance.request<GetAdminCountriesResponse>({
+      url: `/admin/countries`,
+      method: "GET",
+      params: params?.params,
+    });
     return res.data;
   },
 
   putVerifyGpa: async (params: { gpaScoreId: string | number, data?: PutVerifyGpaRequest }): Promise<PutVerifyGpaResponse> => {
-    const res = await axiosInstance.put<PutVerifyGpaResponse>(
-      `/admin/scores/gpas/${params.gpaScoreId}`, params?.data
-    );
+    const res = await axiosInstance.request<PutVerifyGpaResponse>({
+      url: `/admin/scores/gpas/${params.gpaScoreId}`,
+      method: "PUT",
+      data: params?.data,
+    });
     return res.data;
   },
 
   getGpaList: async (params: { params?: Record<string, unknown> }): Promise<GetGpaListResponse> => {
-    const res = await axiosInstance.get<GetGpaListResponse>(
-      `/admin/scores/gpas`, { params: params?.params }
-    );
+    const res = await axiosInstance.request<GetGpaListResponse>({
+      url: `/admin/scores/gpas`,
+      method: "GET",
+      params: params?.params,
+    });
     return res.data;
   },
 

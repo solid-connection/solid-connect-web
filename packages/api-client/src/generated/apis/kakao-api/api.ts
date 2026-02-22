@@ -10,23 +10,30 @@ export type GetKakaoInfoResponse = void;
 
 export const kakaoApiApi = {
   getKakaoUserIds: async (params: { params?: Record<string, unknown> }): Promise<GetKakaoUserIdsResponse> => {
-    const res = await axiosInstance.get<GetKakaoUserIdsResponse>(
-      `https://kapi.kakao.com/v1/user/ids`, { params: params?.params }
-    );
+    const res = await axiosInstance.request<GetKakaoUserIdsResponse>({
+      url: `https://kapi.kakao.com/v1/user/ids`,
+      method: "GET",
+      params: params?.params,
+    });
     return res.data;
   },
 
   postKakaoUnlink: async (params: { params?: Record<string, unknown>, data?: PostKakaoUnlinkRequest }): Promise<PostKakaoUnlinkResponse> => {
-    const res = await axiosInstance.post<PostKakaoUnlinkResponse>(
-      `https://kapi.kakao.com/v1/user/unlink`, params?.data
-    );
+    const res = await axiosInstance.request<PostKakaoUnlinkResponse>({
+      url: `https://kapi.kakao.com/v1/user/unlink`,
+      method: "POST",
+      params: params?.params,
+      data: params?.data,
+    });
     return res.data;
   },
 
   getKakaoInfo: async (params: { params?: Record<string, unknown> }): Promise<GetKakaoInfoResponse> => {
-    const res = await axiosInstance.get<GetKakaoInfoResponse>(
-      `https://kapi.kakao.com/v2/user/me`, { params: params?.params }
-    );
+    const res = await axiosInstance.request<GetKakaoInfoResponse>({
+      url: `https://kapi.kakao.com/v2/user/me`,
+      method: "GET",
+      params: params?.params,
+    });
     return res.data;
   },
 

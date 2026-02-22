@@ -99,17 +99,16 @@ function generateApiFunctionForFactory(apiFunc: ApiFunction): string {
   // 함수 생성 (화살표 함수로)
   lines.push(`async (${paramsType}): Promise<${responseType}> => {`);
 
-  const configParts: string[] = [];
-  if (method === "GET" && paramsList.some((p) => p.includes("params?"))) {
-    configParts.push("params: params?.params");
+  lines.push(`  const res = await axiosInstance.request<${responseType}>({`);
+  lines.push(`    url: ${urlExpression},`);
+  lines.push(`    method: "${method}",`);
+  if (paramsList.some((p) => p.includes("params?"))) {
+    lines.push(`    params: params?.params,`);
   }
-
-  const configStr = configParts.length > 0 ? `, { ${configParts.join(", ")} }` : "";
-  const bodyStr = hasBody ? ", params?.data" : "";
-
-  lines.push(`  const res = await axiosInstance.${method.toLowerCase()}<${responseType}>(`);
-  lines.push(`    ${urlExpression}${bodyStr}${configStr}`);
-  lines.push(`  );`);
+  if (hasBody) {
+    lines.push(`    data: params?.data,`);
+  }
+  lines.push(`  });`);
   lines.push(`  return res.data;`);
   lines.push(`}`);
 
@@ -177,8 +176,7 @@ export function generateApiFactory(
       }
     }
 
-    // Request 타입 생성 (POST, PUT, PATCH인 경우)
-    if (["POST", "PUT", "PATCH"].includes(apiFunc.method)) {
+    if (apiFunc.hasBody) {
       if (parsed.body?.content) {
         try {
           const bodyData = JSON.parse(parsed.body.content);

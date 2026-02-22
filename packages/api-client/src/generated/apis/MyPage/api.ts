@@ -26,30 +26,38 @@ export type PatchPasswordRequest = Record<string, never>;
 
 export const myPageApi = {
   patchInterestedRegionCountry: async (params: { data?: PatchInterestedRegionCountryRequest }): Promise<PatchInterestedRegionCountryResponse> => {
-    const res = await axiosInstance.patch<PatchInterestedRegionCountryResponse>(
-      `/my/interested-location`, params?.data
-    );
+    const res = await axiosInstance.request<PatchInterestedRegionCountryResponse>({
+      url: `/my/interested-location`,
+      method: "PATCH",
+      data: params?.data,
+    });
     return res.data;
   },
 
   patchProfile: async (params: { data?: PatchProfileRequest }): Promise<PatchProfileResponse> => {
-    const res = await axiosInstance.patch<PatchProfileResponse>(
-      `/my`, params?.data
-    );
+    const res = await axiosInstance.request<PatchProfileResponse>({
+      url: `/my`,
+      method: "PATCH",
+      data: params?.data,
+    });
     return res.data;
   },
 
   getProfile: async (params: { params?: Record<string, unknown> }): Promise<GetProfileResponse> => {
-    const res = await axiosInstance.get<GetProfileResponse>(
-      `/my`, { params: params?.params }
-    );
+    const res = await axiosInstance.request<GetProfileResponse>({
+      url: `/my`,
+      method: "GET",
+      params: params?.params,
+    });
     return res.data;
   },
 
   patchPassword: async (params: { data?: PatchPasswordRequest }): Promise<PatchPasswordResponse> => {
-    const res = await axiosInstance.patch<PatchPasswordResponse>(
-      `/my/password`, params?.data
-    );
+    const res = await axiosInstance.request<PatchPasswordResponse>({
+      url: `/my/password`,
+      method: "PATCH",
+      data: params?.data,
+    });
     return res.data;
   },
 
