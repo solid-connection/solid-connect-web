@@ -13,7 +13,7 @@ import SubmitLinkTab from "@/components/score/SubmitLinkTab";
 import SubmitResult, { type InfoRowProps } from "@/components/score/SubmitResult";
 import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 import { toast } from "@/lib/zustand/useToastStore";
-import { LanguageTestEnum, languageTestScoreInfo } from "@/types/score";
+import { formatLanguageTestScoreWithMax, LanguageTestEnum, languageTestScoreInfo } from "@/types/score";
 import { type LanguageTestFormData, languageTestSchema } from "./_lib/schema";
 
 const LanguageTestSubmitForm = () => {
@@ -67,7 +67,7 @@ const LanguageTestSubmitForm = () => {
       {
         label: "공인어학",
         status: submittedTestInfo.label,
-        details: `${submittedData.score}/${submittedTestInfo.max}`,
+        details: formatLanguageTestScoreWithMax(submittedData.testType, submittedData.score),
       },
       {
         label: "어학증명서",

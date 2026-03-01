@@ -5,7 +5,7 @@ import ScoreCard from "@/app/university/score/ScoreCard";
 import TextModal from "@/components/modal/TextModal";
 import Tab from "@/components/ui/Tab";
 import { toast } from "@/lib/zustand/useToastStore";
-import { type LanguageTestScore, languageTestScoreInfo, ScoreSubmitStatus } from "@/types/score";
+import { formatLanguageTestScoreWithMax, type LanguageTestScore, ScoreSubmitStatus } from "@/types/score";
 import ApplicationBottomActionBar from "../_components/ApplicationBottomActionBar";
 import ApplicationSectionTitle from "../_components/ApplicationSectionTitle";
 
@@ -57,7 +57,10 @@ const LanguageStep = ({
               <ScoreCard
                 key={score.id}
                 name={score.languageTestResponse.languageTestType}
-                score={`${score.languageTestResponse.languageTestScore}/${languageTestScoreInfo[score.languageTestResponse.languageTestType].max}`}
+                score={formatLanguageTestScoreWithMax(
+                  score.languageTestResponse.languageTestType,
+                  score.languageTestResponse.languageTestScore,
+                )}
                 status={score.verifyStatus}
                 // date={new Date(score.issueDate).toISOString()}
                 date="2025-01-01"

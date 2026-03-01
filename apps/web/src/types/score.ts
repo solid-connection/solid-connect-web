@@ -65,6 +65,32 @@ export const languageTestShortMapping: Record<LanguageTestEnum, string> = {
   DUOLINGO: "DUOLINGO",
 };
 
+const jlptLevelMapping: Record<string, string> = {
+  "1": "N1",
+  "2": "N2",
+  "3": "N3",
+  "4": "N4",
+  "5": "N5",
+};
+
+export const formatLanguageTestScore = (testType: LanguageTestEnum, score: string) => {
+  if (testType === LanguageTestEnum.JLPT) {
+    return jlptLevelMapping[score] ?? score;
+  }
+
+  return score;
+};
+
+export const formatLanguageTestScoreWithMax = (testType: LanguageTestEnum, score: string) => {
+  const formattedScore = formatLanguageTestScore(testType, score);
+
+  if (testType === LanguageTestEnum.JLPT) {
+    return formattedScore;
+  }
+
+  return `${formattedScore}/${languageTestScoreInfo[testType].max}`;
+};
+
 export interface SubmitGpaScoreRequest {
   gpaScoreRequest: {
     gpa: number;
