@@ -20,8 +20,6 @@ const formatDate = (date: string) => {
   return `${year}.${month}.${day}`;
 };
 
-const formatScore = (score: string) => score.replace(/(\d+)\.0+\b/g, "$1");
-
 const getStatus = (status: ScoreSubmitStatus, rejectedReason?: string | null) => {
   switch (status) {
     case "PENDING":
@@ -56,7 +54,6 @@ const getStatus = (status: ScoreSubmitStatus, rejectedReason?: string | null) =>
 
 const ScoreCard = ({ name, score, status, date, isFocused = false, rejectedReason = null }: ScoreCardProps) => {
   const isVerified = status === "APPROVED";
-  const formattedScore = formatScore(score);
 
   return (
     <div
@@ -86,7 +83,7 @@ const ScoreCard = ({ name, score, status, date, isFocused = false, rejectedReaso
             "text-secondary-300": !isFocused,
           })}
         >
-          {formattedScore}
+          {score}
         </div>
       </div>
     </div>

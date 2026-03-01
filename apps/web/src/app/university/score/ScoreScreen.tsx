@@ -6,7 +6,7 @@ import { useGetMyGpaScore, useGetMyLanguageTestScore } from "@/apis/Scores";
 import BlockBtn from "@/components/button/BlockBtn";
 import Tab from "@/components/ui/Tab";
 import { IconSolidConnectionSmallLogo } from "@/public/svgs/my";
-import { languageTestMapping } from "@/types/score";
+import { formatLanguageTestScore, languageTestMapping } from "@/types/score";
 import ScoreCard from "./ScoreCard";
 
 const ScoreScreen = () => {
@@ -36,7 +36,10 @@ const ScoreScreen = () => {
                 <ScoreCard
                   key={score.id}
                   name={languageTestMapping[score.languageTestResponse.languageTestType]}
-                  score={score.languageTestResponse.languageTestScore}
+                  score={formatLanguageTestScore(
+                    score.languageTestResponse.languageTestType,
+                    score.languageTestResponse.languageTestScore,
+                  )}
                   status={score.verifyStatus}
                   // date={new Date(score.issueDate).toISOString()}
                   date="2026-01-01"
