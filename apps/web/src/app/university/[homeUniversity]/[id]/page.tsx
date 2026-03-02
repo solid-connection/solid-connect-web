@@ -166,7 +166,7 @@ const CollegeDetailPage = async ({ params }: PageProps) => {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
       <TopDetailNavigation title={convertedKoreanName} backHref={`/university/${homeUniversity}`} />
-      <div className="w-full px-5">
+      <div className="w-full">
         <UniversityDetail koreanName={convertedKoreanName} university={universityData} />
       </div>
     </>
