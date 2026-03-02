@@ -286,6 +286,7 @@ function ChatSocketPage() {
 			};
 
 			nextClient.onWebSocketClose = () => {
+				setIsPending(false);
 				setConnectionState("DISCONNECTED");
 			};
 

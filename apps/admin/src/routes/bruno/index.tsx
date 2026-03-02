@@ -196,17 +196,20 @@ function BrunoApiPage() {
 
 	const visibleEndpoints = useMemo(() => {
 		const normalized = search.trim().toLowerCase();
-		if (!normalized) {
-			return ALL_ENDPOINTS;
-		}
-
 		return ALL_ENDPOINTS.filter((endpoint) => {
+			const matchesMethod = methodFilter === "ALL" || endpoint.definition.method === methodFilter;
+			if (!matchesMethod) {
+				return false;
+			}
+			if (!normalized) {
+				return true;
+			}
+
 			const matchesSearch =
 				`${endpoint.domain} ${endpoint.name} ${endpoint.definition.method} ${endpoint.definition.path}`
 					.toLowerCase()
 					.includes(normalized);
-			const matchesMethod = methodFilter === "ALL" || endpoint.definition.method === methodFilter;
-			return matchesSearch && matchesMethod;
+			return matchesSearch;
 		});
 	}, [methodFilter, search]);
 
