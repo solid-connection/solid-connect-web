@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { IconExpandMoreFilled } from "@/public/svgs/community";
 import type { ScoreSheet as ScoreSheetType } from "@/types/application";
-import { languageTestMapping } from "@/types/score";
+import { formatLanguageTestScore, isLanguageTestEnum, languageTestMapping } from "@/types/score";
 
 const ScoreSheet = ({ scoreSheet }: { scoreSheet: ScoreSheetType }) => {
   const [tableOpened, setTableOpened] = useState(false);
@@ -32,10 +32,12 @@ const ScoreSheet = ({ scoreSheet }: { scoreSheet: ScoreSheetType }) => {
                 {applicant.gpa.toFixed(2)}
               </span>
               <span className="min-w-[30px] flex-1 overflow-hidden whitespace-nowrap text-center typo-medium-2">
-                {languageTestMapping[applicant.testType]}
+                {isLanguageTestEnum(applicant.testType) ? languageTestMapping[applicant.testType] : applicant.testType}
               </span>
               <span className="min-w-[30px] flex-1 overflow-hidden whitespace-nowrap text-center typo-medium-2">
-                {applicant.testScore}
+                {isLanguageTestEnum(applicant.testType)
+                  ? formatLanguageTestScore(applicant.testType, applicant.testScore)
+                  : applicant.testScore}
               </span>
             </div>
           ))}
