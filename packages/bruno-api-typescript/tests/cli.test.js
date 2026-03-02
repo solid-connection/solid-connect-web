@@ -558,4 +558,49 @@ get /test/no-docs
   });
 });
 
+describe('식별자 안전성 테스트', () => {
+  test('한글/공백 파일명과 특수문자 JSON 키를 안전한 TS 코드로 생성', () => {
+    const identifierFixtureDir = join(TEST_OUTPUT_DIR, 'identifier-fixture');
+    const adminDir = join(identifierFixtureDir, '7) 어드민 [Admin]');
+    mkdirSync(adminDir, { recursive: true });
+
+    const filePath = join(adminDir, '권역 삭제.bru');
+    const content = `meta {
+  name: 권역 삭제
+  type: http
+}
+
+delete /admin/regions/{{region-code}}
+
+docs {
+  \`\`\`json
+  {
+    "region-code": "KR",
+    "권역 이름": "동아시아"
+  }
+  \`\`\`
+}
+`;
+    require('fs').writeFileSync(filePath, content);
+
+    const outputDir = join(TEST_OUTPUT_DIR, 'identifier-output');
+    execSync(`node dist/cli/index.js generate-hooks -i ${identifierFixtureDir} -o ${outputDir}`, {
+      cwd: join(__dirname, '..'),
+    });
+
+    const apiFile = join(outputDir, 'Admin', 'api.ts');
+    const definitionsFile = join(outputDir, 'Admin', 'apiDefinitions.ts');
+    const apiContent = readFileSync(apiFile, 'utf-8');
+    const definitionsContent = readFileSync(definitionsFile, 'utf-8');
+
+    assert.ok(apiContent.includes('delete권역삭제'), '공백 없는 안전한 함수명이 생성되어야 함');
+    assert.ok(!apiContent.includes('delete권역 삭제'), '공백이 포함된 함수명은 생성되면 안 됨');
+    assert.ok(apiContent.includes('"region-code": string;'), '하이픈 키는 문자열 키로 생성되어야 함');
+    assert.ok(apiContent.includes('"권역 이름": string;'), '공백 포함 한글 키는 문자열 키로 생성되어야 함');
+    assert.ok(definitionsContent.includes('delete권역삭제'), 'API 정의 키도 안전한 식별자여야 함');
+
+    console.log('✅ 식별자 안전성 테스트 통과');
+  });
+});
+
 console.log('\n🎉 모든 테스트 완료!');

@@ -41,7 +41,7 @@ export function extractApiFunction(parsed: ParsedBrunoFile, filePath: string): A
   // HTTP 메서드 prefix 추가: signOut → postSignOut
   const methodPrefix = http.method.toLowerCase();
   const functionName = `${methodPrefix}${baseFunctionName.charAt(0).toUpperCase()}${baseFunctionName.slice(1)}`;
-  const responseType = functionNameToTypeName(baseFunctionName);
+  const responseType = functionNameToTypeName(functionName);
 
   // URL에 파라미터가 있는지 확인
   const hasParams = http.url.includes(':') || http.url.includes('{');
