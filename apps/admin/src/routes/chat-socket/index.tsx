@@ -1,6 +1,6 @@
 import { Client, type IMessage, type StompHeaders, type StompSubscription } from "@stomp/stompjs";
-import { createFileRoute, redirect } from "@tanstack/react-router";
-import { Link2, Plug, PlugZap, Send } from "lucide-react";
+import { createFileRoute } from "@tanstack/react-router";
+import { KeyRound, Link2, LogIn, Plug, PlugZap, RefreshCw, Send } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import SockJS from "sockjs-client";
 import { toast } from "sonner";
@@ -9,8 +9,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { isTokenExpired } from "@/lib/utils/jwtUtils";
-import { loadAccessToken } from "@/lib/utils/localStorage";
+import { adminSignInApi } from "@/lib/api/auth";
+import { loadAccessToken, loadRefreshToken, saveAccessToken, saveRefreshToken } from "@/lib/utils/localStorage";
 
 type ConnectionState = "DISCONNECTED" | "CONNECTING" | "CONNECTED" | "ERROR";
 
@@ -29,9 +29,32 @@ interface EventLog {
 	createdAt: string;
 }
 
+interface PublishPreset {
+	id: string;
+	label: string;
+	destination: string;
+	payload: string;
+}
+
 const defaultDestinationTemplate = "/publish/chat/{roomId}";
 const defaultTopicTemplate = "/topic/chat/{roomId}";
-const defaultJsonPayload = '{\n  "content": "어드민 소켓 테스트 메시지"\n}';
+const defaultJsonPayload = '{\n  "content": "어드민 소켓 테스트 메시지",\n  "senderId": 1\n}';
+const defaultHeadersJson = "{}";
+
+const publishPresets: PublishPreset[] = [
+	{
+		id: "text",
+		label: "텍스트 메시지",
+		destination: "/publish/chat/{roomId}",
+		payload: '{\n  "content": "안녕하세요. 어드민 소켓 테스트 메시지입니다.",\n  "senderId": 1\n}',
+	},
+	{
+		id: "image",
+		label: "이미지 메시지",
+		destination: "/publish/chat/{roomId}/image",
+		payload: '{\n  "imageUrls": ["https://example.com/image.png"]\n}',
+	},
+];
 
 const normalizeBaseUrl = (value: string) => value.trim().replace(/\/+$/, "");
 
@@ -39,15 +62,32 @@ const resolveRoomTemplate = (template: string, roomId: string) => template.repla
 
 const toNowIso = () => new Date().toISOString();
 
+const parseJsonRecord = (text: string, label: string): Record<string, string> => {
+	if (!text.trim()) {
+		return {};
+	}
+
+	const parsed = JSON.parse(text) as unknown;
+	if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) {
+		throw new Error(`${label}는 JSON 객체여야 합니다.`);
+	}
+
+	return Object.fromEntries(Object.entries(parsed).map(([key, value]) => [key, String(value)]));
+};
+
+const parseJsonBody = (text: string) => JSON.stringify(JSON.parse(text));
+
+const maskToken = (value: string | null) => {
+	if (!value) {
+		return "-";
+	}
+	if (value.length <= 20) {
+		return value;
+	}
+	return `${value.slice(0, 10)}...${value.slice(-10)}`;
+};
+
 export const Route = createFileRoute("/chat-socket/")({
-	beforeLoad: () => {
-		if (typeof window !== "undefined") {
-			const token = loadAccessToken();
-			if (!token || isTokenExpired(token)) {
-				throw redirect({ to: "/auth/login" });
-			}
-		}
-	},
 	component: ChatSocketPage,
 });
 
@@ -58,13 +98,18 @@ function ChatSocketPage() {
 	const [connectionState, setConnectionState] = useState<ConnectionState>("DISCONNECTED");
 	const [serverUrl, setServerUrl] = useState(import.meta.env.VITE_API_SERVER_URL?.trim() ?? "");
 	const [token, setToken] = useState("");
+	const [refreshToken, setRefreshToken] = useState("");
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
 	const [roomId, setRoomId] = useState("");
 	const [topicTemplate, setTopicTemplate] = useState(defaultTopicTemplate);
 	const [destinationTemplate, setDestinationTemplate] = useState(defaultDestinationTemplate);
+	const [publishHeadersText, setPublishHeadersText] = useState(defaultHeadersJson);
 	const [jsonPayload, setJsonPayload] = useState(defaultJsonPayload);
 	const [receivedMessages, setReceivedMessages] = useState<ReceivedMessage[]>([]);
 	const [eventLogs, setEventLogs] = useState<EventLog[]>([]);
 	const [isPending, setIsPending] = useState(false);
+	const [isSigningIn, setIsSigningIn] = useState(false);
 
 	const socketUrl = useMemo(() => {
 		const normalized = normalizeBaseUrl(serverUrl);
@@ -82,8 +127,12 @@ function ChatSocketPage() {
 
 	useEffect(() => {
 		const accessToken = loadAccessToken();
+		const refreshTokenFromStorage = loadRefreshToken();
 		if (accessToken) {
 			setToken(accessToken);
+		}
+		if (refreshTokenFromStorage) {
+			setRefreshToken(refreshTokenFromStorage);
 		}
 	}, []);
 
@@ -118,19 +167,71 @@ function ChatSocketPage() {
 		[appendLog],
 	);
 
+	const handleLoadStoredToken = () => {
+		const accessToken = loadAccessToken();
+		const refreshTokenFromStorage = loadRefreshToken();
+		setToken(accessToken ?? "");
+		setRefreshToken(refreshTokenFromStorage ?? "");
+
+		if (accessToken) {
+			appendLog("SYSTEM", "저장된 AccessToken/RefreshToken을 불러왔습니다.");
+			toast.success("저장된 토큰을 불러왔습니다.");
+			return;
+		}
+
+		toast.error("저장된 AccessToken이 없습니다.");
+	};
+
+	const handleSignIn = async () => {
+		if (!email.trim() || !password.trim()) {
+			toast.error("이메일/비밀번호를 입력해주세요.");
+			return;
+		}
+
+		setIsSigningIn(true);
+		try {
+			const response = await adminSignInApi(email.trim(), password);
+			const nextAccessToken = response.data.accessToken;
+			const nextRefreshToken = response.data.refreshToken;
+
+			saveAccessToken(nextAccessToken);
+			saveRefreshToken(nextRefreshToken);
+			setToken(nextAccessToken);
+			setRefreshToken(nextRefreshToken);
+			appendLog("SYSTEM", "로그인 성공: 새 토큰이 반영되었습니다.");
+			toast.success("로그인 성공. AccessToken을 갱신했습니다.");
+		} catch (error) {
+			const message =
+				error && typeof error === "object" && "response" in error
+					? (error as { response?: { data?: { message?: string } } }).response?.data?.message
+					: undefined;
+			appendLog("ERROR", `로그인 실패: ${message ?? "이메일/비밀번호를 확인해주세요."}`);
+			toast.error(message ?? "로그인에 실패했습니다.");
+		} finally {
+			setIsSigningIn(false);
+		}
+	};
+
 	useEffect(() => {
 		return () => {
 			void deactivateClient(false);
 		};
 	}, [deactivateClient]);
 
-	const handleConnect = async () => {
+	const handleConnect = async (tokenOverride?: string) => {
 		if (!roomId.trim()) {
 			toast.error("Room ID를 입력해주세요.");
 			return;
 		}
 
-		if (!socketUrl) {
+		const nextToken = tokenOverride ?? token;
+		const normalizedServerUrl = normalizeBaseUrl(serverUrl);
+		const nextSocketUrl =
+			normalizedServerUrl && nextToken.trim()
+				? `${normalizedServerUrl}/connect?token=${encodeURIComponent(nextToken.trim())}`
+				: "";
+
+		if (!nextSocketUrl) {
 			toast.error("서버 URL과 토큰을 확인해주세요.");
 			return;
 		}
@@ -144,7 +245,7 @@ function ChatSocketPage() {
 
 		try {
 			const nextClient = new Client({
-				webSocketFactory: () => new SockJS(socketUrl),
+				webSocketFactory: () => new SockJS(nextSocketUrl),
 				reconnectDelay: 0,
 				heartbeatIncoming: 50000,
 				heartbeatOutgoing: 50000,
@@ -185,9 +286,7 @@ function ChatSocketPage() {
 			};
 
 			nextClient.onWebSocketClose = () => {
-				if (connectionState !== "ERROR") {
-					setConnectionState("DISCONNECTED");
-				}
+				setConnectionState("DISCONNECTED");
 			};
 
 			clientRef.current = nextClient;
@@ -197,6 +296,40 @@ function ChatSocketPage() {
 			setConnectionState("ERROR");
 			setIsPending(false);
 			appendLog("ERROR", message);
+		}
+	};
+
+	const handleSignInAndConnect = async () => {
+		if (!email.trim() || !password.trim()) {
+			toast.error("이메일/비밀번호를 입력해주세요.");
+			return;
+		}
+		if (!roomId.trim()) {
+			toast.error("Room ID를 입력해주세요.");
+			return;
+		}
+
+		setIsSigningIn(true);
+		try {
+			const response = await adminSignInApi(email.trim(), password);
+			const nextAccessToken = response.data.accessToken;
+			const nextRefreshToken = response.data.refreshToken;
+
+			saveAccessToken(nextAccessToken);
+			saveRefreshToken(nextRefreshToken);
+			setToken(nextAccessToken);
+			setRefreshToken(nextRefreshToken);
+			appendLog("SYSTEM", "로그인 성공: 새 토큰으로 소켓 연결을 시도합니다.");
+			await handleConnect(nextAccessToken);
+		} catch (error) {
+			const message =
+				error && typeof error === "object" && "response" in error
+					? (error as { response?: { data?: { message?: string } } }).response?.data?.message
+					: undefined;
+			appendLog("ERROR", `로그인 실패: ${message ?? "이메일/비밀번호를 확인해주세요."}`);
+			toast.error(message ?? "로그인에 실패했습니다.");
+		} finally {
+			setIsSigningIn(false);
 		}
 	};
 
@@ -213,16 +346,29 @@ function ChatSocketPage() {
 		}
 
 		try {
-			const parsedPayload = JSON.parse(jsonPayload);
+			const parsedPayload = parseJsonBody(jsonPayload);
+			const headers = parseJsonRecord(publishHeadersText, "Publish Headers");
+			const trimmedToken = token.trim();
+			if (trimmedToken && !headers.Authorization) {
+				headers.Authorization = `Bearer ${trimmedToken}`;
+			}
 			const destination = resolveRoomTemplate(destinationTemplate, roomId);
 			client.publish({
 				destination,
-				body: JSON.stringify(parsedPayload),
+				headers,
+				body: parsedPayload,
 			});
 			appendLog("SYSTEM", `메시지 전송 완료: ${destination}`);
-		} catch {
-			toast.error("Payload JSON 형식이 올바르지 않습니다.");
+		} catch (error) {
+			const message = error instanceof Error ? error.message : "Payload JSON 형식이 올바르지 않습니다.";
+			toast.error(message);
 		}
+	};
+
+	const handleApplyPreset = (preset: PublishPreset) => {
+		setDestinationTemplate(preset.destination);
+		setJsonPayload(preset.payload);
+		appendLog("SYSTEM", `프리셋 적용: ${preset.label}`);
 	};
 
 	return (
@@ -234,9 +380,49 @@ function ChatSocketPage() {
 					<div className="grid gap-4 lg:grid-cols-[420px_minmax(0,1fr)]">
 						<Card className="border-k-100">
 							<CardHeader className="pb-3">
-								<CardTitle className="typo-sb-9 text-k-800">채팅 소켓 연결</CardTitle>
+								<CardTitle className="typo-sb-9 text-k-800">채팅 소켓 테스트 콘솔</CardTitle>
 							</CardHeader>
 							<CardContent className="space-y-3 pt-0">
+								<div className="rounded-md border border-k-100 bg-bg-50 p-3">
+									<p className="typo-sb-11 text-k-700">즉시 로그인</p>
+									<p className="mt-1 typo-regular-4 text-k-500">
+										이 페이지에서 바로 로그인하면 AccessToken/RefreshToken을 저장하고 즉시 반영합니다.
+									</p>
+									<div className="mt-3 space-y-2">
+										<Input
+											placeholder="admin@example.com"
+											value={email}
+											onChange={(event) => setEmail(event.target.value)}
+										/>
+										<Input
+											type="password"
+											placeholder="비밀번호"
+											value={password}
+											onChange={(event) => setPassword(event.target.value)}
+										/>
+									</div>
+									<div className="mt-2 flex flex-wrap gap-2">
+										<Button type="button" variant="outline" onClick={() => void handleSignIn()} disabled={isSigningIn}>
+											<LogIn className="h-4 w-4" />
+											로그인 토큰 받기
+										</Button>
+										<Button
+											type="button"
+											onClick={() => void handleSignInAndConnect()}
+											disabled={isSigningIn || isPending}
+										>
+											<KeyRound className="h-4 w-4" />
+											로그인 + 연결
+										</Button>
+										<Button type="button" variant="ghost" onClick={handleLoadStoredToken}>
+											<RefreshCw className="h-4 w-4" />
+											저장 토큰 불러오기
+										</Button>
+									</div>
+									<div className="mt-2 rounded-md border border-k-100 bg-k-0 px-2 py-1">
+										<p className="font-mono text-[11px] text-k-500">refresh: {maskToken(refreshToken)}</p>
+									</div>
+								</div>
 								<div className="space-y-1">
 									<p className="typo-sb-11 text-k-700">API 서버 URL</p>
 									<Input value={serverUrl} onChange={(event) => setServerUrl(event.target.value)} />
@@ -293,6 +479,19 @@ function ChatSocketPage() {
 									<CardTitle className="typo-sb-9 text-k-800">메시지 발행</CardTitle>
 								</CardHeader>
 								<CardContent className="space-y-3 pt-0">
+									<div className="flex flex-wrap gap-2">
+										{publishPresets.map((preset) => (
+											<Button
+												key={preset.id}
+												type="button"
+												variant="outline"
+												size="sm"
+												onClick={() => handleApplyPreset(preset)}
+											>
+												{preset.label}
+											</Button>
+										))}
+									</div>
 									<div className="space-y-1">
 										<p className="typo-sb-11 text-k-700">Destination</p>
 										<Input
@@ -300,6 +499,17 @@ function ChatSocketPage() {
 											onChange={(event) => setDestinationTemplate(event.target.value)}
 											placeholder="/publish/chat/{roomId}"
 										/>
+									</div>
+									<div className="space-y-1">
+										<p className="typo-sb-11 text-k-700">Publish Headers(JSON Object)</p>
+										<Textarea
+											value={publishHeadersText}
+											onChange={(event) => setPublishHeadersText(event.target.value)}
+											className="min-h-20 font-mono"
+										/>
+										<p className="typo-regular-4 text-k-500">
+											`Authorization` 헤더가 없으면 현재 Access Token으로 자동 추가됩니다.
+										</p>
 									</div>
 									<div className="space-y-1">
 										<p className="typo-sb-11 text-k-700">Payload(JSON)</p>
@@ -318,7 +528,12 @@ function ChatSocketPage() {
 
 							<Card className="border-k-100">
 								<CardHeader className="pb-3">
-									<CardTitle className="typo-sb-9 text-k-800">이벤트 로그</CardTitle>
+									<div className="flex items-center justify-between gap-2">
+										<CardTitle className="typo-sb-9 text-k-800">이벤트 로그</CardTitle>
+										<Button type="button" variant="outline" size="sm" onClick={() => setEventLogs([])}>
+											로그 비우기
+										</Button>
+									</div>
 								</CardHeader>
 								<CardContent className="space-y-2 pt-0">
 									{eventLogs.length === 0 ? (
@@ -340,7 +555,12 @@ function ChatSocketPage() {
 
 							<Card className="border-k-100">
 								<CardHeader className="pb-3">
-									<CardTitle className="typo-sb-9 text-k-800">수신 메시지</CardTitle>
+									<div className="flex items-center justify-between gap-2">
+										<CardTitle className="typo-sb-9 text-k-800">수신 메시지</CardTitle>
+										<Button type="button" variant="outline" size="sm" onClick={() => setReceivedMessages([])}>
+											메시지 비우기
+										</Button>
+									</div>
 								</CardHeader>
 								<CardContent className="space-y-2 pt-0">
 									{receivedMessages.length === 0 ? (
@@ -350,6 +570,7 @@ function ChatSocketPage() {
 											<div key={item.id} className="rounded border border-k-100 bg-bg-50 px-3 py-2">
 												<p className="font-mono text-[11px] text-k-500">{item.receivedAt}</p>
 												<p className="mt-1 font-mono text-[11px] text-k-600">topic: {item.destination}</p>
+												<p className="mt-1 font-mono text-[11px] text-k-500">headers: {JSON.stringify(item.headers)}</p>
 												<Textarea value={item.rawBody} readOnly className="mt-2 min-h-20 font-mono" />
 											</div>
 										))
