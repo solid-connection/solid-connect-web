@@ -8,6 +8,7 @@
     "dev:debug": "turbo dev --filter=@solid-connect/web --filter=@solid-connect/admin",
     "build": "turbo build",
     "sync:bruno": "turbo run sync:bruno",
+    "codegen:check": "turbo run codegen:check",
     "lint": "turbo lint",
     "typecheck": "turbo typecheck",
     "ci:check": "turbo ci:check",

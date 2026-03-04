@@ -1,4 +1,4 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { Copy, Play, RotateCcw } from "lucide-react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
@@ -11,10 +11,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { axiosInstance } from "@/lib/api/client";
 import { cn } from "@/lib/utils";
-import { isTokenExpired } from "@/lib/utils/jwtUtils";
-import { loadAccessToken } from "@/lib/utils/localStorage";
 
-type DefinitionMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+type DefinitionMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE" | "HEAD" | "OPTIONS" | "TRACE" | "CONNECT";
 
 interface ApiDefinitionEntry {
 	method: DefinitionMethod;
@@ -23,6 +21,10 @@ interface ApiDefinitionEntry {
 	queryParams: Record<string, unknown>;
 	body: unknown;
 	response: unknown;
+}
+
+interface ApiDefinitionModule {
+	[key: string]: unknown;
 }
 
 interface EndpointItem {
@@ -38,48 +40,64 @@ interface RequestResult {
 	body: unknown;
 }
 
-const definitionFileContents = import.meta.glob("../../../../../packages/api-schema/src/apis/*/apiDefinitions.ts", {
-	eager: true,
-	query: "?raw",
-	import: "default",
-}) as Record<string, string>;
+const definitionModules = import.meta.glob(
+	"../../../../../packages/api-client/src/generated/apis/*/apiDefinitions.ts",
+	{
+		eager: true,
+		import: "*",
+	},
+) as Record<string, ApiDefinitionModule>;
 
 const normalizeTokenKey = (value: string) => value.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+
+const isDefinitionMethod = (value: unknown): value is DefinitionMethod => {
+	if (typeof value !== "string") {
+		return false;
+	}
+
+	return ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS", "TRACE", "CONNECT"].includes(value);
+};
+
+const isApiDefinitionEntry = (value: unknown): value is ApiDefinitionEntry => {
+	if (typeof value !== "object" || value === null) {
+		return false;
+	}
+
+	const candidate = value as Partial<ApiDefinitionEntry>;
+	return isDefinitionMethod(candidate.method) && typeof candidate.path === "string";
+};
 
 const parseDefinitionRegistry = (): EndpointItem[] => {
 	const endpoints: EndpointItem[] = [];
 
-	for (const [modulePath, fileContent] of Object.entries(definitionFileContents)) {
+	for (const [modulePath, module] of Object.entries(definitionModules)) {
 		const domainMatch = modulePath.match(/apis\/([^/]+)\/apiDefinitions\.ts$/);
 		if (!domainMatch) {
 			continue;
 		}
 
 		const domain = domainMatch[1];
-		const endpointPattern =
-			/^\s*([^:\n]+):\s*\{\s*\n\s*method:\s*'([A-Z]+)'\s+as const,\s*\n\s*path:\s*'([^']+)'\s+as const,/gm;
 
-		for (const match of fileContent.matchAll(endpointPattern)) {
-			const endpointName = match[1]?.trim();
-			const method = match[2]?.trim() as DefinitionMethod | undefined;
-			const path = match[3]?.trim();
-
-			if (!endpointName || !method || !path) {
+		for (const [exportName, exportValue] of Object.entries(module)) {
+			if (!exportName.endsWith("ApiDefinitions")) {
 				continue;
 			}
 
-			endpoints.push({
-				domain,
-				name: endpointName,
-				definition: {
-					method,
-					path,
-					pathParams: {},
-					queryParams: {},
-					body: {},
-					response: {},
-				},
-			});
+			if (typeof exportValue !== "object" || exportValue === null) {
+				continue;
+			}
+
+			for (const [endpointName, endpointDefinition] of Object.entries(exportValue)) {
+				if (!isApiDefinitionEntry(endpointDefinition)) {
+					continue;
+				}
+
+				endpoints.push({
+					domain,
+					name: endpointName,
+					definition: endpointDefinition,
+				});
+			}
 		}
 	}
 
@@ -95,12 +113,24 @@ const ALL_ENDPOINTS = parseDefinitionRegistry();
 
 const toPrettyJson = (value: unknown) => JSON.stringify(value, null, 2);
 
-const parseJsonRecord = (text: string, label: string): Record<string, unknown> => {
+const parseJsonValue = (text: string, label: string): unknown => {
 	if (!text.trim()) {
+		return undefined;
+	}
+
+	try {
+		return JSON.parse(text) as unknown;
+	} catch {
+		throw new Error(`${label}는 유효한 JSON이어야 합니다.`);
+	}
+};
+
+const parseJsonRecord = (text: string, label: string): Record<string, unknown> => {
+	const parsed = parseJsonValue(text, label);
+	if (parsed === undefined) {
 		return {};
 	}
 
-	const parsed = JSON.parse(text) as unknown;
 	if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) {
 		throw new Error(`${label}는 JSON 객체여야 합니다.`);
 	}
@@ -115,10 +145,10 @@ const toStringRecord = (value: Record<string, unknown>): Record<string, string> 
 const resolvePath = (rawPath: string, pathParams: Record<string, unknown>) => {
 	const withoutBaseToken = rawPath.replace("{{URL}}", "");
 
-	return withoutBaseToken.replace(/\{\{([^}]+)\}\}/g, (_full, tokenName: string) => {
+	const findPathParam = (tokenName: string): unknown => {
 		const exact = pathParams[tokenName];
 		if (exact !== undefined && exact !== null) {
-			return encodeURIComponent(String(exact));
+			return exact;
 		}
 
 		const normalizedToken = normalizeTokenKey(tokenName);
@@ -127,22 +157,30 @@ const resolvePath = (rawPath: string, pathParams: Record<string, unknown>) => {
 		);
 
 		if (similarEntry) {
-			return encodeURIComponent(String(similarEntry[1]));
+			return similarEntry[1];
 		}
 
 		throw new Error(`경로 파라미터 '${tokenName}' 값이 필요합니다.`);
+	};
+
+	let resolved = withoutBaseToken;
+
+	resolved = resolved.replace(/\{\{([^}]+)\}\}/g, (_full, tokenName: string) => {
+		return encodeURIComponent(String(findPathParam(tokenName)));
 	});
+
+	resolved = resolved.replace(/:([a-zA-Z0-9_-]+)/g, (_full, tokenName: string) => {
+		return encodeURIComponent(String(findPathParam(tokenName)));
+	});
+
+	resolved = resolved.replace(/\{([a-zA-Z0-9_-]+)\}/g, (_full, tokenName: string) => {
+		return encodeURIComponent(String(findPathParam(tokenName)));
+	});
+
+	return resolved;
 };
 
 export const Route = createFileRoute("/bruno/")({
-	beforeLoad: () => {
-		if (typeof window !== "undefined") {
-			const token = loadAccessToken();
-			if (!token || isTokenExpired(token)) {
-				throw redirect({ to: "/auth/login" });
-			}
-		}
-	},
 	component: BrunoApiPage,
 });
 
@@ -204,7 +242,7 @@ function BrunoApiPage() {
 			const pathParams = parseJsonRecord(pathParamsText, "Path Params");
 			const queryParams = parseJsonRecord(queryParamsText, "Query Params");
 			const headers = toStringRecord(parseJsonRecord(headersText, "Headers"));
-			const body = parseJsonRecord(bodyText, "Body");
+			const body = parseJsonValue(bodyText, "Body");
 
 			const path = resolvePath(selectedEndpoint.definition.path, pathParams);
 			const startedAt = performance.now();
@@ -213,7 +251,10 @@ function BrunoApiPage() {
 				url: path,
 				method: selectedEndpoint.definition.method,
 				params: queryParams,
-				data: selectedEndpoint.definition.method === "GET" ? undefined : body,
+				data:
+					selectedEndpoint.definition.method === "GET" || selectedEndpoint.definition.method === "HEAD"
+						? undefined
+						: body,
 				headers,
 				validateStatus: () => true,
 			});

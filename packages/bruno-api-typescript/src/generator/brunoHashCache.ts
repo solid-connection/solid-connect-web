@@ -1,6 +1,8 @@
-import { createHash } from 'crypto';
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
-import { join } from 'path';
+import { createHash } from "crypto";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
+import { join } from "path";
+
+const HASH_CACHE_VERSION = "2.0";
 
 export interface HashEntry {
   hash: string;
@@ -19,9 +21,9 @@ export class BrunoHashCache {
   private cache: HashCache;
 
   constructor(outputDir: string) {
-    this.cacheDir = join(outputDir, '.bruno-cache');
-    this.cachePath = join(this.cacheDir, 'hashes.json');
-    this.cache = { version: '1.0', hashes: {} };
+    this.cacheDir = join(outputDir, ".bruno-cache");
+    this.cachePath = join(this.cacheDir, "hashes.json");
+    this.cache = { version: HASH_CACHE_VERSION, hashes: {} };
   }
 
   /**
@@ -30,14 +32,22 @@ export class BrunoHashCache {
   load(): void {
     if (existsSync(this.cachePath)) {
       try {
-        const content = readFileSync(this.cachePath, 'utf-8');
-        this.cache = JSON.parse(content);
+        const content = readFileSync(this.cachePath, "utf-8");
+        const parsedCache = JSON.parse(content) as HashCache;
+
+        if (parsedCache.version !== HASH_CACHE_VERSION) {
+          console.log(`♻️  Cache version changed (${parsedCache.version} -> ${HASH_CACHE_VERSION}). Rebuilding cache.`);
+          this.cache = { version: HASH_CACHE_VERSION, hashes: {} };
+          return;
+        }
+
+        this.cache = parsedCache;
       } catch (error) {
-        console.warn('⚠️  Failed to load hash cache, using empty cache');
-        this.cache = { version: '1.0', hashes: {} };
+        console.warn("⚠️  Failed to load hash cache, using empty cache");
+        this.cache = { version: HASH_CACHE_VERSION, hashes: {} };
       }
     } else {
-      this.cache = { version: '1.0', hashes: {} };
+      this.cache = { version: HASH_CACHE_VERSION, hashes: {} };
     }
   }
 
@@ -47,13 +57,9 @@ export class BrunoHashCache {
   save(): void {
     try {
       mkdirSync(this.cacheDir, { recursive: true });
-      writeFileSync(
-        this.cachePath,
-        JSON.stringify(this.cache, null, 2),
-        'utf-8'
-      );
+      writeFileSync(this.cachePath, JSON.stringify(this.cache, null, 2), "utf-8");
     } catch (error) {
-      console.error('❌ Failed to save hash cache:', error);
+      console.error("❌ Failed to save hash cache:", error);
     }
   }
 
@@ -65,10 +71,10 @@ export class BrunoHashCache {
    * @returns 64자 hex string SHA-256 해시
    */
   calculateHash(brunoFilePath: string): string {
-    const content = readFileSync(brunoFilePath, 'utf-8');
+    const content = readFileSync(brunoFilePath, "utf-8");
     // 개행 문자 정규화 (Windows/Unix 호환성)
-    const normalized = content.replace(/\r\n/g, '\n').trim();
-    return createHash('sha256').update(normalized, 'utf-8').digest('hex');
+    const normalized = content.replace(/\r\n/g, "\n").trim();
+    return createHash("sha256").update(normalized, "utf-8").digest("hex");
   }
 
   /**
@@ -125,14 +131,14 @@ export class BrunoHashCache {
       return false;
     }
     // 하나라도 존재하면 true
-    return entry.outputFiles.some(f => existsSync(f));
+    return entry.outputFiles.some((f) => existsSync(f));
   }
 
   /**
    * 캐시 초기화
    */
   clear(): void {
-    this.cache = { version: '1.0', hashes: {} };
+    this.cache = { version: HASH_CACHE_VERSION, hashes: {} };
   }
 
   /**

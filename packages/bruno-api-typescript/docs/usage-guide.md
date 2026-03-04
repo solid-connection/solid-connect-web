@@ -34,6 +34,8 @@ node dist/cli/index.js generate-hooks \
   -i ./bruno \
   -o ./src/apis \
   --axios-path "@/utils/axiosInstance" \
+  --root-index ./src/apis/index.ts \
+  --clean-output \
   --msw-output ./src/mocks
 ```
 
@@ -94,7 +96,7 @@ type ProfileResponse = typeof def.response;
 {
   "scripts": {
     "api:generate": "node dist/cli/index.js generate -i ./bruno -o ./openapi.json",
-    "api:clients": "node dist/cli/index.js generate-hooks -i ./bruno -o ./src/apis",
+    "api:clients": "node dist/cli/index.js generate-hooks -i ./bruno -o ./src/apis --root-index ./src/apis/index.ts --clean-output",
     "build": "npm run api:generate && npm run api:clients && tsc",
     "dev": "npm run api:generate && npm run api:clients && tsc --watch"
   }
