@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ScoresIndexRouteImport } from './routes/scores/index'
+import { Route as ChatSocketIndexRouteImport } from './routes/chat-socket/index'
 import { Route as BrunoIndexRouteImport } from './routes/bruno/index'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
 
@@ -30,6 +31,11 @@ const ScoresIndexRoute = ScoresIndexRouteImport.update({
   path: '/scores/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ChatSocketIndexRoute = ChatSocketIndexRouteImport.update({
+  id: '/chat-socket/',
+  path: '/chat-socket/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BrunoIndexRoute = BrunoIndexRouteImport.update({
   id: '/bruno/',
   path: '/bruno/',
@@ -46,6 +52,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/auth/login': typeof AuthLoginRoute
   '/bruno/': typeof BrunoIndexRoute
+  '/chat-socket/': typeof ChatSocketIndexRoute
   '/scores/': typeof ScoresIndexRoute
 }
 export interface FileRoutesByTo {
@@ -53,6 +60,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/auth/login': typeof AuthLoginRoute
   '/bruno': typeof BrunoIndexRoute
+  '/chat-socket': typeof ChatSocketIndexRoute
   '/scores': typeof ScoresIndexRoute
 }
 export interface FileRoutesById {
@@ -61,14 +69,28 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/auth/login': typeof AuthLoginRoute
   '/bruno/': typeof BrunoIndexRoute
+  '/chat-socket/': typeof ChatSocketIndexRoute
   '/scores/': typeof ScoresIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/auth/login' | '/bruno/' | '/scores/'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/auth/login'
+    | '/bruno/'
+    | '/chat-socket/'
+    | '/scores/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/auth/login' | '/bruno' | '/scores'
-  id: '__root__' | '/' | '/login' | '/auth/login' | '/bruno/' | '/scores/'
+  to: '/' | '/login' | '/auth/login' | '/bruno' | '/chat-socket' | '/scores'
+  id:
+    | '__root__'
+    | '/'
+    | '/login'
+    | '/auth/login'
+    | '/bruno/'
+    | '/chat-socket/'
+    | '/scores/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -76,6 +98,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   AuthLoginRoute: typeof AuthLoginRoute
   BrunoIndexRoute: typeof BrunoIndexRoute
+  ChatSocketIndexRoute: typeof ChatSocketIndexRoute
   ScoresIndexRoute: typeof ScoresIndexRoute
 }
 
@@ -102,6 +125,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ScoresIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/chat-socket/': {
+      id: '/chat-socket/'
+      path: '/chat-socket'
+      fullPath: '/chat-socket/'
+      preLoaderRoute: typeof ChatSocketIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/bruno/': {
       id: '/bruno/'
       path: '/bruno'
@@ -124,6 +154,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   AuthLoginRoute: AuthLoginRoute,
   BrunoIndexRoute: BrunoIndexRoute,
+  ChatSocketIndexRoute: ChatSocketIndexRoute,
   ScoresIndexRoute: ScoresIndexRoute,
 }
 export const routeTree = rootRouteImport

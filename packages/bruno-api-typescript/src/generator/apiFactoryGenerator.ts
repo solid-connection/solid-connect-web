@@ -5,7 +5,7 @@
 
 import { ParsedBrunoFile, extractJsonFromDocs } from '../parser/bruParser';
 import { ApiFunction } from './apiClientGenerator';
-import { generateTypeScriptInterface, toCamelCase, functionNameToTypeName } from './typeGenerator';
+import { generateTypeScriptInterface, toCamelCase, functionNameToTypeName, toObjectPropertyKey } from './typeGenerator';
 
 /**
  * 빈 인터페이스를 Record<string, never> 타입으로 변환
@@ -45,7 +45,7 @@ function generateApiFunctionForFactory(apiFunc: ApiFunction, parsed: ParsedBruno
     // URL 변수는 제외
     if (varName === 'URL') continue;
     
-    const camelVarName = varName.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
+    const camelVarName = toCamelCase(varName);
     if (!urlParams.includes(camelVarName) && !processedBrunoVars.has(camelVarName)) {
       urlParams.push(camelVarName);
       paramsList.push(`${camelVarName}: string | number`);
@@ -208,7 +208,7 @@ export function generateApiFactory(
     const functionCode = generateApiFunctionForFactory(apiFunc, parsed);
     // 들여쓰기 추가 (2칸)
     const indentedCode = functionCode.split('\n').map((line, index) => {
-      if (index === 0) return `  ${apiFunc.name}: ${line}`;
+      if (index === 0) return `  ${toObjectPropertyKey(apiFunc.name)}: ${line}`;
       return `  ${line}`;
     }).join('\n');
     lines.push(indentedCode + ',');

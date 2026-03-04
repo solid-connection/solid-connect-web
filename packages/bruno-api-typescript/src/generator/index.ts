@@ -11,7 +11,7 @@ import { generateMSWHandler, generateDomainHandlersIndex, generateMSWIndex } fro
 import { generateApiFactory } from './apiFactoryGenerator';
 import { generateApiDefinitionsFile } from './apiDefinitionGenerator';
 import { BrunoHashCache } from './brunoHashCache';
-import { toCamelCase } from './typeGenerator';
+import { functionNameToTypeName, toCamelCase } from './typeGenerator';
 
 export interface GenerateHooksOptions {
   brunoDir: string;
@@ -144,9 +144,26 @@ export async function generateHooks(options: GenerateHooksOptions): Promise<void
 
   const domainApiFunctions = new Map<string, Array<{ apiFunc: any; parsed: any }>>();
   const domainDirs = new Set<string>();
+  const domainFunctionNameCounts = new Map<string, number>();
 
   for (const { filePath, parsed, domain } of allParsedFiles) {
-    const apiFunc = extractApiFunction(parsed, filePath);
+    const extractedApiFunc = extractApiFunction(parsed, filePath);
+    if (!extractedApiFunc) {
+      continue;
+    }
+
+    const nameKey = `${domain}:${extractedApiFunc.name}`;
+    const duplicateCount = (domainFunctionNameCounts.get(nameKey) ?? 0) + 1;
+    domainFunctionNameCounts.set(nameKey, duplicateCount);
+
+    const apiFunc = duplicateCount === 1
+      ? extractedApiFunc
+      : {
+        ...extractedApiFunc,
+        name: `${extractedApiFunc.name}${duplicateCount}`,
+        responseType: functionNameToTypeName(`${extractedApiFunc.name}${duplicateCount}`),
+      };
+
     if (!apiFunc) {
       continue;
     }
@@ -229,6 +246,14 @@ export async function generateHooks(options: GenerateHooksOptions): Promise<void
     writeFileSync(indexPath, indexContent, 'utf-8');
     console.log(`✅ Generated: ${indexPath}`);
   }
+
+  const rootIndexContent = Array.from(domainApiFunctions.keys())
+    .sort()
+    .map(domain => `export * from './${domain}';`)
+    .join('\n') + '\n';
+  const rootIndexPath = join(outputDir, 'index.ts');
+  writeFileSync(rootIndexPath, rootIndexContent, 'utf-8');
+  console.log(`✅ Generated: ${rootIndexPath}`);
 
   hashCache.cleanup();
   hashCache.save();

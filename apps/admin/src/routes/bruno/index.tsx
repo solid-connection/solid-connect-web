@@ -14,7 +14,8 @@ import { cn } from "@/lib/utils";
 import { isTokenExpired } from "@/lib/utils/jwtUtils";
 import { loadAccessToken } from "@/lib/utils/localStorage";
 
-type DefinitionMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+type DefinitionMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE" | "HEAD" | "OPTIONS";
+type MethodFilter = "ALL" | DefinitionMethod;
 
 interface ApiDefinitionEntry {
 	method: DefinitionMethod;
@@ -38,48 +39,66 @@ interface RequestResult {
 	body: unknown;
 }
 
-const definitionFileContents = import.meta.glob("../../../../../packages/api-schema/src/apis/*/apiDefinitions.ts", {
+const definitionModules = import.meta.glob("../../../../../packages/api-schema/src/apis/*/apiDefinitions.ts", {
 	eager: true,
-	query: "?raw",
-	import: "default",
-}) as Record<string, string>;
+}) as Record<string, Record<string, unknown>>;
 
 const normalizeTokenKey = (value: string) => value.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+	typeof value === "object" && value !== null && !Array.isArray(value);
+
+const isDefinitionMethod = (value: unknown): value is DefinitionMethod =>
+	value === "GET" ||
+	value === "POST" ||
+	value === "PUT" ||
+	value === "PATCH" ||
+	value === "DELETE" ||
+	value === "HEAD" ||
+	value === "OPTIONS";
+
+const isApiDefinitionEntry = (value: unknown): value is ApiDefinitionEntry => {
+	if (!isRecord(value)) {
+		return false;
+	}
+
+	return (
+		isDefinitionMethod(value.method) &&
+		typeof value.path === "string" &&
+		isRecord(value.pathParams) &&
+		isRecord(value.queryParams) &&
+		"body" in value &&
+		"response" in value
+	);
+};
 
 const parseDefinitionRegistry = (): EndpointItem[] => {
 	const endpoints: EndpointItem[] = [];
 
-	for (const [modulePath, fileContent] of Object.entries(definitionFileContents)) {
+	for (const [modulePath, moduleExports] of Object.entries(definitionModules)) {
 		const domainMatch = modulePath.match(/apis\/([^/]+)\/apiDefinitions\.ts$/);
 		if (!domainMatch) {
 			continue;
 		}
 
 		const domain = domainMatch[1];
-		const endpointPattern =
-			/^\s*([^:\n]+):\s*\{\s*\n\s*method:\s*'([A-Z]+)'\s+as const,\s*\n\s*path:\s*'([^']+)'\s+as const,/gm;
 
-		for (const match of fileContent.matchAll(endpointPattern)) {
-			const endpointName = match[1]?.trim();
-			const method = match[2]?.trim() as DefinitionMethod | undefined;
-			const path = match[3]?.trim();
-
-			if (!endpointName || !method || !path) {
+		for (const exportedValue of Object.values(moduleExports)) {
+			if (!isRecord(exportedValue)) {
 				continue;
 			}
 
-			endpoints.push({
-				domain,
-				name: endpointName,
-				definition: {
-					method,
-					path,
-					pathParams: {},
-					queryParams: {},
-					body: {},
-					response: {},
-				},
-			});
+			for (const [endpointName, endpointDefinition] of Object.entries(exportedValue)) {
+				if (!isApiDefinitionEntry(endpointDefinition)) {
+					continue;
+				}
+
+				endpoints.push({
+					domain,
+					name: endpointName,
+					definition: endpointDefinition,
+				});
+			}
 		}
 	}
 
@@ -95,12 +114,20 @@ const ALL_ENDPOINTS = parseDefinitionRegistry();
 
 const toPrettyJson = (value: unknown) => JSON.stringify(value, null, 2);
 
-const parseJsonRecord = (text: string, label: string): Record<string, unknown> => {
+const parseJsonValue = (text: string, label: string): unknown => {
 	if (!text.trim()) {
 		return {};
 	}
 
-	const parsed = JSON.parse(text) as unknown;
+	try {
+		return JSON.parse(text) as unknown;
+	} catch {
+		throw new Error(`${label} JSON 형식이 올바르지 않습니다.`);
+	}
+};
+
+const parseJsonRecord = (text: string, label: string): Record<string, unknown> => {
+	const parsed = parseJsonValue(text, label);
 	if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) {
 		throw new Error(`${label}는 JSON 객체여야 합니다.`);
 	}
@@ -134,6 +161,14 @@ const resolvePath = (rawPath: string, pathParams: Record<string, unknown>) => {
 	});
 };
 
+const splitPathAndInlineQuery = (pathWithInlineQuery: string) => {
+	const [path, queryString = ""] = pathWithInlineQuery.split("?");
+	const inlineQuery = Object.fromEntries(new URLSearchParams(queryString));
+	return { path, inlineQuery };
+};
+
+const METHOD_FILTERS: MethodFilter[] = ["ALL", "GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"];
+
 export const Route = createFileRoute("/bruno/")({
 	beforeLoad: () => {
 		if (typeof window !== "undefined") {
@@ -148,6 +183,7 @@ export const Route = createFileRoute("/bruno/")({
 
 function BrunoApiPage() {
 	const [search, setSearch] = useState("");
+	const [methodFilter, setMethodFilter] = useState<MethodFilter>("ALL");
 	const [selectedKey, setSelectedKey] = useState(
 		ALL_ENDPOINTS[0] ? `${ALL_ENDPOINTS[0].domain}:${ALL_ENDPOINTS[0].name}` : "",
 	);
@@ -160,16 +196,22 @@ function BrunoApiPage() {
 
 	const visibleEndpoints = useMemo(() => {
 		const normalized = search.trim().toLowerCase();
-		if (!normalized) {
-			return ALL_ENDPOINTS;
-		}
-
 		return ALL_ENDPOINTS.filter((endpoint) => {
-			return `${endpoint.domain} ${endpoint.name} ${endpoint.definition.method} ${endpoint.definition.path}`
-				.toLowerCase()
-				.includes(normalized);
+			const matchesMethod = methodFilter === "ALL" || endpoint.definition.method === methodFilter;
+			if (!matchesMethod) {
+				return false;
+			}
+			if (!normalized) {
+				return true;
+			}
+
+			const matchesSearch =
+				`${endpoint.domain} ${endpoint.name} ${endpoint.definition.method} ${endpoint.definition.path}`
+					.toLowerCase()
+					.includes(normalized);
+			return matchesSearch;
 		});
-	}, [search]);
+	}, [methodFilter, search]);
 
 	const selectedEndpoint = useMemo(() => {
 		return ALL_ENDPOINTS.find((endpoint) => `${endpoint.domain}:${endpoint.name}` === selectedKey) ?? null;
@@ -204,16 +246,21 @@ function BrunoApiPage() {
 			const pathParams = parseJsonRecord(pathParamsText, "Path Params");
 			const queryParams = parseJsonRecord(queryParamsText, "Query Params");
 			const headers = toStringRecord(parseJsonRecord(headersText, "Headers"));
-			const body = parseJsonRecord(bodyText, "Body");
+			const body = parseJsonValue(bodyText, "Body");
 
-			const path = resolvePath(selectedEndpoint.definition.path, pathParams);
+			const resolvedPath = resolvePath(selectedEndpoint.definition.path, pathParams);
+			const { path, inlineQuery } = splitPathAndInlineQuery(resolvedPath);
+			const mergedQueryParams = { ...inlineQuery, ...queryParams };
 			const startedAt = performance.now();
 
 			const response = await axiosInstance.request({
 				url: path,
 				method: selectedEndpoint.definition.method,
-				params: queryParams,
-				data: selectedEndpoint.definition.method === "GET" ? undefined : body,
+				params: mergedQueryParams,
+				data:
+					selectedEndpoint.definition.method === "GET" || selectedEndpoint.definition.method === "HEAD"
+						? undefined
+						: body,
 				headers,
 				validateStatus: () => true,
 			});
@@ -256,6 +303,22 @@ function BrunoApiPage() {
 									value={search}
 									onChange={(event) => setSearch(event.target.value)}
 								/>
+								<div className="flex flex-wrap gap-1">
+									{METHOD_FILTERS.map((method) => {
+										const active = methodFilter === method;
+										return (
+											<Button
+												key={method}
+												type="button"
+												size="sm"
+												variant={active ? "default" : "outline"}
+												onClick={() => setMethodFilter(method)}
+											>
+												{method}
+											</Button>
+										);
+									})}
+								</div>
 							</CardHeader>
 							<CardContent className="max-h-[680px] overflow-auto pt-0">
 								<div className="space-y-2">
