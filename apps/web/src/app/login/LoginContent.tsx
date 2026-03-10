@@ -2,10 +2,12 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { usePostEmailAuth } from "@/apis/Auth";
+import { toast } from "@/lib/zustand/useToastStore";
 import { IconSolidConnectionFullBlackLogo } from "@/public/svgs";
 import { IconAppleLogo, IconEmailIcon, IconKakaoLogo } from "@/public/svgs/auth";
 import { appleLogin, kakaoLogin } from "@/utils/authUtils";
@@ -19,8 +21,13 @@ const loginSchema = z.object({
 
 type LoginFormData = z.infer<typeof loginSchema>;
 
+const COMMUNITY_LOGIN_REASON = "community-members-only";
+
 const LoginContent = () => {
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const hasShownCommunityOnlyToast = useRef(false);
 
   const { mutate: postEmailAuth, isPending } = usePostEmailAuth();
   const { showPasswordField, handleEmailChange } = useInputHandler();
@@ -46,6 +53,18 @@ const LoginContent = () => {
       handleSubmit(onSubmit)();
     }
   };
+
+  useEffect(() => {
+    const reason = searchParams.get("reason");
+
+    if (reason !== COMMUNITY_LOGIN_REASON || hasShownCommunityOnlyToast.current) {
+      return;
+    }
+
+    hasShownCommunityOnlyToast.current = true;
+    toast.info("커뮤니티는 회원 전용입니다. 로그인 후 이용해주세요.");
+    router.replace(pathname);
+  }, [pathname, router, searchParams]);
 
   return (
     <div>

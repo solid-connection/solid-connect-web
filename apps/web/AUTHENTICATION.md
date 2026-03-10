@@ -11,7 +11,7 @@ The application implements a comprehensive login redirect system that ensures us
 The following pages require authentication:
 - `/mentor/*` - All mentor-related pages
 - `/my/*` - All user profile pages
-- `/community/[boardCode]/*` - Community sub-routes (post creation, modification)
+- `/community` and `/community/*` - Entire community experience, including board lists, post detail, creation, and modification
 
 ### How It Works
 
@@ -20,45 +20,48 @@ The following pages require authentication:
 The middleware (`apps/web/src/middleware.ts`) checks for authentication on every request:
 
 ```typescript
-const loginNeedPages = ["/mentor", "/my"];
+const loginNeedPages = ["/mentor", "/my", "/community"];
 const needLogin = loginNeedPages.some((path) => {
   return url.pathname === path || url.pathname.startsWith(`${path}/`);
-}) || isCommunitySubRoute;
+});
 ```
 
-#### 2. Redirect Parameter
+#### 2. Community Redirect Reason
 
 When an unauthenticated user tries to access a protected page:
 - Middleware redirects to `/login`
-- Original URL is preserved in the `redirect` query parameter
-- Example: `/login?redirect=/mentor/chat/123`
+- Community routes include a reason marker so the login page can explain why access was blocked
+- Example: `/login?reason=community-members-only`
 
 ```typescript
 if (needLogin && !refreshToken) {
+  const isCommunityRoute = url.pathname === "/community" || url.pathname.startsWith("/community/");
   url.pathname = "/login";
-  const redirectUrl = request.nextUrl.pathname + request.nextUrl.search;
-  url.searchParams.set("redirect", redirectUrl);
+  if (isCommunityRoute) {
+    url.searchParams.set("reason", "community-members-only");
+  }
   return NextResponse.redirect(url);
 }
 ```
 
 #### 3. Toast Notification
 
-The login page displays a toast message when users are redirected:
+The login page displays a one-time toast message when users are redirected from community routes:
 
 ```typescript
 // apps/web/src/app/login/LoginContent.tsx
 useEffect(() => {
-  const redirect = searchParams.get("redirect");
-  if (redirect) {
-    toast.info("로그인이 필요합니다.");
+  const reason = searchParams.get("reason");
+  if (reason === "community-members-only") {
+    toast.info("커뮤니티는 회원 전용입니다. 로그인 후 이용해주세요.");
+    router.replace(pathname);
   }
-}, [searchParams]);
+}, [pathname, router, searchParams]);
 ```
 
 #### 4. Post-Login Redirect
 
-After successful authentication, users are redirected back to their original destination.
+After successful authentication, users continue to be redirected to `/`.
 
 ### Configuration
 
@@ -112,7 +115,7 @@ const needLogin = loginNeedPages.some(...) || isNewRouteSubPath;
 - Check middleware matcher pattern excludes static files
 
 #### Toast not showing?
-- Ensure `redirect` query parameter is present
+- Ensure `reason=community-members-only` query parameter is present for community access
 - Check `LoginContent.tsx` useEffect is running
 - Verify toast store is initialized
 
@@ -121,7 +124,7 @@ const needLogin = loginNeedPages.some(...) || isNewRouteSubPath;
 1. **HTTP-Only Cookies**: Refresh tokens are never accessible to JavaScript
 2. **Middleware Protection**: Server-side check before page renders
 3. **Token Expiry**: Short-lived access tokens minimize exposure
-4. **Redirect Validation**: Only internal URLs are allowed in redirect parameter
+4. **Scoped Login Reasons**: Community-only messaging is controlled by a fixed internal `reason` value
 
 ### Related Files
 
@@ -134,4 +137,4 @@ const needLogin = loginNeedPages.some(...) || isNewRouteSubPath;
 
 This implementation resolves issue #302: "로그인 필요 페이지 분리 작업 + proxy 에서 리디렉션 처리"
 
-The redirect parameter and toast notification features ensure users understand why they were redirected and can seamlessly return to their intended destination after login.
+The login reason marker and toast notification help users understand why community access was blocked.
