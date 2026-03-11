@@ -72,7 +72,7 @@ const MentorDetialContent = ({ mentorId }: MentorDetailContentProps) => {
       <p className="mb-7 text-k-500 typo-regular-2">{introduction}</p>
 
       {/* 멘토 채널 */}
-      <h3 className="mb-2 text-secondary typo-regular-1">멘토 한마디</h3>
+      <h3 className="mb-2 text-secondary typo-regular-1">멘토 채널</h3>
       <div className="mb-7">
         <div
           className={`grid gap-2 ${

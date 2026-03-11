@@ -63,8 +63,9 @@ const PostForm = ({ boardCode }: PostFormProps) => {
     );
   };
 
-  const notice =
-    "글 작성 시 유의사항\n\n인종, 성별, 출신, 지역, 이념 관련 차별 관련 발언 및 타인에게 불쾌감을 유발할 수 있는 글은 삭제될 수 있습니다.\n\n솔리드 커넥션은 홍보 행위를 철저히 금지합니다.";
+  const noticeTitle = "[글 작성 시 유의사항]";
+  const noticeContent =
+    "인종, 성별, 출신, 지역, 이념 관련 차별 관련 발언 및 타인에게 불쾌감을 유발할 수 있는 글은 삭제될 수 있습니다.\n\n솔리드 커넥션은 홍보 행위를 철저히 금지합니다.";
 
   return (
     <>
@@ -126,10 +127,10 @@ const PostForm = ({ boardCode }: PostFormProps) => {
             onChange={(e) => setContent(e.target.value)}
           />
         </div>
-        <div
-          className="px-5 pt-2.5 text-gray-100 typo-regular-4"
-          dangerouslySetInnerHTML={{ __html: notice.replace(/\n/g, "<br />") }}
-        />
+        <div className="px-5 pt-2.5">
+          <p className="text-gray-250/87 typo-sb-9">{noticeTitle}</p>
+          <p className="mt-2 whitespace-pre-line text-gray-100 typo-regular-4">{noticeContent}</p>
+        </div>
       </div>
     </>
   );
