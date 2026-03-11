@@ -58,11 +58,11 @@ const Content = ({ icon, text, subText, textColor = "text-k-700" }: ContentProps
       {/* 왼쪽 아이콘 + 텍스트 */}
       <div className="flex flex-1 items-center gap-1">
         {icon ? (
-          <div className="flex h-8 w-5 items-center justify-center rounded-full">
-            <span className="h-5 w-5">{icon}</span>
+          <div className="flex h-8 w-8 items-center justify-center rounded-full [&>svg]:h-5 [&>svg]:w-5 [&>svg]:shrink-0">
+            {icon}
           </div>
         ) : (
-          <div className="h-8" />
+          <div className="h-8 w-8" />
         )}
         <span className={clsx("typo-medium-2", textColor)}>{text}</span>
       </div>
@@ -70,7 +70,7 @@ const Content = ({ icon, text, subText, textColor = "text-k-700" }: ContentProps
       {/* 오른쪽 subText + 아이콘 */}
       <div className="flex shrink-0 items-center gap-1">
         {subText && <span className="text-k-600 typo-regular-2">{subText}</span>}
-        <span className="h-5 w-5">
+        <span className="flex h-5 w-5 items-center justify-center [&>svg]:h-5 [&>svg]:w-5">
           <IconDirectionRight />
         </span>
       </div>
