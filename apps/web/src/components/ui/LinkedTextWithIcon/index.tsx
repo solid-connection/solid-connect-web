@@ -28,7 +28,7 @@ const LinkedTextWithIcon = ({
       <Link
         href={href}
         target={isBilink ? "_blank" : undefined}
-        className="w-full"
+        className="block w-full"
         rel={isBilink ? "noopener noreferrer" : undefined}
       >
         {<Content icon={icon} text={text} subText={subText} textColor={textColor} />}
@@ -37,7 +37,7 @@ const LinkedTextWithIcon = ({
   }
 
   return (
-    <button onClick={onClick} className="w-full cursor-pointer">
+    <button type="button" onClick={onClick} className="block w-full cursor-pointer text-left">
       {<Content icon={icon} text={text} subText={subText} textColor={textColor} />}
     </button>
   );
