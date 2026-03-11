@@ -136,6 +136,29 @@ export async function generateHooks(options: GenerateHooksOptions): Promise<void
     }
   }).filter(Boolean) as Array<{ filePath: string; parsed: any; domain: string }>;
 
+  const sortedParsedFiles = allParsedFiles
+    .map(entry => ({
+      ...entry,
+      extractedApiFunc: extractApiFunction(entry.parsed, entry.filePath),
+    }))
+    .filter(
+      (entry): entry is { filePath: string; parsed: any; domain: string; extractedApiFunc: any } =>
+        Boolean(entry.extractedApiFunc),
+    )
+    .sort((a, b) => {
+      const domainCompare = a.domain.localeCompare(b.domain);
+      if (domainCompare !== 0) {
+        return domainCompare;
+      }
+
+      const nameCompare = a.extractedApiFunc.name.localeCompare(b.extractedApiFunc.name);
+      if (nameCompare !== 0) {
+        return nameCompare;
+      }
+
+      return a.filePath.localeCompare(b.filePath);
+    });
+
   console.log(`📝 Parsed ${parsedChangedFiles.length} changed files successfully`);
 
   mkdirSync(outputDir, { recursive: true });
@@ -146,12 +169,7 @@ export async function generateHooks(options: GenerateHooksOptions): Promise<void
   const domainDirs = new Set<string>();
   const domainFunctionNameCounts = new Map<string, number>();
 
-  for (const { filePath, parsed, domain } of allParsedFiles) {
-    const extractedApiFunc = extractApiFunction(parsed, filePath);
-    if (!extractedApiFunc) {
-      continue;
-    }
-
+  for (const { filePath, parsed, domain, extractedApiFunc } of sortedParsedFiles) {
     const nameKey = `${domain}:${extractedApiFunc.name}`;
     const duplicateCount = (domainFunctionNameCounts.get(nameKey) ?? 0) + 1;
     domainFunctionNameCounts.set(nameKey, duplicateCount);
@@ -163,10 +181,6 @@ export async function generateHooks(options: GenerateHooksOptions): Promise<void
         name: `${extractedApiFunc.name}${duplicateCount}`,
         responseType: functionNameToTypeName(`${extractedApiFunc.name}${duplicateCount}`),
       };
-
-    if (!apiFunc) {
-      continue;
-    }
 
     const domainDir = join(outputDir, domain);
     if (!domainDirs.has(domainDir)) {

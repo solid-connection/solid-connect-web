@@ -5,7 +5,7 @@
 
 const { test, describe, before, after } = require('node:test');
 const assert = require('node:assert');
-const { existsSync, rmSync, mkdirSync, readFileSync } = require('fs');
+const { existsSync, rmSync, mkdirSync, readFileSync, writeFileSync } = require('fs');
 const { execSync } = require('child_process');
 const { join } = require('path');
 
@@ -581,7 +581,7 @@ docs {
   \`\`\`
 }
 `;
-    require('fs').writeFileSync(filePath, content);
+    writeFileSync(filePath, content);
 
     const outputDir = join(TEST_OUTPUT_DIR, 'identifier-output');
     execSync(`node dist/cli/index.js generate-hooks -i ${identifierFixtureDir} -o ${outputDir}`, {

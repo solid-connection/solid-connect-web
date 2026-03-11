@@ -162,7 +162,9 @@ const resolvePath = (rawPath: string, pathParams: Record<string, unknown>) => {
 };
 
 const splitPathAndInlineQuery = (pathWithInlineQuery: string) => {
-	const [path, queryString = ""] = pathWithInlineQuery.split("?");
+	const questionMarkIndex = pathWithInlineQuery.indexOf("?");
+	const path = questionMarkIndex >= 0 ? pathWithInlineQuery.slice(0, questionMarkIndex) : pathWithInlineQuery;
+	const queryString = questionMarkIndex >= 0 ? pathWithInlineQuery.slice(questionMarkIndex + 1) : "";
 	const inlineQuery = Object.fromEntries(new URLSearchParams(queryString));
 	return { path, inlineQuery };
 };

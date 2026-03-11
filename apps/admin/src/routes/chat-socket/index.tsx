@@ -77,6 +77,11 @@ const parseJsonRecord = (text: string, label: string): Record<string, string> =>
 
 const parseJsonBody = (text: string) => JSON.stringify(JSON.parse(text));
 
+const extractApiErrorMessage = (error: unknown) =>
+	error && typeof error === "object" && "response" in error
+		? (error as { response?: { data?: { message?: string } } }).response?.data?.message
+		: undefined;
+
 const maskToken = (value: string | null) => {
 	if (!value) {
 		return "-";
@@ -85,6 +90,16 @@ const maskToken = (value: string | null) => {
 		return value;
 	}
 	return `${value.slice(0, 10)}...${value.slice(-10)}`;
+};
+
+const maskQueryToken = (value: string) => {
+	if (!value) {
+		return "";
+	}
+	if (value.length <= 4) {
+		return "*".repeat(value.length);
+	}
+	return `${"*".repeat(value.length - 4)}${value.slice(-4)}`;
 };
 
 export const Route = createFileRoute("/chat-socket/")({
@@ -118,6 +133,13 @@ function ChatSocketPage() {
 		}
 		return `${normalized}/connect?token=${encodeURIComponent(token.trim())}`;
 	}, [serverUrl, token]);
+	const maskedSocketUrl = useMemo(() => {
+		const trimmedToken = token.trim();
+		if (!socketUrl || !trimmedToken) {
+			return "";
+		}
+		return socketUrl.replace(encodeURIComponent(trimmedToken), encodeURIComponent(maskQueryToken(trimmedToken)));
+	}, [socketUrl, token]);
 
 	const appendLog = useCallback((type: EventLog["type"], message: string) => {
 		setEventLogs((prev) =>
@@ -182,6 +204,18 @@ function ChatSocketPage() {
 		toast.error("저장된 AccessToken이 없습니다.");
 	};
 
+	const signInAndStoreTokens = async (nextEmail: string, nextPassword: string) => {
+		const response = await adminSignInApi(nextEmail.trim(), nextPassword);
+		const nextAccessToken = response.data.accessToken;
+		const nextRefreshToken = response.data.refreshToken;
+
+		saveAccessToken(nextAccessToken);
+		saveRefreshToken(nextRefreshToken);
+		setToken(nextAccessToken);
+		setRefreshToken(nextRefreshToken);
+		return nextAccessToken;
+	};
+
 	const handleSignIn = async () => {
 		if (!email.trim() || !password.trim()) {
 			toast.error("이메일/비밀번호를 입력해주세요.");
@@ -190,21 +224,11 @@ function ChatSocketPage() {
 
 		setIsSigningIn(true);
 		try {
-			const response = await adminSignInApi(email.trim(), password);
-			const nextAccessToken = response.data.accessToken;
-			const nextRefreshToken = response.data.refreshToken;
-
-			saveAccessToken(nextAccessToken);
-			saveRefreshToken(nextRefreshToken);
-			setToken(nextAccessToken);
-			setRefreshToken(nextRefreshToken);
+			await signInAndStoreTokens(email, password);
 			appendLog("SYSTEM", "로그인 성공: 새 토큰이 반영되었습니다.");
 			toast.success("로그인 성공. AccessToken을 갱신했습니다.");
 		} catch (error) {
-			const message =
-				error && typeof error === "object" && "response" in error
-					? (error as { response?: { data?: { message?: string } } }).response?.data?.message
-					: undefined;
+			const message = extractApiErrorMessage(error);
 			appendLog("ERROR", `로그인 실패: ${message ?? "이메일/비밀번호를 확인해주세요."}`);
 			toast.error(message ?? "로그인에 실패했습니다.");
 		} finally {
@@ -312,21 +336,11 @@ function ChatSocketPage() {
 
 		setIsSigningIn(true);
 		try {
-			const response = await adminSignInApi(email.trim(), password);
-			const nextAccessToken = response.data.accessToken;
-			const nextRefreshToken = response.data.refreshToken;
-
-			saveAccessToken(nextAccessToken);
-			saveRefreshToken(nextRefreshToken);
-			setToken(nextAccessToken);
-			setRefreshToken(nextRefreshToken);
+			const nextAccessToken = await signInAndStoreTokens(email, password);
 			appendLog("SYSTEM", "로그인 성공: 새 토큰으로 소켓 연결을 시도합니다.");
 			await handleConnect(nextAccessToken);
 		} catch (error) {
-			const message =
-				error && typeof error === "object" && "response" in error
-					? (error as { response?: { data?: { message?: string } } }).response?.data?.message
-					: undefined;
+			const message = extractApiErrorMessage(error);
 			appendLog("ERROR", `로그인 실패: ${message ?? "이메일/비밀번호를 확인해주세요."}`);
 			toast.error(message ?? "로그인에 실패했습니다.");
 		} finally {
@@ -450,7 +464,7 @@ function ChatSocketPage() {
 								</div>
 								<div className="rounded-md border border-k-100 bg-bg-50 px-3 py-2">
 									<p className="typo-sb-11 text-k-700">연결 URL</p>
-									<p className="break-all font-mono text-[12px] text-k-500">{socketUrl || "-"}</p>
+									<p className="break-all font-mono text-[12px] text-k-500">{maskedSocketUrl || "-"}</p>
 								</div>
 								<div className="rounded-md border border-k-100 bg-bg-50 px-3 py-2">
 									<p className="typo-sb-11 text-k-700">연결 상태</p>

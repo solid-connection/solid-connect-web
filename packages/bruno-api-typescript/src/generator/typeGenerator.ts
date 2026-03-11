@@ -74,7 +74,11 @@ export function generateTypeScriptInterface(
       return definitions;
     }
 
-    extractNestedTypes(json, '', definitions, interfaceName, true);
+    const objectItems = json.filter(item => typeof item === 'object' && item !== null && !Array.isArray(item));
+    if (objectItems.length > 0) {
+      // 루트 배열의 첫 요소가 객체가 아닐 수 있으므로 객체 요소만 추려 타입 추출
+      extractNestedTypes(objectItems, '', definitions, interfaceName, true);
+    }
 
     const itemTypes = new Set<string>();
     for (const item of json) {
