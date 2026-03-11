@@ -73,12 +73,36 @@ const jlptLevelMapping: Record<string, string> = {
   "5": "N5",
 };
 
+const integerScoreTestTypes = new Set<LanguageTestEnum>([
+  LanguageTestEnum.TOEIC,
+  LanguageTestEnum.TOEFL_IBT,
+  LanguageTestEnum.TOEFL_ITP,
+  LanguageTestEnum.DUOLINGO,
+  LanguageTestEnum.TCF,
+  LanguageTestEnum.TEF,
+  LanguageTestEnum.NEW_HSK,
+]);
+
+const trailingZeroPattern = /^-?\d+\.0+$/;
+
+export const isLanguageTestEnum = (value: string): value is LanguageTestEnum => {
+  return value in languageTestScoreInfo;
+};
+
 export const formatLanguageTestScore = (testType: LanguageTestEnum, score: string) => {
   if (testType === LanguageTestEnum.JLPT) {
     return jlptLevelMapping[score] ?? score;
   }
 
-  return score;
+  if (!integerScoreTestTypes.has(testType)) {
+    return score;
+  }
+
+  if (!trailingZeroPattern.test(score)) {
+    return score;
+  }
+
+  return score.replace(/\.0+$/, "");
 };
 
 export const formatLanguageTestScoreWithMax = (testType: LanguageTestEnum, score: string) => {
