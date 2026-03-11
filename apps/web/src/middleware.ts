@@ -1,7 +1,8 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
-const loginNeedPages = ["/mentor", "/my"]; // 로그인 필요페이지
+const loginNeedPages = ["/mentor", "/my", "/community"]; // 로그인 필요페이지
+const COMMUNITY_LOGIN_REASON = "community-members-only";
 
 export function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
@@ -21,17 +22,19 @@ export function middleware(request: NextRequest) {
   // HTTP-only 쿠키의 refreshToken 확인
   const refreshToken = request.cookies.get("refreshToken")?.value;
 
-  // /community는 통과, /community/ 하위 경로는 로그인 필요
-  const isCommunitySubRoute = url.pathname.startsWith("/community/");
-
   // 정확한 경로 매칭
-  const needLogin =
-    loginNeedPages.some((path) => {
-      return url.pathname === path || url.pathname.startsWith(`${path}/`);
-    }) || isCommunitySubRoute; // /community/ 하위 경로도 로그인 필요
+  const needLogin = loginNeedPages.some((path) => {
+    return url.pathname === path || url.pathname.startsWith(`${path}/`);
+  });
 
   if (needLogin && !refreshToken) {
+    const isCommunityRoute = url.pathname === "/community" || url.pathname.startsWith("/community/");
     url.pathname = "/login";
+    if (isCommunityRoute) {
+      url.searchParams.set("reason", COMMUNITY_LOGIN_REASON);
+    } else {
+      url.searchParams.delete("reason");
+    }
     return NextResponse.redirect(url);
   }
 
