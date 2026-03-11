@@ -3,6 +3,8 @@ import axios, { type AxiosError, type AxiosInstance } from "axios";
 import { postReissueToken } from "@/apis/Auth/server";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { toast } from "@/lib/zustand/useToastStore";
+import { authDebugLog } from "@/utils/authDebug";
+import { isTokenExpired } from "@/utils/jwtUtils";
 
 // --- 글로벌 변수 ---
 let reissuePromise: Promise<void> | null = null;
@@ -22,6 +24,13 @@ let isRedirecting = false;
 const redirectToLogin = (message: string) => {
   if (typeof window !== "undefined" && !isRedirecting) {
     isRedirecting = true;
+    authDebugLog("auth.redirectToLogin", {
+      message,
+      path: window.location.pathname,
+      refreshStatus: useAuthStore.getState().refreshStatus,
+      isInitialized: useAuthStore.getState().isInitialized,
+      hasAccessToken: !!useAuthStore.getState().accessToken,
+    });
     // Zustand 스토어 및 쿠키 상태 초기화
     useAuthStore.getState().clearAccessToken();
     try {
@@ -54,9 +63,24 @@ axiosInstance.interceptors.request.use(
   async (config) => {
     const { accessToken, setLoading, clearAccessToken, setInitialized, refreshStatus, setRefreshStatus } =
       useAuthStore.getState();
+    const tokenExpired = isTokenExpired(accessToken);
+
+    authDebugLog("request.start", {
+      method: config.method,
+      url: config.url,
+      hasAccessToken: !!accessToken,
+      tokenExpired,
+      refreshStatus,
+      isInitialized: useAuthStore.getState().isInitialized,
+    });
 
     // 토큰이 있으면 헤더에 추가하고 진행
     if (accessToken) {
+      authDebugLog("request.attachAccessToken", {
+        method: config.method,
+        url: config.url,
+        tokenExpired,
+      });
       config.headers.Authorization = convertToBearer(accessToken);
       return config;
     }
@@ -65,18 +89,22 @@ axiosInstance.interceptors.request.use(
       try {
         // 이미 reissue가 진행 중인지 확인
         if (reissuePromise) {
+          authDebugLog("reissue.awaitExisting", { method: config.method, url: config.url });
           await reissuePromise;
         } else {
           // 새로운 reissue 프로세스 시작 (HTTP-only 쿠키의 refreshToken 사용)
           reissuePromise = (async () => {
+            authDebugLog("reissue.start", { triggeredByUrl: config.url, triggeredByMethod: config.method });
             setRefreshStatus("refreshing");
             setLoading(true);
             try {
               await postReissueToken();
               setRefreshStatus("success");
+              authDebugLog("reissue.success", { triggeredByUrl: config.url, triggeredByMethod: config.method });
             } catch {
               clearAccessToken();
               setRefreshStatus("failed");
+              authDebugLog("reissue.failed", { triggeredByUrl: config.url, triggeredByMethod: config.method });
             } finally {
               setLoading(false);
               setInitialized(true);
@@ -90,15 +118,18 @@ axiosInstance.interceptors.request.use(
         // reissue 완료 후 업데이트된 토큰으로 헤더 설정
         const updatedAccessToken = useAuthStore.getState().accessToken;
         if (updatedAccessToken) {
+          authDebugLog("request.attachReissuedToken", { method: config.method, url: config.url });
           config.headers.Authorization = convertToBearer(updatedAccessToken);
         }
       } catch {
         // 에러 발생 시에도 상태 정리는 promise 내부의 finally에서 처리됨
+        authDebugLog("reissue.errorUnhandled", { method: config.method, url: config.url });
       }
 
       // reissue 후 토큰이 있으면 헤더에 추가
       const finalAccessToken = useAuthStore.getState().accessToken;
       if (finalAccessToken) {
+        authDebugLog("request.proceedWithReissuedToken", { method: config.method, url: config.url });
         config.headers.Authorization = convertToBearer(finalAccessToken);
         return config;
       }
@@ -108,6 +139,7 @@ axiosInstance.interceptors.request.use(
 
     // 초기화는 되었지만 토큰이 없는 경우 로그인 필요
     if (currentInitialized && !currentAccessToken) {
+      authDebugLog("request.rejectAuthenticationRequired", { method: config.method, url: config.url });
       redirectToLogin("로그인이 필요합니다. 다시 로그인해주세요.");
       return Promise.reject(new AuthenticationRequiredError());
     }
@@ -125,6 +157,13 @@ axiosInstance.interceptors.response.use(
   (error: AxiosError) => {
     // 401 에러 시 로그인 페이지로 리다이렉트
     if (error.response?.status === 401) {
+      authDebugLog("response.401", {
+        method: error.config?.method,
+        url: error.config?.url,
+        refreshStatus: useAuthStore.getState().refreshStatus,
+        isInitialized: useAuthStore.getState().isInitialized,
+        hasAccessToken: !!useAuthStore.getState().accessToken,
+      });
       redirectToLogin("세션이 만료되었습니다. 다시 로그인해주세요.");
     }
 

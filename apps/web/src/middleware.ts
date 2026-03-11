@@ -6,6 +6,7 @@ const COMMUNITY_LOGIN_REASON = "community-members-only";
 
 export function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
+  const isAuthDebugEnabled = process.env.NEXT_PUBLIC_AUTH_DEBUG === "true";
 
   // localhost 환경에서는 미들웨어 적용 X
   // if (url.hostname === "localhost") {
@@ -27,6 +28,15 @@ export function middleware(request: NextRequest) {
     return url.pathname === path || url.pathname.startsWith(`${path}/`);
   });
 
+  if (isAuthDebugEnabled) {
+    console.info("[AUTH_DEBUG][middleware.check]", {
+      path: url.pathname,
+      needLogin,
+      hasRefreshToken: !!refreshToken,
+      cookieAuthEnabled: isServerSideAuthEnabled,
+    });
+  }
+
   if (needLogin && !refreshToken) {
     const isCommunityRoute = url.pathname === "/community" || url.pathname.startsWith("/community/");
     url.pathname = "/login";
@@ -34,6 +44,12 @@ export function middleware(request: NextRequest) {
       url.searchParams.set("reason", COMMUNITY_LOGIN_REASON);
     } else {
       url.searchParams.delete("reason");
+    }
+    if (isAuthDebugEnabled) {
+      console.info("[AUTH_DEBUG][middleware.redirect]", {
+        to: url.pathname,
+        reason: isCommunityRoute ? COMMUNITY_LOGIN_REASON : "login-required",
+      });
     }
     return NextResponse.redirect(url);
   }
