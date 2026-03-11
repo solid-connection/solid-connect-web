@@ -53,7 +53,7 @@ function generateInterfaceContent(obj: Record<string, any>, indent: number = 0):
 
   for (const [key, value] of Object.entries(obj)) {
     const type = inferTypeScriptType(value, toPascalCase(key), indent + 1);
-    properties.push(`${indentStr}  ${key}: ${type};`);
+    properties.push(`${indentStr}  ${toObjectPropertyKey(key)}: ${type};`);
   }
 
   return `{\n${properties.join('\n')}\n${indentStr}}`;
@@ -67,6 +67,32 @@ export function generateTypeScriptInterface(
   interfaceName: string
 ): TypeDefinition[] {
   const definitions: TypeDefinition[] = [];
+
+  if (Array.isArray(json)) {
+    if (json.length === 0) {
+      definitions.push({ name: interfaceName, content: `export type ${interfaceName} = any[];` });
+      return definitions;
+    }
+
+    const objectItems = json.filter(item => typeof item === 'object' && item !== null && !Array.isArray(item));
+    if (objectItems.length > 0) {
+      // 루트 배열의 첫 요소가 객체가 아닐 수 있으므로 객체 요소만 추려 타입 추출
+      extractNestedTypes(objectItems, '', definitions, interfaceName, true);
+    }
+
+    const itemTypes = new Set<string>();
+    for (const item of json) {
+      if (item === null || item === undefined) {
+        itemTypes.add('null');
+      } else {
+        itemTypes.add(getPropertyType(item, 'Item', interfaceName));
+      }
+    }
+
+    const unionType = Array.from(itemTypes).join(' | ');
+    definitions.push({ name: interfaceName, content: `export type ${interfaceName} = (${unionType})[];` });
+    return definitions;
+  }
 
   // 중첩된 타입 추출 (메인 타입 제외)
   extractNestedTypes(json, '', definitions, interfaceName, true);
@@ -96,7 +122,7 @@ export function generateTypeScriptInterface(
       type = 'null';
     }
     
-    properties.push(`  ${key}: ${type};`);
+    properties.push(`  ${toObjectPropertyKey(key)}: ${type};`);
   }
 
   // 빈 인터페이스인 경우 Record<string, never> 타입으로 생성
@@ -162,7 +188,7 @@ function extractNestedTypes(
         const propType = types.length === 1 
           ? types[0] 
           : types.join(' | ');
-        properties.push(`  ${key}: ${propType};`);
+        properties.push(`  ${toObjectPropertyKey(key)}: ${propType};`);
 
         // 재귀적으로 중첩된 타입 추출
         const val = itemType[key];
@@ -203,7 +229,7 @@ function extractNestedTypes(
         const propType = types.length === 1 
           ? types[0] 
           : types.join(' | ');
-        properties.push(`  ${key}: ${propType};`);
+        properties.push(`  ${toObjectPropertyKey(key)}: ${propType};`);
         
         // 재귀적으로 중첩된 타입 추출
         const val = value[key];
@@ -287,22 +313,53 @@ function getPropertyType(value: any, typeName: string, parentTypeName?: string):
   }
 }
 
-/**
- * 문자열을 PascalCase로 변환
- */
+function toIdentifierTokens(value: string): string[] {
+  const normalized = value
+    .normalize('NFKC')
+    .replace(/([a-z0-9])([A-Z])/g, '$1 $2');
+
+  const tokens = normalized
+    .split(/[^\p{L}\p{N}]+/u)
+    .map(token => token.trim())
+    .filter(Boolean);
+
+  return tokens.length > 0 ? tokens : ['value'];
+}
+
+function uppercaseFirst(value: string): string {
+  return `${value.charAt(0).toUpperCase()}${value.slice(1)}`;
+}
+
+function ensureIdentifierStart(value: string, prefix: string): string {
+  if (!value) {
+    return prefix;
+  }
+
+  return /^\d/u.test(value) ? `${prefix}${value}` : value;
+}
+
 function toPascalCase(str: string): string {
-  return str
-    .replace(/[-_](.)/g, (_, c) => c.toUpperCase())
-    .replace(/^(.)/, (_, c) => c.toUpperCase());
+  const tokens = toIdentifierTokens(str);
+  const pascal = tokens.map(token => uppercaseFirst(token)).join('');
+  return ensureIdentifierStart(pascal, 'T');
 }
 
 /**
  * 문자열을 camelCase로 변환
  */
 export function toCamelCase(str: string): string {
-  return str
-    .replace(/[-_](.)/g, (_, c) => c.toUpperCase())
-    .replace(/^(.)/, (_, c) => c.toLowerCase());
+  const tokens = toIdentifierTokens(str);
+  const [first, ...rest] = tokens;
+  const camel = `${first.toLowerCase()}${rest.map(token => uppercaseFirst(token)).join('')}`;
+  return ensureIdentifierStart(camel, 'v');
+}
+
+export function isValidTypeScriptIdentifier(value: string): boolean {
+  return /^[\p{L}_$][\p{L}\p{N}_$]*$/u.test(value);
+}
+
+export function toObjectPropertyKey(value: string): string {
+  return isValidTypeScriptIdentifier(value) ? value : JSON.stringify(value);
 }
 
 /**

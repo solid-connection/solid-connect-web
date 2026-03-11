@@ -1,8 +1,8 @@
-import { Building2, FileText, FlaskConical, UserCircle2 } from "lucide-react";
+import { Building2, FileText, FlaskConical, MessageSquare, UserCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface AdminSidebarProps {
-	activeMenu: "scores" | "bruno";
+	activeMenu: "scores" | "bruno" | "chatSocket";
 }
 
 const sideMenus = [
@@ -11,6 +11,7 @@ const sideMenus = [
 	{ key: "user", label: "유저 관리", icon: UserCircle2 },
 	{ key: "scores", label: "성적 관리", icon: FileText, to: "/scores" as const },
 	{ key: "bruno", label: "Bruno API", icon: FlaskConical, to: "/bruno" as const },
+	{ key: "chatSocket", label: "채팅 소켓", icon: MessageSquare, to: "/chat-socket" as const },
 ] as const;
 
 export function AdminSidebar({ activeMenu }: AdminSidebarProps) {

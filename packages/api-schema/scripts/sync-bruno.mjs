@@ -20,6 +20,7 @@ const remoteRepoUrl = process.env.BRUNO_REPO_URL;
 const remoteRepoRef = process.env.BRUNO_REPO_REF ?? "main";
 const remoteCollectionPath = process.env.BRUNO_COLLECTION_PATH ?? "Solid Connection";
 const explicitCollectionDir = process.env.BRUNO_COLLECTION_DIR;
+const forceRegeneration = /^(1|true)$/i.test(process.env.BRUNO_FORCE ?? "");
 
 function loadEnvFiles(filePaths) {
   for (const filePath of filePaths) {
@@ -113,7 +114,7 @@ function resolveCollectionDir() {
 const collectionDir = resolveCollectionDir();
 
 run("pnpm", ["-C", "../bruno-api-typescript", "run", "build"]);
-run("node", [
+const generateHooksArgs = [
   "../bruno-api-typescript/dist/cli/index.js",
   "generate-hooks",
   "-i",
@@ -121,5 +122,11 @@ run("node", [
   "-o",
   "./src/apis",
   "--axios-path",
-  "../axiosInstance",
-]);
+  "../../axiosInstance",
+];
+
+if (forceRegeneration) {
+  generateHooksArgs.push("--force");
+}
+
+run("node", generateHooksArgs);

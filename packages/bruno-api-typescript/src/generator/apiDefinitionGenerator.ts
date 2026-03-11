@@ -5,7 +5,7 @@
 
 import { ParsedBrunoFile } from '../parser/bruParser';
 import { ApiFunction } from './apiClientGenerator';
-import { toCamelCase } from './typeGenerator';
+import { toCamelCase, toObjectPropertyKey } from './typeGenerator';
 
 export interface ApiDefinitionMeta {
   method: string;
@@ -34,11 +34,14 @@ function extractPathParams(url: string): string[] {
   while ((match = brunoVarPattern.exec(processedUrl)) !== null) {
     const varName = match[1];
     if (varName === 'URL') continue;
-    const camelVarName = varName.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
+    const camelVarName = toCamelCase(varName);
     if (!params.includes(camelVarName)) {
       params.push(camelVarName);
     }
   }
+
+  // Bruno 변수를 제거한 뒤 일반 URL 파라미터(:id, {id})를 추출해야 중복이 생기지 않음
+  processedUrl = processedUrl.replace(/\{\{[^}]+\}\}/g, '');
   
   const urlParamMatches = processedUrl.matchAll(/:(\w+)|\{(\w+)\}/g);
   for (const match of urlParamMatches) {
@@ -117,14 +120,16 @@ export function generateApiDefinitionsFile(
   
   for (const { apiFunc, parsed } of apiFunctions) {
     const meta = generateApiDefinitionMeta(apiFunc, parsed);
+    const bodyValue = `undefined as unknown as ${meta.body}`;
+    const responseValue = `undefined as unknown as ${meta.response}`;
     
-    lines.push(`  ${apiFunc.name}: {`);
+    lines.push(`  ${toObjectPropertyKey(apiFunc.name)}: {`);
     lines.push(`    method: '${meta.method}' as const,`);
     lines.push(`    path: '${meta.path}' as const,`);
     lines.push(`    pathParams: {} as ${meta.pathParams},`);
     lines.push(`    queryParams: {} as ${meta.queryParams},`);
-    lines.push(`    body: {} as ${meta.body},`);
-    lines.push(`    response: {} as ${meta.response},`);
+    lines.push(`    body: ${bodyValue},`);
+    lines.push(`    response: ${responseValue},`);
     lines.push(`  },`);
   }
   
