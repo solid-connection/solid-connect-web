@@ -7,7 +7,7 @@ import {
   type TestScoreInfo,
 } from "@/types/university";
 
-export const REGIONS_SEARCH = ["유럽권", "미주권", "아시아권"] as const;
+export const REGIONS_SEARCH = ["유럽권", "미주권", "아시아권", "중국권"] as const;
 
 export const REGIONS_KO = ["유럽권", "미주권", "아시아권", "중국권"];
 
