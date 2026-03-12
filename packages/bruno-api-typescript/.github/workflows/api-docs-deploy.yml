@@ -1,0 +1,178 @@
+name: API Documentation 배포
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'bruno/**'
+      - 'openapi.json'
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 체크아웃
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2  # 이전 커밋과 비교용
+
+      - name: Node 설정
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: 의존성 설치
+        run: npm install
+
+      - name: OpenAPI 생성 및 변경사항 감지
+        run: |
+          npm run build
+          node dist/cli/index.js generate \
+            -i ./bruno \
+            -o ./docs/openapi.json \
+            --title "우리팀 API" \
+            --version "1.0.0" \
+            --diff \
+            --changelog ./docs/changelog.html \
+            --changelog-format html
+
+      - name: 배포 폴더 준비
+        run: |
+          # docs 폴더에 필요한 파일들이 이미 있음
+          # api-viewer.html (Swagger UI)
+          # changelog.html (변경사항)
+          # openapi.json (OpenAPI 스펙)
+
+          # index.html 생성 (메인 페이지)
+          cat > docs/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="ko">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>API Documentation Hub</title>
+            <style>
+              * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+              }
+              body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 20px;
+              }
+              .container {
+                max-width: 800px;
+                width: 100%;
+              }
+              h1 {
+                color: white;
+                text-align: center;
+                margin-bottom: 40px;
+                font-size: 2.5rem;
+              }
+              .cards {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 20px;
+              }
+              .card {
+                background: white;
+                border-radius: 12px;
+                padding: 30px;
+                text-decoration: none;
+                color: inherit;
+                transition: transform 0.3s, box-shadow 0.3s;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+              }
+              .card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+              }
+              .card-icon {
+                font-size: 3rem;
+                margin-bottom: 15px;
+              }
+              .card-title {
+                font-size: 1.5rem;
+                font-weight: bold;
+                margin-bottom: 10px;
+                color: #2c3e50;
+              }
+              .card-description {
+                color: #7f8c8d;
+                line-height: 1.6;
+              }
+              .footer {
+                text-align: center;
+                color: white;
+                margin-top: 40px;
+                opacity: 0.9;
+              }
+            </style>
+          </head>
+          <body>
+            <div class="container">
+              <h1>📚 API Documentation</h1>
+
+              <div class="cards">
+                <a href="./api-viewer.html" class="card">
+                  <div class="card-icon">📖</div>
+                  <div class="card-title">API 명세서</div>
+                  <div class="card-description">
+                    Swagger UI로 모든 API 엔드포인트를 확인하고 테스트해보세요.
+                  </div>
+                </a>
+
+                <a href="./changelog.html" class="card">
+                  <div class="card-icon">🔄</div>
+                  <div class="card-title">변경사항</div>
+                  <div class="card-description">
+                    최신 API 변경사항과 Breaking Changes를 확인하세요.
+                  </div>
+                </a>
+
+                <a href="./openapi.json" class="card" download>
+                  <div class="card-icon">⬇️</div>
+                  <div class="card-title">OpenAPI 다운로드</div>
+                  <div class="card-description">
+                    OpenAPI 3.0 스펙 파일을 다운로드하여 사용하세요.
+                  </div>
+                </a>
+              </div>
+
+              <div class="footer">
+                <p>마지막 업데이트: <span id="date"></span></p>
+              </div>
+            </div>
+
+            <script>
+              document.getElementById('date').textContent = new Date().toLocaleString('ko-KR');
+            </script>
+          </body>
+          </html>
+          EOF
+
+      - name: GitHub Pages 배포
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
+          publish_branch: gh-pages
+
+      - name: 배포 완료 알림
+        run: |
+          echo "✅ API 문서가 GitHub Pages에 배포되었습니다!"
+          echo "🔗 URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/"

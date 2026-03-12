@@ -1,0 +1,4 @@
+const tsrStartManifest = () => ({ "routes": { "__root__": { "filePath": "/Users/manwook-han/Desktop/code/solid-connect/solid-connect-web-nomi/admin-app/src/routes/__root.tsx", "children": ["/", "/auth/login", "/scores/"], "preloads": ["/assets/main-CMD0s_Sp.js"], "assets": [] }, "/": { "filePath": "/Users/manwook-han/Desktop/code/solid-connect/solid-connect-web-nomi/admin-app/src/routes/index.tsx" }, "/auth/login": { "filePath": "/Users/manwook-han/Desktop/code/solid-connect/solid-connect-web-nomi/admin-app/src/routes/auth/login.tsx", "assets": [], "preloads": ["/assets/login-BFKyXQqT.js", "/assets/client-ByMMc4SQ.js"] }, "/scores/": { "filePath": "/Users/manwook-han/Desktop/code/solid-connect/solid-connect-web-nomi/admin-app/src/routes/scores/index.tsx", "assets": [], "preloads": ["/assets/index-C5TecN1M.js", "/assets/client-ByMMc4SQ.js"] } }, "clientEntry": "/assets/main-CMD0s_Sp.js" });
+export {
+  tsrStartManifest
+};

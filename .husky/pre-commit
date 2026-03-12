@@ -1,1 +1,34 @@
-# 커밋 메시지는 commit-msg 훅에서 검증됩니다
+echo "🔍 Running CI parity checks before commit..."
+
+CHANGED_FILES=$(git diff --cached --name-only)
+RUN_WEB=0
+RUN_ADMIN=0
+
+for FILE in $CHANGED_FILES; do
+  case "$FILE" in
+    apps/web/*)
+      RUN_WEB=1
+      ;;
+    apps/admin/*)
+      RUN_ADMIN=1
+      ;;
+    package.json|pnpm-lock.yaml|pnpm-workspace.yaml|turbo.json|.github/workflows/*)
+      RUN_WEB=1
+      RUN_ADMIN=1
+      ;;
+  esac
+done
+
+if [ "$RUN_WEB" -eq 1 ]; then
+  pnpm --filter @solid-connect/web run ci:check
+fi
+
+if [ "$RUN_ADMIN" -eq 1 ]; then
+  pnpm --filter @solid-connect/admin run ci:check
+fi
+
+if [ "$RUN_WEB" -eq 0 ] && [ "$RUN_ADMIN" -eq 0 ]; then
+  echo "ℹ️ No CI-targeted changes detected; skipping parity checks."
+fi
+
+echo "✅ CI parity checks passed!"

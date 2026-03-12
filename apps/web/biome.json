@@ -1,0 +1,41 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.3.12/schema.json",
+  "extends": ["../../packages/config/biome/base.json"],
+  "files": {
+    "includes": ["**", "!node_modules", "!.next", "!build", "!dist", "!*.tsbuildinfo"]
+  },
+  "vcs": {
+    "useIgnoreFile": false
+  },
+  "linter": {
+    "rules": {
+      "a11y": {
+        "noStaticElementInteractions": "off",
+        "useKeyWithClickEvents": "off",
+        "useButtonType": "off",
+        "useFocusableInteractive": "off",
+        "useHtmlLang": "off",
+        "useSemanticElements": "off",
+        "noSvgWithoutTitle": "off"
+      },
+      "security": {
+        "noDangerouslySetInnerHtml": "off"
+      },
+      "performance": {
+        "noImgElement": "off"
+      },
+      "correctness": {
+        "noUnusedVariables": "off",
+        "noUnusedFunctionParameters": "off"
+      },
+      "style": {
+        "noNonNullAssertion": "off"
+      },
+      "suspicious": {
+        "noExplicitAny": "error",
+        "noUnknownAtRules": "off",
+        "useIterableCallbackReturn": "off"
+      }
+    }
+  }
+}

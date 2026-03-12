@@ -1,0 +1,156 @@
+name: API 변경사항 리뷰
+
+on:
+  pull_request:
+    paths:
+      - 'bruno/**'
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 체크아웃
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # 전체 히스토리
+
+      - name: Node 설정
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: 의존성 설치
+        run: npm install
+
+      - name: 빌드
+        run: npm run build
+
+      - name: 이전 버전 OpenAPI 생성
+        run: |
+          # main 브랜치로 체크아웃하여 이전 버전 생성
+          git checkout origin/${{ github.base_ref }} -- bruno/ || true
+          node dist/cli/index.js generate -i ./bruno -o ./openapi-old.json
+
+      - name: 현재 PR의 Bruno로 복원
+        run: |
+          git checkout ${{ github.head_ref }} -- bruno/ || true
+          git checkout HEAD -- bruno/
+
+      - name: 현재 버전 OpenAPI 생성 및 변경사항 감지
+        run: |
+          node dist/cli/index.js generate \
+            -i ./bruno \
+            -o ./openapi-new.json \
+            --title "우리팀 API" \
+            --version "1.0.0"
+
+          # 변경사항 감지
+          if [ -f openapi-old.json ]; then
+            cp openapi-old.json openapi-new.json.old
+            node dist/cli/index.js generate \
+              -i ./bruno \
+              -o ./openapi-new.json \
+              --diff \
+              --changelog ./CHANGELOG.md \
+              --changelog-format markdown
+          fi
+
+      - name: Breaking Changes 확인
+        id: breaking
+        run: |
+          if [ -f CHANGELOG.md ]; then
+            if grep -q "⚠️ Breaking Changes" CHANGELOG.md || grep -q "Breaking Changes" CHANGELOG.md; then
+              echo "has_breaking=true" >> $GITHUB_OUTPUT
+              echo "⚠️ Breaking changes 발견!"
+            else
+              echo "has_breaking=false" >> $GITHUB_OUTPUT
+              echo "✅ Breaking changes 없음"
+            fi
+          else
+            echo "has_breaking=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Bruno 파일 변경사항 확인
+        id: bruno_changes
+        run: |
+          # 변경된 .bru 파일 목록
+          CHANGED_FILES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep '\.bru$' || echo "")
+
+          if [ -n "$CHANGED_FILES" ]; then
+            echo "changed_files<<EOF" >> $GITHUB_OUTPUT
+            echo "$CHANGED_FILES" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          else
+            echo "changed_files=" >> $GITHUB_OUTPUT
+          fi
+
+      - name: PR에 변경사항 코멘트
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+
+            let comment = '## 🔄 API 변경사항\n\n';
+
+            // Breaking changes 경고
+            const hasBreaking = '${{ steps.breaking.outputs.has_breaking }}' === 'true';
+            if (hasBreaking) {
+              comment += '### ⚠️ **Breaking Changes 발견!**\n\n';
+              comment += '> 기존 코드를 깨뜨릴 수 있는 변경사항이 있습니다. 프론트엔드 팀과 상의 후 머지해주세요.\n\n';
+            }
+
+            // 변경된 Bruno 파일 목록
+            const changedFiles = `${{ steps.bruno_changes.outputs.changed_files }}`;
+            if (changedFiles) {
+              comment += '### 📝 변경된 Bruno 파일\n\n';
+              comment += '```\n' + changedFiles + '\n```\n\n';
+            }
+
+            // Changelog 내용
+            if (fs.existsSync('CHANGELOG.md')) {
+              const changelog = fs.readFileSync('CHANGELOG.md', 'utf8');
+              comment += '### 📊 상세 변경사항\n\n';
+              comment += changelog;
+            } else {
+              comment += '### ✨ 새로운 API가 추가되었습니다!\n\n';
+              comment += '변경사항을 확인하려면 Bruno 파일을 참조하세요.\n';
+            }
+
+            // API 문서 링크 (배포 후)
+            comment += '\n---\n\n';
+            comment += '### 🔗 유용한 링크\n\n';
+            comment += '- 📖 [API 명세서 보기](https://' + context.repo.owner + '.github.io/' + context.repo.repo + '/api-viewer.html)\n';
+            comment += '- 🔄 [변경사항 시각화](https://' + context.repo.owner + '.github.io/' + context.repo.repo + '/changelog.html)\n';
+            comment += '- 📥 [OpenAPI 다운로드](https://' + context.repo.owner + '.github.io/' + context.repo.repo + '/openapi.json)\n';
+
+            // PR에 코멘트 작성
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+
+      - name: Breaking이 있으면 리뷰 요청
+        if: steps.breaking.outputs.has_breaking == 'true'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            // Breaking이 있으면 특정 팀원에게 리뷰 요청
+            // 필요시 팀원 username으로 변경
+            await github.rest.pulls.requestReviewers({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+              reviewers: [], // 예: ['frontend-lead', 'tech-lead']
+            });
+
+      - name: 체크 상태 설정
+        if: steps.breaking.outputs.has_breaking == 'true'
+        run: |
+          echo "⚠️ Breaking changes가 감지되었습니다."
+          echo "프론트엔드 팀의 승인 후 머지해주세요."
+          # exit 1을 주석 처리하여 PR을 차단하지 않음
+          # 팀 정책에 따라 주석 해제 가능
+          # exit 1

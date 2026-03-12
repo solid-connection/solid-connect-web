@@ -1,0 +1,10 @@
+node_modules/
+dist/
+*.log
+.DS_Store
+coverage/
+.env
+*.tsbuildinfo
+bruno
+test-output
+.bruno-cache/

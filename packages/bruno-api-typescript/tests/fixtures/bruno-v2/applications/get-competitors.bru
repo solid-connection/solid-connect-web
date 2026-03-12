@@ -1,0 +1,55 @@
+meta {
+  name: Get Competitors
+  type: http
+  seq: 1
+}
+
+get /applications/competitors
+
+headers {
+  Authorization: Bearer {{token}}
+  Content-Type: application/json
+}
+
+docs {
+  ```json
+  {
+    "firstChoice": [
+      {
+        "koreanName": "데겐도르프대학",
+        "englishName": "Deggendorf Institute of Technology",
+        "studentCapacity": 150,
+        "region": "Bavaria",
+        "country": "Germany",
+        "gpa": "4.5",
+        "applicants": [
+          {
+            "id": 1,
+            "name": "John Doe",
+            "gpa": 4.3,
+            "email": "john@example.com"
+          }
+        ]
+      }
+    ],
+    "secondChoice": [],
+    "thirdChoice": []
+  }
+  ```
+}
+
+script:post-response {
+  if (res.status === 200) {
+    bru.setEnvVar("competitors", JSON.stringify(res.body));
+  }
+}
+
+tests {
+  test("should return 200", function() {
+    expect(res.status).to.equal(200);
+  });
+
+  test("should have firstChoice array", function() {
+    expect(res.body.firstChoice).to.be.an('array');
+  });
+}
