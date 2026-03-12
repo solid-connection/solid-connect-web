@@ -12,11 +12,7 @@
   }
 
   html {
-    font-family:
-      var(--font-pretendard),
-      system-ui,
-      -apple-system,
-      sans-serif;
+    font-family: var(--font-pretendard), system-ui, -apple-system, sans-serif;
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;

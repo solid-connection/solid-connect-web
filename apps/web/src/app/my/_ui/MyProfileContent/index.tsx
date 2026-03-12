@@ -70,7 +70,7 @@ const MyProfileContent = () => {
         <p>{nickname}님은</p>
         <p>
           현재{" "}
-          <span className={`text-primary ${profileData.role === UserRole.MENTEE ? "typo-sb-4" : "typo-medium-2"}`}>
+          <span className="text-primary typo-sb-5">
             {profileData.role === UserRole.ADMIN ? "어드민" : isMentor ? "멘토" : "멘티"}
           </span>{" "}
           솔커예요.
