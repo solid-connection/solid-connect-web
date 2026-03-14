@@ -1,6 +1,8 @@
 import { create } from "zustand";
 
 const SURVEY_MODAL_STORAGE_KEY = "surveyModal_hideUntil";
+const SURVEY_START_AT_KST = Date.parse("2026-03-14T00:00:00+09:00");
+const SURVEY_END_AT_KST = Date.parse("2026-03-31T23:59:59+09:00");
 
 interface SurveyModalState {
   /** 모달 표시 여부 */
@@ -50,10 +52,10 @@ export const useSurveyModalStore = create<SurveyModalState>((set) => ({
     // 로그인 페이지에서는 모달을 표시하지 않음
     if (isLoginPage) return;
 
-    // 10월 31일까지만 모달 표시 (2025년 10월 31일 23:59:59)
-    const surveyEndDate = new Date("2025-10-31T23:59:59").getTime();
-    if (Date.now() > surveyEndDate) {
-      return; // 설문 기간이 지났으면 모달 표시 안 함
+    // 한국시간 기준 설문 진행 기간(2026-03-14 00:00:00 ~ 2026-03-31 23:59:59)에만 모달 표시
+    const now = Date.now();
+    if (now < SURVEY_START_AT_KST || now > SURVEY_END_AT_KST) {
+      return;
     }
 
     let hideUntil: string | null = null;
