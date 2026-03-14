@@ -184,7 +184,7 @@ const MyProfileContent = () => {
       </div>
 
       {/* Additional Options */}
-      <div className="mt-5">
+      <div className="mt-5 flex flex-col gap-0.5">
         <LinkedTextWithIcon href="/terms" text="서비스 이용약관" />
 
         <LinkedTextWithIcon isBilink href={NEXT_PUBLIC_CONTACT_LINK} text="고객센터 문의" />
