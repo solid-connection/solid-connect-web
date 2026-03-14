@@ -1,7 +1,7 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
-const loginNeedPages = ["/mentor", "/my"]; // 로그인 필요페이지
+const loginNeedPages = ["/mentor", "/my", "/community"]; // 로그인 필요페이지
 
 export function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
