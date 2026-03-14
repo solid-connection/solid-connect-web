@@ -4,6 +4,7 @@ import { IconGraduation } from "@/public/svgs/mentor";
 
 interface ProfileWithBadgeProps {
   profileImageUrl?: string | null;
+  isMentor?: boolean;
   hasBadge?: boolean;
   width?: number;
   height?: number;
@@ -12,11 +13,14 @@ interface ProfileWithBadgeProps {
 
 const ProfileWithBadge = ({
   profileImageUrl,
+  isMentor,
   hasBadge = false,
   width = 86,
   height = 86,
   isBadgeUp = true,
 }: ProfileWithBadgeProps) => {
+  const showMentorBadge = isMentor ?? hasBadge;
+
   // 배지 크기를 전체 크기에 비례해서 계산
   const badgeSize = Math.round(width * 0.35);
   const iconSize = Math.round(badgeSize * 0.67);
@@ -26,7 +30,7 @@ const ProfileWithBadge = ({
       {/* 프로필 이미지 */}
       <div
         className={`h-full w-full overflow-hidden rounded-full ${
-          hasBadge ? "border-2 border-primary-1" : "border border-gray-200"
+          showMentorBadge ? "border-2 border-primary-1" : "border border-gray-200"
         }`}
       >
         <Image
@@ -42,7 +46,7 @@ const ProfileWithBadge = ({
       </div>
 
       {/* 학습 상태 배지 */}
-      {hasBadge && (
+      {showMentorBadge && (
         <div
           className={`absolute -right-1 flex items-center justify-center rounded-full bg-primary-1 ${
             isBadgeUp ? "-top-1" : "-bottom-1"

@@ -79,7 +79,7 @@ const MyProfileContent = () => {
       {/* Profile Card */}
       <div className="mb-4 rounded-lg bg-k-50 p-4">
         <div className="mb-3 flex items-center space-x-3">
-          <ProfileWithBadge profileImageUrl={profileImageUrl} width={48} height={48} />
+          <ProfileWithBadge profileImageUrl={profileImageUrl} isMentor={viewAsMentor} width={48} height={48} />
           <div>
             <div className="flex items-center gap-3 space-x-2">
               <h3 className="text-primary typo-sb-5">{nickname}</h3>

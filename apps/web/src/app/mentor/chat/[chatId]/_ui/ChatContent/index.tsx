@@ -27,6 +27,7 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
   const userId = Number(parsedData?.sub ?? 0) || 0;
 
   const isMentor = parsedData?.role === UserRole.MENTOR || parsedData?.role === UserRole.ADMIN;
+  const isPartnerMentor = !isMentor;
 
   // 채팅 읽음 상태 업데이트 훅 진입시 자동으로
   usePutChatReadHandler(chatId);
@@ -72,7 +73,7 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
               )}
             >
               <div className="flex items-center gap-2">
-                <ProfileWithBadge profileImageUrl={profileUrl} width={30} height={30} />
+                <ProfileWithBadge profileImageUrl={profileUrl} isMentor={isPartnerMentor} width={30} height={30} />
                 <div className="flex h-full items-center">
                   <span className="text-k-700 typo-sb-7">{nickname}</span>
                   <div className="mx-4 h-10 w-[1px] bg-k-100"></div>
@@ -158,6 +159,7 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
                       message={message}
                       currentUserId={userId}
                       partnerNickname={nickname}
+                      isPartnerMentor={isPartnerMentor}
                     />
                   </div>
                 );

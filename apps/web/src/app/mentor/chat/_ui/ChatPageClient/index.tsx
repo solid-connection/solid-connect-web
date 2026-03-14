@@ -13,6 +13,7 @@ const ChatPageClient = () => {
   const { data: myInfo } = useGetMyInfo();
 
   const isMentee = myInfo?.role === UserRole.MENTEE;
+  const isPartnerMentor = isMentee;
 
   // 연결된 멘토가 없을 때의 처리 (멘티만)
   if (chatRooms.length === 0 && isMentee) {
@@ -90,7 +91,7 @@ const ChatPageClient = () => {
                 className="flex items-center justify-between border-b border-k-50 py-2"
               >
                 <div className="flex items-center gap-2">
-                  <ProfileWithBadge profileImageUrl={profileUrl} width={48} height={48} />
+                  <ProfileWithBadge profileImageUrl={profileUrl} isMentor={isPartnerMentor} width={48} height={48} />
                   <div className="flex flex-col items-start">
                     <h3 className="text-k-900 typo-sb-9">{nickname}</h3>
                     <p className="truncate text-k-600 typo-regular-2">{lastChatMessage}</p>
