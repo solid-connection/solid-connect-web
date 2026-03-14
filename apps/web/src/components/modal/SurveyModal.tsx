@@ -48,7 +48,7 @@ const SurveyModal = ({ isOpen, onClose, onCloseForWeek }: SurveyModalProps) => {
 
   return (
     <ModalBase isOpen={isOpen} onClose={handleClose}>
-      <div className="relative h-[450px] w-[290px] overflow-hidden rounded-[8px] bg-white shadow-[0_10px_30px_rgba(0,0,0,0.2)]">
+      <div className="relative h-[450px] w-[290px] overflow-hidden rounded-[8px] bg-white shadow-[0_10px_30px_rgba(0,0,0,0.2)] [text-size-adjust:100%] [-webkit-text-size-adjust:100%]">
         <Image
           src="/images/survey-modal/bg-vector.svg"
           alt=""
@@ -67,14 +67,14 @@ const SurveyModal = ({ isOpen, onClose, onCloseForWeek }: SurveyModalProps) => {
           className="pointer-events-none absolute left-[91px] top-[33px]"
         />
 
-        <div className="pointer-events-none absolute left-1/2 top-[92px] -translate-x-1/2 text-center leading-[1.3]">
-          <p className="bg-gradient-to-r from-[#007AFF] to-[#51298A] bg-clip-text text-[23px] font-bold text-transparent">
+        <div className="pointer-events-none absolute left-1/2 top-[92px] w-[182px] -translate-x-1/2 text-center leading-[1.3]">
+          <p className="whitespace-nowrap bg-gradient-to-r from-[#007AFF] to-[#51298A] bg-clip-text text-[23px] font-bold text-transparent">
             솔리드 커넥션,
           </p>
-          <p className="bg-gradient-to-r from-[#007AFF] to-[#430895] bg-clip-text text-[40px] font-extrabold text-transparent">
+          <p className="whitespace-nowrap bg-gradient-to-r from-[#007AFF] to-[#430895] bg-clip-text text-[40px] font-extrabold text-transparent">
             26-2학기
           </p>
-          <p className="bg-gradient-to-r from-[#007AFF] to-[#430895] bg-clip-text text-[40px] font-extrabold text-transparent">
+          <p className="whitespace-nowrap bg-gradient-to-r from-[#007AFF] to-[#430895] bg-clip-text text-[40px] font-extrabold text-transparent">
             만족도 조사
           </p>
         </div>
@@ -86,9 +86,9 @@ const SurveyModal = ({ isOpen, onClose, onCloseForWeek }: SurveyModalProps) => {
         <button
           onClick={handleSurveyClick}
           type="button"
-          className="absolute left-1/2 top-[290px] flex h-[33px] w-[160px] -translate-x-1/2 items-center justify-center gap-[5px] rounded-[20px] bg-[#007AFF] px-[30px] py-[4px] transition-colors hover:bg-[#006CE0]"
+          className="absolute left-1/2 top-[290px] flex h-[33px] w-[160px] -translate-x-1/2 items-center justify-center gap-[5px] rounded-[20px] bg-[#007AFF] transition-colors hover:bg-[#006CE0]"
         >
-          <span className="text-[13px] font-semibold leading-none text-white">설문조사 하러가기</span>
+          <span className="whitespace-nowrap text-[13px] font-semibold leading-none text-white">설문조사 하러가기</span>
           <Image
             src="/images/survey-modal/arrow-right.svg"
             alt=""
