@@ -59,7 +59,6 @@ const useUpdatePost = () => {
     },
     onError: (error) => {
       console.error("게시글 수정 실패:", error);
-      toast.error("게시글 수정에 실패했습니다.");
     },
   });
 };

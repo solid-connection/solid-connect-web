@@ -144,13 +144,21 @@ const PostModifyForm = ({
   };
 
   const submitPost = async () => {
-    if (!title.trim()) {
+    const trimmedTitle = title.trim();
+    const trimmedContent = content.trim();
+
+    if (!trimmedTitle) {
       toast.error("제목을 입력해주세요.");
       return;
     }
 
-    if (!content.trim()) {
+    if (!trimmedContent) {
       toast.error("내용을 입력해주세요.");
+      return;
+    }
+
+    if (trimmedContent.length > 255) {
+      toast.error("내용은 255자 이하로 입력해주세요.");
       return;
     }
 
@@ -161,8 +169,8 @@ const PostModifyForm = ({
         data: {
           postUpdateRequest: {
             postCategory: isQuestion ? "질문" : "자유",
-            title,
-            content,
+            title: trimmedTitle,
+            content: trimmedContent,
           },
           file: selectedImage ? [selectedImage] : [],
         },
@@ -238,6 +246,7 @@ const PostModifyForm = ({
             className="placeholder:text-gray-250/87 mt-4 box-border h-90 w-full resize-none border-0 px-5 text-black outline-none typo-regular-1"
             placeholder="내용을 입력하세요"
             value={content}
+            maxLength={255}
             onChange={(e) => setContent(e.target.value)}
           />
         </div>

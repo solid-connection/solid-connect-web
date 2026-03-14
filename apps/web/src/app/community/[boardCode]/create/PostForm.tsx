@@ -127,13 +127,31 @@ const PostForm = ({ boardCode }: PostFormProps) => {
   };
 
   const submitPost = async () => {
+    const titleValue = titleRef.current?.querySelector("textarea")?.value.trim() || "";
+    const trimmedContent = content.trim();
+
+    if (!titleValue) {
+      toast.error("제목을 입력해주세요.");
+      return;
+    }
+
+    if (!trimmedContent) {
+      toast.error("내용을 입력해주세요.");
+      return;
+    }
+
+    if (trimmedContent.length > 255) {
+      toast.error("내용은 255자 이하로 입력해주세요.");
+      return;
+    }
+
     createPostMutation.mutate(
       {
         postCreateRequest: {
           boardCode: boardCode,
           postCategory: isQuestion ? "질문" : "자유",
-          title: titleRef.current?.querySelector("textarea")?.value || "",
-          content,
+          title: titleValue,
+          content: trimmedContent,
           isQuestion,
         },
         file: selectedImage ? [selectedImage] : [],
@@ -218,6 +236,7 @@ const PostForm = ({ boardCode }: PostFormProps) => {
             className="placeholder:text-gray-250/87 mt-4 box-border h-90 w-full resize-none border-0 px-5 text-black outline-none typo-regular-1"
             placeholder="내용을 입력하세요"
             value={content}
+            maxLength={255}
             onChange={(e) => setContent(e.target.value)}
           />
         </div>
