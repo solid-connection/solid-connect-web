@@ -14,7 +14,6 @@ export const getUniversitiesByText = async (value: string): Promise<ListUniversi
   const response = await serverFetch<UniversitySearchResponse>(endpoint);
 
   if (!response.ok) {
-    console.error(`Failed to search universities by text (value: "${value}"):`, response.error);
     return [];
   }
 

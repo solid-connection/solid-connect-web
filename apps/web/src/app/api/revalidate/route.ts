@@ -47,7 +47,6 @@ async function POST(request: NextRequest) {
         return NextResponse.json({ revalidated: false, message: "Forbidden" }, { status: 403 });
       }
     } catch (error) {
-      console.error("Token verification failed:", error);
       return NextResponse.json({ revalidated: false, message: "Forbidden" }, { status: 403 });
     }
 
@@ -89,7 +88,6 @@ async function POST(request: NextRequest) {
 
     return NextResponse.json({ revalidated: false, message: "Missing path, tag, or boardCode" }, { status: 400 });
   } catch (error) {
-    console.error("Revalidate error:", error);
     return NextResponse.json({ revalidated: false, message: "Error revalidating" }, { status: 500 });
   }
 }

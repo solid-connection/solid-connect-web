@@ -40,7 +40,6 @@ export const getSearchUniversitiesByFilter = async (
   const response = await serverFetch<UniversitySearchResponse>(endpoint);
 
   if (!response.ok) {
-    console.error(`Failed to search universities by filter:`, response.error);
     return [];
   }
 
@@ -52,7 +51,6 @@ export const getSearchUniversitiesAllRegions = async (): Promise<ListUniversity[
   const response = await serverFetch<UniversitySearchResponse>(endpoint);
 
   if (!response.ok) {
-    console.error(`Failed to fetch all regions universities:`, response.error);
     return [];
   }
 

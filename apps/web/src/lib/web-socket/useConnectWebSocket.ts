@@ -61,15 +61,11 @@ const useConnectWebSocket = ({ roomId, clientRef }: UseConnectWebSocketProps): U
               }
 
               setSubmittedMessages((prev) => [...prev, receivedMessage]);
-            } catch (error) {
-              console.error("Failed to parse message body:", error);
-            }
+            } catch (error) {}
           });
         };
 
         client.onStompError = (frame) => {
-          console.error(`Broker reported error: ${frame.headers.message}`);
-          console.error(`Additional details: ${frame.body}`);
           setConnectionStatus(ConnectionStatus.Error);
         };
 
@@ -80,7 +76,6 @@ const useConnectWebSocket = ({ roomId, clientRef }: UseConnectWebSocketProps): U
         client.activate();
         clientRef.current = client;
       } catch (error) {
-        console.error("Failed to connect WebSocket:", error);
         setConnectionStatus(ConnectionStatus.Error);
       }
     };
