@@ -22,7 +22,6 @@ const usePostKakaoAuth = () => {
         setAccessToken(data.accessToken);
 
         toast.success("로그인에 성공했습니다.");
-
         setTimeout(() => {
           router.push("/");
         }, 100);
