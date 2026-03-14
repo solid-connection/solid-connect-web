@@ -9,9 +9,15 @@ interface ChatMessageBoxProps {
   message: ChatMessage;
   currentUserId?: number; // 현재 사용자 ID
   partnerNickname?: string; // 상대방 닉네임
+  isPartnerMentor?: boolean;
 }
 
-const ChatMessageBox = ({ message, currentUserId = 1, partnerNickname = "상대방" }: ChatMessageBoxProps) => {
+const ChatMessageBox = ({
+  message,
+  currentUserId = 1,
+  partnerNickname = "상대방",
+  isPartnerMentor = false,
+}: ChatMessageBoxProps) => {
   const isMine = message.senderId === Number(currentUserId);
 
   const messageType = getMessageType(message);
@@ -83,7 +89,7 @@ const ChatMessageBox = ({ message, currentUserId = 1, partnerNickname = "상대�
   ) : (
     <div className="flex justify-start">
       <div className="flex max-w-xs flex-row gap-2">
-        <ProfileWithBadge width={32} height={32} />
+        <ProfileWithBadge isMentor={isPartnerMentor} width={32} height={32} />
         <div className="flex flex-col items-start">
           <span className="mb-1 text-k-900 typo-medium-5">{partnerNickname}</span>
           <div className="flex items-end gap-1">

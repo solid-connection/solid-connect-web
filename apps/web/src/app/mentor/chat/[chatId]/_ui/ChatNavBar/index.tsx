@@ -23,6 +23,7 @@ const ChatNavBar = ({ chatId }: ChatNavBarProps) => {
   const accessToken = useAuthStore((state) => state.accessToken);
   const result = tokenParse(accessToken);
   const isMentor = result?.role === UserRole.MENTOR || result?.role === UserRole.ADMIN;
+  const isPartnerMentor = !isMentor;
 
   // 파트너 정보 가져오기
   const { data: partnerInfo } = useGetPartnerInfo(chatId);
@@ -91,7 +92,12 @@ const ChatNavBar = ({ chatId }: ChatNavBarProps) => {
             </button>
           </div>
           <div className="mb-6 flex flex-col items-center">
-            <ProfileWithBadge profileImageUrl={partnerInfo?.profileUrl} width={64} height={64} />
+            <ProfileWithBadge
+              profileImageUrl={partnerInfo?.profileUrl}
+              isMentor={isPartnerMentor}
+              width={64}
+              height={64}
+            />
             <h3 className="text-gray-800 typo-sb-5">{partnerInfo?.nickname || "상대방"}</h3>
             <p className={clsx("typo-medium-2", { "text-sub-c-500": isMentor, "text-primary-500": !isMentor })}>
               {partnerInfo?.university || "예비솔커"}
@@ -136,7 +142,7 @@ const ChatNavBar = ({ chatId }: ChatNavBarProps) => {
           <div className="mt-2 space-y-3">
             {/* 현재 사용자 */}
             <div className="flex items-center gap-3">
-              <ProfileWithBadge profileImageUrl={myInfo?.profileImageUrl} width={24} height={24} />
+              <ProfileWithBadge profileImageUrl={myInfo?.profileImageUrl} isMentor={isMentor} width={24} height={24} />
               {/* '나' 표시 div */}
               <div className="flex h-3 w-3 items-center justify-center rounded-full bg-pink-200">
                 <span className="text-center text-pink-600 typo-medium-5">나</span>
@@ -150,7 +156,12 @@ const ChatNavBar = ({ chatId }: ChatNavBarProps) => {
 
             {/* 상대방 */}
             <div className="flex items-center gap-3">
-              <ProfileWithBadge profileImageUrl={partnerInfo?.profileUrl} width={24} height={24} />
+              <ProfileWithBadge
+                profileImageUrl={partnerInfo?.profileUrl}
+                isMentor={isPartnerMentor}
+                width={24}
+                height={24}
+              />
               <span className="text-k-800 typo-medium-2">
                 {partnerInfo?.nickname || "상대방"} ({isMentor ? "멘티" : "멘토"})
               </span>
