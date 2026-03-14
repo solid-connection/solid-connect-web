@@ -1,9 +1,10 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { type ChangeEvent, useEffect, useRef, useState } from "react";
+import { type ChangeEvent, type DragEvent, useEffect, useRef, useState } from "react";
 import { useCreatePost } from "@/apis/community";
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
+import { toast } from "@/lib/zustand/useToastStore";
 import { IconImage, IconPostCheckboxFilled, IconPostCheckboxOutlined } from "@/public/svgs";
 
 type PostFormProps = {
@@ -19,6 +20,8 @@ const PostForm = ({ boardCode }: PostFormProps) => {
   const [isQuestion, setIsQuestion] = useState<boolean>(false);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
+  const [isDraggingImage, setIsDraggingImage] = useState<boolean>(false);
+  const dragDepthRef = useRef<number>(0);
 
   const createPostMutation = useCreatePost();
 
@@ -59,9 +62,61 @@ const PostForm = ({ boardCode }: PostFormProps) => {
     };
   }, [selectedImage]);
 
+  const selectImageFile = (file: File | null) => {
+    if (!file) {
+      setSelectedImage(null);
+      return;
+    }
+
+    if (!file.type.startsWith("image/")) {
+      toast.error("이미지 파일만 업로드할 수 있습니다.");
+      return;
+    }
+
+    setSelectedImage(file);
+  };
+
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] ?? null;
-    setSelectedImage(file);
+    selectImageFile(file);
+  };
+
+  const handleImageDragEnter = (event: DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    dragDepthRef.current += 1;
+    setIsDraggingImage(true);
+  };
+
+  const handleImageDragOver = (event: DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+    event.dataTransfer.dropEffect = "copy";
+  };
+
+  const handleImageDragLeave = (event: DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    dragDepthRef.current -= 1;
+    if (dragDepthRef.current <= 0) {
+      dragDepthRef.current = 0;
+      setIsDraggingImage(false);
+    }
+  };
+
+  const handleImageDrop = (event: DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    dragDepthRef.current = 0;
+    setIsDraggingImage(false);
+
+    const file = event.dataTransfer.files?.[0] ?? null;
+    if (!file) return;
+
+    selectImageFile(file);
   };
 
   const removeSelectedImage = () => {
@@ -109,7 +164,18 @@ const PostForm = ({ boardCode }: PostFormProps) => {
           </button>
         }
       />
-      <div>
+      <div
+        className="relative"
+        onDragEnter={handleImageDragEnter}
+        onDragOver={handleImageDragOver}
+        onDragLeave={handleImageDragLeave}
+        onDrop={handleImageDrop}
+      >
+        {isDraggingImage ? (
+          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center bg-black/40 px-5 text-center text-white typo-sb-9">
+            이미지를 놓아 업로드하세요
+          </div>
+        ) : null}
         <div
           className="relative border-b border-b-gray-c-100 transition-height duration-200 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[1px] after:bg-gray-c-100"
           ref={titleRef}
