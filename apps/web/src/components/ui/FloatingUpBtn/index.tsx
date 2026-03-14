@@ -1,11 +1,31 @@
-import useFloatingUpHandler from "./hooks/useFloatingUpHandler";
+import { useCallback, useEffect, useState } from "react";
 
 interface FloatingUpBtnProps {
   scrollYThreshold?: number;
 }
 
-const FloatingUpBtn = ({ scrollYThreshold }: FloatingUpBtnProps) => {
-  const { isVisible, handleClick } = useFloatingUpHandler(scrollYThreshold);
+const FloatingUpBtn = ({ scrollYThreshold = 400 }: FloatingUpBtnProps) => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  const handleScroll = useCallback(() => {
+    setIsVisible(window.scrollY > scrollYThreshold);
+  }, [scrollYThreshold]);
+
+  const handleClick = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [handleScroll]);
+
   if (!isVisible) return null;
   return (
     <button

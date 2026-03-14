@@ -1,17 +1,38 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import Image from "@/components/ui/FallbackImage";
 import { IconLoveLetter } from "@/public/svgs/home";
 import type { News } from "@/types/news";
-import useSectionHandler from "./_hooks/useSectionHadnler";
 
 export type NewsSectionProps = {
   newsList: News[];
 };
 
 const NewsSection = ({ newsList }: NewsSectionProps) => {
-  const { sectionRef, visible } = useSectionHandler();
+  const [visible, setVisible] = useState<boolean>(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!sectionRef.current) return;
+
+    const observer = new window.IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      {
+        rootMargin: "0px",
+        threshold: 0,
+      },
+    );
+
+    observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <div ref={sectionRef} className="mt-6 pl-5">
