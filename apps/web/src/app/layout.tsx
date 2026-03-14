@@ -14,6 +14,11 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 export const metadata: Metadata = {
   title: "솔리드 커넥션",
   description: "솔리드 커넥션. 교환학생의 첫 걸음",
+  verification: {
+    other: {
+      "naver-site-verification": "dd46eae7f62548ac6d6fc34647df8e2bea591e62",
+    },
+  },
 };
 
 const pretendard = localFont({
