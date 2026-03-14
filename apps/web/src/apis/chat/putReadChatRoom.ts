@@ -14,9 +14,7 @@ const usePutChatRead = () => {
       // 채팅방 목록 쿼리를 무효화하여 새로 고침
       queryClient.invalidateQueries({ queryKey: [ChatQueryKeys.chatRooms] });
     },
-    onError: (error) => {
-      console.error("채팅방 진입 읽기 실패", error);
-    },
+    onError: (error) => {},
   });
 };
 

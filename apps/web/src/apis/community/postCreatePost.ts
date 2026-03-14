@@ -13,7 +13,6 @@ import { CommunityQueryKeys, communityApi, type PostCreateRequest, type PostIdRe
 const revalidateCommunityPage = async (boardCode: string, accessToken: string) => {
   try {
     if (!accessToken) {
-      console.warn("Revalidation skipped: No access token available");
       return;
     }
 
@@ -25,9 +24,7 @@ const revalidateCommunityPage = async (boardCode: string, accessToken: string) =
       },
       body: JSON.stringify({ boardCode }),
     });
-  } catch (error) {
-    console.error("Revalidate failed:", error);
-  }
+  } catch (error) {}
 };
 
 /**
@@ -51,7 +48,7 @@ const useCreatePost = () => {
       toast.success("게시글이 등록되었습니다.");
     },
     onError: (error) => {
-      console.error("게시글 생성 실패:", error);
+      toast.error("게시글 등록에 실패했습니다.");
     },
   });
 };

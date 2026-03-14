@@ -11,7 +11,6 @@ const useUploadProfileImagePublic = () => {
   return useMutation<FileResponse, AxiosError, File>({
     mutationFn: imageUploadApi.postUploadProfileImageBeforeSignup,
     onError: (error) => {
-      console.error("프로필 이미지 업로드 실패:", error);
       toast.error("이미지 업로드에 실패했습니다.");
     },
   });

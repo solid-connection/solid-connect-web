@@ -21,7 +21,6 @@ export const getUniversityDetailWithStatus = async (
   const result = await serverFetch<University>(`/univ-apply-infos/${universityInfoForApplyId}`);
 
   if (!result.ok) {
-    console.error(`Failed to fetch university detail (ID: ${universityInfoForApplyId}):`, result.error);
     return {
       ok: false,
       status: result.status,

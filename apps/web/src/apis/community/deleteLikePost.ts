@@ -17,7 +17,6 @@ const useDeleteLike = () => {
       queryClient.invalidateQueries({ queryKey: [CommunityQueryKeys.posts, postId] });
     },
     onError: (error) => {
-      console.error("게시글 좋아요 취소 실패:", error);
       toast.error("좋아요 취소 처리에 실패했습니다.");
     },
   });

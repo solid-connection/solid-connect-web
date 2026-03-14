@@ -5,7 +5,6 @@ export const getTokenExpirationSeconds = (accessToken: string): number | null =>
     const now = Math.floor(Date.now() / 1000);
     return Math.max(0, exp - now);
   } catch (error) {
-    console.error("Failed to parse JWT token:", error);
     return null;
   }
 };
