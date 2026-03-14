@@ -42,7 +42,6 @@ const SurveyModal = ({ isOpen, onClose, onCloseForWeek }: SurveyModalProps) => {
       }
     } catch (error) {
       // 예외 발생 시
-      console.error("Failed to open survey:", error);
       toast.error(`설문 링크를 열 수 없습니다. 수동으로 ${surveyUrl} 를 열어주세요.`);
     }
   };

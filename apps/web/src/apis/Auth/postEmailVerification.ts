@@ -11,7 +11,6 @@ const usePostEmailSignUp = () => {
   return useMutation<EmailSignUpResponse, AxiosError, EmailSignUpRequest>({
     mutationFn: (data) => authApi.postEmailSignUp(data),
     onError: (error) => {
-      console.error("이메일 회원가입 실패:", error);
       toast.error("회원가입에 실패했습니다.");
     },
   });

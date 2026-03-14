@@ -9,7 +9,6 @@ const getRecommendedUniversity = async () => {
   const res = await serverFetch<GetRecommendedUniversityResponse>(endpoint);
 
   if (!res.ok) {
-    console.error(`Failed to fetch recommended universities:`, res.error);
   }
 
   return res;

@@ -36,7 +36,6 @@ export const useSurveyModalStore = create<SurveyModalState>((set) => ({
     try {
       localStorage.setItem(SURVEY_MODAL_STORAGE_KEY, weekLater.toString());
     } catch (error) {
-      console.warn("Failed to save survey modal hide preference:", error);
       // 로컬스토리지 저장 실패해도 모달은 닫기
     }
     set({ isOpen: false });
@@ -62,7 +61,6 @@ export const useSurveyModalStore = create<SurveyModalState>((set) => ({
     try {
       hideUntil = localStorage.getItem(SURVEY_MODAL_STORAGE_KEY);
     } catch (error) {
-      console.warn("Failed to read survey modal hide preference:", error);
       // 로컬스토리지 읽기 실패 시 모달 표시
       set({ isOpen: true });
       return;
@@ -75,9 +73,7 @@ export const useSurveyModalStore = create<SurveyModalState>((set) => ({
         // 잘못된 값인 경우 저장된 키 제거
         try {
           localStorage.removeItem(SURVEY_MODAL_STORAGE_KEY);
-        } catch (error) {
-          console.warn("Failed to remove invalid survey modal preference:", error);
-        }
+        } catch (error) {}
         set({ isOpen: true });
         return;
       }
