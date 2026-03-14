@@ -1,22 +1,30 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import ButtonTab from "@/components/ui/ButtonTab";
 import UniversityCards from "@/components/university/UniversityCards";
 import { IconDirectionRight } from "@/public/svgs/mentor";
 
 import { type AllRegionsUniversityList, type ListUniversity, RegionEnumExtend } from "@/types/university";
-import useRegionHandler from "./_hooks/useRegionHandler";
 
 interface UniversityListProps {
   allRegionsUniversityList: AllRegionsUniversityList;
 }
 
 const UniversityList = ({ allRegionsUniversityList }: UniversityListProps) => {
-  const { region, handleRegionChange } = useRegionHandler();
+  const [region, setRegion] = useState<RegionEnumExtend | null>(RegionEnumExtend.ALL);
   const choices = Object.values(RegionEnumExtend);
+  const handleRegionChange = (newRegion: RegionEnumExtend | null) => {
+    setRegion(newRegion);
+  };
+
+  useEffect(() => {
+    if (region === null) {
+      setRegion(RegionEnumExtend.ALL);
+    }
+  }, [region]);
 
   const universities: ListUniversity[] = useMemo(
     () => allRegionsUniversityList[region || RegionEnumExtend.ALL] ?? [],

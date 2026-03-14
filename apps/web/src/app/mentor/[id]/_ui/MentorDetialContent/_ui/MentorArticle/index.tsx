@@ -1,10 +1,11 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { useDeleteArticleLike, usePostArticleLike } from "@/apis/news";
 import Image from "@/components/ui/FallbackImage";
 import { IconLikeFill, IconLikeNotFill } from "@/public/svgs/mentor";
 import type { Article } from "@/types/news";
 import { convertUploadedImageUrl } from "@/utils/fileUtils";
-import useLikeToggle from "./_hooks/useLikeToggle";
 
 interface MentorArticleProps {
   article: Article;
@@ -12,7 +13,24 @@ interface MentorArticleProps {
 }
 
 const MentorArticle = ({ article, mentorId }: MentorArticleProps) => {
-  const { isLiked, handleToggleLike } = useLikeToggle(article.id, mentorId, article.isLiked);
+  const { mutate: postArticleLike } = usePostArticleLike(mentorId);
+  const { mutate: deleteArticleLike } = useDeleteArticleLike(mentorId);
+  const [isLiked, setIsLiked] = useState<boolean>(article.isLiked ?? false);
+
+  const handleToggleLike = () => {
+    if (!isLiked) {
+      postArticleLike(article.id);
+    } else {
+      deleteArticleLike(article.id);
+    }
+  };
+
+  useEffect(() => {
+    if (article.isLiked !== undefined) {
+      setIsLiked(article.isLiked);
+    }
+  }, [article.isLiked]);
+
   const thumbnailUrl = convertUploadedImageUrl(article.thumbnailUrl);
   return (
     <div key={article.description} className="overflow-hidden">

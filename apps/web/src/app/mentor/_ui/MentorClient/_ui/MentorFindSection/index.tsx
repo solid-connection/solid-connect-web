@@ -1,17 +1,37 @@
 "use client";
 
-import { useGetMentorList } from "@/apis/mentor";
+import { useEffect, useRef, useState } from "react";
+import { useGetMentorList, usePrefetchMentorList } from "@/apis/mentor";
 
 import MentorCard from "@/components/mentor/MentorCard";
 import EmptySdwBCards from "@/components/ui/EmptySdwBCards";
 import FloatingUpBtn from "@/components/ui/FloatingUpBtn";
 import { FilterTab } from "@/types/mentor";
 import useInfinityScroll from "@/utils/useInfinityScroll";
-import usePrefetchMentorFindTab from "./_hooks/usePrefetchMentorFindTab";
-import useSelectedTab from "./_hooks/useSelectedTab";
 
 const MentorFindSection = () => {
-  const { listRef, selectedTab, handleSelectTab } = useSelectedTab();
+  const [selectedTab, setSelectedTab] = useState<FilterTab>(FilterTab.ALL);
+  const listRef = useRef<HTMLDivElement>(null);
+  const { prefetchMentorList } = usePrefetchMentorList();
+
+  const handleSelectTab = (tab: FilterTab) => {
+    setSelectedTab(tab);
+    if (listRef.current) {
+      listRef.current.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  useEffect(() => {
+    const prefetchAllTabs = () => {
+      const tabsToPrefetch = Object.values(FilterTab).filter((tab) => tab !== FilterTab.ALL);
+      tabsToPrefetch.forEach((tab) => {
+        prefetchMentorList(tab);
+      });
+    };
+
+    const timer = setTimeout(prefetchAllTabs, 1000);
+    return () => clearTimeout(timer);
+  }, [prefetchMentorList]);
 
   const {
     data: mentorList = [],
@@ -21,7 +41,6 @@ const MentorFindSection = () => {
     region: selectedTab !== FilterTab.ALL ? selectedTab : "",
   });
   const { lastElementRef } = useInfinityScroll({ fetchNextPage, hasNextPage });
-  usePrefetchMentorFindTab();
 
   return (
     <div className="px-4">

@@ -2,7 +2,8 @@
 
 import clsx from "clsx";
 import Link from "next/link";
-import { useGetPartnerInfo } from "@/apis/chat";
+import { useEffect } from "react";
+import { useGetPartnerInfo, usePutChatRead } from "@/apis/chat";
 import { useUploadProfileImage } from "@/apis/image-upload";
 
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
@@ -12,7 +13,6 @@ import { ConnectionStatus } from "@/types/chat";
 import { UserRole } from "@/types/mentor";
 import { tokenParse } from "@/utils/jwtUtils";
 import useChatListHandler from "./_hooks/useChatListHandler";
-import usePutChatReadHandler from "./_hooks/usePutChatReadHandler";
 import { formatDateSeparator, isSameDay } from "./_lib/dateUtils";
 import ChatInputBar from "./_ui/ChatInputBar";
 import ChatMessageBox from "./_ui/ChatMessageBox";
@@ -27,9 +27,13 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
   const userId = parsedData?.sub ?? 0;
 
   const isMentor = parsedData?.role === UserRole.MENTOR || parsedData?.role === UserRole.ADMIN;
+  const { mutate: putChatRead } = usePutChatRead();
 
-  // 채팅 읽음 상태 업데이트 훅 진입시 자동으로
-  usePutChatReadHandler(chatId);
+  useEffect(() => {
+    if (chatId) {
+      putChatRead(chatId);
+    }
+  }, [chatId, putChatRead]);
 
   // 채팅 리스트 관리 훅
   const {

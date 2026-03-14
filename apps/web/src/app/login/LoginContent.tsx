@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { usePostEmailAuth } from "@/apis/Auth";
@@ -11,7 +11,6 @@ import { toast } from "@/lib/zustand/useToastStore";
 import { IconSolidConnectionFullBlackLogo } from "@/public/svgs";
 import { IconAppleLogo, IconEmailIcon, IconKakaoLogo } from "@/public/svgs/auth";
 import { appleLogin, kakaoLogin } from "@/utils/authUtils";
-import useInputHandler from "./_hooks/useInputHandler";
 
 // Zod 스키마 정의
 const loginSchema = z.object({
@@ -28,9 +27,14 @@ const LoginContent = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const hasShownCommunityOnlyToast = useRef(false);
+  const [showPasswordField, setShowPasswordField] = useState(false);
 
   const { mutate: postEmailAuth, isPending } = usePostEmailAuth();
-  const { showPasswordField, handleEmailChange } = useInputHandler();
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.trim();
+    setShowPasswordField(value.length > 0);
+  };
 
   const {
     register,

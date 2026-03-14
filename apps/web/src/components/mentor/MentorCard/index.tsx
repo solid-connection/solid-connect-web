@@ -2,13 +2,15 @@
 
 import clsx from "clsx";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { IconDirectionDown, IconDirectionUp } from "@/public/svgs/mentor";
+import { usePostApplyMentoring } from "@/apis/mentor";
+import { customConfirm } from "@/lib/zustand/useConfirmModalStore";
+import { IconCheck, IconDirectionDown, IconDirectionUp } from "@/public/svgs/mentor";
 import type { MentorCardDetail, MentorCardPreview } from "@/types/mentor";
 import ChannelBadge from "../../ui/ChannelBadge";
 import ProfileWithBadge from "../../ui/ProfileWithBadge";
 import StudyDate from "../StudyDate";
-import usePostApplyMentorHandler from "./hooks/usePostApplyMentorHandler";
 
 interface MentorCardProps {
   mentor: MentorCardDetail | MentorCardPreview;
@@ -17,8 +19,28 @@ interface MentorCardProps {
 }
 
 const MentorCard = ({ mentor, observeRef, isMine = false }: MentorCardProps) => {
+  const router = useRouter();
+  const { mutate: postApplyMentoring } = usePostApplyMentoring();
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
-  const { handlePostApplyMentor } = usePostApplyMentorHandler();
+  const handlePostApplyMentor = async (mentorId: number) => {
+    postApplyMentoring(
+      { mentorId },
+      {
+        onSuccess: async () => {
+          const ok = await customConfirm({
+            title: "멘티 신청이 완료되었어요!",
+            content: "멘토가 신청을 수락하면 대화를 시작할 수 있어요.\n조금만 기다려주세요.",
+            icon: IconCheck,
+            approveMessage: "다른 멘토 찾기",
+            rejectMessage: "홈으로",
+          });
+          if (!ok) {
+            router.push("/");
+          }
+        },
+      },
+    );
+  };
 
   const {
     profileImageUrl,
