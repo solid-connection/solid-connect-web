@@ -2,6 +2,7 @@ import { Client } from "@stomp/stompjs";
 import type { MutableRefObject } from "react";
 import { useEffect, useState } from "react";
 import SockJS from "sockjs-client";
+import { normalizeChatMessage, type RawChatMessage } from "@/apis/chat/normalize";
 
 import { type ChatMessage, ConnectionStatus } from "@/types/chat";
 import useAuthStore from "../zustand/useAuthStore";
@@ -54,7 +55,7 @@ const useConnectWebSocket = ({ roomId, clientRef }: UseConnectWebSocketProps): U
           setConnectionStatus(ConnectionStatus.Connected);
           client.subscribe(`/topic/chat/${roomId}`, (message) => {
             try {
-              const receivedMessage = JSON.parse(message.body) as ChatMessage;
+              const receivedMessage = normalizeChatMessage(JSON.parse(message.body) as RawChatMessage);
 
               if (!receivedMessage.createdAt || Number.isNaN(new Date(receivedMessage.createdAt).getTime())) {
                 receivedMessage.createdAt = new Date().toISOString();

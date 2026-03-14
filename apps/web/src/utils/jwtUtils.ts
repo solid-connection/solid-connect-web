@@ -1,5 +1,5 @@
 interface JwtPayload {
-  sub: number;
+  sub: number | string;
   role: string;
   iat: number;
   exp: number;
