@@ -46,7 +46,7 @@ const NewsSection = ({ newsList }: NewsSectionProps) => {
                   loading="lazy"
                   className="h-24 w-44 shrink-0 rounded-xl object-cover"
                   src={news.imageUrl}
-                  cdnHostType="upload"
+                  cdnHostType="default"
                   alt={news.title}
                   width={170}
                   height={90}
