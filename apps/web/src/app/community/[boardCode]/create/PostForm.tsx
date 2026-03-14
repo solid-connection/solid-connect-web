@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { type ChangeEvent, useEffect, useRef, useState } from "react";
 import { useCreatePost } from "@/apis/community";
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import { IconImage, IconPostCheckboxFilled, IconPostCheckboxOutlined } from "@/public/svgs";
@@ -17,6 +17,8 @@ const PostForm = ({ boardCode }: PostFormProps) => {
   const imageUploadRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const [isQuestion, setIsQuestion] = useState<boolean>(false);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
 
   const createPostMutation = useCreatePost();
 
@@ -43,6 +45,32 @@ const PostForm = ({ boardCode }: PostFormProps) => {
     return () => {};
   }, []);
 
+  useEffect(() => {
+    if (!selectedImage) {
+      setImagePreviewUrl(null);
+      return;
+    }
+
+    const objectUrl = URL.createObjectURL(selectedImage);
+    setImagePreviewUrl(objectUrl);
+
+    return () => {
+      URL.revokeObjectURL(objectUrl);
+    };
+  }, [selectedImage]);
+
+  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0] ?? null;
+    setSelectedImage(file);
+  };
+
+  const removeSelectedImage = () => {
+    setSelectedImage(null);
+    if (imageUploadRef.current) {
+      imageUploadRef.current.value = "";
+    }
+  };
+
   const submitPost = async () => {
     createPostMutation.mutate(
       {
@@ -53,7 +81,7 @@ const PostForm = ({ boardCode }: PostFormProps) => {
           content,
           isQuestion,
         },
-        file: imageUploadRef.current?.files ? Array.from(imageUploadRef.current.files) : [],
+        file: selectedImage ? [selectedImage] : [],
       },
       {
         onSuccess: (data) => {
@@ -116,7 +144,7 @@ const PostForm = ({ boardCode }: PostFormProps) => {
             >
               <IconImage />
             </button>
-            <input className="hidden" ref={imageUploadRef} type="file" accept="image/*" multiple />
+            <input className="hidden" ref={imageUploadRef} type="file" accept="image/*" onChange={handleImageChange} />
           </div>
         </div>
         <div>
@@ -127,6 +155,22 @@ const PostForm = ({ boardCode }: PostFormProps) => {
             onChange={(e) => setContent(e.target.value)}
           />
         </div>
+        {imagePreviewUrl ? (
+          <div className="px-5 pb-2">
+            <p className="mb-2 text-gray-250/87 typo-regular-4">첨부 이미지</p>
+            <div className="relative h-24 w-24 overflow-hidden rounded-md border border-gray-c-100">
+              <img src={imagePreviewUrl} alt="업로드 이미지 미리보기" className="h-full w-full object-cover" />
+              <button
+                type="button"
+                className="absolute right-1 top-1 rounded bg-black/60 px-1 py-0.5 text-xs text-white"
+                onClick={removeSelectedImage}
+                aria-label="이미지 제거"
+              >
+                삭제
+              </button>
+            </div>
+          </div>
+        ) : null}
         <div className="px-5 pt-2.5">
           <p className="text-gray-250/87 typo-sb-9">{noticeTitle}</p>
           <p className="mt-2 whitespace-pre-line text-gray-100 typo-regular-4">{noticeContent}</p>
