@@ -9,23 +9,20 @@ const withBundleAnalyzer = bundleAnalyzer({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  swcMinify: true,
   images: {
     unoptimized: true,
-    domains: ["k.kakaocdn.net", "cdn.default.solid-connection.com", "cdn.upload.solid-connection.com"],
+    remotePatterns: [
+      { protocol: "https", hostname: "k.kakaocdn.net" },
+      { protocol: "https", hostname: "cdn.default.solid-connection.com" },
+      { protocol: "https", hostname: "cdn.upload.solid-connection.com" },
+    ],
     formats: ["image/avif", "image/webp"],
     deviceSizes: [360, 640, 768, 1024, 1280],
   },
-  // 폰트 최적화 설정
-  optimizeFonts: true,
   // 압축 활성화
   compress: true,
-  // 정적 리소스 최적화
+  // 패키지 import 최적화
   experimental: {
-    optimizeCss: true,
-    gzipSize: true,
-    // Sentry instrumentation 활성화 (Web Vitals 수집에 필요)
-    instrumentationHook: true,
     optimizePackageImports: [
       "lucide-react",
       "@radix-ui/react-select",
@@ -39,11 +36,6 @@ const nextConfig = {
       "react-hook-form",
       "@hookform/resolvers",
     ],
-  },
-  eslint: {
-    // Warning: This allows production builds to successfully complete even if
-    // your project has ESLint errors.
-    ignoreDuringBuilds: true,
   },
   typescript: {
     ignoreBuildErrors: true,
