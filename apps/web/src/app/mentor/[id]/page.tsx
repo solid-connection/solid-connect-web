@@ -9,10 +9,11 @@ export const metadata: Metadata = {
 };
 
 interface MentorDetailPageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
-const MentorDetailPage = ({ params }: MentorDetailPageProps) => {
+const MentorDetailPage = async (props: MentorDetailPageProps) => {
+  const params = await props.params;
   const mentorId = Number(params.id);
 
   return (

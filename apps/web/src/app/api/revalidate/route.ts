@@ -58,7 +58,7 @@ async function POST(request: NextRequest) {
     // boardCode가 있으면 해당 커뮤니티 페이지 revalidate
     if (boardCode) {
       revalidatePath(`/community/${boardCode}`);
-      revalidateTag(`posts-${boardCode}`);
+      revalidateTag(`posts-${boardCode}`, "max");
 
       return NextResponse.json({
         revalidated: true,
@@ -79,7 +79,7 @@ async function POST(request: NextRequest) {
 
     // 특정 태그 revalidate
     if (tag) {
-      revalidateTag(tag);
+      revalidateTag(tag, "max");
       return NextResponse.json({
         revalidated: true,
         message: `Tag ${tag} revalidated`,

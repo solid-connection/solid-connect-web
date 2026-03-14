@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 const loginNeedPages = ["/mentor", "/my"]; // 로그인 필요페이지
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const url = request.nextUrl.clone();
 
   // localhost 환경에서는 미들웨어 적용 X

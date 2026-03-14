@@ -7,12 +7,13 @@ export const metadata: Metadata = {
 };
 
 interface CommunityPageProps {
-  params: {
+  params: Promise<{
     boardCode: string;
-  };
+  }>;
 }
 
-const CommunityPage = ({ params }: CommunityPageProps) => {
+const CommunityPage = async (props: CommunityPageProps) => {
+  const params = await props.params;
   const { boardCode } = params;
 
   return (

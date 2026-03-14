@@ -9,7 +9,7 @@ import type { HomeUniversitySlug } from "@/types/university";
 // UniversityDetail 컴포넌트
 import UniversityDetail from "./_ui/UniversityDetail";
 
-export const revalidate = false; // 완전 정적 생성
+// export const revalidate = false; // 완전 정적 생성
 
 // 모든 homeUniversity + id 조합에 대해 정적 경로 생성
 export async function generateStaticParams() {

@@ -5,17 +5,18 @@ import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import PostModifyContent from "./PostModifyContent";
 
 interface PostModifyPageProps {
-  params: {
+  params: Promise<{
     boardCode: string;
     postId: string;
-  };
+  }>;
 }
 
 export const metadata: Metadata = {
   title: "글 수정",
 };
 
-const PostModifyPage = ({ params }: PostModifyPageProps) => {
+const PostModifyPage = async (props: PostModifyPageProps) => {
+  const params = await props.params;
   const { boardCode, postId } = params;
 
   return (
