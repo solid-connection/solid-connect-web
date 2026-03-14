@@ -5,6 +5,7 @@ import validateLanguageScore from "@/utils/scoreUtils";
 // 1. Zod 스키마 정의: 폼 데이터의 유효성 규칙
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const ACCEPTED_FILE_TYPES = ["image/jpeg", "image/png", "image/webp", "application/pdf"];
+const isFileList = (value: unknown): value is FileList => typeof FileList !== "undefined" && value instanceof FileList;
 
 export const languageTestSchema = z
   .object({
@@ -13,7 +14,7 @@ export const languageTestSchema = z
     }),
     score: z.string().min(1, "점수를 입력해주세요."),
     file: z
-      .instanceof(FileList)
+      .custom<FileList>(isFileList, "증명서 파일을 첨부해주세요.")
       .refine((files) => files?.length === 1, "증명서 파일을 첨부해주세요.")
       .refine((files) => files?.[0]?.size <= MAX_FILE_SIZE, `파일 크기는 5MB를 초과할 수 없습니다.`)
       .refine((files) => ACCEPTED_FILE_TYPES.includes(files?.[0]?.type), ".jpeg, .png, .pdf 파일만 지원합니다."),

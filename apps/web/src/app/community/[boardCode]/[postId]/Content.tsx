@@ -145,8 +145,8 @@ const PostImage = ({ images, onImageClick }: { images: PostImageType[]; onImageC
         <div className="relative pt-[75%]">
           <Image
             src={convertUploadedImageUrl(images[0].url)}
-            layout="fill"
-            objectFit="cover"
+            fill
+            className="object-cover"
             alt="image"
             onClick={() => onImageClick(0)}
           />
@@ -193,7 +193,7 @@ const ImagePopup = ({ image, title, onClose }: ImagePopupProps) => (
       <div />
     </div>
     <div className="relative flex-grow">
-      <Image src={convertUploadedImageUrl(image.url)} layout="fill" objectFit="contain" alt="Popup" />
+      <Image src={convertUploadedImageUrl(image.url)} fill className="object-contain" alt="Popup" />
     </div>
   </div>
 );
