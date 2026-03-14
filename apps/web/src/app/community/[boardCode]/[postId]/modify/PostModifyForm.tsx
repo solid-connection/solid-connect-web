@@ -1,9 +1,10 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { type ChangeEvent, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { useUpdatePost } from "@/apis/community";
+import useCommunityImageUpload from "@/app/community/_hooks/useCommunityImageUpload";
 import { toast } from "@/lib/zustand/useToastStore";
 import { IconArrowBackFilled, IconImage, IconPostCheckboxFilled, IconPostCheckboxOutlined } from "@/public/svgs";
 
@@ -29,9 +30,20 @@ const PostModifyForm = ({
   const [isQuestion, setIsQuestion] = useState<boolean>(defaultIsQuestion);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
-  const imageUploadRef = useRef<HTMLInputElement>(null);
-  const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
+  const {
+    maxImages,
+    imageUploadRef,
+    selectedImages,
+    imagePreviewUrls,
+    isDraggingImage,
+    handleImageChange,
+    handleImageDragEnter,
+    handleImageDragOver,
+    handleImageDragLeave,
+    handleImageDrop,
+    removeSelectedImage,
+    openImagePicker,
+  } = useCommunityImageUpload();
   const router = useRouter();
 
   const updatePostMutation = useUpdatePost();
@@ -63,40 +75,22 @@ const PostModifyForm = ({
     return () => {};
   }, []);
 
-  useEffect(() => {
-    if (!selectedImage) {
-      setImagePreviewUrl(null);
-      return;
-    }
-
-    const objectUrl = URL.createObjectURL(selectedImage);
-    setImagePreviewUrl(objectUrl);
-
-    return () => {
-      URL.revokeObjectURL(objectUrl);
-    };
-  }, [selectedImage]);
-
-  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0] ?? null;
-    setSelectedImage(file);
-  };
-
-  const removeSelectedImage = () => {
-    setSelectedImage(null);
-    if (imageUploadRef.current) {
-      imageUploadRef.current.value = "";
-    }
-  };
-
   const submitPost = async () => {
-    if (!title.trim()) {
+    const trimmedTitle = title.trim();
+    const trimmedContent = content.trim();
+
+    if (!trimmedTitle) {
       toast.error("제목을 입력해주세요.");
       return;
     }
 
-    if (!content.trim()) {
+    if (!trimmedContent) {
       toast.error("내용을 입력해주세요.");
+      return;
+    }
+
+    if (trimmedContent.length > 255) {
+      toast.error("내용은 255자 이하로 입력해주세요.");
       return;
     }
 
@@ -107,10 +101,10 @@ const PostModifyForm = ({
         data: {
           postUpdateRequest: {
             postCategory: isQuestion ? "질문" : "자유",
-            title,
-            content,
+            title: trimmedTitle,
+            content: trimmedContent,
           },
-          file: selectedImage ? [selectedImage] : [],
+          file: selectedImages,
         },
       },
       {
@@ -128,7 +122,18 @@ const PostModifyForm = ({
   return (
     <>
       <CustomTopDetailNavigation routeBack={routeBack} submitPost={submitPost} />
-      <div>
+      <div
+        className="relative"
+        onDragEnter={handleImageDragEnter}
+        onDragOver={handleImageDragOver}
+        onDragLeave={handleImageDragLeave}
+        onDrop={handleImageDrop}
+      >
+        {isDraggingImage ? (
+          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center bg-black/40 px-5 text-center text-white typo-sb-9">
+            이미지를 놓아 업로드하세요
+          </div>
+        ) : null}
         <div
           className="relative border-b border-b-gray-c-100 transition-height duration-200 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[1px] after:bg-gray-c-100"
           ref={titleRef}
@@ -159,13 +164,20 @@ const PostModifyForm = ({
             <button
               type="button"
               onClick={() => {
-                imageUploadRef.current?.click();
+                openImagePicker();
               }}
               aria-label="이미지 추가"
             >
               <IconImage />
             </button>
-            <input className="hidden" ref={imageUploadRef} type="file" accept="image/*" onChange={handleImageChange} />
+            <input
+              className="hidden"
+              ref={imageUploadRef}
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handleImageChange}
+            />
           </div>
         </div>
         <div>
@@ -173,22 +185,36 @@ const PostModifyForm = ({
             className="placeholder:text-gray-250/87 mt-4 box-border h-90 w-full resize-none border-0 px-5 text-black outline-none typo-regular-1"
             placeholder="내용을 입력하세요"
             value={content}
+            maxLength={255}
             onChange={(e) => setContent(e.target.value)}
           />
         </div>
-        {imagePreviewUrl ? (
+        {imagePreviewUrls.length > 0 ? (
           <div className="px-5 pb-2">
-            <p className="mb-2 text-gray-250/87 typo-regular-4">첨부 이미지</p>
-            <div className="relative h-24 w-24 overflow-hidden rounded-md border border-gray-c-100">
-              <img src={imagePreviewUrl} alt="업로드 이미지 미리보기" className="h-full w-full object-cover" />
-              <button
-                type="button"
-                className="absolute right-1 top-1 rounded bg-black/60 px-1 py-0.5 text-xs text-white"
-                onClick={removeSelectedImage}
-                aria-label="이미지 제거"
-              >
-                삭제
-              </button>
+            <p className="mb-2 text-gray-250/87 typo-regular-4">
+              첨부 이미지 ({selectedImages.length}/{maxImages})
+            </p>
+            <div className="flex gap-2 overflow-x-auto pb-1">
+              {imagePreviewUrls.map((imagePreviewUrl, index) => (
+                <div
+                  key={`${selectedImages[index]?.name ?? "image"}-${selectedImages[index]?.lastModified ?? index}`}
+                  className="relative h-24 w-24 shrink-0 overflow-hidden rounded-md border border-gray-c-100"
+                >
+                  <img
+                    src={imagePreviewUrl}
+                    alt={`업로드 이미지 미리보기 ${index + 1}`}
+                    className="h-full w-full object-cover"
+                  />
+                  <button
+                    type="button"
+                    className="absolute right-1 top-1 rounded bg-black/60 px-1 py-0.5 text-xs text-white"
+                    onClick={() => removeSelectedImage(index)}
+                    aria-label={`이미지 ${index + 1} 제거`}
+                  >
+                    삭제
+                  </button>
+                </div>
+              ))}
             </div>
           </div>
         ) : null}

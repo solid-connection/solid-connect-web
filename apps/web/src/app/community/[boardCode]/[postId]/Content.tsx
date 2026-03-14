@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useDeleteLike, usePostLike } from "@/apis/community";
 import Image from "@/components/ui/FallbackImage";
 import LinkifyText from "@/components/ui/LinkifyText";
+import { COMMUNITY_MAX_UPLOAD_IMAGES } from "@/constants/community";
 import { IconCloseFilled, IconPostLikeFilled, IconPostLikeOutline } from "@/public/svgs";
 import { IconCommunication } from "@/public/svgs/community";
 import type { PostImage as PostImageType, Post as PostType } from "@/types/community";
@@ -22,6 +23,7 @@ const Content = ({ post, postId }: ContentProps) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   const [likeCount, setLikeCount] = useState<number>(0);
   const [isLiked, setIsLiked] = useState<boolean>(false);
+  const postImages = (post.postFindPostImageResponses || []).slice(0, COMMUNITY_MAX_UPLOAD_IMAGES);
 
   const postLikeMutation = usePostLike();
   const deleteLikeMutation = useDeleteLike();
@@ -85,12 +87,12 @@ const Content = ({ post, postId }: ContentProps) => {
         </div>
 
         <div className="mt-3">
-          <PostImage images={post.postFindPostImageResponses || []} onImageClick={handleImageClick} />
+          <PostImage images={postImages} onImageClick={handleImageClick} />
         </div>
-        {selectedImageIndex !== null && (
+        {selectedImageIndex !== null && postImages[selectedImageIndex] && (
           <ImagePopup
-            image={post.postFindPostImageResponses[selectedImageIndex]}
-            title={`${selectedImageIndex + 1}/${post.postFindPostImageResponses.length}`}
+            image={postImages[selectedImageIndex]}
+            title={`${selectedImageIndex + 1}/${postImages.length}`}
             onClose={closePopup}
           />
         )}
