@@ -24,7 +24,7 @@ interface ChatContentProps {
 const ChatContent = ({ chatId }: ChatContentProps) => {
   const { accessToken } = useAuthStore();
   const parsedData = tokenParse(accessToken);
-  const userId = parsedData?.sub ?? 0;
+  const userId = Number(parsedData?.sub ?? 0) || 0;
 
   const isMentor = parsedData?.role === UserRole.MENTOR || parsedData?.role === UserRole.ADMIN;
 
