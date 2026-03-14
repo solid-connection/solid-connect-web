@@ -1,21 +1,17 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { UserRole } from "@/types/mentor";
+import { parseJwtPayload } from "@/utils/jwtUtils";
 
 const parseUserRoleFromToken = (token: string | null): UserRole | null => {
-  if (!token) return null;
+  const payload = parseJwtPayload<{ role?: string }>(token);
+  if (!payload?.role) return null;
 
-  try {
-    const payload = JSON.parse(atob(token.split(".")[1])) as { role?: string };
-
-    if (payload.role === UserRole.MENTOR || payload.role === UserRole.MENTEE || payload.role === UserRole.ADMIN) {
-      return payload.role;
-    }
-
-    return null;
-  } catch {
-    return null;
+  if (payload.role === UserRole.MENTOR || payload.role === UserRole.MENTEE || payload.role === UserRole.ADMIN) {
+    return payload.role;
   }
+
+  return null;
 };
 
 type RefreshStatus = "idle" | "refreshing" | "success" | "failed";
