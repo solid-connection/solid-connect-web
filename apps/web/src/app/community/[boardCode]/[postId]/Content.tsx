@@ -4,6 +4,7 @@ import { useDeleteLike, usePostLike } from "@/apis/community";
 import Image from "@/components/ui/FallbackImage";
 import LinkifyText from "@/components/ui/LinkifyText";
 import { COMMUNITY_MAX_UPLOAD_IMAGES } from "@/constants/community";
+import { DEFAULT_PROFILE_IMAGE } from "@/constants/profile";
 import { IconCloseFilled, IconPostLikeFilled, IconPostLikeOutline } from "@/public/svgs";
 import { IconCommunication } from "@/public/svgs/community";
 import type { PostImage as PostImageType, Post as PostType } from "@/types/community";
@@ -117,7 +118,7 @@ const Content = ({ post, postId }: ContentProps) => {
               src={
                 post.postFindSiteUserResponse.profileImageUrl
                   ? convertUploadedImageUrl(post.postFindSiteUserResponse.profileImageUrl)
-                  : "/images/placeholder/profile64.svg"
+                  : DEFAULT_PROFILE_IMAGE
               }
               width={40}
               height={40}

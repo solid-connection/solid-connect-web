@@ -1,5 +1,6 @@
 import Image from "@/components/ui/FallbackImage";
-import { IconDefaultProfile, IconGraduation } from "@/public/svgs/mentor";
+import { DEFAULT_PROFILE_IMAGE } from "@/constants/profile";
+import { IconGraduation } from "@/public/svgs/mentor";
 
 interface ProfileWithBadgeProps {
   profileImageUrl?: string | null;
@@ -28,20 +29,16 @@ const ProfileWithBadge = ({
           hasBadge ? "border-2 border-primary-1" : "border border-gray-200"
         }`}
       >
-        {profileImageUrl ? (
-          <Image
-            unoptimized
-            src={profileImageUrl}
-            cdnHostType="upload"
-            alt="프로필 이미지"
-            width={width}
-            height={height}
-            className="h-full w-full object-cover"
-            fallbackSrc="/images/placeholder/profile112.png"
-          />
-        ) : (
-          <IconDefaultProfile />
-        )}
+        <Image
+          unoptimized
+          src={profileImageUrl || DEFAULT_PROFILE_IMAGE}
+          cdnHostType={profileImageUrl ? "upload" : undefined}
+          alt="프로필 이미지"
+          width={width}
+          height={height}
+          className="h-full w-full object-cover"
+          fallbackSrc={DEFAULT_PROFILE_IMAGE}
+        />
       </div>
 
       {/* 학습 상태 배지 */}
