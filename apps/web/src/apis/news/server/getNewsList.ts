@@ -6,7 +6,6 @@ export const getHomeNewsList = async (): Promise<News[]> => {
   const response = await serverFetch<ArticleListResponse>("/news");
 
   if (!response.ok) {
-    console.error("Failed to fetch home news list:", response.error);
     return [];
   }
 

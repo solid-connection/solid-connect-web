@@ -63,7 +63,6 @@ const SignupSurvey = ({ baseNickname, baseEmail, baseProfileImageUrl }: SignupSu
         imageUrl = result.fileUrl;
       } catch (err: unknown) {
         const error = err as { message?: string };
-        console.error("Error", error.message);
         // toast.error는 hook의 onError에서 이미 처리되므로 중복 호출 제거
       }
     }
@@ -96,17 +95,14 @@ const SignupSurvey = ({ baseNickname, baseEmail, baseProfileImageUrl }: SignupSu
             message?: string;
           };
           if (axiosError.response) {
-            console.error("Axios response error", axiosError.response);
             toast.error(axiosError.response.data?.message || "회원가입에 실패했습니다.");
           } else {
-            console.error("Error", axiosError.message);
             toast.error(axiosError.message || "회원가입에 실패했습니다.");
           }
         },
       });
     } catch (err: unknown) {
       const error = err as { message?: string };
-      console.error("Error", error.message);
       toast.error(error.message || "회원가입에 실패했습니다.");
     }
   };

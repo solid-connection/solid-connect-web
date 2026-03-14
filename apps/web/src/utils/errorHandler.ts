@@ -22,13 +22,11 @@ export const handleMutationError = (
   // Axios 에러 처리
   if (error instanceof AxiosError) {
     const errorMessage = (error.response?.data as { message?: string })?.message || defaultMessage;
-    console.error("API Error:", errorMessage, error);
     toast.error(errorMessage);
     return;
   }
 
   // 기타 에러 처리
-  console.error("Unknown Error:", error);
   toast.error(defaultMessage);
 };
 

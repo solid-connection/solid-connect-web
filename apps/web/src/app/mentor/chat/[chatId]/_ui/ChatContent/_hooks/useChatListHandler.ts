@@ -80,7 +80,6 @@ const useChatListHandler = (chatId: number) => {
           body: JSON.stringify({ content, senderId }),
         });
       } else {
-        console.error("WebSocket is not connected. Message could not be sent.");
         // 여기에 메시지 전송 실패에 대한 UI 피드백 로직을 추가할 수 있습니다. (e.g., alert, toast)
       }
     },
@@ -100,7 +99,6 @@ const useChatListHandler = (chatId: number) => {
         return true;
       }
 
-      console.error("WebSocket is not connected. Image message could not be sent.");
       return false;
     },
     [chatId, connectionStatus],

@@ -18,7 +18,6 @@ const useCreateComment = () => {
       toast.success("댓글이 등록되었습니다.");
     },
     onError: (error) => {
-      console.error("댓글 생성 실패:", error);
       toast.error("댓글 등록에 실패했습니다.");
     },
   });
