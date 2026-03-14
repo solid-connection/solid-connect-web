@@ -1,17 +1,5 @@
-import dynamic from "next/dynamic";
-import { Suspense } from "react";
 import type { ListUniversity } from "@/types/university";
 import PopularUniversityCard from "./_ui/PopularUniversityCard";
-
-// PopularUniversityCard를 동적 임포트
-const PopularUniversityCardDynamic = dynamic(() => import("./_ui/PopularUniversityCard"), {
-  ssr: false,
-  loading: () => (
-    <div className="relative w-[153px]">
-      <div className="h-[120px] w-[153px] animate-pulse rounded-lg bg-gray-200" />
-    </div>
-  ),
-});
 
 type PopularUniversitySectionProps = {
   universities: ListUniversity[];
@@ -36,24 +24,15 @@ const PopularUniversitySection = ({ universities }: PopularUniversitySectionProp
           />
         ))}
 
-        {/* 나머지는 동적 렌더링으로 위임 */}
         {belowFold.map((university) => (
-          <Suspense
+          <PopularUniversityCard
             key={university.id}
-            fallback={
-              <div className="relative w-[153px]">
-                <div className="h-[120px] w-[153px] animate-pulse rounded-lg bg-gray-200" />
-              </div>
-            }
-          >
-            <PopularUniversityCardDynamic
-              university={university}
-              priority={false}
-              loading="lazy"
-              fetchPriority="low"
-              quality={50} // 동적 로딩 이미지는 50으로 최대 압축
-            />
-          </Suspense>
+            university={university}
+            priority={false}
+            loading="lazy"
+            fetchPriority="low"
+            quality={50} // 동적 로딩 이미지는 50으로 최대 압축
+          />
         ))}
       </div>
     </div>

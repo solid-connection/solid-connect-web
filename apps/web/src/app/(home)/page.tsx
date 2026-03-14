@@ -1,18 +1,12 @@
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
 import Link from "next/link";
 import { getCategorizedUniversities, getRecommendedUniversity } from "@/apis/universities/server";
 import { fetchAllNews } from "@/lib/firebaseNews";
 import { IconIdCard, IconMagnifyingGlass, IconMuseum, IconPaper } from "@/public/svgs/home";
 import FindLastYearScoreBar from "./_ui/FindLastYearScoreBar";
-import NewsSectionSkeleton from "./_ui/NewsSection/skeleton";
+import NewsSection from "./_ui/NewsSection";
 import PopularUniversitySection from "./_ui/PopularUniversitySection";
 import UniversityList from "./_ui/UniversityList";
-
-const NewsSectionDynamic = dynamic(() => import("./_ui/NewsSection"), {
-  ssr: false,
-  loading: () => <NewsSectionSkeleton />,
-});
 
 const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://solid-connection.com";
 const ogImageUrl = `${baseUrl}/opengraph-image.png`;
@@ -139,7 +133,7 @@ const HomePage = async () => {
           <UniversityList allRegionsUniversityList={allRegionsUniversityList} />
         </div>
 
-        <NewsSectionDynamic newsList={newsList} />
+        <NewsSection newsList={newsList} />
       </div>
     </>
   );
@@ -147,4 +141,4 @@ const HomePage = async () => {
 
 export default HomePage;
 
-export const revalidate = 60 * 60 * 24; // 1 day
+export const revalidate = 86400; // 1 day
