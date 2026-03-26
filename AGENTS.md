@@ -45,3 +45,5 @@
 - Web app auth/details: `apps/web/AUTHENTICATION.md`.
 - Web component guidance: `apps/web/COMPONENTS.md`.
 - Team workflow: `docs/development-workflow.md` and `CLAUDE.md`.
+- LLM repository context: `llms.txt`.
+- Bruno + codegen + React Query skill doc: `docs/skills/ai-bruno-codegen-react-query-skill.md`.
