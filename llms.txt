@@ -1,0 +1,72 @@
+# solid-connect-web LLM Context
+
+## Purpose
+
+This repository uses Bruno as the single source of truth for API schema and generates shared TypeScript API clients for both admin and web apps.
+
+## Monorepo Overview
+
+- Package manager: `pnpm`
+- Main apps:
+  - `apps/web` (Next.js)
+  - `apps/admin`
+- Shared API schema package:
+  - `packages/api-schema`
+- Code generator:
+  - `packages/bruno-api-typescript`
+
+## Source of Truth and Ownership
+
+- API contract source of truth: Bruno `.bru` files
+- Generated outputs:
+  - `packages/api-schema/src/apis/*`
+- Generated files are read-only in normal feature work.
+- If generated output is wrong, fix generator logic, then regenerate.
+
+## API Sync and Generation Commands
+
+- Sync Bruno (default mode):  
+  `pnpm --filter @solid-connect/api-schema run sync:bruno`
+- Force remote sync:  
+  `BRUNO_FORCE=true pnpm --filter @solid-connect/api-schema run sync:bruno:remote`
+- Verify generated schema package:  
+  `pnpm --filter @solid-connect/api-schema run verify:schema`
+
+## Runtime Integration Policy
+
+- Admin and web must share generated types and API clients.
+- React Query usage is app-specific:
+  - Query keys, invalidation, side effects (`onSuccess`) are implemented in each app.
+- Do not hardcode React Query behavior inside codegen output.
+
+## Guardrails
+
+- Do not manually edit generated files under `packages/api-schema/src/apis/*`.
+- Prefer changing:
+  - `packages/bruno-api-typescript/src/*`
+  - `packages/api-schema/scripts/sync-bruno.mjs`
+- Always regenerate after generator changes.
+
+## Known Contract Caveat
+
+- Current docs-based type inference can flatten union-like responses.
+- When response shape mismatch is suspected:
+  1. Check Bruno source docs in `.bru`
+  2. Check generated types in `packages/api-schema/src/apis/*`
+  3. Fix generator behavior if required
+
+## Standard Validation for API Work
+
+1. Sync Bruno
+2. Regenerate outputs
+3. Typecheck generated package
+4. Typecheck affected app(s)
+5. Build check before push if hooks require it
+
+## Delivery Checklist
+
+- Changes are made in generator/manual wrapper layer, not in generated outputs directly.
+- Regeneration and type checks pass.
+- PR clearly separates:
+  - generator/handwritten logic changes
+  - generated artifact changes
