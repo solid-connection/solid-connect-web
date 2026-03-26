@@ -200,10 +200,12 @@ const applyPatch = (patch) => {
   return true;
 };
 
+const toErrorMessage = (error) => String(error instanceof Error ? error.message : error);
+
 const markTaskFailed = async (taskRef, error) => {
   await taskRef.update({
     status: "failed",
-    errorMessage: String(error instanceof Error ? error.message : error),
+    errorMessage: toErrorMessage(error),
     updatedAt: FieldValue.serverTimestamp(),
     failedAt: FieldValue.serverTimestamp(),
   });
@@ -341,12 +343,31 @@ const main = async () => {
       updatedAt: FieldValue.serverTimestamp(),
     });
 
-    await sendDiscordNotification({
-      taskId,
-      prUrl,
-      previewUrl,
-      instruction: task.instruction,
-    });
+    try {
+      await sendDiscordNotification({
+        taskId,
+        prUrl,
+        previewUrl,
+        instruction: task.instruction,
+      });
+
+      await taskRef.update({
+        notificationSent: true,
+        notificationError: FieldValue.delete(),
+        updatedAt: FieldValue.serverTimestamp(),
+      });
+    } catch (notificationError) {
+      console.error(`Task ${taskId} notification failed`, notificationError);
+      try {
+        await taskRef.update({
+          notificationSent: false,
+          notificationError: toErrorMessage(notificationError),
+          updatedAt: FieldValue.serverTimestamp(),
+        });
+      } catch (updateError) {
+        console.error(`Task ${taskId} notification error update failed`, updateError);
+      }
+    }
 
     console.log(`Task ${taskId} completed: ${prUrl}`);
   } catch (error) {
