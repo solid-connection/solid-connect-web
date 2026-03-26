@@ -1,13 +1,10 @@
 "use client";
 
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { Bot, Target, X } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
-import { getFirebaseDb } from "@/lib/firebase/client";
+import { useEffect, useState } from "react";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { toast } from "@/lib/zustand/useToastStore";
 import { UserRole } from "@/types/mentor";
-import { tokenParse } from "@/utils/jwtUtils";
 
 interface HoverRect {
   x: number;
@@ -23,8 +20,6 @@ interface ElementSelection {
   textSnippet: string;
   rect: HoverRect;
 }
-
-const AI_INSPECTOR_COLLECTION = process.env.NEXT_PUBLIC_AI_INSPECTOR_COLLECTION ?? "aiInspectorTasks";
 
 const toTextSnippet = (target: HTMLElement): string => {
   const text = (target.innerText || target.textContent || "").replace(/\s+/g, " ").trim();
@@ -79,11 +74,6 @@ const AIInspectorFab = () => {
   const [selection, setSelection] = useState<ElementSelection | null>(null);
   const [instruction, setInstruction] = useState("");
   const [isSaving, setIsSaving] = useState(false);
-
-  const requesterId = useMemo(() => {
-    const parsed = tokenParse(accessToken);
-    return parsed?.sub ? String(parsed.sub) : null;
-  }, [accessToken]);
 
   useEffect(() => {
     if (!isInspecting) {
@@ -180,30 +170,34 @@ const AIInspectorFab = () => {
       return;
     }
 
-    const db = getFirebaseDb();
-    if (!db) {
-      toast.error("Firebase 설정이 누락되어 저장할 수 없습니다.");
+    if (!accessToken) {
+      toast.error("로그인 세션이 만료되었습니다. 다시 로그인해주세요.");
       return;
     }
 
     setIsSaving(true);
     try {
-      const ref = await addDoc(collection(db, AI_INSPECTOR_COLLECTION), {
-        status: "pending",
-        instruction: instruction.trim(),
-        pageUrl: window.location.href,
-        selector: selection.selector,
-        element: selection,
-        source: "web-admin-inspector",
-        requestedBy: {
-          role: userRole,
-          userId: requesterId,
+      const response = await fetch("/api/ai-inspector-requests", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
         },
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp(),
+        body: JSON.stringify({
+          instruction: instruction.trim(),
+          pageUrl: window.location.href,
+          selection,
+        }),
       });
 
-      toast.success(`요청이 저장되었습니다. (${ref.id.slice(0, 8)})`);
+      const payload = (await response.json().catch(() => null)) as { message?: string; taskId?: string } | null;
+      if (!response.ok) {
+        toast.error(payload?.message ?? "요청 저장에 실패했습니다. 잠시 후 다시 시도해주세요.");
+        return;
+      }
+
+      const taskId = payload?.taskId ?? "";
+      toast.success(`요청이 저장되었습니다. (${taskId.slice(0, 8)})`);
       resetForm();
     } catch {
       toast.error("요청 저장에 실패했습니다. 잠시 후 다시 시도해주세요.");

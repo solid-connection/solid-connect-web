@@ -209,6 +209,47 @@ const markTaskFailed = async (taskRef, error) => {
   });
 };
 
+const claimQueuedTask = async (db, collectionName) => {
+  const queued = await db
+    .collection(collectionName)
+    .where("status", "==", "queued")
+    .orderBy("createdAt", "asc")
+    .limit(10)
+    .get();
+
+  for (const doc of queued.docs) {
+    const taskRef = doc.ref;
+    const claimedTask = await db.runTransaction(async (transaction) => {
+      const snapshot = await transaction.get(taskRef);
+      if (!snapshot.exists) {
+        return null;
+      }
+
+      const task = snapshot.data();
+      if (!task || task.status !== "queued") {
+        return null;
+      }
+
+      transaction.update(taskRef, {
+        status: "processing",
+        startedAt: FieldValue.serverTimestamp(),
+        updatedAt: FieldValue.serverTimestamp(),
+      });
+
+      return {
+        taskId: snapshot.id,
+        task,
+      };
+    });
+
+    if (claimedTask) {
+      return { ...claimedTask, taskRef };
+    }
+  }
+
+  return null;
+};
+
 const main = async () => {
   const repo = required("GITHUB_REPOSITORY");
   const [owner, repoName] = repo.split("/");
@@ -230,28 +271,13 @@ const main = async () => {
   }
 
   const db = getFirestore();
-  const pending = await db
-    .collection(collectionName)
-    .where("status", "==", "pending")
-    .orderBy("createdAt", "asc")
-    .limit(1)
-    .get();
-
-  if (pending.empty) {
-    console.log("No pending inspector tasks.");
+  const claimed = await claimQueuedTask(db, collectionName);
+  if (!claimed) {
+    console.log("No queued inspector tasks.");
     return;
   }
 
-  const taskDoc = pending.docs[0];
-  const taskRef = taskDoc.ref;
-  const task = taskDoc.data();
-  const taskId = taskDoc.id;
-
-  await taskRef.update({
-    status: "processing",
-    startedAt: FieldValue.serverTimestamp(),
-    updatedAt: FieldValue.serverTimestamp(),
-  });
+  const { taskRef, task, taskId } = claimed;
 
   try {
     const branchName = `ai-inspector/${taskId}`;
@@ -280,8 +306,7 @@ const main = async () => {
 
     const existingPr = await findOpenPrByHead(owner, repoName, branchName);
     const title =
-      aiResult.title ||
-      `[AI Inspector] ${String(task.instruction ?? "UI update request").slice(0, 72)}`.trim();
+      aiResult.title || `[AI Inspector] ${String(task.instruction ?? "UI update request").slice(0, 72)}`.trim();
     const body = [
       `## Inspector Task`,
       `- taskId: ${taskId}`,
@@ -308,7 +333,7 @@ const main = async () => {
     const previewUrl = getPreviewUrl(branchName);
 
     await taskRef.update({
-      status: "done",
+      status: "completed",
       branchName,
       prUrl,
       previewUrl,
