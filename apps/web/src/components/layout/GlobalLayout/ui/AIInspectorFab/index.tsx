@@ -1,162 +1,32 @@
 "use client";
 
+import {
+  AiInspectorRequestError,
+  createAiInspectorRequest,
+  useAiInspectorSelection,
+} from "@solid-connect/ai-inspector";
 import { Bot, Target, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { toast } from "@/lib/zustand/useToastStore";
 import { UserRole } from "@/types/mentor";
-
-interface HoverRect {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-}
-
-interface ElementSelection {
-  selector: string;
-  tagName: string;
-  className: string;
-  textSnippet: string;
-  rect: HoverRect;
-}
-
-const toTextSnippet = (target: HTMLElement): string => {
-  const text = (target.innerText || target.textContent || "").replace(/\s+/g, " ").trim();
-  return text.slice(0, 140);
-};
-
-const toClassName = (target: HTMLElement): string => {
-  if (typeof target.className === "string") {
-    return target.className;
-  }
-
-  return target.getAttribute("class") ?? "";
-};
-
-const toSelector = (target: HTMLElement): string => {
-  if (target.id) {
-    return `#${target.id}`;
-  }
-
-  const segments: string[] = [];
-  let current: HTMLElement | null = target;
-  let depth = 0;
-
-  while (current && depth < 6) {
-    const parent = current.parentElement;
-    const tag = current.tagName.toLowerCase();
-
-    if (!parent) {
-      segments.unshift(tag);
-      break;
-    }
-
-    const sameTagSiblings = Array.from(parent.children).filter(
-      (child) => (child as Element).tagName.toLowerCase() === tag,
-    );
-    const index = sameTagSiblings.indexOf(current) + 1;
-    segments.unshift(`${tag}:nth-of-type(${index})`);
-
-    current = parent;
-    depth += 1;
-  }
-
-  return segments.join(" > ");
-};
 
 const AIInspectorFab = () => {
   const { userRole, isInitialized, accessToken } = useAuthStore();
   const isAdmin = isInitialized && userRole === UserRole.ADMIN;
 
-  const [isInspecting, setIsInspecting] = useState(false);
-  const [hoverRect, setHoverRect] = useState<HoverRect | null>(null);
-  const [selection, setSelection] = useState<ElementSelection | null>(null);
+  const { isInspecting, setIsInspecting, hoverRect, selection, clearSelection, resetInspector } =
+    useAiInspectorSelection({ isEnabled: isAdmin });
   const [instruction, setInstruction] = useState("");
   const [isSaving, setIsSaving] = useState(false);
-
-  useEffect(() => {
-    if (!isInspecting) {
-      setHoverRect(null);
-      return;
-    }
-
-    const handleMouseMove = (event: MouseEvent) => {
-      const target = event.target;
-      if (!(target instanceof HTMLElement)) {
-        return;
-      }
-
-      if (target.closest("[data-ai-inspector-ui='true']")) {
-        setHoverRect(null);
-        return;
-      }
-
-      const rect = target.getBoundingClientRect();
-      setHoverRect({
-        x: rect.left,
-        y: rect.top,
-        width: rect.width,
-        height: rect.height,
-      });
-    };
-
-    const handleClick = (event: MouseEvent) => {
-      const target = event.target;
-      if (!(target instanceof HTMLElement)) {
-        return;
-      }
-
-      if (target.closest("[data-ai-inspector-ui='true']")) {
-        return;
-      }
-
-      event.preventDefault();
-      event.stopPropagation();
-
-      const rect = target.getBoundingClientRect();
-      setSelection({
-        selector: toSelector(target),
-        tagName: target.tagName.toLowerCase(),
-        className: toClassName(target),
-        textSnippet: toTextSnippet(target),
-        rect: {
-          x: rect.left,
-          y: rect.top,
-          width: rect.width,
-          height: rect.height,
-        },
-      });
-      setIsInspecting(false);
-      setHoverRect(null);
-    };
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setIsInspecting(false);
-      }
-    };
-
-    document.addEventListener("mousemove", handleMouseMove, true);
-    document.addEventListener("click", handleClick, true);
-    document.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      document.removeEventListener("mousemove", handleMouseMove, true);
-      document.removeEventListener("click", handleClick, true);
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [isInspecting]);
 
   if (!isAdmin) {
     return null;
   }
 
   const resetForm = () => {
-    setSelection(null);
     setInstruction("");
-    setHoverRect(null);
-    setIsInspecting(false);
+    resetInspector();
   };
 
   const handleSave = async () => {
@@ -177,30 +47,23 @@ const AIInspectorFab = () => {
 
     setIsSaving(true);
     try {
-      const response = await fetch("/api/ai-inspector-requests", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify({
+      const result = await createAiInspectorRequest({
+        accessToken,
+        payload: {
           instruction: instruction.trim(),
           pageUrl: window.location.href,
           selection,
-        }),
+        },
       });
 
-      const payload = (await response.json().catch(() => null)) as { message?: string; taskId?: string } | null;
-      if (!response.ok) {
-        toast.error(payload?.message ?? "요청 저장에 실패했습니다. 잠시 후 다시 시도해주세요.");
-        return;
-      }
-
-      const taskId = payload?.taskId ?? "";
-      toast.success(`요청이 저장되었습니다. (${taskId.slice(0, 8)})`);
+      toast.success(`요청이 저장되었습니다. (${result.taskId.slice(0, 8)})`);
       resetForm();
-    } catch {
-      toast.error("요청 저장에 실패했습니다. 잠시 후 다시 시도해주세요.");
+    } catch (error) {
+      if (error instanceof AiInspectorRequestError) {
+        toast.error(error.message);
+      } else {
+        toast.error("요청 저장에 실패했습니다. 잠시 후 다시 시도해주세요.");
+      }
     } finally {
       setIsSaving(false);
     }
@@ -225,7 +88,7 @@ const AIInspectorFab = () => {
           type="button"
           onClick={() => {
             setIsInspecting((prev) => !prev);
-            setSelection(null);
+            clearSelection();
             setInstruction("");
           }}
           className={`flex h-12 w-12 items-center justify-center rounded-full text-white shadow-lg transition ${

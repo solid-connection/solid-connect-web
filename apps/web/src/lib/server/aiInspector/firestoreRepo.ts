@@ -1,21 +1,7 @@
 import "server-only";
+import type { ElementSelection } from "@solid-connect/ai-inspector";
 import { FieldValue, type Firestore } from "firebase-admin/firestore";
 import type { UserRole } from "@/types/mentor";
-
-export interface HoverRect {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-}
-
-export interface ElementSelection {
-  selector: string;
-  tagName: string;
-  className: string;
-  textSnippet: string;
-  rect: HoverRect;
-}
 
 export interface CreateAiInspectorTaskInput {
   instruction: string;

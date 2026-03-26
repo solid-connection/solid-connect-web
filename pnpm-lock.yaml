@@ -171,6 +171,9 @@ importers:
       '@sentry/nextjs':
         specifier: ^10.22.0
         version: 10.34.0(@opentelemetry/context-async-hooks@2.4.0(@opentelemetry/api@1.9.0))(@opentelemetry/core@2.4.0(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@2.4.0(@opentelemetry/api@1.9.0))(next@14.2.35(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)(webpack@5.104.1)
+      '@solid-connect/ai-inspector':
+        specifier: workspace:^
+        version: link:../../packages/ai-inspector
       '@stomp/stompjs':
         specifier: ^7.1.1
         version: 7.2.1
@@ -268,6 +271,12 @@ importers:
       typescript:
         specifier: ^5.3.3
         version: 5.9.3
+
+  packages/ai-inspector:
+    dependencies:
+      react:
+        specifier: ^18 || ^19
+        version: 19.2.4
 
   packages/api-schema:
     dependencies:
