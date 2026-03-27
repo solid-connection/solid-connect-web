@@ -10,7 +10,7 @@
     "@solid-connect/web#build": {
       "dependsOn": ["^build"],
       "outputs": [".next/**", "!.next/cache/**"],
-      "env": ["NODE_ENV", "NEXT_PUBLIC_*"]
+      "env": ["NODE_ENV", "NEXT_PUBLIC_*", "SENTRY_*", "FIREBASE_*", "AI_INSPECTOR_*"]
     },
     "sync:bruno": {
       "outputs": ["src/apis/**"],
