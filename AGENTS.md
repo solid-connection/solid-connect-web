@@ -1,5 +1,9 @@
 # AGENTS Knowledge Base
 
+## Mandatory Rule
+
+- PR 제목과 본문은 반드시 한국어로 작성한다.
+
 ## Project Overview
 
 - Monorepo managed with `pnpm` + `turbo`.
