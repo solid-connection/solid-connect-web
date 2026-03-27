@@ -215,11 +215,16 @@ const claimQueuedTask = async (db, collectionName) => {
   const queued = await db
     .collection(collectionName)
     .where("status", "==", "queued")
-    .orderBy("createdAt", "asc")
     .limit(10)
     .get();
 
-  for (const doc of queued.docs) {
+  const orderedDocs = [...queued.docs].sort((a, b) => {
+    const aMillis = a.get("createdAt")?.toMillis?.() ?? Number.MAX_SAFE_INTEGER;
+    const bMillis = b.get("createdAt")?.toMillis?.() ?? Number.MAX_SAFE_INTEGER;
+    return aMillis - bMillis;
+  });
+
+  for (const doc of orderedDocs) {
     const taskRef = doc.ref;
     const claimedTask = await db.runTransaction(async (transaction) => {
       const snapshot = await transaction.get(taskRef);
