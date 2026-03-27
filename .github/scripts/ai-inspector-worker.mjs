@@ -14,6 +14,13 @@ const required = (name) => {
   return value;
 };
 
+const runCommandOutput = (command, args, options = {}) =>
+  execFileSync(command, args, {
+    stdio: "pipe",
+    encoding: "utf8",
+    ...options,
+  });
+
 const runGit = (args, options = {}) => {
   execFileSync("git", args, {
     stdio: "pipe",
@@ -22,12 +29,50 @@ const runGit = (args, options = {}) => {
   });
 };
 
-const runGitOutput = (args, options = {}) =>
-  execFileSync("git", args, {
-    stdio: "pipe",
-    encoding: "utf8",
-    ...options,
-  });
+const runGitOutput = (args, options = {}) => runCommandOutput("git", args, options);
+
+const resolveGitHubToken = () => {
+  const envToken = process.env.GITHUB_TOKEN?.trim() || process.env.GH_TOKEN?.trim();
+  if (envToken) {
+    return envToken;
+  }
+
+  try {
+    const ghToken = runCommandOutput("gh", ["auth", "token"]).trim();
+    if (ghToken) {
+      return ghToken;
+    }
+  } catch {
+    // Ignore and throw with clear message below.
+  }
+
+  throw new Error("Missing GitHub token. Set GITHUB_TOKEN or GH_TOKEN, or run `gh auth login`.");
+};
+
+const resolveGitHubRepository = () => {
+  const repository = process.env.GITHUB_REPOSITORY?.trim();
+  if (repository) {
+    return repository;
+  }
+
+  const remoteUrl = runGitOutput(["remote", "get-url", "origin"]).trim();
+  const normalizedUrl = remoteUrl.startsWith("git@github.com:")
+    ? remoteUrl.replace("git@github.com:", "https://github.com/")
+    : remoteUrl;
+  const parsedUrl = new URL(normalizedUrl);
+
+  if (parsedUrl.hostname !== "github.com") {
+    throw new Error(`Unsupported remote host for origin: ${parsedUrl.hostname}`);
+  }
+
+  const pathname = parsedUrl.pathname.replace(/^\/+/, "").replace(/\.git$/, "");
+  const [owner, repoName] = pathname.split("/");
+  if (!owner || !repoName) {
+    throw new Error(`Failed to infer GITHUB_REPOSITORY from origin remote: ${remoteUrl}`);
+  }
+
+  return `${owner}/${repoName}`;
+};
 
 const escapeMarkdown = (value) => String(value ?? "").replace(/`/g, "\\`");
 
@@ -63,8 +108,7 @@ const getPreviewUrl = (branchName) => {
   return template.replaceAll("{branch}", branchName.replaceAll("/", "-"));
 };
 
-const githubRequest = async (method, pathName, body) => {
-  const token = required("GITHUB_TOKEN");
+const githubRequest = async (token, method, pathName, body) => {
   const response = await fetch(`https://api.github.com${pathName}`, {
     method,
     headers: {
@@ -84,8 +128,7 @@ const githubRequest = async (method, pathName, body) => {
   return response.json();
 };
 
-const findOpenPrByHead = async (owner, repo, branchName) => {
-  const token = required("GITHUB_TOKEN");
+const findOpenPrByHead = async (token, owner, repo, branchName) => {
   const response = await fetch(
     `https://api.github.com/repos/${owner}/${repo}/pulls?state=open&head=${owner}:${encodeURIComponent(branchName)}`,
     {
@@ -149,7 +192,7 @@ const sendDiscordNotification = async ({ taskId, prUrl, previewUrl, instruction 
   }
 };
 
-const requestPatchFromAiEndpoint = async ({ taskId, task, branchName }) => {
+const requestPatchFromAiEndpoint = async ({ taskId, task, branchName, repository, baseBranch }) => {
   const endpoint = process.env.AI_INSPECTOR_PATCH_ENDPOINT;
   if (!endpoint) {
     return {
@@ -168,9 +211,9 @@ const requestPatchFromAiEndpoint = async ({ taskId, task, branchName }) => {
     body: JSON.stringify({
       taskId,
       task,
-      repository: process.env.GITHUB_REPOSITORY,
+      repository,
       branchName,
-      baseBranch: process.env.AI_INSPECTOR_BASE_BRANCH || "main",
+      baseBranch,
     }),
   });
 
@@ -215,11 +258,16 @@ const claimQueuedTask = async (db, collectionName) => {
   const queued = await db
     .collection(collectionName)
     .where("status", "==", "queued")
-    .orderBy("createdAt", "asc")
     .limit(10)
     .get();
 
-  for (const doc of queued.docs) {
+  const orderedDocs = [...queued.docs].sort((a, b) => {
+    const aMillis = a.get("createdAt")?.toMillis?.() ?? Number.MAX_SAFE_INTEGER;
+    const bMillis = b.get("createdAt")?.toMillis?.() ?? Number.MAX_SAFE_INTEGER;
+    return aMillis - bMillis;
+  });
+
+  for (const doc of orderedDocs) {
     const taskRef = doc.ref;
     const claimedTask = await db.runTransaction(async (transaction) => {
       const snapshot = await transaction.get(taskRef);
@@ -253,7 +301,8 @@ const claimQueuedTask = async (db, collectionName) => {
 };
 
 const main = async () => {
-  const repo = required("GITHUB_REPOSITORY");
+  const githubToken = resolveGitHubToken();
+  const repo = resolveGitHubRepository();
   const [owner, repoName] = repo.split("/");
   const baseBranch = process.env.AI_INSPECTOR_BASE_BRANCH || "main";
   const collectionName = process.env.AI_INSPECTOR_FIRESTORE_COLLECTION || "aiInspectorTasks";
@@ -292,7 +341,13 @@ const main = async () => {
     fs.writeFileSync(filePath, buildTaskMarkdown(taskId, task), "utf8");
     runGit(["add", filePath]);
 
-    const aiResult = await requestPatchFromAiEndpoint({ taskId, task, branchName });
+    const aiResult = await requestPatchFromAiEndpoint({
+      taskId,
+      task,
+      branchName,
+      repository: repo,
+      baseBranch,
+    });
     const patchApplied = applyPatch(aiResult.patch);
 
     const hasChanges = runGitOutput(["status", "--porcelain"]).trim().length > 0;
@@ -306,7 +361,7 @@ const main = async () => {
     runGit(["commit", "-m", commitMessage]);
     runGit(["push", "-u", "origin", branchName]);
 
-    const existingPr = await findOpenPrByHead(owner, repoName, branchName);
+    const existingPr = await findOpenPrByHead(githubToken, owner, repoName, branchName);
     const title =
       aiResult.title || `[AI Inspector] ${String(task.instruction ?? "UI update request").slice(0, 72)}`.trim();
     const body = [
@@ -324,7 +379,7 @@ const main = async () => {
 
     const pr =
       existingPr ??
-      (await githubRequest("POST", `/repos/${owner}/${repoName}/pulls`, {
+      (await githubRequest(githubToken, "POST", `/repos/${owner}/${repoName}/pulls`, {
         title,
         head: branchName,
         base: baseBranch,
