@@ -356,8 +356,8 @@ const main = async () => {
     }
 
     const commitMessage = patchApplied
-      ? `[ai-inspector] apply task ${taskId}`
-      : `[ai-inspector] capture task ${taskId}`;
+      ? `feat(ai-inspector): apply task ${taskId}`
+      : `chore(ai-inspector): capture task ${taskId}`;
     runGit(["commit", "-m", commitMessage]);
     runGit(["push", "-u", "origin", branchName]);
 
