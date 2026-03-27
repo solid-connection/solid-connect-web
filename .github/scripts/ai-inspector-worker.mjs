@@ -91,6 +91,23 @@ const escapeMarkdown = (value) => String(value ?? "").replace(/`/g, "\\`");
 
 const toIso = () => new Date().toISOString();
 
+const toDisplayPreviewUrl = (value) => {
+  if (!value) {
+    return "";
+  }
+
+  try {
+    const parsed = new URL(value);
+    if (parsed.hostname.endsWith(".vercel.app") && (parsed.pathname === "" || parsed.pathname === "/") && !parsed.search && !parsed.hash) {
+      return `${parsed.origin}/`;
+    }
+  } catch {
+    return value;
+  }
+
+  return value;
+};
+
 const listChangedFiles = () =>
   runGitOutput(["status", "--porcelain"])
     .split("\n")
@@ -187,6 +204,9 @@ const sendDiscordNotification = async ({ taskId, prUrl, previewUrl, webPreviewUr
     return;
   }
 
+  const webPreviewDisplay = toDisplayPreviewUrl(webPreviewUrl || previewUrl);
+  const adminPreviewDisplay = toDisplayPreviewUrl(adminPreviewUrl);
+
   const timestamp = toIso();
   const response = await fetch(webhook, {
     method: "POST",
@@ -209,12 +229,12 @@ const sendDiscordNotification = async ({ taskId, prUrl, previewUrl, webPreviewUr
             },
             {
               name: "Web Preview",
-              value: webPreviewUrl || previewUrl || "설정 없음",
+              value: webPreviewDisplay || "설정 없음",
               inline: false,
             },
             {
               name: "Admin Preview",
-              value: adminPreviewUrl || "설정 없음",
+              value: adminPreviewDisplay || "설정 없음",
               inline: false,
             },
           ],
