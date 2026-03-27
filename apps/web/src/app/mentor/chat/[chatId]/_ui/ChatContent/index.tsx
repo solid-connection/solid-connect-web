@@ -139,10 +139,14 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
               {/* 첫 번째 메시지에 ref 부착하여 위로 스크롤 시 더 오래된 메시지 로드 */}
               {messages.map((message, index) => {
                 const showDateSeparator = index === 0 || !isSameDay(messages[index - 1].createdAt, message.createdAt);
+                const messageKey =
+                  message.id > 0
+                    ? `message-${message.id}`
+                    : `message-${message.senderId}-${message.createdAt}-${message.content}-${index}`;
 
                 return (
                   <div
-                    key={message.id}
+                    key={messageKey}
                     ref={index === 0 ? topDetectorRef : null} // 첫 번째 메시지에 ref 부착
                   >
                     {/* 날짜 구분선 */}
@@ -155,7 +159,6 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
                     )}
                     {/* 일반 채팅 메시지 */}
                     <ChatMessageBox
-                      key={message.id}
                       message={message}
                       currentUserId={userId}
                       partnerNickname={nickname}
