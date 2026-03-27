@@ -91,6 +91,72 @@ const escapeMarkdown = (value) => String(value ?? "").replace(/`/g, "\\`");
 
 const toIso = () => new Date().toISOString();
 
+const PR_TEXT_NOISE_PATTERNS = [
+  /unsupported engine/i,
+  /progress:\s*resolved/i,
+  /^packages:\s*\+/i,
+  /done in \d+(\.\d+)?s/i,
+  /husky/i,
+  /warn/i,
+];
+
+const stripAnsi = (value) => String(value ?? "").replace(/\u001b\[[0-9;]*m/g, "");
+
+const normalizeSingleLine = (value) => stripAnsi(value).replace(/\s+/g, " ").trim();
+
+const sanitizePrTitle = (value) => {
+  const normalized = normalizeSingleLine(value);
+  if (!normalized) {
+    return "[AI Inspector] UI update request";
+  }
+
+  return normalized.slice(0, 120);
+};
+
+const sanitizePrBodyBlock = (value, maxLength = 1800) => {
+  const raw = stripAnsi(value).replace(/\r/g, "");
+  if (!raw.trim()) {
+    return "N/A";
+  }
+
+  const filtered = raw
+    .split("\n")
+    .map((line) => line.trimEnd())
+    .filter((line) => !PR_TEXT_NOISE_PATTERNS.some((pattern) => pattern.test(line)))
+    .join("\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+
+  if (!filtered) {
+    return "N/A";
+  }
+
+  return filtered.slice(0, maxLength).trim();
+};
+
+const buildPrTitle = (aiTitle, instruction) => {
+  const titleFromAi = sanitizePrTitle(aiTitle);
+  if (titleFromAi && titleFromAi !== "[AI Inspector] UI update request") {
+    return titleFromAi;
+  }
+
+  return sanitizePrTitle(`[AI Inspector] ${instruction || "UI update request"}`);
+};
+
+const buildPrBody = ({ taskId, task, summary }) =>
+  [
+    "## Inspector Task",
+    `- taskId: ${taskId}`,
+    `- pageUrl: ${normalizeSingleLine(task.pageUrl ?? "unknown") || "unknown"}`,
+    `- selector: \`${escapeMarkdown(normalizeSingleLine(task.selector ?? task.element?.selector ?? "unknown") || "unknown")}\``,
+    "",
+    "## Instruction",
+    sanitizePrBodyBlock(task.instruction ?? ""),
+    "",
+    "## Worker Summary",
+    sanitizePrBodyBlock(summary ?? "N/A"),
+  ].join("\n");
+
 const toDisplayPreviewUrl = (value) => {
   if (!value) {
     return "";
@@ -758,29 +824,32 @@ const main = async () => {
     runGit(["push", "-u", "origin", branchName]);
 
     const existingPr = await findOpenPrByHead(githubToken, owner, repoName, branchName);
-    const title =
-      aiResult.title || `[AI Inspector] ${String(task.instruction ?? "UI update request").slice(0, 72)}`.trim();
-    const body = [
-      `## Inspector Task`,
-      `- taskId: ${taskId}`,
-      `- pageUrl: ${task.pageUrl ?? "unknown"}`,
-      `- selector: \`${task.selector ?? task.element?.selector ?? "unknown"}\``,
-      "",
-      `## Instruction`,
-      `${task.instruction ?? ""}`,
-      "",
-      `## Worker Summary`,
-      `${aiResult.summary ?? "N/A"}`,
-    ].join("\n");
+    const title = buildPrTitle(aiResult.title, task.instruction);
+    const body = buildPrBody({
+      taskId,
+      task,
+      summary: aiResult.summary,
+    });
 
-    const pr =
-      existingPr ??
-      (await githubRequest(githubToken, "POST", `/repos/${owner}/${repoName}/pulls`, {
+    const shouldUpdateExistingPr =
+      (process.env.AI_INSPECTOR_UPDATE_EXISTING_PR ?? "true").trim().toLowerCase() !== "false";
+
+    let pr = existingPr;
+    if (existingPr && shouldUpdateExistingPr) {
+      pr = await githubRequest(githubToken, "PATCH", `/repos/${owner}/${repoName}/pulls/${existingPr.number}`, {
+        title,
+        body,
+      });
+    }
+
+    if (!pr) {
+      pr = await githubRequest(githubToken, "POST", `/repos/${owner}/${repoName}/pulls`, {
         title,
         head: branchName,
         base: baseBranch,
         body,
-      }));
+      });
+    }
 
     const prUrl = pr.html_url;
     const commitSha = runGitOutput(["rev-parse", "HEAD"]).trim();
