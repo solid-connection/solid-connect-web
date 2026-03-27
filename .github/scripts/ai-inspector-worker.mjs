@@ -31,6 +31,19 @@ const runGit = (args, options = {}) => {
 
 const runGitOutput = (args, options = {}) => runCommandOutput("git", args, options);
 
+const runCommand = (command, args, options = {}) => {
+  execFileSync(command, args, {
+    stdio: "inherit",
+    encoding: "utf8",
+    ...options,
+  });
+};
+
+const sleep = (ms) =>
+  new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+
 const resolveGitHubToken = () => {
   const envToken = process.env.GITHUB_TOKEN?.trim() || process.env.GH_TOKEN?.trim();
   if (envToken) {
@@ -77,6 +90,26 @@ const resolveGitHubRepository = () => {
 const escapeMarkdown = (value) => String(value ?? "").replace(/`/g, "\\`");
 
 const toIso = () => new Date().toISOString();
+
+const listChangedFiles = () =>
+  runGitOutput(["status", "--porcelain"])
+    .split("\n")
+    .map((line) => line.trimEnd())
+    .filter(Boolean)
+    .map((line) => {
+      const rawPath = line.slice(3);
+      const targetPath = rawPath.includes(" -> ") ? rawPath.split(" -> ").pop() : rawPath;
+      return String(targetPath ?? "").replace(/^"/, "").replace(/"$/, "");
+    });
+
+const assertCleanWorkingTree = () => {
+  const status = runGitOutput(["status", "--porcelain"]).trim();
+  if (status) {
+    throw new Error(
+      "Working tree must be clean before running ai-inspector worker. Use a dedicated clean worktree.",
+    );
+  }
+};
 
 const buildTaskMarkdown = (taskId, task) => {
   const selector = task.selector ?? task.element?.selector ?? "";
@@ -195,10 +228,7 @@ const sendDiscordNotification = async ({ taskId, prUrl, previewUrl, instruction 
 const requestPatchFromAiEndpoint = async ({ taskId, task, branchName, repository, baseBranch }) => {
   const endpoint = process.env.AI_INSPECTOR_PATCH_ENDPOINT;
   if (!endpoint) {
-    return {
-      patch: "",
-      summary: "AI_INSPECTOR_PATCH_ENDPOINT 미설정: 작업 파일만 커밋했습니다.",
-    };
+    return null;
   }
 
   const apiKey = process.env.AI_INSPECTOR_PATCH_API_KEY;
@@ -227,7 +257,186 @@ const requestPatchFromAiEndpoint = async ({ taskId, task, branchName, repository
     patch: typeof data.patch === "string" ? data.patch : "",
     summary: typeof data.summary === "string" ? data.summary : "AI patch applied",
     title: typeof data.title === "string" ? data.title : "",
+    appliedBy: "patch-endpoint",
   };
+};
+
+const buildCodexPrompt = ({ taskId, task, repository, baseBranch, branchName }) => {
+  const selector = task.selector ?? task.element?.selector ?? "";
+  const pageUrl = task.pageUrl ?? "";
+  const textSnippet = task.element?.textSnippet ?? "";
+  const instruction = task.instruction ?? "";
+
+  return [
+    "You are implementing one AI inspector UI task in this repository.",
+    "Apply real code changes that satisfy the request, keeping edits minimal and scoped.",
+    "Do not create commits, do not push, and do not modify environment files.",
+    "",
+    `Repository: ${repository}`,
+    `Base branch: ${baseBranch}`,
+    `Working branch: ${branchName}`,
+    `Task ID: ${taskId}`,
+    `Page URL: ${pageUrl}`,
+    `Selector: ${selector}`,
+    `Text snippet: ${textSnippet}`,
+    "",
+    "Instruction:",
+    instruction,
+    "",
+    "After applying changes, ensure files are saved and leave the repo ready for git add/commit.",
+  ].join("\n");
+};
+
+const runLocalCodexEdit = async ({ taskId, task, branchName, repository, baseBranch }) => {
+  const codexEnabled = process.env.AI_INSPECTOR_LOCAL_CODEX_ENABLED?.trim() ?? "true";
+  if (codexEnabled.toLowerCase() === "false") {
+    return null;
+  }
+
+  const outputPath = path.resolve(".ai-inspector", `codex-last-message-${taskId}.txt`);
+  fs.mkdirSync(path.dirname(outputPath), { recursive: true });
+
+  const args = [
+    "exec",
+    "--dangerously-bypass-approvals-and-sandbox",
+    "--color",
+    "never",
+    "--output-last-message",
+    outputPath,
+  ];
+
+  const model = process.env.AI_INSPECTOR_CODEX_MODEL?.trim();
+  if (model) {
+    args.push("--model", model);
+  }
+
+  args.push(buildCodexPrompt({ taskId, task, repository, baseBranch, branchName }));
+  runCommand("codex", args, { env: process.env });
+
+  const summary = fs.existsSync(outputPath) ? fs.readFileSync(outputPath, "utf8").trim() : "";
+  fs.rmSync(outputPath, { force: true });
+
+  return {
+    patch: "",
+    summary: summary || "Local Codex edit applied.",
+    title: "",
+    appliedBy: "local-codex",
+  };
+};
+
+const resolveAiResult = async (context) => {
+  const endpointResult = await requestPatchFromAiEndpoint(context);
+  if (endpointResult) {
+    return endpointResult;
+  }
+
+  const localCodexResult = await runLocalCodexEdit(context);
+  if (localCodexResult) {
+    return localCodexResult;
+  }
+
+  throw new Error(
+    "No AI edit backend available. Configure AI_INSPECTOR_PATCH_ENDPOINT or enable local Codex execution.",
+  );
+};
+
+const getPreviewUrlFromVercel = async (branchName) => {
+  const token = process.env.VERCEL_TOKEN?.trim();
+  const projectId = process.env.VERCEL_PROJECT_ID?.trim();
+
+  if (!token || !projectId) {
+    return "";
+  }
+
+  const intervalMs = Number(process.env.AI_INSPECTOR_VERCEL_PREVIEW_INTERVAL_MS ?? "10000");
+  const timeoutMs = Number(process.env.AI_INSPECTOR_VERCEL_PREVIEW_TIMEOUT_MS ?? "240000");
+  const pollingIntervalMs = Number.isFinite(intervalMs) && intervalMs > 0 ? intervalMs : 10000;
+  const pollingTimeoutMs = Number.isFinite(timeoutMs) && timeoutMs > 0 ? timeoutMs : 240000;
+  const deadline = Date.now() + pollingTimeoutMs;
+
+  while (Date.now() < deadline) {
+    const params = new URLSearchParams({
+      projectId,
+      limit: "20",
+      target: "preview",
+      "meta-githubCommitRef": branchName,
+    });
+
+    const teamId = process.env.VERCEL_TEAM_ID?.trim();
+    if (teamId) {
+      params.set("teamId", teamId);
+    }
+
+    const response = await fetch(`https://api.vercel.com/v6/deployments?${params.toString()}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      const body = await response.text();
+      throw new Error(`Failed to fetch Vercel deployment (${response.status}): ${body}`);
+    }
+
+    const data = await response.json();
+    const deployments = Array.isArray(data?.deployments) ? data.deployments : [];
+    const deployment =
+      deployments.find((item) => item?.meta?.githubCommitRef === branchName) ?? deployments[0] ?? null;
+
+    if (deployment?.readyState === "READY" && deployment?.url) {
+      return `https://${deployment.url}`;
+    }
+
+    if (deployment?.readyState === "ERROR" || deployment?.readyState === "CANCELED") {
+      return "";
+    }
+
+    await sleep(pollingIntervalMs);
+  }
+
+  return "";
+};
+
+const getPreviewUrlFromGitHubCommitStatus = async (token, owner, repo, commitSha) => {
+  const intervalMs = Number(process.env.AI_INSPECTOR_VERCEL_PREVIEW_INTERVAL_MS ?? "10000");
+  const timeoutMs = Number(process.env.AI_INSPECTOR_VERCEL_PREVIEW_TIMEOUT_MS ?? "240000");
+  const pollingIntervalMs = Number.isFinite(intervalMs) && intervalMs > 0 ? intervalMs : 10000;
+  const pollingTimeoutMs = Number.isFinite(timeoutMs) && timeoutMs > 0 ? timeoutMs : 240000;
+  const deadline = Date.now() + pollingTimeoutMs;
+
+  while (Date.now() < deadline) {
+    const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/commits/${commitSha}/status`, {
+      headers: {
+        Accept: "application/vnd.github+json",
+        Authorization: `Bearer ${token}`,
+        "X-GitHub-Api-Version": "2022-11-28",
+      },
+    });
+
+    if (!response.ok) {
+      const body = await response.text();
+      throw new Error(`Failed to fetch commit statuses from GitHub (${response.status}): ${body}`);
+    }
+
+    const data = await response.json();
+    const statuses = Array.isArray(data?.statuses) ? data.statuses : [];
+    const urlStatus =
+      statuses.find((status) => typeof status?.target_url === "string" && status.target_url.includes("vercel.app")) ??
+      statuses.find(
+        (status) =>
+          typeof status?.context === "string" &&
+          status.context.toLowerCase().includes("vercel") &&
+          typeof status?.target_url === "string",
+      );
+
+    if (urlStatus?.target_url) {
+      return urlStatus.target_url;
+    }
+
+    await sleep(pollingIntervalMs);
+  }
+
+  return "";
 };
 
 const applyPatch = (patch) => {
@@ -307,6 +516,8 @@ const main = async () => {
   const baseBranch = process.env.AI_INSPECTOR_BASE_BRANCH || "main";
   const collectionName = process.env.AI_INSPECTOR_FIRESTORE_COLLECTION || "aiInspectorTasks";
 
+  assertCleanWorkingTree();
+
   if (!owner || !repoName) {
     throw new Error(`Invalid GITHUB_REPOSITORY: ${repo}`);
   }
@@ -341,7 +552,7 @@ const main = async () => {
     fs.writeFileSync(filePath, buildTaskMarkdown(taskId, task), "utf8");
     runGit(["add", filePath]);
 
-    const aiResult = await requestPatchFromAiEndpoint({
+    const aiResult = await resolveAiResult({
       taskId,
       task,
       branchName,
@@ -350,12 +561,19 @@ const main = async () => {
     });
     const patchApplied = applyPatch(aiResult.patch);
 
-    const hasChanges = runGitOutput(["status", "--porcelain"]).trim().length > 0;
-    if (!hasChanges) {
+    runGit(["add", "-A"]);
+    const changedFiles = listChangedFiles();
+    if (changedFiles.length === 0) {
       throw new Error("No changes to commit after AI inspector processing.");
     }
 
-    const commitMessage = patchApplied
+    const hasRealCodeChange = changedFiles.some((file) => file !== filePath);
+    if (!hasRealCodeChange) {
+      throw new Error("AI result did not include real code changes outside the task metadata file.");
+    }
+
+    const isRealAiApply = patchApplied || aiResult.appliedBy === "local-codex";
+    const commitMessage = isRealAiApply
       ? `feat(ai-inspector): apply task ${taskId}`
       : `chore(ai-inspector): capture task ${taskId}`;
     runGit(["commit", "-m", commitMessage]);
@@ -387,7 +605,16 @@ const main = async () => {
       }));
 
     const prUrl = pr.html_url;
-    const previewUrl = getPreviewUrl(branchName);
+    const commitSha = runGitOutput(["rev-parse", "HEAD"]).trim();
+    let previewUrl = getPreviewUrl(branchName);
+    try {
+      previewUrl =
+        (await getPreviewUrlFromVercel(branchName)) ||
+        (await getPreviewUrlFromGitHubCommitStatus(githubToken, owner, repoName, commitSha)) ||
+        previewUrl;
+    } catch (previewError) {
+      console.error(`Task ${taskId} preview URL resolution failed`, previewError);
+    }
 
     await taskRef.update({
       status: "completed",
