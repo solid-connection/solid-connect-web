@@ -12,13 +12,14 @@ import { toast } from "@/lib/zustand/useToastStore";
 import { UserRole } from "@/types/mentor";
 
 const AIInspectorFab = () => {
-  const { userRole, isInitialized, accessToken } = useAuthStore();
-  const isAdmin = isInitialized && userRole === UserRole.ADMIN;
+  const { serverRole, clientRole, setClientRole, isInitialized, accessToken } = useAuthStore();
+  const isAdmin = isInitialized && serverRole === UserRole.ADMIN;
 
   const { isInspecting, setIsInspecting, hoverRect, selection, clearSelection, resetInspector } =
     useAiInspectorSelection({ isEnabled: isAdmin });
   const [instruction, setInstruction] = useState("");
   const [isSaving, setIsSaving] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   if (!isAdmin) {
     return null;
@@ -27,6 +28,22 @@ const AIInspectorFab = () => {
   const resetForm = () => {
     setInstruction("");
     resetInspector();
+  };
+
+  const handleToggleInspector = () => {
+    setIsInspecting((prev) => !prev);
+    clearSelection();
+    setInstruction("");
+  };
+
+  const handleSwitchToMentorView = () => {
+    setClientRole(UserRole.MENTOR);
+    toast.success("멘토 UI 보기로 전환되었습니다.");
+  };
+
+  const handleSwitchToMenteeView = () => {
+    setClientRole(UserRole.MENTEE);
+    toast.success("멘티 UI 보기로 전환되었습니다.");
   };
 
   const handleSave = async () => {
@@ -84,21 +101,6 @@ const AIInspectorFab = () => {
       )}
 
       <div data-ai-inspector-ui="true" className="fixed bottom-20 left-4 z-[100] flex flex-col gap-2">
-        <button
-          type="button"
-          onClick={() => {
-            setIsInspecting((prev) => !prev);
-            clearSelection();
-            setInstruction("");
-          }}
-          className={`flex h-12 w-12 items-center justify-center rounded-full text-white shadow-lg transition ${
-            isInspecting ? "bg-secondary hover:bg-secondary-800" : "bg-primary hover:bg-primary-1"
-          }`}
-          aria-label="AI 인스펙터"
-        >
-          {isInspecting ? <Target size={20} /> : <Bot size={20} />}
-        </button>
-
         {selection && (
           <div className="w-80 rounded-xl border border-k-100 bg-white p-3 shadow-2xl">
             <div className="mb-2 flex items-center justify-between">
@@ -141,6 +143,59 @@ const AIInspectorFab = () => {
             </div>
           </div>
         )}
+
+        {isMenuOpen && (
+          <div className="w-56 rounded-xl border border-k-100 bg-white p-3 shadow-2xl">
+            <button
+              type="button"
+              onClick={handleToggleInspector}
+              className={`w-full rounded-md px-3 py-2 text-left typo-medium-4 transition ${
+                isInspecting ? "bg-secondary-50 text-secondary-800" : "bg-k-50 text-k-700 hover:bg-k-100"
+              }`}
+            >
+              {isInspecting ? "인스펙터 끄기" : "인스펙터 켜기"}
+            </button>
+
+            <div className="mt-3 text-k-500 typo-medium-4">뷰 전환</div>
+            <div className="mt-2 grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                onClick={handleSwitchToMentorView}
+                className={`rounded-md px-2 py-2 typo-medium-4 transition ${
+                  clientRole === UserRole.MENTOR
+                    ? "bg-primary text-white"
+                    : "border border-k-200 bg-white text-k-700 hover:bg-k-50"
+                }`}
+              >
+                멘토 UI
+              </button>
+              <button
+                type="button"
+                onClick={handleSwitchToMenteeView}
+                className={`rounded-md px-2 py-2 typo-medium-4 transition ${
+                  clientRole === UserRole.MENTEE
+                    ? "bg-primary text-white"
+                    : "border border-k-200 bg-white text-k-700 hover:bg-k-50"
+                }`}
+              >
+                멘티 UI
+              </button>
+            </div>
+          </div>
+        )}
+
+        <button
+          type="button"
+          onClick={() => {
+            setIsMenuOpen((prev) => !prev);
+          }}
+          className={`flex h-12 w-12 items-center justify-center rounded-full text-white shadow-lg transition ${
+            isMenuOpen ? "bg-secondary hover:bg-secondary-800" : "bg-primary hover:bg-primary-1"
+          }`}
+          aria-label="관리자 메뉴"
+        >
+          {isMenuOpen ? <X size={20} /> : isInspecting ? <Target size={20} /> : <Bot size={20} />}
+        </button>
       </div>
     </>
   );

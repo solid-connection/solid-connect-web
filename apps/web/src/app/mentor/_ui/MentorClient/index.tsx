@@ -6,7 +6,7 @@ import { postReissueToken } from "@/apis/Auth";
 import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { UserRole } from "@/types/mentor";
-import { isTokenExpired, tokenParse } from "@/utils/jwtUtils";
+import { isTokenExpired } from "@/utils/jwtUtils";
 
 // 레이지 로드 컴포넌트
 const MenteePage = lazy(() => import("./_ui/MenteePage"));
@@ -14,12 +14,9 @@ const MentorPage = lazy(() => import("./_ui/MentorPage"));
 
 const MentorClient = () => {
   const router = useRouter();
-  const { isLoading, accessToken, isInitialized, refreshStatus, setRefreshStatus } = useAuthStore();
+  const { isLoading, accessToken, clientRole, isInitialized, refreshStatus, setRefreshStatus } = useAuthStore();
   const [isRefreshing, setIsRefreshing] = useState(false);
   const hasValidAccessToken = Boolean(accessToken && !isTokenExpired(accessToken));
-
-  // 어드민 전용: 뷰 전환 상태 (true: 멘토 뷰, false: 멘티 뷰)
-  const [showMentorView, setShowMentorView] = useState<boolean>(true);
 
   // 토큰 재발급 로직
   useEffect(() => {
@@ -62,40 +59,14 @@ const MentorClient = () => {
     return <CloudSpinnerPage />;
   }
 
-  const parsedToken = tokenParse(accessToken);
-  const userRole = parsedToken?.role;
-  const isMentor = userRole === UserRole.MENTOR || userRole === UserRole.ADMIN;
-  const isAdmin = userRole === UserRole.ADMIN;
-
-  // 어드민이 아닌 경우 기존 로직대로
-  const shouldShowMentorView = isAdmin ? showMentorView : isMentor;
+  if (!clientRole) {
+    return <CloudSpinnerPage />;
+  }
 
   return (
-    <>
-      {/* 어드민 전용 뷰 전환 버튼 */}
-      {isAdmin && (
-        <div className="mb-4 flex gap-2">
-          <button
-            onClick={() => setShowMentorView(true)}
-            className={`flex-1 rounded-lg px-4 py-2.5 transition-colors typo-sb-9 ${
-              showMentorView ? "bg-primary text-white" : "border border-k-200 bg-white text-k-600 hover:bg-k-50"
-            }`}
-          >
-            멘토 페이지 보기
-          </button>
-          <button
-            onClick={() => setShowMentorView(false)}
-            className={`flex-1 rounded-lg px-4 py-2.5 transition-colors typo-sb-9 ${
-              !showMentorView ? "bg-primary text-white" : "border border-k-200 bg-white text-k-600 hover:bg-k-50"
-            }`}
-          >
-            멘티 페이지 보기
-          </button>
-        </div>
-      )}
-
-      <Suspense fallback={<CloudSpinnerPage />}>{shouldShowMentorView ? <MentorPage /> : <MenteePage />}</Suspense>
-    </>
+    <Suspense fallback={<CloudSpinnerPage />}>
+      {clientRole === UserRole.MENTOR ? <MentorPage /> : <MenteePage />}
+    </Suspense>
   );
 };
 

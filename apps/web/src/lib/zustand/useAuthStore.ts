@@ -20,16 +20,31 @@ const parseUserRoleFromToken = (token: string | null): UserRole | null => {
 };
 
 type RefreshStatus = "idle" | "refreshing" | "success" | "failed";
+type ClientRole = UserRole.MENTOR | UserRole.MENTEE;
+
+const resolveClientRole = (serverRole: UserRole | null, currentClientRole: ClientRole | null): ClientRole | null => {
+  if (serverRole === UserRole.ADMIN) {
+    return currentClientRole ?? UserRole.MENTOR;
+  }
+
+  if (serverRole === UserRole.MENTOR || serverRole === UserRole.MENTEE) {
+    return serverRole;
+  }
+
+  return null;
+};
 
 interface AuthState {
   accessToken: string | null;
-  userRole: UserRole | null;
+  serverRole: UserRole | null;
+  clientRole: ClientRole | null;
   isAuthenticated: boolean;
   isLoading: boolean;
   isInitialized: boolean;
   refreshStatus: RefreshStatus;
   setAccessToken: (token: string) => void;
   clearAccessToken: () => void;
+  setClientRole: (role: ClientRole) => void;
   setLoading: (loading: boolean) => void;
   setInitialized: (initialized: boolean) => void;
   setRefreshStatus: (status: RefreshStatus) => void;
@@ -39,31 +54,48 @@ const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
       accessToken: null,
-      userRole: null,
+      serverRole: null,
+      clientRole: null,
       isAuthenticated: false,
       isLoading: false,
       isInitialized: false,
       refreshStatus: "idle",
 
       setAccessToken: (token) => {
-        set({
-          accessToken: token,
-          userRole: parseUserRoleFromToken(token),
-          isAuthenticated: true,
-          isLoading: false,
-          isInitialized: true,
-          refreshStatus: "success",
+        set((state) => {
+          const serverRole = parseUserRoleFromToken(token);
+
+          return {
+            accessToken: token,
+            serverRole,
+            clientRole: resolveClientRole(serverRole, state.clientRole),
+            isAuthenticated: true,
+            isLoading: false,
+            isInitialized: true,
+            refreshStatus: "success",
+          };
         });
       },
 
       clearAccessToken: () => {
         set({
           accessToken: null,
-          userRole: null,
+          serverRole: null,
+          clientRole: null,
           isAuthenticated: false,
           isLoading: false,
           isInitialized: true,
           refreshStatus: "idle",
+        });
+      },
+
+      setClientRole: (role) => {
+        set((state) => {
+          if (state.serverRole !== UserRole.ADMIN) {
+            return {};
+          }
+
+          return { clientRole: role };
         });
       },
 
@@ -83,6 +115,7 @@ const useAuthStore = create<AuthState>()(
       name: "auth-storage",
       partialize: (state) => ({
         accessToken: state.accessToken,
+        clientRole: state.clientRole,
         isAuthenticated: state.isAuthenticated,
       }),
       onRehydrateStorage: () => (state) => {
@@ -92,11 +125,14 @@ const useAuthStore = create<AuthState>()(
 
           if (!hasValidToken) {
             state.accessToken = null;
-            state.userRole = null;
+            state.serverRole = null;
+            state.clientRole = null;
             state.isAuthenticated = false;
             state.refreshStatus = "idle";
           } else {
-            state.userRole = parseUserRoleFromToken(state.accessToken);
+            const serverRole = parseUserRoleFromToken(state.accessToken);
+            state.serverRole = serverRole;
+            state.clientRole = resolveClientRole(serverRole, state.clientRole);
             state.isAuthenticated = true;
             state.refreshStatus = "success";
           }

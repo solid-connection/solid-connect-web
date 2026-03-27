@@ -17,8 +17,8 @@ const useExpandCardClickHandler = ({
   mentoringId,
   initChecked = false,
 }: UseExpandCardClickHandlerProps): UseExpandCardClickHandlerReturn => {
-  const userRole = useAuthStore((state) => state.userRole);
-  const isMentor = userRole === UserRole.MENTOR;
+  const clientRole = useAuthStore((state) => state.clientRole);
+  const isMentor = clientRole === UserRole.MENTOR;
 
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const [isCheckedState, setIsCheckedState] = useState<boolean>(initChecked || false);
