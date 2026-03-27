@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
 import { useDeleteUserAccount, usePostLogout } from "@/apis/Auth";
 import { type MyInfoResponse, useGetMyInfo } from "@/apis/MyPage";
 import LinkedTextWithIcon from "@/components/ui/LinkedTextWithIcon";
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
+import useAuthStore from "@/lib/zustand/useAuthStore";
 import { toast } from "@/lib/zustand/useToastStore";
 import { IconLikeFill } from "@/public/svgs/mentor";
 import {
@@ -25,47 +25,20 @@ const MyProfileContent = () => {
   const { data: profileData = {} as MyInfoResponse } = useGetMyInfo();
   const { mutate: deleteUserAccount } = useDeleteUserAccount();
   const { mutate: postLogout } = usePostLogout();
+  const clientRole = useAuthStore((state) => state.clientRole);
 
   const { nickname, email, profileImageUrl } = profileData;
 
-  const isAdmin = profileData.role === UserRole.ADMIN;
   const isMentor = profileData.role === UserRole.MENTOR || profileData.role === UserRole.ADMIN;
-
-  // 어드민 전용: 뷰 전환 상태 (true: 멘토 뷰, false: 멘티 뷰)
-  const [showMentorView, setShowMentorView] = useState<boolean>(true);
-
-  // 어드민이 아닌 경우 기존 로직대로, 어드민인 경우 토글 상태에 따라
-  const viewAsMentor = isAdmin ? showMentorView : isMentor;
+  const viewAsMentor = clientRole ? clientRole === UserRole.MENTOR : isMentor;
 
   const university =
     profileData.role === UserRole.MENTOR || profileData.role === UserRole.ADMIN ? profileData.attendedUniversity : null;
   const favoriteLocation =
-    profileData.role === UserRole.MENTEE ? profileData.interestedCountries?.slice(0, 3).join(", ") || "없음" : null;
+    profileData.role === UserRole.MENTEE ? profileData.interestedCountries.slice(0, 3).join(", ") || "없음" : "없음";
 
   return (
     <div className="px-5 py-2">
-      {/* 어드민 전용 뷰 전환 버튼 */}
-      {isAdmin && (
-        <div className="mb-4 flex gap-2">
-          <button
-            onClick={() => setShowMentorView(true)}
-            className={`flex-1 rounded-lg px-4 py-2.5 transition-colors typo-sb-9 ${
-              showMentorView ? "bg-primary text-white" : "border border-k-200 bg-white text-k-600 hover:bg-k-50"
-            }`}
-          >
-            멘토 뷰
-          </button>
-          <button
-            onClick={() => setShowMentorView(false)}
-            className={`flex-1 rounded-lg px-4 py-2.5 transition-colors typo-sb-9 ${
-              !showMentorView ? "bg-primary text-white" : "border border-k-200 bg-white text-k-600 hover:bg-k-50"
-            }`}
-          >
-            멘티 뷰
-          </button>
-        </div>
-      )}
-
       <div className="mb-4 text-start text-k-700 typo-sb-5">
         <p>{nickname}님은</p>
         <p>

@@ -8,8 +8,8 @@ import { UserRole } from "@/types/mentor";
 
 const MentorApplyCountContent = () => {
   const router = useRouter();
-  const { isInitialized, isAuthenticated, userRole } = useAuthStore();
-  const isMentor = userRole === UserRole.MENTOR;
+  const { isInitialized, isAuthenticated, serverRole } = useAuthStore();
+  const isMentor = serverRole === UserRole.MENTOR;
 
   const { data: count, isSuccess } = useGetUnconfirmedMentoringCount(isInitialized && isAuthenticated && isMentor);
 
