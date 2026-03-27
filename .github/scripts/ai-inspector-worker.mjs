@@ -181,7 +181,7 @@ const findOpenPrByHead = async (token, owner, repo, branchName) => {
   return Array.isArray(data) && data.length > 0 ? data[0] : null;
 };
 
-const sendDiscordNotification = async ({ taskId, prUrl, previewUrl, instruction }) => {
+const sendDiscordNotification = async ({ taskId, prUrl, previewUrl, webPreviewUrl, adminPreviewUrl, instruction }) => {
   const webhook = process.env.AI_INSPECTOR_DISCORD_WEBHOOK_URL;
   if (!webhook) {
     return;
@@ -208,8 +208,13 @@ const sendDiscordNotification = async ({ taskId, prUrl, previewUrl, instruction 
               inline: false,
             },
             {
-              name: "Preview",
-              value: previewUrl || "설정 없음",
+              name: "Web Preview",
+              value: webPreviewUrl || previewUrl || "설정 없음",
+              inline: false,
+            },
+            {
+              name: "Admin Preview",
+              value: adminPreviewUrl || "설정 없음",
               inline: false,
             },
           ],
@@ -444,7 +449,7 @@ const getPreviewUrlFromGitHubCommitStatus = async (token, owner, repo, commitSha
   return lastKnownVercelUrl;
 };
 
-const getPreviewUrlFromGitHubPrComments = async (token, owner, repo, prNumber) => {
+const getPreviewUrlsFromGitHubPrComments = async (token, owner, repo, prNumber) => {
   const intervalMs = Number(process.env.AI_INSPECTOR_VERCEL_PREVIEW_INTERVAL_MS ?? "10000");
   const timeoutMs = Number(process.env.AI_INSPECTOR_VERCEL_PREVIEW_TIMEOUT_MS ?? "240000");
   const pollingIntervalMs = Number.isFinite(intervalMs) && intervalMs > 0 ? intervalMs : 10000;
@@ -452,6 +457,13 @@ const getPreviewUrlFromGitHubPrComments = async (token, owner, repo, prNumber) =
   const deadline = Date.now() + pollingTimeoutMs;
   const vercelUrlPattern = /https:\/\/[^\s)]+\.vercel\.app[^\s)]*/gi;
   let lastKnownVercelUrl = "";
+  let webPreviewUrl = "";
+  let adminPreviewUrl = "";
+
+  const isWebPreviewHost = (hostname) =>
+    hostname.includes("solid-connection-web-git-") || hostname.includes("solid-connection-web-");
+  const isAdminPreviewHost = (hostname) =>
+    hostname.includes("solid-connect-web-admin-git-") || hostname.includes("solid-connect-web-admin-");
 
   while (Date.now() < deadline) {
     const response = await fetch(
@@ -476,9 +488,33 @@ const getPreviewUrlFromGitHubPrComments = async (token, owner, repo, prNumber) =
         const body = typeof comment?.body === "string" ? comment.body : "";
         const matches = body.match(vercelUrlPattern);
         if (matches && matches.length > 0) {
-          lastKnownVercelUrl = matches[0];
-          if (lastKnownVercelUrl.includes(".vercel.app")) {
-            return lastKnownVercelUrl;
+          for (const matchedUrl of matches) {
+            const normalized = normalizePreviewUrl(matchedUrl);
+            if (!normalized || !normalized.includes(".vercel.app")) {
+              continue;
+            }
+
+            lastKnownVercelUrl = normalized;
+
+            try {
+              const hostname = new URL(normalized).hostname.toLowerCase();
+              if (!webPreviewUrl && isWebPreviewHost(hostname)) {
+                webPreviewUrl = normalized;
+              }
+              if (!adminPreviewUrl && isAdminPreviewHost(hostname)) {
+                adminPreviewUrl = normalized;
+              }
+            } catch {
+              // Ignore invalid URL parse errors and continue scanning.
+            }
+          }
+
+          if (webPreviewUrl && adminPreviewUrl) {
+            return {
+              webPreviewUrl,
+              adminPreviewUrl,
+              anyVercelUrl: lastKnownVercelUrl,
+            };
           }
         }
       }
@@ -487,7 +523,11 @@ const getPreviewUrlFromGitHubPrComments = async (token, owner, repo, prNumber) =
     await sleep(pollingIntervalMs);
   }
 
-  return lastKnownVercelUrl;
+  return {
+    webPreviewUrl,
+    adminPreviewUrl,
+    anyVercelUrl: lastKnownVercelUrl,
+  };
 };
 
 const normalizePreviewUrl = (url) => {
@@ -511,33 +551,50 @@ const normalizePreviewUrl = (url) => {
   return trimmed;
 };
 
-const resolvePreviewUrl = async ({ token, owner, repo, branchName, commitSha, prNumber }) => {
+const resolvePreviewUrls = async ({ token, owner, repo, branchName, commitSha, prNumber }) => {
   const templateUrl = normalizePreviewUrl(getPreviewUrl(branchName));
+  const isWebPreviewUrl = (url) =>
+    url.includes("solid-connection-web-git-") || url.includes("solid-connection-web-");
+  const isAdminPreviewUrl = (url) =>
+    url.includes("solid-connect-web-admin-git-") || url.includes("solid-connect-web-admin-");
+  const emptyPreviewUrls = {
+    previewUrl: templateUrl,
+    webPreviewUrl: "",
+    adminPreviewUrl: "",
+  };
 
   try {
     const vercelApiUrl = normalizePreviewUrl(await getPreviewUrlFromVercel(branchName));
-    if (vercelApiUrl) {
-      return vercelApiUrl;
-    }
-
     const commitStatusUrl = normalizePreviewUrl(await getPreviewUrlFromGitHubCommitStatus(token, owner, repo, commitSha));
-    if (commitStatusUrl.includes(".vercel.app")) {
-      return commitStatusUrl;
-    }
+    const commentPreviewUrls = await getPreviewUrlsFromGitHubPrComments(token, owner, repo, prNumber);
 
-    const commentUrl = normalizePreviewUrl(await getPreviewUrlFromGitHubPrComments(token, owner, repo, prNumber));
-    if (commentUrl) {
-      return commentUrl;
-    }
+    const webPreviewUrl =
+      commentPreviewUrls.webPreviewUrl ||
+      [vercelApiUrl, commitStatusUrl, templateUrl].find((url) => Boolean(url) && isWebPreviewUrl(url)) ||
+      "";
 
-    if (commitStatusUrl) {
-      return commitStatusUrl;
-    }
+    const adminPreviewUrl =
+      commentPreviewUrls.adminPreviewUrl ||
+      [vercelApiUrl, commitStatusUrl, templateUrl].find((url) => Boolean(url) && isAdminPreviewUrl(url)) ||
+      "";
+
+    const previewUrl =
+      webPreviewUrl ||
+      commentPreviewUrls.anyVercelUrl ||
+      vercelApiUrl ||
+      commitStatusUrl ||
+      templateUrl;
+
+    return {
+      previewUrl,
+      webPreviewUrl,
+      adminPreviewUrl,
+    };
   } catch (previewError) {
     console.error("Preview URL resolution failed", previewError);
   }
 
-  return templateUrl;
+  return emptyPreviewUrls;
 };
 
 const applyPatch = (patch) => {
@@ -707,7 +764,7 @@ const main = async () => {
 
     const prUrl = pr.html_url;
     const commitSha = runGitOutput(["rev-parse", "HEAD"]).trim();
-    const previewUrl = await resolvePreviewUrl({
+    const { previewUrl, webPreviewUrl, adminPreviewUrl } = await resolvePreviewUrls({
       token: githubToken,
       owner,
       repo: repoName,
@@ -721,6 +778,8 @@ const main = async () => {
       branchName,
       prUrl,
       previewUrl,
+      previewWebUrl: webPreviewUrl,
+      previewAdminUrl: adminPreviewUrl,
       completedAt: FieldValue.serverTimestamp(),
       updatedAt: FieldValue.serverTimestamp(),
     });
@@ -730,6 +789,8 @@ const main = async () => {
         taskId,
         prUrl,
         previewUrl,
+        webPreviewUrl,
+        adminPreviewUrl,
         instruction: task.instruction,
       });
 
