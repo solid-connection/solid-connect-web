@@ -5,6 +5,7 @@ import SockJS from "sockjs-client";
 import { normalizeChatMessage, type RawChatMessage } from "@/apis/chat/normalize";
 
 import { type ChatMessage, ConnectionStatus } from "@/types/chat";
+import { isTokenExpired } from "@/utils/jwtUtils";
 import useAuthStore from "../zustand/useAuthStore";
 
 interface UseConnectWebSocketProps {
@@ -26,6 +27,7 @@ const useConnectWebSocket = ({ roomId, clientRef }: UseConnectWebSocketProps): U
   const [submittedMessages, setSubmittedMessages] = useState<ChatMessage[]>([]);
   const accessToken = useAuthStore((state) => state.accessToken);
   const isInitialized = useAuthStore((state) => state.isInitialized);
+  const hasValidAccessToken = Boolean(accessToken && !isTokenExpired(accessToken));
 
   useEffect(() => {
     if (!roomId) {
@@ -33,7 +35,7 @@ const useConnectWebSocket = ({ roomId, clientRef }: UseConnectWebSocketProps): U
       return;
     }
 
-    if (!isInitialized || !accessToken || accessToken.trim() === "") {
+    if (!isInitialized || !hasValidAccessToken) {
       setConnectionStatus(ConnectionStatus.Pending);
       return;
     }
@@ -90,7 +92,7 @@ const useConnectWebSocket = ({ roomId, clientRef }: UseConnectWebSocketProps): U
       }
       clientRef.current = null;
     };
-  }, [roomId, clientRef, accessToken, isInitialized]);
+  }, [roomId, clientRef, accessToken, hasValidAccessToken, isInitialized]);
 
   // 관리하는 connectionStatus를 반환
   return { connectionStatus, submittedMessages, setSubmittedMessages };

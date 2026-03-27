@@ -1,9 +1,10 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { UserRole } from "@/types/mentor";
+import { isTokenExpired } from "@/utils/jwtUtils";
 
 const parseUserRoleFromToken = (token: string | null): UserRole | null => {
-  if (!token) return null;
+  if (!token || isTokenExpired(token)) return null;
 
   try {
     const payload = JSON.parse(atob(token.split(".")[1])) as { role?: string };
@@ -87,7 +88,19 @@ const useAuthStore = create<AuthState>()(
       onRehydrateStorage: () => (state) => {
         // hydration 완료 후 isInitialized를 true로 설정
         if (state) {
-          state.userRole = parseUserRoleFromToken(state.accessToken);
+          const hasValidToken = Boolean(state.accessToken && !isTokenExpired(state.accessToken));
+
+          if (!hasValidToken) {
+            state.accessToken = null;
+            state.userRole = null;
+            state.isAuthenticated = false;
+            state.refreshStatus = "idle";
+          } else {
+            state.userRole = parseUserRoleFromToken(state.accessToken);
+            state.isAuthenticated = true;
+            state.refreshStatus = "success";
+          }
+
           state.isInitialized = true;
         }
       },

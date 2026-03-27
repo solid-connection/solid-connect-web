@@ -1,5 +1,6 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import { isTokenExpired } from "@/utils/jwtUtils";
 
 const loginNeedPages = ["/mentor", "/my", "/community"]; // 로그인 필요페이지
 
@@ -13,13 +14,14 @@ export function middleware(request: NextRequest) {
 
   // HTTP-only 쿠키의 refreshToken 확인
   const refreshToken = request.cookies.get("refreshToken")?.value;
+  const hasValidRefreshToken = Boolean(refreshToken && !isTokenExpired(refreshToken));
 
   // 정확한 경로 매칭
   const needLogin = loginNeedPages.some((path) => {
     return url.pathname === path || url.pathname.startsWith(`${path}/`);
   });
 
-  if (needLogin && !refreshToken) {
+  if (needLogin && !hasValidRefreshToken) {
     url.pathname = "/login";
     url.searchParams.delete("reason");
     return NextResponse.redirect(url);

@@ -1,5 +1,6 @@
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { publicAxiosInstance } from "@/utils/axiosInstance";
+import { isTokenExpired } from "@/utils/jwtUtils";
 
 /**
  * @description 토큰 재발급 서버사이드 함수
@@ -12,6 +13,9 @@ const postReissueToken = async (): Promise<string> => {
 
     if (!newAccessToken) {
       throw new Error("재발급된 토큰이 유효하지 않습니다.");
+    }
+    if (isTokenExpired(newAccessToken)) {
+      throw new Error("재발급된 토큰이 이미 만료되었습니다.");
     }
 
     // 재발급 성공 시, 새로운 토큰을 Zustand 스토어에 저장
