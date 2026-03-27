@@ -65,20 +65,10 @@ After successful authentication, users continue to be redirected to `/`.
 
 ### Configuration
 
-Authentication mode is controlled by environment variable:
-
-```env
-NEXT_PUBLIC_COOKIE_LOGIN_ENABLED=true
-```
-
-When `true`:
-- Uses HTTP-only cookies for refresh tokens
-- Middleware enforces authentication checks
-- Enhanced security
-
-When `false`:
-- Uses localStorage for tokens
-- No middleware checks (development/testing mode)
+Authentication is cookie-based:
+- Refresh token: HTTP-only cookie
+- Middleware: 보호 페이지 접근 시 refresh token 존재 여부 확인
+- 로그인 성공 후: 메인(`/`)으로 이동
 
 ### Token Management
 
@@ -110,7 +100,6 @@ const needLogin = loginNeedPages.some(...) || isNewRouteSubPath;
 ### Troubleshooting
 
 #### Redirect not working?
-- Check if `NEXT_PUBLIC_COOKIE_LOGIN_ENABLED=true` in `.env`
 - Verify refresh token exists in cookies
 - Check middleware matcher pattern excludes static files
 
