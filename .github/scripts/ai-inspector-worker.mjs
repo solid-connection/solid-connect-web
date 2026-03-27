@@ -403,6 +403,7 @@ const getPreviewUrlFromGitHubCommitStatus = async (token, owner, repo, commitSha
   const pollingIntervalMs = Number.isFinite(intervalMs) && intervalMs > 0 ? intervalMs : 10000;
   const pollingTimeoutMs = Number.isFinite(timeoutMs) && timeoutMs > 0 ? timeoutMs : 240000;
   const deadline = Date.now() + pollingTimeoutMs;
+  let lastKnownVercelUrl = "";
 
   while (Date.now() < deadline) {
     const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/commits/${commitSha}/status`, {
@@ -420,23 +421,123 @@ const getPreviewUrlFromGitHubCommitStatus = async (token, owner, repo, commitSha
 
     const data = await response.json();
     const statuses = Array.isArray(data?.statuses) ? data.statuses : [];
-    const urlStatus =
-      statuses.find((status) => typeof status?.target_url === "string" && status.target_url.includes("vercel.app")) ??
-      statuses.find(
-        (status) =>
-          typeof status?.context === "string" &&
-          status.context.toLowerCase().includes("vercel") &&
-          typeof status?.target_url === "string",
-      );
+    const deploymentUrlStatus = statuses.find(
+      (status) => typeof status?.target_url === "string" && status.target_url.includes("vercel.app"),
+    );
+    if (deploymentUrlStatus?.target_url) {
+      return deploymentUrlStatus.target_url;
+    }
 
-    if (urlStatus?.target_url) {
-      return urlStatus.target_url;
+    const vercelStatus = statuses.find(
+      (status) =>
+        typeof status?.context === "string" &&
+        status.context.toLowerCase().includes("vercel") &&
+        typeof status?.target_url === "string",
+    );
+    if (vercelStatus?.target_url) {
+      lastKnownVercelUrl = vercelStatus.target_url;
     }
 
     await sleep(pollingIntervalMs);
   }
 
-  return "";
+  return lastKnownVercelUrl;
+};
+
+const getPreviewUrlFromGitHubPrComments = async (token, owner, repo, prNumber) => {
+  const intervalMs = Number(process.env.AI_INSPECTOR_VERCEL_PREVIEW_INTERVAL_MS ?? "10000");
+  const timeoutMs = Number(process.env.AI_INSPECTOR_VERCEL_PREVIEW_TIMEOUT_MS ?? "240000");
+  const pollingIntervalMs = Number.isFinite(intervalMs) && intervalMs > 0 ? intervalMs : 10000;
+  const pollingTimeoutMs = Number.isFinite(timeoutMs) && timeoutMs > 0 ? timeoutMs : 240000;
+  const deadline = Date.now() + pollingTimeoutMs;
+  const vercelUrlPattern = /https:\/\/[^\s)]+\.vercel\.app[^\s)]*/gi;
+  let lastKnownVercelUrl = "";
+
+  while (Date.now() < deadline) {
+    const response = await fetch(
+      `https://api.github.com/repos/${owner}/${repo}/issues/${prNumber}/comments?per_page=50`,
+      {
+        headers: {
+          Accept: "application/vnd.github+json",
+          Authorization: `Bearer ${token}`,
+          "X-GitHub-Api-Version": "2022-11-28",
+        },
+      },
+    );
+
+    if (!response.ok) {
+      const body = await response.text();
+      throw new Error(`Failed to fetch PR comments from GitHub (${response.status}): ${body}`);
+    }
+
+    const comments = await response.json();
+    if (Array.isArray(comments)) {
+      for (const comment of comments) {
+        const body = typeof comment?.body === "string" ? comment.body : "";
+        const matches = body.match(vercelUrlPattern);
+        if (matches && matches.length > 0) {
+          lastKnownVercelUrl = matches[0];
+          if (lastKnownVercelUrl.includes(".vercel.app")) {
+            return lastKnownVercelUrl;
+          }
+        }
+      }
+    }
+
+    await sleep(pollingIntervalMs);
+  }
+
+  return lastKnownVercelUrl;
+};
+
+const normalizePreviewUrl = (url) => {
+  if (!url) {
+    return "";
+  }
+
+  const trimmed = url.trim();
+  if (!trimmed) {
+    return "";
+  }
+
+  if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
+    return trimmed;
+  }
+
+  if (trimmed.includes(".")) {
+    return `https://${trimmed}`;
+  }
+
+  return trimmed;
+};
+
+const resolvePreviewUrl = async ({ token, owner, repo, branchName, commitSha, prNumber }) => {
+  const templateUrl = normalizePreviewUrl(getPreviewUrl(branchName));
+
+  try {
+    const vercelApiUrl = normalizePreviewUrl(await getPreviewUrlFromVercel(branchName));
+    if (vercelApiUrl) {
+      return vercelApiUrl;
+    }
+
+    const commitStatusUrl = normalizePreviewUrl(await getPreviewUrlFromGitHubCommitStatus(token, owner, repo, commitSha));
+    if (commitStatusUrl.includes(".vercel.app")) {
+      return commitStatusUrl;
+    }
+
+    const commentUrl = normalizePreviewUrl(await getPreviewUrlFromGitHubPrComments(token, owner, repo, prNumber));
+    if (commentUrl) {
+      return commentUrl;
+    }
+
+    if (commitStatusUrl) {
+      return commitStatusUrl;
+    }
+  } catch (previewError) {
+    console.error("Preview URL resolution failed", previewError);
+  }
+
+  return templateUrl;
 };
 
 const applyPatch = (patch) => {
@@ -606,15 +707,14 @@ const main = async () => {
 
     const prUrl = pr.html_url;
     const commitSha = runGitOutput(["rev-parse", "HEAD"]).trim();
-    let previewUrl = getPreviewUrl(branchName);
-    try {
-      previewUrl =
-        (await getPreviewUrlFromVercel(branchName)) ||
-        (await getPreviewUrlFromGitHubCommitStatus(githubToken, owner, repoName, commitSha)) ||
-        previewUrl;
-    } catch (previewError) {
-      console.error(`Task ${taskId} preview URL resolution failed`, previewError);
-    }
+    const previewUrl = await resolvePreviewUrl({
+      token: githubToken,
+      owner,
+      repo: repoName,
+      branchName,
+      commitSha,
+      prNumber: pr.number,
+    });
 
     await taskRef.update({
       status: "completed",
