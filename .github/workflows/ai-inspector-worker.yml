@@ -22,6 +22,11 @@ jobs:
         with:
           node-version: "22"
 
+      - name: Configure Git author
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
       - name: Install worker dependencies
         run: npm install firebase-admin
 
