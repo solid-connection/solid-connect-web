@@ -8,6 +8,7 @@ import { RegionEnumExtend } from "@/types/university";
 import FindLastYearScoreBar from "./_ui/FindLastYearScoreBar";
 import NewsSectionSkeleton from "./_ui/NewsSection/skeleton";
 import PopularUniversitySection from "./_ui/PopularUniversitySection";
+import SiteFooter from "./_ui/SiteFooter";
 import UniversityList from "./_ui/UniversityList";
 
 const NewsSectionDynamic = dynamic(() => import("./_ui/NewsSection"), {
@@ -149,6 +150,8 @@ const HomePage = async () => {
         </div>
 
         <NewsSectionDynamic newsList={newsList} />
+
+        <SiteFooter />
       </div>
     </>
   );
