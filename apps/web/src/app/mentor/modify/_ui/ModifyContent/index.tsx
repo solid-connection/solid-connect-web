@@ -54,7 +54,7 @@ const ModifyContent = () => {
               </div>
             </div>
           </div>
-          <div className="mt-10">
+          <div className="mt-10 pb-36">
             <h2 className="mb-2.5 text-primary-1 typo-sb-5">내 채널 관리</h2>
             <ChannelBox channels={channels} />
             {/* 4개의 고정된 채널 입력 필드 */}
@@ -96,8 +96,11 @@ const ModifyContent = () => {
             <div className="mb-6">
               <AddArticleCard />
             </div>
-            <div className="mt-20 flex justify-center">
-              <button type="submit" className="mb-10 h-10 w-37.5 rounded-3xl bg-primary-1 px-5 py-2.5 text-k-0">
+          </div>
+
+          <div className="pointer-events-none fixed bottom-20 left-1/2 z-20 flex w-full -translate-x-1/2 justify-center">
+            <div className="pointer-events-auto px-5">
+              <button type="submit" className="h-10 w-37.5 rounded-3xl bg-primary-1 px-5 py-2.5 text-k-0">
                 수정하기
               </button>
             </div>
