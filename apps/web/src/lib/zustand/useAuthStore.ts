@@ -39,12 +39,15 @@ interface AuthState {
   serverRole: UserRole | null;
   clientRole: ClientRole | null;
   isAuthenticated: boolean;
+  isNeedLogin: boolean;
   isLoading: boolean;
   isInitialized: boolean;
   refreshStatus: RefreshStatus;
   setAccessToken: (token: string) => void;
   clearAccessToken: () => void;
   setClientRole: (role: ClientRole) => void;
+  setNeedLogin: (needLogin: boolean) => void;
+  clearNeedLogin: () => void;
   setLoading: (loading: boolean) => void;
   setInitialized: (initialized: boolean) => void;
   setRefreshStatus: (status: RefreshStatus) => void;
@@ -57,6 +60,7 @@ const useAuthStore = create<AuthState>()(
       serverRole: null,
       clientRole: null,
       isAuthenticated: false,
+      isNeedLogin: false,
       isLoading: false,
       isInitialized: false,
       refreshStatus: "idle",
@@ -70,6 +74,7 @@ const useAuthStore = create<AuthState>()(
             serverRole,
             clientRole: resolveClientRole(serverRole, state.clientRole),
             isAuthenticated: true,
+            isNeedLogin: false,
             isLoading: false,
             isInitialized: true,
             refreshStatus: "success",
@@ -83,6 +88,7 @@ const useAuthStore = create<AuthState>()(
           serverRole: null,
           clientRole: null,
           isAuthenticated: false,
+          isNeedLogin: false,
           isLoading: false,
           isInitialized: true,
           refreshStatus: "idle",
@@ -97,6 +103,14 @@ const useAuthStore = create<AuthState>()(
 
           return { clientRole: role };
         });
+      },
+
+      setNeedLogin: (needLogin) => {
+        set({ isNeedLogin: needLogin });
+      },
+
+      clearNeedLogin: () => {
+        set({ isNeedLogin: false });
       },
 
       setLoading: (loading) => {

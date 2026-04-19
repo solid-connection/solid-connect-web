@@ -8,7 +8,6 @@ import { RegionEnumExtend } from "@/types/university";
 import FindLastYearScoreBar from "./_ui/FindLastYearScoreBar";
 import NewsSectionSkeleton from "./_ui/NewsSection/skeleton";
 import PopularUniversitySection from "./_ui/PopularUniversitySection";
-import SiteFooter from "./_ui/SiteFooter";
 import UniversityList from "./_ui/UniversityList";
 
 const NewsSectionDynamic = dynamic(() => import("./_ui/NewsSection"), {
@@ -18,16 +17,17 @@ const NewsSectionDynamic = dynamic(() => import("./_ui/NewsSection"), {
 
 const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://solid-connection.com";
 const ogImageUrl = `${baseUrl}/opengraph-image.png`;
+const homeMetaTitle = "교환학생 사이트 | 솔리드 커넥션 – 교환학생 커뮤니티, 플랫폼";
 
 export const metadata: Metadata = {
-  title: "교환학생 사이트 | 솔리드 커넥션 – 교환학생 커뮤니티",
+  title: homeMetaTitle,
   description:
     "교환학생 사이트 솔리드커넥션. 교환학생 커뮤니티에서 학교 검색, 성적 입력, 지원 현황 확인까지 한 번에. 교환학생 준비를 위한 모든 정보를 제공합니다.",
   alternates: {
     canonical: `${baseUrl}/`,
   },
   openGraph: {
-    title: "교환학생 사이트 | 솔리드 커넥션 – 교환학생 커뮤니티",
+    title: homeMetaTitle,
     description:
       "교환학생 사이트 솔리드커넥션. 교환학생 커뮤니티에서 학교 검색, 성적 입력, 지원 현황 확인까지 한 번에. 교환학생 준비를 위한 모든 정보를 제공합니다.",
     url: `${baseUrl}/`,
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "교환학생 사이트 | 솔리드 커넥션 – 교환학생 커뮤니티",
+    title: homeMetaTitle,
     description: "교환학생 사이트 솔리드커넥션. 교환학생 커뮤니티에서 학교 검색, 성적 입력, 지원 현황 확인까지.",
     images: [ogImageUrl],
   },
@@ -150,8 +150,6 @@ const HomePage = async () => {
         </div>
 
         <NewsSectionDynamic newsList={newsList} />
-
-        <SiteFooter />
       </div>
     </>
   );

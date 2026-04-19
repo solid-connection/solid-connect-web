@@ -1,7 +1,9 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import { isTokenExpired } from "@/utils/jwtUtils";
 
 const loginNeedPages = ["/mentor", "/my", "/community"]; // 로그인 필요페이지
+const NEED_LOGIN_COOKIE_KEY = "isNeedLogin";
 const blockedExactPaths = new Set([
   "/database.php",
   "/db.php",
@@ -26,11 +28,43 @@ const isProbePath = (pathname: string) => {
   return blockedPathPrefixes.some((prefix) => pathname.startsWith(prefix));
 };
 
-export function middleware(request: NextRequest) {
-  const url = request.nextUrl.clone();
-  const pathname = url.pathname;
+const buildLoginRedirectResponse = (
+  request: NextRequest,
+  options: {
+    clearRefreshToken?: boolean;
+  } = {},
+) => {
+  const { clearRefreshToken = false } = options;
+  const redirectUrl = request.nextUrl.clone();
+  redirectUrl.pathname = "/login";
+  redirectUrl.search = "";
 
-  if (pathname === "/robots.txt" && isStageHostname(url.hostname)) {
+  const response = NextResponse.redirect(redirectUrl);
+  response.cookies.set({
+    name: NEED_LOGIN_COOKIE_KEY,
+    value: "true",
+    path: "/",
+    sameSite: "lax",
+    maxAge: 60,
+  });
+
+  if (clearRefreshToken) {
+    response.cookies.set({
+      name: "refreshToken",
+      value: "",
+      path: "/",
+      expires: new Date(0),
+      maxAge: 0,
+    });
+  }
+
+  return response;
+};
+
+export function middleware(request: NextRequest) {
+  const pathname = request.nextUrl.pathname;
+
+  if (pathname === "/robots.txt" && isStageHostname(request.nextUrl.hostname)) {
     return new NextResponse("User-agent: *\nDisallow: /\n", {
       status: 200,
       headers: {
@@ -64,9 +98,11 @@ export function middleware(request: NextRequest) {
   });
 
   if (needLogin && !refreshToken) {
-    url.pathname = "/login";
-    url.searchParams.delete("reason");
-    return NextResponse.redirect(url);
+    return buildLoginRedirectResponse(request);
+  }
+
+  if (needLogin && isTokenExpired(refreshToken ?? null)) {
+    return buildLoginRedirectResponse(request, { clearRefreshToken: true });
   }
 
   return NextResponse.next();
