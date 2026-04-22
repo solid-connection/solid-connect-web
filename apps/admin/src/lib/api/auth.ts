@@ -1,15 +1,19 @@
-import type { AxiosResponse } from "axios";
-import { publicAxiosInstance } from "@/lib/api/client";
+import axios, { type AxiosResponse } from "axios";
 import type { AdminSignInResponse, ReissueAccessTokenResponse } from "@/types/auth";
 
-export const adminSignInApi = (email: string, password: string): Promise<AxiosResponse<AdminSignInResponse>> =>
-	publicAxiosInstance.post("/auth/email/sign-in", { email, password });
+const API_SERVER_URL = import.meta.env.VITE_API_SERVER_URL?.trim();
 
-export const reissueAccessTokenApi = (refreshToken: string): Promise<AxiosResponse<ReissueAccessTokenResponse>> =>
-	publicAxiosInstance.post(
-		"/admin/auth/reissue",
-		{},
-		{
-			headers: { Authorization: `Bearer ${refreshToken}` },
-		},
-	);
+if (!API_SERVER_URL) {
+	throw new Error("[admin] VITE_API_SERVER_URL is required. Configure it in your environment.");
+}
+
+const authAxiosInstance = axios.create({
+	baseURL: API_SERVER_URL,
+	withCredentials: true,
+});
+
+export const adminSignInApi = (email: string, password: string): Promise<AxiosResponse<AdminSignInResponse>> =>
+	authAxiosInstance.post("/auth/email/sign-in", { email, password });
+
+export const reissueAccessTokenApi = (): Promise<AxiosResponse<ReissueAccessTokenResponse>> =>
+	authAxiosInstance.post("/auth/reissue");

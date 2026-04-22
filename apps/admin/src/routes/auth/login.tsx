@@ -7,9 +7,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { adminSignInApi } from "@/lib/api/auth";
-import { saveAccessToken, saveRefreshToken } from "@/lib/utils/localStorage";
+import { redirectIfAuthenticated } from "@/lib/auth/session";
+import { saveAccessToken } from "@/lib/utils/localStorage";
 
 export const Route = createFileRoute("/auth/login")({
+	beforeLoad: async () => {
+		await redirectIfAuthenticated();
+	},
 	component: LoginPage,
 });
 
@@ -32,10 +36,9 @@ function LoginPage() {
 
 		try {
 			const response = await signInMutation.mutateAsync({ nextEmail: email, nextPassword: password });
-			const { accessToken, refreshToken } = response.data;
+			const { accessToken } = response.data;
 
 			saveAccessToken(accessToken);
-			saveRefreshToken(refreshToken);
 
 			toast("로그인 성공", {
 				description: "관리자 페이지로 이동합니다.",

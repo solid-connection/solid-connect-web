@@ -1,6 +1,6 @@
 export interface AdminSignInResponse {
 	accessToken: string;
-	refreshToken: string;
+	refreshToken?: string;
 }
 
 export interface ReissueAccessTokenResponse {

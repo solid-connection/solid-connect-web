@@ -1,18 +1,18 @@
-import { Building2, FileText, FlaskConical, MessageSquare, UserCircle2 } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { FileText, FlaskConical, MessageSquare } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-interface AdminSidebarProps {
-	activeMenu: "scores" | "bruno" | "chatSocket";
-}
+export type ActiveAdminMenu = "scores" | "bruno" | "chatSocket";
 
 const sideMenus = [
-	{ key: "university", label: "대학 관리", icon: Building2 },
-	{ key: "mentor", label: "멘토 관리", icon: UserCircle2 },
-	{ key: "user", label: "유저 관리", icon: UserCircle2 },
 	{ key: "scores", label: "성적 관리", icon: FileText, to: "/scores" as const },
 	{ key: "bruno", label: "Bruno API", icon: FlaskConical, to: "/bruno" as const },
 	{ key: "chatSocket", label: "채팅 소켓", icon: MessageSquare, to: "/chat-socket" as const },
 ] as const;
+
+interface AdminSidebarProps {
+	activeMenu: ActiveAdminMenu;
+}
 
 export function AdminSidebar({ activeMenu }: AdminSidebarProps) {
 	return (
@@ -35,20 +35,11 @@ export function AdminSidebar({ activeMenu }: AdminSidebarProps) {
 						isActive ? "bg-primary-100 text-primary" : "text-k-400 hover:bg-k-0 hover:text-k-700",
 					);
 
-					if ("to" in menu) {
-						return (
-							<a key={menu.label} href={menu.to} className={menuClassName}>
-								<menu.icon className="h-4 w-4" />
-								{menu.label}
-							</a>
-						);
-					}
-
 					return (
-						<button key={menu.label} type="button" className={menuClassName} disabled>
+						<Link key={menu.label} to={menu.to} preload="intent" className={menuClassName}>
 							<menu.icon className="h-4 w-4" />
 							{menu.label}
-						</button>
+						</Link>
 					);
 				})}
 			</nav>

@@ -1,13 +1,5 @@
-import axios, { type AxiosInstance } from "axios";
-import { reissueAccessTokenApi } from "@/lib/api/auth";
-import { isTokenExpired } from "@/lib/utils/jwtUtils";
-import {
-	loadAccessToken,
-	loadRefreshToken,
-	removeAccessToken,
-	removeRefreshToken,
-	saveAccessToken,
-} from "@/lib/utils/localStorage";
+import axios, { type AxiosInstance, type InternalAxiosRequestConfig } from "axios";
+import { clearSession, ensureSessionToken, reissueAccessTokenIfPossible } from "@/lib/auth/session";
 
 const convertToBearer = (token: string) => `Bearer ${token}`;
 
@@ -22,34 +14,24 @@ export const axiosInstance: AxiosInstance = axios.create({
 	withCredentials: true,
 });
 
+const redirectToLogin = () => {
+	if (typeof window !== "undefined" && window.location.pathname !== "/auth/login") {
+		window.location.replace("/auth/login");
+	}
+};
+
 axiosInstance.interceptors.request.use(
 	async (config) => {
 		const newConfig = { ...config };
-		let accessToken: string | null = loadAccessToken();
+		const accessToken = await ensureSessionToken();
 
-		if (accessToken === null || isTokenExpired(accessToken)) {
-			const refreshToken = loadRefreshToken();
-			if (refreshToken === null || isTokenExpired(refreshToken)) {
-				removeAccessToken();
-				removeRefreshToken();
-				return config;
-			}
-
-			await reissueAccessTokenApi(refreshToken)
-				.then((res) => {
-					accessToken = res.data.accessToken;
-					saveAccessToken(accessToken);
-				})
-				.catch((err) => {
-					removeAccessToken();
-					removeRefreshToken();
-					console.error("인증 토큰 갱신중 오류가 발생했습니다", err);
-				});
+		if (!accessToken) {
+			clearSession();
+			redirectToLogin();
+			return Promise.reject(new Error("로그인이 필요합니다."));
 		}
 
-		if (accessToken !== null) {
-			newConfig.headers.Authorization = convertToBearer(accessToken);
-		}
+		newConfig.headers.Authorization = convertToBearer(accessToken);
 		return newConfig;
 	},
 	(error) => Promise.reject(error),
@@ -58,37 +40,25 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
 	(response) => response,
 	async (error) => {
-		const newError = { ...error };
-		if (error.response?.status === 401 || error.response?.status === 403) {
-			const refreshToken = loadRefreshToken();
+		const status = error.response?.status;
+		const originalRequest = error.config as (InternalAxiosRequestConfig & { _retry?: boolean }) | undefined;
 
-			if (refreshToken === null || isTokenExpired(refreshToken)) {
-				removeAccessToken();
-				removeRefreshToken();
-				throw newError;
+		if ((status === 401 || status === 403) && originalRequest && !originalRequest._retry) {
+			originalRequest._retry = true;
+
+			const reissuedAccessToken = await reissueAccessTokenIfPossible();
+			if (reissuedAccessToken) {
+				originalRequest.headers = originalRequest.headers ?? {};
+				originalRequest.headers.Authorization = convertToBearer(reissuedAccessToken);
+				return axiosInstance(originalRequest);
 			}
-
-			try {
-				const newAccessToken = await reissueAccessTokenApi(refreshToken).then((res) => res.data.accessToken);
-				saveAccessToken(newAccessToken);
-
-				if (error?.config.headers === undefined) {
-					newError.config.headers = {};
-				}
-				newError.config.headers.Authorization = convertToBearer(newAccessToken);
-
-				return await axios.request(newError.config);
-			} catch (_err) {
-				removeAccessToken();
-				removeRefreshToken();
-				throw Error("로그인이 필요합니다");
-			}
-		} else {
-			throw newError;
 		}
+
+		if (status === 401 || status === 403) {
+			clearSession();
+			redirectToLogin();
+		}
+
+		return Promise.reject(error);
 	},
 );
-
-export const publicAxiosInstance: AxiosInstance = axios.create({
-	baseURL: API_SERVER_URL,
-});

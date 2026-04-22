@@ -1,8 +1,8 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { Copy, Play, RotateCcw } from "lucide-react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
-import { AdminSidebar } from "@/components/layout/AdminSidebar";
+import { AdminLayout } from "@/components/layout/AdminLayout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -10,9 +10,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { axiosInstance } from "@/lib/api/client";
+import { requireAdminSession } from "@/lib/auth/session";
 import { cn } from "@/lib/utils";
-import { isTokenExpired } from "@/lib/utils/jwtUtils";
-import { loadAccessToken } from "@/lib/utils/localStorage";
 
 type DefinitionMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE" | "HEAD" | "OPTIONS";
 type MethodFilter = "ALL" | DefinitionMethod;
@@ -172,13 +171,8 @@ const splitPathAndInlineQuery = (pathWithInlineQuery: string) => {
 const METHOD_FILTERS: MethodFilter[] = ["ALL", "GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"];
 
 export const Route = createFileRoute("/bruno/")({
-	beforeLoad: () => {
-		if (typeof window !== "undefined") {
-			const token = loadAccessToken();
-			if (!token || isTokenExpired(token)) {
-				throw redirect({ to: "/auth/login" });
-			}
-		}
+	beforeLoad: async () => {
+		await requireAdminSession();
 	},
 	component: BrunoApiPage,
 });
@@ -291,189 +285,183 @@ function BrunoApiPage() {
 	};
 
 	return (
-		<div className="mx-auto w-full max-w-[1440px] rounded-[24px] border border-k-100 bg-k-0 shadow-sdw-a">
-			<div className="flex min-h-[calc(100vh-96px)]">
-				<AdminSidebar activeMenu="bruno" />
-
-				<section className="flex-1 bg-bg-50 p-7">
-					<div className="grid gap-4 lg:grid-cols-[320px_minmax(0,1fr)]">
-						<Card className="border-k-100">
-							<CardHeader className="pb-3">
-								<CardTitle className="typo-sb-9 text-k-800">Bruno API 목록</CardTitle>
-								<Input
-									placeholder="도메인/엔드포인트 검색"
-									value={search}
-									onChange={(event) => setSearch(event.target.value)}
-								/>
-								<div className="flex flex-wrap gap-1">
-									{METHOD_FILTERS.map((method) => {
-										const active = methodFilter === method;
-										return (
-											<Button
-												key={method}
-												type="button"
-												size="sm"
-												variant={active ? "default" : "outline"}
-												onClick={() => setMethodFilter(method)}
-											>
-												{method}
-											</Button>
-										);
-									})}
-								</div>
-							</CardHeader>
-							<CardContent className="max-h-[680px] overflow-auto pt-0">
-								<div className="space-y-2">
-									{visibleEndpoints.map((endpoint) => {
-										const key = `${endpoint.domain}:${endpoint.name}`;
-										const active = key === selectedKey;
-
-										return (
-											<button
-												key={key}
-												type="button"
-												onClick={() => setSelectedKey(key)}
-												className={cn(
-													"w-full rounded-md border px-3 py-2 text-left transition-colors",
-													active ? "border-primary bg-primary-100" : "border-k-100 bg-k-0 hover:bg-k-50",
-												)}
-											>
-												<div className="flex items-center justify-between gap-2">
-													<span className="truncate typo-sb-11 text-k-800">{endpoint.name}</span>
-													<span className="rounded bg-k-100 px-1.5 py-0.5 typo-regular-4 text-k-700">
-														{endpoint.definition.method}
-													</span>
-												</div>
-												<p className="mt-1 truncate typo-regular-4 text-k-500">{endpoint.domain}</p>
-											</button>
-										);
-									})}
-								</div>
-							</CardContent>
-						</Card>
-
-						<div className="space-y-4">
-							<Card className="border-k-100">
-								<CardHeader className="pb-3">
-									<div className="flex items-center justify-between gap-2">
-										<CardTitle className="typo-sb-9 text-k-800">요청 빌더</CardTitle>
-										<div className="flex gap-2">
-											<Button type="button" variant="outline" onClick={handleResetEditors}>
-												<RotateCcw className="h-4 w-4" />
-												초기화
-											</Button>
-											<Button type="button" onClick={handleSendRequest} disabled={isSending || !selectedEndpoint}>
-												<Play className="h-4 w-4" />
-												{isSending ? "요청 중..." : "요청 보내기"}
-											</Button>
-										</div>
-									</div>
-									{selectedEndpoint ? (
-										<div className="rounded-md border border-k-100 bg-bg-50 px-3 py-2">
-											<p className="typo-sb-11 text-k-700">{selectedEndpoint.definition.method}</p>
-											<p className="mt-1 break-all typo-regular-4 text-k-600">{selectedEndpoint.definition.path}</p>
-										</div>
-									) : (
-										<p className="typo-regular-4 text-k-500">왼쪽에서 API를 선택해주세요.</p>
-									)}
-								</CardHeader>
-								<CardContent className="pt-0">
-									<Tabs defaultValue="path">
-										<TabsList>
-											<TabsTrigger value="path">Path Params</TabsTrigger>
-											<TabsTrigger value="query">Query</TabsTrigger>
-											<TabsTrigger value="body">Body</TabsTrigger>
-											<TabsTrigger value="headers">Headers</TabsTrigger>
-										</TabsList>
-
-										<TabsContent value="path">
-											<Textarea
-												value={pathParamsText}
-												onChange={(event) => setPathParamsText(event.target.value)}
-												className="min-h-36 font-mono"
-											/>
-										</TabsContent>
-										<TabsContent value="query">
-											<Textarea
-												value={queryParamsText}
-												onChange={(event) => setQueryParamsText(event.target.value)}
-												className="min-h-36 font-mono"
-											/>
-										</TabsContent>
-										<TabsContent value="body">
-											<Textarea
-												value={bodyText}
-												onChange={(event) => setBodyText(event.target.value)}
-												className="min-h-44 font-mono"
-											/>
-										</TabsContent>
-										<TabsContent value="headers">
-											<Textarea
-												value={headersText}
-												onChange={(event) => setHeadersText(event.target.value)}
-												className="min-h-36 font-mono"
-											/>
-										</TabsContent>
-									</Tabs>
-								</CardContent>
-							</Card>
-
-							<Card className="border-k-100">
-								<CardHeader className="pb-3">
-									<div className="flex items-center justify-between gap-2">
-										<CardTitle className="typo-sb-9 text-k-800">응답</CardTitle>
-										<Button type="button" variant="outline" onClick={handleCopyResponse} disabled={!requestResult}>
-											<Copy className="h-4 w-4" />
-											응답 복사
-										</Button>
-									</div>
-									{requestResult ? (
-										<div className="flex items-center gap-2 typo-regular-4 text-k-600">
-											<span className="rounded bg-k-100 px-2 py-1">HTTP {requestResult.status}</span>
-											<span>{requestResult.durationMs}ms</span>
-										</div>
-									) : null}
-								</CardHeader>
-								<CardContent className="pt-0">
-									{requestResult ? (
-										<Tabs defaultValue="body">
-											<TabsList>
-												<TabsTrigger value="body">Body</TabsTrigger>
-												<TabsTrigger value="headers">Headers</TabsTrigger>
-											</TabsList>
-											<TabsContent value="body">
-												<Textarea value={toPrettyJson(requestResult.body)} readOnly className="min-h-48 font-mono" />
-											</TabsContent>
-											<TabsContent value="headers">
-												<Table>
-													<TableHeader>
-														<TableRow>
-															<TableHead>Header</TableHead>
-															<TableHead>Value</TableHead>
-														</TableRow>
-													</TableHeader>
-													<TableBody>
-														{Object.entries(requestResult.headers).map(([key, value]) => (
-															<TableRow key={key}>
-																<TableCell className="font-mono text-k-600">{key}</TableCell>
-																<TableCell className="break-all font-mono text-k-700">{value}</TableCell>
-															</TableRow>
-														))}
-													</TableBody>
-												</Table>
-											</TabsContent>
-										</Tabs>
-									) : (
-										<div className="rounded-md border border-dashed border-k-200 bg-bg-50 px-4 py-8 text-center typo-regular-4 text-k-500">
-											요청을 보내면 응답이 여기에 표시됩니다.
-										</div>
-									)}
-								</CardContent>
-							</Card>
+		<AdminLayout activeMenu="bruno" title="Bruno API" description="정의된 API를 조회하고 요청/응답을 검증합니다.">
+			<div className="grid gap-4 lg:grid-cols-[320px_minmax(0,1fr)]">
+				<Card className="border-k-100">
+					<CardHeader className="pb-3">
+						<CardTitle className="typo-sb-9 text-k-800">Bruno API 목록</CardTitle>
+						<Input
+							placeholder="도메인/엔드포인트 검색"
+							value={search}
+							onChange={(event) => setSearch(event.target.value)}
+						/>
+						<div className="flex flex-wrap gap-1">
+							{METHOD_FILTERS.map((method) => {
+								const active = methodFilter === method;
+								return (
+									<Button
+										key={method}
+										type="button"
+										size="sm"
+										variant={active ? "default" : "outline"}
+										onClick={() => setMethodFilter(method)}
+									>
+										{method}
+									</Button>
+								);
+							})}
 						</div>
-					</div>
-				</section>
+					</CardHeader>
+					<CardContent className="max-h-[680px] overflow-auto pt-0">
+						<div className="space-y-2">
+							{visibleEndpoints.map((endpoint) => {
+								const key = `${endpoint.domain}:${endpoint.name}`;
+								const active = key === selectedKey;
+
+								return (
+									<button
+										key={key}
+										type="button"
+										onClick={() => setSelectedKey(key)}
+										className={cn(
+											"w-full rounded-md border px-3 py-2 text-left transition-colors",
+											active ? "border-primary bg-primary-100" : "border-k-100 bg-k-0 hover:bg-k-50",
+										)}
+									>
+										<div className="flex items-center justify-between gap-2">
+											<span className="truncate typo-sb-11 text-k-800">{endpoint.name}</span>
+											<span className="rounded bg-k-100 px-1.5 py-0.5 typo-regular-4 text-k-700">
+												{endpoint.definition.method}
+											</span>
+										</div>
+										<p className="mt-1 truncate typo-regular-4 text-k-500">{endpoint.domain}</p>
+									</button>
+								);
+							})}
+						</div>
+					</CardContent>
+				</Card>
+
+				<div className="space-y-4">
+					<Card className="border-k-100">
+						<CardHeader className="pb-3">
+							<div className="flex items-center justify-between gap-2">
+								<CardTitle className="typo-sb-9 text-k-800">요청 빌더</CardTitle>
+								<div className="flex gap-2">
+									<Button type="button" variant="outline" onClick={handleResetEditors}>
+										<RotateCcw className="h-4 w-4" />
+										초기화
+									</Button>
+									<Button type="button" onClick={handleSendRequest} disabled={isSending || !selectedEndpoint}>
+										<Play className="h-4 w-4" />
+										{isSending ? "요청 중..." : "요청 보내기"}
+									</Button>
+								</div>
+							</div>
+							{selectedEndpoint ? (
+								<div className="rounded-md border border-k-100 bg-bg-50 px-3 py-2">
+									<p className="typo-sb-11 text-k-700">{selectedEndpoint.definition.method}</p>
+									<p className="mt-1 break-all typo-regular-4 text-k-600">{selectedEndpoint.definition.path}</p>
+								</div>
+							) : (
+								<p className="typo-regular-4 text-k-500">왼쪽에서 API를 선택해주세요.</p>
+							)}
+						</CardHeader>
+						<CardContent className="pt-0">
+							<Tabs defaultValue="path">
+								<TabsList>
+									<TabsTrigger value="path">Path Params</TabsTrigger>
+									<TabsTrigger value="query">Query</TabsTrigger>
+									<TabsTrigger value="body">Body</TabsTrigger>
+									<TabsTrigger value="headers">Headers</TabsTrigger>
+								</TabsList>
+
+								<TabsContent value="path">
+									<Textarea
+										value={pathParamsText}
+										onChange={(event) => setPathParamsText(event.target.value)}
+										className="min-h-36 font-mono"
+									/>
+								</TabsContent>
+								<TabsContent value="query">
+									<Textarea
+										value={queryParamsText}
+										onChange={(event) => setQueryParamsText(event.target.value)}
+										className="min-h-36 font-mono"
+									/>
+								</TabsContent>
+								<TabsContent value="body">
+									<Textarea
+										value={bodyText}
+										onChange={(event) => setBodyText(event.target.value)}
+										className="min-h-44 font-mono"
+									/>
+								</TabsContent>
+								<TabsContent value="headers">
+									<Textarea
+										value={headersText}
+										onChange={(event) => setHeadersText(event.target.value)}
+										className="min-h-36 font-mono"
+									/>
+								</TabsContent>
+							</Tabs>
+						</CardContent>
+					</Card>
+
+					<Card className="border-k-100">
+						<CardHeader className="pb-3">
+							<div className="flex items-center justify-between gap-2">
+								<CardTitle className="typo-sb-9 text-k-800">응답</CardTitle>
+								<Button type="button" variant="outline" onClick={handleCopyResponse} disabled={!requestResult}>
+									<Copy className="h-4 w-4" />
+									응답 복사
+								</Button>
+							</div>
+							{requestResult ? (
+								<div className="flex items-center gap-2 typo-regular-4 text-k-600">
+									<span className="rounded bg-k-100 px-2 py-1">HTTP {requestResult.status}</span>
+									<span>{requestResult.durationMs}ms</span>
+								</div>
+							) : null}
+						</CardHeader>
+						<CardContent className="pt-0">
+							{requestResult ? (
+								<Tabs defaultValue="body">
+									<TabsList>
+										<TabsTrigger value="body">Body</TabsTrigger>
+										<TabsTrigger value="headers">Headers</TabsTrigger>
+									</TabsList>
+									<TabsContent value="body">
+										<Textarea value={toPrettyJson(requestResult.body)} readOnly className="min-h-48 font-mono" />
+									</TabsContent>
+									<TabsContent value="headers">
+										<Table>
+											<TableHeader>
+												<TableRow>
+													<TableHead>Header</TableHead>
+													<TableHead>Value</TableHead>
+												</TableRow>
+											</TableHeader>
+											<TableBody>
+												{Object.entries(requestResult.headers).map(([key, value]) => (
+													<TableRow key={key}>
+														<TableCell className="font-mono text-k-600">{key}</TableCell>
+														<TableCell className="break-all font-mono text-k-700">{value}</TableCell>
+													</TableRow>
+												))}
+											</TableBody>
+										</Table>
+									</TabsContent>
+								</Tabs>
+							) : (
+								<div className="rounded-md border border-dashed border-k-200 bg-bg-50 px-4 py-8 text-center typo-regular-4 text-k-500">
+									요청을 보내면 응답이 여기에 표시됩니다.
+								</div>
+							)}
+						</CardContent>
+					</Card>
+				</div>
 			</div>
-		</div>
+		</AdminLayout>
 	);
 }
