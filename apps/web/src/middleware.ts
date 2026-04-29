@@ -1,6 +1,5 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { isTokenExpired } from "@/utils/jwtUtils";
 
 const loginNeedPages = ["/mentor", "/my", "/community"]; // 로그인 필요페이지
 const NEED_LOGIN_COOKIE_KEY = "isNeedLogin";
@@ -15,6 +14,7 @@ const blockedExactPaths = new Set([
 const blockedPathPrefixes = ["/wp-admin", "/phpmyadmin", "/pma", "/.env", "/.git", "/vendor"];
 
 const isStageHostname = (hostname: string) => hostname.includes("stage");
+const isLocalHostname = (hostname: string) => hostname === "localhost" || hostname === "127.0.0.1";
 
 const isProbePath = (pathname: string) => {
   if (blockedExactPaths.has(pathname)) {
@@ -84,10 +84,10 @@ export function middleware(request: NextRequest) {
     });
   }
 
-  // localhost 환경에서는 미들웨어 적용 X
-  // if (url.hostname === "localhost") {
-  //   return NextResponse.next();
-  // }
+  // local 개발 환경에서는 서버 도메인 쿠키와 분리되어 refreshToken을 신뢰할 수 없으므로 로그인 가드를 스킵한다.
+  if (isLocalHostname(request.nextUrl.hostname)) {
+    return NextResponse.next();
+  }
 
   // HTTP-only 쿠키의 refreshToken 확인
   const refreshToken = request.cookies.get("refreshToken")?.value;
@@ -99,10 +99,6 @@ export function middleware(request: NextRequest) {
 
   if (needLogin && !refreshToken) {
     return buildLoginRedirectResponse(request);
-  }
-
-  if (needLogin && isTokenExpired(refreshToken ?? null)) {
-    return buildLoginRedirectResponse(request, { clearRefreshToken: true });
   }
 
   return NextResponse.next();
