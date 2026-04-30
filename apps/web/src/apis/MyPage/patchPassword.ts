@@ -2,8 +2,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import type { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
 import useAuthStore from "@/lib/zustand/useAuthStore";
-import { toast } from "@/lib/zustand/useToastStore";
 import { QueryKeys } from "../queryKeys";
 import { myPageApi, type PasswordPatchRequest } from "./api";
 
@@ -20,10 +20,6 @@ const usePatchMyPassword = () => {
       queryClient.clear();
       toast.success("비밀번호가 성공적으로 변경되었습니다.");
       router.replace("/");
-    },
-    onError: (error) => {
-      const errorMessage = error.response?.data?.message;
-      toast.error(errorMessage || "비밀번호 변경에 실패했습니다. 다시 시도해주세요.");
     },
   });
 };

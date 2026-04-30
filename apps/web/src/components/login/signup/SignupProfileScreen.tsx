@@ -1,11 +1,9 @@
 "use client";
 
 import { type Dispatch, type SetStateAction, useRef, useState } from "react";
-
+import { toast } from "react-hot-toast";
 import BlockBtn from "@/components/button/BlockBtn";
 import { Input } from "@/components/ui/Inputa";
-
-import { toast } from "@/lib/zustand/useToastStore";
 import { IconSignupProfileImage } from "@/public/svgs/auth";
 
 type SignupProfileScreenProps = {

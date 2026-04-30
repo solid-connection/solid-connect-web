@@ -2,12 +2,12 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "react-hot-toast";
 import { usePostSubmitApplication } from "@/apis/applications";
 import { useGetMyGpaScore, useGetMyLanguageTestScore } from "@/apis/Scores";
 import { useUniversitySearch } from "@/apis/universities";
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import ProgressBar from "@/components/ui/ProgressBar";
-import { toast } from "@/lib/zustand/useToastStore";
 import type { ListUniversity } from "@/types/university";
 import ConfirmStep from "./ConfirmStep";
 import DoneStep from "./DoneStep";

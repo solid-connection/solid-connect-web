@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { toast } from "@/lib/zustand/useToastStore";
+import { toast } from "react-hot-toast";
 import { ScoresQueryKeys, scoresApi, type UsePostGpaScoreRequest } from "./api";
 
 /**
@@ -15,10 +15,6 @@ export const usePostGpaScore = () => {
     onSuccess: () => {
       toast.success("학점 정보가 성공적으로 제출되었습니다.");
       queryClient.invalidateQueries({ queryKey: [ScoresQueryKeys.myGpaScore] });
-    },
-
-    onError: (error) => {
-      toast.error("오류가 발생했습니다. 다시 시도해주세요.");
     },
   });
 };

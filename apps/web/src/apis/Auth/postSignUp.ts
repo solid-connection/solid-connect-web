@@ -1,7 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
 
-import { toast } from "@/lib/zustand/useToastStore";
 import { authApi, type SignUpRequest, type SignUpResponse } from "./api";
 
 /**
@@ -10,9 +9,6 @@ import { authApi, type SignUpRequest, type SignUpResponse } from "./api";
 const usePostSignUp = () => {
   return useMutation<SignUpResponse, AxiosError, SignUpRequest>({
     mutationFn: (data) => authApi.postSignUp(data),
-    onError: (error) => {
-      toast.error("회원가입에 실패했습니다.");
-    },
   });
 };
 

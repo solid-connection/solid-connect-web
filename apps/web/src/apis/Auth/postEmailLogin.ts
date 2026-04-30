@@ -2,8 +2,8 @@ import { useMutation } from "@tanstack/react-query";
 
 import type { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
 import useAuthStore from "@/lib/zustand/useAuthStore";
-import { toast } from "@/lib/zustand/useToastStore";
 import { authApi, type EmailLoginRequest, type EmailLoginResponse } from "./api";
 
 /**

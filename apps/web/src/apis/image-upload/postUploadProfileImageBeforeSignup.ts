@@ -1,6 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
-import { toast } from "@/lib/zustand/useToastStore";
 import type { FileResponse } from "@/types/file";
 import { imageUploadApi } from "./api";
 
@@ -10,9 +9,6 @@ import { imageUploadApi } from "./api";
 const useUploadProfileImagePublic = () => {
   return useMutation<FileResponse, AxiosError, File>({
     mutationFn: imageUploadApi.postUploadProfileImageBeforeSignup,
-    onError: (error) => {
-      toast.error("이미지 업로드에 실패했습니다.");
-    },
   });
 };
 

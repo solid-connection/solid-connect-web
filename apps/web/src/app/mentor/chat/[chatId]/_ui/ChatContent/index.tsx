@@ -2,12 +2,11 @@
 
 import clsx from "clsx";
 import Link from "next/link";
+import { toast } from "react-hot-toast";
 import { useGetPartnerInfo } from "@/apis/chat";
 import { useUploadProfileImage } from "@/apis/image-upload";
-
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
 import useAuthStore from "@/lib/zustand/useAuthStore";
-import { toast } from "@/lib/zustand/useToastStore";
 import { ConnectionStatus } from "@/types/chat";
 import { UserRole } from "@/types/mentor";
 import { tokenParse } from "@/utils/jwtUtils";

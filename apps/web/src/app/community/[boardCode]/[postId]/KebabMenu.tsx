@@ -2,9 +2,9 @@
 
 import { useRouter } from "next/navigation";
 import { type RefObject, useEffect, useRef, useState } from "react";
+import { toast } from "react-hot-toast";
 import { useDeletePost } from "@/apis/community";
 import ReportPanel from "@/components/ui/ReportPanel";
-import { toast } from "@/lib/zustand/useToastStore";
 import { IconSetting } from "@/public/svgs/mentor";
 
 const useClickOutside = (ref: RefObject<HTMLDivElement | null>, handler: (event: MouseEvent | TouchEvent) => void) => {

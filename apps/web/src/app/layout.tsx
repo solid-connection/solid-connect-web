@@ -2,9 +2,9 @@ import type { Metadata, Viewport } from "next";
 import dynamic from "next/dynamic";
 import localFont from "next/font/local";
 import type { ReactNode } from "react";
+import { Toaster } from "react-hot-toast";
 
 import GlobalLayout from "@/components/layout/GlobalLayout";
-import ToastContainer from "@/components/ui/Toast";
 
 import QueryProvider from "@/lib/react-query/QueryProvider";
 import "@/styles/globals.css";
@@ -76,7 +76,14 @@ const RootLayout = ({ children }: { children: ReactNode }) => (
       <SpeedInsights />
       <QueryProvider>
         <GlobalLayout>{children}</GlobalLayout>
-        <ToastContainer />
+        <Toaster
+          position="top-center"
+          gutter={8}
+          containerStyle={{ top: 80 }}
+          toastOptions={{
+            duration: 3000,
+          }}
+        />
       </QueryProvider>
     </body>
   </html>

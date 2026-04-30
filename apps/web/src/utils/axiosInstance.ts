@@ -1,8 +1,7 @@
 import axios, { type AxiosError, type AxiosInstance } from "axios";
-
+import { toast } from "react-hot-toast";
 import { postReissueToken } from "@/apis/Auth/server";
 import useAuthStore from "@/lib/zustand/useAuthStore";
-import { toast } from "@/lib/zustand/useToastStore";
 import { isTokenExpired } from "@/utils/jwtUtils";
 
 // --- 글로벌 변수 ---
@@ -28,7 +27,7 @@ const redirectToLogin = (message: string) => {
     try {
       // 쿠키 유틸이 클라이언트에서만 동작하므로 window 가드 내에서 호출
     } catch {}
-    toast.error(message);
+    toast.error(message, { id: "auth-redirect" });
     window.location.href = "/login";
   }
 };

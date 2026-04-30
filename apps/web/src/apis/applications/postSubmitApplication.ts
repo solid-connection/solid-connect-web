@@ -1,7 +1,6 @@
 import { type UseMutationOptions, type UseMutationResult, useMutation } from "@tanstack/react-query";
 import type { AxiosError, AxiosResponse } from "axios";
 
-import { toast } from "@/lib/zustand/useToastStore";
 import { applicationsApi, type UseSubmitApplicationRequest, type UseSubmitApplicationResponse } from "./api";
 
 /**
@@ -27,10 +26,6 @@ const usePostSubmitApplication = (
   >({
     ...props,
     mutationFn: applicationsApi.postSubmitApplication,
-    onError: (error) => {
-      const errorMessage = error?.response?.data?.message;
-      toast.error(errorMessage || "지원 중 오류가 발생했습니다. 다시 시도해주세요.");
-    },
   });
 };
 

@@ -5,7 +5,6 @@ import { postBlockUser } from "@/apis/users";
 import { reportReasons } from "@/constants/report";
 import { customConfirm } from "@/lib/zustand/useConfirmModalStore";
 import useReportedPostsStore from "@/lib/zustand/useReportedPostsStore";
-import { toast } from "@/lib/zustand/useToastStore";
 import { IconReport } from "@/public/svgs/mentor";
 import type { ReportType } from "@/types/reports";
 
@@ -61,7 +60,6 @@ const useSelectReportHandler = (
               });
             } catch {
               removeBlockedUser(blockUserId);
-              toast.error("사용자 차단에 실패했습니다. 다시 시도해주세요.");
               return;
             }
           }

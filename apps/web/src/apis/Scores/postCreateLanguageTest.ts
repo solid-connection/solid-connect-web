@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { toast } from "@/lib/zustand/useToastStore";
+import { toast } from "react-hot-toast";
 import { ScoresQueryKeys, scoresApi, type UsePostLanguageTestScoreRequest } from "./api";
 
 /**
@@ -15,10 +15,6 @@ export const usePostLanguageTestScore = () => {
     onSuccess: () => {
       toast.success("어학 성적이 성공적으로 제출되었습니다.");
       queryClient.invalidateQueries({ queryKey: [ScoresQueryKeys.myLanguageTestScore] });
-    },
-
-    onError: (error) => {
-      toast.error("오류가 발생했습니다. 다시 시도해주세요.");
     },
   });
 };

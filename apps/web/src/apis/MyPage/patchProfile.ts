@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
-import { toast } from "@/lib/zustand/useToastStore";
+import { toast } from "react-hot-toast";
 import { QueryKeys } from "../queryKeys";
 import { myPageApi, type ProfilePatchRequest } from "./api";
 
@@ -17,10 +17,6 @@ const usePatchMyInfo = () => {
     },
     onSuccess: () => {
       toast.success("프로필이 성공적으로 수정되었습니다.");
-    },
-    onError: (error) => {
-      const errorMessage = error.response?.data?.message;
-      toast.error(errorMessage || "프로필 수정에 실패했습니다. 다시 시도해주세요.");
     },
   });
 };

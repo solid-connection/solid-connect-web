@@ -3,12 +3,11 @@
 import clsx from "clsx";
 import { useMemo, useRef } from "react";
 import { useFormContext } from "react-hook-form";
+import { toast } from "react-hot-toast";
 import type { z } from "zod";
 import { useUniversitySearch } from "@/apis/universities";
 import BlockBtn from "@/components/button/BlockBtn";
-
 import { mentorRegionList } from "@/constants/regions";
-import { toast } from "@/lib/zustand/useToastStore";
 import type { mentorApplicationSchema } from "../../_lib/schema";
 
 type FormValues = z.input<typeof mentorApplicationSchema>;

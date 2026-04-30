@@ -1,8 +1,8 @@
 "use client";
 
 import { type ChangeEvent, type DragEvent, useEffect, useRef, useState } from "react";
+import { toast } from "react-hot-toast";
 import { COMMUNITY_MAX_UPLOAD_IMAGES } from "@/constants/community";
-import { toast } from "@/lib/zustand/useToastStore";
 
 type UseCommunityImageUploadOptions = {
   maxImages?: number;

@@ -4,7 +4,6 @@ import type { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 
 import useAuthStore from "@/lib/zustand/useAuthStore";
-import { toast } from "@/lib/zustand/useToastStore";
 import { type AccountResponse, authApi } from "./api";
 
 /**
@@ -25,9 +24,6 @@ const useDeleteUserAccount = () => {
       // Zustand persist가 자동으로 localStorage에서 제거
       clearAccessToken();
       queryClient.clear();
-    },
-    onError: () => {
-      toast.error("회원탈퇴에 실패했습니다. 잠시 후 다시 시도해주세요.");
     },
   });
 };
