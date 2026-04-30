@@ -1,6 +1,7 @@
 import { MutationCache, QueryCache, QueryClient } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
 import { toast } from "react-hot-toast";
+import { shouldSkipGlobalErrorToast } from "./errorToastMeta";
 
 type ErrorResponse = {
   message?: string;
@@ -18,7 +19,9 @@ const buildToastId = (status: number | undefined, message: string) =>
 
 const queryClient = new QueryClient({
   queryCache: new QueryCache({
-    onError: (error) => {
+    onError: (error, query) => {
+      if (shouldSkipGlobalErrorToast(query.meta)) return;
+
       const axiosError = error as AxiosError<ErrorResponse>;
       const status = axiosError?.response?.status;
       if (isUnauthorized(status)) return;
@@ -30,7 +33,9 @@ const queryClient = new QueryClient({
     },
   }),
   mutationCache: new MutationCache({
-    onError: (error) => {
+    onError: (error, _variables, _context, mutation) => {
+      if (shouldSkipGlobalErrorToast(mutation.options.meta)) return;
+
       const axiosError = error as AxiosError<ErrorResponse>;
       const status = axiosError?.response?.status;
 
