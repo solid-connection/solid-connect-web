@@ -1,5 +1,9 @@
 # AGENTS Knowledge Base
 
+## Mandatory Rule
+
+- PR 제목과 본문은 반드시 한국어로 작성한다.
+
 ## Project Overview
 
 - Monorepo managed with `pnpm` + `turbo`.
@@ -45,3 +49,5 @@
 - Web app auth/details: `apps/web/AUTHENTICATION.md`.
 - Web component guidance: `apps/web/COMPONENTS.md`.
 - Team workflow: `docs/development-workflow.md` and `CLAUDE.md`.
+- LLM repository context: `llms.txt`.
+- Bruno + codegen + React Query skill doc: `docs/skills/ai-bruno-codegen-react-query-skill.md`.

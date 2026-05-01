@@ -68,7 +68,6 @@ const KebabMenu = ({ postId, boardCode, isOwner = false, authorId }: KebabMenuPr
       await navigator.clipboard.writeText(url);
       toast.success("URL이 복사되었습니다.");
     } catch (err) {
-      console.error("Failed to copy URL:", err);
       toast.error("URL 복사에 실패했습니다.");
     }
   };

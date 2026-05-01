@@ -10,6 +10,7 @@ const withBundleAnalyzer = bundleAnalyzer({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   swcMinify: true,
+  transpilePackages: ["@solid-connect/ai-inspector"],
   images: {
     unoptimized: true,
     domains: ["k.kakaocdn.net", "cdn.default.solid-connection.com", "cdn.upload.solid-connection.com"],

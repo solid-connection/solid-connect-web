@@ -1,4 +1,5 @@
 import type { AxiosResponse } from "axios";
+import { COMMUNITY_MAX_UPLOAD_IMAGES } from "@/constants/community";
 import type {
   CommentCreateRequest,
   CommentIdResponse,
@@ -91,7 +92,7 @@ export const communityApi = {
       "postCreateRequest",
       new Blob([JSON.stringify(request.postCreateRequest)], { type: "application/json" }),
     );
-    request.file.forEach((file) => {
+    request.file.slice(0, COMMUNITY_MAX_UPLOAD_IMAGES).forEach((file) => {
       convertedRequest.append("file", file);
     });
 
@@ -111,7 +112,7 @@ export const communityApi = {
       "postUpdateRequest",
       new Blob([JSON.stringify(request.postUpdateRequest)], { type: "application/json" }),
     );
-    request.file.forEach((file) => {
+    request.file.slice(0, COMMUNITY_MAX_UPLOAD_IMAGES).forEach((file) => {
       convertedRequest.append("file", file);
     });
 

@@ -55,7 +55,6 @@ const LanguageTestSubmitForm = () => {
       setSubmittedData(data);
     } catch (error) {
       // 실패 시 처리 (알림, 로그 등)
-      console.error("어학 성적 제출 실패:", error);
       toast.error("제출에 실패했습니다. 다시 시도해주세요.");
     }
   };

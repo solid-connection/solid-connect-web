@@ -6,6 +6,8 @@
     "dev:web": "pnpm --filter @solid-connect/web run dev",
     "dev:admin": "pnpm --filter @solid-connect/admin run dev",
     "dev:debug": "turbo dev --filter=@solid-connect/web --filter=@solid-connect/admin",
+    "ai-inspector:worker": "node --env-file-if-exists=apps/web/.env.local .github/scripts/ai-inspector-worker.mjs",
+    "ai-inspector:worker:loop": "node --env-file-if-exists=apps/web/.env.local scripts/ai-inspector-worker-loop.mjs",
     "build": "turbo build",
     "sync:bruno": "turbo run sync:bruno",
     "lint": "turbo lint",
@@ -22,6 +24,7 @@
     "@biomejs/biome": "^2.3.11",
     "@commitlint/cli": "^20.2.0",
     "@commitlint/config-conventional": "^20.2.0",
+    "firebase-admin": "^13.7.0",
     "husky": "^9.1.7",
     "turbo": "^2.3.0"
   },

@@ -5,7 +5,6 @@
  */
 const logInvalidDate = (dateString: string, functionName: string) => {
   if (process.env.NODE_ENV !== "production") {
-    console.error(`[${functionName}] Invalid date string:`, dateString);
   }
 };
 

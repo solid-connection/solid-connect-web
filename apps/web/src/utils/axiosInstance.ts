@@ -3,6 +3,7 @@ import axios, { type AxiosError, type AxiosInstance } from "axios";
 import { postReissueToken } from "@/apis/Auth/server";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { toast } from "@/lib/zustand/useToastStore";
+import { isTokenExpired } from "@/utils/jwtUtils";
 
 // --- 글로벌 변수 ---
 let reissuePromise: Promise<void> | null = null;
@@ -34,6 +35,34 @@ const redirectToLogin = (message: string) => {
 
 export const convertToBearer = (token: string) => `Bearer ${token}`;
 
+const tryReissueAccessToken = async (): Promise<string | null> => {
+  if (reissuePromise) {
+    await reissuePromise;
+    return useAuthStore.getState().accessToken;
+  }
+
+  const { setLoading, clearAccessToken, setInitialized, setRefreshStatus } = useAuthStore.getState();
+
+  reissuePromise = (async () => {
+    setRefreshStatus("refreshing");
+    setLoading(true);
+    try {
+      await postReissueToken();
+      setRefreshStatus("success");
+    } catch {
+      clearAccessToken();
+      setRefreshStatus("failed");
+    } finally {
+      setLoading(false);
+      setInitialized(true);
+      reissuePromise = null;
+    }
+  })();
+
+  await reissuePromise;
+  return useAuthStore.getState().accessToken;
+};
+
 // --- Axios 인스턴스 ---
 // 인증이 필요 없는 공용 API 요청에 사용
 export const publicAxiosInstance: AxiosInstance = axios.create({
@@ -52,40 +81,24 @@ export const axiosInstance: AxiosInstance = axios.create({
 // 1. 요청 인터셉터 (Request Interceptor)
 axiosInstance.interceptors.request.use(
   async (config) => {
-    const { accessToken, setLoading, clearAccessToken, setInitialized, refreshStatus, setRefreshStatus } =
-      useAuthStore.getState();
+    const { accessToken, clearAccessToken, refreshStatus } = useAuthStore.getState();
+
+    // 만료된 access token은 즉시 제거하고 refresh 재발급 경로를 타게 한다.
+    if (accessToken && isTokenExpired(accessToken)) {
+      clearAccessToken();
+    }
+
+    const validAccessToken = useAuthStore.getState().accessToken;
 
     // 토큰이 있으면 헤더에 추가하고 진행
-    if (accessToken) {
-      config.headers.Authorization = convertToBearer(accessToken);
+    if (validAccessToken) {
+      config.headers.Authorization = convertToBearer(validAccessToken);
       return config;
     }
 
     if (refreshStatus !== "failed") {
       try {
-        // 이미 reissue가 진행 중인지 확인
-        if (reissuePromise) {
-          await reissuePromise;
-        } else {
-          // 새로운 reissue 프로세스 시작 (HTTP-only 쿠키의 refreshToken 사용)
-          reissuePromise = (async () => {
-            setRefreshStatus("refreshing");
-            setLoading(true);
-            try {
-              await postReissueToken();
-              setRefreshStatus("success");
-            } catch {
-              clearAccessToken();
-              setRefreshStatus("failed");
-            } finally {
-              setLoading(false);
-              setInitialized(true);
-              reissuePromise = null;
-            }
-          })();
-
-          await reissuePromise;
-        }
+        await tryReissueAccessToken();
 
         // reissue 완료 후 업데이트된 토큰으로 헤더 설정
         const updatedAccessToken = useAuthStore.getState().accessToken;
@@ -119,12 +132,31 @@ axiosInstance.interceptors.request.use(
 );
 
 // 2. 응답 인터셉터 (Response Interceptor)
-//    역할: 401 에러 시 로그인 페이지로 리다이렉트
+//    역할: 401 에러 시 access 재발급 1회 재시도 후 실패하면 로그인 페이지로 리다이렉트
 axiosInstance.interceptors.response.use(
   (response) => response,
-  (error: AxiosError) => {
-    // 401 에러 시 로그인 페이지로 리다이렉트
-    if (error.response?.status === 401) {
+  async (error: AxiosError) => {
+    const status = error.response?.status;
+
+    if (status === 401) {
+      const originalRequest = error.config as (typeof error.config & { _retry?: boolean }) | undefined;
+
+      if (originalRequest && !originalRequest._retry && useAuthStore.getState().refreshStatus !== "failed") {
+        originalRequest._retry = true;
+
+        try {
+          const reissuedAccessToken = await tryReissueAccessToken();
+
+          if (reissuedAccessToken) {
+            originalRequest.headers = originalRequest.headers ?? {};
+            originalRequest.headers.Authorization = convertToBearer(reissuedAccessToken);
+            return axiosInstance(originalRequest);
+          }
+        } catch {
+          // 재발급 실패 시 아래 로그인 리다이렉트로 처리
+        }
+      }
+
       redirectToLogin("세션이 만료되었습니다. 다시 로그인해주세요.");
     }
 

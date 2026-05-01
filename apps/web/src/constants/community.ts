@@ -6,3 +6,5 @@ export const COMMUNITY_BOARDS = [
 ];
 
 export const COMMUNITY_CATEGORIES = ["전체", "자유", "질문"];
+
+export const COMMUNITY_MAX_UPLOAD_IMAGES = 5;

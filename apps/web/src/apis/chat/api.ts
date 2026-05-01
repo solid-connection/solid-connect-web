@@ -1,6 +1,14 @@
 import type { AxiosResponse } from "axios";
 import type { ChatMessage, ChatPartner, ChatRoom } from "@/types/chat";
 import { axiosInstance } from "@/utils/axiosInstance";
+import {
+  normalizeChatMessage,
+  normalizeChatPartner,
+  normalizeChatRoom,
+  type RawChatMessage,
+  type RawChatPartner,
+  type RawChatRoom,
+} from "./normalize";
 
 // QueryKeys for chat domain
 export const ChatQueryKeys = {
@@ -27,20 +35,34 @@ interface GetChatHistoriesParams {
   page?: number;
 }
 
+interface RawChatHistoriesResponse {
+  nextPageNumber: number;
+  content: RawChatMessage[];
+}
+
+interface RawChatRoomListResponse {
+  chatRooms: RawChatRoom[];
+}
+
 export const chatApi = {
   getChatHistories: async ({ roomId, size = 20, page = 0 }: GetChatHistoriesParams): Promise<ChatHistoriesResponse> => {
-    const res = await axiosInstance.get<ChatHistoriesResponse>(`/chats/rooms/${roomId}`, {
+    const res = await axiosInstance.get<RawChatHistoriesResponse>(`/chats/rooms/${roomId}`, {
       params: {
         size,
         page,
       },
     });
-    return res.data;
+    return {
+      nextPageNumber: res.data.nextPageNumber,
+      content: (res.data.content ?? []).map(normalizeChatMessage),
+    };
   },
 
   getChatRooms: async (): Promise<ChatRoomListResponse> => {
-    const res = await axiosInstance.get<ChatRoomListResponse>("/chats/rooms");
-    return res.data;
+    const res = await axiosInstance.get<RawChatRoomListResponse>("/chats/rooms");
+    return {
+      chatRooms: (res.data.chatRooms ?? []).map(normalizeChatRoom),
+    };
   },
 
   putReadChatRoom: async (roomId: number): Promise<void> => {
@@ -49,7 +71,7 @@ export const chatApi = {
   },
 
   getChatPartner: async (roomId: number): Promise<ChatPartner> => {
-    const res = await axiosInstance.get<ChatPartner>(`/chats/rooms/${roomId}/partner`);
-    return res.data;
+    const res = await axiosInstance.get<RawChatPartner>(`/chats/rooms/${roomId}/partner`);
+    return normalizeChatPartner(res.data);
   },
 };

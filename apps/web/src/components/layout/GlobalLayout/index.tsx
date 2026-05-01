@@ -6,6 +6,7 @@ import BottomNavigation from "./ui/BottomNavigation";
 // import ServerModal from "./ui/ServerModal";
 
 // const BottomNavigationDynamic = dynamic(() => import("./ui/BottomNavigation"), { ssr: false, loading: () => null });
+const AIInspectorFab = dynamic(() => import("./ui/AIInspectorFab/index"), { ssr: false, loading: () => null });
 const ClientModal = dynamic(() => import("./ui/ClientModal"), { ssr: false, loading: () => null });
 
 type LayoutProps = {
@@ -17,6 +18,7 @@ const GlobalLayout = ({ children }: LayoutProps) => {
     <div className="mx-auto mb-14 w-full min-w-app max-w-app pt-14">
       {children}
       <BottomNavigation />
+      <AIInspectorFab />
       <ClientModal />
       {/* <ServerModal /> */}
     </div>

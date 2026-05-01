@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useDeleteComment } from "@/apis/community";
 import Dropdown from "@/components/ui/Dropdown";
 import Image from "@/components/ui/FallbackImage";
+import { DEFAULT_PROFILE_IMAGE } from "@/constants/profile";
 import { IconMoreVertFilled, IconSubComment } from "@/public/svgs";
 import type { Comment as CommentType, CommunityUser } from "@/types/community";
 import { convertISODateToDateTime } from "@/utils/datetimeUtils";
@@ -137,9 +138,7 @@ const CommentProfile = ({ user }: { user: CommunityUser }) => {
       <div className="h-[25px] w-[25px] rounded-full bg-bg-600">
         <Image
           className="h-full w-full rounded-full"
-          src={
-            user?.profileImageUrl ? convertUploadedImageUrl(user?.profileImageUrl) : "/images/placeholder/profile64.svg"
-          }
+          src={user?.profileImageUrl ? convertUploadedImageUrl(user?.profileImageUrl) : DEFAULT_PROFILE_IMAGE}
           width={40}
           height={40}
           alt="alt"

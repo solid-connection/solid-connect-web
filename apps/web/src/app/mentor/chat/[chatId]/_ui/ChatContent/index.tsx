@@ -24,9 +24,10 @@ interface ChatContentProps {
 const ChatContent = ({ chatId }: ChatContentProps) => {
   const { accessToken } = useAuthStore();
   const parsedData = tokenParse(accessToken);
-  const userId = parsedData?.sub ?? 0;
+  const userId = Number(parsedData?.sub ?? 0) || 0;
 
   const isMentor = parsedData?.role === UserRole.MENTOR || parsedData?.role === UserRole.ADMIN;
+  const isPartnerMentor = !isMentor;
 
   // 채팅 읽음 상태 업데이트 훅 진입시 자동으로
   usePutChatReadHandler(chatId);
@@ -72,7 +73,7 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
               )}
             >
               <div className="flex items-center gap-2">
-                <ProfileWithBadge profileImageUrl={profileUrl} width={30} height={30} />
+                <ProfileWithBadge profileImageUrl={profileUrl} isMentor={isPartnerMentor} width={30} height={30} />
                 <div className="flex h-full items-center">
                   <span className="text-k-700 typo-sb-7">{nickname}</span>
                   <div className="mx-4 h-10 w-[1px] bg-k-100"></div>
@@ -138,10 +139,14 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
               {/* 첫 번째 메시지에 ref 부착하여 위로 스크롤 시 더 오래된 메시지 로드 */}
               {messages.map((message, index) => {
                 const showDateSeparator = index === 0 || !isSameDay(messages[index - 1].createdAt, message.createdAt);
+                const messageKey =
+                  message.id > 0
+                    ? `message-${message.id}`
+                    : `message-${message.senderId}-${message.createdAt}-${message.content}-${index}`;
 
                 return (
                   <div
-                    key={message.id}
+                    key={messageKey}
                     ref={index === 0 ? topDetectorRef : null} // 첫 번째 메시지에 ref 부착
                   >
                     {/* 날짜 구분선 */}
@@ -154,10 +159,10 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
                     )}
                     {/* 일반 채팅 메시지 */}
                     <ChatMessageBox
-                      key={message.id}
                       message={message}
                       currentUserId={userId}
                       partnerNickname={nickname}
+                      isPartnerMentor={isPartnerMentor}
                     />
                   </div>
                 );

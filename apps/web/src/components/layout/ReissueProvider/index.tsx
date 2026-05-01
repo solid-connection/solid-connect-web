@@ -48,9 +48,7 @@ const ReissueProvider: React.FC<ReissueProviderProps> = ({ children }) => {
             useAuthStore.getState().setLoading(false);
           }
         }
-      } catch (error) {
-        console.error("Error initializing auth:", error);
-      }
+      } catch (error) {}
     };
 
     initializeAuth();

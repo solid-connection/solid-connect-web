@@ -94,21 +94,23 @@ export const PostCard = ({ post }: { post: ListPost }) => (
       </div>
     </div>
 
-    <div className="ml-4 mt-3 h-20 w-20 select-none">
-      {post.postThumbnailUrl ? (
-        <Image
-          className="rounded-md object-cover"
-          src={convertUploadedImageUrl(post.postThumbnailUrl)}
-          height={82}
-          width={82}
-          alt="게시글 사진"
-          fallbackSrc="/images/article-thumb.png"
-        />
-      ) : (
-        <div className="bg-gray-c-50 flex h-20 w-20 items-center justify-center rounded border border-k-100">
-          <IconSolidConnentionLogo />
-        </div>
-      )}
+    <div className="ml-4 mt-3 h-20 w-20 shrink-0 select-none">
+      <div className="bg-gray-c-50 relative h-full w-full overflow-hidden rounded border border-k-100">
+        {post.postThumbnailUrl ? (
+          <Image
+            className="object-cover"
+            src={convertUploadedImageUrl(post.postThumbnailUrl)}
+            fill
+            sizes="80px"
+            alt="게시글 사진"
+            fallbackSrc="/images/article-thumb.png"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center">
+            <IconSolidConnentionLogo />
+          </div>
+        )}
+      </div>
     </div>
   </div>
 );

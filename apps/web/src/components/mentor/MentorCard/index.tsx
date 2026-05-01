@@ -28,6 +28,7 @@ const MentorCard = ({ mentor, observeRef, isMine = false }: MentorCardProps) => 
     nickname,
     universityName,
     introduction,
+    passTip,
     channels,
     term,
     id,
@@ -67,6 +68,14 @@ const MentorCard = ({ mentor, observeRef, isMine = false }: MentorCardProps) => 
             <h4 className="mb-2 text-blue-600 typo-medium-5">멘토 한마디</h4>
             <p className="text-k-500 typo-regular-2">{introduction}</p>
           </div>
+
+          {/* 합격 레시피 */}
+          {isDetail && (
+            <div className="mb-4">
+              <h4 className="mb-2 text-blue-600 typo-medium-5">합격 레시피</h4>
+              <p className="text-k-500 typo-regular-2">{passTip || "정보가 없습니다."}</p>
+            </div>
+          )}
 
           {/* 멘토 채널 */}
           <div className="mb-4">

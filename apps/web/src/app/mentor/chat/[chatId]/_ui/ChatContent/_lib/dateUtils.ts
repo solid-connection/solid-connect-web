@@ -5,7 +5,6 @@ export const formatDateSeparator = (dateString: string) => {
 
   // Invalid date 체크
   if (Number.isNaN(date.getTime())) {
-    console.error("Invalid date string:", dateString);
     return "";
   }
 

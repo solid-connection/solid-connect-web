@@ -20,7 +20,6 @@ interface DeletePostVariables {
 const revalidateCommunityPage = async (boardCode: string, accessToken: string) => {
   try {
     if (!accessToken) {
-      console.warn("Revalidation skipped: No access token available");
       return;
     }
 
@@ -32,9 +31,7 @@ const revalidateCommunityPage = async (boardCode: string, accessToken: string) =
       },
       body: JSON.stringify({ boardCode }),
     });
-  } catch (error) {
-    console.error("Revalidate failed:", error);
-  }
+  } catch (error) {}
 };
 
 /**
@@ -63,7 +60,6 @@ const useDeletePost = () => {
       router.replace(`/community/${variables.boardCode || "FREE"}`);
     },
     onError: (error) => {
-      console.error("게시글 삭제 실패:", error);
       toast.error("게시글 삭제에 실패했습니다. 잠시 후 다시 시도해주세요.");
     },
   });

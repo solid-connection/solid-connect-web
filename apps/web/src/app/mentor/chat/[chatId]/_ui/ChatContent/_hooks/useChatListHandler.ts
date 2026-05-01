@@ -6,6 +6,18 @@ import { type ChatMessage, ConnectionStatus } from "@/types/chat";
 // --- 프로젝트 내부 의존성 ---
 import useInfinityScroll from "@/utils/useInfinityScroll";
 
+const getMessageDedupeKey = (message: ChatMessage): string => {
+  if (message.id > 0) {
+    return `id:${message.id}`;
+  }
+
+  const attachmentKey = message.attachments
+    .map((attachment) => `${attachment.isImage ? "image" : "file"}:${attachment.url}:${attachment.createdAt}`)
+    .join(",");
+
+  return `fallback:${message.senderId}:${message.createdAt}:${message.content}:${attachmentKey}`;
+};
+
 const useChatListHandler = (chatId: number) => {
   // --- 1. State 및 Ref 선언 ---
   const clientRef = useRef<Client | null>(null);
@@ -46,11 +58,12 @@ const useChatListHandler = (chatId: number) => {
       );
       // Deduplicate by id, keeping the last occurrence (chronological order)
       const dedupedMessages: ChatMessage[] = [];
-      const seenIds = new Set<string | number>();
+      const seenIds = new Set<string>();
       for (let i = sortedMessages.length - 1; i >= 0; i--) {
         const msg = sortedMessages[i];
-        if (!seenIds.has(msg.id)) {
-          seenIds.add(msg.id);
+        const dedupeKey = getMessageDedupeKey(msg);
+        if (!seenIds.has(dedupeKey)) {
+          seenIds.add(dedupeKey);
           dedupedMessages.unshift(msg);
         }
       }
@@ -80,7 +93,6 @@ const useChatListHandler = (chatId: number) => {
           body: JSON.stringify({ content, senderId }),
         });
       } else {
-        console.error("WebSocket is not connected. Message could not be sent.");
         // 여기에 메시지 전송 실패에 대한 UI 피드백 로직을 추가할 수 있습니다. (e.g., alert, toast)
       }
     },
@@ -100,7 +112,6 @@ const useChatListHandler = (chatId: number) => {
         return true;
       }
 
-      console.error("WebSocket is not connected. Image message could not be sent.");
       return false;
     },
     [chatId, connectionStatus],

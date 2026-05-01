@@ -2,8 +2,10 @@ import { Client } from "@stomp/stompjs";
 import type { MutableRefObject } from "react";
 import { useEffect, useState } from "react";
 import SockJS from "sockjs-client";
+import { normalizeChatMessage, type RawChatMessage } from "@/apis/chat/normalize";
 
 import { type ChatMessage, ConnectionStatus } from "@/types/chat";
+import { isTokenExpired } from "@/utils/jwtUtils";
 import useAuthStore from "../zustand/useAuthStore";
 
 interface UseConnectWebSocketProps {
@@ -25,6 +27,7 @@ const useConnectWebSocket = ({ roomId, clientRef }: UseConnectWebSocketProps): U
   const [submittedMessages, setSubmittedMessages] = useState<ChatMessage[]>([]);
   const accessToken = useAuthStore((state) => state.accessToken);
   const isInitialized = useAuthStore((state) => state.isInitialized);
+  const hasValidAccessToken = Boolean(accessToken && !isTokenExpired(accessToken));
 
   useEffect(() => {
     if (!roomId) {
@@ -32,7 +35,7 @@ const useConnectWebSocket = ({ roomId, clientRef }: UseConnectWebSocketProps): U
       return;
     }
 
-    if (!isInitialized || !accessToken || accessToken.trim() === "") {
+    if (!isInitialized || !hasValidAccessToken) {
       setConnectionStatus(ConnectionStatus.Pending);
       return;
     }
@@ -54,22 +57,18 @@ const useConnectWebSocket = ({ roomId, clientRef }: UseConnectWebSocketProps): U
           setConnectionStatus(ConnectionStatus.Connected);
           client.subscribe(`/topic/chat/${roomId}`, (message) => {
             try {
-              const receivedMessage = JSON.parse(message.body) as ChatMessage;
+              const receivedMessage = normalizeChatMessage(JSON.parse(message.body) as RawChatMessage);
 
               if (!receivedMessage.createdAt || Number.isNaN(new Date(receivedMessage.createdAt).getTime())) {
                 receivedMessage.createdAt = new Date().toISOString();
               }
 
               setSubmittedMessages((prev) => [...prev, receivedMessage]);
-            } catch (error) {
-              console.error("Failed to parse message body:", error);
-            }
+            } catch (error) {}
           });
         };
 
         client.onStompError = (frame) => {
-          console.error(`Broker reported error: ${frame.headers.message}`);
-          console.error(`Additional details: ${frame.body}`);
           setConnectionStatus(ConnectionStatus.Error);
         };
 
@@ -80,7 +79,6 @@ const useConnectWebSocket = ({ roomId, clientRef }: UseConnectWebSocketProps): U
         client.activate();
         clientRef.current = client;
       } catch (error) {
-        console.error("Failed to connect WebSocket:", error);
         setConnectionStatus(ConnectionStatus.Error);
       }
     };
@@ -94,7 +92,7 @@ const useConnectWebSocket = ({ roomId, clientRef }: UseConnectWebSocketProps): U
       }
       clientRef.current = null;
     };
-  }, [roomId, clientRef, accessToken, isInitialized]);
+  }, [roomId, clientRef, accessToken, hasValidAccessToken, isInitialized]);
 
   // 관리하는 connectionStatus를 반환
   return { connectionStatus, submittedMessages, setSubmittedMessages };

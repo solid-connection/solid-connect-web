@@ -1,51 +1,24 @@
 "use client";
 
-import { useState } from "react";
 import { useGetChatRooms } from "@/apis/chat";
 import { type MyInfoResponse, useGetMyInfo } from "@/apis/MyPage";
 import MentorCard from "@/components/mentor/MentorCard";
 import MentorChatCard from "@/components/mentor/MentorChatCard";
+import useAuthStore from "@/lib/zustand/useAuthStore";
 import { UserRole } from "@/types/mentor";
 
 const MatchContent = () => {
   const { data: myInfo = {} as MyInfoResponse } = useGetMyInfo();
   const { data: chatRoom = [] } = useGetChatRooms();
+  const clientRole = useAuthStore((state) => state.clientRole);
 
-  const isAdmin = myInfo.role === UserRole.ADMIN;
   const isMentor = myInfo.role === UserRole.MENTOR || myInfo.role === UserRole.ADMIN;
-
-  // 어드민 전용: 뷰 전환 상태 (true: 멘토 뷰, false: 멘티 뷰)
-  const [showMentorView, setShowMentorView] = useState<boolean>(true);
-
-  // 어드민이 아닌 경우 기존 로직대로, 어드민인 경우 토글 상태에 따라
-  const viewAsMentor = isAdmin ? showMentorView : isMentor;
+  const viewAsMentor = clientRole ? clientRole === UserRole.MENTOR : isMentor;
 
   const { nickname } = myInfo;
 
   return (
     <div className="flex h-full flex-col px-5">
-      {/* 어드민 전용 뷰 전환 버튼 */}
-      {isAdmin && (
-        <div className="mb-4 flex gap-2">
-          <button
-            onClick={() => setShowMentorView(true)}
-            className={`flex-1 rounded-lg px-4 py-2.5 transition-colors typo-sb-9 ${
-              showMentorView ? "bg-primary text-white" : "border border-k-200 bg-white text-k-600 hover:bg-k-50"
-            }`}
-          >
-            멘토 뷰
-          </button>
-          <button
-            onClick={() => setShowMentorView(false)}
-            className={`flex-1 rounded-lg px-4 py-2.5 transition-colors typo-sb-9 ${
-              !showMentorView ? "bg-primary text-white" : "border border-k-200 bg-white text-k-600 hover:bg-k-50"
-            }`}
-          >
-            멘티 뷰
-          </button>
-        </div>
-      )}
-
       <p className="font-pretendard text-k-700 typo-sb-4">
         {nickname ? `${nickname}님의` : "회원님이"}
         <br />

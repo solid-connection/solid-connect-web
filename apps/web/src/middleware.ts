@@ -2,20 +2,90 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
 const loginNeedPages = ["/mentor", "/my", "/community"]; // 로그인 필요페이지
-const COMMUNITY_LOGIN_REASON = "community-members-only";
+const NEED_LOGIN_COOKIE_KEY = "isNeedLogin";
+const blockedExactPaths = new Set([
+  "/database.php",
+  "/db.php",
+  "/config.php",
+  "/phpinfo.php",
+  "/xmlrpc.php",
+  "/wp-login.php",
+]);
+const blockedPathPrefixes = ["/wp-admin", "/phpmyadmin", "/pma", "/.env", "/.git", "/vendor"];
+
+const isStageHostname = (hostname: string) => hostname.includes("stage");
+const isLocalHostname = (hostname: string) => hostname === "localhost" || hostname === "127.0.0.1";
+
+const isProbePath = (pathname: string) => {
+  if (blockedExactPaths.has(pathname)) {
+    return true;
+  }
+
+  if (pathname.endsWith(".php")) {
+    return true;
+  }
+
+  return blockedPathPrefixes.some((prefix) => pathname.startsWith(prefix));
+};
+
+const buildLoginRedirectResponse = (
+  request: NextRequest,
+  options: {
+    clearRefreshToken?: boolean;
+  } = {},
+) => {
+  const { clearRefreshToken = false } = options;
+  const redirectUrl = request.nextUrl.clone();
+  redirectUrl.pathname = "/login";
+  redirectUrl.search = "";
+
+  const response = NextResponse.redirect(redirectUrl);
+  response.cookies.set({
+    name: NEED_LOGIN_COOKIE_KEY,
+    value: "true",
+    path: "/",
+    sameSite: "lax",
+    maxAge: 60,
+  });
+
+  if (clearRefreshToken) {
+    response.cookies.set({
+      name: "refreshToken",
+      value: "",
+      path: "/",
+      expires: new Date(0),
+      maxAge: 0,
+    });
+  }
+
+  return response;
+};
 
 export function middleware(request: NextRequest) {
-  const url = request.nextUrl.clone();
+  const pathname = request.nextUrl.pathname;
 
-  // localhost 환경에서는 미들웨어 적용 X
-  // if (url.hostname === "localhost") {
-  //   return NextResponse.next();
-  // }
+  if (pathname === "/robots.txt" && isStageHostname(request.nextUrl.hostname)) {
+    return new NextResponse("User-agent: *\nDisallow: /\n", {
+      status: 200,
+      headers: {
+        "Content-Type": "text/plain; charset=utf-8",
+        "Cache-Control": "public, max-age=600",
+        "X-Robots-Tag": "noindex, nofollow, noarchive",
+      },
+    });
+  }
 
-  // 서버 사이드 인증 체크가 활성화된 경우에만 미들웨어 적용
-  // (RefreshToken은 항상 HTTP-only 쿠키로 관리됨)
-  const isServerSideAuthEnabled = process.env.NEXT_PUBLIC_COOKIE_LOGIN_ENABLED === "true";
-  if (!isServerSideAuthEnabled) {
+  if (isProbePath(pathname)) {
+    return new NextResponse("Not Found", {
+      status: 404,
+      headers: {
+        "Cache-Control": "no-store",
+      },
+    });
+  }
+
+  // local 개발 환경에서는 서버 도메인 쿠키와 분리되어 refreshToken을 신뢰할 수 없으므로 로그인 가드를 스킵한다.
+  if (isLocalHostname(request.nextUrl.hostname)) {
     return NextResponse.next();
   }
 
@@ -24,18 +94,11 @@ export function middleware(request: NextRequest) {
 
   // 정확한 경로 매칭
   const needLogin = loginNeedPages.some((path) => {
-    return url.pathname === path || url.pathname.startsWith(`${path}/`);
+    return pathname === path || pathname.startsWith(`${path}/`);
   });
 
   if (needLogin && !refreshToken) {
-    const isCommunityRoute = url.pathname === "/community" || url.pathname.startsWith("/community/");
-    url.pathname = "/login";
-    if (isCommunityRoute) {
-      url.searchParams.set("reason", COMMUNITY_LOGIN_REASON);
-    } else {
-      url.searchParams.delete("reason");
-    }
-    return NextResponse.redirect(url);
+    return buildLoginRedirectResponse(request);
   }
 
   return NextResponse.next();
