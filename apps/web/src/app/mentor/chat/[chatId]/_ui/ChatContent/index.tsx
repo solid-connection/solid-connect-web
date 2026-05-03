@@ -40,6 +40,7 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
     isFetchingNextPage, // 이전 기록 로딩 상태
 
     // Refs
+    scrollContainerRef, // 실제 스크롤 컨테이너 ref
     messagesEndRef, // 자동 스크롤을 위한 ref
     topDetectorRef, // 무한 스크롤 감지를 위한 ref
 
@@ -111,6 +112,7 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
           </div>
           {/* 채팅 메시지 영역 - 항상 스크롤 가능, 스크롤바 숨김 */}
           <div
+            ref={scrollContainerRef}
             className="scrollbar-hide mt-4 flex-1 overflow-y-auto p-4 pb-6"
             style={{
               scrollbarWidth: "none" /* Firefox */,
