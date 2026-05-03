@@ -1,5 +1,3 @@
-import { normalizeImageUrlToUploadCdn } from "@/utils/cdnUrl";
-
 // 파일명에서 확장자 추출
 export const getFileExtension = (url: string) => {
   return url.split(".").pop()?.toUpperCase() || "FILE";
@@ -57,12 +55,4 @@ export const downloadLocalFile = (file: File, fileName?: string) => {
   link.click();
   document.body.removeChild(link);
   URL.revokeObjectURL(blobUrl);
-};
-
-export const convertUploadedImageUrl = (url: string | null | undefined): string => {
-  return normalizeImageUrlToUploadCdn(url);
-};
-
-export const convertImageUrl = (url: string | null | undefined): string => {
-  return normalizeImageUrlToUploadCdn(url);
 };

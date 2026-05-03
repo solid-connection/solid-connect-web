@@ -3,7 +3,7 @@
 import Image from "@/components/ui/FallbackImage";
 import { IconLikeFill, IconLikeNotFill } from "@/public/svgs/mentor";
 import type { Article } from "@/types/news";
-import { convertUploadedImageUrl } from "@/utils/fileUtils";
+import { normalizeImageUrlToUploadCdn } from "@/utils/cdnUrl";
 import useLikeToggle from "./_hooks/useLikeToggle";
 
 interface MentorArticleProps {
@@ -13,7 +13,7 @@ interface MentorArticleProps {
 
 const MentorArticle = ({ article, mentorId }: MentorArticleProps) => {
   const { isLiked, handleToggleLike } = useLikeToggle(article.id, mentorId, article.isLiked);
-  const thumbnailUrl = convertUploadedImageUrl(article.thumbnailUrl);
+  const thumbnailUrl = normalizeImageUrlToUploadCdn(article.thumbnailUrl);
   return (
     <div key={article.description} className="overflow-hidden">
       {/* 아티클 이미지 */}

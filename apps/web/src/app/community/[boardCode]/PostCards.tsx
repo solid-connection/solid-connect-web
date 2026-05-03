@@ -8,8 +8,8 @@ import { IconPostLikeOutline } from "@/public/svgs";
 import { IconCommunication } from "@/public/svgs/community";
 import { IconSolidConnentionLogo } from "@/public/svgs/mentor";
 import type { ListPost } from "@/types/community";
+import { normalizeImageUrlToUploadCdn } from "@/utils/cdnUrl";
 import { convertISODateToDate } from "@/utils/datetimeUtils";
-import { convertUploadedImageUrl } from "@/utils/fileUtils";
 
 type PostCardsProps = {
   posts: ListPost[];
@@ -99,7 +99,7 @@ export const PostCard = ({ post }: { post: ListPost }) => (
         {post.postThumbnailUrl ? (
           <Image
             className="object-cover"
-            src={convertUploadedImageUrl(post.postThumbnailUrl)}
+            src={normalizeImageUrlToUploadCdn(post.postThumbnailUrl)}
             fill
             sizes="80px"
             alt="게시글 사진"

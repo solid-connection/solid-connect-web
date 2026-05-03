@@ -1,7 +1,7 @@
 import Image from "@/components/ui/FallbackImage";
 import LinkifyText from "@/components/ui/LinkifyText";
 import type { University } from "@/types/university";
-import { convertImageUrl } from "@/utils/fileUtils";
+import { normalizeImageUrlToUploadCdn } from "@/utils/cdnUrl";
 import InfoSection from "./_ui/InfoSection";
 import LanguageSection from "./_ui/LanguageSection";
 import MapSection from "./_ui/MapSection";
@@ -23,7 +23,7 @@ const UniversityDetail = ({ university, koreanName }: UniversityDetailProps) => 
       <div className="relative -z-10 h-60 w-full bg-blue-100">
         <Image
           alt="대학 이미지"
-          src={convertImageUrl(university.backgroundImageUrl)}
+          src={normalizeImageUrlToUploadCdn(university.backgroundImageUrl)}
           fill
           className="object-cover"
           fallbackSrc="/svgs/placeholders/image-placeholder.svg"
@@ -33,7 +33,7 @@ const UniversityDetail = ({ university, koreanName }: UniversityDetailProps) => 
         <TitleSection
           title={koreanName}
           subTitle={university.englishName}
-          logoUrl={convertImageUrl(university.logoImageUrl)}
+          logoUrl={normalizeImageUrlToUploadCdn(university.logoImageUrl)}
         />
         {/* TODO: totalDispatchCount 추가시 연동, 나라에 국기 추가 */}
         <div className="mb-7 mt-10 flex justify-center divide-x">

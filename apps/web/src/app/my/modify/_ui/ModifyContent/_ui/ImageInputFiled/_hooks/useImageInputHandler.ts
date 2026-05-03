@@ -1,7 +1,7 @@
 import { type ChangeEvent, type RefObject, useEffect, useRef, useState } from "react";
 import { useController, useFormContext } from "react-hook-form";
 
-import { convertUploadedImageUrl } from "@/utils/fileUtils";
+import { normalizeImageUrlToUploadCdn } from "@/utils/cdnUrl";
 
 interface ImageInputHandlerReturn {
   selectedImage: File | undefined;
@@ -26,7 +26,7 @@ const useImageInputHandler = (initImagePreview: string | null): ImageInputHandle
 
   useEffect(() => {
     if (initImagePreview) {
-      setImagePreviewUrl(convertUploadedImageUrl(initImagePreview));
+      setImagePreviewUrl(normalizeImageUrlToUploadCdn(initImagePreview));
     }
   }, [initImagePreview]);
 

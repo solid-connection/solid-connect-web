@@ -3,7 +3,7 @@ import Image from "@/components/ui/FallbackImage";
 import CheveronRightFilled from "@/components/ui/icon/ChevronRightFilled";
 import { getHomeUniversitySlugByName } from "@/constants/university";
 import type { ListUniversity } from "@/types/university";
-import { convertImageUrl } from "@/utils/fileUtils";
+import { normalizeImageUrlToUploadCdn } from "@/utils/cdnUrl";
 import shortenLanguageTestName from "@/utils/universityUtils";
 
 type UniversityCardProps = {
@@ -31,7 +31,7 @@ const UniversityCard = ({ university, showCapacity = true, linkPrefix = "/univer
             <div className="flex flex-shrink-0 items-center">
               <Image
                 className="h-14 w-14 rounded-full object-cover"
-                src={convertImageUrl(university.logoImageUrl)}
+                src={normalizeImageUrlToUploadCdn(university.logoImageUrl)}
                 width={56}
                 height={56}
                 alt="대학 이미지"
