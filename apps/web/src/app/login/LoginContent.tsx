@@ -5,10 +5,11 @@ import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 import { z } from "zod";
 import { usePostEmailAuth } from "@/apis/Auth";
+import { infoToastOptions } from "@/lib/toast/options";
 import useAuthStore from "@/lib/zustand/useAuthStore";
-import { toast } from "@/lib/zustand/useToastStore";
 import { IconSolidConnectionFullBlackLogo } from "@/public/svgs";
 import { IconAppleLogo, IconEmailIcon, IconKakaoLogo } from "@/public/svgs/auth";
 import { appleLogin, kakaoLogin } from "@/utils/authUtils";
@@ -86,7 +87,7 @@ const LoginContent = () => {
     }
 
     hasShownCommunityOnlyToast.current = true;
-    toast.info("커뮤니티는 회원 전용입니다. 로그인 후 이용해주세요.");
+    toast("커뮤니티는 회원 전용입니다. 로그인 후 이용해주세요.", infoToastOptions);
     router.replace(pathname);
   }, [pathname, router, searchParams]);
 
@@ -105,7 +106,7 @@ const LoginContent = () => {
     }
 
     hasShownNeedLoginToast.current = true;
-    toast.info("로그인이 필요합니다. 다시 로그인해주세요.");
+    toast("로그인이 필요합니다. 다시 로그인해주세요.", infoToastOptions);
     clearNeedLogin();
   }, [clearNeedLogin, isNeedLogin]);
 

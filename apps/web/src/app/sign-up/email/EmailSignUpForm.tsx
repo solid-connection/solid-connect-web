@@ -2,12 +2,12 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 import { usePostEmailSignUp } from "@/apis/Auth";
 import BlockBtn from "@/components/button/BlockBtn";
 import { Input } from "@/components/ui/Inputa";
 import { Label } from "@/components/ui/Label";
 import { Progress } from "@/components/ui/Progress";
-import { toast } from "@/lib/zustand/useToastStore";
 import { IconCheckBlue, IconExpRed, IconEyeOff, IconEyeOn } from "@/public/svgs/ui";
 
 const EmailSignUpForm = () => {
@@ -70,10 +70,6 @@ const EmailSignUpForm = () => {
       {
         onSuccess: (data) => {
           router.push(`/sign-up?token=${data.signUpToken}`);
-        },
-        onError: (error: unknown) => {
-          const axiosError = error as { response?: { data?: { message?: string } } };
-          toast.error(axiosError.response?.data?.message || "회원가입에 실패했습니다.");
         },
       },
     );

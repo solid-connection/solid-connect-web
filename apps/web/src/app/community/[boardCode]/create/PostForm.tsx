@@ -2,10 +2,10 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { toast } from "react-hot-toast";
 import { useCreatePost } from "@/apis/community";
 import useCommunityImageUpload from "@/app/community/_hooks/useCommunityImageUpload";
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
-import { toast } from "@/lib/zustand/useToastStore";
 import { IconImage, IconPostCheckboxFilled, IconPostCheckboxOutlined } from "@/public/svgs";
 
 type PostFormProps = {

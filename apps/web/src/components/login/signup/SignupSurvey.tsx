@@ -2,11 +2,11 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 import { usePostSignUp } from "@/apis/Auth";
 import { useUploadProfileImagePublic } from "@/apis/image-upload";
 import { Progress } from "@/components/ui/Progress";
 import useAuthStore from "@/lib/zustand/useAuthStore";
-import { toast } from "@/lib/zustand/useToastStore";
 
 import type { PreparationStatus, SignUpRequest } from "@/types/auth";
 import type { RegionKo } from "@/types/university";
@@ -61,9 +61,8 @@ const SignupSurvey = ({ baseNickname, baseEmail, baseProfileImageUrl }: SignupSu
       try {
         const result = await uploadImageMutation.mutateAsync(profileImageFile);
         imageUrl = result.fileUrl;
-      } catch (err: unknown) {
-        const error = err as { message?: string };
-        // toast.error는 hook의 onError에서 이미 처리되므로 중복 호출 제거
+      } catch (_error) {
+        // 업로드 실패 토스트는 전역 onError에서 단일 처리
       }
     }
 
@@ -88,17 +87,6 @@ const SignupSurvey = ({ baseNickname, baseEmail, baseProfileImageUrl }: SignupSu
           setTimeout(() => {
             router.push("/");
           }, 100);
-        },
-        onError: (error: unknown) => {
-          const axiosError = error as {
-            response?: { data?: { message?: string } };
-            message?: string;
-          };
-          if (axiosError.response) {
-            toast.error(axiosError.response.data?.message || "회원가입에 실패했습니다.");
-          } else {
-            toast.error(axiosError.message || "회원가입에 실패했습니다.");
-          }
         },
       });
     } catch (err: unknown) {

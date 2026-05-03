@@ -7,8 +7,8 @@ import {
 } from "@solid-connect/ai-inspector";
 import { Bot, Target, X } from "lucide-react";
 import { useState } from "react";
+import { toast } from "react-hot-toast";
 import useAuthStore from "@/lib/zustand/useAuthStore";
-import { toast } from "@/lib/zustand/useToastStore";
 import { UserRole } from "@/types/mentor";
 
 const AIInspectorFab = () => {

@@ -2,9 +2,8 @@
 
 import clsx from "clsx";
 import type { Dispatch, SetStateAction } from "react";
-
+import { toast } from "react-hot-toast";
 import BlockBtn from "@/components/button/BlockBtn";
-import { toast } from "@/lib/zustand/useToastStore";
 import { IconPrepare1, IconPrepare2, IconPrepare3 } from "@/public/svgs/auth";
 import { type PreparationStatus, PreparationStatusEnum } from "@/types/auth";
 

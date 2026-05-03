@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { toast } from "@/lib/zustand/useToastStore";
+import { toast } from "react-hot-toast";
 import ModalBase from "./ModalBase";
 
 type SurveyModalProps = {

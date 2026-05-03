@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "react-hot-toast";
 import ScoreCard from "@/app/university/score/ScoreCard";
 import TextModal from "@/components/modal/TextModal";
 import Tab from "@/components/ui/Tab";
-import { toast } from "@/lib/zustand/useToastStore";
 import { type GpaScore, ScoreSubmitStatus } from "@/types/score";
 import ApplicationBottomActionBar from "../_components/ApplicationBottomActionBar";
 import ApplicationSectionTitle from "../_components/ApplicationSectionTitle";

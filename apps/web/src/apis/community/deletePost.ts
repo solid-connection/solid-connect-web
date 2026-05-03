@@ -2,9 +2,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import type { AxiosError, AxiosResponse } from "axios";
 import { useRouter } from "next/navigation";
-
+import { toast } from "react-hot-toast";
 import useAuthStore from "@/lib/zustand/useAuthStore";
-import { toast } from "@/lib/zustand/useToastStore";
 import { CommunityQueryKeys, communityApi, type DeletePostResponse } from "./api";
 
 interface DeletePostVariables {
@@ -58,9 +57,6 @@ const useDeletePost = () => {
 
       // 게시글 목록 페이지 이동
       router.replace(`/community/${variables.boardCode || "FREE"}`);
-    },
-    onError: (error) => {
-      toast.error("게시글 삭제에 실패했습니다. 잠시 후 다시 시도해주세요.");
     },
   });
 };

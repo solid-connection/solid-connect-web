@@ -1,6 +1,6 @@
 "use client";
 
-import { toast } from "@/lib/zustand/useToastStore";
+import { toast } from "react-hot-toast";
 import { IconGraduationCap, IconRightArrow } from "@/public/svgs/home";
 
 const FindLastYearScoreBar = () => {

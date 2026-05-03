@@ -1,4 +1,4 @@
-import { toast } from "@/lib/zustand/useToastStore";
+import { toast } from "react-hot-toast";
 import type { appleOAuth2CodeResponse } from "@/types/auth";
 
 export const authProviderName = (provider: "KAKAO" | "APPLE" | "EMAIL"): string => {
