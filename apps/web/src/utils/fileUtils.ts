@@ -1,3 +1,5 @@
+import { normalizeImageUrlToUploadCdn } from "@/utils/cdnUrl";
+
 // 파일명에서 확장자 추출
 export const getFileExtension = (url: string) => {
   return url.split(".").pop()?.toUpperCase() || "FILE";
@@ -57,24 +59,10 @@ export const downloadLocalFile = (file: File, fileName?: string) => {
   URL.revokeObjectURL(blobUrl);
 };
 
-const NEXT_PUBLIC_UPLOADED_IMAGE_URL = process.env.NEXT_PUBLIC_UPLOADED_IMAGE_URL;
-const NEXT_PUBLIC_IMAGE_URL = process.env.NEXT_PUBLIC_IMAGE_URL;
-
 export const convertUploadedImageUrl = (url: string | null | undefined): string => {
-  if (!url) return "";
-  if (url.startsWith("http") || url.startsWith("blob")) return url;
-  if (!NEXT_PUBLIC_UPLOADED_IMAGE_URL) {
-    return url;
-  }
-  return `${NEXT_PUBLIC_UPLOADED_IMAGE_URL}/${url}`;
+  return normalizeImageUrlToUploadCdn(url);
 };
 
 export const convertImageUrl = (url: string | null | undefined): string => {
-  if (!url) return "";
-  if (url.startsWith("https://img.example")) return `${NEXT_PUBLIC_IMAGE_URL}/${url}`;
-  if (url.startsWith("http") || url.startsWith("blob")) return url;
-  if (!NEXT_PUBLIC_IMAGE_URL) {
-    return url;
-  }
-  return `${NEXT_PUBLIC_IMAGE_URL}/${url}`;
+  return normalizeImageUrlToUploadCdn(url);
 };

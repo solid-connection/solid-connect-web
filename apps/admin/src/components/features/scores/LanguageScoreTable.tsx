@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { scoreApi } from "@/lib/api/scores";
+import { normalizeImageUrlToUploadCdn } from "@/lib/utils/cdnUrl";
 import type { LanguageScoreWithUser, LanguageTestType, VerifyStatus } from "@/types/scores";
 import { ScoreVerifyButton } from "./ScoreVerifyButton";
 import { StatusBadge } from "./StatusBadge";
@@ -12,8 +13,6 @@ import { StatusBadge } from "./StatusBadge";
 interface Props {
 	verifyFilter: VerifyStatus;
 }
-
-const S3_BASE_URL = (import.meta.env.VITE_S3_BASE_URL as string | undefined) || "";
 
 const LANGUAGE_TEST_OPTIONS: { value: LanguageTestType; label: string }[] = [
 	{ value: "TOEIC", label: "TOEIC" },
@@ -157,7 +156,7 @@ export function LanguageScoreTable({ verifyFilter }: Props) {
 									<TableCell>
 										<div className="flex items-center">
 											<img
-												src={score.siteUserResponse.profileImageUrl}
+												src={normalizeImageUrlToUploadCdn(score.siteUserResponse.profileImageUrl)}
 												alt="프로필"
 												className="mr-2 h-8 w-8 rounded-full border border-k-100"
 											/>
@@ -220,7 +219,9 @@ export function LanguageScoreTable({ verifyFilter }: Props) {
 									<TableCell>{score.languageTestScoreStatusResponse.rejectedReason || "-"}</TableCell>
 									<TableCell>
 										<a
-											href={`${S3_BASE_URL}${score.languageTestScoreStatusResponse.languageTestResponse.languageTestReportUrl}`}
+											href={normalizeImageUrlToUploadCdn(
+												score.languageTestScoreStatusResponse.languageTestResponse.languageTestReportUrl,
+											)}
 											target="_blank"
 											rel="noopener noreferrer"
 											className="typo-medium-4 text-primary hover:text-primary-700 hover:underline"
