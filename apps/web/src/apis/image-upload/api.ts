@@ -44,12 +44,12 @@ export const imageUploadApi = {
   },
 
   /**
-   * 프로필 이미지 업로드 (로그인 후)
+   * 채팅 이미지 업로드 (로그인 후)
    */
   postUploadProfileImage: async (file: File): Promise<UploadProfileImageResponse> => {
     const formData = new FormData();
     formData.append("file", file);
-    const res = await axiosInstance.post<UploadProfileImageResponse>(`/file/profile/post`, formData, {
+    const res = await axiosInstance.post<UploadProfileImageResponse>(`/file/chat/post`, formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
     return res.data;
