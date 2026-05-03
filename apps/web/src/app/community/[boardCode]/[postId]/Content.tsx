@@ -8,8 +8,8 @@ import { DEFAULT_PROFILE_IMAGE } from "@/constants/profile";
 import { IconCloseFilled, IconPostLikeFilled, IconPostLikeOutline } from "@/public/svgs";
 import { IconCommunication } from "@/public/svgs/community";
 import type { PostImage as PostImageType, Post as PostType } from "@/types/community";
+import { normalizeImageUrlToUploadCdn } from "@/utils/cdnUrl";
 import { convertISODateToDateTime } from "@/utils/datetimeUtils";
-import { convertUploadedImageUrl } from "@/utils/fileUtils";
 
 export const metadata: Metadata = {
   title: "글 상세보기",
@@ -117,7 +117,7 @@ const Content = ({ post, postId }: ContentProps) => {
               className="h-full w-full rounded-full object-cover"
               src={
                 post.postFindSiteUserResponse.profileImageUrl
-                  ? convertUploadedImageUrl(post.postFindSiteUserResponse.profileImageUrl)
+                  ? normalizeImageUrlToUploadCdn(post.postFindSiteUserResponse.profileImageUrl)
                   : DEFAULT_PROFILE_IMAGE
               }
               width={40}
@@ -147,7 +147,7 @@ const PostImage = ({ images, onImageClick }: { images: PostImageType[]; onImageC
       <div className="mb-3 pr-5">
         <div className="relative pt-[75%]">
           <Image
-            src={convertUploadedImageUrl(images[0].url)}
+            src={normalizeImageUrlToUploadCdn(images[0].url)}
             layout="fill"
             objectFit="cover"
             alt="image"
@@ -163,7 +163,7 @@ const PostImage = ({ images, onImageClick }: { images: PostImageType[]; onImageC
         {images.map((image, index) => (
           <Image
             key={image.id}
-            src={convertUploadedImageUrl(image.url)}
+            src={normalizeImageUrlToUploadCdn(image.url)}
             width={197}
             height={197}
             alt="image"
@@ -196,7 +196,7 @@ const ImagePopup = ({ image, title, onClose }: ImagePopupProps) => (
       <div />
     </div>
     <div className="relative flex-grow">
-      <Image src={convertUploadedImageUrl(image.url)} layout="fill" objectFit="contain" alt="Popup" />
+      <Image src={normalizeImageUrlToUploadCdn(image.url)} layout="fill" objectFit="contain" alt="Popup" />
     </div>
   </div>
 );

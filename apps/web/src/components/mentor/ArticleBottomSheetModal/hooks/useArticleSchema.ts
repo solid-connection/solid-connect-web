@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useGetMentorMyProfile } from "@/apis/mentor";
 import { usePostAddArticle, usePutModifyArticle } from "@/apis/news";
-import { convertUploadedImageUrl } from "@/utils/fileUtils";
+import { normalizeImageUrlToUploadCdn } from "@/utils/cdnUrl";
 import type { InitialData } from "..";
 import { type ArticleFormData, articleSchema } from "../lib/schema";
 
@@ -61,7 +61,7 @@ const useArticleSchema = ({
       reset(defaultValues); // react-hook-form의 reset 기능으로 defaultValues 설정
 
       // 이미지 미리보기도 초기 데이터로 설정합니다.
-      const imageSrc = initialData?.thumbnailUrl ? convertUploadedImageUrl(initialData.thumbnailUrl) : null;
+      const imageSrc = initialData?.thumbnailUrl ? normalizeImageUrlToUploadCdn(initialData.thumbnailUrl) : null;
       setImagePreview(imageSrc);
     } else {
       // 모달이 닫힐 때: 모든 상태를 깨끗하게 초기화합니다.

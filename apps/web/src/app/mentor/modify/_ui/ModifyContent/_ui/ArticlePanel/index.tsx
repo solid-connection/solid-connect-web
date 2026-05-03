@@ -5,8 +5,8 @@ import ReusableDropdown from "@/components/ui/ReusableDropdown";
 import ArticleThumbPng from "@/public/images/article-thumb.png";
 import { IconPencil } from "@/public/svgs/mentor";
 import { type Article, ArticleDropdownType } from "@/types/news";
+import { normalizeImageUrlToUploadCdn } from "@/utils/cdnUrl";
 import { convertISODateToDate } from "@/utils/datetimeUtils";
-import { convertUploadedImageUrl } from "@/utils/fileUtils";
 import useDeleteDropDownHandler from "./_hooks/useDropDownHandler";
 
 interface ArticlePanelProps {
@@ -25,7 +25,7 @@ const ArticlePanel = ({ article, userId }: ArticlePanelProps) => {
     userId,
   });
 
-  const imageSrc = article.thumbnailUrl ? convertUploadedImageUrl(article.thumbnailUrl) : ArticleThumbPng;
+  const imageSrc = article.thumbnailUrl ? normalizeImageUrlToUploadCdn(article.thumbnailUrl) : ArticleThumbPng;
 
   return (
     <>

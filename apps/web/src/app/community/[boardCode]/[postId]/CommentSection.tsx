@@ -8,8 +8,8 @@ import Image from "@/components/ui/FallbackImage";
 import { DEFAULT_PROFILE_IMAGE } from "@/constants/profile";
 import { IconMoreVertFilled, IconSubComment } from "@/public/svgs";
 import type { Comment as CommentType, CommunityUser } from "@/types/community";
+import { normalizeImageUrlToUploadCdn } from "@/utils/cdnUrl";
 import { convertISODateToDateTime } from "@/utils/datetimeUtils";
-import { convertUploadedImageUrl } from "@/utils/fileUtils";
 import CommentInput from "./CommentInput";
 
 type CommentSectionProps = {
@@ -138,7 +138,7 @@ const CommentProfile = ({ user }: { user: CommunityUser }) => {
       <div className="h-[25px] w-[25px] rounded-full bg-bg-600">
         <Image
           className="h-full w-full rounded-full"
-          src={user?.profileImageUrl ? convertUploadedImageUrl(user?.profileImageUrl) : DEFAULT_PROFILE_IMAGE}
+          src={user?.profileImageUrl ? normalizeImageUrlToUploadCdn(user?.profileImageUrl) : DEFAULT_PROFILE_IMAGE}
           width={40}
           height={40}
           alt="alt"

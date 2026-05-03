@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "@/components/ui/FallbackImage";
 import { getHomeUniversitySlugByName } from "@/constants/university";
 import type { ListUniversity } from "@/types/university";
-import { convertImageUrl } from "@/utils/fileUtils";
+import { normalizeImageUrlToUploadCdn } from "@/utils/cdnUrl";
 
 type PopularUniversityCardProps = {
   university: ListUniversity;
@@ -32,7 +32,7 @@ const PopularUniversityCard = ({
             className="h-[120px] rounded-lg object-cover"
             src={
               university.backgroundImageUrl
-                ? convertImageUrl(university.backgroundImageUrl)
+                ? normalizeImageUrlToUploadCdn(university.backgroundImageUrl)
                 : "/svgs/placeholders/university-background-placeholder.svg"
             }
             width={153}
