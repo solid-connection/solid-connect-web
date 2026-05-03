@@ -4,7 +4,7 @@ import clsx from "clsx";
 import Link from "next/link";
 import { toast } from "react-hot-toast";
 import { useGetPartnerInfo } from "@/apis/chat";
-import { useUploadProfileImage } from "@/apis/image-upload";
+import { useUploadChatImages } from "@/apis/image-upload";
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { ConnectionStatus } from "@/types/chat";
@@ -49,7 +49,7 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
     addImageMessagePreview,
   } = useChatListHandler(chatId);
 
-  const uploadProfileImageMutation = useUploadProfileImage();
+  const uploadChatImagesMutation = useUploadChatImages();
 
   const { data: partnerInfo } = useGetPartnerInfo(chatId);
 
@@ -181,11 +181,7 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
         }}
         onSendImages={async (data) => {
           try {
-            const uploadedImages = await Promise.all(
-              data.images.map((image) => uploadProfileImageMutation.mutateAsync(image)),
-            );
-
-            const imageUrls = uploadedImages.map((image) => image.fileUrl);
+            const imageUrls = await uploadChatImagesMutation.mutateAsync(data.images);
             const isSent = sendImageMessage(imageUrls);
 
             if (!isSent) {

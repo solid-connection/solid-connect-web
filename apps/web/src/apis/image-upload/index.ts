@@ -1,7 +1,13 @@
-export type { UploadGpaReportResponse, UploadLanguageTestReportResponse, UploadProfileImageResponse } from "./api";
+export type {
+  UploadChatImageResponse,
+  UploadGpaReportResponse,
+  UploadLanguageTestReportResponse,
+  UploadProfileImageResponse,
+} from "./api";
 export { imageUploadApi } from "./api";
 
 export { default as useSlackNotification } from "./postSlackNotification";
+export { default as useUploadChatImages } from "./postUploadChatImages";
 export { default as useUploadGpaReport } from "./postUploadGpaReport";
 export { default as useUploadLanguageTestReport } from "./postUploadLanguageTestReport";
 export { default as useUploadProfileImage } from "./postUploadProfileImage";
