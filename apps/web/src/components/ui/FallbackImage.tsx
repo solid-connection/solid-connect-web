@@ -2,31 +2,33 @@
 
 import NextImage from "next/image";
 import { useState } from "react";
+import { getUploadCdnOrigin, normalizeImageUrlToUploadCdn } from "@/utils/cdnUrl";
 
 const DEFAULT_FALLBACK_SRC = "/svgs/placeholders/image-placeholder.svg";
-const DEFAULT_CDN_HOST = "https://cdn.default.solid-connection.com";
-const UPLOAD_CDN_HOST = "https://cdn.upload.solid-connection.com";
 
 type CdnHostType = "default" | "upload";
 
 const CDN_HOSTS: Record<CdnHostType, string> = {
-  default: process.env.NEXT_PUBLIC_IMAGE_URL || DEFAULT_CDN_HOST,
-  upload: process.env.NEXT_PUBLIC_UPLOADED_IMAGE_URL || UPLOAD_CDN_HOST,
+  default: getUploadCdnOrigin(),
+  upload: getUploadCdnOrigin(),
 };
 
 const resolveCdnUrl = (src: string, cdnHostType?: CdnHostType) => {
   const trimmedSrc = src.trim();
 
   if (trimmedSrc.length === 0) return "";
-  if (trimmedSrc.startsWith("http://") || trimmedSrc.startsWith("https://")) return trimmedSrc;
+  if (trimmedSrc.startsWith("http://") || trimmedSrc.startsWith("https://")) {
+    return normalizeImageUrlToUploadCdn(trimmedSrc);
+  }
   if (trimmedSrc.startsWith("blob:") || trimmedSrc.startsWith("data:")) return trimmedSrc;
-  if (trimmedSrc.startsWith("//")) return `https:${trimmedSrc}`;
-  if (!cdnHostType) return trimmedSrc;
+  if (trimmedSrc.startsWith("//")) return normalizeImageUrlToUploadCdn(`https:${trimmedSrc}`);
+  if (trimmedSrc.startsWith("/")) return trimmedSrc;
+  if (!cdnHostType) return normalizeImageUrlToUploadCdn(trimmedSrc);
 
   const normalizedHost = CDN_HOSTS[cdnHostType].replace(/\/+$/, "");
   const normalizedPath = trimmedSrc.replace(/^\/+/, "");
 
-  return `${normalizedHost}/${normalizedPath}`;
+  return normalizeImageUrlToUploadCdn(`${normalizedHost}/${normalizedPath}`);
 };
 
 type FallbackImageProps = React.ComponentProps<typeof NextImage> & {
