@@ -1,129 +1,60 @@
 # Authentication & Authorization
 
-## Login Redirect Flow
+## Overview
 
-### Overview
+웹 인증은 **클라이언트 재발급/인터셉터 중심**으로 동작합니다.
 
-The application implements a comprehensive login redirect system that ensures users are properly authenticated before accessing protected pages.
+- 서버 진입 시 middleware에서 보호 경로를 `/login`으로 선리다이렉트하지 않습니다.
+- 인증 실패 시점은 페이지 렌더/데이터 요청 단계에서 결정됩니다.
 
-### Protected Pages
+## Current Flow
 
-The following pages require authentication:
-- `/mentor/*` - All mentor-related pages
-- `/my/*` - All user profile pages
-- `/community` and `/community/*` - Entire community experience, including board lists, post detail, creation, and modification
+### 1. App Initialization
 
-### How It Works
+- `ReissueProvider`에서 앱 최초 진입 시 `/auth/reissue`를 시도합니다.
+- 성공 시 access token이 스토어에 반영되고, 실패 시 비로그인 상태를 유지합니다.
 
-#### 1. Middleware Detection
+### 2. Request Interceptor
 
-The middleware (`apps/web/src/middleware.ts`) checks for authentication on every request:
+- `axiosInstance` 요청 인터셉터가 access token 만료 여부를 검사합니다.
+- 토큰이 없거나 만료된 경우 재발급을 시도하고, 실패하면 로그인 이동을 유도합니다.
 
-```typescript
-const loginNeedPages = ["/mentor", "/my", "/community"];
-const needLogin = loginNeedPages.some((path) => {
-  return url.pathname === path || url.pathname.startsWith(`${path}/`);
-});
-```
+### 3. Response Interceptor
 
-#### 2. Community Redirect Reason
+- API 응답이 401이면 재발급 1회 후 원요청을 재시도합니다.
+- 재시도 실패 시 로그인 페이지로 이동합니다.
 
-When an unauthenticated user tries to access a protected page:
-- Middleware redirects to `/login`
-- Community routes include a reason marker so the login page can explain why access was blocked
-- Example: `/login?reason=community-members-only`
+### 4. Page-level Guards
 
-```typescript
-if (needLogin && !refreshToken) {
-  const isCommunityRoute = url.pathname === "/community" || url.pathname.startsWith("/community/");
-  url.pathname = "/login";
-  if (isCommunityRoute) {
-    url.searchParams.set("reason", "community-members-only");
-  }
-  return NextResponse.redirect(url);
-}
-```
+- 인증이 필요한 UI(예: 멘토 페이지)는 클라이언트에서 재발급/토큰 상태를 확인합니다.
+- 필요한 경우 페이지 내부 로직에서 `/login`으로 이동합니다.
 
-#### 3. Toast Notification
+## Middleware Responsibility
 
-The login page displays a one-time toast message when users are redirected from community routes:
+`apps/web/src/middleware.ts`는 현재 아래만 담당합니다.
 
-```typescript
-// apps/web/src/app/login/LoginContent.tsx
-useEffect(() => {
-  const reason = searchParams.get("reason");
-  if (reason === "community-members-only") {
-    toast.info("커뮤니티는 회원 전용입니다. 로그인 후 이용해주세요.");
-    router.replace(pathname);
-  }
-}, [pathname, router, searchParams]);
-```
+- stage 환경 `robots.txt` 제어
+- 스캐너/프로브 경로 차단 (`.php`, `/.git`, `/wp-admin` 등)
+- 정적 리소스 경로 제외 matcher 유지
 
-#### 4. Post-Login Redirect
+즉, middleware는 더 이상 인증 선검증(보호 경로 강제 로그인 리다이렉트)을 수행하지 않습니다.
 
-After successful authentication, users continue to be redirected to `/`.
+## Tokens
 
-### Configuration
+### Refresh Token
 
-Authentication is cookie-based:
-- Refresh token: HTTP-only cookie
-- Middleware: 보호 페이지 접근 시 refresh token 존재 여부 확인
-- 로그인 성공 후: 메인(`/`)으로 이동
+- HTTP-only 쿠키로 관리
+- 재발급 API 호출 시 서버가 검증
 
-### Token Management
+### Access Token
 
-#### Refresh Token
-- Stored in HTTP-only cookie (secure)
-- Used for authentication checks in middleware
-- Automatically renewed on valid requests
+- Zustand store 기반으로 관리
+- API 인증 헤더에 사용
+- 만료 시 재발급을 통해 갱신
 
-#### Access Token
-- Stored in Zustand store or localStorage
-- Used for API requests
-- Short-lived for security
+## Related Files
 
-### Adding New Protected Routes
-
-To protect a new route:
-
-1. Add to `loginNeedPages` array in middleware:
-```typescript
-const loginNeedPages = ["/mentor", "/my", "/new-route"];
-```
-
-2. Or add custom logic for sub-routes:
-```typescript
-const isNewRouteSubPath = url.pathname.startsWith("/new-route/");
-const needLogin = loginNeedPages.some(...) || isNewRouteSubPath;
-```
-
-### Troubleshooting
-
-#### Redirect not working?
-- Verify refresh token exists in cookies
-- Check middleware matcher pattern excludes static files
-
-#### Toast not showing?
-- Ensure `reason=community-members-only` query parameter is present for community access
-- Check `LoginContent.tsx` useEffect is running
-- Verify toast store is initialized
-
-### Security Considerations
-
-1. **HTTP-Only Cookies**: Refresh tokens are never accessible to JavaScript
-2. **Middleware Protection**: Server-side check before page renders
-3. **Token Expiry**: Short-lived access tokens minimize exposure
-4. **Scoped Login Reasons**: Community-only messaging is controlled by a fixed internal `reason` value
-
-### Related Files
-
-- `apps/web/src/middleware.ts` - Authentication middleware
-- `apps/web/src/app/login/LoginContent.tsx` - Login page with redirect handling
-- `apps/web/src/lib/zustand/useAuthStore.ts` - Auth state management
-- `apps/web/.env` - Configuration
-
-### Issue Reference
-
-This implementation resolves issue #302: "로그인 필요 페이지 분리 작업 + proxy 에서 리디렉션 처리"
-
-The login reason marker and toast notification help users understand why community access was blocked.
+- `apps/web/src/lib/zustand/useAuthStore.ts`
+- `apps/web/src/utils/axiosInstance.ts`
+- `apps/web/src/components/layout/ReissueProvider/index.tsx`
+- `apps/web/src/middleware.ts`
