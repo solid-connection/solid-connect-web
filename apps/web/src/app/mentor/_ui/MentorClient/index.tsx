@@ -1,16 +1,14 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { lazy, Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { postReissueToken } from "@/apis/Auth";
 import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { UserRole } from "@/types/mentor";
 import { isTokenExpired } from "@/utils/jwtUtils";
-
-// 레이지 로드 컴포넌트
-const MenteePage = lazy(() => import("./_ui/MenteePage"));
-const MentorPage = lazy(() => import("./_ui/MentorPage"));
+import MenteePage from "./_ui/MenteePage";
+import MentorPage from "./_ui/MentorPage";
 
 const MentorClient = () => {
   const router = useRouter();
@@ -63,11 +61,7 @@ const MentorClient = () => {
     return <CloudSpinnerPage />;
   }
 
-  return (
-    <Suspense fallback={<CloudSpinnerPage />}>
-      {clientRole === UserRole.MENTOR ? <MentorPage /> : <MenteePage />}
-    </Suspense>
-  );
+  return clientRole === UserRole.MENTOR ? <MentorPage /> : <MenteePage />;
 };
 
 export default MentorClient;
