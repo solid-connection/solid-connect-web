@@ -2,14 +2,10 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
 import { z } from "zod";
 import { usePostEmailAuth } from "@/apis/Auth";
-import { infoToastOptions } from "@/lib/toast/options";
-import useAuthStore from "@/lib/zustand/useAuthStore";
 import { IconSolidConnectionFullBlackLogo } from "@/public/svgs";
 import { IconAppleLogo, IconEmailIcon, IconKakaoLogo } from "@/public/svgs/auth";
 import { appleLogin, kakaoLogin } from "@/utils/authUtils";
@@ -23,36 +19,8 @@ const loginSchema = z.object({
 
 type LoginFormData = z.infer<typeof loginSchema>;
 
-const COMMUNITY_LOGIN_REASON = "community-members-only";
-const NEED_LOGIN_COOKIE_KEY = "isNeedLogin";
-
-const hasCookie = (cookieKey: string): boolean => {
-  if (typeof document === "undefined") {
-    return false;
-  }
-
-  return document.cookie
-    .split(";")
-    .map((item) => item.trim())
-    .some((item) => item.startsWith(`${cookieKey}=`));
-};
-
-const clearCookie = (cookieKey: string) => {
-  if (typeof document === "undefined") {
-    return;
-  }
-
-  // biome-ignore lint/suspicious/noDocumentCookie: Cookie Store API 미지원 브라우저 대응을 위한 안전한 fallback입니다.
-  document.cookie = `${cookieKey}=; path=/; max-age=0; SameSite=Lax`;
-};
-
 const LoginContent = () => {
   const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const hasShownCommunityOnlyToast = useRef(false);
-  const hasShownNeedLoginToast = useRef(false);
-  const { isNeedLogin, setNeedLogin, clearNeedLogin } = useAuthStore();
 
   const { mutate: postEmailAuth, isPending } = usePostEmailAuth();
   const { showPasswordField, handleEmailChange } = useInputHandler();
@@ -78,37 +46,6 @@ const LoginContent = () => {
       handleSubmit(onSubmit)();
     }
   };
-
-  useEffect(() => {
-    const reason = searchParams.get("reason");
-
-    if (reason !== COMMUNITY_LOGIN_REASON || hasShownCommunityOnlyToast.current) {
-      return;
-    }
-
-    hasShownCommunityOnlyToast.current = true;
-    toast("커뮤니티는 회원 전용입니다. 로그인 후 이용해주세요.", infoToastOptions);
-    router.replace(pathname);
-  }, [pathname, router, searchParams]);
-
-  useEffect(() => {
-    if (!hasCookie(NEED_LOGIN_COOKIE_KEY)) {
-      return;
-    }
-
-    setNeedLogin(true);
-    clearCookie(NEED_LOGIN_COOKIE_KEY);
-  }, [setNeedLogin]);
-
-  useEffect(() => {
-    if (!isNeedLogin || hasShownNeedLoginToast.current) {
-      return;
-    }
-
-    hasShownNeedLoginToast.current = true;
-    toast("로그인이 필요합니다. 다시 로그인해주세요.", infoToastOptions);
-    clearNeedLogin();
-  }, [clearNeedLogin, isNeedLogin]);
 
   return (
     <div>
