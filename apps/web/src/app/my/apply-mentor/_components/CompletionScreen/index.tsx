@@ -20,25 +20,22 @@ const CompletionScreen = () => {
         </div>
 
         {/* 타이틀 */}
-        <h1 className="mb-4 text-center text-primary typo-bold-1">증명서 첨부 완료</h1>
+        <h1 className="mb-4 text-center text-primary typo-bold-1">멘토 전환 신청 완료</h1>
 
         {/* 설명 */}
         <p className="mb-12 text-center text-k-600 typo-regular-2">
-          승인은 최대 7일이 소요되며
+          관리자 검토가 완료되면
           <br />
-          마이페이지에서 확인할 수 있습니다.
+          멘토 회원으로 전환돼요.
         </p>
 
         {/* 버튼들 */}
         <div className="w-full max-w-sm space-y-3">
           <BlockBtn
-            onClick={() => router.push("/")}
+            onClick={() => router.push("/my")}
             className="hover:bg-primary-50 border border-primary bg-white text-primary"
           >
-            홈으로 이동하기
-          </BlockBtn>
-          <BlockBtn onClick={() => router.push("/mentor/modify")} className="bg-primary text-white">
-            멘토 프로필 작성하기
+            마이페이지로 이동하기
           </BlockBtn>
         </div>
       </div>
