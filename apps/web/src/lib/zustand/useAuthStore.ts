@@ -124,7 +124,6 @@ const useAuthStore = create<AuthState>()(
         shouldAttemptRefresh: state.shouldAttemptRefresh,
       }),
       onRehydrateStorage: () => (state) => {
-        // hydration 완료 후 isInitialized를 true로 설정
         if (state) {
           const hasValidToken = Boolean(state.accessToken && !isTokenExpired(state.accessToken));
           const hadStoredAuth = Boolean(state.shouldAttemptRefresh || state.isAuthenticated || state.accessToken);
@@ -135,16 +134,19 @@ const useAuthStore = create<AuthState>()(
             state.serverRole = null;
             state.clientRole = null;
             state.isAuthenticated = false;
-            state.refreshStatus = "idle";
+            // 저장된 로그인 흔적이 있으면 ReissueProvider가 refresh를 마칠 때까지 인증 분기를 보류합니다.
+            state.isInitialized = !hadStoredAuth;
+            state.isLoading = hadStoredAuth;
+            state.refreshStatus = hadStoredAuth ? "refreshing" : "idle";
           } else {
             const serverRole = parseUserRoleFromToken(state.accessToken);
             state.serverRole = serverRole;
             state.clientRole = resolveClientRole(serverRole, state.clientRole);
             state.isAuthenticated = true;
+            state.isInitialized = true;
+            state.isLoading = false;
             state.refreshStatus = "success";
           }
-
-          state.isInitialized = true;
         }
       },
     },
