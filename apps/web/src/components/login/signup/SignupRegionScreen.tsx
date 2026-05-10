@@ -2,12 +2,9 @@
 
 import clsx from "clsx";
 import type { Dispatch, SetStateAction } from "react";
-
+import { toast } from "react-hot-toast";
 import BlockBtn from "@/components/button/BlockBtn";
-
 import { regionList } from "@/constants/regions";
-
-import { toast } from "@/lib/zustand/useToastStore";
 
 type SignupRegionScreenProps = {
   curRegion: string | null;

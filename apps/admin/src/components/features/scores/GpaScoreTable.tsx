@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { scoreApi } from "@/lib/api/scores";
+import { normalizeImageUrlToUploadCdn } from "@/lib/utils/cdnUrl";
 import type { GpaScoreWithUser, VerifyStatus } from "@/types/scores";
 import { ScoreVerifyButton } from "./ScoreVerifyButton";
 import { StatusBadge } from "./StatusBadge";
@@ -12,8 +13,6 @@ import { StatusBadge } from "./StatusBadge";
 interface Props {
 	verifyFilter: VerifyStatus;
 }
-
-const S3_BASE_URL = (import.meta.env.VITE_S3_BASE_URL as string | undefined) || "";
 
 export function GpaScoreTable({ verifyFilter }: Props) {
 	const queryClient = useQueryClient();
@@ -142,7 +141,7 @@ export function GpaScoreTable({ verifyFilter }: Props) {
 									<TableCell>
 										<div className="flex items-center">
 											<img
-												src={score.siteUserResponse.profileImageUrl}
+												src={normalizeImageUrlToUploadCdn(score.siteUserResponse.profileImageUrl)}
 												alt="프로필"
 												className="mr-2 h-8 w-8 rounded-full border border-k-100"
 											/>
@@ -197,7 +196,7 @@ export function GpaScoreTable({ verifyFilter }: Props) {
 									<TableCell>{score.gpaScoreStatusResponse.rejectedReason || "-"}</TableCell>
 									<TableCell>
 										<a
-											href={`${S3_BASE_URL}${score.gpaScoreStatusResponse.gpaResponse.gpaReportUrl}`}
+											href={normalizeImageUrlToUploadCdn(score.gpaScoreStatusResponse.gpaResponse.gpaReportUrl)}
 											target="_blank"
 											rel="noopener noreferrer"
 											className="typo-medium-4 text-primary hover:text-primary-700 hover:underline"

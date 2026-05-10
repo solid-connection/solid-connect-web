@@ -12,7 +12,6 @@ import SubmitLinkTab from "@/components/score/SubmitLinkTab";
 // CustomDropdown 경로 확인 필요
 import SubmitResult, { type InfoRowProps } from "@/components/score/SubmitResult";
 import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
-import { toast } from "@/lib/zustand/useToastStore";
 import { formatLanguageTestScoreWithMax, LanguageTestEnum, languageTestScoreInfo } from "@/types/score";
 import { type LanguageTestFormData, languageTestSchema } from "./_lib/schema";
 
@@ -53,9 +52,8 @@ const LanguageTestSubmitForm = () => {
       reset();
       setShowResult(true);
       setSubmittedData(data);
-    } catch (error) {
-      // 실패 시 처리 (알림, 로그 등)
-      toast.error("제출에 실패했습니다. 다시 시도해주세요.");
+    } catch (_error) {
+      // 실패 토스트는 React Query 전역 onError에서 단일 처리
     }
   };
 

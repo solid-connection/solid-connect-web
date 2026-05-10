@@ -2,8 +2,8 @@ import { useMutation } from "@tanstack/react-query";
 
 import type { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
 import useAuthStore from "@/lib/zustand/useAuthStore";
-import { toast } from "@/lib/zustand/useToastStore";
 import { type AppleAuthRequest, type AppleAuthResponse, authApi } from "./api";
 
 /**
@@ -31,7 +31,6 @@ const usePostAppleAuth = () => {
       }
     },
     onError: () => {
-      toast.error("애플 로그인 중 오류가 발생했습니다. 다시 시도해주세요.");
       router.push("/login");
     },
   });

@@ -14,6 +14,10 @@ export interface UploadProfileImageResponse {
   fileUrl: string;
 }
 
+export interface UploadChatImageResponse {
+  fileUrl: string;
+}
+
 export interface UploadGpaReportResponse {
   fileUrl: string;
 }
@@ -53,6 +57,21 @@ export const imageUploadApi = {
       headers: { "Content-Type": "multipart/form-data" },
     });
     return res.data;
+  },
+
+  /**
+   * 채팅 이미지 업로드 (로그인 후)
+   */
+  postUploadChatImages: async (files: File[]): Promise<string[]> => {
+    const formData = new FormData();
+    files.forEach((file) => {
+      formData.append("files", file);
+    });
+
+    const res = await axiosInstance.post<UploadChatImageResponse[]>(`/file/chat`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    return res.data.map((image) => image.fileUrl);
   },
 
   /**

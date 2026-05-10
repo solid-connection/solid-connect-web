@@ -1,73 +1,59 @@
 "use client";
 
+import type { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
-import { lazy, Suspense, useEffect, useState } from "react";
-import { postReissueToken } from "@/apis/Auth";
+import { useEffect } from "react";
+import { useGetMyInfo } from "@/apis/MyPage";
 import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { UserRole } from "@/types/mentor";
-import { isTokenExpired } from "@/utils/jwtUtils";
-
-// 레이지 로드 컴포넌트
-const MenteePage = lazy(() => import("./_ui/MenteePage"));
-const MentorPage = lazy(() => import("./_ui/MentorPage"));
+import MenteePage from "./_ui/MenteePage";
+import MentorPage from "./_ui/MentorPage";
 
 const MentorClient = () => {
   const router = useRouter();
-  const { isLoading, accessToken, clientRole, isInitialized, refreshStatus, setRefreshStatus } = useAuthStore();
-  const [isRefreshing, setIsRefreshing] = useState(false);
-  const hasValidAccessToken = Boolean(accessToken && !isTokenExpired(accessToken));
+  const clientRole = useAuthStore((state) => state.clientRole);
+  const { data: myInfo, isLoading, isFetching, isError, error, refetch } = useGetMyInfo();
+  const role = myInfo?.role;
+  const status = (error as AxiosError | null)?.response?.status;
+  const isUnauthorized = status === 401 || status === 403;
+  const isAuthResolving = isLoading || (isFetching && !role);
 
-  // 토큰 재발급 로직
   useEffect(() => {
-    const attemptTokenRefresh = async () => {
-      // 이미 실패한 경우 재시도하지 않음 (무한 루프 방지)
-      if (refreshStatus === "failed") {
-        return;
-      }
+    if (isAuthResolving) return;
+    if (isUnauthorized || (!isError && !role)) {
+      router.replace("/login");
+    }
+  }, [isAuthResolving, isUnauthorized, isError, role, router]);
 
-      // 초기화 이후 유효한 access token이 없을 때만 재발급 시도
-      if (!isInitialized || hasValidAccessToken || isRefreshing || refreshStatus === "refreshing") {
-        return;
-      }
-
-      setIsRefreshing(true);
-      setRefreshStatus("refreshing");
-
-      try {
-        await postReissueToken();
-        setRefreshStatus("success");
-      } catch {
-        // 재발급 실패 시 로그인 페이지로 리다이렉트
-        setRefreshStatus("failed");
-        router.push("/login");
-      } finally {
-        setIsRefreshing(false);
-      }
-    };
-
-    attemptTokenRefresh();
-  }, [isInitialized, hasValidAccessToken, isRefreshing, refreshStatus, setRefreshStatus, router]);
-
-  // 초기화 전이거나 로딩 중이거나 재발급 중일 때 스피너 표시
-  if (!isInitialized || isLoading || refreshStatus === "refreshing" || isRefreshing) {
+  if (isAuthResolving) {
     return <CloudSpinnerPage />;
   }
 
-  // 초기화 완료 후에도 토큰이 없으면 리다이렉트 (useEffect에서 처리되지만 fallback)
-  if (!hasValidAccessToken) {
+  if (isUnauthorized || (!isError && !role)) {
     return <CloudSpinnerPage />;
   }
 
-  if (!clientRole) {
-    return <CloudSpinnerPage />;
+  if (isError) {
+    return (
+      <div className="flex min-h-[40vh] flex-col items-center justify-center gap-3 px-4 text-center">
+        <p className="text-k-700 typo-medium-2">멘토 페이지 정보를 불러오지 못했어요.</p>
+        <button
+          type="button"
+          onClick={() => refetch()}
+          className="rounded-full bg-primary px-4 py-2 text-white typo-medium-2"
+        >
+          다시 시도
+        </button>
+      </div>
+    );
   }
 
-  return (
-    <Suspense fallback={<CloudSpinnerPage />}>
-      {clientRole === UserRole.MENTOR ? <MentorPage /> : <MenteePage />}
-    </Suspense>
-  );
+  if (role === UserRole.ADMIN) {
+    return clientRole === UserRole.MENTEE ? <MenteePage /> : <MentorPage />;
+  }
+
+  return role === UserRole.MENTOR ? <MentorPage /> : <MenteePage />;
 };
 
 export default MentorClient;

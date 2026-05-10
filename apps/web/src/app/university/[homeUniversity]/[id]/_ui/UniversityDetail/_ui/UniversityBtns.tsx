@@ -1,10 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
+import { toast } from "react-hot-toast";
 import { useDeleteWish, useGetWishList, usePostAddWish } from "@/apis/universities";
 import useAuthStore from "@/lib/zustand/useAuthStore";
-import { toast } from "@/lib/zustand/useToastStore";
 
 const likeIcon = (
   <svg xmlns="http://www.w3.org/2000/svg" width="19" height="16" viewBox="0 0 19 16" fill="none">

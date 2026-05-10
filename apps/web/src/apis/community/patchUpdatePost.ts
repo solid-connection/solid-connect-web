@@ -1,8 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
-
+import { toast } from "react-hot-toast";
 import useAuthStore from "@/lib/zustand/useAuthStore";
-import { toast } from "@/lib/zustand/useToastStore";
 import { CommunityQueryKeys, communityApi, type PostIdResponse, type PostUpdateRequest } from "./api";
 
 interface UpdatePostVariables {
@@ -53,9 +52,6 @@ const useUpdatePost = () => {
       }
 
       toast.success("게시글이 수정되었습니다.");
-    },
-    onError: (error) => {
-      toast.error("게시글 수정에 실패했습니다.");
     },
   });
 };

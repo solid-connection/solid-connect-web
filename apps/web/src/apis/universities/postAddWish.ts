@@ -1,6 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
-import { createMutationErrorHandler } from "@/utils/errorHandler";
 import { QueryKeys } from "../queryKeys";
 import { type AddWishResponse, universitiesApi } from "./api";
 
@@ -16,7 +15,6 @@ const usePostAddWish = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QueryKeys.universities.wishList] });
     },
-    onError: createMutationErrorHandler("위시리스트 추가에 실패했습니다."),
   });
 };
 

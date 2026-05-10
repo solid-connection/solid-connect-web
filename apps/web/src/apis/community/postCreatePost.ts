@@ -1,8 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
-
+import { toast } from "react-hot-toast";
 import useAuthStore from "@/lib/zustand/useAuthStore";
-import { toast } from "@/lib/zustand/useToastStore";
 import { CommunityQueryKeys, communityApi, type PostCreateRequest, type PostIdResponse } from "./api";
 
 /**
@@ -46,9 +45,6 @@ const useCreatePost = () => {
       }
 
       toast.success("게시글이 등록되었습니다.");
-    },
-    onError: (error) => {
-      toast.error("게시글 등록에 실패했습니다.");
     },
   });
 };

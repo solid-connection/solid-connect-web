@@ -1,6 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
-import { toast } from "@/lib/zustand/useToastStore";
 import type { Article } from "@/types/news";
 import { type ArticleListResponse, NewsQueryKeys, newsApi } from "./api";
 
@@ -33,11 +32,10 @@ const useDeleteArticle = (userId: number | null) => {
       return { previousArticleList };
     },
 
-    onError: (error, _variables, context) => {
+    onError: (_error, _variables, context) => {
       if (context?.previousArticleList) {
         queryClient.setQueryData<Article[]>(queryKey, context.previousArticleList);
       }
-      toast.error("아티클 삭제에 실패했습니다. 다시 시도해주세요.");
     },
 
     onSettled: () => {

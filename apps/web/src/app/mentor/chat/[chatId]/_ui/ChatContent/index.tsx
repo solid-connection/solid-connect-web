@@ -2,12 +2,11 @@
 
 import clsx from "clsx";
 import Link from "next/link";
+import { toast } from "react-hot-toast";
 import { useGetPartnerInfo } from "@/apis/chat";
-import { useUploadProfileImage } from "@/apis/image-upload";
-
+import { useUploadChatImages } from "@/apis/image-upload";
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
 import useAuthStore from "@/lib/zustand/useAuthStore";
-import { toast } from "@/lib/zustand/useToastStore";
 import { ConnectionStatus } from "@/types/chat";
 import { UserRole } from "@/types/mentor";
 import { tokenParse } from "@/utils/jwtUtils";
@@ -41,6 +40,7 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
     isFetchingNextPage, // 이전 기록 로딩 상태
 
     // Refs
+    scrollContainerRef, // 실제 스크롤 컨테이너 ref
     messagesEndRef, // 자동 스크롤을 위한 ref
     topDetectorRef, // 무한 스크롤 감지를 위한 ref
 
@@ -50,7 +50,7 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
     addImageMessagePreview,
   } = useChatListHandler(chatId);
 
-  const uploadProfileImageMutation = useUploadProfileImage();
+  const uploadChatImagesMutation = useUploadChatImages();
 
   const { data: partnerInfo } = useGetPartnerInfo(chatId);
 
@@ -112,6 +112,7 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
           </div>
           {/* 채팅 메시지 영역 - 항상 스크롤 가능, 스크롤바 숨김 */}
           <div
+            ref={scrollContainerRef}
             className="scrollbar-hide mt-4 flex-1 overflow-y-auto p-4 pb-6"
             style={{
               scrollbarWidth: "none" /* Firefox */,
@@ -182,11 +183,7 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
         }}
         onSendImages={async (data) => {
           try {
-            const uploadedImages = await Promise.all(
-              data.images.map((image) => uploadProfileImageMutation.mutateAsync(image)),
-            );
-
-            const imageUrls = uploadedImages.map((image) => image.fileUrl);
+            const imageUrls = await uploadChatImagesMutation.mutateAsync(data.images);
             const isSent = sendImageMessage(imageUrls);
 
             if (!isSent) {

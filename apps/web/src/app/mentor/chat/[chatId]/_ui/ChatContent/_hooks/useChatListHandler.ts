@@ -6,6 +6,8 @@ import { type ChatMessage, ConnectionStatus } from "@/types/chat";
 // --- 프로젝트 내부 의존성 ---
 import useInfinityScroll from "@/utils/useInfinityScroll";
 
+const BOTTOM_PROXIMITY_THRESHOLD = 80;
+
 const getMessageDedupeKey = (message: ChatMessage): string => {
   if (message.id > 0) {
     return `id:${message.id}`;
@@ -22,6 +24,9 @@ const useChatListHandler = (chatId: number) => {
   // --- 1. State 및 Ref 선언 ---
   const clientRef = useRef<Client | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null); // 새 메시지 수신 시 자동 스크롤을 위한 ref
+  const scrollContainerRef = useRef<HTMLDivElement>(null); // 실제 스크롤 컨테이너 ref
+  const hasInitialAutoScrolledRef = useRef(false);
+  const prevMessageCountRef = useRef(0);
 
   // --- 2. 하위 Hooks 호출 ---
 
@@ -71,13 +76,69 @@ const useChatListHandler = (chatId: number) => {
     }
   }, [chatHistoryPages, setSubmittedMessages]);
 
-  // 새로운 메시지가 추가되었을 때, 스크롤을 대화 목록의 맨 아래로 이동시킵니다.
+  // 채팅방 전환 시 자동 스크롤 상태를 초기화합니다.
   useEffect(() => {
-    // 이전 기록을 불러오는 중일 때는 자동 스크롤을 방지하여 사용자 경험을 해치지 않습니다.
-    if (!isFetchingNextPage && messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView();
+    hasInitialAutoScrolledRef.current = false;
+    prevMessageCountRef.current = 0;
+  }, [chatId]);
+
+  // 초기 히스토리 로딩 완료 후, 최초 1회만 하단으로 이동합니다.
+  useEffect(() => {
+    if (isLoading || isFetchingNextPage || submittedMessages.length === 0 || hasInitialAutoScrolledRef.current) {
+      return;
     }
-  }, [isFetchingNextPage]);
+
+    const rafId = requestAnimationFrame(() => {
+      const container = scrollContainerRef.current;
+      if (!container) return;
+
+      container.scrollTop = container.scrollHeight;
+      hasInitialAutoScrolledRef.current = true;
+      prevMessageCountRef.current = submittedMessages.length;
+    });
+
+    return () => cancelAnimationFrame(rafId);
+  }, [isLoading, isFetchingNextPage, submittedMessages.length]);
+
+  // 신규 메시지 도착 시, 사용자가 하단 근처에 있을 때만 자동으로 하단을 유지합니다.
+  useEffect(() => {
+    if (isLoading || isFetchingNextPage) return;
+
+    const currentMessageCount = submittedMessages.length;
+    const prevMessageCount = prevMessageCountRef.current;
+    const container = scrollContainerRef.current;
+
+    if (!container) {
+      prevMessageCountRef.current = currentMessageCount;
+      return;
+    }
+
+    if (currentMessageCount <= prevMessageCount) {
+      prevMessageCountRef.current = currentMessageCount;
+      return;
+    }
+
+    if (!hasInitialAutoScrolledRef.current) {
+      prevMessageCountRef.current = currentMessageCount;
+      return;
+    }
+
+    const distanceFromBottom = container.scrollHeight - container.scrollTop - container.clientHeight;
+
+    if (distanceFromBottom <= BOTTOM_PROXIMITY_THRESHOLD) {
+      const rafId = requestAnimationFrame(() => {
+        const target = scrollContainerRef.current;
+        if (!target) return;
+        target.scrollTop = target.scrollHeight;
+      });
+
+      prevMessageCountRef.current = currentMessageCount;
+
+      return () => cancelAnimationFrame(rafId);
+    }
+
+    prevMessageCountRef.current = currentMessageCount;
+  }, [isLoading, isFetchingNextPage, submittedMessages.length]);
 
   // --- 4. Handler 함수 ---
 
@@ -197,6 +258,7 @@ const useChatListHandler = (chatId: number) => {
     isFetchingNextPage, // 이전 기록 로딩 상태
 
     // Refs
+    scrollContainerRef, // 실제 스크롤 컨테이너 ref
     messagesEndRef, // 자동 스크롤을 위한 ref
     topDetectorRef, // 무한 스크롤 감지를 위한 ref
 

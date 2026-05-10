@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { toast } from "@/lib/zustand/useToastStore";
+import { toast } from "react-hot-toast";
 import type { ScoreSubmitStatus } from "@/types/score";
 
 type ScoreCardProps = {
