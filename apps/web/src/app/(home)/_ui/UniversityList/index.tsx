@@ -37,7 +37,7 @@ const UniversityList = ({ allRegionsUniversityList }: UniversityListProps) => {
           deactiveBtn: "bg-k-50",
           activeBtnFont: "text-primary",
           deactiveBtnFont: "text-k-300",
-          background: "white",
+          background: "bg-white",
         }}
       />
       <UniversityCards colleges={previewUniversities} showCapacity={false} />

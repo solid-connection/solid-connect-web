@@ -1,4 +1,4 @@
-import { COUNTRY_CODE_MAP, LANGUAGE_TEST_TYPE_MAP } from "@/constants/university";
+import { COUNTRY_CODE_MAP, LANGUAGE_TEST_TYPE_MAP, REGION_TO_COUNTRIES_MAP } from "@/constants/university";
 
 type CountryOptionEntry = [string, string];
 
@@ -43,6 +43,21 @@ export const getCountryOptionsByIndex = ({
 }: GetCountryOptionsByIndexParams) =>
   Array.from({ length: visibleCount }, (_, index) => getCountryOptions(countries, index, availableCountries));
 
+export const getAvailableCountryOptionsByRegions = (regions: string[]) => {
+  if (regions.length === 0) return Object.entries(COUNTRY_CODE_MAP);
+
+  const countrySet = new Set<string>();
+  regions.forEach((region) => REGION_TO_COUNTRIES_MAP[region]?.forEach((country) => countrySet.add(country)));
+
+  return Object.entries(COUNTRY_CODE_MAP).filter(([, countryName]) => countrySet.has(countryName));
+};
+
+export const getVisibleCountrySelectIndexes = (countries: Array<string | null | undefined>, maxCount = 3) => {
+  const visibleCount = 1 + Number(Boolean(countries[0])) + Number(Boolean(countries[1]));
+
+  return Array.from({ length: Math.min(visibleCount, maxCount) }, (_, index) => index + 1);
+};
+
 export const buildUniversitySearchQuery = ({
   searchText,
   languageTestType,
@@ -62,9 +77,11 @@ export const buildUniversitySearchQuery = ({
     queryParams.append("languageTestType", languageTestType);
   }
 
+  const appendedCountryCodes = new Set<string>();
   countryCodes.forEach((code) => {
-    if (code && (!availableCountryCodeSet || availableCountryCodeSet.has(code))) {
+    if (code && !appendedCountryCodes.has(code) && (!availableCountryCodeSet || availableCountryCodeSet.has(code))) {
       queryParams.append("countryCode", code);
+      appendedCountryCodes.add(code);
     }
   });
 

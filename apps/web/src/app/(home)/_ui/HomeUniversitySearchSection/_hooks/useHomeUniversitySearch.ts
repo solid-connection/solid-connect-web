@@ -7,6 +7,7 @@ import {
   buildUniversitySearchQuery,
   getCountryOptionsByIndex,
   getLanguageTestOptions,
+  getVisibleCountrySelectIndexes,
 } from "@/utils/universitySearchQuery";
 
 const MAX_COUNTRY_SELECT_COUNT = 3;
@@ -24,8 +25,7 @@ const useHomeUniversitySearch = () => {
   const languageOptions = useMemo(() => getLanguageTestOptions(), []);
 
   const visibleCountryCount = useMemo(() => {
-    const selectedCount = countries.filter(Boolean).length;
-    return Math.min(selectedCount + 1, MAX_COUNTRY_SELECT_COUNT);
+    return getVisibleCountrySelectIndexes(countries, MAX_COUNTRY_SELECT_COUNT).length;
   }, [countries]);
 
   const countryOptionsByIndex = useMemo(
