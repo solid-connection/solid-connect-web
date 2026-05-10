@@ -45,7 +45,6 @@ const MentorCard = ({ mentor, observeRef, isMine = false }: MentorCardProps) => 
       <div className="flex items-start gap-3">
         <div className="flex flex-col items-center">
           <ProfileWithBadge profileImageUrl={profileImageUrl} hasBadge={hasBadge} />
-          <span className="text-primary-1 typo-sb-11">누적 멘티 {menteeCount}명</span>
         </div>
 
         <div className="flex flex-1 flex-col items-stretch">
