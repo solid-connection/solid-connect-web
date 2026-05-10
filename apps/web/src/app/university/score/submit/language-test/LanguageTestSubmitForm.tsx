@@ -7,10 +7,9 @@ import { useRouter } from "next/navigation";
 import { Suspense, useState } from "react";
 import { Controller, type SubmitHandler, useForm } from "react-hook-form";
 import { usePostLanguageTestScore } from "@/apis/Scores";
-import CustomDropdown from "@/app/university/CustomDropdown";
 import SubmitLinkTab from "@/components/score/SubmitLinkTab";
-// CustomDropdown 경로 확인 필요
 import SubmitResult, { type InfoRowProps } from "@/components/score/SubmitResult";
+import CustomDropdown from "@/components/search/CustomDropdown";
 import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 import { formatLanguageTestScoreWithMax, LanguageTestEnum, languageTestScoreInfo } from "@/types/score";
 import { type LanguageTestFormData, languageTestSchema } from "./_lib/schema";

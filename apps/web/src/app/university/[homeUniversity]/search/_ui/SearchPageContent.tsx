@@ -6,15 +6,11 @@ import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { Controller, type SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
-import CustomDropdown from "@/app/university/CustomDropdown";
-import {
-  COUNTRY_CODE_MAP,
-  LANGUAGE_TEST_TYPE_MAP,
-  REGION_TO_COUNTRIES_MAP,
-  REGIONS_SEARCH,
-} from "@/constants/university";
+import CustomDropdown from "@/components/search/CustomDropdown";
+import { COUNTRY_CODE_MAP, REGION_TO_COUNTRIES_MAP, REGIONS_SEARCH } from "@/constants/university";
 import { IconSearch } from "@/public/svgs/search";
 import { CountryCode, LanguageTestType } from "@/types/university";
+import { buildUniversitySearchQuery, getCountryOptions, getLanguageTestOptions } from "@/utils/universitySearchQuery";
 
 // Zod 스키마
 const searchSchema = z.object({
@@ -53,24 +49,13 @@ const SearchPageContent = ({ homeUniversitySlug }: SearchPageContentProps) => {
 
   // 필터 검색
   const onSubmit: SubmitHandler<SearchFormData> = (data) => {
-    const queryParams = new URLSearchParams();
-    const availableCountryCodeSet = new Set(availableCountries.map(([code]) => code as CountryCode));
+    const queryString = buildUniversitySearchQuery({
+      languageTestType: data.languageTestType,
+      countryCodes: [data.country1, data.country2, data.country3],
+      regions: data.regions,
+      availableCountryCodes: availableCountries.map(([code]) => code),
+    }).toString();
 
-    if (data.languageTestType) {
-      queryParams.append("languageTestType", data.languageTestType);
-    }
-
-    [data.country1, data.country2, data.country3].forEach((code) => {
-      if (code && availableCountryCodeSet.has(code)) {
-        queryParams.append("countryCode", code);
-      }
-    });
-
-    if (data.regions && data.regions.length > 0) {
-      data.regions.forEach((region) => queryParams.append("region", region));
-    }
-
-    const queryString = queryParams.toString();
     router.push(`/university/${homeUniversitySlug}?${queryString}`);
   };
 
@@ -152,7 +137,7 @@ const SearchPageContent = ({ homeUniversitySlug }: SearchPageContentProps) => {
                 placeholderSelect="선택"
                 placeholderIcon={<LanguageIcon className="text-k-100" />}
                 icon={<LanguageIcon className="text-accent-custom-orange-light" />}
-                options={Object.entries(LANGUAGE_TEST_TYPE_MAP).map(([value, label]) => ({ value, label }))}
+                options={getLanguageTestOptions()}
               />
             )}
           />
@@ -179,9 +164,11 @@ const SearchPageContent = ({ homeUniversitySlug }: SearchPageContentProps) => {
                     }}
                     placeholder="관심있는 나라"
                     icon={<LocationIcon className="text-secondary" />}
-                    options={availableCountries
-                      .filter(([code]) => !watchedCountries.includes(code as CountryCode) || code === field.value)
-                      .map(([value, label]) => ({ value, label }))}
+                    options={getCountryOptions(
+                      watchedCountries.map((country) => country ?? ""),
+                      index - 1,
+                      availableCountries,
+                    )}
                   />
                 )}
               />
