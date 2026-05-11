@@ -7,16 +7,17 @@ import { toast } from "react-hot-toast";
 import type { z } from "zod";
 import { useUniversitySearch } from "@/apis/universities";
 import BlockBtn from "@/components/button/BlockBtn";
-import { mentorRegionList } from "@/constants/regions";
+import { COUNTRY_CODE_MAP } from "@/constants/university";
 import type { mentorApplicationSchema } from "../../_lib/schema";
 
 type FormValues = z.input<typeof mentorApplicationSchema>;
 
 type UniversityScreenProps = {
+  isSubmitting: boolean;
   onNext: () => void;
 };
 
-const UniversityScreen = ({ onNext }: UniversityScreenProps) => {
+const UniversityScreen = ({ isSubmitting, onNext }: UniversityScreenProps) => {
   const {
     watch,
     setValue,
@@ -26,27 +27,34 @@ const UniversityScreen = ({ onNext }: UniversityScreenProps) => {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const country = watch("country");
-  const universityName = watch("universityName");
+  const countryCode = watch("country");
+  const universityId = watch("universityId");
+  const term = watch("term");
   const verificationFile = watch("verificationFile");
+  const selectedCountryName = countryCode ? COUNTRY_CODE_MAP[countryCode] : "";
 
   // 모든 대학 목록 가져오기
   const { data: allUniversities = [], isLoading } = useUniversitySearch("");
 
-  // regionList에서 모든 국가 추출 (중복 제거)
-  const availableCountries = useMemo(() => {
-    const countries = new Set<string>();
-    mentorRegionList.forEach((region) => {
-      region.countries.forEach((country) => countries.add(country));
-    });
-    return Array.from(countries).sort();
-  }, []);
-
   // 선택된 국가에 따라 대학 목록 필터링
   const filteredUniversities = useMemo(() => {
-    if (!country || !allUniversities) return [];
-    return allUniversities.filter((uni) => uni.country === country);
-  }, [country, allUniversities]);
+    if (!selectedCountryName || !allUniversities) return [];
+    return allUniversities.filter((uni) => uni.country === selectedCountryName);
+  }, [selectedCountryName, allUniversities]);
+
+  const handleUniversityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const nextUniversityId = Number(e.target.value);
+
+    if (!nextUniversityId) {
+      setValue("universityId", 0, { shouldValidate: true });
+      setValue("term", "", { shouldValidate: true });
+      return;
+    }
+
+    const selectedUniversity = filteredUniversities.find((university) => university.id === nextUniversityId);
+    setValue("universityId", nextUniversityId, { shouldValidate: true });
+    setValue("term", selectedUniversity?.term ?? "", { shouldValidate: true });
+  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -84,7 +92,7 @@ const UniversityScreen = ({ onNext }: UniversityScreenProps) => {
   };
 
   const handleNext = async () => {
-    const isValid = await trigger(["country", "universityName", "verificationFile"]);
+    const isValid = await trigger(["universityId", "term", "verificationFile"]);
     if (isValid) {
       onNext();
     }
@@ -103,30 +111,12 @@ const UniversityScreen = ({ onNext }: UniversityScreenProps) => {
         </div>
 
         <div className="mt-10 flex flex-col gap-5">
-          {/* 국가 선택 */}
+          {/* 선택한 국가 */}
           <div className="flex flex-col gap-2">
             <label className="text-k-900 typo-sb-9">국가</label>
-            <select
-              value={country || ""}
-              onChange={(e) => {
-                setValue("country", e.target.value);
-                setValue("universityName", ""); // 국가 변경 시 학교 선택 초기화
-              }}
-              className={clsx(
-                "h-12 rounded-lg border border-k-200 bg-k-50 px-4 typo-regular-2 focus:border-primary focus:outline-none [&>option:checked]:text-primary",
-                country && "text-accent-custom-indigo",
-              )}
-            >
-              <option value="" className="text-k-400">
-                국가를 선택해주세요
-              </option>
-              {availableCountries.map((countryName) => (
-                <option key={countryName} value={countryName} className="text-primary">
-                  {countryName}
-                </option>
-              ))}
-            </select>
-            {errors.country && <p className="text-red-500 typo-regular-2">{errors.country.message}</p>}
+            <div className="flex h-12 items-center rounded-lg border border-k-200 bg-k-50 px-4 text-accent-custom-indigo typo-regular-2">
+              {selectedCountryName || "이전 단계에서 국가를 선택해주세요"}
+            </div>
           </div>
 
           {/* 학교 선택 */}
@@ -138,29 +128,30 @@ const UniversityScreen = ({ onNext }: UniversityScreenProps) => {
               </div>
             ) : (
               <select
-                value={universityName || ""}
-                onChange={(e) => setValue("universityName", e.target.value)}
-                disabled={!country || filteredUniversities.length === 0}
+                value={universityId || ""}
+                onChange={handleUniversityChange}
+                disabled={!selectedCountryName || filteredUniversities.length === 0}
                 className={clsx(
                   "h-12 rounded-lg border border-k-200 bg-k-50 px-4 typo-regular-2 focus:border-primary focus:outline-none disabled:cursor-not-allowed disabled:opacity-60 [&>option:checked]:text-primary",
-                  universityName && "text-accent-custom-indigo",
+                  universityId > 0 && "text-accent-custom-indigo",
                 )}
               >
                 <option value="" className="text-k-400">
-                  {!country
+                  {!selectedCountryName
                     ? "먼저 국가를 선택해주세요"
                     : filteredUniversities.length === 0
                       ? "해당 국가에 등록된 학교가 없습니다"
                       : "학교를 선택해주세요"}
                 </option>
                 {filteredUniversities.map((university) => (
-                  <option key={university.id} value={university.koreanName} className="text-primary">
-                    {university.koreanName}
+                  <option key={university.id} value={university.id} className="text-primary">
+                    {university.koreanName} ({university.term})
                   </option>
                 ))}
               </select>
             )}
-            {errors.universityName && <p className="text-red-500 typo-regular-2">{errors.universityName.message}</p>}
+            {errors.universityId && <p className="text-red-500 typo-regular-2">{errors.universityId.message}</p>}
+            {errors.term && <p className="text-red-500 typo-regular-2">{errors.term.message}</p>}
           </div>
 
           {/* 증명서 첨부 */}
@@ -215,10 +206,10 @@ const UniversityScreen = ({ onNext }: UniversityScreenProps) => {
         <div className="mx-auto w-full max-w-app px-5">
           <BlockBtn
             className="mb-[29px]"
-            disabled={!country || !universityName || !verificationFile}
+            disabled={isSubmitting || !selectedCountryName || !universityId || !term || !verificationFile}
             onClick={handleNext}
           >
-            다음
+            {isSubmitting ? "신청 중..." : "신청하기"}
           </BlockBtn>
         </div>
       </div>

@@ -1,4 +1,7 @@
 import { z } from "zod";
+import { CountryCode } from "@/types/university";
+
+const countryCodeValues = Object.values(CountryCode) as [CountryCode, ...CountryCode[]];
 
 const verificationFileSchema = z
   .union([z.instanceof(File), z.null(), z.undefined()])
@@ -18,35 +21,38 @@ const verificationFileSchema = z
   .transform((file) => file!);
 
 export const mentorApplicationSchema = z.object({
-  // Step 1: 관심 국가
-  interestedCountries: z.array(z.string()).min(1, "관심 국가를 하나 이상 선택해주세요."),
-
-  // Step 2: 수학 학교
-  country: z.string().min(1, "국가를 선택해주세요."),
-  universityName: z.string().min(1, "학교를 선택해주세요."),
-  verificationFile: verificationFileSchema,
-
-  // Step 3: 준비 단계
-  studyStatus: z.enum(["PLANNING", "STUDYING", "COMPLETED"], {
-    message: "준비 단계를 선택해주세요.",
+  // Step 1: 멘토 신청 가능 상태
+  preparationStatus: z.enum(["AFTER_EXCHANGE"], {
+    message: "수학 완료 상태만 멘토 전환을 신청할 수 있습니다.",
   }),
+
+  // Step 2: 수학 국가
+  country: z.enum(countryCodeValues, {
+    message: "국가를 선택해주세요.",
+  }),
+
+  // Step 3: 수학 학교 및 증명서
+  universityId: z.number().int().positive("학교를 선택해주세요."),
+  term: z.string().min(1, "파견 학기 정보를 확인할 수 없습니다."),
+  verificationFile: verificationFileSchema,
 });
 
-export type MentorApplicationFormData = z.infer<typeof mentorApplicationSchema>;
+export type MentorApplicationFormInputData = z.input<typeof mentorApplicationSchema>;
+export type MentorApplicationFormData = z.output<typeof mentorApplicationSchema>;
 
 // 단계별 부분 스키마
 export const step1Schema = mentorApplicationSchema.pick({
-  interestedCountries: true,
+  preparationStatus: true,
 });
 
 export const step2Schema = mentorApplicationSchema.pick({
   country: true,
-  universityName: true,
-  verificationFile: true,
 });
 
 export const step3Schema = mentorApplicationSchema.pick({
-  studyStatus: true,
+  universityId: true,
+  term: true,
+  verificationFile: true,
 });
 
 export type Step1FormData = z.infer<typeof step1Schema>;

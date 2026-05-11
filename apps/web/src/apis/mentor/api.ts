@@ -5,6 +5,7 @@ import {
   MentoringApprovalStatus,
   type MentoringItem,
 } from "@/types/mentor";
+import type { CountryCode } from "@/types/university";
 import { axiosInstance } from "@/utils/axiosInstance";
 
 // QueryKeys for mentor domain
@@ -75,10 +76,11 @@ export interface PostApplyMentoringResponse {
 }
 
 export interface PostMentorApplicationRequest {
-  interestedCountries: string[];
-  country: string;
-  universityName: string;
-  studyStatus: "STUDYING" | "PLANNING" | "COMPLETED";
+  preparationStatus: "AFTER_EXCHANGE";
+  universitySelectType: "CATALOG";
+  country: CountryCode;
+  universityId: number;
+  term: string;
   verificationFile: File;
 }
 
@@ -127,17 +129,18 @@ export const mentorApi = {
   postMentorApplication: async (body: PostMentorApplicationRequest): Promise<void> => {
     const formData = new FormData();
     const applicationData = {
-      interestedCountries: body.interestedCountries,
+      preparationStatus: body.preparationStatus,
+      universitySelectType: body.universitySelectType,
       country: body.country,
-      universityName: body.universityName,
-      studyStatus: body.studyStatus,
+      universityId: body.universityId,
+      term: body.term,
     };
     formData.append(
       "mentorApplicationRequest",
       new Blob([JSON.stringify(applicationData)], { type: "application/json" }),
     );
     formData.append("file", body.verificationFile);
-    const res = await axiosInstance.post<void>("/mentor/verification", formData, {
+    const res = await axiosInstance.post<void>("/mentees/mentor-applications", formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
     return res.data;

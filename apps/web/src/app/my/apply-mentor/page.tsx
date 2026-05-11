@@ -22,24 +22,23 @@ const ApplyMentorPage = () => {
   const router = useRouter();
   const [step, setStep] = useState<number>(1);
 
-  const methods = useForm<FormInputValues>({
+  const methods = useForm<FormInputValues, unknown, FormOutputValues>({
     resolver: zodResolver(mentorApplicationSchema),
     defaultValues: {
-      interestedCountries: [],
-      country: "",
-      universityName: "",
+      universityId: 0,
+      term: "",
       verificationFile: undefined,
-      studyStatus: undefined,
     },
     mode: "onChange",
   });
 
-  const { mutate: postMentorApplication } = usePostMentorApplication();
+  const { mutate: postMentorApplication, isPending } = usePostMentorApplication();
 
   const goNextStep = () => setStep((prev) => prev + 1);
   const goPrevStep = () => {
     if (step === 1) {
       router.back();
+      return;
     }
     setStep((prev) => Math.max(1, prev - 1));
   };
@@ -49,10 +48,11 @@ const ApplyMentorPage = () => {
   const onSubmit = methods.handleSubmit((data: FormOutputValues) => {
     postMentorApplication(
       {
-        interestedCountries: data.interestedCountries,
+        preparationStatus: data.preparationStatus,
+        universitySelectType: "CATALOG",
         country: data.country,
-        universityName: data.universityName,
-        studyStatus: data.studyStatus,
+        universityId: data.universityId,
+        term: data.term,
         verificationFile: data.verificationFile,
       },
       {
@@ -73,7 +73,7 @@ const ApplyMentorPage = () => {
       <FormProvider {...methods}>
         {/* Top Navigation */}
         <TopDetailNavigation
-          title={step === 1 ? "회원 유형 선택" : step === 2 ? "관심 지역 선택" : step === 3 ? "수학 학교 선택" : ""}
+          title={step === 1 ? "회원 유형 선택" : step === 2 ? "수학 국가 선택" : step === 3 ? "수학 학교 선택" : ""}
           handleBack={goPrevStep}
         />
 
@@ -85,7 +85,7 @@ const ApplyMentorPage = () => {
         {/* Step Content */}
         {step === 1 && <StudyStatusScreen onNext={goNextStep} />}
         {step === 2 && <InterestCountriesScreen onNext={goNextStep} />}
-        {step === 3 && <UniversityScreen onNext={onSubmit} />}
+        {step === 3 && <UniversityScreen isSubmitting={isPending} onNext={onSubmit} />}
       </FormProvider>
     </div>
   );
