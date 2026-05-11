@@ -1,15 +1,15 @@
 import clsx from "clsx";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { type ReactNode, type RefObject, useEffect, useMemo, useRef, useState } from "react";
 
 import { IconDirectionDown } from "@/public/svgs/mentor";
 
-// --- 외부 클릭 감지 Hook ---
-const useClickOutside = (ref, handler) => {
+const useClickOutside = (ref: RefObject<HTMLElement | null>, handler: (event: MouseEvent | TouchEvent) => void) => {
   useEffect(() => {
-    const listener = (event) => {
-      if (!ref.current || ref.current.contains(event.target)) return;
+    const listener = (event: MouseEvent | TouchEvent) => {
+      if (!ref.current || ref.current.contains(event.target as Node)) return;
       handler(event);
     };
+
     document.addEventListener("mousedown", listener);
     document.addEventListener("touchstart", listener);
     return () => {
@@ -25,8 +25,8 @@ interface CustomDropdownProps {
   onChange: (value: string) => void;
   placeholder: string;
   placeholderSelect: string;
-  icon?: React.ReactNode;
-  placeholderIcon?: React.ReactNode;
+  icon?: ReactNode;
+  placeholderIcon?: ReactNode;
 }
 
 const CustomDropdown = ({
@@ -39,7 +39,7 @@ const CustomDropdown = ({
   placeholderIcon,
 }: CustomDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   useClickOutside(dropdownRef, () => setIsOpen(false));
 
   const selectedOptionLabel = useMemo(() => options.find((opt) => opt.value === value)?.label, [options, value]);
@@ -58,7 +58,7 @@ const CustomDropdown = ({
       >
         {isSelected ? <span className="mr-3">{icon}</span> : <span className="mr-3">{placeholderIcon}</span>}
 
-        <span className={clsx("flex-1 text-k-700 typo-sb-9")}>{placeholder}</span>
+        <span className="flex-1 text-k-700 typo-sb-9">{placeholder}</span>
         <span className={clsx("flex items-center typo-sb-9", isSelected ? "text-primary" : "text-k-300")}>
           {selectedOptionLabel || placeholderSelect}
           <span className="ml-2 h-5 w-5">
