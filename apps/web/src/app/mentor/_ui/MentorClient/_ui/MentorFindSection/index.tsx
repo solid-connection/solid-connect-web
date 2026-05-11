@@ -24,8 +24,8 @@ const MentorFindSection = () => {
   usePrefetchMentorFindTab();
 
   return (
-    <div className="px-4">
-      <h2 className="mb-3 text-gray-900 typo-bold-5">멘토 찾기</h2>
+    <>
+      <h2 className="mb-3 text-gray-900 typo-sb-5">멘토 찾기</h2>
 
       {/* 필터 탭 */}
       <div className="mb-3 flex gap-2">
@@ -58,7 +58,7 @@ const MentorFindSection = () => {
       </div>
 
       <FloatingUpBtn />
-    </div>
+    </>
   );
 };
 
