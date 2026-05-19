@@ -12,7 +12,7 @@ const MyMentorSection = () => {
 
   return (
     <>
-      <h2 className="text-gray-900 typo-bold-5">나의 멘토 페이지</h2>
+      <h2 className="text-gray-900 typo-sb-5 mt-5">나의 멘토 페이지</h2>
       <div className="mt-[14px]">
         <MentorCard key={myMentorProfile?.id} isMine mentor={myMentorProfile} />
       </div>

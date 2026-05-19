@@ -38,17 +38,16 @@ const MentorCard = ({ mentor, observeRef, isMine = false }: MentorCardProps) => 
 
   return (
     <div
-      className="rounded-lg bg-white p-4 shadow-sdwB"
+      className="rounded-lg bg-white px-4 pt-4 pb-3 shadow-sdwB"
       ref={observeRef} // observeRef를 div에 연결
     >
       {/* 멘토 프로필 헤더 */}
       <div className="flex items-start gap-3">
         <div className="flex flex-col items-center">
           <ProfileWithBadge profileImageUrl={profileImageUrl} hasBadge={hasBadge} />
-          <span className="text-primary-1 typo-sb-11">누적 멘티 {menteeCount}명</span>
         </div>
 
-        <div className="flex flex-1 flex-col items-stretch gap-3">
+        <div className="flex flex-1 flex-col items-stretch">
           <div className="mb-1 flex items-center justify-between">
             <span className="text-primary-1 typo-sb-7">{country}</span>
             {isDetail && <StudyDate term={term!} />}
@@ -65,21 +64,21 @@ const MentorCard = ({ mentor, observeRef, isMine = false }: MentorCardProps) => 
         <>
           {/* 멘토 한마디 */}
           <div className="mb-4 mt-5">
-            <h4 className="mb-2 text-blue-600 typo-medium-5">멘토 한마디</h4>
-            <p className="text-k-500 typo-regular-2">{introduction}</p>
+            <h4 className="mb-2 text-blue-600 typo-sb-5">멘토 한마디</h4>
+            <p className="text-k-900 typo-regular-2">{introduction}</p>
           </div>
 
           {/* 합격 레시피 */}
           {isDetail && (
             <div className="mb-4">
-              <h4 className="mb-2 text-blue-600 typo-medium-5">합격 레시피</h4>
-              <p className="text-k-500 typo-regular-2">{passTip || "정보가 없습니다."}</p>
+              <h4 className="mb-2 text-blue-600 typo-sb-5">합격 레시피</h4>
+              <p className="text-k-900 typo-regular-2">{passTip || "정보가 없습니다."}</p>
             </div>
           )}
 
           {/* 멘토 채널 */}
           <div className="mb-4">
-            <h4 className="mb-2 text-blue-600 typo-medium-5">멘토 채널</h4>
+            <h4 className="mb-2 text-blue-600 typo-sb-5">멘토 채널</h4>
             <div
               className={clsx("grid gap-2", {
                 "grid-cols-1": channels?.length === 1,
@@ -131,8 +130,8 @@ const MentorCard = ({ mentor, observeRef, isMine = false }: MentorCardProps) => 
 
       {/* 접기/펼치기 버튼 */}
       <div className="mt-1 flex justify-center border-t border-t-k-50 pt-2">
-        <button onClick={() => setIsExpanded(!isExpanded)} className="flex h-6 w-6 items-center justify-center">
-          <span className="h-6 w-6">{isExpanded ? <IconDirectionUp /> : <IconDirectionDown />}</span>
+        <button onClick={() => setIsExpanded(!isExpanded)} className="flex h-6 w-7 items-center justify-center">
+          <span className="h-6 w-7">{isExpanded ? <IconDirectionUp /> : <IconDirectionDown />}</span>
         </button>
       </div>
     </div>

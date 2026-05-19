@@ -30,7 +30,7 @@ const ProfileWithBadge = ({
       {/* 프로필 이미지 */}
       <div
         className={`h-full w-full overflow-hidden rounded-full ${
-          showMentorBadge ? "border-2 border-primary-1" : "border border-gray-200"
+          showMentorBadge ? "border-2 border-primary-2" : "border-none"
         }`}
       >
         <Image
