@@ -5,6 +5,9 @@ import { formatTime } from "@/utils/datetimeUtils";
 import { downloadFile, getFileExtension, getFileNamePrefix } from "@/utils/fileUtils";
 import { getMessageType, shouldShowContent } from "./_utils/messageUtils";
 
+const CHAT_IMAGE_RETRY_LIMIT = 5;
+const CHAT_IMAGE_RETRY_DELAY_MS = 1000;
+
 interface ChatMessageBoxProps {
   message: ChatMessage;
   currentUserId?: number; // 현재 사용자 ID
@@ -34,13 +37,16 @@ const ChatMessageBox = ({
               // 이미지 렌더링
               <div className="relative overflow-hidden rounded-lg">
                 <Image
-                  src={attachment.url}
+                  src={attachment.thumbnailUrl || attachment.url}
                   cdnHostType="upload"
                   alt="첨부 이미지"
                   width={200}
                   height={150}
                   className="max-w-[200px] rounded-lg object-cover"
                   unoptimized
+                  retryOnError
+                  retryLimit={CHAT_IMAGE_RETRY_LIMIT}
+                  retryDelayMs={CHAT_IMAGE_RETRY_DELAY_MS}
                 />
               </div>
             ) : (
