@@ -74,7 +74,7 @@ const normalizeAttachment = (attachment: RawChatAttachment): ChatAttachment => (
   id: toNumber(attachment.id),
   isImage: attachment.isImage,
   url: attachment.url,
-  thumbnailUrl: attachment.thumbnailUrl ?? "",
+  thumbnailUrl: attachment.thumbnailUrl ?? null,
   createdAt: attachment.createdAt,
 });
 

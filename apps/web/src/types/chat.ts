@@ -17,7 +17,7 @@ export interface ChatAttachment {
   id: number;
   isImage: boolean;
   url: string;
-  thumbnailUrl: string;
+  thumbnailUrl: string | null;
   createdAt: string;
 }
 
