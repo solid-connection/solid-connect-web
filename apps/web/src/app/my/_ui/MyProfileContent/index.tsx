@@ -6,7 +6,6 @@ import { useDeleteUserAccount, usePostLogout } from "@/apis/Auth";
 import { type MyInfoResponse, useGetMyInfo } from "@/apis/MyPage";
 import LinkedTextWithIcon from "@/components/ui/LinkedTextWithIcon";
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
-import { infoToastOptions } from "@/lib/toast/options";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { IconLikeFill } from "@/public/svgs/mentor";
 import {
@@ -85,17 +84,12 @@ const MyProfileContent = () => {
             <div className="w-full cursor-pointer rounded-lg bg-secondary-500 py-2 text-center text-white typo-medium-2">
               <Link href={"/my/modify"}>프로필 변경</Link>
             </div>
-            {/* <Link className="w-full" href={"/my/apply-mentor"}>
-              <button className="w-full rounded-lg bg-secondary-800 py-2 typo-medium-2 text-white">멘토 회원 전환</button>
-            </Link> */}
-            <button
-              onClick={() => {
-                toast("조금만 기다려주세요. [업데이트 중]", infoToastOptions);
-              }}
-              className="w-full rounded-lg bg-secondary-800 py-2 text-white typo-medium-2"
+            <Link
+              href="/my/apply-mentor"
+              className="w-full rounded-lg bg-secondary-800 py-2 text-center text-white typo-medium-2"
             >
               멘토 회원 전환
-            </button>
+            </Link>
           </div>
         )}
       </div>
