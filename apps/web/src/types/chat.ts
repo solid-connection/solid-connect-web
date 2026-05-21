@@ -18,6 +18,8 @@ export interface ChatAttachment {
   isImage: boolean;
   url: string;
   thumbnailUrl: string | null;
+  previewUrl?: string;
+  isOptimistic?: boolean;
   createdAt: string;
 }
 

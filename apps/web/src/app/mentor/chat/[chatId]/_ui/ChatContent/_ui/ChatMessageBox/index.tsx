@@ -1,12 +1,17 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Image from "@/components/ui/FallbackImage";
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
-import type { ChatMessage } from "@/types/chat";
+import type { ChatAttachment, ChatMessage } from "@/types/chat";
+import { normalizeImageUrlToUploadCdn } from "@/utils/cdnUrl";
 import { formatTime } from "@/utils/datetimeUtils";
 import { downloadFile, getFileExtension, getFileNamePrefix } from "@/utils/fileUtils";
 import { getMessageType, shouldShowContent } from "./_utils/messageUtils";
 
-const CHAT_IMAGE_RETRY_LIMIT = 5;
-const CHAT_IMAGE_RETRY_DELAY_MS = 1000;
+const CHAT_IMAGE_HEALTH_CHECK_LIMIT = 10;
+const CHAT_IMAGE_HEALTH_CHECK_INTERVAL_MS = 1000;
+const CHAT_IMAGE_HEALTH_CHECK_SLOW_INTERVAL_MS = 5000;
 
 interface ChatMessageBoxProps {
   message: ChatMessage;
@@ -14,6 +19,117 @@ interface ChatMessageBoxProps {
   partnerNickname?: string; // 상대방 닉네임
   isPartnerMentor?: boolean;
 }
+
+const appendHealthCheckCacheBuster = (src: string, attempt: number) => {
+  if (src.startsWith("blob:") || src.startsWith("data:")) return src;
+
+  try {
+    const url = new URL(src, window.location.origin);
+    url.searchParams.set("__chat_image_health_check", `${Date.now()}-${attempt}`);
+    return url.toString();
+  } catch {
+    return src;
+  }
+};
+
+const isLocalPreviewUrl = (src: string) => src.startsWith("blob:") || src.startsWith("data:");
+
+const ChatImageLoading = () => (
+  <div className="flex h-[150px] w-[200px] max-w-[200px] items-center justify-center rounded-lg bg-k-50">
+    <div className="h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+  </div>
+);
+
+const useChatImageHealthCheck = (src: string, enabled: boolean) => {
+  const [isReady, setIsReady] = useState(!enabled);
+  const [readySrc, setReadySrc] = useState(src);
+
+  useEffect(() => {
+    if (!enabled || !src) {
+      setIsReady(true);
+      setReadySrc(src);
+      return;
+    }
+
+    let isCancelled = false;
+    let attempt = 0;
+    let timeoutId: ReturnType<typeof setTimeout> | null = null;
+    let probeImage: HTMLImageElement | null = null;
+
+    setIsReady(false);
+    setReadySrc("");
+
+    const checkImage = () => {
+      attempt += 1;
+      probeImage = document.createElement("img");
+
+      probeImage.onload = () => {
+        if (isCancelled) return;
+        setIsReady(true);
+        setReadySrc(probeImage?.src ?? src);
+      };
+
+      probeImage.onerror = () => {
+        if (isCancelled) return;
+
+        const retryDelayMs =
+          attempt >= CHAT_IMAGE_HEALTH_CHECK_LIMIT
+            ? CHAT_IMAGE_HEALTH_CHECK_SLOW_INTERVAL_MS
+            : CHAT_IMAGE_HEALTH_CHECK_INTERVAL_MS;
+        timeoutId = setTimeout(checkImage, retryDelayMs);
+      };
+
+      probeImage.src = appendHealthCheckCacheBuster(src, attempt);
+    };
+
+    checkImage();
+
+    return () => {
+      isCancelled = true;
+      if (timeoutId) clearTimeout(timeoutId);
+      if (probeImage) {
+        probeImage.onload = null;
+        probeImage.onerror = null;
+      }
+    };
+  }, [enabled, src]);
+
+  return { isReady, readySrc };
+};
+
+const ChatImage = ({ attachment }: { attachment: ChatAttachment }) => {
+  const imageSrc = attachment.previewUrl ?? attachment.thumbnailUrl ?? attachment.url;
+  const normalizedImageSrc = normalizeImageUrlToUploadCdn(imageSrc);
+  const shouldHealthCheck = !attachment.previewUrl && !isLocalPreviewUrl(normalizedImageSrc);
+  const { isReady, readySrc } = useChatImageHealthCheck(normalizedImageSrc, shouldHealthCheck);
+  const displaySrc = readySrc || normalizedImageSrc;
+  const [isImageLoaded, setIsImageLoaded] = useState(!shouldHealthCheck || isLocalPreviewUrl(displaySrc));
+
+  useEffect(() => {
+    setIsImageLoaded(!shouldHealthCheck || isLocalPreviewUrl(displaySrc));
+  }, [displaySrc, shouldHealthCheck]);
+
+  return (
+    <div className="relative h-[150px] w-[200px] max-w-[200px] overflow-hidden rounded-lg">
+      {(!isReady || !isImageLoaded) && (
+        <div className="absolute inset-0 z-10">
+          <ChatImageLoading />
+        </div>
+      )}
+      {isReady && (
+        <Image
+          src={displaySrc}
+          alt="첨부 이미지"
+          width={200}
+          height={150}
+          className={`h-full w-full max-w-[200px] rounded-lg object-cover ${isImageLoaded ? "opacity-100" : "opacity-0"}`}
+          unoptimized
+          onLoad={() => setIsImageLoaded(true)}
+        />
+      )}
+    </div>
+  );
+};
 
 const ChatMessageBox = ({
   message,
@@ -35,20 +151,7 @@ const ChatMessageBox = ({
           <div key={attachment.id}>
             {attachment.isImage ? (
               // 이미지 렌더링
-              <div className="relative overflow-hidden rounded-lg">
-                <Image
-                  src={attachment.thumbnailUrl || attachment.url}
-                  cdnHostType="upload"
-                  alt="첨부 이미지"
-                  width={200}
-                  height={150}
-                  className="max-w-[200px] rounded-lg object-cover"
-                  unoptimized
-                  retryOnError
-                  retryLimit={CHAT_IMAGE_RETRY_LIMIT}
-                  retryDelayMs={CHAT_IMAGE_RETRY_DELAY_MS}
-                />
-              </div>
+              <ChatImage attachment={attachment} />
             ) : (
               // 파일 렌더링
               <div

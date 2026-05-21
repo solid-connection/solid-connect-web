@@ -1,7 +1,9 @@
 import { Client } from "@stomp/stompjs";
+import { type InfiniteData, useQueryClient } from "@tanstack/react-query";
 import type { MutableRefObject } from "react";
 import { useEffect, useState } from "react";
 import SockJS from "sockjs-client";
+import { type ChatHistoriesResponse, ChatQueryKeys } from "@/apis/chat/api";
 import { normalizeChatMessage, type RawChatMessage } from "@/apis/chat/normalize";
 
 import { type ChatMessage, ConnectionStatus } from "@/types/chat";
@@ -21,10 +23,47 @@ interface UseConnectWebSocketReturn {
 
 const NEXT_PUBLIC_API_SERVER_URL = process.env.NEXT_PUBLIC_API_SERVER_URL;
 
+const getMessageCacheKey = (message: ChatMessage) => {
+  if (message.id !== 0) return `id:${message.id}`;
+
+  const attachmentKey = message.attachments
+    .map((attachment) => `${attachment.isImage ? "image" : "file"}:${attachment.url}:${attachment.createdAt}`)
+    .join(",");
+
+  return `fallback:${message.senderId}:${message.createdAt}:${message.content}:${attachmentKey}`;
+};
+
+const appendMessageToChatHistories = (
+  oldData: InfiniteData<ChatHistoriesResponse, number> | undefined,
+  message: ChatMessage,
+) => {
+  if (!oldData || oldData.pages.length === 0) return oldData;
+
+  const messageKey = getMessageCacheKey(message);
+  const hasMessage = oldData.pages.some((page) =>
+    page.content.some((cachedMessage) => getMessageCacheKey(cachedMessage) === messageKey),
+  );
+
+  if (hasMessage) return oldData;
+
+  return {
+    ...oldData,
+    pages: oldData.pages.map((page, index) =>
+      index === 0
+        ? {
+            ...page,
+            content: [...page.content, message],
+          }
+        : page,
+    ),
+  };
+};
+
 const useConnectWebSocket = ({ roomId, clientRef }: UseConnectWebSocketProps): UseConnectWebSocketReturn => {
   // Hook 내부에서 연결 상태를 직접 관리
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>(ConnectionStatus.Disconnected);
   const [submittedMessages, setSubmittedMessages] = useState<ChatMessage[]>([]);
+  const queryClient = useQueryClient();
   const accessToken = useAuthStore((state) => state.accessToken);
   const isInitialized = useAuthStore((state) => state.isInitialized);
   const hasValidAccessToken = Boolean(accessToken && !isTokenExpired(accessToken));
@@ -63,6 +102,11 @@ const useConnectWebSocket = ({ roomId, clientRef }: UseConnectWebSocketProps): U
                 receivedMessage.createdAt = new Date().toISOString();
               }
 
+              queryClient.setQueryData<InfiniteData<ChatHistoriesResponse, number>>(
+                [ChatQueryKeys.chatHistories, roomId],
+                (oldData) => appendMessageToChatHistories(oldData, receivedMessage),
+              );
+              queryClient.invalidateQueries({ queryKey: [ChatQueryKeys.chatRooms], refetchType: "none" });
               setSubmittedMessages((prev) => [...prev, receivedMessage]);
             } catch (error) {}
           });
@@ -92,7 +136,7 @@ const useConnectWebSocket = ({ roomId, clientRef }: UseConnectWebSocketProps): U
       }
       clientRef.current = null;
     };
-  }, [roomId, clientRef, accessToken, hasValidAccessToken, isInitialized]);
+  }, [roomId, clientRef, accessToken, hasValidAccessToken, isInitialized, queryClient]);
 
   // 관리하는 connectionStatus를 반환
   return { connectionStatus, submittedMessages, setSubmittedMessages };

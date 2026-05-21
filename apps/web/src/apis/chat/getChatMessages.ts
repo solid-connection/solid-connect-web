@@ -25,6 +25,7 @@ const useGetChatHistories = (roomId: number, size: number = 20) => {
       return lastPage.nextPageNumber === -1 ? undefined : lastPage.nextPageNumber;
     },
     staleTime: 1000 * 60 * 5, // 5분간 캐시
+    refetchOnMount: "always",
     enabled: !!roomId, // roomId가 있을 때만 쿼리 실행
     select: (data) => ({
       pages: data.pages,
