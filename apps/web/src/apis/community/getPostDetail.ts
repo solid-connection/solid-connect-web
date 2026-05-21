@@ -10,7 +10,6 @@ const useGetPostDetail = (postId: number) => {
     queryKey: [CommunityQueryKeys.posts, postId],
     queryFn: () => communityApi.getPostDetail(postId),
     enabled: !!postId,
-    meta: { showGlobalSpinner: false },
   });
 };
 
