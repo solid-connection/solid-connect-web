@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef } from "react";
 import { useGetChatHistories } from "@/apis/chat";
 import useConnectWebSocket from "@/lib/web-socket/useConnectWebSocket";
 import { type ChatMessage, ConnectionStatus } from "@/types/chat";
+import { normalizeImageUrlToUploadCdn } from "@/utils/cdnUrl";
 // --- 프로젝트 내부 의존성 ---
 import useInfinityScroll from "@/utils/useInfinityScroll";
 
@@ -20,6 +21,13 @@ const getMessageDedupeKey = (message: ChatMessage): string => {
   return `fallback:${message.senderId}:${message.createdAt}:${message.content}:${attachmentKey}`;
 };
 
+const getImageUrlKeys = (url: string | null | undefined) => {
+  if (!url) return [];
+
+  const normalizedUrl = normalizeImageUrlToUploadCdn(url);
+  return Array.from(new Set([url, normalizedUrl].filter((key) => key.length > 0)));
+};
+
 const useChatListHandler = (chatId: number) => {
   // --- 1. State 및 Ref 선언 ---
   const clientRef = useRef<Client | null>(null);
@@ -27,6 +35,8 @@ const useChatListHandler = (chatId: number) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null); // 실제 스크롤 컨테이너 ref
   const hasInitialAutoScrolledRef = useRef(false);
   const prevMessageCountRef = useRef(0);
+  const prevChatIdRef = useRef(chatId);
+  const imagePreviewByUrlRef = useRef<Map<string, string>>(new Map());
 
   // --- 2. 하위 Hooks 호출 ---
 
@@ -76,8 +86,80 @@ const useChatListHandler = (chatId: number) => {
     }
   }, [chatHistoryPages, setSubmittedMessages]);
 
+  useEffect(() => {
+    if (imagePreviewByUrlRef.current.size === 0) return;
+
+    const matchedPreviewUrls = new Set<string>();
+    let hasChanged = false;
+
+    const messagesWithPreviews = submittedMessages.map((message) => {
+      let hasAttachmentChanged = false;
+      const attachments = message.attachments.map((attachment) => {
+        if (!attachment.isImage || attachment.previewUrl || attachment.isOptimistic) {
+          return attachment;
+        }
+
+        const previewUrl = [...getImageUrlKeys(attachment.url), ...getImageUrlKeys(attachment.thumbnailUrl)]
+          .map((key) => imagePreviewByUrlRef.current.get(key))
+          .find((value): value is string => Boolean(value));
+
+        if (!previewUrl) {
+          return attachment;
+        }
+
+        hasAttachmentChanged = true;
+        matchedPreviewUrls.add(previewUrl);
+        return {
+          ...attachment,
+          previewUrl,
+        };
+      });
+
+      if (!hasAttachmentChanged) {
+        return message;
+      }
+
+      hasChanged = true;
+      return {
+        ...message,
+        attachments,
+      };
+    });
+
+    if (matchedPreviewUrls.size === 0) return;
+
+    const reconciledMessages = messagesWithPreviews.filter((message) => {
+      const shouldRemoveOptimisticMessage =
+        message.attachments.length > 0 &&
+        message.attachments.every(
+          (attachment) =>
+            attachment.isOptimistic && attachment.previewUrl && matchedPreviewUrls.has(attachment.previewUrl),
+        );
+
+      if (shouldRemoveOptimisticMessage) {
+        hasChanged = true;
+        return false;
+      }
+
+      return true;
+    });
+
+    if (!hasChanged) return;
+
+    imagePreviewByUrlRef.current.forEach((previewUrl, key) => {
+      if (matchedPreviewUrls.has(previewUrl)) {
+        imagePreviewByUrlRef.current.delete(key);
+      }
+    });
+
+    setSubmittedMessages(reconciledMessages);
+  }, [submittedMessages, setSubmittedMessages]);
+
   // 채팅방 전환 시 자동 스크롤 상태를 초기화합니다.
   useEffect(() => {
+    if (prevChatIdRef.current === chatId) return;
+
+    prevChatIdRef.current = chatId;
     hasInitialAutoScrolledRef.current = false;
     prevMessageCountRef.current = 0;
   }, [chatId]);
@@ -161,10 +243,19 @@ const useChatListHandler = (chatId: number) => {
   ); // chatId와 connectionStatus가 변경될 경우에만 함수를 재생성
 
   const sendImageMessage = useCallback(
-    (imageUrls: string[]) => {
+    (imageUrls: string[], previewUrls: string[] = []) => {
       if (imageUrls.length === 0) return false;
 
       if (clientRef.current?.active && connectionStatus === ConnectionStatus.Connected) {
+        imageUrls.forEach((imageUrl, index) => {
+          const previewUrl = previewUrls[index];
+          if (!previewUrl) return;
+
+          getImageUrlKeys(imageUrl).forEach((key) => {
+            imagePreviewByUrlRef.current.set(key, previewUrl);
+          });
+        });
+
         clientRef.current.publish({
           destination: `/publish/chat/${chatId}/image`,
           body: JSON.stringify({ imageUrls }),
@@ -185,11 +276,13 @@ const useChatListHandler = (chatId: number) => {
   const addImageMessagePreview = useCallback(
     (files: File[], senderId: number) => {
       const newMessages: ChatMessage[] = [];
+      const previewUrls: string[] = [];
       files.forEach((file) => {
         if (file.type.startsWith("image/")) {
           const tempId = Date.now() + Math.random();
           const imageUrl = URL.createObjectURL(file);
           objectUrlsRef.current.push(imageUrl);
+          previewUrls.push(imageUrl);
           newMessages.push({
             id: tempId,
             content: `이미지: ${file.name}`,
@@ -201,6 +294,8 @@ const useChatListHandler = (chatId: number) => {
                 isImage: true,
                 url: imageUrl,
                 thumbnailUrl: imageUrl,
+                previewUrl: imageUrl,
+                isOptimistic: true,
                 createdAt: new Date().toISOString(),
               },
             ],
@@ -208,6 +303,31 @@ const useChatListHandler = (chatId: number) => {
         }
       });
       if (newMessages.length > 0) setSubmittedMessages((prev) => [...prev, ...newMessages]);
+      return previewUrls;
+    },
+    [setSubmittedMessages],
+  );
+
+  const removeImageMessagePreviews = useCallback(
+    (previewUrls: string[]) => {
+      if (previewUrls.length === 0) return;
+
+      const previewUrlSet = new Set(previewUrls);
+      previewUrls.forEach((previewUrl) => {
+        URL.revokeObjectURL(previewUrl);
+      });
+      objectUrlsRef.current = objectUrlsRef.current.filter((objectUrl) => !previewUrlSet.has(objectUrl));
+
+      setSubmittedMessages((prev) =>
+        prev.filter(
+          (message) =>
+            message.attachments.length === 0 ||
+            !message.attachments.every(
+              (attachment) =>
+                attachment.isOptimistic && attachment.previewUrl && previewUrlSet.has(attachment.previewUrl),
+            ),
+        ),
+      );
     },
     [setSubmittedMessages],
   );
@@ -229,7 +349,7 @@ const useChatListHandler = (chatId: number) => {
                 id: tempId,
                 isImage: false,
                 url: URL.createObjectURL(file),
-                thumbnailUrl: "",
+                thumbnailUrl: null,
                 createdAt: new Date().toISOString(),
               },
             ],
@@ -266,6 +386,7 @@ const useChatListHandler = (chatId: number) => {
     sendTextMessage,
     sendImageMessage,
     addImageMessagePreview,
+    removeImageMessagePreviews,
     addFileMessagePreview,
   };
 };
