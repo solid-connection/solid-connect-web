@@ -1,6 +1,7 @@
 import type { Client } from "@stomp/stompjs";
+import { useQueryClient } from "@tanstack/react-query";
 import { useCallback, useEffect, useRef } from "react";
-import { useGetChatHistories } from "@/apis/chat";
+import { ChatQueryKeys, useGetChatHistories } from "@/apis/chat";
 import useConnectWebSocket from "@/lib/web-socket/useConnectWebSocket";
 import { type ChatMessage, ConnectionStatus } from "@/types/chat";
 import { normalizeImageUrlToUploadCdn } from "@/utils/cdnUrl";
@@ -38,6 +39,7 @@ const useChatListHandler = (chatId: number) => {
   const prevChatIdRef = useRef(chatId);
   const imagePreviewByUrlRef = useRef<Map<string, string>>(new Map());
   const objectUrlsRef = useRef<string[]>([]);
+  const queryClient = useQueryClient();
 
   // --- 2. 하위 Hooks 호출 ---
 
@@ -55,6 +57,11 @@ const useChatListHandler = (chatId: number) => {
     roomId: chatId,
     clientRef,
   });
+
+  const invalidateChatPreviewQueries = useCallback(() => {
+    queryClient.invalidateQueries({ queryKey: [ChatQueryKeys.chatHistories, chatId], refetchType: "none" });
+    queryClient.invalidateQueries({ queryKey: [ChatQueryKeys.chatRooms], refetchType: "none" });
+  }, [chatId, queryClient]);
 
   // 화면 상단에 도달했을 때 이전 채팅 기록을 불러오는 무한 스크롤 Hook입니다.
   const { lastElementRef: topDetectorRef } = useInfinityScroll({
@@ -239,11 +246,12 @@ const useChatListHandler = (chatId: number) => {
           destination: `/publish/chat/${chatId}`,
           body: JSON.stringify({ content, senderId }),
         });
+        invalidateChatPreviewQueries();
       } else {
         // 여기에 메시지 전송 실패에 대한 UI 피드백 로직을 추가할 수 있습니다. (e.g., alert, toast)
       }
     },
-    [chatId, connectionStatus],
+    [chatId, connectionStatus, invalidateChatPreviewQueries],
   ); // chatId와 connectionStatus가 변경될 경우에만 함수를 재생성
 
   const sendImageMessage = useCallback(
@@ -264,13 +272,14 @@ const useChatListHandler = (chatId: number) => {
           destination: `/publish/chat/${chatId}/image`,
           body: JSON.stringify({ imageUrls }),
         });
+        invalidateChatPreviewQueries();
 
         return true;
       }
 
       return false;
     },
-    [chatId, connectionStatus],
+    [chatId, connectionStatus, invalidateChatPreviewQueries],
   );
 
   /** 이미지 파일만 미리보기 메시지로 추가 */
