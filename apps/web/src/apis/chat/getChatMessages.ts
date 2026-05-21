@@ -26,9 +26,6 @@ const useGetChatHistories = (roomId: number, size: number = 20) => {
     },
     staleTime: 1000 * 60 * 5, // 5분간 캐시
     enabled: !!roomId, // roomId가 있을 때만 쿼리 실행
-    meta: {
-      disableGlobalLoading: true, // 전역 로딩 비활성화
-    },
     select: (data) => ({
       pages: data.pages,
       pageParams: data.pageParams,
