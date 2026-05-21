@@ -41,12 +41,12 @@ const ChatImageLoading = () => (
 
 const useChatImageHealthCheck = (src: string, enabled: boolean) => {
   const [isReady, setIsReady] = useState(!enabled);
-  const [isFailed, setIsFailed] = useState(false);
+  const [readySrc, setReadySrc] = useState(src);
 
   useEffect(() => {
     if (!enabled || !src) {
       setIsReady(true);
-      setIsFailed(false);
+      setReadySrc(src);
       return;
     }
 
@@ -56,7 +56,7 @@ const useChatImageHealthCheck = (src: string, enabled: boolean) => {
     let probeImage: HTMLImageElement | null = null;
 
     setIsReady(false);
-    setIsFailed(false);
+    setReadySrc("");
 
     const checkImage = () => {
       attempt += 1;
@@ -65,7 +65,7 @@ const useChatImageHealthCheck = (src: string, enabled: boolean) => {
       probeImage.onload = () => {
         if (isCancelled) return;
         setIsReady(true);
-        setIsFailed(false);
+        setReadySrc(probeImage?.src ?? src);
       };
 
       probeImage.onerror = () => {
@@ -73,7 +73,7 @@ const useChatImageHealthCheck = (src: string, enabled: boolean) => {
 
         if (attempt >= CHAT_IMAGE_HEALTH_CHECK_LIMIT) {
           setIsReady(true);
-          setIsFailed(true);
+          setReadySrc(src);
           return;
         }
 
@@ -95,28 +95,40 @@ const useChatImageHealthCheck = (src: string, enabled: boolean) => {
     };
   }, [enabled, src]);
 
-  return { isReady, isFailed };
+  return { isReady, readySrc };
 };
 
 const ChatImage = ({ attachment }: { attachment: ChatAttachment }) => {
   const imageSrc = attachment.previewUrl ?? attachment.thumbnailUrl ?? attachment.url;
   const normalizedImageSrc = normalizeImageUrlToUploadCdn(imageSrc);
   const shouldHealthCheck = !attachment.previewUrl && !isLocalPreviewUrl(normalizedImageSrc);
-  const { isReady } = useChatImageHealthCheck(normalizedImageSrc, shouldHealthCheck);
+  const { isReady, readySrc } = useChatImageHealthCheck(normalizedImageSrc, shouldHealthCheck);
+  const displaySrc = readySrc || normalizedImageSrc;
+  const [isImageLoaded, setIsImageLoaded] = useState(!shouldHealthCheck || isLocalPreviewUrl(displaySrc));
 
-  if (!isReady) {
-    return <ChatImageLoading />;
-  }
+  useEffect(() => {
+    setIsImageLoaded(!shouldHealthCheck || isLocalPreviewUrl(displaySrc));
+  }, [displaySrc, shouldHealthCheck]);
 
   return (
-    <Image
-      src={normalizedImageSrc}
-      alt="첨부 이미지"
-      width={200}
-      height={150}
-      className="max-w-[200px] rounded-lg object-cover"
-      unoptimized
-    />
+    <div className="relative h-[150px] w-[200px] max-w-[200px] overflow-hidden rounded-lg">
+      {(!isReady || !isImageLoaded) && (
+        <div className="absolute inset-0 z-10">
+          <ChatImageLoading />
+        </div>
+      )}
+      {isReady && (
+        <Image
+          src={displaySrc}
+          alt="첨부 이미지"
+          width={200}
+          height={150}
+          className={`h-full w-full max-w-[200px] rounded-lg object-cover ${isImageLoaded ? "opacity-100" : "opacity-0"}`}
+          unoptimized
+          onLoad={() => setIsImageLoaded(true)}
+        />
+      )}
+    </div>
   );
 };
 
@@ -140,9 +152,7 @@ const ChatMessageBox = ({
           <div key={attachment.id}>
             {attachment.isImage ? (
               // 이미지 렌더링
-              <div className="relative overflow-hidden rounded-lg">
-                <ChatImage attachment={attachment} />
-              </div>
+              <ChatImage attachment={attachment} />
             ) : (
               // 파일 렌더링
               <div
