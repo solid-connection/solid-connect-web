@@ -37,6 +37,7 @@ const useChatListHandler = (chatId: number) => {
   const prevMessageCountRef = useRef(0);
   const prevChatIdRef = useRef(chatId);
   const imagePreviewByUrlRef = useRef<Map<string, string>>(new Map());
+  const objectUrlsRef = useRef<string[]>([]);
 
   // --- 2. 하위 Hooks 호출 ---
 
@@ -159,6 +160,9 @@ const useChatListHandler = (chatId: number) => {
   useEffect(() => {
     if (prevChatIdRef.current === chatId) return;
 
+    objectUrlsRef.current.forEach((url) => URL.revokeObjectURL(url));
+    objectUrlsRef.current = [];
+    imagePreviewByUrlRef.current.clear();
     prevChatIdRef.current = chatId;
     hasInitialAutoScrolledRef.current = false;
     prevMessageCountRef.current = 0;
@@ -268,9 +272,6 @@ const useChatListHandler = (chatId: number) => {
     },
     [chatId, connectionStatus],
   );
-
-  // Track created object URLs for cleanup
-  const objectUrlsRef = useRef<string[]>([]);
 
   /** 이미지 파일만 미리보기 메시지로 추가 */
   const addImageMessagePreview = useCallback(

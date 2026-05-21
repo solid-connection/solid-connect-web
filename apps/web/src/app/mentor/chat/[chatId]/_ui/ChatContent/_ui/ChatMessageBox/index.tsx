@@ -11,6 +11,7 @@ import { getMessageType, shouldShowContent } from "./_utils/messageUtils";
 
 const CHAT_IMAGE_HEALTH_CHECK_LIMIT = 10;
 const CHAT_IMAGE_HEALTH_CHECK_INTERVAL_MS = 1000;
+const CHAT_IMAGE_HEALTH_CHECK_SLOW_INTERVAL_MS = 5000;
 
 interface ChatMessageBoxProps {
   message: ChatMessage;
@@ -71,13 +72,11 @@ const useChatImageHealthCheck = (src: string, enabled: boolean) => {
       probeImage.onerror = () => {
         if (isCancelled) return;
 
-        if (attempt >= CHAT_IMAGE_HEALTH_CHECK_LIMIT) {
-          setIsReady(true);
-          setReadySrc(src);
-          return;
-        }
-
-        timeoutId = setTimeout(checkImage, CHAT_IMAGE_HEALTH_CHECK_INTERVAL_MS);
+        const retryDelayMs =
+          attempt >= CHAT_IMAGE_HEALTH_CHECK_LIMIT
+            ? CHAT_IMAGE_HEALTH_CHECK_SLOW_INTERVAL_MS
+            : CHAT_IMAGE_HEALTH_CHECK_INTERVAL_MS;
+        timeoutId = setTimeout(checkImage, retryDelayMs);
       };
 
       probeImage.src = appendHealthCheckCacheBuster(src, attempt);
