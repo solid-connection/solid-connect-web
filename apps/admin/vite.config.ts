@@ -4,8 +4,11 @@ import { devtools } from "@tanstack/devtools-vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
 import { nitro } from "nitro/vite";
+import vinext from "vinext";
 import { defineConfig } from "vite";
 import viteTsConfigPaths from "vite-tsconfig-paths";
+
+const isVinext = process.env.VINEXT === "true";
 
 const config = defineConfig({
 	resolve: {
@@ -14,16 +17,17 @@ const config = defineConfig({
 		},
 	},
 	plugins: [
-		devtools(),
-		nitro(),
+		isVinext && vinext(),
+		!isVinext && devtools(),
+		!isVinext && nitro(),
 		// this is the plugin that enables path aliases
 		viteTsConfigPaths({
 			projects: ["./tsconfig.json"],
 		}),
 		tailwindcss(),
-		tanstackStart(),
-		viteReact(),
-	],
+		!isVinext && tanstackStart(),
+		!isVinext && viteReact(),
+	].filter(Boolean),
 });
 
 export default config;
