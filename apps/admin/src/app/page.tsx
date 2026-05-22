@@ -6,8 +6,12 @@ import { ensureSessionToken } from "@/lib/auth/session";
 export default function HomePage() {
 	useEffect(() => {
 		const redirectBySession = async () => {
-			const token = await ensureSessionToken();
-			window.location.replace(token ? "/scores" : "/auth/login");
+			try {
+				const token = await ensureSessionToken();
+				window.location.replace(token ? "/scores" : "/auth/login");
+			} catch {
+				window.location.replace("/auth/login");
+			}
 		};
 
 		void redirectBySession();

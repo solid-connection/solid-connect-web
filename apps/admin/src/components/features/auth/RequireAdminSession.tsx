@@ -14,15 +14,20 @@ export function RequireAdminSession({ children }: RequireAdminSessionProps) {
 		let isMounted = true;
 
 		const checkSession = async () => {
-			const token = await ensureSessionToken();
-			if (!isMounted) return;
+			try {
+				const token = await ensureSessionToken();
+				if (!isMounted) return;
 
-			if (!token) {
+				if (!token) {
+					window.location.replace("/auth/login");
+					return;
+				}
+
+				setIsAuthorized(true);
+			} catch {
+				if (!isMounted) return;
 				window.location.replace("/auth/login");
-				return;
 			}
-
-			setIsAuthorized(true);
 		};
 
 		void checkSession();

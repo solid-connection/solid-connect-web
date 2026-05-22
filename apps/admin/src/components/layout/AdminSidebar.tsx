@@ -35,7 +35,7 @@ export function AdminSidebar({ activeMenu }: AdminSidebarProps) {
 					);
 
 					return (
-						<a key={menu.label} href={menu.to} className={menuClassName}>
+						<a key={menu.label} href={menu.to} className={menuClassName} aria-current={isActive ? "page" : undefined}>
 							<menu.icon className="h-4 w-4" />
 							{menu.label}
 						</a>

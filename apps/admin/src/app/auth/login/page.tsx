@@ -11,14 +11,19 @@ export default function AuthLoginPage() {
 		let isMounted = true;
 
 		const redirectIfAuthenticated = async () => {
-			const token = await ensureSessionToken();
-			if (!isMounted) return;
+			try {
+				const token = await ensureSessionToken();
+				if (!isMounted) return;
 
-			if (token) {
-				window.location.replace("/scores");
-				return;
+				if (token) {
+					window.location.replace("/scores");
+					return;
+				}
+			} catch {
+				// 세션 확인 실패 시에도 로그인 화면은 열어둔다.
 			}
 
+			if (!isMounted) return;
 			setCanRenderLogin(true);
 		};
 
