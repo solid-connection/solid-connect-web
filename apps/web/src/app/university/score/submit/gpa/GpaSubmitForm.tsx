@@ -7,11 +7,10 @@ import { useRouter } from "next/navigation";
 import { Suspense, useState } from "react";
 import { Controller, type SubmitHandler, useForm } from "react-hook-form";
 import { usePostGpaScore } from "@/apis/Scores";
-import CustomDropdown from "@/app/university/CustomDropdown";
 import SubmitLinkTab from "@/components/score/SubmitLinkTab";
 import SubmitResult, { type InfoRowProps } from "@/components/score/SubmitResult";
+import CustomDropdown from "@/components/search/CustomDropdown";
 import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
-// CustomDropdown 경로 확인 필요
 import { type GpaFormData, gpaSchema } from "./_lib/schema";
 
 const GpaSubmitForm = () => {
