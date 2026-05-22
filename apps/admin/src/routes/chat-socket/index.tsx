@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { requireAdminSession } from "@/lib/auth/session";
+import { requireAdminSession } from "@/lib/auth/tanstackRouteGuards";
 import { loadAccessToken } from "@/lib/utils/localStorage";
 
 type ConnectionState = "DISCONNECTED" | "CONNECTING" | "CONNECTED" | "ERROR";

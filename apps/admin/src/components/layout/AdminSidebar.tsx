@@ -1,4 +1,3 @@
-import { Link } from "@tanstack/react-router";
 import { FileText, FlaskConical, MessageSquare } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -36,10 +35,10 @@ export function AdminSidebar({ activeMenu }: AdminSidebarProps) {
 					);
 
 					return (
-						<Link key={menu.label} to={menu.to} preload="intent" className={menuClassName}>
+						<a key={menu.label} href={menu.to} className={menuClassName}>
 							<menu.icon className="h-4 w-4" />
 							{menu.label}
-						</Link>
+						</a>
 					);
 				})}
 			</nav>

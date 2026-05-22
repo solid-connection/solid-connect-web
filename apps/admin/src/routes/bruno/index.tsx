@@ -10,7 +10,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { axiosInstance } from "@/lib/api/client";
-import { requireAdminSession } from "@/lib/auth/session";
+import { requireAdminSession } from "@/lib/auth/tanstackRouteGuards";
 import { cn } from "@/lib/utils";
 
 type DefinitionMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE" | "HEAD" | "OPTIONS";

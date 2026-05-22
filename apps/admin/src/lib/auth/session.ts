@@ -1,4 +1,3 @@
-import { redirect } from "@tanstack/react-router";
 import { reissueAccessTokenApi } from "@/lib/api/auth";
 import { isTokenExpired } from "@/lib/utils/jwtUtils";
 import { loadAccessToken, removeAccessToken, saveAccessToken } from "@/lib/utils/localStorage";
@@ -58,20 +57,4 @@ export const ensureSessionToken = async (): Promise<string | null> => {
 	}
 
 	return reissueAccessTokenIfPossible();
-};
-
-export const requireAdminSession = async (): Promise<string> => {
-	const token = await ensureSessionToken();
-	if (!token) {
-		throw redirect({ to: "/auth/login" });
-	}
-
-	return token;
-};
-
-export const redirectIfAuthenticated = async () => {
-	const token = await ensureSessionToken();
-	if (token) {
-		throw redirect({ to: "/scores" });
-	}
 };
