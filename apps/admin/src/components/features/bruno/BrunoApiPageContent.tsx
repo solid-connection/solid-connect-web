@@ -1,4 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
+"use client";
+
 import { Copy, Play, RotateCcw } from "lucide-react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
@@ -10,7 +11,6 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { axiosInstance } from "@/lib/api/client";
-import { requireAdminSession } from "@/lib/auth/session";
 import { cn } from "@/lib/utils";
 
 type DefinitionMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE" | "HEAD" | "OPTIONS";
@@ -38,7 +38,7 @@ interface RequestResult {
 	body: unknown;
 }
 
-const definitionModules = import.meta.glob("../../../../../packages/api-schema/src/apis/*/apiDefinitions.ts", {
+const definitionModules = import.meta.glob("../../../../../../packages/api-schema/src/apis/*/apiDefinitions.ts", {
 	eager: true,
 }) as Record<string, Record<string, unknown>>;
 
@@ -170,14 +170,7 @@ const splitPathAndInlineQuery = (pathWithInlineQuery: string) => {
 
 const METHOD_FILTERS: MethodFilter[] = ["ALL", "GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"];
 
-export const Route = createFileRoute("/bruno/")({
-	beforeLoad: async () => {
-		await requireAdminSession();
-	},
-	component: BrunoApiPage,
-});
-
-function BrunoApiPage() {
+export function BrunoApiPageContent() {
 	const [search, setSearch] = useState("");
 	const [methodFilter, setMethodFilter] = useState<MethodFilter>("ALL");
 	const [selectedKey, setSelectedKey] = useState(

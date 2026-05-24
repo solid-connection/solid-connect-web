@@ -1,5 +1,6 @@
+"use client";
+
 import { useMutation } from "@tanstack/react-query";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { type FormEvent, useId, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -7,18 +8,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { adminSignInApi } from "@/lib/api/auth";
-import { redirectIfAuthenticated } from "@/lib/auth/session";
 import { saveAccessToken } from "@/lib/utils/localStorage";
 
-export const Route = createFileRoute("/auth/login")({
-	beforeLoad: async () => {
-		await redirectIfAuthenticated();
-	},
-	component: LoginPage,
-});
+interface AdminLoginPageProps {
+	onLoginSuccess: () => void;
+}
 
-function LoginPage() {
-	const navigate = useNavigate();
+export function AdminLoginPage({ onLoginSuccess }: AdminLoginPageProps) {
 	const emailInputId = useId();
 	const passwordInputId = useId();
 	const [email, setEmail] = useState("");
@@ -44,7 +40,7 @@ function LoginPage() {
 				description: "관리자 페이지로 이동합니다.",
 			});
 
-			navigate({ to: "/scores" });
+			onLoginSuccess();
 		} catch (err: unknown) {
 			const error = err as { response?: { data?: { message?: string } } };
 			toast.error("로그인 실패", {

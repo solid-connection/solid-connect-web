@@ -1,4 +1,3 @@
-import { useNavigate } from "@tanstack/react-router";
 import { LogOut } from "lucide-react";
 import { toast } from "sonner";
 import { clearSession } from "@/lib/auth/session";
@@ -12,12 +11,10 @@ interface AdminLayoutProps {
 }
 
 export function AdminLayout({ children, activeMenu, title, description }: AdminLayoutProps) {
-	const navigate = useNavigate();
-
 	const handleLogout = () => {
 		clearSession();
 		toast.success("로그아웃되었습니다.");
-		void navigate({ to: "/auth/login" });
+		window.location.assign("/auth/login");
 	};
 
 	return (

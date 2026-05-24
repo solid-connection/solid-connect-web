@@ -1,20 +1,13 @@
-import { createFileRoute } from "@tanstack/react-router";
+"use client";
+
 import { useId, useState } from "react";
-import { GpaScoreTable } from "@/components/features/scores/GpaScoreTable";
-import { LanguageScoreTable } from "@/components/features/scores/LanguageScoreTable";
 import { AdminLayout } from "@/components/layout/AdminLayout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { requireAdminSession } from "@/lib/auth/session";
 import type { VerifyStatus } from "@/types/scores";
+import { GpaScoreTable } from "./GpaScoreTable";
+import { LanguageScoreTable } from "./LanguageScoreTable";
 
-export const Route = createFileRoute("/scores/")({
-	beforeLoad: async () => {
-		await requireAdminSession();
-	},
-	component: ScoresPage,
-});
-
-function ScoresPage() {
+export function ScoresPageContent() {
 	const [verifyFilter, setVerifyFilter] = useState<VerifyStatus>("PENDING");
 	const verifyFilterId = useId();
 

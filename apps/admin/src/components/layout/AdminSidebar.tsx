@@ -1,11 +1,11 @@
-import { Link } from "@tanstack/react-router";
-import { FileText, FlaskConical, MessageSquare } from "lucide-react";
+import { FileText, FlaskConical, MessageSquare, UserCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export type ActiveAdminMenu = "scores" | "bruno" | "chatSocket";
+export type ActiveAdminMenu = "scores" | "mentorApplications" | "bruno" | "chatSocket";
 
 const sideMenus = [
 	{ key: "scores", label: "성적 관리", icon: FileText, to: "/scores" as const },
+	{ key: "mentorApplications", label: "멘토 승격 요청", icon: UserCheck, to: "/mentor-applications" as const },
 	{ key: "bruno", label: "Bruno API", icon: FlaskConical, to: "/bruno" as const },
 	{ key: "chatSocket", label: "채팅 소켓", icon: MessageSquare, to: "/chat-socket" as const },
 ] as const;
@@ -36,10 +36,10 @@ export function AdminSidebar({ activeMenu }: AdminSidebarProps) {
 					);
 
 					return (
-						<Link key={menu.label} to={menu.to} preload="intent" className={menuClassName}>
+						<a key={menu.label} href={menu.to} className={menuClassName} aria-current={isActive ? "page" : undefined}>
 							<menu.icon className="h-4 w-4" />
 							{menu.label}
-						</Link>
+						</a>
 					);
 				})}
 			</nav>
