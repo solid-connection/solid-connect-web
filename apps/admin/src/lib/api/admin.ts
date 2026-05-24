@@ -1,9 +1,14 @@
 import { axiosInstance } from "@/lib/api/client";
+import type {
+	MentorApplicationHistoryResponse,
+	MentorApplicationPageResponse,
+	MentorApplicationStatus,
+} from "@/types/mentorApplications";
 
 export interface MentorApplicationListParams {
 	page?: number;
 	size?: number;
-	mentorApplicationStatus?: string;
+	mentorApplicationStatus?: MentorApplicationStatus;
 	nickname?: string;
 	createdAt?: string;
 }
@@ -21,25 +26,29 @@ export interface CountryPayload {
 
 export const adminApi = {
 	getMentorApplicationList: (params: MentorApplicationListParams) =>
-		axiosInstance.get("/admin/mentor-applications", { params }).then((res) => res.data),
+		axiosInstance.get<MentorApplicationPageResponse>("/admin/mentor-applications", { params }).then((res) => res.data),
 
 	getCountMentorApplicationByStatus: () =>
-		axiosInstance.get("/admin/mentor-applications/count").then((res) => res.data),
+		axiosInstance
+			.get<Partial<Record<MentorApplicationStatus, number>>>("/admin/mentor-applications/count")
+			.then((res) => res.data),
 
 	getMentorApplicationHistoryList: (siteUserId: string | number) =>
-		axiosInstance.get(`/admin/mentor-applications/${siteUserId}/history`).then((res) => res.data),
+		axiosInstance
+			.get<MentorApplicationHistoryResponse>(`/admin/mentor-applications/${siteUserId}/history`)
+			.then((res) => res.data),
 
 	postApproveMentorApplication: (mentorApplicationId: string | number) =>
-		axiosInstance.post(`/admin/mentor-applications/${mentorApplicationId}/approve`, {}).then((res) => res.data),
+		axiosInstance.post<void>(`/admin/mentor-applications/${mentorApplicationId}/approve`, {}).then((res) => res.data),
 
 	postRejectMentorApplication: (mentorApplicationId: string | number, rejectedReason: string) =>
 		axiosInstance
-			.post(`/admin/mentor-applications/${mentorApplicationId}/reject`, { rejectedReason })
+			.post<void>(`/admin/mentor-applications/${mentorApplicationId}/reject`, { rejectedReason })
 			.then((res) => res.data),
 
 	postMappingMentorapplicationUniversity: (mentorApplicationId: string | number, universityId: number) =>
 		axiosInstance
-			.post(`/admin/mentor-applications/${mentorApplicationId}/assign-university`, { universityId })
+			.post<void>(`/admin/mentor-applications/${mentorApplicationId}/assign-university`, { universityId })
 			.then((res) => res.data),
 
 	get권역조회: () => axiosInstance.get("/admin/regions").then((res) => res.data),
