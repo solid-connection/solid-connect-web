@@ -7,6 +7,12 @@ import { ParsedBrunoFile, extractJsonFromDocs } from '../parser/bruParser';
 import { ApiFunction } from './apiClientGenerator';
 import { generateTypeScriptInterface, toCamelCase, functionNameToTypeName, toObjectPropertyKey } from './typeGenerator';
 
+const SLACK_WEBHOOK_URL_PLACEHOLDER = 'SLACK_WEBHOOK_URL';
+
+function sanitizeGeneratedUrl(url: string): string {
+  return /^https:\/\/hooks\.slack\.com\/services\//i.test(url) ? SLACK_WEBHOOK_URL_PLACEHOLDER : url;
+}
+
 /**
  * 빈 인터페이스를 Record<string, never> 타입으로 변환
  */
@@ -33,7 +39,7 @@ function generateApiFunctionForFactory(apiFunc: ApiFunction, parsed: ParsedBruno
 
   // URL 생성 로직
   // 1. {{URL}} 제거
-  let processedUrl = url.replace(/\{\{URL\}\}/g, '');
+  let processedUrl = sanitizeGeneratedUrl(url).replace(/\{\{URL\}\}/g, '');
 
   // 2. 브루노 변수 {{변수명}} 처리 (URL 파라미터로 변환)
   const brunoVarPattern = /\{\{([^}]+)\}\}/g;

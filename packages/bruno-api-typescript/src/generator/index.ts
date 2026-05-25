@@ -9,7 +9,7 @@ import { parseBrunoFile } from '../parser/bruParser';
 import { extractApiFunction } from './apiClientGenerator';
 import { generateMSWHandler, generateDomainHandlersIndex, generateMSWIndex } from './mswGenerator';
 import { generateApiFactory } from './apiFactoryGenerator';
-import { generateApiDefinitionsFile } from './apiDefinitionGenerator';
+import { generateApiDefinitionsFile, generateApiDefinitionRegistryFile } from './apiDefinitionGenerator';
 import { BrunoHashCache } from './brunoHashCache';
 import { functionNameToTypeName, toCamelCase } from './typeGenerator';
 
@@ -81,6 +81,7 @@ export async function generateHooks(options: GenerateHooksOptions): Promise<void
 
   const hashCache = new BrunoHashCache(outputDir);
   hashCache.load();
+  const registryPath = join(dirname(outputDir), 'apiDefinitionRegistry.ts');
 
   console.log('🔍 Searching for .bru files...');
   const brunoFiles = findBrunoFiles(brunoDir);
@@ -110,7 +111,7 @@ export async function generateHooks(options: GenerateHooksOptions): Promise<void
 
   console.log(`📊 Changed: ${changedFiles.length}, Skipped: ${skippedFiles.length}`);
 
-  if (changedFiles.length === 0) {
+  if (changedFiles.length === 0 && existsSync(registryPath)) {
     console.log('✅ All API clients are up to date!');
     return;
   }
@@ -165,7 +166,7 @@ export async function generateHooks(options: GenerateHooksOptions): Promise<void
 
   const affectedDomains = new Set(parsedChangedFiles.map(f => f.domain));
 
-  const domainApiFunctions = new Map<string, Array<{ apiFunc: any; parsed: any }>>();
+  const domainApiFunctions = new Map<string, Array<{ apiFunc: any; parsed: any; filePath: string; sourceFile: string }>>();
   const domainDirs = new Set<string>();
   const domainFunctionNameCounts = new Map<string, number>();
 
@@ -191,7 +192,12 @@ export async function generateHooks(options: GenerateHooksOptions): Promise<void
     if (!domainApiFunctions.has(domain)) {
       domainApiFunctions.set(domain, []);
     }
-    domainApiFunctions.get(domain)!.push({ apiFunc, parsed });
+    domainApiFunctions.get(domain)!.push({
+      apiFunc,
+      parsed,
+      filePath,
+      sourceFile: relative(brunoDir, filePath),
+    });
   }
 
   console.log('\n🏭 Generating API factories...');
@@ -268,6 +274,26 @@ export async function generateHooks(options: GenerateHooksOptions): Promise<void
   const rootIndexPath = join(outputDir, 'index.ts');
   writeFileSync(rootIndexPath, rootIndexContent, 'utf-8');
   console.log(`✅ Generated: ${rootIndexPath}`);
+
+  const registryEntries = Array.from(domainApiFunctions.entries())
+    .flatMap(([domain, apiFunctions]) => apiFunctions.map(apiFunction => ({ ...apiFunction, domain })))
+    .sort((a, b) => {
+      const domainCompare = a.domain.localeCompare(b.domain);
+      if (domainCompare !== 0) {
+        return domainCompare;
+      }
+
+      const nameCompare = a.apiFunc.name.localeCompare(b.apiFunc.name);
+      if (nameCompare !== 0) {
+        return nameCompare;
+      }
+
+      return a.sourceFile.localeCompare(b.sourceFile);
+    });
+
+  const registryContent = generateApiDefinitionRegistryFile(registryEntries);
+  writeFileSync(registryPath, registryContent, 'utf-8');
+  console.log(`✅ Generated: ${registryPath}`);
 
   hashCache.cleanup();
   hashCache.save();

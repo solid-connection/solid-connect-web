@@ -31,6 +31,8 @@ export interface ParsedBrunoFile {
     url: string;
   };
   headers?: Record<string, string>;
+  queryParams?: Record<string, string>;
+  disabledQueryParams?: Record<string, string>;
   auth?: {
     type: string;
     [key: string]: any;
@@ -68,6 +70,7 @@ export function parseBrunoFile(filePath: string): ParsedBrunoFile {
   let currentBlock: string | null = null;
   let blockContent: string[] = [];
   let inCodeBlock = false;
+  let bodyNestedBraceDepth = 0;
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
@@ -99,9 +102,19 @@ export function parseBrunoFile(filePath: string): ParsedBrunoFile {
       currentBlock = 'headers';
       blockContent = [];
       continue;
-    } else if (trimmed === 'body:json {') {
-      currentBlock = 'body';
+    } else if (trimmed === 'params:query {') {
+      currentBlock = 'params:query';
       blockContent = [];
+      continue;
+    } else if (trimmed.match(/^body:([a-zA-Z0-9_-]+)\s*\{/)) {
+      currentBlock = 'body';
+      const bodyTypeMatch = trimmed.match(/^body:([a-zA-Z0-9_-]+)\s*\{/);
+      if (bodyTypeMatch) {
+        blockContent = [`__body_type__:${bodyTypeMatch[1]}`];
+      } else {
+        blockContent = [];
+      }
+      bodyNestedBraceDepth = 0;
       continue;
     } else if (trimmed === 'docs {') {
       currentBlock = 'docs';
@@ -123,7 +136,7 @@ export function parseBrunoFile(filePath: string): ParsedBrunoFile {
     }
 
     // 블록 종료 감지
-    if (trimmed === '}' && currentBlock && !inCodeBlock) {
+    if (trimmed === '}' && currentBlock && !inCodeBlock && !(currentBlock === 'body' && bodyNestedBraceDepth > 0)) {
       // 블록 파싱
       parseBlock(result, currentBlock, blockContent);
       currentBlock = null;
@@ -143,10 +156,51 @@ export function parseBrunoFile(filePath: string): ParsedBrunoFile {
         }
       }
       blockContent.push(line);
+      if (currentBlock === 'body') {
+        bodyNestedBraceDepth += countStructuralBraces(line);
+        if (bodyNestedBraceDepth < 0) {
+          bodyNestedBraceDepth = 0;
+        }
+      }
     }
   }
 
   return result;
+}
+
+function countStructuralBraces(line: string): number {
+  let delta = 0;
+  let inString = false;
+  let escaped = false;
+
+  for (const char of line) {
+    if (escaped) {
+      escaped = false;
+      continue;
+    }
+
+    if (char === '\\') {
+      escaped = true;
+      continue;
+    }
+
+    if (char === '"') {
+      inString = !inString;
+      continue;
+    }
+
+    if (inString) {
+      continue;
+    }
+
+    if (char === '{') {
+      delta += 1;
+    } else if (char === '}') {
+      delta -= 1;
+    }
+  }
+
+  return delta;
 }
 
 /**
@@ -162,6 +216,9 @@ function parseBlock(result: ParsedBrunoFile, blockName: string, content: string[
       break;
     case 'headers':
       parseHeaders(result, content);
+      break;
+    case 'params:query':
+      parseQueryParams(result, content);
       break;
     case 'body':
       parseBody(result, content);
@@ -232,12 +289,49 @@ function parseHeaders(result: ParsedBrunoFile, lines: string[]): void {
 }
 
 /**
+ * Query params 블록 파싱
+ */
+function parseQueryParams(result: ParsedBrunoFile, lines: string[]): void {
+  result.queryParams = {};
+  result.disabledQueryParams = {};
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (!trimmed) continue;
+
+    const disabled = trimmed.startsWith('~');
+    const normalizedLine = disabled ? trimmed.slice(1).trim() : trimmed;
+    const colonIndex = normalizedLine.indexOf(':');
+
+    if (colonIndex < 0) {
+      continue;
+    }
+
+    const key = normalizedLine.substring(0, colonIndex).trim();
+    const value = normalizedLine.substring(colonIndex + 1).trim();
+
+    if (!key) {
+      continue;
+    }
+
+    if (disabled) {
+      result.disabledQueryParams[key] = value;
+    } else {
+      result.queryParams[key] = value;
+    }
+  }
+}
+
+/**
  * body 블록 파싱
  */
 function parseBody(result: ParsedBrunoFile, lines: string[]): void {
-  const content = lines.join('\n').trim();
+  const bodyTypeLine = lines[0]?.startsWith('__body_type__:') ? lines[0] : null;
+  const type = bodyTypeLine ? bodyTypeLine.replace('__body_type__:', '').trim() : 'json';
+  const bodyLines = bodyTypeLine ? lines.slice(1) : lines;
+  const content = bodyLines.join('\n').trim();
   result.body = {
-    type: 'json',
+    type,
     content,
   };
 }

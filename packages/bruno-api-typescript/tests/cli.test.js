@@ -150,6 +150,90 @@ describe('API 클라이언트 생성 테스트', () => {
     console.log('✅ API 정의 파일 내용 검증 테스트 통과');
   });
 
+  test('쿼리 문자열 변수와 빈 값은 queryParamsExample에만 포함', () => {
+    const queryFixtureDir = join(TEST_OUTPUT_DIR, 'query-fixture');
+    const chatDir = join(queryFixtureDir, 'chat');
+    mkdirSync(chatDir, { recursive: true });
+
+    const queryFile = join(chatDir, 'chat-messages.bru');
+    const queryContent = `meta {
+  name: Chat Messages
+  type: http
+}
+
+get /chats/rooms/{{room-id}}?size={{default-size}}&nickname&createdAt=2025-11-14
+
+docs {
+  \`\`\`json
+  {}
+  \`\`\`
+}
+`;
+    writeFileSync(queryFile, queryContent);
+
+    const outputDir = join(TEST_OUTPUT_DIR, 'query-output');
+    execSync(`node dist/cli/index.js generate-hooks -i ${queryFixtureDir} -o ${outputDir}`, {
+      cwd: join(__dirname, '..'),
+    });
+
+    const definitionsContent = readFileSync(join(outputDir, 'chat', 'apiDefinitions.ts'), 'utf-8');
+    assert.ok(
+      definitionsContent.includes('pathParams: {} as { roomId: string | number }'),
+      'query placeholder는 path param 타입에 포함되지 않아야 함',
+    );
+    assert.ok(definitionsContent.includes('"room-id": ""'), '실제 path param은 유지되어야 함');
+    assert.ok(!definitionsContent.includes('"default-size": ""'), 'query placeholder는 pathParamsExample에 없어야 함');
+    assert.ok(definitionsContent.includes('"size": "{{default-size}}"'), 'query placeholder는 queryParamsExample에 있어야 함');
+    assert.ok(definitionsContent.includes('"nickname": ""'), '값이 비어 있는 query key도 유지되어야 함');
+
+    console.log('✅ 쿼리 문자열 변수 및 빈 값 처리 테스트 통과');
+  });
+
+  test('민감한 Slack webhook URL은 placeholder로 생성', () => {
+    const webhookFixtureDir = join(TEST_OUTPUT_DIR, 'webhook-fixture');
+    const uploadDir = join(webhookFixtureDir, 'image-upload');
+    mkdirSync(uploadDir, { recursive: true });
+
+    const webhookFile = join(uploadDir, 'slack-notification.bru');
+    const webhookContent = `meta {
+  name: Slack Notification
+  type: http
+}
+
+post https://hooks.slack.com/services/T000/B000/SECRET
+
+body:json {
+  {
+    "text": "test"
+  }
+}
+
+docs {
+  \`\`\`json
+  {}
+  \`\`\`
+}
+`;
+    writeFileSync(webhookFile, webhookContent);
+
+    const outputDir = join(TEST_OUTPUT_DIR, 'webhook-output');
+    execSync(`node dist/cli/index.js generate-hooks -i ${webhookFixtureDir} -o ${outputDir}`, {
+      cwd: join(__dirname, '..'),
+    });
+
+    const definitionsContent = readFileSync(join(outputDir, 'image-upload', 'apiDefinitions.ts'), 'utf-8');
+    const apiContent = readFileSync(join(outputDir, 'image-upload', 'api.ts'), 'utf-8');
+    const registryContent = readFileSync(join(TEST_OUTPUT_DIR, 'apiDefinitionRegistry.ts'), 'utf-8');
+    assert.ok(!definitionsContent.includes('hooks.slack.com/services'), 'apiDefinitions에 실제 webhook URL이 없어야 함');
+    assert.ok(!apiContent.includes('hooks.slack.com/services'), 'api.ts에 실제 webhook URL이 없어야 함');
+    assert.ok(!registryContent.includes('hooks.slack.com/services'), 'registry에 실제 webhook URL이 없어야 함');
+    assert.ok(definitionsContent.includes('SLACK_WEBHOOK_URL'), 'apiDefinitions에 placeholder가 있어야 함');
+    assert.ok(apiContent.includes('SLACK_WEBHOOK_URL'), 'api.ts에 placeholder가 있어야 함');
+    assert.ok(registryContent.includes('canExecute: false'), '민감한 webhook endpoint는 실행 불가로 표시되어야 함');
+
+    console.log('✅ 민감한 webhook URL placeholder 생성 테스트 통과');
+  });
+
   test('API 팩토리 파일 내용 검증', () => {
     const inputDir = join(FIXTURES_DIR, 'bruno');
     const outputDir = join(TEST_OUTPUT_DIR, 'apis-factory');
