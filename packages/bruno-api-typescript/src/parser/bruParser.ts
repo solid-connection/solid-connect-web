@@ -310,7 +310,7 @@ function parseQueryParams(result: ParsedBrunoFile, lines: string[]): void {
     const key = normalizedLine.substring(0, colonIndex).trim();
     const value = normalizedLine.substring(colonIndex + 1).trim();
 
-    if (!key || !value) {
+    if (!key) {
       continue;
     }
 

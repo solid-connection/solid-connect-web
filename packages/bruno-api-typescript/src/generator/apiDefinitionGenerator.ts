@@ -21,6 +21,7 @@ export interface ApiDefinitionMeta {
   bodyExample: unknown;
   hasBody: boolean;
   bodyType: string | null;
+  canExecute: boolean;
 }
 
 export interface ApiDefinitionInput {
@@ -35,17 +36,49 @@ function toPascalCase(value: string): string {
   return `${camel.charAt(0).toUpperCase()}${camel.slice(1)}`;
 }
 
+const SLACK_WEBHOOK_URL_PLACEHOLDER = 'SLACK_WEBHOOK_URL';
+
+function getPathOnly(url: string): string {
+  const questionMarkIndex = url.indexOf('?');
+  return questionMarkIndex >= 0 ? url.slice(0, questionMarkIndex) : url;
+}
+
+function isSensitiveWebhookUrl(url: string): boolean {
+  return /^https:\/\/hooks\.slack\.com\/services\//i.test(url);
+}
+
+function sanitizeApiDefinitionPath(url: string): string {
+  return isSensitiveWebhookUrl(url) ? SLACK_WEBHOOK_URL_PLACEHOLDER : url;
+}
+
+function isUploadLikeEndpoint(url: string, sourceFile?: string): boolean {
+  const path = getPathOnly(url).replace(/\{\{URL\}\}/g, '');
+  return /(?:^|\/)file(?:\/|$)/i.test(path) || /upload|업로드/i.test(sourceFile ?? '');
+}
+
+function shouldAllowExecution(method: string, url: string, parsed: ParsedBrunoFile, sourceFile?: string): boolean {
+  if (isSensitiveWebhookUrl(url) || parsed.body?.type === 'multipart-form') {
+    return false;
+  }
+
+  const hasParsedBody = Boolean(parsed.body?.content?.trim());
+  if (method !== 'GET' && method !== 'HEAD' && !hasParsedBody && isUploadLikeEndpoint(url, sourceFile)) {
+    return false;
+  }
+
+  return true;
+}
+
 /**
  * Extract URL parameters from a path
  */
 function extractPathParams(url: string): string[] {
   const params: string[] = [];
   
-  let processedUrl = url.replace(/\{\{URL\}\}/g, '');
+  let processedUrl = getPathOnly(url).replace(/\{\{URL\}\}/g, '');
   
   const brunoVarPattern = /\{\{([^}]+)\}\}/g;
-  let match;
-  while ((match = brunoVarPattern.exec(processedUrl)) !== null) {
+  for (const match of processedUrl.matchAll(brunoVarPattern)) {
     const varName = match[1];
     if (varName === 'URL') continue;
     const camelVarName = toCamelCase(varName);
@@ -70,11 +103,10 @@ function extractPathParams(url: string): string[] {
 
 function extractPathParamTokens(url: string): string[] {
   const params: string[] = [];
-  let processedUrl = url.replace(/\{\{URL\}\}/g, '');
+  let processedUrl = getPathOnly(url).replace(/\{\{URL\}\}/g, '');
 
   const brunoVarPattern = /\{\{([^}]+)\}\}/g;
-  let match;
-  while ((match = brunoVarPattern.exec(processedUrl)) !== null) {
+  for (const match of processedUrl.matchAll(brunoVarPattern)) {
     const varName = match[1];
     if (varName === 'URL') continue;
     if (!params.includes(varName)) {
@@ -102,9 +134,7 @@ function extractInlineQueryParams(url: string): Record<string, string> {
   }
 
   const queryString = url.slice(questionMarkIndex + 1);
-  return Object.fromEntries(
-    Array.from(new URLSearchParams(queryString)).filter(([, value]) => value.trim().length > 0),
-  );
+  return Object.fromEntries(Array.from(new URLSearchParams(queryString)).map(([key, value]) => [key, value.trim()]));
 }
 
 function parseBodyExample(parsed: ParsedBrunoFile): unknown {
@@ -145,6 +175,7 @@ export function generateApiDefinitionMeta(
   sourceFile?: string
 ): ApiDefinitionMeta {
   const { method, url, responseType } = apiFunc;
+  const sanitizedPath = sanitizeApiDefinitionPath(url);
   const pathParams = extractPathParams(url);
   const pathParamTokens = extractPathParamTokens(url);
   const bodyExample = parseBodyExample(parsed);
@@ -159,14 +190,14 @@ export function generateApiDefinitionMeta(
     : 'Record<string, never>';
     
   const requestType = responseType.replace('Response', 'Request');
-  const hasBody = ['POST', 'PUT', 'PATCH'].includes(method) && Boolean(parsed.body?.content?.trim());
+  const hasBody = method !== 'GET' && method !== 'HEAD' && Boolean(parsed.body?.content?.trim());
   const bodyType = hasBody ? requestType : 'Record<string, never>';
   
   return {
     displayName: parsed.meta.name || apiFunc.name,
     sourceFile,
     method,
-    path: url,
+    path: sanitizedPath,
     pathParams: pathParamsType,
     queryParams: queryParamsType,
     body: bodyType,
@@ -177,8 +208,9 @@ export function generateApiDefinitionMeta(
       ...(parsed.queryParams ?? {}),
     },
     bodyExample,
-    hasBody: method !== 'GET' && method !== 'HEAD' && Boolean(parsed.body?.content?.trim()),
+    hasBody,
     bodyType: bodyTypeName,
+    canExecute: shouldAllowExecution(method, url, parsed, sourceFile),
   };
 }
 
@@ -235,6 +267,7 @@ export function generateApiDefinitionsFile(
     lines.push(`    bodyExample: ${toTsLiteral(meta.bodyExample, 4)},`);
     lines.push(`    hasBody: ${meta.hasBody},`);
     lines.push(`    bodyType: ${toTsLiteral(meta.bodyType)},`);
+    lines.push(`    canExecute: ${meta.canExecute},`);
     lines.push(`  },`);
   }
   
@@ -263,6 +296,7 @@ export function generateApiDefinitionRegistryFile(
     '    bodyExample?: unknown;',
     '    hasBody: boolean;',
     '    bodyType: string | null;',
+    '    canExecute?: boolean;',
     '  };',
     '}',
     '',
@@ -288,6 +322,7 @@ export function generateApiDefinitionRegistryFile(
     }
     lines.push(`      hasBody: ${meta.hasBody},`);
     lines.push(`      bodyType: ${toTsLiteral(meta.bodyType)},`);
+    lines.push(`      canExecute: ${meta.canExecute},`);
     lines.push('    },');
     lines.push('  },');
   }

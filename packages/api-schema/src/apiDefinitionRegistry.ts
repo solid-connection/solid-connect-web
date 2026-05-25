@@ -11,6 +11,7 @@ export interface BrunoApiDefinitionRegistryItem {
     bodyExample?: unknown;
     hasBody: boolean;
     bodyType: string | null;
+    canExecute?: boolean;
   };
 }
 
@@ -124,6 +125,7 @@ export const brunoApiDefinitionRegistry = [
         "page": "2",
         "size": "10",
         "mentorApplicationStatus": "PENDING",
+        "nickname": "",
         "createdAt": "2025-11-14"
       },
       hasBody: false,
@@ -530,9 +532,7 @@ export const brunoApiDefinitionRegistry = [
       method: "GET",
       path: "{{URL}}/chats/rooms/{{room-id}}?size={{default-size}}&page={{default-page}}",
       pathParamsExample: {
-        "room-id": "",
-        "default-size": "",
-        "default-page": ""
+        "room-id": ""
       },
       queryParamsExample: {
         "size": "{{default-size}}",
@@ -773,7 +773,7 @@ export const brunoApiDefinitionRegistry = [
     sourceFile: "이미지 업로드 [image-upload]/슬랙 알림 [slack-notification].bru",
     definition: {
       method: "POST",
-      path: "https://hooks.slack.com/services/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",
+      path: "SLACK_WEBHOOK_URL",
       pathParamsExample: {},
       queryParamsExample: {},
       bodyExample: {
@@ -781,6 +781,7 @@ export const brunoApiDefinitionRegistry = [
       },
       hasBody: true,
       bodyType: "json",
+      canExecute: false,
     },
   },
   {
@@ -795,6 +796,7 @@ export const brunoApiDefinitionRegistry = [
       queryParamsExample: {},
       hasBody: false,
       bodyType: null,
+      canExecute: false,
     },
   },
   {
@@ -809,6 +811,7 @@ export const brunoApiDefinitionRegistry = [
       queryParamsExample: {},
       hasBody: false,
       bodyType: null,
+      canExecute: false,
     },
   },
   {
@@ -823,6 +826,7 @@ export const brunoApiDefinitionRegistry = [
       queryParamsExample: {},
       hasBody: false,
       bodyType: null,
+      canExecute: false,
     },
   },
   {
@@ -837,6 +841,7 @@ export const brunoApiDefinitionRegistry = [
       queryParamsExample: {},
       hasBody: false,
       bodyType: null,
+      canExecute: false,
     },
   },
   {
@@ -898,11 +903,7 @@ export const brunoApiDefinitionRegistry = [
     definition: {
       method: "GET",
       path: "{{URL}}/mentee/mentorings?verify-status={{verify-status}}&size={{default-size}}&page={{default-page}}",
-      pathParamsExample: {
-        "verify-status": "",
-        "default-size": "",
-        "default-page": ""
-      },
+      pathParamsExample: {},
       queryParamsExample: {
         "verify-status": "{{verify-status}}",
         "size": "{{default-size}}",
@@ -920,10 +921,7 @@ export const brunoApiDefinitionRegistry = [
     definition: {
       method: "GET",
       path: "{{URL}}/mentee/mentorings/matched-mentors?size={{default-size}}&page={{default-page}}",
-      pathParamsExample: {
-        "default-size": "",
-        "default-page": ""
-      },
+      pathParamsExample: {},
       queryParamsExample: {
         "size": "{{default-size}}",
         "page": "{{default-page}}"
@@ -956,10 +954,7 @@ export const brunoApiDefinitionRegistry = [
     definition: {
       method: "GET",
       path: "{{URL}}/mentors?region=미주권&size={{default-size}}&page={{default-page}}",
-      pathParamsExample: {
-        "default-size": "",
-        "default-page": ""
-      },
+      pathParamsExample: {},
       queryParamsExample: {
         "region": "미주권",
         "size": "{{default-size}}",

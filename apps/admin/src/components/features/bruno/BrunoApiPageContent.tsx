@@ -36,7 +36,7 @@ interface EditorState {
 	headersText: string;
 }
 
-const ALL_ENDPOINTS = [...brunoApiDefinitionRegistry].sort((a, b) => {
+const ALL_ENDPOINTS: EndpointItem[] = [...brunoApiDefinitionRegistry].sort((a, b) => {
 	if (a.domain === b.domain) {
 		return a.displayName.localeCompare(b.displayName);
 	}
@@ -140,6 +140,8 @@ const isRemoteApiServer = (url: string) => {
 	return !/^https?:\/\/(localhost|127\.0\.0\.1|0\.0\.0\.0|\[::1\])(?::\d+)?/i.test(url);
 };
 
+const isAbsoluteUrl = (url: string) => /^https?:\/\//i.test(url);
+
 const getEndpointKey = (endpoint: EndpointItem) => `${endpoint.domain}:${endpoint.name}:${endpoint.sourceFile ?? ""}`;
 
 const getMethodClassName = (method: DefinitionMethod) =>
@@ -188,9 +190,17 @@ export function BrunoApiPageContent() {
 		return ALL_ENDPOINTS.find((endpoint) => getEndpointKey(endpoint) === selectedKey) ?? null;
 	}, [selectedKey]);
 
+	const selectedCanExecute = selectedEndpoint
+		? (selectedEndpoint.definition.canExecute ?? selectedEndpoint.definition.bodyType !== "multipart-form")
+		: false;
 	const selectedIsMultipart = selectedEndpoint?.definition.bodyType === "multipart-form";
+	const selectedExecutionBlocked = selectedEndpoint ? !selectedCanExecute : false;
 	const selectedIsMutating = selectedEndpoint ? MUTATING_METHODS.has(selectedEndpoint.definition.method) : false;
-	const showRemoteWarning = isRemoteApiServer(apiServerUrl);
+	const remoteWarningUrl =
+		selectedEndpoint && isAbsoluteUrl(selectedEndpoint.definition.path)
+			? selectedEndpoint.definition.path
+			: apiServerUrl;
+	const showRemoteWarning = isRemoteApiServer(remoteWarningUrl);
 
 	useEffect(() => {
 		setEditorState(buildEditorState(selectedEndpoint));
@@ -224,8 +234,8 @@ export function BrunoApiPageContent() {
 			return;
 		}
 
-		if (selectedIsMultipart) {
-			toast.warning("파일 업로드 API는 현재 테스트베드에서 실행할 수 없습니다.");
+		if (selectedExecutionBlocked) {
+			toast.warning("이 API는 현재 테스트베드에서 실행할 수 없습니다.");
 			return;
 		}
 
@@ -278,7 +288,11 @@ export function BrunoApiPageContent() {
 				headers: responseHeaders,
 				body: response.data,
 			});
-			toast.success("요청이 완료되었습니다.");
+			if (response.status >= 200 && response.status < 300) {
+				toast.success("요청이 완료되었습니다.");
+			} else {
+				toast.error(`요청이 실패했습니다. (HTTP ${response.status})`);
+			}
 		} catch (error) {
 			const message = error instanceof Error ? error.message : "요청 중 오류가 발생했습니다.";
 			setEditorError(message);
@@ -375,7 +389,7 @@ export function BrunoApiPageContent() {
 							<AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
 							<div className="min-w-0">
 								<p className="typo-sb-11">원격 API 서버에 연결되어 있습니다.</p>
-								<p className="mt-1 break-all typo-regular-4">{apiServerUrl}</p>
+								<p className="mt-1 break-all typo-regular-4">{remoteWarningUrl}</p>
 							</div>
 						</div>
 					) : null}
@@ -392,7 +406,7 @@ export function BrunoApiPageContent() {
 									<Button
 										type="button"
 										onClick={handleSendRequest}
-										disabled={isSending || !selectedEndpoint || selectedIsMultipart}
+										disabled={isSending || !selectedEndpoint || selectedExecutionBlocked}
 									>
 										<Play className="h-4 w-4" />
 										{isSending ? "요청 중..." : "요청 보내기"}
@@ -417,9 +431,9 @@ export function BrunoApiPageContent() {
 							) : (
 								<p className="typo-regular-4 text-k-500">왼쪽에서 API를 선택해주세요.</p>
 							)}
-							{selectedIsMultipart ? (
+							{selectedExecutionBlocked ? (
 								<div className="rounded-md border border-k-200 bg-k-50 px-3 py-2 typo-regular-4 text-k-600">
-									파일 업로드 API는 v1 테스트베드에서 실행을 막아두었습니다.
+									이 API는 v1 테스트베드에서 실행을 막아두었습니다.
 								</div>
 							) : null}
 							{editorError ? (
