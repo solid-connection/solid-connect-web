@@ -1,5 +1,9 @@
+"use client";
+
 import { LogOut } from "lucide-react";
+import { useState } from "react";
 import { toast } from "sonner";
+import { adminSignOutApi } from "@/lib/api/auth";
 import { clearSession } from "@/lib/auth/session";
 import { type ActiveAdminMenu, AdminSidebar } from "./AdminSidebar";
 
@@ -11,10 +15,26 @@ interface AdminLayoutProps {
 }
 
 export function AdminLayout({ children, activeMenu, title, description }: AdminLayoutProps) {
-	const handleLogout = () => {
-		clearSession();
-		toast.success("로그아웃되었습니다.");
-		window.location.assign("/auth/login");
+	const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+	const handleLogout = async () => {
+		if (isLoggingOut) {
+			return;
+		}
+
+		setIsLoggingOut(true);
+
+		try {
+			await adminSignOutApi();
+			toast.success("로그아웃되었습니다.");
+		} catch {
+			toast.error("서버 로그아웃 요청에 실패했습니다.", {
+				description: "로컬 세션을 정리하고 로그인 화면으로 이동합니다.",
+			});
+		} finally {
+			clearSession();
+			window.location.assign("/auth/login?loggedOut=1");
+		}
 	};
 
 	return (
@@ -35,10 +55,11 @@ export function AdminLayout({ children, activeMenu, title, description }: AdminL
 						<button
 							type="button"
 							onClick={handleLogout}
-							className="inline-flex items-center gap-1 rounded-md border border-k-200 px-3 py-1.5 text-k-700 typo-medium-4 hover:bg-k-50"
+							disabled={isLoggingOut}
+							className="inline-flex items-center gap-1 rounded-md border border-k-200 px-3 py-1.5 text-k-700 typo-medium-4 hover:bg-k-50 disabled:cursor-not-allowed disabled:opacity-60"
 						>
 							<LogOut className="h-4 w-4" />
-							로그아웃
+							{isLoggingOut ? "로그아웃 중..." : "로그아웃"}
 						</button>
 					</div>
 				</header>
