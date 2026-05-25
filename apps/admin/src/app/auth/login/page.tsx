@@ -11,6 +11,12 @@ export default function AuthLoginPage() {
 		let isMounted = true;
 
 		const redirectIfAuthenticated = async () => {
+			const shouldSkipSessionCheck = new URLSearchParams(window.location.search).get("loggedOut") === "1";
+			if (shouldSkipSessionCheck) {
+				setCanRenderLogin(true);
+				return;
+			}
+
 			try {
 				const token = await ensureSessionToken();
 				if (!isMounted) return;
