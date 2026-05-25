@@ -2,6 +2,11 @@
   "name": "@solid-connect/api-schema",
   "version": "0.0.0",
   "private": true,
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./api-definition-registry": "./src/apiDefinitionRegistry.ts"
+  },
   "scripts": {
     "sync:bruno": "node ./scripts/sync-bruno.mjs",
     "sync:bruno:remote": "BRUNO_SOURCE_MODE=remote node ./scripts/sync-bruno.mjs",
