@@ -123,6 +123,12 @@ const getUniversityName = (application: MentorApplicationListItem) => {
 	return pickString(core.universityName, university?.koreanName, university?.name, core.universityId, university?.id);
 };
 
+const getUniversityId = (application: MentorApplicationListItem) => {
+	const core = getApplicationCore(application);
+	const university = getUniversity(application);
+	return pickString(core.universityId, university?.universityId, university?.id);
+};
+
 const getTerm = (application: MentorApplicationListItem) => {
 	const core = getApplicationCore(application);
 	return pickString(core.term);
@@ -175,6 +181,46 @@ const formatDateTime = (value: string | number | null | undefined) => {
 const getHistoryItems = (data: MentorApplicationHistoryResponse | undefined) => {
 	if (!data) return [];
 	return Array.isArray(data) ? data : (data.content ?? []);
+};
+
+type MentorApplicationCountData = Awaited<ReturnType<typeof adminApi.getCountMentorApplicationByStatus>>;
+
+const toCountNumber = (value: unknown): number | undefined => {
+	if (typeof value === "number" && Number.isFinite(value)) return value;
+	if (typeof value === "string" && value.trim().length > 0) {
+		const parsed = Number(value);
+		return Number.isFinite(parsed) ? parsed : undefined;
+	}
+	if (typeof value === "object" && value !== null) {
+		const record = value as Record<string, unknown>;
+		return toCountNumber(record.count ?? record.total ?? record.value);
+	}
+
+	return undefined;
+};
+
+const getCountByStatus = (data: MentorApplicationCountData | undefined, status: MentorApplicationStatus) => {
+	if (!data) return undefined;
+
+	if (Array.isArray(data)) {
+		const item = data.find(
+			(entry) => normalizeStatus(entry.mentorApplicationStatus ?? entry.status ?? entry.name) === status,
+		);
+		return toCountNumber(item);
+	}
+
+	const record = data as Record<string, unknown>;
+	const collection = record.content ?? record.data ?? record.items ?? record.result;
+	if (Array.isArray(collection)) {
+		const item = collection.find((entry) => {
+			if (typeof entry !== "object" || entry === null) return false;
+			const nextRecord = entry as Record<string, unknown>;
+			return normalizeStatus(nextRecord.mentorApplicationStatus ?? nextRecord.status ?? nextRecord.name) === status;
+		});
+		return toCountNumber(item);
+	}
+
+	return toCountNumber(record[status] ?? record[status.toLowerCase()]);
 };
 
 function MentorApplicationStatusBadge({ status }: { status: MentorApplicationStatus | null }) {
@@ -265,6 +311,8 @@ export function MentorApplicationsPageContent() {
 	const [expandedSiteUserId, setExpandedSiteUserId] = useState<string | null>(null);
 	const [rejectingApplicationId, setRejectingApplicationId] = useState<string | null>(null);
 	const [rejectReason, setRejectReason] = useState("");
+	const [mappingApplicationId, setMappingApplicationId] = useState<string | null>(null);
+	const [mappingUniversityId, setMappingUniversityId] = useState("");
 
 	const normalizedNickname = nickname.trim();
 
@@ -281,11 +329,23 @@ export function MentorApplicationsPageContent() {
 		placeholderData: keepPreviousData,
 	});
 
+	const countQuery = useQuery({
+		queryKey: ["mentorApplications", "count"],
+		queryFn: adminApi.getCountMentorApplicationByStatus,
+		placeholderData: keepPreviousData,
+	});
+
 	useEffect(() => {
 		if (isError) {
 			toast.error("멘토 승격 요청 목록을 불러오지 못했습니다.");
 		}
 	}, [isError]);
+
+	useEffect(() => {
+		if (countQuery.isError) {
+			toast.error("멘토 승격 요청 상태별 개수를 불러오지 못했습니다.");
+		}
+	}, [countQuery.isError]);
 
 	const applications = data?.content ?? [];
 	const totalPages = Math.max(1, data?.totalPages ?? 1);
@@ -313,6 +373,20 @@ export function MentorApplicationsPageContent() {
 		},
 		onError: () => {
 			toast.error("멘토 승격 요청 반려에 실패했습니다.");
+		},
+	});
+
+	const mapUniversityMutation = useMutation({
+		mutationFn: ({ mentorApplicationId, universityId }: { mentorApplicationId: string; universityId: number }) =>
+			adminApi.assignMentorApplicationUniversity(mentorApplicationId, universityId),
+		onSuccess: async () => {
+			await queryClient.invalidateQueries({ queryKey: ["mentorApplications"] });
+			setMappingApplicationId(null);
+			setMappingUniversityId("");
+			toast.success("멘토 지원서 대학을 매핑했습니다.");
+		},
+		onError: () => {
+			toast.error("멘토 지원서 대학 매핑에 실패했습니다.");
 		},
 	});
 
@@ -372,12 +446,61 @@ export function MentorApplicationsPageContent() {
 		await rejectMutation.mutateAsync({ mentorApplicationId, rejectedReason: normalizedReason });
 	};
 
+	const handleStartMapUniversity = (application: MentorApplicationListItem) => {
+		const applicationId = getApplicationId(application);
+		if (!applicationId) {
+			toast.error("신청 ID를 확인할 수 없습니다.");
+			return;
+		}
+
+		setMappingApplicationId(applicationId);
+		setMappingUniversityId(getUniversityId(application) ?? "");
+	};
+
+	const handleCancelMapUniversity = () => {
+		setMappingApplicationId(null);
+		setMappingUniversityId("");
+	};
+
+	const handleMapUniversity = async (mentorApplicationId: string) => {
+		const normalizedUniversityId = Number(mappingUniversityId.trim());
+		if (!Number.isInteger(normalizedUniversityId) || normalizedUniversityId <= 0) {
+			toast.error("대학 ID를 숫자로 입력해주세요.");
+			return;
+		}
+
+		await mapUniversityMutation.mutateAsync({ mentorApplicationId, universityId: normalizedUniversityId });
+	};
+
 	return (
 		<AdminLayout
 			activeMenu="mentorApplications"
 			title="멘토 승격 요청"
 			description="멘토 전환 신청 내역을 확인하고 승인 또는 반려합니다."
 		>
+			<div className="mt-4 grid gap-3 sm:grid-cols-3">
+				{STATUS_OPTIONS.map((option) => {
+					const count = getCountByStatus(countQuery.data, option.value);
+					const isActive = statusFilter === option.value;
+
+					return (
+						<button
+							key={option.value}
+							type="button"
+							onClick={() => handleFilterStatus(option.value)}
+							className={`rounded-xl border px-4 py-3 text-left transition-colors ${
+								isActive ? "border-primary bg-primary-100" : "border-k-100 bg-k-0 hover:bg-k-50"
+							}`}
+						>
+							<p className="typo-medium-4 text-k-500">{option.label}</p>
+							<p className="mt-1 typo-bold-4 text-k-900">
+								{countQuery.isLoading ? "..." : typeof count === "number" ? count.toLocaleString() : "-"}
+							</p>
+						</button>
+					);
+				})}
+			</div>
+
 			<div className="mt-4 grid gap-3 rounded-xl border border-k-100 bg-k-0 p-4 sm:grid-cols-[180px_minmax(180px,1fr)_180px_auto]">
 				<label className="block">
 					<span className="mb-1 block typo-sb-11 text-k-600">상태</span>
@@ -489,9 +612,12 @@ export function MentorApplicationsPageContent() {
 									const status = getApplicationStatus(application);
 									const fileUrl = getVerificationFileUrl(application);
 									const profileImageUrl = getProfileImageUrl(application);
+									const universityId = getUniversityId(application);
 									const isRejecting = Boolean(applicationId && rejectingApplicationId === applicationId);
+									const isMappingUniversity = Boolean(applicationId && mappingApplicationId === applicationId);
 									const isExpanded = Boolean(siteUserId && expandedSiteUserId === siteUserId);
-									const isActionPending = approveMutation.isPending || rejectMutation.isPending;
+									const isActionPending =
+										approveMutation.isPending || rejectMutation.isPending || mapUniversityMutation.isPending;
 
 									return (
 										<Fragment key={applicationId ?? `${siteUserId ?? "unknown"}-${getCreatedAt(application) ?? index}`}>
@@ -525,6 +651,7 @@ export function MentorApplicationsPageContent() {
 														<p className="typo-regular-4 text-k-500">
 															{toDisplayText(getCountry(application))} / {toDisplayText(getTerm(application))}
 														</p>
+														<p className="typo-regular-4 text-k-400">대학 ID {toDisplayText(universityId)}</p>
 													</div>
 												</TableCell>
 												<TableCell>{formatDateTime(getCreatedAt(application))}</TableCell>
@@ -560,7 +687,28 @@ export function MentorApplicationsPageContent() {
 												</TableCell>
 												<TableCell>
 													{status === "PENDING" && applicationId ? (
-														isRejecting ? (
+														isMappingUniversity ? (
+															<div className="flex min-w-[240px] items-center gap-2">
+																<input
+																	type="number"
+																	value={mappingUniversityId}
+																	onChange={(event) => setMappingUniversityId(event.target.value)}
+																	placeholder="대학 ID"
+																	className="h-8 w-[120px] rounded-md border border-k-200 bg-k-0 px-2 typo-regular-4 text-k-700 outline-none placeholder:text-k-400 focus-visible:border-primary"
+																/>
+																<Button
+																	type="button"
+																	size="sm"
+																	disabled={mapUniversityMutation.isPending}
+																	onClick={() => handleMapUniversity(applicationId)}
+																>
+																	확인
+																</Button>
+																<Button type="button" size="sm" variant="secondary" onClick={handleCancelMapUniversity}>
+																	취소
+																</Button>
+															</div>
+														) : isRejecting ? (
 															<div className="flex min-w-[280px] items-center gap-2">
 																<input
 																	type="text"
@@ -584,6 +732,15 @@ export function MentorApplicationsPageContent() {
 															</div>
 														) : (
 															<div className="flex items-center gap-2">
+																<Button
+																	type="button"
+																	size="sm"
+																	variant="secondary"
+																	disabled={isActionPending}
+																	onClick={() => handleStartMapUniversity(application)}
+																>
+																	대학 매핑
+																</Button>
 																<Button
 																	type="button"
 																	size="sm"
