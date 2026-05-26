@@ -13,7 +13,7 @@
     "typecheck": "tsc --noEmit",
     "typecheck:ci": "tsc --noEmit -p tsconfig.ci.json",
     "ci:check": "pnpm run lint:check && pnpm run typecheck:ci",
-    "analyze": "ANALYZE=true next build"
+    "analyze": "ANALYZE=true next build --webpack"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
