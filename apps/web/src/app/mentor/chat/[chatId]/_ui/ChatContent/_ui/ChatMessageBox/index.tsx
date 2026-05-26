@@ -180,14 +180,14 @@ const ChatMessageBox = ({
   };
 
   return isMine ? (
-    <div className="flex justify-end">
-      <div className="flex max-w-xs flex-row-reverse gap-2">
-        <div className="flex flex-col items-end">
-          <div className="flex items-end gap-1">
-            <span className="text-k-500 typo-regular-4">{formatTime(message.createdAt)}</span>
-            <div className="rounded-b-xl rounded-tl-xl bg-primary px-3 py-2 text-white">
+    <div className="flex min-w-0 justify-end">
+      <div className="flex max-w-[min(80%,24rem)] min-w-0 flex-row-reverse gap-2">
+        <div className="flex min-w-0 flex-col items-end">
+          <div className="flex min-w-0 items-end gap-1">
+            <span className="shrink-0 text-k-500 typo-regular-4">{formatTime(message.createdAt)}</span>
+            <div className="min-w-0 rounded-b-xl rounded-tl-xl bg-primary px-3 py-2 text-white">
               {shouldShowContent(messageType) && (
-                <p className="whitespace-pre-line typo-regular-2">{message.content}</p>
+                <p className="whitespace-pre-line break-words typo-regular-2">{message.content}</p>
               )}
               {renderAttachments()}
             </div>
@@ -196,19 +196,19 @@ const ChatMessageBox = ({
       </div>
     </div>
   ) : (
-    <div className="flex justify-start">
-      <div className="flex max-w-xs flex-row gap-2">
+    <div className="flex min-w-0 justify-start">
+      <div className="flex max-w-[min(100%,28rem)] min-w-0 flex-row gap-2">
         <ProfileWithBadge isMentor={isPartnerMentor} width={32} height={32} />
-        <div className="flex flex-col items-start">
+        <div className="flex min-w-0 flex-col items-start">
           <span className="mb-1 text-k-900 typo-medium-5">{partnerNickname}</span>
-          <div className="flex items-end gap-1">
-            <div className="rounded-b-xl rounded-tr-xl bg-k-100 px-3 py-2 text-k-900">
+          <div className="flex min-w-0 items-end gap-1">
+            <div className="min-w-0 rounded-b-xl rounded-tr-xl bg-k-100 px-3 py-2 text-k-900">
               {shouldShowContent(messageType) && (
-                <p className="whitespace-pre-line typo-regular-2">{message.content}</p>
+                <p className="whitespace-pre-line break-words typo-regular-2">{message.content}</p>
               )}
               {renderAttachments()}
             </div>
-            <span className="text-k-500 typo-regular-4">{formatTime(message.createdAt)}</span>
+            <span className="shrink-0 text-k-500 typo-regular-4">{formatTime(message.createdAt)}</span>
           </div>
         </div>
       </div>

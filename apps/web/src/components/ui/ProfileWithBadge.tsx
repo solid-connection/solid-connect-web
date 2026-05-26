@@ -26,7 +26,7 @@ const ProfileWithBadge = ({
   const iconSize = Math.round(badgeSize * 0.67);
 
   return (
-    <div className="relative" style={{ width: `${width}px`, height: `${height}px` }}>
+    <div className="relative shrink-0" style={{ width: `${width}px`, height: `${height}px` }}>
       {/* 프로필 이미지 */}
       <div
         className={`h-full w-full overflow-hidden rounded-full ${
