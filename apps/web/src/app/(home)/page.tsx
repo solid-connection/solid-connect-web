@@ -1,18 +1,12 @@
 import type { Metadata } from "next";
-import nextDynamic from "next/dynamic";
 import { getHomeNewsList } from "@/apis/news/server/getNewsList";
 import { getCategorizedUniversities, getRecommendedUniversity } from "@/apis/universities/server";
 import { type ListUniversity, RegionEnumExtend } from "@/types/university";
 import FindLastYearScoreBar from "./_ui/FindLastYearScoreBar";
 import HomeEntrySection from "./_ui/HomeEntrySection";
-import NewsSectionSkeleton from "./_ui/NewsSection/skeleton";
+import NewsSection from "./_ui/NewsSection";
 import PopularUniversitySection from "./_ui/PopularUniversitySection";
 import UniversityList from "./_ui/UniversityList";
-
-const NewsSectionDynamic = nextDynamic(() => import("./_ui/NewsSection"), {
-  ssr: false,
-  loading: () => <NewsSectionSkeleton />,
-});
 
 const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://solid-connection.com";
 const ogImageUrl = `${baseUrl}/opengraph-image.png`;
@@ -106,7 +100,7 @@ const HomePage = async () => {
           <UniversityList allRegionsUniversityList={allRegionsUniversityList} />
         </div>
 
-        <NewsSectionDynamic newsList={newsList} />
+        <NewsSection newsList={newsList} />
       </div>
     </>
   );

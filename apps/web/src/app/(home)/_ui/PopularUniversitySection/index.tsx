@@ -1,17 +1,6 @@
-import dynamic from "next/dynamic";
 import { Suspense } from "react";
 import type { ListUniversity } from "@/types/university";
 import PopularUniversityCard from "./_ui/PopularUniversityCard";
-
-// PopularUniversityCard를 동적 임포트
-const PopularUniversityCardDynamic = dynamic(() => import("./_ui/PopularUniversityCard"), {
-  ssr: false,
-  loading: () => (
-    <div className="relative w-[153px]">
-      <div className="h-[120px] w-[153px] animate-pulse rounded-lg bg-gray-200" />
-    </div>
-  ),
-});
 
 type PopularUniversitySectionProps = {
   universities: ListUniversity[];
@@ -46,7 +35,7 @@ const PopularUniversitySection = ({ universities }: PopularUniversitySectionProp
               </div>
             }
           >
-            <PopularUniversityCardDynamic
+            <PopularUniversityCard
               university={university}
               priority={false}
               loading="lazy"

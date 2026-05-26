@@ -1,18 +1,20 @@
 import type { Metadata, Viewport } from "next";
-import dynamic from "next/dynamic";
 import localFont from "next/font/local";
 import type { ReactNode } from "react";
 import { Toaster } from "react-hot-toast";
 
 import GlobalLayout from "@/components/layout/GlobalLayout";
 import ReissueProvider from "@/components/layout/ReissueProvider";
-
 import QueryProvider from "@/lib/react-query/QueryProvider";
+import AppleScriptLoader from "@/lib/ScriptLoader/AppleScriptLoader";
 import "@/styles/globals.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
+const siteUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://solid-connection.com";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "솔리드 커넥션",
   description: "솔리드 커넥션. 교환학생의 첫 걸음",
   verification: {
@@ -37,11 +39,6 @@ const pretendard = localFont({
     "맑은 고딕",
     "sans-serif",
   ],
-});
-
-const AppleScriptLoader = dynamic(() => import("@/lib/ScriptLoader/AppleScriptLoader"), {
-  ssr: false,
-  loading: () => null,
 });
 
 declare global {

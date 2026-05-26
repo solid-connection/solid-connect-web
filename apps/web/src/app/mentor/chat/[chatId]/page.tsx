@@ -11,11 +11,12 @@ export const metadata: Metadata = {
 };
 
 interface ChatDetailPageProps {
-  params: { chatId: string };
+  params: Promise<{ chatId: string }>;
 }
 
-const ChatDetailPage = ({ params }: ChatDetailPageProps) => {
-  const chatId = Number(params.chatId);
+const ChatDetailPage = async ({ params }: ChatDetailPageProps) => {
+  const { chatId: chatIdParam } = await params;
+  const chatId = Number(chatIdParam);
 
   if (Number.isNaN(chatId)) notFound();
   return (

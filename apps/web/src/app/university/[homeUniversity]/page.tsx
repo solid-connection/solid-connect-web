@@ -24,7 +24,7 @@ export async function generateStaticParams() {
 
 type PageProps = {
   params: Promise<{ homeUniversity: string }>;
-  searchParams?: Record<string, string | string[] | undefined>;
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
 };
 
 type SearchParamValue = string | string[] | undefined;
@@ -80,10 +80,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 const UniversityListPage = async ({ params, searchParams }: PageProps) => {
   const { homeUniversity } = await params;
-  const initialSearchText = getFirstSearchParamValue(searchParams?.searchText).trim();
-  const languageTestTypeParam = getFirstSearchParamValue(searchParams?.languageTestType).trim();
-  const countryCodeParams = getSearchParamValues(searchParams?.countryCode).filter(isCountryCode);
-  const regionParams = getSearchParamValues(searchParams?.region).filter(isRegionFilterValue);
+  const resolvedSearchParams = await searchParams;
+  const initialSearchText = getFirstSearchParamValue(resolvedSearchParams?.searchText).trim();
+  const languageTestTypeParam = getFirstSearchParamValue(resolvedSearchParams?.languageTestType).trim();
+  const countryCodeParams = getSearchParamValues(resolvedSearchParams?.countryCode).filter(isCountryCode);
+  const regionParams = getSearchParamValues(resolvedSearchParams?.region).filter(isRegionFilterValue);
   const initialRegion = regionParams.length === 1 ? regionParams[0] : RegionEnumExtend.ALL;
   const languageTestType = isLanguageTestType(languageTestTypeParam) ? languageTestTypeParam : undefined;
 

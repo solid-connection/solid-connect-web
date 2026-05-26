@@ -25,7 +25,7 @@ const isProbePath = (pathname: string) => {
   return blockedPathPrefixes.some((prefix) => pathname.startsWith(prefix));
 };
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
   if (pathname === "/robots.txt" && isStageHostname(request.nextUrl.hostname)) {

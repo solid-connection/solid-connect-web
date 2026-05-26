@@ -7,13 +7,13 @@ export const metadata: Metadata = {
 };
 
 interface CommunityPageProps {
-  params: {
+  params: Promise<{
     boardCode: string;
-  };
+  }>;
 }
 
-const CommunityPage = ({ params }: CommunityPageProps) => {
-  const { boardCode } = params;
+const CommunityPage = async ({ params }: CommunityPageProps) => {
+  const { boardCode } = await params;
 
   return (
     <div className="w-full">

@@ -9,11 +9,12 @@ export const metadata: Metadata = {
 };
 
 interface MentorDetailPageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
-const MentorDetailPage = ({ params }: MentorDetailPageProps) => {
-  const mentorId = Number(params.id);
+const MentorDetailPage = async ({ params }: MentorDetailPageProps) => {
+  const { id } = await params;
+  const mentorId = Number(id);
 
   return (
     <div className="flex w-full flex-col px-5">
