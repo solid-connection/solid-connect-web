@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useDeleteWish, useGetWishList, usePostAddWish } from "@/apis/universities";
 import useAuthStore from "@/lib/zustand/useAuthStore";
+import { IconShare, IconShareFilled } from "@/public/svgs";
 
 const likeIcon = (
   <svg xmlns="http://www.w3.org/2000/svg" width="19" height="16" viewBox="0 0 19 16" fill="none">
@@ -24,18 +25,6 @@ const likeIconFilled = (
   </svg>
 );
 
-const copyIcon = (
-  <svg xmlns="http://www.w3.org/2000/svg" width="17" height="19" viewBox="0 0 17 19" fill="none">
-    <path
-      d="M8.5 2.13333V11.7667M11.7143 4.4L8.5 1L5.28571 4.4M1 10.0667V15.7333C1 16.3345 1.22576 16.911 1.62763 17.3361C2.02949 17.7612 2.57454 18 3.14286 18H13.8571C14.4255 18 14.9705 17.7612 15.3724 17.3361C15.7742 16.911 16 16.3345 16 15.7333V10.0667"
-      stroke="#4672EE"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-  </svg>
-);
-
 interface UniversityBtnsProps {
   universityId: number;
 }
@@ -43,6 +32,7 @@ const UniversityBtns = ({ universityId }: UniversityBtnsProps) => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
   const [isLiked, setIsLiked] = useState(false);
+  const [isShareActive, setIsShareActive] = useState(false);
   const { data: favoriteUniv } = useGetWishList(isAuthenticated);
   const { mutate: postUniversityFavorite } = usePostAddWish();
   const { mutate: deleteUniversityFavorite } = useDeleteWish();
@@ -64,6 +54,8 @@ const UniversityBtns = ({ universityId }: UniversityBtnsProps) => {
   const handleCopy = () => {
     navigator.clipboard.writeText(window.location.href).then(() => {});
     toast.success("URL이 복사되었습니다.");
+    setIsShareActive(true);
+    setTimeout(() => setIsShareActive(false), 600);
   };
   return (
     <>
@@ -86,10 +78,20 @@ const UniversityBtns = ({ universityId }: UniversityBtnsProps) => {
         {isLiked ? likeIconFilled : likeIcon}
       </button>
       <button
+        type="button"
         onClick={handleCopy}
-        className={`/* stroke: #FFF; stroke-width: 1px; */ /* fill: linear-gradient(...) */ /* CSS의 fill은 SVG 속성이지만, 버튼 배경으로 적용합니다. */ /* backdrop-filter: blur(2px); */ /* filter: drop-shadow(...) */ /* 기타 스타일 */ rounded-full border border-white/80 bg-[linear-gradient(136deg,rgba(255,255,255,0.4)_14.87%,rgba(199,212,250,0.8)_89.1%)] p-3 drop-shadow-[2px_2px_6px_#C7D4FA] backdrop-blur-[2px] transition-transform duration-200 ease-in-out hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white/50 active:scale-95`}
+        className="relative h-10 w-10 transition-transform duration-200 ease-in-out hover:scale-110 focus:outline-none active:scale-95"
       >
-        {copyIcon}
+        <IconShare
+          width={40}
+          height={40}
+          className={`absolute inset-0 transition-opacity duration-300 ease-in-out ${isShareActive ? "opacity-0" : "opacity-100"}`}
+        />
+        <IconShareFilled
+          width={40}
+          height={40}
+          className={`absolute inset-0 transition-opacity duration-300 ease-in-out ${isShareActive ? "opacity-100" : "opacity-0"}`}
+        />
       </button>
     </>
   );
