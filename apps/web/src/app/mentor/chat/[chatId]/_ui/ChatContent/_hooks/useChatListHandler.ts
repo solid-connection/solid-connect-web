@@ -37,9 +37,17 @@ const useChatListHandler = (chatId: number) => {
   const hasInitialAutoScrolledRef = useRef(false);
   const prevMessageCountRef = useRef(0);
   const prevChatIdRef = useRef(chatId);
+  const shouldForceScrollToBottomRef = useRef(false);
   const imagePreviewByUrlRef = useRef<Map<string, string>>(new Map());
   const objectUrlsRef = useRef<string[]>([]);
   const queryClient = useQueryClient();
+
+  const scrollToBottom = useCallback(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    container.scrollTop = container.scrollHeight;
+  }, []);
 
   // --- 2. 하위 Hooks 호출 ---
 
@@ -173,6 +181,7 @@ const useChatListHandler = (chatId: number) => {
     prevChatIdRef.current = chatId;
     hasInitialAutoScrolledRef.current = false;
     prevMessageCountRef.current = 0;
+    shouldForceScrollToBottomRef.current = false;
   }, [chatId]);
 
   // 초기 히스토리 로딩 완료 후, 최초 1회만 하단으로 이동합니다.
@@ -182,18 +191,15 @@ const useChatListHandler = (chatId: number) => {
     }
 
     const rafId = requestAnimationFrame(() => {
-      const container = scrollContainerRef.current;
-      if (!container) return;
-
-      container.scrollTop = container.scrollHeight;
+      scrollToBottom();
       hasInitialAutoScrolledRef.current = true;
       prevMessageCountRef.current = submittedMessages.length;
     });
 
     return () => cancelAnimationFrame(rafId);
-  }, [isLoading, isFetchingNextPage, submittedMessages.length]);
+  }, [isLoading, isFetchingNextPage, scrollToBottom, submittedMessages.length]);
 
-  // 신규 메시지 도착 시, 사용자가 하단 근처에 있을 때만 자동으로 하단을 유지합니다.
+  // 신규 메시지 도착 시 하단 근처라면 유지하고, 내가 보낸 메시지는 현재 위치와 무관하게 하단으로 이동합니다.
   useEffect(() => {
     if (isLoading || isFetchingNextPage) return;
 
@@ -217,21 +223,21 @@ const useChatListHandler = (chatId: number) => {
     }
 
     const distanceFromBottom = container.scrollHeight - container.scrollTop - container.clientHeight;
+    const shouldForceScrollToBottom = shouldForceScrollToBottomRef.current;
 
-    if (distanceFromBottom <= BOTTOM_PROXIMITY_THRESHOLD) {
+    if (shouldForceScrollToBottom || distanceFromBottom <= BOTTOM_PROXIMITY_THRESHOLD) {
       const rafId = requestAnimationFrame(() => {
-        const target = scrollContainerRef.current;
-        if (!target) return;
-        target.scrollTop = target.scrollHeight;
+        scrollToBottom();
       });
 
+      shouldForceScrollToBottomRef.current = false;
       prevMessageCountRef.current = currentMessageCount;
 
       return () => cancelAnimationFrame(rafId);
     }
 
     prevMessageCountRef.current = currentMessageCount;
-  }, [isLoading, isFetchingNextPage, submittedMessages.length]);
+  }, [isLoading, isFetchingNextPage, scrollToBottom, submittedMessages.length]);
 
   // --- 4. Handler 함수 ---
 
@@ -246,12 +252,14 @@ const useChatListHandler = (chatId: number) => {
           destination: `/publish/chat/${chatId}`,
           body: JSON.stringify({ content, senderId }),
         });
+        shouldForceScrollToBottomRef.current = true;
+        requestAnimationFrame(scrollToBottom);
         invalidateChatPreviewQueries();
       } else {
         // 여기에 메시지 전송 실패에 대한 UI 피드백 로직을 추가할 수 있습니다. (e.g., alert, toast)
       }
     },
-    [chatId, connectionStatus, invalidateChatPreviewQueries],
+    [chatId, connectionStatus, invalidateChatPreviewQueries, scrollToBottom],
   ); // chatId와 connectionStatus가 변경될 경우에만 함수를 재생성
 
   const sendImageMessage = useCallback(
@@ -312,7 +320,10 @@ const useChatListHandler = (chatId: number) => {
           });
         }
       });
-      if (newMessages.length > 0) setSubmittedMessages((prev) => [...prev, ...newMessages]);
+      if (newMessages.length > 0) {
+        shouldForceScrollToBottomRef.current = true;
+        setSubmittedMessages((prev) => [...prev, ...newMessages]);
+      }
       return previewUrls;
     },
     [setSubmittedMessages],
@@ -366,7 +377,10 @@ const useChatListHandler = (chatId: number) => {
           });
         }
       });
-      if (newMessages.length > 0) setSubmittedMessages((prev) => [...prev, ...newMessages]);
+      if (newMessages.length > 0) {
+        shouldForceScrollToBottomRef.current = true;
+        setSubmittedMessages((prev) => [...prev, ...newMessages]);
+      }
     },
     [setSubmittedMessages],
   );
