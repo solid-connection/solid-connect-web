@@ -66,7 +66,7 @@ const useChatImageHealthCheck = (src: string, enabled: boolean) => {
       probeImage.onload = () => {
         if (isCancelled) return;
         setIsReady(true);
-        setReadySrc(probeImage?.src ?? src);
+        setReadySrc(src);
       };
 
       probeImage.onerror = () => {
