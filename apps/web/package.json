@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build --webpack",
+    "build": "next build",
     "start": "next start",
     "lint": "biome check --write .",
     "lint:check": "biome check .",
@@ -13,7 +13,7 @@
     "typecheck": "tsc --noEmit",
     "typecheck:ci": "tsc --noEmit -p tsconfig.ci.json",
     "ci:check": "pnpm run lint:check && pnpm run typecheck:ci",
-    "analyze": "ANALYZE=true next build --webpack"
+    "analyze": "ANALYZE=true next build"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

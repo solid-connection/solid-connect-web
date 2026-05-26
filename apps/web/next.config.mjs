@@ -19,6 +19,14 @@ const imageRemotePatterns = [
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   transpilePackages: ["@solid-connect/ai-inspector"],
+  turbopack: {
+    rules: {
+      "*.svg": {
+        loaders: ["@svgr/webpack"],
+        as: "*.js",
+      },
+    },
+  },
   images: {
     unoptimized: true,
     remotePatterns: imageRemotePatterns,
