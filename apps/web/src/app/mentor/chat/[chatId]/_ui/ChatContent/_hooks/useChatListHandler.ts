@@ -9,6 +9,14 @@ import { normalizeImageUrlToUploadCdn } from "@/utils/cdnUrl";
 import useInfinityScroll from "@/utils/useInfinityScroll";
 
 const BOTTOM_PROXIMITY_THRESHOLD = 80;
+const OUTBOUND_TEXT_SCROLL_CONFIRM_TIMEOUT_MS = 5000;
+
+interface PendingOutboundTextScroll {
+  id: string;
+  senderId: number;
+  content: string;
+  timeoutId: ReturnType<typeof setTimeout>;
+}
 
 const getMessageDedupeKey = (message: ChatMessage): string => {
   if (message.id > 0) {
@@ -29,6 +37,8 @@ const getImageUrlKeys = (url: string | null | undefined) => {
   return Array.from(new Set([url, normalizedUrl].filter((key) => key.length > 0)));
 };
 
+const normalizePendingText = (content: string) => content.trim();
+
 const useChatListHandler = (chatId: number) => {
   // --- 1. State 및 Ref 선언 ---
   const clientRef = useRef<Client | null>(null);
@@ -38,6 +48,7 @@ const useChatListHandler = (chatId: number) => {
   const prevMessageCountRef = useRef(0);
   const prevChatIdRef = useRef(chatId);
   const shouldForceScrollToBottomRef = useRef(false);
+  const pendingOutboundTextScrollsRef = useRef<PendingOutboundTextScroll[]>([]);
   const imagePreviewByUrlRef = useRef<Map<string, string>>(new Map());
   const objectUrlsRef = useRef<string[]>([]);
   const queryClient = useQueryClient();
@@ -47,6 +58,20 @@ const useChatListHandler = (chatId: number) => {
     if (!container) return;
 
     container.scrollTop = container.scrollHeight;
+  }, []);
+
+  const removePendingOutboundTextScrolls = useCallback((ids: Set<string>) => {
+    pendingOutboundTextScrollsRef.current = pendingOutboundTextScrollsRef.current.filter((item) => {
+      if (!ids.has(item.id)) return true;
+
+      clearTimeout(item.timeoutId);
+      return false;
+    });
+  }, []);
+
+  const clearPendingOutboundTextScrolls = useCallback(() => {
+    pendingOutboundTextScrollsRef.current.forEach((item) => clearTimeout(item.timeoutId));
+    pendingOutboundTextScrollsRef.current = [];
   }, []);
 
   // --- 2. 하위 Hooks 호출 ---
@@ -178,11 +203,12 @@ const useChatListHandler = (chatId: number) => {
     objectUrlsRef.current.forEach((url) => URL.revokeObjectURL(url));
     objectUrlsRef.current = [];
     imagePreviewByUrlRef.current.clear();
+    clearPendingOutboundTextScrolls();
     prevChatIdRef.current = chatId;
     hasInitialAutoScrolledRef.current = false;
     prevMessageCountRef.current = 0;
     shouldForceScrollToBottomRef.current = false;
-  }, [chatId]);
+  }, [chatId, clearPendingOutboundTextScrolls]);
 
   // 초기 히스토리 로딩 완료 후, 최초 1회만 하단으로 이동합니다.
   useEffect(() => {
@@ -222,8 +248,25 @@ const useChatListHandler = (chatId: number) => {
       return;
     }
 
+    const newMessages = submittedMessages.slice(prevMessageCount);
+    const matchedPendingOutboundTextIds = new Set<string>();
+    const hasConfirmedOutboundText = newMessages.some((message) => {
+      const pendingOutboundText = pendingOutboundTextScrollsRef.current.find(
+        (item) => item.senderId === message.senderId && item.content === normalizePendingText(message.content),
+      );
+
+      if (!pendingOutboundText) return false;
+
+      matchedPendingOutboundTextIds.add(pendingOutboundText.id);
+      return true;
+    });
+
+    if (matchedPendingOutboundTextIds.size > 0) {
+      removePendingOutboundTextScrolls(matchedPendingOutboundTextIds);
+    }
+
     const distanceFromBottom = container.scrollHeight - container.scrollTop - container.clientHeight;
-    const shouldForceScrollToBottom = shouldForceScrollToBottomRef.current;
+    const shouldForceScrollToBottom = shouldForceScrollToBottomRef.current || hasConfirmedOutboundText;
 
     if (shouldForceScrollToBottom || distanceFromBottom <= BOTTOM_PROXIMITY_THRESHOLD) {
       const rafId = requestAnimationFrame(() => {
@@ -237,14 +280,15 @@ const useChatListHandler = (chatId: number) => {
     }
 
     prevMessageCountRef.current = currentMessageCount;
-  }, [isLoading, isFetchingNextPage, scrollToBottom, submittedMessages.length]);
+  }, [isLoading, isFetchingNextPage, removePendingOutboundTextScrolls, scrollToBottom, submittedMessages]);
 
   // --- 4. Handler 함수 ---
 
   /** 텍스트 메시지를 WebSocket을 통해 서버로 전송합니다. */
   const sendTextMessage = useCallback(
     (content: string, senderId: number) => {
-      if (content.trim() === "") return; // 빈 메시지 전송 방지
+      const normalizedContent = normalizePendingText(content);
+      if (normalizedContent === "") return; // 빈 메시지 전송 방지
 
       if (clientRef.current?.active && connectionStatus === ConnectionStatus.Connected) {
         // WebSocket으로 메시지 전송
@@ -252,7 +296,21 @@ const useChatListHandler = (chatId: number) => {
           destination: `/publish/chat/${chatId}`,
           body: JSON.stringify({ content, senderId }),
         });
-        shouldForceScrollToBottomRef.current = true;
+
+        const pendingTextScrollId = `${Date.now()}-${Math.random()}`;
+        const timeoutId = setTimeout(() => {
+          pendingOutboundTextScrollsRef.current = pendingOutboundTextScrollsRef.current.filter(
+            (item) => item.id !== pendingTextScrollId,
+          );
+        }, OUTBOUND_TEXT_SCROLL_CONFIRM_TIMEOUT_MS);
+
+        pendingOutboundTextScrollsRef.current.push({
+          id: pendingTextScrollId,
+          senderId,
+          content: normalizedContent,
+          timeoutId,
+        });
+
         requestAnimationFrame(scrollToBottom);
         invalidateChatPreviewQueries();
       } else {
@@ -390,8 +448,9 @@ const useChatListHandler = (chatId: number) => {
     return () => {
       objectUrlsRef.current.forEach((url) => URL.revokeObjectURL(url));
       objectUrlsRef.current = [];
+      clearPendingOutboundTextScrolls();
     };
-  }, []);
+  }, [clearPendingOutboundTextScrolls]);
 
   // --- 5. 최종 반환 객체 ---
   return {
