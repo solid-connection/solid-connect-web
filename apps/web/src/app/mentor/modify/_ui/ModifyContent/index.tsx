@@ -87,15 +87,15 @@ const ModifyContent = () => {
               </p>
             )}{" "}
             <h2 className="mt-10 text-primary-1 typo-sb-5">멘토 아티클</h2>
+            {/* 새 아티클 추가 버튼 */}
+            <div className="mb-6">
+              <AddArticleCard />
+            </div>
             {articleList.map((article) => (
               <div key={article.title} className="mb-6">
                 <ArticlePanel userId={myMentorProfile?.id} article={article} />
               </div>
             ))}
-            {/* 새 아티클 추가 버튼 */}
-            <div className="mb-6">
-              <AddArticleCard />
-            </div>
           </div>
 
           <div className="pointer-events-none fixed bottom-20 left-1/2 z-20 flex w-full -translate-x-1/2 justify-center">
