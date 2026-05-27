@@ -3,8 +3,11 @@
 import bundleAnalyzer from "@next/bundle-analyzer";
 import { withSentryConfig } from "@sentry/nextjs";
 
+const shouldRunBundleAnalyzer = process.env.ANALYZE === "true";
+const svgComponentLoaders = ["@svgr/webpack"];
+
 const withBundleAnalyzer = bundleAnalyzer({
-  enabled: process.env.ANALYZE === "true",
+  enabled: shouldRunBundleAnalyzer,
 });
 
 const imageRemotePatterns = [
@@ -19,6 +22,14 @@ const imageRemotePatterns = [
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   transpilePackages: ["@solid-connect/ai-inspector"],
+  turbopack: {
+    rules: {
+      "*.svg": {
+        loaders: svgComponentLoaders,
+        as: "*.js",
+      },
+    },
+  },
   images: {
     unoptimized: true,
     remotePatterns: imageRemotePatterns,
@@ -48,31 +59,35 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  webpack: (config) => {
-    // CSS 최적화 - ensure nested objects exist
-    if (!config.optimization) {
-      config.optimization = {};
-    }
-    if (!config.optimization.splitChunks) {
-      config.optimization.splitChunks = {};
-    }
-    if (!config.optimization.splitChunks.cacheGroups) {
-      config.optimization.splitChunks.cacheGroups = {};
-    }
+  ...(shouldRunBundleAnalyzer
+    ? {
+        webpack: (config) => {
+          // Bundle analyzer still runs through webpack because it is webpack-plugin based.
+          if (!config.optimization) {
+            config.optimization = {};
+          }
+          if (!config.optimization.splitChunks) {
+            config.optimization.splitChunks = {};
+          }
+          if (!config.optimization.splitChunks.cacheGroups) {
+            config.optimization.splitChunks.cacheGroups = {};
+          }
 
-    config.optimization.splitChunks.cacheGroups.styles = {
-      name: "styles",
-      test: /\.(css|scss)$/,
-      chunks: "all",
-      enforce: true,
-    };
+          config.optimization.splitChunks.cacheGroups.styles = {
+            name: "styles",
+            test: /\.(css|scss)$/,
+            chunks: "all",
+            enforce: true,
+          };
 
-    config.module.rules.push({
-      test: /\.svg$/,
-      use: ["@svgr/webpack"],
-    });
-    return config;
-  },
+          config.module.rules.push({
+            test: /\.svg$/,
+            use: svgComponentLoaders,
+          });
+          return config;
+        },
+      }
+    : {}),
 };
 
 export default withSentryConfig(
