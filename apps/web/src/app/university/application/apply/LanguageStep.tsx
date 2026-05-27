@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { toast } from "react-hot-toast";
 import ScoreCard from "@/app/university/score/ScoreCard";
 import TextModal from "@/components/modal/TextModal";
 import Tab from "@/components/ui/Tab";
+import { showIconToast } from "@/lib/toast/showIconToast";
 import { formatLanguageTestScoreWithMax, type LanguageTestScore, ScoreSubmitStatus } from "@/types/score";
 import ApplicationBottomActionBar from "../_components/ApplicationBottomActionBar";
 import ApplicationSectionTitle from "../_components/ApplicationSectionTitle";
@@ -43,11 +43,11 @@ const LanguageStep = ({
               className="transition-transform hover:scale-[1.01] active:scale-[0.97]"
               onClick={() => {
                 if (score.verifyStatus === ScoreSubmitStatus.REJECTED) {
-                  toast.error("승인 거절된 성적은 지원에 사용할 수 없습니다.");
+                  showIconToast("cap", "승인거절된 성적은 사용할 수 없습니다");
                   return;
                 }
                 if (score.verifyStatus === ScoreSubmitStatus.PENDING) {
-                  toast.error("승인 대기중인 성적은 지원에 사용할 수 없습니다.");
+                  showIconToast("cap", "심사중인 성적은 사용할 수 없습니다");
                   return;
                 }
                 setCurLanguageTestScore(score.id);

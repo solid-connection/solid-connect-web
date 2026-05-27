@@ -79,7 +79,7 @@ const RootLayout = ({ children }: { children: ReactNode }) => (
         <Toaster
           position="top-center"
           gutter={8}
-          containerStyle={{ top: 80 }}
+          containerStyle={{ top: 68 }}
           toastOptions={{
             duration: 3000,
           }}

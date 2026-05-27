@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useDeleteWish, useGetWishList, usePostAddWish } from "@/apis/universities";
+import { showIconToast } from "@/lib/toast/showIconToast";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { IconShare, IconShareFilled } from "@/public/svgs";
 
@@ -53,7 +54,7 @@ const UniversityBtns = ({ universityId }: UniversityBtnsProps) => {
 
   const handleCopy = () => {
     navigator.clipboard.writeText(window.location.href).then(() => {});
-    toast.success("URL이 복사되었습니다.");
+    showIconToast("link", "URL이 복사되었습니다");
     setIsShareActive(true);
     setTimeout(() => setIsShareActive(false), 600);
   };
@@ -68,9 +69,11 @@ const UniversityBtns = ({ universityId }: UniversityBtnsProps) => {
           if (isLiked) {
             deleteUniversityFavorite(universityId);
             setIsLiked(false);
+            showIconToast("univ", "관심학교가 해제되었습니다");
           } else {
             postUniversityFavorite(universityId);
             setIsLiked(true);
+            showIconToast("univ", "관심학교 추가되었습니다");
           }
         }}
         className={`/* stroke: #FFF; stroke-width: 1px; */ /* fill: linear-gradient(...) */ /* CSS의 fill은 SVG 속성이지만, 버튼 배경으로 적용합니다. */ /* backdrop-filter: blur(2px); */ /* filter: drop-shadow(...) */ /* 기타 스타일 */ rounded-full border border-white/80 bg-[linear-gradient(136deg,rgba(255,255,255,0.4)_14.87%,rgba(199,212,250,0.8)_89.1%)] p-3 drop-shadow-[2px_2px_6px_#C7D4FA] backdrop-blur-[2px] transition-transform duration-200 ease-in-out hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white/50 active:scale-95`}

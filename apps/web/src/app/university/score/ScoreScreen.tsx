@@ -5,8 +5,9 @@ import { useState } from "react";
 import { useGetMyGpaScore, useGetMyLanguageTestScore } from "@/apis/Scores";
 import BlockBtn from "@/components/button/BlockBtn";
 import Tab from "@/components/ui/Tab";
+import { showIconToast } from "@/lib/toast/showIconToast";
 import { IconSolidConnectionSmallLogo } from "@/public/svgs/my";
-import { formatLanguageTestScore, languageTestMapping } from "@/types/score";
+import { formatLanguageTestScore, languageTestMapping, ScoreSubmitStatus } from "@/types/score";
 import ScoreCard from "./ScoreCard";
 
 const ScoreScreen = () => {
@@ -15,6 +16,16 @@ const ScoreScreen = () => {
   const { data: gpaScoreList = [] } = useGetMyGpaScore();
   const { data: languageTestScoreList = [] } = useGetMyLanguageTestScore();
   const isEmptyCurrentTab = curTab === "공인어학" ? languageTestScoreList.length === 0 : gpaScoreList.length === 0;
+
+  const handleScoreClick = (status: ScoreSubmitStatus) => {
+    if (status === ScoreSubmitStatus.REJECTED) {
+      showIconToast("cap", "승인거절된 성적은 사용할 수 없습니다");
+      return;
+    }
+    if (status === ScoreSubmitStatus.PENDING) {
+      showIconToast("cap", "심사중인 성적은 사용할 수 없습니다");
+    }
+  };
 
   return (
     <div className="h-full">
@@ -33,33 +44,45 @@ const ScoreScreen = () => {
           <div className="mt-3.5 flex flex-col gap-3.5">
             {curTab === "공인어학" &&
               languageTestScoreList.map((score) => (
-                <ScoreCard
+                <button
                   key={score.id}
-                  name={languageTestMapping[score.languageTestResponse.languageTestType]}
-                  score={formatLanguageTestScore(
-                    score.languageTestResponse.languageTestType,
-                    score.languageTestResponse.languageTestScore,
-                  )}
-                  status={score.verifyStatus}
-                  // date={new Date(score.issueDate).toISOString()}
-                  date="2026-01-01"
-                  isFocused={score.verifyStatus === "APPROVED"}
-                  rejectedReason={score.rejectedReason}
-                />
+                  type="button"
+                  className="text-left"
+                  onClick={() => handleScoreClick(score.verifyStatus)}
+                >
+                  <ScoreCard
+                    name={languageTestMapping[score.languageTestResponse.languageTestType]}
+                    score={formatLanguageTestScore(
+                      score.languageTestResponse.languageTestType,
+                      score.languageTestResponse.languageTestScore,
+                    )}
+                    status={score.verifyStatus}
+                    // date={new Date(score.issueDate).toISOString()}
+                    date="2026-01-01"
+                    isFocused={score.verifyStatus === "APPROVED"}
+                    rejectedReason={score.rejectedReason}
+                  />
+                </button>
               ))}
 
             {curTab === "학점" &&
               gpaScoreList.map((score) => (
-                <ScoreCard
+                <button
                   key={score.id}
-                  name="인하대학교" // TODO: 학교명 API에서 받아오기
-                  score={`${score.gpaResponse.gpa.toFixed(2)}/${score.gpaResponse.gpaCriteria}`}
-                  status={score.verifyStatus}
-                  // date={new Date(score.issueDate).toISOString()}
-                  date="2026-01-01"
-                  isFocused={score.verifyStatus === "APPROVED"}
-                  rejectedReason={score.rejectedReason}
-                />
+                  type="button"
+                  className="text-left"
+                  onClick={() => handleScoreClick(score.verifyStatus)}
+                >
+                  <ScoreCard
+                    name="인하대학교" // TODO: 학교명 API에서 받아오기
+                    score={`${score.gpaResponse.gpa.toFixed(2)}/${score.gpaResponse.gpaCriteria}`}
+                    status={score.verifyStatus}
+                    // date={new Date(score.issueDate).toISOString()}
+                    date="2026-01-01"
+                    isFocused={score.verifyStatus === "APPROVED"}
+                    rejectedReason={score.rejectedReason}
+                  />
+                </button>
               ))}
           </div>
         )}
