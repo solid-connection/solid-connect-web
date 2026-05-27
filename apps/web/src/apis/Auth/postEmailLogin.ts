@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 
 import type { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
-import { toast } from "react-hot-toast";
+import { showIconToast } from "@/lib/toast/showIconToast";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { authApi, type EmailLoginRequest, type EmailLoginResponse } from "./api";
 
@@ -22,7 +22,7 @@ const usePostEmailAuth = () => {
       // refreshToken은 서버에서 HTTP-only 쿠키로 자동 설정됨
       setAccessToken(accessToken);
 
-      toast.success("로그인에 성공했습니다.");
+      showIconToast("logo", "로그인에 성공했습니다.");
 
       // Zustand persist middleware가 localStorage에 저장할 시간을 보장
       // 토큰 저장 후 리다이렉트하여 타이밍 이슈 방지

@@ -1,12 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { toast } from "react-hot-toast";
 import { useDeleteUserAccount, usePostLogout } from "@/apis/Auth";
 import { type MyInfoResponse, useGetMyInfo } from "@/apis/MyPage";
 import LinkedTextWithIcon from "@/components/ui/LinkedTextWithIcon";
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
-import { infoToastOptions } from "@/lib/toast/options";
 import { showIconToast } from "@/lib/toast/showIconToast";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { IconLikeFill } from "@/public/svgs/mentor";
@@ -91,7 +89,7 @@ const MyProfileContent = () => {
             </Link> */}
             <button
               onClick={() => {
-                toast("조금만 기다려주세요. [업데이트 중]", infoToastOptions);
+                showIconToast("logo", "조금만 기다려주세요. [업데이트 중]");
               }}
               className="w-full rounded-lg bg-secondary-800 py-2 text-white typo-medium-2"
             >

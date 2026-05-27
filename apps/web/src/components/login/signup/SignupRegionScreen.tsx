@@ -2,9 +2,9 @@
 
 import clsx from "clsx";
 import type { Dispatch, SetStateAction } from "react";
-import { toast } from "react-hot-toast";
 import BlockBtn from "@/components/button/BlockBtn";
 import { regionList } from "@/constants/regions";
+import { showIconToast } from "@/lib/toast/showIconToast";
 
 type SignupRegionScreenProps = {
   curRegion: string | null;
@@ -23,7 +23,7 @@ const SignupRegionScreen = ({
 }: SignupRegionScreenProps) => {
   const submit = () => {
     if (!curRegion) {
-      toast.error("권역을 선택해주세요.");
+      showIconToast("logo", "권역을 선택해주세요.");
       return;
     }
     toNextStage();

@@ -2,10 +2,10 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { toast } from "react-hot-toast";
 import { usePostSignUp } from "@/apis/Auth";
 import { useUploadProfileImagePublic } from "@/apis/image-upload";
 import { Progress } from "@/components/ui/Progress";
+import { showIconToast } from "@/lib/toast/showIconToast";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 
 import type { PreparationStatus, SignUpRequest } from "@/types/auth";
@@ -82,7 +82,7 @@ const SignupSurvey = ({ baseNickname, baseEmail, baseProfileImageUrl }: SignupSu
       signUpMutation.mutate(registerRequest, {
         onSuccess: (data) => {
           setAccessToken(data.accessToken);
-          toast.success("회원가입이 완료되었습니다.");
+          showIconToast("logo", "회원가입이 완료되었습니다.");
 
           setTimeout(() => {
             router.push("/");
@@ -91,7 +91,7 @@ const SignupSurvey = ({ baseNickname, baseEmail, baseProfileImageUrl }: SignupSu
       });
     } catch (err: unknown) {
       const error = err as { message?: string };
-      toast.error(error.message || "회원가입에 실패했습니다.");
+      showIconToast("logo", error.message || "회원가입에 실패했습니다.");
     }
   };
 

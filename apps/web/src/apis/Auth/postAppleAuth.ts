@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 
 import type { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
-import { toast } from "react-hot-toast";
+import { showIconToast } from "@/lib/toast/showIconToast";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { type AppleAuthRequest, type AppleAuthResponse, authApi } from "./api";
 
@@ -20,7 +20,7 @@ const usePostAppleAuth = () => {
         // refreshToken은 서버에서 HTTP-only 쿠키로 자동 설정됨
         useAuthStore.getState().setAccessToken(data.accessToken);
 
-        toast.success("로그인에 성공했습니다.");
+        showIconToast("logo", "로그인에 성공했습니다.");
 
         setTimeout(() => {
           router.push("/");

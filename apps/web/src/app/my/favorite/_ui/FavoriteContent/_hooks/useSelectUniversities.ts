@@ -1,8 +1,8 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { toast } from "react-hot-toast";
 import { QueryKeys } from "@/apis/queryKeys";
 import { useDeleteWish } from "@/apis/universities";
+import { showIconToast } from "@/lib/toast/showIconToast";
 
 interface UseSelectUniversitiesReturn {
   editSelected: number[];
@@ -38,7 +38,7 @@ const useSelectUniversities = (): UseSelectUniversitiesReturn => {
     ).then((results) => {
       const hasError = results.some((r) => r.status === "rejected");
       if (!hasError) {
-        toast.success("모든 학교가 삭제되었습니다.");
+        showIconToast("logo", "모든 학교가 삭제되었습니다.");
       }
       queryClient.invalidateQueries({ queryKey: [QueryKeys.universities.wishList] });
     });

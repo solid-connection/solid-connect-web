@@ -4,11 +4,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
 import type { z } from "zod";
 import { usePostMentorApplication } from "@/apis/mentor";
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import { Progress } from "@/components/ui/Progress";
+import { showIconToast } from "@/lib/toast/showIconToast";
 import CompletionScreen from "./_components/CompletionScreen";
 import InterestCountriesScreen from "./_components/InterestCountriesScreen";
 import StudyStatusScreen from "./_components/StudyStatusScreen";
@@ -57,7 +57,7 @@ const ApplyMentorPage = () => {
       },
       {
         onSuccess: () => {
-          toast.success("멘토 신청이 완료되었습니다.");
+          showIconToast("logo", "멘토 신청이 완료되었습니다.");
           goNextStep();
         },
       },

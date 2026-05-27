@@ -2,10 +2,10 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { toast } from "react-hot-toast";
 import { useCreatePost } from "@/apis/community";
 import useCommunityImageUpload from "@/app/community/_hooks/useCommunityImageUpload";
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
+import { showIconToast } from "@/lib/toast/showIconToast";
 import { IconImage, IconPostCheckboxFilled, IconPostCheckboxOutlined } from "@/public/svgs";
 
 type PostFormProps = {
@@ -63,17 +63,17 @@ const PostForm = ({ boardCode }: PostFormProps) => {
     const trimmedContent = content.trim();
 
     if (!titleValue) {
-      toast.error("제목을 입력해주세요.");
+      showIconToast("logo", "제목을 입력해주세요.");
       return;
     }
 
     if (!trimmedContent) {
-      toast.error("내용을 입력해주세요.");
+      showIconToast("logo", "내용을 입력해주세요.");
       return;
     }
 
     if (trimmedContent.length > 255) {
-      toast.error("내용은 255자 이하로 입력해주세요.");
+      showIconToast("logo", "내용은 255자 이하로 입력해주세요.");
       return;
     }
 

@@ -2,9 +2,9 @@
 
 import { useRouter } from "next/navigation";
 import { type RefObject, useEffect, useRef, useState } from "react";
-import { toast } from "react-hot-toast";
 import { useDeletePost } from "@/apis/community";
 import ReportPanel from "@/components/ui/ReportPanel";
+import { showIconToast } from "@/lib/toast/showIconToast";
 import { IconSetting } from "@/public/svgs/mentor";
 
 const useClickOutside = (ref: RefObject<HTMLDivElement | null>, handler: (event: MouseEvent | TouchEvent) => void) => {
@@ -66,9 +66,9 @@ const KebabMenu = ({ postId, boardCode, isOwner = false, authorId }: KebabMenuPr
     try {
       const url = window.location.href;
       await navigator.clipboard.writeText(url);
-      toast.success("URL이 복사되었습니다.");
+      showIconToast("link", "URL이 복사되었습니다.");
     } catch (err) {
-      toast.error("URL 복사에 실패했습니다.");
+      showIconToast("logo", "URL 복사에 실패했습니다.");
     }
   };
 

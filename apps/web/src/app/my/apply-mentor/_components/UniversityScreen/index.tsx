@@ -3,11 +3,11 @@
 import clsx from "clsx";
 import { useMemo, useRef } from "react";
 import { useFormContext } from "react-hook-form";
-import { toast } from "react-hot-toast";
 import type { z } from "zod";
 import { useUniversitySearch } from "@/apis/universities";
 import BlockBtn from "@/components/button/BlockBtn";
 import { mentorRegionList } from "@/constants/regions";
+import { showIconToast } from "@/lib/toast/showIconToast";
 import type { mentorApplicationSchema } from "../../_lib/schema";
 
 type FormValues = z.input<typeof mentorApplicationSchema>;
@@ -59,7 +59,7 @@ const UniversityScreen = ({ onNext }: UniversityScreenProps) => {
         fileInputRef.current.value = "";
       }
       setValue("verificationFile", null);
-      toast.error("파일 형식은 png, jpg, pdf만 허용됩니다.");
+      showIconToast("logo", "파일 형식은 png, jpg, pdf만 허용됩니다.");
       return;
     }
 
@@ -69,7 +69,7 @@ const UniversityScreen = ({ onNext }: UniversityScreenProps) => {
         fileInputRef.current.value = "";
       }
       setValue("verificationFile", null);
-      toast.error("파일 크기는 10MB 이하여야 합니다.");
+      showIconToast("logo", "파일 크기는 10MB 이하여야 합니다.");
       return;
     }
 

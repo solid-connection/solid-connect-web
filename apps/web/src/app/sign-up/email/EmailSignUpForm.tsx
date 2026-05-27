@@ -2,12 +2,12 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { toast } from "react-hot-toast";
 import { usePostEmailSignUp } from "@/apis/Auth";
 import BlockBtn from "@/components/button/BlockBtn";
 import { Input } from "@/components/ui/Inputa";
 import { Label } from "@/components/ui/Label";
 import { Progress } from "@/components/ui/Progress";
+import { showIconToast } from "@/lib/toast/showIconToast";
 import { IconCheckBlue, IconExpRed, IconEyeOff, IconEyeOn } from "@/public/svgs/ui";
 
 const EmailSignUpForm = () => {
@@ -49,19 +49,19 @@ const EmailSignUpForm = () => {
 
   const emailSignUp = async () => {
     if (!email) {
-      toast.error("이메일을 입력해주세요.");
+      showIconToast("logo", "이메일을 입력해주세요.");
       return;
     }
     if (!password) {
-      toast.error("비밀번호를 입력해주세요.");
+      showIconToast("logo", "비밀번호를 입력해주세요.");
       return;
     }
     if (!passwordConfirm) {
-      toast.error("비밀번호 확인을 입력해주세요.");
+      showIconToast("logo", "비밀번호 확인을 입력해주세요.");
       return;
     }
     if (password !== passwordConfirm) {
-      toast.error("비밀번호가 일치하지 않습니다.");
+      showIconToast("logo", "비밀번호가 일치하지 않습니다.");
       return;
     }
 

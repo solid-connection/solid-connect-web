@@ -2,10 +2,10 @@
 
 import clsx from "clsx";
 import Link from "next/link";
-import { toast } from "react-hot-toast";
 import { useGetPartnerInfo } from "@/apis/chat";
 import { useUploadChatImages } from "@/apis/image-upload";
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
+import { showIconToast } from "@/lib/toast/showIconToast";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { ConnectionStatus } from "@/types/chat";
 import { UserRole } from "@/types/mentor";
@@ -187,10 +187,10 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
             const isSent = sendImageMessage(imageUrls);
 
             if (!isSent) {
-              toast.error("채팅 연결이 원활하지 않아 이미지를 전송하지 못했어요.");
+              showIconToast("logo", "채팅 연결이 원활하지 않아 이미지를 전송하지 못했어요.");
             }
           } catch {
-            toast.error("이미지 전송에 실패했어요. 다시 시도해주세요.");
+            showIconToast("logo", "이미지 전송에 실패했어요. 다시 시도해주세요.");
           }
         }}
         onSendFiles={(data) => {

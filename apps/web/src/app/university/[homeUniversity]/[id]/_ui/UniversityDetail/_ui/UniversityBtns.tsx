@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { toast } from "react-hot-toast";
 import { useDeleteWish, useGetWishList, usePostAddWish } from "@/apis/universities";
 import { showIconToast } from "@/lib/toast/showIconToast";
 import useAuthStore from "@/lib/zustand/useAuthStore";
@@ -63,7 +62,7 @@ const UniversityBtns = ({ universityId }: UniversityBtnsProps) => {
       <button
         onClick={() => {
           if (!isAuthenticated) {
-            toast.error("로그인 후 이용 가능합니다.");
+            showIconToast("logo", "로그인 후 이용 가능합니다.");
             return;
           }
           if (isLiked) {

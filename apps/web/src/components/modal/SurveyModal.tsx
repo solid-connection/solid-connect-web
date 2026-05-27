@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { toast } from "react-hot-toast";
+import { showIconToast } from "@/lib/toast/showIconToast";
 import ModalBase from "./ModalBase";
 
 type SurveyModalProps = {
@@ -38,11 +38,11 @@ const SurveyModal = ({ isOpen, onClose, onCloseForWeek }: SurveyModalProps) => {
 
       if (!newWindow) {
         // 팝업이 차단된 경우
-        toast.error(`팝업 차단으로 설문을 열 수 없습니다. 새 탭에서 수동으로 ${surveyUrl} 를 열어주세요.`);
+        showIconToast("logo", `팝업 차단으로 설문을 열 수 없습니다. 새 탭에서 수동으로 ${surveyUrl} 를 열어주세요.`);
       }
     } catch (error) {
       // 예외 발생 시
-      toast.error(`설문 링크를 열 수 없습니다. 수동으로 ${surveyUrl} 를 열어주세요.`);
+      showIconToast("logo", `설문 링크를 열 수 없습니다. 수동으로 ${surveyUrl} 를 열어주세요.`);
     }
   };
 

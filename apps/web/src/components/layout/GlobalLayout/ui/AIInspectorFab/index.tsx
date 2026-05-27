@@ -7,7 +7,7 @@ import {
 } from "@solid-connect/ai-inspector";
 import { Bot, Target, X } from "lucide-react";
 import { useState } from "react";
-import { toast } from "react-hot-toast";
+import { showIconToast } from "@/lib/toast/showIconToast";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { UserRole } from "@/types/mentor";
 
@@ -38,27 +38,27 @@ const AIInspectorFab = () => {
 
   const handleSwitchToMentorView = () => {
     setClientRole(UserRole.MENTOR);
-    toast.success("멘토 UI 보기로 전환되었습니다.");
+    showIconToast("logo", "멘토 UI 보기로 전환되었습니다.");
   };
 
   const handleSwitchToMenteeView = () => {
     setClientRole(UserRole.MENTEE);
-    toast.success("멘티 UI 보기로 전환되었습니다.");
+    showIconToast("logo", "멘티 UI 보기로 전환되었습니다.");
   };
 
   const handleSave = async () => {
     if (!selection) {
-      toast.error("먼저 수정할 요소를 선택해주세요.");
+      showIconToast("logo", "먼저 수정할 요소를 선택해주세요.");
       return;
     }
 
     if (!instruction.trim()) {
-      toast.error("수정 요청 문구를 입력해주세요.");
+      showIconToast("logo", "수정 요청 문구를 입력해주세요.");
       return;
     }
 
     if (!accessToken) {
-      toast.error("로그인 세션이 만료되었습니다. 다시 로그인해주세요.");
+      showIconToast("logo", "로그인 세션이 만료되었습니다. 다시 로그인해주세요.");
       return;
     }
 
@@ -73,13 +73,13 @@ const AIInspectorFab = () => {
         },
       });
 
-      toast.success(`요청이 저장되었습니다. (${result.taskId.slice(0, 8)})`);
+      showIconToast("logo", `요청이 저장되었습니다. (${result.taskId.slice(0, 8)})`);
       resetForm();
     } catch (error) {
       if (error instanceof AiInspectorRequestError) {
-        toast.error(error.message);
+        showIconToast("logo", error.message);
       } else {
-        toast.error("요청 저장에 실패했습니다. 잠시 후 다시 시도해주세요.");
+        showIconToast("logo", "요청 저장에 실패했습니다. 잠시 후 다시 시도해주세요.");
       }
     } finally {
       setIsSaving(false);
