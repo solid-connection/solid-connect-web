@@ -1,5 +1,6 @@
+"use client";
+
 import { Client, type IMessage, type StompHeaders, type StompSubscription } from "@stomp/stompjs";
-import { createFileRoute } from "@tanstack/react-router";
 import { Link2, Plug, PlugZap, RefreshCw, Send } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import SockJS from "sockjs-client";
@@ -9,7 +10,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { requireAdminSession } from "@/lib/auth/session";
 import { loadAccessToken } from "@/lib/utils/localStorage";
 
 type ConnectionState = "DISCONNECTED" | "CONNECTING" | "CONNECTED" | "ERROR";
@@ -87,14 +87,7 @@ const maskQueryToken = (value: string) => {
 	return `${"*".repeat(value.length - 4)}${value.slice(-4)}`;
 };
 
-export const Route = createFileRoute("/chat-socket/")({
-	beforeLoad: async () => {
-		await requireAdminSession();
-	},
-	component: ChatSocketPage,
-});
-
-function ChatSocketPage() {
+export function ChatSocketPageContent() {
 	const clientRef = useRef<Client | null>(null);
 	const subscriptionRef = useRef<StompSubscription | null>(null);
 

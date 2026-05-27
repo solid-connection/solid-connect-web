@@ -17,6 +17,17 @@ export interface ApiFunction {
   hasBody: boolean;
 }
 
+const SLACK_WEBHOOK_URL_PLACEHOLDER = 'SLACK_WEBHOOK_URL';
+
+function getPathOnly(url: string): string {
+  const questionMarkIndex = url.indexOf('?');
+  return questionMarkIndex >= 0 ? url.slice(0, questionMarkIndex) : url;
+}
+
+function sanitizeGeneratedUrl(url: string): string {
+  return /^https:\/\/hooks\.slack\.com\/services\//i.test(url) ? SLACK_WEBHOOK_URL_PLACEHOLDER : url;
+}
+
 /**
  * Bruno 파일로부터 API 함수 정보 추출
  */
@@ -64,6 +75,8 @@ export function extractApiFunction(parsed: ParsedBrunoFile, filePath: string): A
  */
 export function generateApiFunction(apiFunc: ApiFunction, domain: string): string {
   const { name, method, url, responseType, hasParams, hasBody } = apiFunc;
+  const sanitizedUrl = sanitizeGeneratedUrl(url);
+  const pathOnlyUrl = getPathOnly(sanitizedUrl);
 
   const lines: string[] = [];
 
@@ -72,7 +85,7 @@ export function generateApiFunction(apiFunc: ApiFunction, domain: string): strin
   const urlParams: string[] = [];
 
   // URL 파라미터 추출
-  const urlParamMatches = url.matchAll(/:(\w+)|\{(\w+)\}/g);
+  const urlParamMatches = pathOnlyUrl.matchAll(/:(\w+)|\{(\w+)\}/g);
   for (const match of urlParamMatches) {
     const paramName = match[1] || match[2];
     urlParams.push(paramName);
@@ -94,7 +107,7 @@ export function generateApiFunction(apiFunc: ApiFunction, domain: string): strin
   const paramsType = paramsList.length > 0 ? `params: ${paramsStr}` : '';
 
   // URL 생성 로직
-  let urlExpression = `\`${url}\``;
+  let urlExpression = `\`${sanitizedUrl}\``;
   for (const param of urlParams) {
     urlExpression = urlExpression.replace(`:${param}`, `\${params.${param}}`);
     urlExpression = urlExpression.replace(`{${param}}`, `\${params.${param}}`);

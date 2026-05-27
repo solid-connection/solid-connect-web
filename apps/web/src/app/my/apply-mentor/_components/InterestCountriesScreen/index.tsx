@@ -6,11 +6,17 @@ import { useFormContext } from "react-hook-form";
 
 import BlockBtn from "@/components/button/BlockBtn";
 import { mentorRegionList } from "@/constants/regions";
-import type { MentorApplicationFormData } from "../../_lib/schema";
+import { COUNTRY_CODE_MAP } from "@/constants/university";
+import type { CountryCode } from "@/types/university";
+import type { MentorApplicationFormInputData } from "../../_lib/schema";
 
 type InterestCountriesScreenProps = {
   onNext: () => void;
 };
+
+const countryCodeByName = Object.fromEntries(
+  Object.entries(COUNTRY_CODE_MAP).map(([code, countryName]) => [countryName, code]),
+) as Record<string, CountryCode>;
 
 const InterestCountriesScreen = ({ onNext }: InterestCountriesScreenProps) => {
   const {
@@ -18,37 +24,31 @@ const InterestCountriesScreen = ({ onNext }: InterestCountriesScreenProps) => {
     setValue,
     trigger,
     formState: { errors },
-  } = useFormContext<MentorApplicationFormData>();
+  } = useFormContext<MentorApplicationFormInputData>();
 
   const [selectedRegion, setSelectedRegion] = useState<string>("미주권");
-  const selectedCountries = watch("interestedCountries") || [];
+  const selectedCountryCode = watch("country");
+
+  const selectedCountryName = selectedCountryCode ? COUNTRY_CODE_MAP[selectedCountryCode] : "";
 
   const handleNext = async () => {
-    const isValid = await trigger("interestedCountries");
+    const isValid = await trigger("country");
     if (isValid) {
       onNext();
     }
   };
 
-  const removeCountry = (country: string) => {
-    setValue(
-      "interestedCountries",
-      selectedCountries.filter((c) => c !== country),
-    );
-  };
+  const selectCountry = (country: string) => {
+    const countryCode = countryCodeByName[country];
+    if (!countryCode) return;
 
-  const toggleCountry = (country: string) => {
-    if (selectedCountries.includes(country)) {
-      setValue(
-        "interestedCountries",
-        selectedCountries.filter((c) => c !== country),
-      );
-    } else {
-      setValue("interestedCountries", [...selectedCountries, country]);
-    }
+    setValue("country", countryCode, { shouldValidate: true });
+    setValue("universityId", 0);
+    setValue("term", "");
   };
 
   const currentRegion = mentorRegionList.find((r) => r.name === selectedRegion);
+  const currentCountries = currentRegion?.countries.filter((country) => countryCodeByName[country]) ?? [];
 
   return (
     <div className="pb-28">
@@ -58,31 +58,30 @@ const InterestCountriesScreen = ({ onNext }: InterestCountriesScreenProps) => {
             나의
             <span className="text-primary"> 수학 국가</span>를
             <br />
-            선택해주세요
+            선택해주세요.
           </span>
         </div>
 
-        {/* Selected Countries Tags */}
-        {selectedCountries.length > 0 && (
+        {/* Selected Country Tag */}
+        {selectedCountryName && (
           <div className="mt-5 grid grid-cols-3 gap-3">
-            {selectedCountries.map((country) => (
-              <button
-                key={country}
-                className="relative h-10 rounded bg-primary-100 text-center text-k-800 typo-medium-2"
-                onClick={() => removeCountry(country)}
-                type="button"
-              >
-                {country}
-                <span className="absolute right-0 top-0 p-1 leading-none">✕</span>
-              </button>
-            ))}
+            <button
+              className="relative h-10 rounded bg-primary-100 text-center text-k-800 typo-medium-2"
+              onClick={() => {
+                setValue("country", "" as CountryCode, { shouldValidate: true });
+                setValue("universityId", 0);
+                setValue("term", "");
+              }}
+              type="button"
+            >
+              {selectedCountryName}
+              <span className="absolute right-0 top-0 p-1 leading-none">✕</span>
+            </button>
           </div>
         )}
 
         {/* Error Message */}
-        {errors.interestedCountries && (
-          <p className="mt-2 text-red-500 typo-regular-2">{errors.interestedCountries.message}</p>
-        )}
+        {errors.country && <p className="mt-2 text-red-500 typo-regular-2">{errors.country.message}</p>}
 
         {/* Region Tabs - Large Icon Buttons */}
         <div className="mt-10 grid grid-cols-3 gap-4">
@@ -114,14 +113,14 @@ const InterestCountriesScreen = ({ onNext }: InterestCountriesScreenProps) => {
 
         {/* Country Buttons - Only show current region's countries */}
         <div className="mt-8 grid grid-cols-3 gap-3">
-          {currentRegion?.countries.map((country) => (
+          {currentCountries.map((country) => (
             <button
               key={country}
               className={clsx("h-10 rounded border-none transition-colors typo-medium-2", {
-                "bg-k-50 text-k-600 hover:bg-k-100": !selectedCountries.includes(country),
-                "bg-primary-100 text-k-800": selectedCountries.includes(country),
+                "bg-k-50 text-k-600 hover:bg-k-100": selectedCountryName !== country,
+                "bg-primary-100 text-k-800": selectedCountryName === country,
               })}
-              onClick={() => toggleCountry(country)}
+              onClick={() => selectCountry(country)}
               type="button"
             >
               {country}
@@ -132,7 +131,7 @@ const InterestCountriesScreen = ({ onNext }: InterestCountriesScreenProps) => {
 
       <div className="fixed bottom-0 left-0 right-0 w-full bg-white pb-14">
         <div className="mx-auto w-full max-w-app px-5">
-          <BlockBtn className="mb-[29px]" disabled={selectedCountries.length === 0} onClick={handleNext}>
+          <BlockBtn className="mb-[29px]" disabled={!selectedCountryCode} onClick={handleNext}>
             다음
           </BlockBtn>
         </div>

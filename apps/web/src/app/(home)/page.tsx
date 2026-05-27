@@ -1,16 +1,15 @@
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
-import Link from "next/link";
+import nextDynamic from "next/dynamic";
 import { getHomeNewsList } from "@/apis/news/server/getNewsList";
 import { getCategorizedUniversities, getRecommendedUniversity } from "@/apis/universities/server";
-import { IconIdCard, IconMagnifyingGlass, IconMuseum, IconPaper } from "@/public/svgs/home";
-import { RegionEnumExtend } from "@/types/university";
+import { type ListUniversity, RegionEnumExtend } from "@/types/university";
 import FindLastYearScoreBar from "./_ui/FindLastYearScoreBar";
+import HomeEntrySection from "./_ui/HomeEntrySection";
 import NewsSectionSkeleton from "./_ui/NewsSection/skeleton";
 import PopularUniversitySection from "./_ui/PopularUniversitySection";
 import UniversityList from "./_ui/UniversityList";
 
-const NewsSectionDynamic = dynamic(() => import("./_ui/NewsSection"), {
+const NewsSectionDynamic = nextDynamic(() => import("./_ui/NewsSection"), {
   ssr: false,
   loading: () => <NewsSectionSkeleton />,
 });
@@ -65,6 +64,20 @@ const structuredData = {
   },
 };
 
+const resolveRecommendedUniversitiesHomeUniversityName = (
+  recommendedUniversities: ListUniversity[],
+  allUniversities: ListUniversity[],
+) => {
+  const homeUniversityNameById = new Map(
+    allUniversities.map((university) => [university.id, university.homeUniversityName]),
+  );
+
+  return recommendedUniversities.map((university) => ({
+    ...university,
+    homeUniversityName: university.homeUniversityName ?? homeUniversityNameById.get(university.id),
+  }));
+};
+
 const HomePage = async () => {
   const newsList = await getHomeNewsList();
   const { data } = await getRecommendedUniversity();
@@ -72,73 +85,17 @@ const HomePage = async () => {
   // 권역별 전체 대학 리스트를 미리 가져와 빌드합니다
   const allRegionsUniversityList = await getCategorizedUniversities();
   const allUniversities = allRegionsUniversityList[RegionEnumExtend.ALL] || [];
-  const homeUniversityNameById = new Map(
-    allUniversities.map((university) => [university.id, university.homeUniversityName]),
+  const resolvedRecommendedUniversities = resolveRecommendedUniversitiesHomeUniversityName(
+    recommendedUniversities,
+    allUniversities,
   );
-  const resolvedRecommendedUniversities = recommendedUniversities.map((university) => ({
-    ...university,
-    homeUniversityName: university.homeUniversityName ?? homeUniversityNameById.get(university.id),
-  }));
 
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
       <div className="w-full">
         <FindLastYearScoreBar />
-        <div className="flex flex-col gap-2.5 px-5 py-3.5">
-          <div className="flex gap-2">
-            <Link
-              className="h-26 flex flex-1 flex-col gap-2 rounded-lg bg-bg-accent-blue p-2.5"
-              href="/university/search"
-            >
-              <div className="flex flex-col">
-                <span className="text-secondary typo-bold-5">학교 검색하기</span>
-                <span className="text-k-700 typo-medium-4">모든 학교 목록을 확인해보세요</span>
-              </div>
-              <div className="flex justify-end">
-                <IconMagnifyingGlass />
-              </div>
-            </Link>
-            <Link
-              className="h-26 flex flex-1 flex-col gap-2 rounded-lg bg-bg-accent-sky p-2.5"
-              href="/university/score"
-            >
-              <div className="flex flex-col">
-                <span className="text-sub-a typo-bold-5">성적 입력하기</span>
-                <span className="text-k-700 typo-medium-4">성적을 입력해보세요</span>
-              </div>
-              <div className="flex justify-end">
-                <IconPaper />
-              </div>
-            </Link>
-          </div>
-          <div className="flex gap-2">
-            <Link
-              className="h-26 flex flex-1 flex-col gap-2 rounded-lg bg-bg-accent-orange p-2.5"
-              href="/university/application/apply"
-            >
-              <div className="flex flex-col">
-                <span className="text-accent-custom-orange typo-bold-5">학교 지원하기</span>
-                <span className="text-k-700 typo-medium-4">학교를 지원해주세요</span>
-              </div>
-              <div className="flex justify-end">
-                <IconMuseum />
-              </div>
-            </Link>
-            <Link
-              className="h-26 flex flex-1 flex-col gap-2 rounded-lg bg-bg-accent-green p-2.5"
-              href="/university/application"
-            >
-              <div className="flex flex-col">
-                <span className="text-accent-custom-green typo-bold-5">지원자 현황 확인</span>
-                <span className="text-k-700 typo-medium-4">경쟁률을 바로 분석해드려요</span>
-              </div>
-              <div className="flex justify-end">
-                <IconIdCard />
-              </div>
-            </Link>
-          </div>
-        </div>
+        <HomeEntrySection />
 
         <div className="border-t-[5px] border-k-50 py-5 pl-5">
           <div className="mb-2 flex items-center gap-1.5 font-serif text-k-700 typo-sb-7">실시간 인기있는 파견학교</div>

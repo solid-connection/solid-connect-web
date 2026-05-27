@@ -106,33 +106,35 @@ const PasswordContent = () => {
           </>
         )}
 
-        <div className="fixed bottom-0 left-0 mb-20 w-full px-5 py-4">
-          {step === 0 && (
-            <button
-              type="button"
-              onClick={handleNextStep}
-              disabled={!isStep1ButtonEnabled}
-              className={clsx(
-                "w-full rounded-lg py-4 text-white transition-colors typo-sb-9",
-                isStep1ButtonEnabled ? "bg-primary-600 hover:bg-primary-700" : "cursor-not-allowed bg-gray-400",
-              )}
-            >
-              확인
-            </button>
-          )}
+        <div className="fixed bottom-0 left-0 right-0 mb-20 w-full py-4">
+          <div className="mx-auto w-full max-w-app px-5">
+            {step === 0 && (
+              <button
+                type="button"
+                onClick={handleNextStep}
+                disabled={!isStep1ButtonEnabled}
+                className={clsx(
+                  "w-full rounded-lg py-4 text-white transition-colors typo-sb-9",
+                  isStep1ButtonEnabled ? "bg-primary-600 hover:bg-primary-700" : "cursor-not-allowed bg-gray-400",
+                )}
+              >
+                확인
+              </button>
+            )}
 
-          {step === 1 && (
-            <button
-              type="submit"
-              disabled={!isStep2ButtonEnabled}
-              className={clsx(
-                "w-full rounded-lg py-4 text-white transition-colors typo-sb-9",
-                isStep2ButtonEnabled ? "bg-primary-600 hover:bg-primary-700" : "cursor-not-allowed bg-gray-400",
-              )}
-            >
-              변경하기
-            </button>
-          )}
+            {step === 1 && (
+              <button
+                type="submit"
+                disabled={!isStep2ButtonEnabled}
+                className={clsx(
+                  "w-full rounded-lg py-4 text-white transition-colors typo-sb-9",
+                  isStep2ButtonEnabled ? "bg-primary-600 hover:bg-primary-700" : "cursor-not-allowed bg-gray-400",
+                )}
+              >
+                변경하기
+              </button>
+            )}
+          </div>
         </div>
       </form>
     </FormProvider>

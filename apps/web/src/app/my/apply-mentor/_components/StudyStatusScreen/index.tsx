@@ -5,7 +5,7 @@ import { useFormContext } from "react-hook-form";
 
 import BlockBtn from "@/components/button/BlockBtn";
 import { IconPrepare1, IconPrepare2, IconPrepare3 } from "@/public/svgs/auth";
-import type { MentorApplicationFormData } from "../../_lib/schema";
+import type { MentorApplicationFormInputData } from "../../_lib/schema";
 
 type StudyStatusScreenProps = {
   onNext: () => void;
@@ -17,12 +17,12 @@ const StudyStatusScreen = ({ onNext }: StudyStatusScreenProps) => {
     setValue,
     trigger,
     formState: { errors },
-  } = useFormContext<MentorApplicationFormData>();
+  } = useFormContext<MentorApplicationFormInputData>();
 
-  const studyStatus = watch("studyStatus");
+  const preparationStatus = watch("preparationStatus");
 
   const handleNext = async () => {
-    const isValid = await trigger("studyStatus");
+    const isValid = await trigger("preparationStatus");
     if (isValid) {
       onNext();
     }
@@ -40,37 +40,40 @@ const StudyStatusScreen = ({ onNext }: StudyStatusScreenProps) => {
           </span>
         </div>
 
-        {errors.studyStatus && <p className="mt-2 text-red-500 typo-regular-2">{errors.studyStatus.message}</p>}
+        {errors.preparationStatus && (
+          <p className="mt-2 text-red-500 typo-regular-2">{errors.preparationStatus.message}</p>
+        )}
 
         <div className="mt-10">
           <div className="flex flex-col gap-5">
             {/* 지원 솔커 - 비활성화 */}
             <StatusChoiceButton
-              status="PLANNING"
+              status="BEFORE_EXCHANGE"
               description="교환학생을 준비 중이신가요?"
-              name="지원 슬커"
+              name="준비 중"
               icon={<IconPrepare1 />}
-              isSelected={studyStatus === "PLANNING"}
-              onClick={() => {}} // 클릭 불가
+              isSelected={false}
+              onClick={() => {}}
               disabled
             />
 
             <StatusChoiceButton
-              status="STUDYING"
+              status="DURING_EXCHANGE"
               description="합격했거나 수학 중이신가요?"
               name="수학 중"
               icon={<IconPrepare2 />}
-              isSelected={studyStatus === "STUDYING"}
-              onClick={() => setValue("studyStatus", "STUDYING")}
+              isSelected={false}
+              onClick={() => {}}
+              disabled
             />
 
             <StatusChoiceButton
-              status="COMPLETED"
+              status="AFTER_EXCHANGE"
               description="교환학생 후 귀국한 학생이신가요?"
               name="수학 완료"
               icon={<IconPrepare3 />}
-              isSelected={studyStatus === "COMPLETED"}
-              onClick={() => setValue("studyStatus", "COMPLETED")}
+              isSelected={preparationStatus === "AFTER_EXCHANGE"}
+              onClick={() => setValue("preparationStatus", "AFTER_EXCHANGE", { shouldValidate: true })}
             />
           </div>
         </div>
@@ -78,7 +81,7 @@ const StudyStatusScreen = ({ onNext }: StudyStatusScreenProps) => {
 
       <div className="fixed bottom-0 left-0 right-0 w-full bg-white pb-14">
         <div className="mx-auto w-full max-w-app px-5">
-          <BlockBtn className="mb-[29px]" disabled={!studyStatus} onClick={handleNext}>
+          <BlockBtn className="mb-[29px]" disabled={!preparationStatus} onClick={handleNext}>
             다음
           </BlockBtn>
         </div>

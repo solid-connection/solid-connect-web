@@ -1,12 +1,10 @@
 "use client";
 
-import { useIsFetching } from "@tanstack/react-query";
 import { useEffect } from "react";
 import MentorApplyCountContent from "@/components/mentor/MentorApplyCountContent";
 import IconAlertModal from "@/components/modal/IconAlertModal";
 import IconConfirmModal from "@/components/modal/IconConfirmModal";
 import SurveyModal from "@/components/modal/SurveyModal";
-import CloudSpinner from "@/components/ui/CloudSpinner";
 import QueryProvider from "@/lib/react-query/QueryProvider";
 import { useAlertModalStore } from "@/lib/zustand/useAlertModalStore";
 import { useConfirmModalStore } from "@/lib/zustand/useConfirmModalStore";
@@ -22,10 +20,6 @@ const ClientModal = () => {
     checkAndOpen,
   } = useSurveyModalStore();
 
-  const isFetching = useIsFetching({
-    predicate: (query) => query.meta?.showGlobalSpinner !== false,
-  });
-
   // 페이지 로드 시 만족도 조사 모달 표시 여부 확인
   useEffect(() => {
     checkAndOpen();
@@ -33,16 +27,6 @@ const ClientModal = () => {
 
   return (
     <QueryProvider>
-      {isFetching ? (
-        <div
-          aria-live="polite"
-          aria-busy="true"
-          className="fixed inset-0 z-50 flex cursor-wait items-center justify-center bg-black/30"
-        >
-          <CloudSpinner />
-        </div>
-      ) : null}
-
       <MentorApplyCountContent />
 
       <SurveyModal isOpen={surveyOpen} onClose={closeSurvey} onCloseForWeek={closeSurveyForWeek} />

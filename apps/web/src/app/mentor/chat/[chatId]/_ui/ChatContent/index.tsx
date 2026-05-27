@@ -48,6 +48,7 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
     sendTextMessage,
     sendImageMessage,
     addImageMessagePreview,
+    removeImageMessagePreviews,
   } = useChatListHandler(chatId);
 
   const uploadChatImagesMutation = useUploadChatImages();
@@ -58,9 +59,6 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
 
   return (
     <div className="relative flex h-[calc(100vh-112px)] flex-col">
-      {/* 채팅 메시지 영역 - 스크롤 가능한 영
-      {/* 연결 상태 표시 */}
-
       <div className="flex-1 overflow-hidden">
         <div className="flex h-full flex-col px-5 pb-2">
           {/* 하단 여백 추가 */}
@@ -140,8 +138,12 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
               {/* 첫 번째 메시지에 ref 부착하여 위로 스크롤 시 더 오래된 메시지 로드 */}
               {messages.map((message, index) => {
                 const showDateSeparator = index === 0 || !isSameDay(messages[index - 1].createdAt, message.createdAt);
-                const messageKey =
-                  message.id > 0
+                const previewMessageKey = message.attachments
+                  .map((attachment) => attachment.previewUrl)
+                  .find((previewUrl): previewUrl is string => Boolean(previewUrl));
+                const messageKey = previewMessageKey
+                  ? `preview-${previewMessageKey}`
+                  : message.id > 0
                     ? `message-${message.id}`
                     : `message-${message.senderId}-${message.createdAt}-${message.content}-${index}`;
 
@@ -182,14 +184,18 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
           sendTextMessage(data.message, userId);
         }}
         onSendImages={async (data) => {
+          const previewUrls = addImageMessagePreview(data.images, userId);
+
           try {
             const imageUrls = await uploadChatImagesMutation.mutateAsync(data.images);
-            const isSent = sendImageMessage(imageUrls);
+            const isSent = sendImageMessage(imageUrls, previewUrls);
 
             if (!isSent) {
+              removeImageMessagePreviews(previewUrls);
               showIconToast("logo", "채팅 연결이 원활하지 않아 이미지를 전송하지 못했어요.");
             }
           } catch {
+            removeImageMessagePreviews(previewUrls);
             showIconToast("logo", "이미지 전송에 실패했어요. 다시 시도해주세요.");
           }
         }}

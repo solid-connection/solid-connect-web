@@ -5,6 +5,7 @@ import type { ReactNode } from "react";
 import { Toaster } from "react-hot-toast";
 
 import GlobalLayout from "@/components/layout/GlobalLayout";
+import ReissueProvider from "@/components/layout/ReissueProvider";
 
 import QueryProvider from "@/lib/react-query/QueryProvider";
 import "@/styles/globals.css";
@@ -75,7 +76,9 @@ const RootLayout = ({ children }: { children: ReactNode }) => (
       <GoogleAnalytics gaId="G-V1KLYZC1DS" />
       <SpeedInsights />
       <QueryProvider>
-        <GlobalLayout>{children}</GlobalLayout>
+        <ReissueProvider>
+          <GlobalLayout>{children}</GlobalLayout>
+        </ReissueProvider>
         <Toaster
           position="top-center"
           gutter={8}

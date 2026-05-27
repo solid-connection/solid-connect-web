@@ -28,11 +28,8 @@ export const imageUploadApi = {
    * 슬랙 알림 전송
    */
   postSlackNotification: async (params: { data?: SlackNotificationRequest }): Promise<SlackNotificationResponse> => {
-    const res = await axiosInstance.post<SlackNotificationResponse>(
-      `https://hooks.slack.com/services/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`,
-      params?.data,
-    );
-    return res.data;
+    void params;
+    throw new Error("Slack webhook notification must be proxied through a server-side endpoint.");
   },
 
   /**
