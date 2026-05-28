@@ -10,14 +10,9 @@ import { type ArticleListResponse, NewsQueryKeys, newsApi } from "./api";
 const useGetArticleList = (userId: number, options?: { enabled?: boolean }) => {
   return useQuery<ArticleListResponse, AxiosError, Article[]>({
     queryKey: [NewsQueryKeys.articleList, userId],
-    queryFn: () => {
-      if (userId === null) {
-        return Promise.reject(new Error("User ID is null"));
-      }
-      return newsApi.getArticleList(userId);
-    },
+    queryFn: () => newsApi.getArticleList(userId),
     staleTime: 1000 * 60 * 10, // 10분
-    enabled: userId !== null && userId !== 0 && (options?.enabled ?? true),
+    enabled: userId !== 0 && (options?.enabled ?? true),
     select: (data) => data.newsResponseList,
   });
 };
