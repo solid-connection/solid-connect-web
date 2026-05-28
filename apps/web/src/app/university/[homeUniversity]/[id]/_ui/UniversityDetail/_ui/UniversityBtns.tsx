@@ -82,7 +82,7 @@ const UniversityBtns = ({ universityId }: UniversityBtnsProps) => {
       <button
         type="button"
         onClick={handleCopy}
-        className="relative h-10 w-10 transition-transform duration-200 ease-in-out hover:scale-110 focus:outline-none active:scale-95"
+        className="relative h-10 w-10 rounded-full transition-transform duration-200 ease-in-out hover:scale-110 focus:outline-none focus:ring-2 focus:ring-white/50 active:scale-95"
       >
         <IconShare
           width={40}
