@@ -52,10 +52,16 @@ const UniversityBtns = ({ universityId }: UniversityBtnsProps) => {
   }, [isAuthenticated]);
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(window.location.href).then(() => {});
-    showIconToast("link", "URL이 복사되었습니다");
-    setIsShareActive(true);
-    setTimeout(() => setIsShareActive(false), 600);
+    navigator.clipboard
+      .writeText(window.location.href)
+      .then(() => {
+        showIconToast("link", "URL이 복사되었습니다");
+        setIsShareActive(true);
+        setTimeout(() => setIsShareActive(false), 600);
+      })
+      .catch(() => {
+        showIconToast("logo", "URL 복사에 실패했습니다.");
+      });
   };
   return (
     <>
