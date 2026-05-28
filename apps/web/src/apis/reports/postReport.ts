@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 
 import type { AxiosError } from "axios";
 
-import { toast } from "react-hot-toast";
+import { showIconToast } from "@/lib/toast/showIconToast";
 import { reportsApi, type UsePostReportsRequest } from "./api";
 
 /**
@@ -12,7 +12,7 @@ const usePostReports = () => {
   return useMutation<void, AxiosError<{ message: string }>, UsePostReportsRequest>({
     mutationFn: reportsApi.postReport,
     onSuccess: () => {
-      toast.success("신고가 성공적으로 등록되었습니다.");
+      showIconToast("logo", "신고가 성공적으로 등록되었습니다.");
     },
   });
 };

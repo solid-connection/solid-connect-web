@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
 
-import { toast } from "react-hot-toast";
+import { showIconToast } from "@/lib/toast/showIconToast";
 import { type CommentCreateRequest, type CommentIdResponse, CommunityQueryKeys, communityApi } from "./api";
 
 /**
@@ -15,7 +15,7 @@ const useCreateComment = () => {
     onSuccess: (_data, variables) => {
       // 해당 게시글 상세 쿼리를 무효화하여 댓글 목록 갱신
       queryClient.invalidateQueries({ queryKey: [CommunityQueryKeys.posts, variables.postId] });
-      toast.success("댓글이 등록되었습니다.");
+      showIconToast("logo", "댓글이 등록되었습니다.");
     },
   });
 };

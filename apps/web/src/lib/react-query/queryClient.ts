@@ -1,6 +1,6 @@
 import { MutationCache, QueryCache, QueryClient } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
-import { toast } from "react-hot-toast";
+import { showIconToast } from "@/lib/toast/showIconToast";
 import { shouldSkipGlobalErrorToast } from "./errorToastMeta";
 
 type ErrorResponse = {
@@ -14,9 +14,6 @@ const isUnauthorized = (status?: number) => status === 401;
 const resolveErrorMessage = (error: AxiosError<ErrorResponse>) =>
   error.response?.data?.message || error.message || DEFAULT_ERROR_MESSAGE;
 
-const buildToastId = (status: number | undefined, message: string) =>
-  `rq-error:${status ?? "unknown"}:${message.trim().toLowerCase()}`;
-
 const queryClient = new QueryClient({
   queryCache: new QueryCache({
     onError: (error, query) => {
@@ -27,9 +24,7 @@ const queryClient = new QueryClient({
       if (isUnauthorized(status)) return;
 
       const errorMessage = resolveErrorMessage(axiosError);
-      toast.error(errorMessage, {
-        id: buildToastId(status, errorMessage),
-      });
+      showIconToast("logo", errorMessage);
     },
   }),
   mutationCache: new MutationCache({
@@ -43,9 +38,7 @@ const queryClient = new QueryClient({
       if (isUnauthorized(status)) return;
 
       const errorMessage = resolveErrorMessage(axiosError);
-      toast.error(errorMessage, {
-        id: buildToastId(status, errorMessage),
-      });
+      showIconToast("logo", errorMessage);
     },
   }),
   defaultOptions: {

@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import type { AxiosError, AxiosResponse } from "axios";
 import { useRouter } from "next/navigation";
-import { toast } from "react-hot-toast";
+import { showIconToast } from "@/lib/toast/showIconToast";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { CommunityQueryKeys, communityApi, type DeletePostResponse } from "./api";
 
@@ -53,7 +53,7 @@ const useDeletePost = () => {
         await revalidateCommunityPage(variables.boardCode, accessToken);
       }
 
-      toast.success("게시글이 성공적으로 삭제되었습니다.");
+      showIconToast("logo", "게시글이 성공적으로 삭제되었습니다.");
 
       // 게시글 목록 페이지 이동
       router.replace(`/community/${variables.boardCode || "FREE"}`);

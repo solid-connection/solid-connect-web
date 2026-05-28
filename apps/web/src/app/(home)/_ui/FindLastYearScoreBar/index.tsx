@@ -1,13 +1,13 @@
 "use client";
 
-import { toast } from "react-hot-toast";
+import { showIconToast } from "@/lib/toast/showIconToast";
 import { IconGraduationCap, IconRightArrow } from "@/public/svgs/home";
 
 const FindLastYearScoreBar = () => {
   return (
     <button
       className="h-15 flex w-full cursor-pointer items-center justify-between border-b border-k-100 px-5 py-3 focus:outline-none"
-      onClick={() => toast.error("해당 기능은 현재 준비중입니다.")}
+      onClick={() => showIconToast("logo", "해당 기능은 현재 준비중입니다.")}
     >
       <div>
         <div className="flex items-center gap-4">

@@ -5,6 +5,7 @@ import Image from "@/components/ui/FallbackImage";
 import LinkifyText from "@/components/ui/LinkifyText";
 import { COMMUNITY_MAX_UPLOAD_IMAGES } from "@/constants/community";
 import { DEFAULT_PROFILE_IMAGE } from "@/constants/profile";
+import { showIconToast } from "@/lib/toast/showIconToast";
 import { IconCloseFilled, IconPostLikeFilled, IconPostLikeOutline } from "@/public/svgs";
 import { IconCommunication } from "@/public/svgs/community";
 import type { PostImage as PostImageType, Post as PostType } from "@/types/community";
@@ -52,6 +53,7 @@ const Content = ({ post, postId }: ContentProps) => {
         onSuccess: (data) => {
           setLikeCount(data.likeCount);
           setIsLiked(data.isLiked);
+          showIconToast("like", "좋아요가 해제되었어요");
         },
         onError: () => {
           // 롤백
@@ -66,6 +68,7 @@ const Content = ({ post, postId }: ContentProps) => {
         onSuccess: (data) => {
           setLikeCount(data.likeCount);
           setIsLiked(data.isLiked);
+          showIconToast("like", "좋아요가 성공적으로 눌러졌어요!");
         },
         onError: () => {
           // 롤백

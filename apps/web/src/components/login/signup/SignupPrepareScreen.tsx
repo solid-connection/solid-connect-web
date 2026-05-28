@@ -2,8 +2,8 @@
 
 import clsx from "clsx";
 import type { Dispatch, SetStateAction } from "react";
-import { toast } from "react-hot-toast";
 import BlockBtn from "@/components/button/BlockBtn";
+import { showIconToast } from "@/lib/toast/showIconToast";
 import { IconPrepare1, IconPrepare2, IconPrepare3 } from "@/public/svgs/auth";
 import { type PreparationStatus, PreparationStatusEnum } from "@/types/auth";
 
@@ -16,7 +16,7 @@ type SignupPrepareScreenProps = {
 const SignupPrepareScreen = ({ preparation, setPreparation, toNextStage }: SignupPrepareScreenProps) => {
   const submit = () => {
     if (!preparation) {
-      toast.error("준비 단계를 선택해주세요.");
+      showIconToast("logo", "준비 단계를 선택해주세요.");
       return;
     }
     toNextStage();

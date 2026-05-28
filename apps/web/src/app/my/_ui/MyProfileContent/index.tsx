@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { toast } from "react-hot-toast";
 import { useDeleteUserAccount, usePostLogout } from "@/apis/Auth";
 import { type MyInfoResponse, useGetMyInfo } from "@/apis/MyPage";
 import LinkedTextWithIcon from "@/components/ui/LinkedTextWithIcon";
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
+import { showIconToast } from "@/lib/toast/showIconToast";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { IconLikeFill } from "@/public/svgs/mentor";
 import {
@@ -109,7 +109,7 @@ const MyProfileContent = () => {
           </div>
           좋아요한 글
         </Link> */}
-        <button onClick={() => toast.error("현재 불가합니다.")} className="p-3 text-center">
+        <button onClick={() => showIconToast("logo", "현재 불가능한 서비스입니다")} className="p-3 text-center">
           <div className="mx-auto mb-2 h-8 w-8">
             <IconLikeFill />
           </div>
@@ -128,7 +128,7 @@ const MyProfileContent = () => {
         <h2 className="px-1 text-primary typo-sb-5">내 지원 정보</h2>
 
         <LinkedTextWithIcon
-          onClick={() => toast.error("현재 불가합니다.")}
+          onClick={() => showIconToast("logo", "현재 불가능한 서비스입니다")}
           icon={<IconEarth />}
           text={viewAsMentor ? "수학 국가 변경" : "관심 국가 변경"}
         />

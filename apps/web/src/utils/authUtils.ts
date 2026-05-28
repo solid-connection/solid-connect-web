@@ -1,4 +1,4 @@
-import { toast } from "react-hot-toast";
+import { showIconToast } from "@/lib/toast/showIconToast";
 import type { appleOAuth2CodeResponse } from "@/types/auth";
 
 export const authProviderName = (provider: "KAKAO" | "APPLE" | "EMAIL"): string => {
@@ -19,13 +19,13 @@ export const kakaoLogin = () => {
       redirectUri: `${process.env.NEXT_PUBLIC_WEB_URL}/login/kakao/callback`,
     });
   } else {
-    toast.error("Kakao SDK를 불러오는 중입니다. 잠시 후 다시 시도해주세요.");
+    showIconToast("logo", "Kakao SDK를 불러오는 중입니다. 잠시 후 다시 시도해주세요.");
   }
 };
 
 export const appleLogin = async () => {
   if (!window.AppleID || !window.AppleID.auth) {
-    toast.error("Apple SDK를 불러오는 중입니다. 잠시 후 다시 시도해주세요.");
+    showIconToast("logo", "Apple SDK를 불러오는 중입니다. 잠시 후 다시 시도해주세요.");
     return;
   }
 
@@ -52,7 +52,7 @@ export const appleLogin = async () => {
     }
 
     // Show user-facing error message for other failures
-    toast.error("Apple 로그인에 실패했습니다. 잠시 후 다시 시도해주세요.");
+    showIconToast("logo", "Apple 로그인에 실패했습니다. 잠시 후 다시 시도해주세요.");
 
     // Propagate error for upstream handling if needed
     throw error;

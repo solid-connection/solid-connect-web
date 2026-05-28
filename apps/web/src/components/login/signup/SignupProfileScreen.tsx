@@ -1,9 +1,9 @@
 "use client";
 
 import { type Dispatch, type SetStateAction, useRef, useState } from "react";
-import { toast } from "react-hot-toast";
 import BlockBtn from "@/components/button/BlockBtn";
 import { Input } from "@/components/ui/Inputa";
+import { showIconToast } from "@/lib/toast/showIconToast";
 import { IconSignupProfileImage } from "@/public/svgs/auth";
 
 type SignupProfileScreenProps = {
@@ -28,7 +28,7 @@ const SignupProfileScreen = ({
 
   const submit = () => {
     if (!nickname) {
-      toast.error("닉네임을 입력해주세요.");
+      showIconToast("logo", "닉네임을 입력해주세요.");
       return;
     }
     toNextStage();

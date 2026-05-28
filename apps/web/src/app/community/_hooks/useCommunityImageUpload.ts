@@ -1,8 +1,8 @@
 "use client";
 
 import { type ChangeEvent, type DragEvent, useEffect, useRef, useState } from "react";
-import { toast } from "react-hot-toast";
 import { COMMUNITY_MAX_UPLOAD_IMAGES } from "@/constants/community";
+import { showIconToast } from "@/lib/toast/showIconToast";
 
 type UseCommunityImageUploadOptions = {
   maxImages?: number;
@@ -31,19 +31,19 @@ const useCommunityImageUpload = ({ maxImages = COMMUNITY_MAX_UPLOAD_IMAGES }: Us
 
     const imageFiles = files.filter((file) => file.type.startsWith("image/"));
     if (imageFiles.length !== files.length) {
-      toast.error("이미지 파일만 업로드할 수 있습니다.");
+      showIconToast("logo", "이미지 파일만 업로드할 수 있습니다.");
     }
 
     if (imageFiles.length === 0) return;
 
     const remainingSlots = maxImages - selectedImageCountRef.current;
     if (remainingSlots <= 0) {
-      toast.error(`이미지는 최대 ${maxImages}장까지 업로드할 수 있습니다.`);
+      showIconToast("logo", `이미지는 최대 ${maxImages}장까지 업로드할 수 있습니다.`);
       return;
     }
 
     if (imageFiles.length > remainingSlots) {
-      toast.error(`이미지는 최대 ${maxImages}장까지 업로드할 수 있습니다.`);
+      showIconToast("logo", `이미지는 최대 ${maxImages}장까지 업로드할 수 있습니다.`);
     }
 
     setSelectedImages((prev) => {

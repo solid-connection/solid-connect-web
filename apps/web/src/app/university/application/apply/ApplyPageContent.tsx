@@ -2,12 +2,12 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { toast } from "react-hot-toast";
 import { usePostSubmitApplication } from "@/apis/applications";
 import { useGetMyGpaScore, useGetMyLanguageTestScore } from "@/apis/Scores";
 import { useUniversitySearch } from "@/apis/universities";
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import ProgressBar from "@/components/ui/ProgressBar";
+import { showIconToast } from "@/lib/toast/showIconToast";
 import type { ListUniversity } from "@/types/university";
 import ConfirmStep from "./ConfirmStep";
 import DoneStep from "./DoneStep";
@@ -45,17 +45,17 @@ const ApplyPageContent = () => {
 
   const handleSubmit = async () => {
     if (curGpaScore === null) {
-      toast.error("GPA를 선택해주세요.");
+      showIconToast("logo", "GPA를 선택해주세요.");
       return;
     }
 
     if (curLanguageTestScore === null) {
-      toast.error("어학성적을 선택해주세요.");
+      showIconToast("logo", "어학성적을 선택해주세요.");
       return;
     }
 
     if (curUniversityList.length === 0 || curUniversityList[0] === 0) {
-      toast.error("대학교를 선택해주세요.");
+      showIconToast("logo", "대학교를 선택해주세요.");
       return;
     }
 

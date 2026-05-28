@@ -2,12 +2,14 @@
 
 import clsx from "clsx";
 import Link from "next/link";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { useGetArticleList } from "@/apis/news";
 import { IconDirectionDown, IconDirectionUp } from "@/public/svgs/mentor";
 import type { MentorCardDetail, MentorCardPreview } from "@/types/mentor";
 import ChannelBadge from "../../ui/ChannelBadge";
 import ProfileWithBadge from "../../ui/ProfileWithBadge";
 import StudyDate from "../StudyDate";
+import ArticlePreview from "./_ui/ArticlePreview";
 import usePostApplyMentorHandler from "./hooks/usePostApplyMentorHandler";
 
 interface MentorCardProps {
@@ -35,6 +37,13 @@ const MentorCard = ({ mentor, observeRef, isMine = false }: MentorCardProps) => 
   } = mentor ?? {};
 
   const isDetail = mentor && "passTip" in mentor;
+
+  const { data: articles } = useGetArticleList(id ?? 0, { enabled: isExpanded && !!id });
+
+  const latestArticle = useMemo(() => {
+    if (!articles || articles.length === 0) return undefined;
+    return [...articles].sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))[0];
+  }, [articles]);
 
   return (
     <div
@@ -98,6 +107,14 @@ const MentorCard = ({ mentor, observeRef, isMine = false }: MentorCardProps) => 
               ))}
             </div>
           </div>
+
+          {/* 멘토 아티클 */}
+          {latestArticle && (
+            <div className="mb-4">
+              <h4 className="mb-2 text-blue-600 typo-sb-5">멘토 아티클</h4>
+              <ArticlePreview article={latestArticle} />
+            </div>
+          )}
 
           {/* 액션 버튼 */}
           <div className="mb-4 flex items-center justify-center gap-2.5 self-stretch">

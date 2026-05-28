@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import { toast } from "react-hot-toast";
 import type { ScoreSubmitStatus } from "@/types/score";
 
 type ScoreCardProps = {
@@ -8,7 +7,6 @@ type ScoreCardProps = {
   status: ScoreSubmitStatus;
   date: string; // Date ISO string
   isFocused?: boolean;
-  rejectedReason?: string | null;
 };
 
 const formatDate = (date: string) => {
@@ -20,7 +18,7 @@ const formatDate = (date: string) => {
   return `${year}.${month}.${day}`;
 };
 
-const getStatus = (status: ScoreSubmitStatus, rejectedReason?: string | null) => {
+const getStatus = (status: ScoreSubmitStatus) => {
   switch (status) {
     case "PENDING":
       return (
@@ -33,10 +31,7 @@ const getStatus = (status: ScoreSubmitStatus, rejectedReason?: string | null) =>
       );
     case "REJECTED":
       return (
-        <div
-          className="flex h-5 cursor-pointer items-center gap-0.5 rounded-[20px] bg-accent-custom-red-light p-2.5"
-          onClick={() => toast.error(rejectedReason ?? "승인이 거절되었습니다.")}
-        >
+        <div className="flex h-5 items-center gap-0.5 rounded-[20px] bg-accent-custom-red-light p-2.5">
           <span className="font-serif text-accent-custom-red typo-bold-7">승인 거절</span>
           <div className="flex h-3 w-[11px] items-center justify-center rounded-[10px] bg-white font-serif text-accent-custom-red typo-medium-5">
             ?
@@ -52,7 +47,7 @@ const getStatus = (status: ScoreSubmitStatus, rejectedReason?: string | null) =>
   }
 };
 
-const ScoreCard = ({ name, score, status, date, isFocused = false, rejectedReason = null }: ScoreCardProps) => {
+const ScoreCard = ({ name, score, status, date, isFocused = false }: ScoreCardProps) => {
   const isVerified = status === "APPROVED";
 
   return (
@@ -64,7 +59,7 @@ const ScoreCard = ({ name, score, status, date, isFocused = false, rejectedReaso
       )}
     >
       <div className="flex">
-        <div>{getStatus(status, rejectedReason)}</div>
+        <div>{getStatus(status)}</div>
         <div
           className={clsx("ml-3 flex flex-col text-start font-serif typo-sb-9", {
             "text-k-900": isVerified,

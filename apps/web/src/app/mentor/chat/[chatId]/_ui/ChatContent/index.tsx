@@ -2,10 +2,10 @@
 
 import clsx from "clsx";
 import Link from "next/link";
-import { toast } from "react-hot-toast";
 import { useGetPartnerInfo } from "@/apis/chat";
 import { useUploadChatImages } from "@/apis/image-upload";
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
+import { showIconToast } from "@/lib/toast/showIconToast";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { ConnectionStatus } from "@/types/chat";
 import { UserRole } from "@/types/mentor";
@@ -59,9 +59,6 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
 
   return (
     <div className="relative flex h-[calc(100vh-112px)] flex-col">
-      {/* 채팅 메시지 영역 - 스크롤 가능한 영
-      {/* 연결 상태 표시 */}
-
       <div className="flex-1 overflow-hidden">
         <div className="flex h-full flex-col px-5 pb-2">
           {/* 하단 여백 추가 */}
@@ -195,11 +192,11 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
 
             if (!isSent) {
               removeImageMessagePreviews(previewUrls);
-              toast.error("채팅 연결이 원활하지 않아 이미지를 전송하지 못했어요.");
+              showIconToast("logo", "채팅 연결이 원활하지 않아 이미지를 전송하지 못했어요.");
             }
           } catch {
             removeImageMessagePreviews(previewUrls);
-            toast.error("이미지 전송에 실패했어요. 다시 시도해주세요.");
+            showIconToast("logo", "이미지 전송에 실패했어요. 다시 시도해주세요.");
           }
         }}
         onSendFiles={(data) => {

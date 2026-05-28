@@ -2,9 +2,9 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { toast } from "react-hot-toast";
 import { useUpdatePost } from "@/apis/community";
 import useCommunityImageUpload from "@/app/community/_hooks/useCommunityImageUpload";
+import { showIconToast } from "@/lib/toast/showIconToast";
 import { IconArrowBackFilled, IconImage, IconPostCheckboxFilled, IconPostCheckboxOutlined } from "@/public/svgs";
 
 type PostModifyFormProps = {
@@ -79,17 +79,17 @@ const PostModifyForm = ({
     const trimmedContent = content.trim();
 
     if (!trimmedTitle) {
-      toast.error("제목을 입력해주세요.");
+      showIconToast("logo", "제목을 입력해주세요.");
       return;
     }
 
     if (!trimmedContent) {
-      toast.error("내용을 입력해주세요.");
+      showIconToast("logo", "내용을 입력해주세요.");
       return;
     }
 
     if (trimmedContent.length > 255) {
-      toast.error("내용은 255자 이하로 입력해주세요.");
+      showIconToast("logo", "내용은 255자 이하로 입력해주세요.");
       return;
     }
 
