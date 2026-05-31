@@ -3,30 +3,45 @@
 import bundleAnalyzer from "@next/bundle-analyzer";
 import { withSentryConfig } from "@sentry/nextjs";
 
+const shouldRunBundleAnalyzer = process.env.ANALYZE === "true";
+const svgComponentLoaders = ["@svgr/webpack"];
+
 const withBundleAnalyzer = bundleAnalyzer({
-  enabled: process.env.ANALYZE === "true",
+  enabled: shouldRunBundleAnalyzer,
 });
+
+const imageRemotePatterns = [
+  "k.kakaocdn.net",
+  "cdn.default.solid-connection.com",
+  "cdn.upload.solid-connection.com",
+].map((hostname) => ({
+  protocol: "https",
+  hostname,
+}));
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  swcMinify: true,
   transpilePackages: ["@solid-connect/ai-inspector"],
+  turbopack: {
+    rules: {
+      "*.svg": {
+        loaders: svgComponentLoaders,
+        as: "*.js",
+      },
+    },
+  },
   images: {
     unoptimized: true,
-    domains: ["k.kakaocdn.net", "cdn.default.solid-connection.com", "cdn.upload.solid-connection.com"],
+    remotePatterns: imageRemotePatterns,
     formats: ["image/avif", "image/webp"],
     deviceSizes: [360, 640, 768, 1024, 1280],
   },
-  // 폰트 최적화 설정
-  optimizeFonts: true,
   // 압축 활성화
   compress: true,
   // 정적 리소스 최적화
   experimental: {
     optimizeCss: true,
     gzipSize: true,
-    // Sentry instrumentation 활성화 (Web Vitals 수집에 필요)
-    instrumentationHook: true,
     optimizePackageImports: [
       "lucide-react",
       "@radix-ui/react-select",
@@ -41,39 +56,38 @@ const nextConfig = {
       "@hookform/resolvers",
     ],
   },
-  eslint: {
-    // Warning: This allows production builds to successfully complete even if
-    // your project has ESLint errors.
-    ignoreDuringBuilds: true,
-  },
   typescript: {
     ignoreBuildErrors: true,
   },
-  webpack: (config) => {
-    // CSS 최적화 - ensure nested objects exist
-    if (!config.optimization) {
-      config.optimization = {};
-    }
-    if (!config.optimization.splitChunks) {
-      config.optimization.splitChunks = {};
-    }
-    if (!config.optimization.splitChunks.cacheGroups) {
-      config.optimization.splitChunks.cacheGroups = {};
-    }
+  ...(shouldRunBundleAnalyzer
+    ? {
+        webpack: (config) => {
+          // Bundle analyzer still runs through webpack because it is webpack-plugin based.
+          if (!config.optimization) {
+            config.optimization = {};
+          }
+          if (!config.optimization.splitChunks) {
+            config.optimization.splitChunks = {};
+          }
+          if (!config.optimization.splitChunks.cacheGroups) {
+            config.optimization.splitChunks.cacheGroups = {};
+          }
 
-    config.optimization.splitChunks.cacheGroups.styles = {
-      name: "styles",
-      test: /\.(css|scss)$/,
-      chunks: "all",
-      enforce: true,
-    };
+          config.optimization.splitChunks.cacheGroups.styles = {
+            name: "styles",
+            test: /\.(css|scss)$/,
+            chunks: "all",
+            enforce: true,
+          };
 
-    config.module.rules.push({
-      test: /\.svg$/,
-      use: ["@svgr/webpack"],
-    });
-    return config;
-  },
+          config.module.rules.push({
+            test: /\.svg$/,
+            use: svgComponentLoaders,
+          });
+          return config;
+        },
+      }
+    : {}),
 };
 
 export default withSentryConfig(

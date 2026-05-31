@@ -3,19 +3,19 @@ import type { Metadata } from "next";
 import PostPageContent from "./PostPageContent";
 
 interface PostPageProps {
-  params: {
+  params: Promise<{
     boardCode: string;
     postId: string;
-  };
+  }>;
 }
 
 export const metadata: Metadata = {
   title: "게시글",
 };
 
-const PostPage = ({ params }: PostPageProps) => {
-  const { boardCode } = params;
-  const postId = Number(params.postId);
+const PostPage = async ({ params }: PostPageProps) => {
+  const { boardCode, postId: postIdParam } = await params;
+  const postId = Number(postIdParam);
 
   return (
     <div className="w-full">

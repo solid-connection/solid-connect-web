@@ -1,18 +1,13 @@
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
+import ApplyPageContent from "./ApplyPageContent";
 
 export const metadata: Metadata = {
   title: "지원하기",
 };
-const ApplyPageContentDynamic = dynamic(() => import("./ApplyPageContent"), {
-  ssr: false,
-  loading: () => null,
-});
-
 const ApplyPage = () => {
   return (
     <div className="w-full">
-      <ApplyPageContentDynamic />
+      <ApplyPageContent />
     </div>
   );
 };
