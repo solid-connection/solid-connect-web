@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { ListUniversity } from "@/types/university";
 import PopularUniversityCard from "./_ui/PopularUniversityCard";
 
@@ -26,14 +27,22 @@ const PopularUniversitySection = ({ universities }: PopularUniversitySectionProp
 
         {/* 나머지는 동적 렌더링으로 위임 */}
         {belowFold.map((university) => (
-          <PopularUniversityCard
+          <Suspense
             key={university.id}
-            university={university}
-            priority={false}
-            loading="lazy"
-            fetchPriority="low"
-            quality={50} // 지연 로딩 이미지는 50으로 최대 압축
-          />
+            fallback={
+              <div className="relative w-[153px]">
+                <div className="h-[120px] w-[153px] animate-pulse rounded-lg bg-gray-200" />
+              </div>
+            }
+          >
+            <PopularUniversityCard
+              university={university}
+              priority={false}
+              loading="lazy"
+              fetchPriority="low"
+              quality={50} // 동적 로딩 이미지는 50으로 최대 압축
+            />
+          </Suspense>
         ))}
       </div>
     </div>

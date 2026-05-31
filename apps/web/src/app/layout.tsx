@@ -11,7 +11,10 @@ import "@/styles/globals.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
+const siteUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://solid-connection.com";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "솔리드 커넥션",
   description: "솔리드 커넥션. 교환학생의 첫 걸음",
   verification: {
