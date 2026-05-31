@@ -9,7 +9,6 @@ const withBundleAnalyzer = bundleAnalyzer({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  swcMinify: true,
   transpilePackages: ["@solid-connect/ai-inspector"],
   images: {
     unoptimized: true,
@@ -17,16 +16,16 @@ const nextConfig = {
     formats: ["image/avif", "image/webp"],
     deviceSizes: [360, 640, 768, 1024, 1280],
   },
-  // 폰트 최적화 설정
-  optimizeFonts: true,
   // 압축 활성화
   compress: true,
   // 정적 리소스 최적화
   experimental: {
+    reactCompiler: {
+      compilationMode: "annotation",
+      target: "18",
+    },
     optimizeCss: true,
     gzipSize: true,
-    // Sentry instrumentation 활성화 (Web Vitals 수집에 필요)
-    instrumentationHook: true,
     optimizePackageImports: [
       "lucide-react",
       "@radix-ui/react-select",

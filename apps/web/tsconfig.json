@@ -9,6 +9,7 @@
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "node",
+    "target": "ES2017",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
