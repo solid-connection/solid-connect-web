@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
+import { NO_INDEX_ROBOTS } from "@/utils/seo";
 
 import PostModifyContent from "./PostModifyContent";
 
@@ -13,6 +14,7 @@ interface PostModifyPageProps {
 
 export const metadata: Metadata = {
   title: "글 수정",
+  robots: NO_INDEX_ROBOTS,
 };
 
 const PostModifyPage = async ({ params }: PostModifyPageProps) => {

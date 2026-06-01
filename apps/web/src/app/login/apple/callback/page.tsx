@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 
+import { NO_INDEX_ROBOTS } from "@/utils/seo";
 import AppleLoginCallbackPage from "./AppleLoginCallbackPage";
 
 export const metadata: Metadata = {
   title: "애플 로그인 중...",
+  robots: NO_INDEX_ROBOTS,
 };
 
 const Page = () => (

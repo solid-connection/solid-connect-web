@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
 
+import { NO_INDEX_ROBOTS } from "@/utils/seo";
 import MentorClient from "./_ui/MentorClient";
 
+const title = "교환학생 멘토 찾기 | 솔리드커넥션";
+const description = "교환학생을 다녀온 멘토의 국가, 파견 대학, 합격 팁을 확인하고 나에게 맞는 멘토링을 신청해보세요.";
+
 export const metadata: Metadata = {
-  title: "멘토 찾기 | Solid Connect",
-  description: "다양한 분야의 전문 멘토들을 만나보세요. 유학, 취업, 진로 상담을 받을 수 있습니다.",
-  keywords: ["멘토", "멘토링", "유학", "취업", "진로상담", "전문가"],
+  title,
+  description,
+  robots: NO_INDEX_ROBOTS,
 };
 
 const MentorPage = () => {

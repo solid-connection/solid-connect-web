@@ -1,8 +1,12 @@
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
+import { createUrl } from "@/utils/seo";
 
 export const metadata = {
   title: "이용약관",
   description: "솔리드커넥션 서비스 이용약관 페이지입니다.",
+  alternates: {
+    canonical: createUrl("/terms"),
+  },
 };
 
 const TERMS_SECTIONS = [

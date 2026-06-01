@@ -10,6 +10,7 @@ import {
   isMatchedHomeUniversityName,
 } from "@/constants/university";
 import { type CountryCode, type HomeUniversitySlug, LanguageTestType, RegionEnumExtend } from "@/types/university";
+import { createUrl, NO_INDEX_ROBOTS } from "@/utils/seo";
 
 import UniversityListContent from "./_ui/UniversityListContent";
 
@@ -69,12 +70,36 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!universityInfo) {
     return {
       title: "파견 학교 목록",
+      robots: NO_INDEX_ROBOTS,
     };
   }
 
+  const title = `${universityInfo.shortName} 교환학생 파견 학교 목록 | 솔리드커넥션`;
+  const description = `${universityInfo.name} 학생들을 위한 교환학생 파견 학교 정보를 확인하세요. 국가, 권역, 어학 요건별로 지원 가능한 대학을 비교할 수 있습니다.`;
+  const pageUrl = createUrl(`/university/${homeUniversity}`);
+
   return {
-    title: `${universityInfo.shortName} 교환학생 파견 학교 목록 | 솔리드커넥션`,
-    description: `${universityInfo.name} 학생들을 위한 교환학생 파견 학교 정보를 확인하세요.`,
+    title,
+    description,
+    alternates: {
+      canonical: pageUrl,
+    },
+    openGraph: {
+      title,
+      description,
+      url: pageUrl,
+      siteName: "솔리드커넥션",
+      locale: "ko_KR",
+      type: "website",
+      images: [
+        {
+          url: createUrl("/opengraph-image.png"),
+          width: 1200,
+          height: 630,
+          alt: `${universityInfo.shortName} 교환학생 파견 학교 목록`,
+        },
+      ],
+    },
   };
 }
 

@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import { HOME_UNIVERSITY_LIST, HOME_UNIVERSITY_SLUG_MAP } from "@/constants/university";
 import type { HomeUniversityName, HomeUniversitySlug } from "@/types/university";
+import { NO_INDEX_ROBOTS } from "@/utils/seo";
 
 import SearchResultsContent from "./SearchResultsContent";
 
@@ -29,12 +30,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!universityName) {
     return {
       title: "파견 학교 목록",
+      robots: NO_INDEX_ROBOTS,
     };
   }
 
   return {
     title: `${universityName} 파견 학교 목록 | 솔리드커넥션`,
     description: `${universityName}에서 파견 가능한 교환학생 대학교 목록입니다. 지역별, 어학 요건별로 검색하고 관심있는 대학을 찾아보세요.`,
+    robots: NO_INDEX_ROBOTS,
   };
 }
 
