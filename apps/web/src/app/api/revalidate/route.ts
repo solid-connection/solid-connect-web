@@ -10,6 +10,12 @@ interface RevalidateRequestBody {
   boardCode?: string;
 }
 
+type RevalidateTagWithExpire = (tag: string, profile: { expire: number }) => void;
+
+const revalidateTagNow = (tag: string) => {
+  (revalidateTag as RevalidateTagWithExpire)(tag, { expire: 0 });
+};
+
 /**
  * @description ISR 페이지를 수동으로 revalidate하는 API
  * POST /api/revalidate
@@ -57,7 +63,7 @@ async function POST(request: NextRequest) {
     // boardCode가 있으면 해당 커뮤니티 페이지 revalidate
     if (boardCode) {
       revalidatePath(`/community/${boardCode}`);
-      revalidateTag(`posts-${boardCode}`);
+      revalidateTagNow(`posts-${boardCode}`);
 
       return NextResponse.json({
         revalidated: true,
@@ -78,7 +84,7 @@ async function POST(request: NextRequest) {
 
     // 특정 태그 revalidate
     if (tag) {
-      revalidateTag(tag);
+      revalidateTagNow(tag);
       return NextResponse.json({
         revalidated: true,
         message: `Tag ${tag} revalidated`,
