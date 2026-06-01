@@ -1,0 +1,73 @@
+{
+  "name": "@solid-connect/ui",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    },
+    "./cn": {
+      "types": "./src/cn.ts",
+      "default": "./src/cn.ts"
+    },
+    "./button": {
+      "types": "./src/button.tsx",
+      "default": "./src/button.tsx"
+    },
+    "./card": {
+      "types": "./src/card.tsx",
+      "default": "./src/card.tsx"
+    },
+    "./input": {
+      "types": "./src/input.tsx",
+      "default": "./src/input.tsx"
+    },
+    "./label": {
+      "types": "./src/label.tsx",
+      "default": "./src/label.tsx"
+    },
+    "./table": {
+      "types": "./src/table.tsx",
+      "default": "./src/table.tsx"
+    },
+    "./tabs": {
+      "types": "./src/tabs.tsx",
+      "default": "./src/tabs.tsx"
+    },
+    "./textarea": {
+      "types": "./src/textarea.tsx",
+      "default": "./src/textarea.tsx"
+    }
+  },
+  "types": "./src/index.ts",
+  "scripts": {
+    "ci:check": "pnpm run lint:check && pnpm run typecheck",
+    "lint:check": "biome check .",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "react": "^18 || ^19",
+    "tailwindcss": "^3.4 || ^4"
+  },
+  "peerDependenciesMeta": {
+    "tailwindcss": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "@radix-ui/react-label": "^2.1.2",
+    "@radix-ui/react-slot": "^1.2.4",
+    "@radix-ui/react-tabs": "^1.1.13",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.0.2"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.3.11",
+    "@types/react": "19.2.15",
+    "typescript": "^5.7.2"
+  }
+}
