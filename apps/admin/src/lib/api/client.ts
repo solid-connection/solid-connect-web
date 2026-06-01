@@ -1,16 +1,13 @@
 import axios, { type AxiosInstance, type InternalAxiosRequestConfig } from "axios";
 import { clearSession, ensureSessionToken, reissueAccessTokenIfPossible } from "@/lib/auth/session";
+import { createMissingAdminApiServerUrlError, getAdminApiServerUrl } from "@/lib/env";
 
 const convertToBearer = (token: string) => `Bearer ${token}`;
 
-const API_SERVER_URL = import.meta.env.VITE_API_SERVER_URL?.trim();
-
-if (!API_SERVER_URL) {
-	throw new Error("[admin] VITE_API_SERVER_URL is required. Configure it in your environment.");
-}
+const API_SERVER_URL = getAdminApiServerUrl();
 
 export const axiosInstance: AxiosInstance = axios.create({
-	baseURL: API_SERVER_URL,
+	baseURL: API_SERVER_URL || undefined,
 	withCredentials: true,
 });
 
@@ -22,6 +19,10 @@ const redirectToLogin = () => {
 
 axiosInstance.interceptors.request.use(
 	async (config) => {
+		if (!API_SERVER_URL) {
+			return Promise.reject(createMissingAdminApiServerUrlError());
+		}
+
 		const newConfig = { ...config };
 		const accessToken = await ensureSessionToken();
 

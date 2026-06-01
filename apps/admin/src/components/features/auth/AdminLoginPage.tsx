@@ -42,9 +42,9 @@ export function AdminLoginPage({ onLoginSuccess }: AdminLoginPageProps) {
 
 			onLoginSuccess();
 		} catch (err: unknown) {
-			const error = err as { response?: { data?: { message?: string } } };
+			const error = err as { message?: string; response?: { data?: { message?: string } } };
 			toast.error("로그인 실패", {
-				description: error.response?.data?.message || "로그인에 실패했습니다.",
+				description: error.response?.data?.message || error.message || "로그인에 실패했습니다.",
 			});
 		}
 	};
