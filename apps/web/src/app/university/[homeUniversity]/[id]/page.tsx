@@ -5,6 +5,7 @@ import { getAllUniversities, getUniversityDetail, getUniversityDetailWithStatus 
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import { getHomeUniversityBySlug, HOME_UNIVERSITY_SLUGS, isMatchedHomeUniversityName } from "@/constants/university";
 import type { HomeUniversitySlug } from "@/types/university";
+import { createAbsoluteUrl, createUrl, NO_INDEX_ROBOTS } from "@/utils/seo";
 
 // UniversityDetail 컴포넌트
 import UniversityDetail from "./_ui/UniversityDetail";
@@ -54,19 +55,17 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const universityData = await getUniversityDetail(Number(id));
 
   if (!universityData) {
-    return { title: "파견 학교 상세" };
+    return {
+      title: "파견 학교 상세",
+      robots: NO_INDEX_ROBOTS,
+    };
   }
 
   const homeUniversityInfo = getHomeUniversityBySlug(homeUniversity);
   const convertedKoreanName = universityData.koreanName;
 
-  const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://solid-connection.com";
-  const pageUrl = `${baseUrl}/university/${homeUniversity}/${id}`;
-  const imageUrl = universityData.backgroundImageUrl
-    ? universityData.backgroundImageUrl.startsWith("http")
-      ? universityData.backgroundImageUrl
-      : `${baseUrl}${universityData.backgroundImageUrl}`
-    : `${baseUrl}/images/article-thumb.png`;
+  const pageUrl = createUrl(`/university/${homeUniversity}/${id}`);
+  const imageUrl = createAbsoluteUrl(universityData.backgroundImageUrl, "/images/article-thumb.png");
 
   const countryExchangeKeyword = `${universityData.country} 교환학생`;
   const description = `${convertedKoreanName}(${universityData.englishName}) ${countryExchangeKeyword} 프로그램. 모집인원 ${universityData.studentCapacity}명. ${homeUniversityInfo?.shortName || ""} 학생을 위한 교환학생 정보.`;
@@ -124,18 +123,14 @@ const CollegeDetailPage = async ({ params }: PageProps) => {
   const universityDetailResult = await getUniversityDetailWithStatus(collegeId);
 
   if (!universityDetailResult.ok) {
-    const isNotFoundError = universityDetailResult.status === 404;
+    if (universityDetailResult.status === 404) {
+      notFound();
+    }
 
     return (
       <>
         <TopDetailNavigation title="파견 학교 상세" backHref={`/university/${homeUniversity}`} />
-        <UniversityDetailPreparingFallback
-          backHref={`/university/${homeUniversity}`}
-          title={isNotFoundError ? "해당 대학 정보를 찾을 수 없어요." : undefined}
-          description={
-            isNotFoundError ? "요청하신 파견학교를 찾지 못했습니다. 목록에서 다른 학교를 선택해 주세요." : undefined
-          }
-        />
+        <UniversityDetailPreparingFallback backHref={`/university/${homeUniversity}`} />
       </>
     );
   }
@@ -144,8 +139,7 @@ const CollegeDetailPage = async ({ params }: PageProps) => {
 
   const convertedKoreanName = universityData.koreanName;
 
-  const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://solid-connection.com";
-  const pageUrl = `${baseUrl}/university/${homeUniversity}/${collegeId}`;
+  const pageUrl = createUrl(`/university/${homeUniversity}/${collegeId}`);
   const countryExchangeKeyword = `${universityData.country} 교환학생`;
 
   const structuredData = {
@@ -155,11 +149,7 @@ const CollegeDetailPage = async ({ params }: PageProps) => {
     alternateName: universityData.englishName,
     url: pageUrl,
     description: `${convertedKoreanName}(${universityData.englishName}) ${countryExchangeKeyword} 프로그램 정보`,
-    image: universityData.backgroundImageUrl
-      ? universityData.backgroundImageUrl.startsWith("http")
-        ? universityData.backgroundImageUrl
-        : `${baseUrl}${universityData.backgroundImageUrl}`
-      : `${baseUrl}/images/article-thumb.png`,
+    image: createAbsoluteUrl(universityData.backgroundImageUrl, "/images/article-thumb.png"),
   };
 
   return (

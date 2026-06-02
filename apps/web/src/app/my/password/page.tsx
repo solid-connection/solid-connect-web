@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
+import { NO_INDEX_ROBOTS } from "@/utils/seo";
 
 import PasswordContent from "./_ui/PasswordContent";
 
 export const metadata: Metadata = {
   title: "비밀번호 수정",
+  robots: NO_INDEX_ROBOTS,
 };
 
 const ModifyPage = () => {

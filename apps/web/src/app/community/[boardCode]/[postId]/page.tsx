@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { NO_INDEX_ROBOTS } from "@/utils/seo";
 import PostPageContent from "./PostPageContent";
 
 interface PostPageProps {
@@ -10,7 +11,8 @@ interface PostPageProps {
 }
 
 export const metadata: Metadata = {
-  title: "게시글",
+  title: "게시글 | 솔리드커넥션",
+  robots: NO_INDEX_ROBOTS,
 };
 
 const PostPage = async ({ params }: PostPageProps) => {

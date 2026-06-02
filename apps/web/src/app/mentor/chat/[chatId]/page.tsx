@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { NO_INDEX_ROBOTS } from "@/utils/seo";
 import ChatContent from "./_ui/ChatContent";
 import ChatNavBar from "./_ui/ChatNavBar";
 
 export const metadata: Metadata = {
-  title: "멘토와 채팅 | Solid Connect",
+  title: "멘토와 채팅 | 솔리드커넥션",
   description: "멘토와 실시간으로 대화하며 궁금한 점을 해결해보세요.",
-  keywords: ["멘토", "채팅", "실시간", "대화", "멘토링", "질문"],
+  robots: NO_INDEX_ROBOTS,
 };
 
 interface ChatDetailPageProps {

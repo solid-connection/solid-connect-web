@@ -1,42 +1,68 @@
 import type { MetadataRoute } from "next";
+import { getAllUniversities } from "@/apis/universities/server";
+import { getHomeUniversitySlugByName, HOME_UNIVERSITY_LIST, HOME_UNIVERSITY_SLUGS } from "@/constants/university";
+import { createUrl, getSiteUrl, isNonIndexSiteUrl } from "@/utils/seo";
 
-const DEFAULT_SITE_URL = "https://www.solid-connection.com";
+type SitemapEntry = MetadataRoute.Sitemap[number];
 
-const getSiteUrl = () => (process.env.NEXT_PUBLIC_WEB_URL ?? DEFAULT_SITE_URL).replace(/\/$/, "");
+export const revalidate = 86400;
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const siteUrl = getSiteUrl();
+const toSitemapEntry = (
+  path: string,
+  changeFrequency: SitemapEntry["changeFrequency"],
+  priority: number,
+  lastModified?: Date | string,
+): SitemapEntry => ({
+  url: createUrl(path),
+  ...(lastModified ? { lastModified } : {}),
+  changeFrequency,
+  priority,
+});
 
-  if (siteUrl.includes("stage") || siteUrl.includes("localhost") || siteUrl.includes("127.0.0.1")) {
+const getStaticRoutes = (): MetadataRoute.Sitemap => [
+  toSitemapEntry("/", "daily", 1),
+  toSitemapEntry("/university", "weekly", 0.85),
+  toSitemapEntry("/terms", "yearly", 0.35),
+  ...HOME_UNIVERSITY_LIST.map((university) => toSitemapEntry(`/university/${university.slug}`, "weekly", 0.8)),
+];
+
+const getUniversityDetailRoutes = async (): Promise<MetadataRoute.Sitemap> => {
+  let universities: Awaited<ReturnType<typeof getAllUniversities>>;
+
+  try {
+    universities = await getAllUniversities();
+  } catch {
     return [];
   }
 
-  const lastModified = new Date();
+  const seenUrls = new Set<string>();
 
-  return [
-    {
-      url: `${siteUrl}/`,
-      lastModified,
-      changeFrequency: "daily",
-      priority: 1,
-    },
-    {
-      url: `${siteUrl}/mentor`,
-      lastModified,
-      changeFrequency: "weekly",
-      priority: 0.8,
-    },
-    {
-      url: `${siteUrl}/university`,
-      lastModified,
-      changeFrequency: "weekly",
-      priority: 0.8,
-    },
-    {
-      url: `${siteUrl}/terms`,
-      lastModified,
-      changeFrequency: "yearly",
-      priority: 0.5,
-    },
-  ];
+  return universities.flatMap((university) => {
+    const homeUniversitySlug = getHomeUniversitySlugByName(university.homeUniversityName);
+
+    if (!homeUniversitySlug || !HOME_UNIVERSITY_SLUGS.includes(homeUniversitySlug)) {
+      return [];
+    }
+
+    const entry = toSitemapEntry(`/university/${homeUniversitySlug}/${university.id}`, "monthly", 0.7);
+
+    if (seenUrls.has(entry.url)) {
+      return [];
+    }
+
+    seenUrls.add(entry.url);
+    return [entry];
+  });
+};
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const siteUrl = getSiteUrl();
+
+  if (isNonIndexSiteUrl(siteUrl)) {
+    return [];
+  }
+
+  const universityDetailRoutes = await getUniversityDetailRoutes();
+
+  return [...getStaticRoutes(), ...universityDetailRoutes];
 }

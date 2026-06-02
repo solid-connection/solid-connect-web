@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { HOME_UNIVERSITY_LIST } from "@/constants/university";
+import { createUrl } from "@/utils/seo";
 
 import HomeUniversityCard from "./_ui/HomeUniversityCard";
 
@@ -9,6 +10,25 @@ export const revalidate = 3600; // 1시간마다 재검증 (ISR)
 export const metadata: Metadata = {
   title: "대학 선택 | 솔리드커넥션",
   description: "소속 대학교를 선택하여 교환학생 정보를 확인하세요.",
+  alternates: {
+    canonical: createUrl("/university"),
+  },
+  openGraph: {
+    title: "대학 선택 | 솔리드커넥션",
+    description: "소속 대학교를 선택하여 교환학생 정보를 확인하세요.",
+    url: createUrl("/university"),
+    siteName: "솔리드커넥션",
+    locale: "ko_KR",
+    type: "website",
+    images: [
+      {
+        url: createUrl("/opengraph-image.png"),
+        width: 1200,
+        height: 630,
+        alt: "솔리드커넥션 대학 선택",
+      },
+    ],
+  },
 };
 
 const UniversitySelectPage = () => {
