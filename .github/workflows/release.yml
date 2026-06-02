@@ -7,14 +7,16 @@ on:
   workflow_dispatch:
     inputs:
       target:
-        description: "Promote target"
+        description: "Promote target (both keeps the legacy web+admin selection)"
         required: true
-        default: "both"
+        default: "all"
         type: choice
         options:
+          - all
           - both
           - web
           - admin
+          - university
       force_redeploy:
         description: "When up to date, skip divergence and print manual redeploy guidance"
         required: true
@@ -70,6 +72,12 @@ jobs:
               ;;
             admin)
               RELEASE_BRANCHES="release-admin"
+              ;;
+            university)
+              RELEASE_BRANCHES="release-university"
+              ;;
+            all)
+              RELEASE_BRANCHES="release-web release-admin release-university"
               ;;
             both)
               RELEASE_BRANCHES="release-web release-admin"
