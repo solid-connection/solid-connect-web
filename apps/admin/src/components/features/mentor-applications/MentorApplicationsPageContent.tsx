@@ -28,8 +28,8 @@ const STATUS_OPTIONS: { value: MentorApplicationStatus; label: string }[] = [
 
 const statusStyles: Record<MentorApplicationStatus, string> = {
 	PENDING: "bg-primary-100 text-primary",
-	APPROVED: "bg-[#E9F7EC] text-[#15A861]",
-	REJECTED: "bg-[#FFD9D9] text-[#E22A2D]",
+	APPROVED: "bg-magic-success-surface text-magic-success",
+	REJECTED: "bg-magic-danger-surface text-magic-danger",
 };
 
 const statusLabels: Record<MentorApplicationStatus, string> = {
@@ -254,7 +254,7 @@ function MentorApplicationHistoryRow({ colSpan, siteUserId }: { colSpan: number;
 							<span className="ml-2 typo-regular-4 text-k-500">이력을 불러오는 중...</span>
 						</div>
 					) : isError ? (
-						<p className="py-4 text-center typo-regular-4 text-[#E22A2D]">신청 이력을 불러오지 못했습니다.</p>
+						<p className="py-4 text-center typo-regular-4 text-magic-danger">신청 이력을 불러오지 못했습니다.</p>
 					) : historyItems.length === 0 ? (
 						<p className="py-4 text-center typo-regular-4 text-k-500">신청 이력이 없습니다.</p>
 					) : (
@@ -595,7 +595,7 @@ export function MentorApplicationsPageContent() {
 								</TableRow>
 							) : isError ? (
 								<TableRow>
-									<TableCell colSpan={9} className="text-center typo-regular-4 text-[#E22A2D]">
+									<TableCell colSpan={9} className="text-center typo-regular-4 text-magic-danger">
 										멘토 승격 요청을 불러오지 못했습니다.
 									</TableCell>
 								</TableRow>

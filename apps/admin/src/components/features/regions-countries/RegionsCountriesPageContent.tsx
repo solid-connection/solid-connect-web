@@ -300,7 +300,7 @@ export function RegionsCountriesPageContent() {
 									</TableRow>
 								) : regionsQuery.isError ? (
 									<TableRow>
-										<TableCell colSpan={3} className="text-center typo-regular-4 text-[#E22A2D]">
+										<TableCell colSpan={3} className="text-center typo-regular-4 text-magic-danger">
 											권역을 불러오지 못했습니다.
 										</TableCell>
 									</TableRow>
@@ -431,7 +431,7 @@ export function RegionsCountriesPageContent() {
 									</TableRow>
 								) : countriesQuery.isError ? (
 									<TableRow>
-										<TableCell colSpan={4} className="text-center typo-regular-4 text-[#E22A2D]">
+										<TableCell colSpan={4} className="text-center typo-regular-4 text-magic-danger">
 											지역을 불러오지 못했습니다.
 										</TableCell>
 									</TableRow>

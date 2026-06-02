@@ -263,6 +263,63 @@ const config: Config = {
           "1": "#f2f2f2",
           "2": "#e5e5e5",
         },
+        magic: {
+          success: "#15A861",
+          "success-hover": "#10814A",
+          "success-surface": "#E9F7EC",
+          danger: "#E22A2D",
+          "danger-hover": "#BA1E21",
+          "danger-surface": "#FFD9D9",
+          error: "#B91C1C",
+          "error-border": "#FCA5A5",
+          "error-surface": "#FEF2F2",
+          warning: "#854D0E",
+          "warning-border": "#FACC15",
+          "warning-surface": "#FEFCE8",
+          api: {
+            success: {
+              surface: "#ECFDF3",
+              text: "#047857",
+            },
+          },
+          http: {
+            get: {
+              surface: "#E8F3FF",
+              text: "#1D4ED8",
+            },
+            post: {
+              surface: "#ECFDF3",
+              text: "#047857",
+            },
+            put: {
+              surface: "#FFF7ED",
+              text: "#C2410C",
+            },
+            patch: {
+              surface: "#FEF3C7",
+              text: "#B45309",
+            },
+            delete: {
+              surface: "#FEE2E2",
+              text: "#B91C1C",
+            },
+          },
+          survey: {
+            blue: "#007AFF",
+            "blue-hover": "#006CE0",
+            purple: "#51298A",
+            "purple-dark": "#430895",
+            navy: "#29428A",
+            muted: "#5F6268",
+            divider: "#D0D0D0",
+          },
+          nav: {
+            inactive: "#707070",
+          },
+          comment: {
+            "reply-bg": "#fafafa",
+          },
+        },
         foreground: "hsl(var(--foreground))",
         card: {
           DEFAULT: "hsl(var(--card))",

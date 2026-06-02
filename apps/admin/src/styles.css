@@ -1,5 +1,32 @@
 @import "tailwindcss";
 
+@theme {
+  --color-magic-success: #15a861;
+  --color-magic-success-hover: #10814a;
+  --color-magic-success-surface: #e9f7ec;
+  --color-magic-danger: #e22a2d;
+  --color-magic-danger-hover: #ba1e21;
+  --color-magic-danger-surface: #ffd9d9;
+  --color-magic-error: #b91c1c;
+  --color-magic-error-border: #fca5a5;
+  --color-magic-error-surface: #fef2f2;
+  --color-magic-warning: #854d0e;
+  --color-magic-warning-border: #facc15;
+  --color-magic-warning-surface: #fefce8;
+  --color-magic-api-success-surface: #ecfdf3;
+  --color-magic-api-success-text: #047857;
+  --color-magic-http-get-surface: #e8f3ff;
+  --color-magic-http-get-text: #1d4ed8;
+  --color-magic-http-post-surface: #ecfdf3;
+  --color-magic-http-post-text: #047857;
+  --color-magic-http-put-surface: #fff7ed;
+  --color-magic-http-put-text: #c2410c;
+  --color-magic-http-patch-surface: #fef3c7;
+  --color-magic-http-patch-text: #b45309;
+  --color-magic-http-delete-surface: #fee2e2;
+  --color-magic-http-delete-text: #b91c1c;
+}
+
 body {
   @apply m-0;
   font-family: "Pretendard", system-ui, -apple-system, sans-serif;

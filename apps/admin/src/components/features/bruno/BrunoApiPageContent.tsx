@@ -147,11 +147,11 @@ const getEndpointKey = (endpoint: EndpointItem) => `${endpoint.domain}:${endpoin
 const getMethodClassName = (method: DefinitionMethod) =>
 	cn(
 		"rounded px-1.5 py-0.5 typo-regular-4",
-		method === "GET" && "bg-[#E8F3FF] text-[#1D4ED8]",
-		method === "POST" && "bg-[#ECFDF3] text-[#047857]",
-		method === "PUT" && "bg-[#FFF7ED] text-[#C2410C]",
-		method === "PATCH" && "bg-[#FEF3C7] text-[#B45309]",
-		method === "DELETE" && "bg-[#FEE2E2] text-[#B91C1C]",
+		method === "GET" && "bg-magic-http-get-surface text-magic-http-get-text",
+		method === "POST" && "bg-magic-http-post-surface text-magic-http-post-text",
+		method === "PUT" && "bg-magic-http-put-surface text-magic-http-put-text",
+		method === "PATCH" && "bg-magic-http-patch-surface text-magic-http-patch-text",
+		method === "DELETE" && "bg-magic-http-delete-surface text-magic-http-delete-text",
 		(method === "HEAD" || method === "OPTIONS") && "bg-k-100 text-k-700",
 	);
 
@@ -385,7 +385,7 @@ export function BrunoApiPageContent() {
 
 				<div className="space-y-4">
 					{showRemoteWarning ? (
-						<div className="flex items-start gap-2 rounded-md border border-[#FACC15] bg-[#FEFCE8] px-4 py-3 text-[#854D0E]">
+						<div className="flex items-start gap-2 rounded-md border border-magic-warning-border bg-magic-warning-surface px-4 py-3 text-magic-warning">
 							<AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
 							<div className="min-w-0">
 								<p className="typo-sb-11">원격 API 서버에 연결되어 있습니다.</p>
@@ -437,7 +437,7 @@ export function BrunoApiPageContent() {
 								</div>
 							) : null}
 							{editorError ? (
-								<div className="rounded-md border border-[#FCA5A5] bg-[#FEF2F2] px-3 py-2 typo-regular-4 text-[#B91C1C]">
+								<div className="rounded-md border border-magic-error-border bg-magic-error-surface px-3 py-2 typo-regular-4 text-magic-error">
 									{editorError}
 								</div>
 							) : null}
@@ -501,8 +501,8 @@ export function BrunoApiPageContent() {
 										className={cn(
 											"rounded px-2 py-1",
 											requestResult.status >= 200 && requestResult.status < 300
-												? "bg-[#ECFDF3] text-[#047857]"
-												: "bg-[#FEF2F2] text-[#B91C1C]",
+												? "bg-magic-api-success-surface text-magic-api-success-text"
+												: "bg-magic-error-surface text-magic-error",
 										)}
 									>
 										HTTP {requestResult.status}
