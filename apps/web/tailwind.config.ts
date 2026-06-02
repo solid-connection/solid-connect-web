@@ -315,7 +315,6 @@ const config: Config = {
           },
           nav: {
             inactive: "#707070",
-            shadow: "#F5F5F5",
           },
           comment: {
             "reply-bg": "#fafafa",
