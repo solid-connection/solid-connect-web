@@ -43,7 +43,7 @@ const MentorFindSection = () => {
       </div>
 
       {/* 멘토 리스트 */}
-      <div ref={listRef} className="space-y-4">
+      <div ref={listRef} className="space-y-4 pb-28">
         {mentorList.length === 0 ? (
           <EmptySdwBCards message="멘토가 없습니다. 필터를 변경해보세요." />
         ) : (
