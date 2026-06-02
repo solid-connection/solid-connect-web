@@ -1,0 +1,10 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.3.12/schema.json",
+  "extends": ["../config/biome/base.json"],
+  "vcs": {
+    "useIgnoreFile": false
+  },
+  "files": {
+    "includes": ["src/**/*", "package.json", "tsconfig.json"]
+  }
+}
