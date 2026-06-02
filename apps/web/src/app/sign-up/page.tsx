@@ -3,9 +3,11 @@ import { Suspense } from "react";
 
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import SignupSurvey from "@/components/login/signup/SignupSurvey";
+import { NO_INDEX_ROBOTS } from "@/utils/seo";
 
 export const metadata: Metadata = {
   title: "회원가입",
+  robots: NO_INDEX_ROBOTS,
 };
 
 const SignUpPage = () => {

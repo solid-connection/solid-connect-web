@@ -2,14 +2,15 @@ import type { Metadata } from "next";
 import { getHomeNewsList } from "@/apis/news/server/getNewsList";
 import { getCategorizedUniversities, getRecommendedUniversity } from "@/apis/universities/server";
 import { type ListUniversity, RegionEnumExtend } from "@/types/university";
+import { createUrl } from "@/utils/seo";
 import FindLastYearScoreBar from "./_ui/FindLastYearScoreBar";
 import HomeEntrySection from "./_ui/HomeEntrySection";
 import NewsSection from "./_ui/NewsSection";
 import PopularUniversitySection from "./_ui/PopularUniversitySection";
 import UniversityList from "./_ui/UniversityList";
 
-const baseUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://solid-connection.com";
-const ogImageUrl = `${baseUrl}/opengraph-image.png`;
+const pageUrl = createUrl("/");
+const ogImageUrl = createUrl("/opengraph-image.png");
 const homeMetaTitle = "교환학생 사이트 | 솔리드 커넥션 – 교환학생 커뮤니티, 플랫폼";
 
 export const metadata: Metadata = {
@@ -17,13 +18,13 @@ export const metadata: Metadata = {
   description:
     "교환학생 사이트 솔리드커넥션. 교환학생 커뮤니티에서 학교 검색, 성적 입력, 지원 현황 확인까지 한 번에. 교환학생 준비를 위한 모든 정보를 제공합니다.",
   alternates: {
-    canonical: `${baseUrl}/`,
+    canonical: pageUrl,
   },
   openGraph: {
     title: homeMetaTitle,
     description:
       "교환학생 사이트 솔리드커넥션. 교환학생 커뮤니티에서 학교 검색, 성적 입력, 지원 현황 확인까지 한 번에. 교환학생 준비를 위한 모든 정보를 제공합니다.",
-    url: `${baseUrl}/`,
+    url: pageUrl,
     siteName: "솔리드커넥션",
     locale: "ko_KR",
     type: "website",
@@ -49,13 +50,8 @@ const structuredData = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   name: "솔리드커넥션",
-  url: `${baseUrl}/`,
+  url: pageUrl,
   description: "교환학생 학교 검색, 성적 입력, 지원 현황 확인까지 가능한 교환학생 플랫폼.",
-  potentialAction: {
-    "@type": "SearchAction",
-    target: `${baseUrl}/university?searchText={search_term_string}`,
-    "query-input": "required name=search_term_string",
-  },
 };
 
 const resolveRecommendedUniversitiesHomeUniversityName = (

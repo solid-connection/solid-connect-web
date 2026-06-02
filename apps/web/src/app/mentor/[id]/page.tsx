@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 
+import { NO_INDEX_ROBOTS } from "@/utils/seo";
 import MentorDetialContent from "./_ui/MentorDetialContent";
 
 export const metadata: Metadata = {
-  title: "멘토 상세 정보 | Solid Connect",
+  title: "멘토 상세 정보 | 솔리드커넥션",
   description: "멘토의 상세 정보와 경험, 아티클을 확인하고 멘토링을 신청해보세요.",
-  keywords: ["멘토", "멘토링", "유학", "상세정보", "교환학생"],
+  robots: NO_INDEX_ROBOTS,
 };
 
 interface MentorDetailPageProps {

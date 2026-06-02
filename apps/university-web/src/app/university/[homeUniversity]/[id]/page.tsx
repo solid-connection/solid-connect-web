@@ -6,6 +6,7 @@ import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import { getHomeUniversityBySlug, HOME_UNIVERSITY_SLUGS, isMatchedHomeUniversityName } from "@/constants/university";
 import type { HomeUniversitySlug } from "@/types/university";
 import { normalizeImageUrlToUploadCdn } from "@/utils/cdnUrl";
+import { createUrl, NO_INDEX_ROBOTS } from "@/utils/seo";
 
 // UniversityDetail 컴포넌트
 import UniversityDetail from "./_ui/UniversityDetail";
@@ -44,22 +45,18 @@ type PageProps = {
   params: Promise<{ homeUniversity: string; id: string }>;
 };
 
-const DEFAULT_SITE_URL = "https://solid-connection.com";
-
-const getSiteUrl = () => (process.env.NEXT_PUBLIC_WEB_URL || DEFAULT_SITE_URL).replace(/\/$/, "");
-
 const resolveMetadataImageUrl = (backgroundImageUrl: string | null | undefined) => {
   const normalizedImageUrl = normalizeImageUrlToUploadCdn(backgroundImageUrl);
 
   if (!normalizedImageUrl) {
-    return `${getSiteUrl()}/images/article-thumb.png`;
+    return createUrl("/images/article-thumb.png");
   }
 
   if (normalizedImageUrl.startsWith("http")) {
     return normalizedImageUrl;
   }
 
-  return new URL(normalizedImageUrl, getSiteUrl()).toString();
+  return createUrl(normalizedImageUrl);
 };
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -67,7 +64,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   // 유효한 슬러그인지 확인
   if (!HOME_UNIVERSITY_SLUGS.includes(homeUniversity as HomeUniversitySlug)) {
-    return { title: "파견 학교 상세" };
+    return {
+      title: "파견 학교 상세",
+      robots: NO_INDEX_ROBOTS,
+    };
   }
 
   const universityData = await getUniversityDetailForSsg(Number(id));
@@ -75,8 +75,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const homeUniversityInfo = getHomeUniversityBySlug(homeUniversity);
   const convertedKoreanName = universityData.koreanName;
 
-  const baseUrl = getSiteUrl();
-  const pageUrl = `${baseUrl}/university/${homeUniversity}/${id}`;
+  const pageUrl = createUrl(`/university/${homeUniversity}/${id}`);
   const imageUrl = resolveMetadataImageUrl(universityData.backgroundImageUrl);
 
   const countryExchangeKeyword = `${universityData.country} 교환학생`;
@@ -136,8 +135,7 @@ const CollegeDetailPage = async ({ params }: PageProps) => {
 
   const convertedKoreanName = universityData.koreanName;
 
-  const baseUrl = getSiteUrl();
-  const pageUrl = `${baseUrl}/university/${homeUniversity}/${collegeId}`;
+  const pageUrl = createUrl(`/university/${homeUniversity}/${collegeId}`);
   const countryExchangeKeyword = `${universityData.country} 교환학생`;
 
   const structuredData = {

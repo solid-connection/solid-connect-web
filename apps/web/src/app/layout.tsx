@@ -10,8 +10,9 @@ import AppleScriptLoader from "@/lib/ScriptLoader/AppleScriptLoader";
 import "@/styles/globals.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { getSiteUrl } from "@/utils/seo";
 
-const siteUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://solid-connection.com";
+const siteUrl = getSiteUrl();
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

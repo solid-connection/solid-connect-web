@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 
+import { NO_INDEX_ROBOTS } from "@/utils/seo";
 import WaitingContent from "./_ui/WaitingContent";
 
 export const metadata: Metadata = {
-  title: "멘토 승인 대기 | Solid Connect",
+  title: "멘토 승인 대기 | 솔리드커넥션",
   description: "멘토 신청이 접수되었습니다. 승인 결과를 기다려주세요.",
-  keywords: ["멘토", "승인", "대기", "신청", "멘토링"],
+  robots: NO_INDEX_ROBOTS,
 };
 
 const WaitingPage = () => {

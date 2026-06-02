@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import { getHomeUniversityBySlug, HOME_UNIVERSITY_SLUGS } from "@/constants/university";
 import type { HomeUniversitySlug } from "@/types/university";
+import { NO_INDEX_ROBOTS } from "@/utils/seo";
 
 import SearchPageContent from "./_ui/SearchPageContent";
 
@@ -26,12 +27,19 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const universityInfo = getHomeUniversityBySlug(homeUniversity);
 
   if (!universityInfo) {
-    return { title: "파견 학교 검색" };
+    return {
+      title: "파견 학교 검색",
+      robots: NO_INDEX_ROBOTS,
+    };
   }
 
+  const title = `${universityInfo.shortName} 파견 학교 검색 | 솔리드커넥션`;
+  const description = `${universityInfo.name} 학생을 위한 맞춤 파견 학교를 검색하세요. 국가와 어학 조건을 기준으로 교환학생 지원 가능 대학을 찾아볼 수 있습니다.`;
+
   return {
-    title: `${universityInfo.shortName} 파견 학교 검색 | 솔리드커넥션`,
-    description: `${universityInfo.name} 학생을 위한 맞춤 파견 학교를 검색하세요.`,
+    title,
+    description,
+    robots: NO_INDEX_ROBOTS,
   };
 }
 
