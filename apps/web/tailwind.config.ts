@@ -315,9 +315,16 @@ const config: Config = {
           },
           nav: {
             inactive: "#707070",
+            shadow: "#F5F5F5",
           },
           comment: {
             "reply-bg": "#fafafa",
+          },
+          university: {
+            action: "#4672EE",
+          },
+          certificate: {
+            divider: "#ECECEC",
           },
         },
         foreground: "hsl(var(--foreground))",
@@ -357,6 +364,20 @@ const config: Config = {
         sdwB: "0px 0px 4px 0px var(--K100, #DDDDDF)",
         sdwC: "0px 0px 4px 0px rgba(0, 0, 0, 0.25)",
         top: "0px -4px 10px 0px #F5F5F5",
+        "magic-bottom-nav": "0px -2px 6px 0px #F5F5F5",
+        "magic-dropdown": "0px 10px 50px 0px rgba(0, 0, 0, 0.1)",
+        "magic-floating-action": "0px 4px 30px rgba(0, 0, 0, 0.15)",
+        "magic-signup-step": "0 0 6px 0 rgb(221, 221, 223)",
+        "magic-slim-dropdown": "0 0px 10px 0px rgb(0, 0, 0, 0.2)",
+        "magic-survey-modal": "0 10px 30px rgba(0, 0, 0, 0.2)",
+        "magic-toast": "0px 4px 40px 0px rgba(0, 0, 0, 0.25)",
+      },
+      backgroundImage: {
+        "magic-university-action-glass":
+          "linear-gradient(136deg, rgba(255, 255, 255, 0.4) 14.87%, rgba(199, 212, 250, 0.8) 89.1%)",
+      },
+      dropShadow: {
+        "magic-university-action": "2px 2px 6px #C7D4FA",
       },
       spacing: {
         "13": "3.25rem", // 3.25rem = 13 = 52px

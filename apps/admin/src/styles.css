@@ -25,6 +25,10 @@
   --color-magic-http-patch-text: #b45309;
   --color-magic-http-delete-surface: #fee2e2;
   --color-magic-http-delete-text: #b91c1c;
+  --color-magic-admin-shell-spotlight: #eef2ff;
+  --color-magic-admin-shell-mid: #fafafa;
+  --color-magic-admin-shell-base: #f5f5f5;
+  --color-magic-admin-panel-shadow: rgba(26, 31, 39, 0.45);
 }
 
 body {
@@ -125,6 +129,23 @@ code {
 
   .shadow-sdw-a {
     box-shadow: 0 4px 40px 0 rgba(26, 31, 39, 0.12);
+  }
+
+  .bg-magic-admin-shell {
+    background-image: radial-gradient(
+      circle at top,
+      var(--color-magic-admin-shell-spotlight) 0%,
+      var(--color-magic-admin-shell-mid) 48%,
+      var(--color-magic-admin-shell-base) 100%
+    );
+  }
+
+  .shadow-magic-admin-header {
+    box-shadow: 0 10px 30px -24px var(--color-magic-admin-panel-shadow);
+  }
+
+  .shadow-magic-admin-panel {
+    box-shadow: 0 8px 24px -22px var(--color-magic-admin-panel-shadow);
   }
 
   .typo-bold-1 {

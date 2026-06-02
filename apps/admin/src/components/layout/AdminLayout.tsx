@@ -38,9 +38,9 @@ export function AdminLayout({ children, activeMenu, title, description }: AdminL
 	};
 
 	return (
-		<div className="min-h-screen bg-[radial-gradient(circle_at_top,_#eef2ff_0%,_#fafafa_48%,_#f5f5f5_100%)] text-k-800">
+		<div className="min-h-screen bg-magic-admin-shell text-k-800">
 			<div className="mx-auto flex min-h-screen w-full max-w-[1440px] flex-col px-3 py-4 sm:px-4 sm:py-6 lg:px-8">
-				<header className="mb-4 flex items-center justify-between rounded-2xl border border-k-100 bg-k-0 px-4 py-3 shadow-[0_10px_30px_-24px_rgba(26,31,39,0.45)]">
+				<header className="mb-4 flex items-center justify-between rounded-2xl border border-k-100 bg-k-0 px-4 py-3 shadow-magic-admin-header">
 					<div className="flex items-center gap-3">
 						<div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-100 text-primary typo-sb-9">
 							SC
@@ -67,7 +67,7 @@ export function AdminLayout({ children, activeMenu, title, description }: AdminL
 				<div className="flex min-h-[calc(100vh-96px)] overflow-hidden rounded-[24px] border border-k-100 bg-k-0 shadow-sdw-a">
 					<AdminSidebar activeMenu={activeMenu} />
 					<section className="flex-1 bg-bg-50 p-4 sm:p-6 lg:p-7">
-						<div className="h-full rounded-2xl border border-k-100 bg-k-0 p-4 shadow-[0_8px_24px_-22px_rgba(26,31,39,0.45)] sm:p-6">
+						<div className="h-full rounded-2xl border border-k-100 bg-k-0 p-4 shadow-magic-admin-panel sm:p-6">
 							<h1 className="typo-bold-1 text-k-900">{title}</h1>
 							{description ? <p className="mt-1 typo-regular-4 text-k-500">{description}</p> : null}
 							{children}

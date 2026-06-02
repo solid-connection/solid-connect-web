@@ -32,7 +32,7 @@ const PostWriteButton = ({ onClick }: PostWriteButtonProps) => {
       className={`fixed bottom-16 flex w-full max-w-app flex-col items-center transition-transform duration-300 ease-in-out ${isVisible ? "translate-y-0" : "translate-y-[calc(100%+66px)]"} `}
     >
       <button
-        className="relative flex h-14 w-14 cursor-pointer items-center justify-center rounded-full bg-primary shadow-[0px_4px_30px_rgba(0,0,0,0.15)]"
+        className="relative flex h-14 w-14 cursor-pointer items-center justify-center rounded-full bg-primary shadow-magic-floating-action"
         onClick={onClick}
         type="button"
         aria-label="글쓰기"

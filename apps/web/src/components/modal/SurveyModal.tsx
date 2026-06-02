@@ -48,7 +48,7 @@ const SurveyModal = ({ isOpen, onClose, onCloseForWeek }: SurveyModalProps) => {
 
   return (
     <ModalBase isOpen={isOpen} onClose={handleClose}>
-      <div className="relative h-[450px] w-[290px] overflow-hidden rounded-[8px] bg-white shadow-[0_10px_30px_rgba(0,0,0,0.2)] [text-size-adjust:100%] [-webkit-text-size-adjust:100%]">
+      <div className="relative h-[450px] w-[290px] overflow-hidden rounded-[8px] bg-white shadow-magic-survey-modal [text-size-adjust:100%] [-webkit-text-size-adjust:100%]">
         <Image
           src="/images/survey-modal/bg-vector.svg"
           alt=""

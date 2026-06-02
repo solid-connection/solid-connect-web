@@ -94,7 +94,7 @@ const PrepareChoiceButton = ({
 }: PrepareChoiceButtonProps) => {
   return (
     <button
-      className={clsx("flex items-center gap-9 rounded-lg py-5 shadow-[0_0_6px_0_rgb(221,221,223)]", {
+      className={clsx("flex items-center gap-9 rounded-lg py-5 shadow-magic-signup-step", {
         "border border-primary bg-primary-100": preparation === status,
         "border border-white bg-white": preparation !== status,
       })}

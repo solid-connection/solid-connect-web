@@ -29,7 +29,7 @@ const ChatPageClient = () => {
         </p>
         <Link
           href={"/mentor"}
-          className="mt-5 flex h-[52px] w-60 items-center justify-center gap-[10px] rounded-[30px] bg-[linear-gradient(270deg,_var(--Primary-Color,_#5950F6)_0%,_var(--SubA-Color,_#388CE8)_100%)] px-[10px] text-white typo-sb-9"
+          className="mt-5 flex h-[52px] w-60 items-center justify-center gap-[10px] rounded-[30px] bg-gradient-to-l from-primary to-sub-a px-[10px] text-white typo-sb-9"
         >
           멘토 찾으러 가볼까요?
         </Link>

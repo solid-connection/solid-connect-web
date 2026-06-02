@@ -12,7 +12,6 @@ const GpaCertExamplePage = () => {
 
   const divStyle = {
     padding: "33px 20px 36px 20px",
-    borderBottom: "1px solid rgb(236, 236, 236)",
     fontFamily: "Pretendard",
     fontSize: "14px",
     lineHeight: "150%",
@@ -48,7 +47,7 @@ const GpaCertExamplePage = () => {
   return (
     <div className="w-full">
       <TopDetailNavigation title="증명서 예시" handleBack={closeWindow} />
-      <div style={divStyle} className="border-b border-bg-400 text-gray-800">
+      <div style={divStyle} className="border-b border-magic-certificate-divider text-gray-800">
         학번과 직전학기가 표시된 증명서만 승인됩니다.
         <br />
         <br />

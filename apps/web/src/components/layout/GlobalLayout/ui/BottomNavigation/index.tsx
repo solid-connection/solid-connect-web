@@ -27,7 +27,7 @@ const BottomNavigation = () => {
   }
 
   return (
-    <nav className="fixed bottom-0 flex h-[56px] w-full max-w-app bg-white [box-shadow:0px_-2px_6px_0px_var(--K50,#F5F5F5)]">
+    <nav className="fixed bottom-0 flex h-[56px] w-full max-w-app bg-white shadow-magic-bottom-nav">
       {NAV_ITEMS.map(({ route, text, iconType }) => {
         const isActive = isRouteActive(pathname, route);
         return (
