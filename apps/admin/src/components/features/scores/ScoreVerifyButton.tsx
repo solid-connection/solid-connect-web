@@ -33,7 +33,7 @@ export function ScoreVerifyButton({ currentStatus, onVerifyChange }: Props) {
 			<button
 				type="button"
 				onClick={handleApprove}
-				className="rounded bg-[#15A861] px-3 py-1 typo-sb-11 text-k-0 hover:bg-[#10814A]"
+				className="rounded bg-magic-success px-3 py-1 typo-sb-11 text-k-0 hover:bg-magic-success-hover"
 			>
 				승인
 			</button>
@@ -50,7 +50,7 @@ export function ScoreVerifyButton({ currentStatus, onVerifyChange }: Props) {
 					<button
 						type="button"
 						onClick={handleReject}
-						className="rounded bg-[#E22A2D] px-3 py-1 typo-sb-11 text-k-0 hover:bg-[#BA1E21]"
+						className="rounded bg-magic-danger px-3 py-1 typo-sb-11 text-k-0 hover:bg-magic-danger-hover"
 					>
 						확인
 					</button>
@@ -59,7 +59,7 @@ export function ScoreVerifyButton({ currentStatus, onVerifyChange }: Props) {
 				<button
 					type="button"
 					onClick={handleReject}
-					className="rounded bg-[#E22A2D] px-3 py-1 typo-sb-11 text-k-0 hover:bg-[#BA1E21]"
+					className="rounded bg-magic-danger px-3 py-1 typo-sb-11 text-k-0 hover:bg-magic-danger-hover"
 				>
 					거절
 				</button>

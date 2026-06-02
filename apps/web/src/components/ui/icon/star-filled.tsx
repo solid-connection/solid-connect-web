@@ -10,8 +10,8 @@ interface StarFilledIconProps {
 
 const StarFilledIcon = ({
   size = "20",
-  leftColor = "#000000",
-  rightColor = "#000000",
+  leftColor = "currentColor",
+  rightColor = "currentColor",
   leftOpacity = "1",
   rightOpacity = "1",
   onClick,

@@ -78,7 +78,7 @@ const Comment = ({
     <div
       className={clsx(
         "flex border-b border-gray-c-100 px-5 py-[18px]",
-        comment.parentId !== null ? "bg-line-1" : "bg-[#fafafa]",
+        comment.parentId !== null ? "bg-line-1" : "bg-magic-comment-reply-bg",
       )}
       key={comment.id}
       role="button"

@@ -27,7 +27,7 @@ const BottomNavigation = () => {
   }
 
   return (
-    <nav className="fixed bottom-0 flex h-[56px] w-full max-w-app bg-white [box-shadow:0px_-2px_6px_0px_var(--K50,#F5F5F5)]">
+    <nav className="fixed bottom-0 flex h-[56px] w-full max-w-app bg-white shadow-magic-bottom-nav">
       {NAV_ITEMS.map(({ route, text, iconType }) => {
         const isActive = isRouteActive(pathname, route);
         return (
@@ -36,11 +36,13 @@ const BottomNavigation = () => {
             href={route}
             aria-current={isActive ? "page" : undefined}
             aria-label={`${text} 페이지로 이동`}
-            className="flex flex-[1_0_0] flex-col items-center self-stretch px-3 pb-2 pt-1.5 no-underline"
+            className={`flex flex-[1_0_0] flex-col items-center self-stretch px-3 pb-2 pt-1.5 no-underline ${
+              isActive ? "text-primary" : "text-magic-nav-inactive"
+            }`}
           >
             {(() => {
               const IconComp = ICON_COMPONENTS[iconType];
-              return <IconComp color={isActive ? "#5950F6" : undefined} />;
+              return <IconComp />;
             })()}
             <span
               className={

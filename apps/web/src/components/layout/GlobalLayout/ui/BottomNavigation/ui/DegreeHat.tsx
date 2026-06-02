@@ -1,5 +1,5 @@
 // eslint-disable-next-line
-export default function DegreeHat({ color = "#707070" }) {
+export default function DegreeHat({ color = "currentColor" }) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20" fill="none">
       <path d="M0.42041 0H20.4204V20H0.42041V0Z" fill="white" fillOpacity="0.01" />

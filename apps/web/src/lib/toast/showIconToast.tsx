@@ -26,18 +26,9 @@ export const showIconToast = (icon: ToastIconKey, message: string) => {
 
   toast.custom(
     () => (
-      <div className="animate-fadeIn pointer-events-auto flex min-h-[62px] w-full max-w-[350px] items-center justify-center gap-2.5 rounded-[12px] bg-white px-5 py-4 shadow-[0px_4px_40px_0px_rgba(0,0,0,0.25)]">
+      <div className="animate-fadeIn pointer-events-auto flex min-h-[62px] w-full max-w-[350px] items-center justify-center gap-2.5 rounded-[12px] bg-white px-5 py-4 shadow-magic-toast">
         <Icon className="flex-shrink-0" />
-        <span
-          className="break-words text-center font-serif text-[16px] font-semibold leading-[150%]"
-          style={{
-            backgroundImage: "linear-gradient(90deg, #5950F6 0%, #388CE8 100%)",
-            WebkitBackgroundClip: "text",
-            backgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            color: "transparent",
-          }}
-        >
+        <span className="break-words bg-gradient-to-r from-primary to-sub-a bg-clip-text text-center font-serif text-[16px] font-semibold leading-[150%] text-transparent [-webkit-text-fill-color:transparent]">
           {message}
         </span>
       </div>

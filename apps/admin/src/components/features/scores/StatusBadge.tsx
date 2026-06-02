@@ -2,8 +2,8 @@ import type { VerifyStatus } from "@/types/scores";
 
 const statusStyles = {
 	PENDING: "bg-primary-100 text-primary",
-	APPROVED: "bg-[#E9F7EC] text-[#15A861]",
-	REJECTED: "bg-[#FFD9D9] text-[#E22A2D]",
+	APPROVED: "bg-magic-success-surface text-magic-success",
+	REJECTED: "bg-magic-danger-surface text-magic-danger",
 };
 
 const statusLabels = {
