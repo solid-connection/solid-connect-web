@@ -22,6 +22,9 @@ const imageRemotePatterns = [
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   transpilePackages: ["@solid-connect/ai-inspector"],
+  reactCompiler: {
+    compilationMode: "annotation",
+  },
   turbopack: {
     rules: {
       "*.svg": {
