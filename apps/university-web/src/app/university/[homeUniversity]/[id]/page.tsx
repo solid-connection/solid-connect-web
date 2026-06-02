@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { getAllUniversities, getUniversityDetailForSsg } from "@/apis/universities/server";
+import { getAllUniversities, getUniversityDetailWithStatus } from "@/apis/universities/server";
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import { getHomeUniversityBySlug, HOME_UNIVERSITY_SLUGS, isMatchedHomeUniversityName } from "@/constants/university";
 import type { HomeUniversitySlug } from "@/types/university";
@@ -10,6 +10,7 @@ import { createUrl, NO_INDEX_ROBOTS } from "@/utils/seo";
 
 // UniversityDetail 컴포넌트
 import UniversityDetail from "./_ui/UniversityDetail";
+import UniversityDetailPreparingFallback from "./_ui/UniversityDetailPreparingFallback";
 
 export const revalidate = false; // 완전 정적 생성
 export const dynamicParams = false;
@@ -70,7 +71,25 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
-  const universityData = await getUniversityDetailForSsg(Number(id));
+  const universityId = Number(id);
+
+  if (Number.isNaN(universityId)) {
+    return {
+      title: "파견 학교 상세",
+      robots: NO_INDEX_ROBOTS,
+    };
+  }
+
+  const universityDetailResult = await getUniversityDetailWithStatus(universityId);
+
+  if (!universityDetailResult.ok) {
+    return {
+      title: "파견 학교 상세",
+      robots: NO_INDEX_ROBOTS,
+    };
+  }
+
+  const universityData = universityDetailResult.data;
 
   const homeUniversityInfo = getHomeUniversityBySlug(homeUniversity);
   const convertedKoreanName = universityData.koreanName;
@@ -131,7 +150,22 @@ const CollegeDetailPage = async ({ params }: PageProps) => {
     notFound();
   }
 
-  const universityData = await getUniversityDetailForSsg(collegeId);
+  const universityDetailResult = await getUniversityDetailWithStatus(collegeId);
+
+  if (!universityDetailResult.ok) {
+    if (universityDetailResult.status === 404) {
+      notFound();
+    }
+
+    return (
+      <>
+        <TopDetailNavigation title="파견 학교 상세" backHref={`/university/${homeUniversity}`} />
+        <UniversityDetailPreparingFallback backHref={`/university/${homeUniversity}`} />
+      </>
+    );
+  }
+
+  const universityData = universityDetailResult.data;
 
   const convertedKoreanName = universityData.koreanName;
 
