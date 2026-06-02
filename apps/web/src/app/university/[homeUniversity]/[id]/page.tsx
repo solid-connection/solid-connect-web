@@ -123,22 +123,14 @@ const CollegeDetailPage = async ({ params }: PageProps) => {
   const universityDetailResult = await getUniversityDetailWithStatus(collegeId);
 
   if (!universityDetailResult.ok) {
-    const isNotFoundError = universityDetailResult.status === 404;
-
-    if (isNotFoundError) {
+    if (universityDetailResult.status === 404) {
       notFound();
     }
 
     return (
       <>
         <TopDetailNavigation title="파견 학교 상세" backHref={`/university/${homeUniversity}`} />
-        <UniversityDetailPreparingFallback
-          backHref={`/university/${homeUniversity}`}
-          title={isNotFoundError ? "해당 대학 정보를 찾을 수 없어요." : undefined}
-          description={
-            isNotFoundError ? "요청하신 파견학교를 찾지 못했습니다. 목록에서 다른 학교를 선택해 주세요." : undefined
-          }
-        />
+        <UniversityDetailPreparingFallback backHref={`/university/${homeUniversity}`} />
       </>
     );
   }

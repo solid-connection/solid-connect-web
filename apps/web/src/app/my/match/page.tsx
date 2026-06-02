@@ -6,7 +6,7 @@ import { NO_INDEX_ROBOTS } from "@/utils/seo";
 import MatchContent from "./_ui/MatchContent";
 
 export const metadata: Metadata = {
-  title: "프로필 수정",
+  title: "매칭 멘토",
   robots: NO_INDEX_ROBOTS,
 };
 

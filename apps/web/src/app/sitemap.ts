@@ -27,7 +27,14 @@ const getStaticRoutes = (): MetadataRoute.Sitemap => [
 ];
 
 const getUniversityDetailRoutes = async (): Promise<MetadataRoute.Sitemap> => {
-  const universities = await getAllUniversities();
+  let universities: Awaited<ReturnType<typeof getAllUniversities>>;
+
+  try {
+    universities = await getAllUniversities();
+  } catch {
+    return [];
+  }
+
   const seenUrls = new Set<string>();
 
   return universities.flatMap((university) => {
