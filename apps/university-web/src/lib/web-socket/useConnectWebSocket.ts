@@ -1,0 +1,145 @@
+import { Client } from "@stomp/stompjs";
+import { type InfiniteData, useQueryClient } from "@tanstack/react-query";
+import type { MutableRefObject } from "react";
+import { useEffect, useState } from "react";
+import SockJS from "sockjs-client";
+import { type ChatHistoriesResponse, ChatQueryKeys } from "@/apis/chat/api";
+import { normalizeChatMessage, type RawChatMessage } from "@/apis/chat/normalize";
+
+import { type ChatMessage, ConnectionStatus } from "@/types/chat";
+import { isTokenExpired } from "@/utils/jwtUtils";
+import useAuthStore from "../zustand/useAuthStore";
+
+interface UseConnectWebSocketProps {
+  roomId: number | null;
+  clientRef: MutableRefObject<Client | null>;
+}
+
+interface UseConnectWebSocketReturn {
+  connectionStatus: ConnectionStatus;
+  submittedMessages: ChatMessage[];
+  setSubmittedMessages: React.Dispatch<React.SetStateAction<ChatMessage[]>>;
+}
+
+const NEXT_PUBLIC_API_SERVER_URL = process.env.NEXT_PUBLIC_API_SERVER_URL;
+
+const getMessageCacheKey = (message: ChatMessage) => {
+  if (message.id !== 0) return `id:${message.id}`;
+
+  const attachmentKey = message.attachments
+    .map((attachment) => `${attachment.isImage ? "image" : "file"}:${attachment.url}:${attachment.createdAt}`)
+    .join(",");
+
+  return `fallback:${message.senderId}:${message.createdAt}:${message.content}:${attachmentKey}`;
+};
+
+const appendMessageToChatHistories = (
+  oldData: InfiniteData<ChatHistoriesResponse, number> | undefined,
+  message: ChatMessage,
+) => {
+  if (!oldData || oldData.pages.length === 0) return oldData;
+
+  const messageKey = getMessageCacheKey(message);
+  const hasMessage = oldData.pages.some((page) =>
+    page.content.some((cachedMessage) => getMessageCacheKey(cachedMessage) === messageKey),
+  );
+
+  if (hasMessage) return oldData;
+
+  return {
+    ...oldData,
+    pages: oldData.pages.map((page, index) =>
+      index === 0
+        ? {
+            ...page,
+            content: [...page.content, message],
+          }
+        : page,
+    ),
+  };
+};
+
+const useConnectWebSocket = ({ roomId, clientRef }: UseConnectWebSocketProps): UseConnectWebSocketReturn => {
+  // Hook 내부에서 연결 상태를 직접 관리
+  const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>(ConnectionStatus.Disconnected);
+  const [submittedMessages, setSubmittedMessages] = useState<ChatMessage[]>([]);
+  const queryClient = useQueryClient();
+  const accessToken = useAuthStore((state) => state.accessToken);
+  const isInitialized = useAuthStore((state) => state.isInitialized);
+  const hasValidAccessToken = Boolean(accessToken && !isTokenExpired(accessToken));
+
+  useEffect(() => {
+    if (!roomId) {
+      setConnectionStatus(ConnectionStatus.Disconnected);
+      return;
+    }
+
+    if (!isInitialized || !hasValidAccessToken) {
+      setConnectionStatus(ConnectionStatus.Pending);
+      return;
+    }
+
+    const connect = async () => {
+      setConnectionStatus(ConnectionStatus.Pending); // 연결 시도 중 상태로 설정
+      const token = accessToken;
+
+      try {
+        const client = new Client({
+          webSocketFactory: () => new SockJS(`${NEXT_PUBLIC_API_SERVER_URL}/connect?token=${token}`),
+          // ...existing code...
+          heartbeatIncoming: 50000,
+          heartbeatOutgoing: 50000,
+          reconnectDelay: 50000,
+        });
+
+        client.onConnect = () => {
+          setConnectionStatus(ConnectionStatus.Connected);
+          client.subscribe(`/topic/chat/${roomId}`, (message) => {
+            try {
+              const receivedMessage = normalizeChatMessage(JSON.parse(message.body) as RawChatMessage);
+
+              if (!receivedMessage.createdAt || Number.isNaN(new Date(receivedMessage.createdAt).getTime())) {
+                receivedMessage.createdAt = new Date().toISOString();
+              }
+
+              queryClient.setQueryData<InfiniteData<ChatHistoriesResponse, number>>(
+                [ChatQueryKeys.chatHistories, roomId],
+                (oldData) => appendMessageToChatHistories(oldData, receivedMessage),
+              );
+              queryClient.invalidateQueries({ queryKey: [ChatQueryKeys.chatRooms], refetchType: "none" });
+              setSubmittedMessages((prev) => [...prev, receivedMessage]);
+            } catch (error) {}
+          });
+        };
+
+        client.onStompError = (frame) => {
+          setConnectionStatus(ConnectionStatus.Error);
+        };
+
+        client.onDisconnect = () => {
+          setConnectionStatus(ConnectionStatus.Disconnected);
+        };
+
+        client.activate();
+        clientRef.current = client;
+      } catch (error) {
+        setConnectionStatus(ConnectionStatus.Error);
+      }
+    };
+
+    connect();
+
+    // Clean-up 함수
+    return () => {
+      if (clientRef.current?.active) {
+        clientRef.current.deactivate();
+      }
+      clientRef.current = null;
+    };
+  }, [roomId, clientRef, accessToken, hasValidAccessToken, isInitialized, queryClient]);
+
+  // 관리하는 connectionStatus를 반환
+  return { connectionStatus, submittedMessages, setSubmittedMessages };
+};
+
+export default useConnectWebSocket;

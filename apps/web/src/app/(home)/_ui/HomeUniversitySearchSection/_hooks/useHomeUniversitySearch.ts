@@ -1,4 +1,3 @@
-import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 
 import { HOME_UNIVERSITY_LIST } from "@/constants/university";
@@ -15,7 +14,6 @@ const MAX_COUNTRY_SELECT_COUNT = 3;
 const createEmptyCountries = () => Array<string>(MAX_COUNTRY_SELECT_COUNT).fill("");
 
 const useHomeUniversitySearch = () => {
-  const router = useRouter();
   const [selectedHomeUniversitySlug, setSelectedHomeUniversitySlug] = useState<HomeUniversitySlug>(
     HOME_UNIVERSITY_LIST[0].slug,
   );
@@ -49,7 +47,7 @@ const useHomeUniversitySearch = () => {
       countryCodes: countries,
     }).toString();
 
-    router.push(`/university/${selectedHomeUniversitySlug}${queryString ? `?${queryString}` : ""}`);
+    window.location.assign(`/university/${selectedHomeUniversitySlug}${queryString ? `?${queryString}` : ""}`);
   };
 
   return {

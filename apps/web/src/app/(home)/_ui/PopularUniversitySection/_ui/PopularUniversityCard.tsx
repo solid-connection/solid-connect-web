@@ -1,4 +1,3 @@
-import Link from "next/link";
 import Image from "@/components/ui/FallbackImage";
 import { getHomeUniversitySlugByName } from "@/constants/university";
 import type { ListUniversity } from "@/types/university";
@@ -25,7 +24,7 @@ const PopularUniversityCard = ({
     : "/university";
 
   return (
-    <Link key={university.id} href={universityDetailHref}>
+    <a key={university.id} href={universityDetailHref}>
       <div className="relative w-[153px]">
         <div className="relative h-[120px] w-[153px] overflow-hidden rounded-lg bg-k-700">
           <Image
@@ -56,7 +55,7 @@ const PopularUniversityCard = ({
           {university.koreanName}
         </div>
       </div>
-    </Link>
+    </a>
   );
 };
 
