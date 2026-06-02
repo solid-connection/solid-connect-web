@@ -17,7 +17,7 @@ const HomeUniversitySearchSection = () => {
     languageOptions,
     countryOptionsByIndex,
     handleCountryChange,
-    submitSearch,
+    searchHref,
   } = useHomeUniversitySearch();
 
   return (
@@ -74,13 +74,12 @@ const HomeUniversitySearchSection = () => {
         })}
       </div>
 
-      <button
-        type="button"
-        onClick={submitSearch}
+      <a
+        href={searchHref}
         className="mt-3 w-full rounded-lg bg-primary px-4 py-4 text-center text-k-0 transition-colors typo-sb-9 hover:bg-primary-600"
       >
         학교 검색하기
-      </button>
+      </a>
     </section>
   );
 };

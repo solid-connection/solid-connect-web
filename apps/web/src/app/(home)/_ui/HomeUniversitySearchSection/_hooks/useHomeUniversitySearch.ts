@@ -41,14 +41,14 @@ const useHomeUniversitySearch = () => {
     );
   };
 
-  const submitSearch = () => {
+  const searchHref = useMemo(() => {
     const queryString = buildUniversitySearchQuery({
       languageTestType,
       countryCodes: countries,
     }).toString();
 
-    window.location.assign(`/university/${selectedHomeUniversitySlug}${queryString ? `?${queryString}` : ""}`);
-  };
+    return `/university/${selectedHomeUniversitySlug}${queryString ? `?${queryString}` : ""}`;
+  }, [countries, languageTestType, selectedHomeUniversitySlug]);
 
   return {
     homeUniversities: HOME_UNIVERSITY_LIST,
@@ -60,7 +60,7 @@ const useHomeUniversitySearch = () => {
     languageOptions,
     countryOptionsByIndex,
     handleCountryChange,
-    submitSearch,
+    searchHref,
   };
 };
 

@@ -29,7 +29,7 @@ for FILE in $CHANGED_FILES; do
     apps/admin/*)
       RUN_ADMIN=1
       ;;
-    package.json|pnpm-lock.yaml|pnpm-workspace.yaml|turbo.json|.github/workflows/*)
+    package.json|pnpm-lock.yaml|pnpm-workspace.yaml|scripts/*|turbo.json|.github/workflows/*)
       RUN_WEB=1
       RUN_UNIVERSITY_WEB=1
       RUN_ADMIN=1
