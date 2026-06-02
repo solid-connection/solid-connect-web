@@ -155,7 +155,7 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
                     {/* 날짜 구분선 */}
                     {showDateSeparator && (
                       <div className="my-4 mb-6 flex w-full justify-center">
-                        <span className="rounded-full bg-k-50 px-3 py-1 text-k-600 typo-regular-2">
+                        <span className="rounded-full bg-gray-100 px-3 py-1 text-gray-600 typo-regular-2">
                           {formatDateSeparator(message.createdAt)}
                         </span>
                       </div>
