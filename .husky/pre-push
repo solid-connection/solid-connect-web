@@ -15,6 +15,7 @@ else
 fi
 
 RUN_WEB=0
+RUN_UNIVERSITY_WEB=0
 RUN_ADMIN=0
 
 for FILE in $CHANGED_FILES; do
@@ -22,11 +23,15 @@ for FILE in $CHANGED_FILES; do
     apps/web/*)
       RUN_WEB=1
       ;;
+    apps/university-web/*)
+      RUN_UNIVERSITY_WEB=1
+      ;;
     apps/admin/*)
       RUN_ADMIN=1
       ;;
     package.json|pnpm-lock.yaml|pnpm-workspace.yaml|turbo.json|.github/workflows/*)
       RUN_WEB=1
+      RUN_UNIVERSITY_WEB=1
       RUN_ADMIN=1
       ;;
   esac
@@ -34,7 +39,12 @@ done
 
 if [ "$RUN_WEB" -eq 1 ]; then
   pnpm --filter @solid-connect/web run ci:check
-  NODE_ENV=production pnpm --filter @solid-connect/web run build
+  NODE_ENV=production UNIVERSITY_WEB_DOMAIN=https://university-web.ci.local pnpm --filter @solid-connect/web run build
+fi
+
+if [ "$RUN_UNIVERSITY_WEB" -eq 1 ]; then
+  pnpm --filter @solid-connect/university-web run ci:check
+  NODE_ENV=production pnpm --filter @solid-connect/university-web run build
 fi
 
 if [ "$RUN_ADMIN" -eq 1 ]; then
@@ -42,7 +52,7 @@ if [ "$RUN_ADMIN" -eq 1 ]; then
   NODE_ENV=production pnpm --filter @solid-connect/admin run build
 fi
 
-if [ "$RUN_WEB" -eq 0 ] && [ "$RUN_ADMIN" -eq 0 ]; then
+if [ "$RUN_WEB" -eq 0 ] && [ "$RUN_UNIVERSITY_WEB" -eq 0 ] && [ "$RUN_ADMIN" -eq 0 ]; then
   echo "ℹ️ No CI-targeted changes detected; skipping parity builds."
 fi
 
