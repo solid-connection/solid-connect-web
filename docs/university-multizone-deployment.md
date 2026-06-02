@@ -63,6 +63,32 @@ Vercel에서는 같은 Git repository를 두 개의 Project로 연결한다.
 
 University project의 직접 배포 도메인은 검색엔진에 노출하지 않는다. 실제 사용자 URL은 main domain의 rewrite를 통해 제공한다.
 
+## Release 배포
+
+production 릴리즈는 GitHub Actions `Promote Main to Release Branches` workflow로 release branch를 갱신해 Vercel 배포를 트리거한다.
+
+- Main Web Project production branch: `release-web`
+- Admin Project production branch: `release-admin`
+- University Web Project production branch: `release-university`
+
+workflow target은 다음과 같이 사용한다.
+
+- `all`: `release-web`, `release-admin`, `release-university`를 모두 main으로 갱신
+- `university`: `release-university`만 main으로 갱신
+- `both`: 기존 호환용으로 `release-web`, `release-admin`만 갱신
+
+production web project의 `UNIVERSITY_WEB_DOMAIN`은 university web production origin을 가리켜야 한다. 예를 들어 사용자 production URL이 `https://www.solid-connection.com/university`라면 rewrite 대상은 별도 university web production origin이다.
+
+```bash
+UNIVERSITY_WEB_DOMAIN=https://<university-web-production-origin>
+```
+
+production university web project의 `NEXT_PUBLIC_WEB_URL`은 실제 사용자가 접근하는 main web production URL을 가리킨다.
+
+```bash
+NEXT_PUBLIC_WEB_URL=https://www.solid-connection.com
+```
+
 ## Local Development
 
 터미널 두 개에서 실행한다.
