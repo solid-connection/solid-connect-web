@@ -1,7 +1,6 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { usePostReports } from "@/apis/reports";
-import { postBlockUser } from "@/apis/users";
 import { reportReasons } from "@/constants/report";
 import { customConfirm } from "@/lib/zustand/useConfirmModalStore";
 import useReportedPostsStore from "@/lib/zustand/useReportedPostsStore";
@@ -13,19 +12,9 @@ interface UseSelectReportHandlerReturn {
   handleReasonSelect: (reason: ReportType) => Promise<void>;
 }
 
-interface UseSelectReportHandlerOptions {
-  blockUserId?: number;
-}
-
-const useSelectReportHandler = (
-  chatId: number,
-  { blockUserId }: UseSelectReportHandlerOptions = {},
-): UseSelectReportHandlerReturn => {
+const useSelectReportHandler = (chatId: number): UseSelectReportHandlerReturn => {
   const [selectedReason, setSelectedReason] = useState<ReportType | null>(null);
   const { mutateAsync: postReports } = usePostReports();
-  const { mutateAsync: blockUser } = postBlockUser();
-  const addBlockedUser = useReportedPostsStore((state) => state.addBlockedUser);
-  const removeBlockedUser = useReportedPostsStore((state) => state.removeBlockedUser);
   const addReportedPost = useReportedPostsStore((state) => state.addReportedPost);
   const pathname = usePathname();
   const router = useRouter();
@@ -49,20 +38,6 @@ const useSelectReportHandler = (
 
         if (pathname.startsWith("/community/")) {
           addReportedPost(chatId);
-
-          if (blockUserId) {
-            addBlockedUser(blockUserId);
-
-            try {
-              await blockUser({
-                blockedId: blockUserId,
-                data: {},
-              });
-            } catch {
-              removeBlockedUser(blockUserId);
-              return;
-            }
-          }
         }
 
         router.back();

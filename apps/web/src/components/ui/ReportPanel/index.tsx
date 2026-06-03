@@ -11,12 +11,11 @@ import useSelectReportHandler from "./_hooks/useSelectReportHandler";
 
 interface ReportPanelProps {
   idx: number;
-  blockUserId?: number;
 }
 
-const ReportPanel = ({ idx, blockUserId }: ReportPanelProps) => {
+const ReportPanel = ({ idx }: ReportPanelProps) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
-  const { selectedReason, handleReasonSelect } = useSelectReportHandler(idx, { blockUserId });
+  const { selectedReason, handleReasonSelect } = useSelectReportHandler(idx);
 
   return (
     <>

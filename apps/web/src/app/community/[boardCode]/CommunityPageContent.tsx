@@ -7,17 +7,10 @@ import { COMMUNITY_INITIAL_CATEGORY } from "@/apis/community/postListQuery";
 import ButtonTab from "@/components/ui/ButtonTab";
 import { COMMUNITY_BOARDS, COMMUNITY_CATEGORIES } from "@/constants/community";
 import useReportedPostsStore from "@/lib/zustand/useReportedPostsStore";
-import type { ListPost } from "@/types/community";
 import { CommunityPostListSkeleton } from "./CommunityPageSkeleton";
 import CommunityRegionSelector from "./CommunityRegionSelector";
 import PostCards from "./PostCards";
 import PostWriteButton from "./PostWriteButton";
-
-type ListPostWithAuthor = ListPost & {
-  postFindSiteUserResponse?: {
-    id: number;
-  };
-};
 
 interface CommunityPageContentProps {
   boardCode: string;
@@ -47,7 +40,7 @@ const CommunityPageContent = ({ boardCode }: CommunityPageContentProps) => {
         return false;
       }
 
-      const authorId = (post as ListPostWithAuthor).postFindSiteUserResponse?.id;
+      const authorId = post.postFindSiteUserResponse?.id;
 
       if (typeof authorId === "number" && blockedUserIdSet.has(authorId)) {
         return false;
