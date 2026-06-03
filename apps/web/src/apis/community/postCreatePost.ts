@@ -38,6 +38,7 @@ const useCreatePost = () => {
     onSuccess: async (data) => {
       // 게시글 목록 쿼리를 무효화하여 최신 목록 반영
       queryClient.invalidateQueries({ queryKey: [CommunityQueryKeys.posts] });
+      queryClient.invalidateQueries({ queryKey: [CommunityQueryKeys.postList] });
 
       // ISR 페이지 revalidate (사용자 인증 토큰 사용)
       if (accessToken) {

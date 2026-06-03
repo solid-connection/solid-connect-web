@@ -47,6 +47,7 @@ const useDeletePost = () => {
       // 'posts' 쿼리 키를 가진 모든 쿼리를 무효화하여
       // 게시글 목록을 다시 불러오도록 합니다.
       queryClient.invalidateQueries({ queryKey: [CommunityQueryKeys.posts] });
+      queryClient.invalidateQueries({ queryKey: [CommunityQueryKeys.postList] });
 
       // ISR 페이지 revalidate
       if (variables.boardCode && accessToken) {

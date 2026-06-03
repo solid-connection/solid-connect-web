@@ -3,10 +3,12 @@
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { useGetPostList } from "@/apis/community";
+import { COMMUNITY_INITIAL_CATEGORY } from "@/apis/community/postListQuery";
 import ButtonTab from "@/components/ui/ButtonTab";
 import { COMMUNITY_BOARDS, COMMUNITY_CATEGORIES } from "@/constants/community";
 import useReportedPostsStore from "@/lib/zustand/useReportedPostsStore";
 import type { ListPost } from "@/types/community";
+import { CommunityPostListSkeleton } from "./CommunityPageSkeleton";
 import CommunityRegionSelector from "./CommunityRegionSelector";
 import PostCards from "./PostCards";
 import PostWriteButton from "./PostWriteButton";
@@ -23,11 +25,11 @@ interface CommunityPageContentProps {
 
 const CommunityPageContent = ({ boardCode }: CommunityPageContentProps) => {
   const router = useRouter();
-  const [category, setCategory] = useState<string | null>("전체");
+  const [category, setCategory] = useState<string | null>(COMMUNITY_INITIAL_CATEGORY);
   const reportedPostIds = useReportedPostsStore((state) => state.reportedPostIds);
   const blockedUserIds = useReportedPostsStore((state) => state.blockedUserIds);
 
-  const { data: posts = [] } = useGetPostList({
+  const { data: posts = [], isPending } = useGetPostList({
     boardCode,
     category,
   });
@@ -81,7 +83,7 @@ const CommunityPageContent = ({ boardCode }: CommunityPageContentProps) => {
         setChoice={setCategory}
         style={{ padding: "10px 0 10px 18px" }}
       />
-      {<PostCards posts={visiblePosts} boardCode={boardCode} />}
+      {isPending ? <CommunityPostListSkeleton /> : <PostCards posts={visiblePosts} boardCode={boardCode} />}
       <PostWriteButton onClick={postWriteHandler} />
     </div>
   );
