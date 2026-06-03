@@ -13,28 +13,32 @@ const REGIONS = [
 ] as const;
 
 interface RegionFilterProps {
-  selectedRegion: RegionEnumExtend;
+  selectedRegions: RegionEnumExtend[];
   onRegionChange: (region: RegionEnumExtend) => void;
 }
 
-const RegionFilter = ({ selectedRegion, onRegionChange }: RegionFilterProps) => {
+const RegionFilter = ({ selectedRegions, onRegionChange }: RegionFilterProps) => {
   return (
     <div className="mb-4 flex gap-2 overflow-x-auto pb-1">
-      {REGIONS.map(({ value, label }) => (
-        <button
-          key={value}
-          type="button"
-          onClick={() => onRegionChange(value)}
-          className={clsx(
-            "whitespace-nowrap rounded-full border px-4 py-2 transition-colors typo-medium-4",
-            selectedRegion === value
-              ? "border-primary bg-primary-100 text-primary"
-              : "border-k-100 bg-k-50 text-k-500 hover:border-k-200 hover:bg-k-100",
-          )}
-        >
-          {label}
-        </button>
-      ))}
+      {REGIONS.map(({ value, label }) => {
+        const isSelected = selectedRegions.includes(value);
+
+        return (
+          <button
+            key={value}
+            type="button"
+            onClick={() => onRegionChange(value)}
+            className={clsx(
+              "whitespace-nowrap rounded-full border px-4 py-2 transition-colors typo-medium-4",
+              isSelected
+                ? "border-primary bg-primary-100 text-primary"
+                : "border-k-100 bg-k-50 text-k-500 hover:border-k-200 hover:bg-k-100",
+            )}
+          >
+            {label}
+          </button>
+        );
+      })}
     </div>
   );
 };

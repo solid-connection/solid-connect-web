@@ -113,7 +113,6 @@ const UniversityListContentInner = ({ universities, homeUniversitySlug }: Univer
 
   const [searchText, setSearchText] = useState(querySearchText.trim());
   const [selectedRegions, setSelectedRegions] = useState<RegionEnumExtend[]>(queryRegions);
-  const selectedRegion = selectedRegions.at(0) ?? RegionEnumExtend.ALL;
 
   useEffect(() => {
     setSearchText(querySearchText.trim());
@@ -159,7 +158,7 @@ const UniversityListContentInner = ({ universities, homeUniversitySlug }: Univer
     <div className="px-5">
       <SearchBar value={searchText} onChange={setSearchText} homeUniversitySlug={homeUniversitySlug} />
 
-      <RegionFilter selectedRegion={selectedRegion} onRegionChange={(region) => setSelectedRegions([region])} />
+      <RegionFilter selectedRegions={selectedRegions} onRegionChange={(region) => setSelectedRegions([region])} />
 
       {/* 결과 카운트 */}
       <div className="mb-3 text-k-500 typo-medium-4">
