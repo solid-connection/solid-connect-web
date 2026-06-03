@@ -9,6 +9,7 @@ import TabSelector from "@/components/ui/TabSelector";
 import { IconDirectionRight } from "@/public/svgs/mentor";
 
 import { MentorTab } from "@/types/mentor";
+import { MentorChatCardsSkeleton } from "../../../MentorPageSkeleton";
 import ApplicantListSection from "./_ui/ApplicantListSection";
 import MyMentorSection from "./_ui/MyMentorSection";
 
@@ -17,7 +18,7 @@ const MentorPage = () => {
   const isMyMenteeTab = selectedTab === MentorTab.MY_MENTEE;
   const tabs = [MentorTab.MY_MENTEE, MentorTab.APPLY_LIST];
 
-  const { data: myMenteeList = [] } = useGetChatRooms();
+  const { data: myMenteeList = [], isPending: isMyMenteeListPending } = useGetChatRooms();
 
   return (
     <>
@@ -46,7 +47,9 @@ const MentorPage = () => {
         {isMyMenteeTab ? (
           <>
             {/* 나의 멘티  */}
-            {myMenteeList.length === 0 ? (
+            {isMyMenteeListPending ? (
+              <MentorChatCardsSkeleton count={3} />
+            ) : myMenteeList.length === 0 ? (
               <EmptySdwBCards message={"나와 매칭된 멘토입니다"} />
             ) : (
               myMenteeList.slice(0, 3).map((mentee) => {

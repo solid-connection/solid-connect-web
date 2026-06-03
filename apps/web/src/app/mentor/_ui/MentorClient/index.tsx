@@ -7,6 +7,7 @@ import { useGetMyInfo } from "@/apis/MyPage";
 import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { UserRole } from "@/types/mentor";
+import MentorPageSkeleton from "../MentorPageSkeleton";
 import MenteePage from "./_ui/MenteePage";
 import MentorPage from "./_ui/MentorPage";
 
@@ -27,7 +28,7 @@ const MentorClient = () => {
   }, [isAuthResolving, isUnauthorized, isError, role, router]);
 
   if (isAuthResolving) {
-    return <CloudSpinnerPage />;
+    return <MentorPageSkeleton />;
   }
 
   if (isUnauthorized || (!isError && !role)) {

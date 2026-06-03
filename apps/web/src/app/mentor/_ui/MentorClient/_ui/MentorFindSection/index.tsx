@@ -7,6 +7,7 @@ import EmptySdwBCards from "@/components/ui/EmptySdwBCards";
 import FloatingUpBtn from "@/components/ui/FloatingUpBtn";
 import { FilterTab } from "@/types/mentor";
 import useInfinityScroll from "@/utils/useInfinityScroll";
+import { MentorCardListSkeleton } from "../../../MentorPageSkeleton";
 import usePrefetchMentorFindTab from "./_hooks/usePrefetchMentorFindTab";
 import useSelectedTab from "./_hooks/useSelectedTab";
 
@@ -17,6 +18,7 @@ const MentorFindSection = () => {
     data: mentorList = [],
     fetchNextPage,
     hasNextPage,
+    isPending,
   } = useGetMentorList({
     region: selectedTab !== FilterTab.ALL ? selectedTab : "",
   });
@@ -44,12 +46,14 @@ const MentorFindSection = () => {
 
       {/* 멘토 리스트 */}
       <div ref={listRef} className="space-y-4 pb-28">
-        {mentorList.length === 0 ? (
+        {isPending ? (
+          <MentorCardListSkeleton />
+        ) : mentorList.length === 0 ? (
           <EmptySdwBCards message="멘토가 없습니다. 필터를 변경해보세요." />
         ) : (
-          mentorList.map((mentor) => (
+          mentorList.map((mentor, index) => (
             <MentorCard
-              observeRef={mentorList.length === mentorList.indexOf(mentor) + 1 ? lastElementRef : undefined}
+              observeRef={index === mentorList.length - 1 ? lastElementRef : undefined}
               key={mentor.id}
               mentor={mentor}
             />
