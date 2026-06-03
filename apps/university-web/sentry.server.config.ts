@@ -9,9 +9,9 @@ if (process.env.NODE_ENV === "production") {
     dsn: process.env.SENTRY_DSN || "",
     environment: process.env.SENTRY_ENVIRONMENT || "production",
 
-    // Adds request headers and IP for users
+    // Keep default PII collection off; add explicit context only where needed.
     // https://docs.sentry.io/platforms/javascript/guides/nextjs/configuration/options/#sendDefaultPii
-    sendDefaultPii: true,
+    sendDefaultPii: false,
 
     // Performance Monitoring: 프로덕션에서 30% 샘플링
     // https://docs.sentry.io/platforms/javascript/configuration/options/#traces-sample-rate

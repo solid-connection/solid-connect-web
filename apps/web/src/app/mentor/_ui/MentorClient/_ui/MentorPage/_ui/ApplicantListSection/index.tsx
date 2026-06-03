@@ -3,14 +3,17 @@ import { useGetMentoringList } from "@/apis/mentor";
 import MentorExpandChatCard from "@/components/mentor/MentorExpandChatCard";
 import EmptySdwBCards from "@/components/ui/EmptySdwBCards";
 import useInfinityScroll from "@/utils/useInfinityScroll";
+import { MentorApplicantListSkeleton } from "../../../../../MentorPageSkeleton";
 
 const ApplicantListSection = () => {
-  const { data: mentoringApplicantList = [], fetchNextPage, hasNextPage } = useGetMentoringList({ size: 6 });
+  const { data: mentoringApplicantList = [], fetchNextPage, hasNextPage, isPending } = useGetMentoringList({ size: 6 });
   const { lastElementRef } = useInfinityScroll({ fetchNextPage, hasNextPage });
 
   return (
     <>
-      {mentoringApplicantList.length === 0 ? (
+      {isPending ? (
+        <MentorApplicantListSkeleton />
+      ) : mentoringApplicantList.length === 0 ? (
         <EmptySdwBCards message={"나와 매칭된 멘토입니다"} />
       ) : (
         mentoringApplicantList.map((mentor, index) => (

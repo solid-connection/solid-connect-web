@@ -10,15 +10,19 @@ import TabSelector from "@/components/ui/TabSelector";
 import { IconDirectionRight } from "@/public/svgs/mentor";
 import { VerifyStatus } from "@/types/mentee";
 import { MenteeTab } from "@/types/mentor";
+import { MentorChatCardsSkeleton } from "../../../MentorPageSkeleton";
 
 const MenteePageTabs = () => {
   // api
-  const { data: mentoList = [] } = useGetChatRooms();
-  const { data: menteeWaitingMentoringList = [] } = useGetMenteeMentoringList(VerifyStatus.PENDING);
+  const { data: mentoList = [], isPending: isMentoListPending } = useGetChatRooms();
+  const { data: menteeWaitingMentoringList = [], isPending: isWaitingListPending } = useGetMenteeMentoringList(
+    VerifyStatus.PENDING,
+  );
 
   // state
   const [selectedTab, setSelectedTab] = useState<MenteeTab>(MenteeTab.MY_MENTOR);
   const tabs = [MenteeTab.MY_MENTOR, MenteeTab.MY_APPLIED];
+  const isCurrentTabPending = selectedTab === MenteeTab.MY_MENTOR ? isMentoListPending : isWaitingListPending;
 
   // 현재 탭에 따라 보여줄 데이터의 길이
   const currentDataLength = selectedTab === MenteeTab.MY_MENTOR ? mentoList.length : menteeWaitingMentoringList.length;
@@ -51,13 +55,16 @@ const MenteePageTabs = () => {
         )}
       </div>
 
-      {currentDataLength === 0 && (
+      {isCurrentTabPending ? (
+        <MentorChatCardsSkeleton />
+      ) : currentDataLength === 0 ? (
         <EmptyMentorChatCards
           message={selectedTab === MenteeTab.MY_MENTOR ? "진행중인 멘토링이 없어요!" : "대기중인 멘토링이 없어요!"}
         />
-      )}
+      ) : null}
 
-      {selectedTab === MenteeTab.MY_MENTOR &&
+      {!isCurrentTabPending &&
+        selectedTab === MenteeTab.MY_MENTOR &&
         mentoList.slice(0, 2).map((mentor) => (
           <Link href={`mentor/chat/${mentor.id}`} key={mentor.id}>
             <MentorChatCard
@@ -68,7 +75,8 @@ const MenteePageTabs = () => {
             />
           </Link>
         ))}
-      {selectedTab === MenteeTab.MY_APPLIED &&
+      {!isCurrentTabPending &&
+        selectedTab === MenteeTab.MY_APPLIED &&
         menteeWaitingMentoringList
           .slice(0, 2)
           .map((mentor) => (

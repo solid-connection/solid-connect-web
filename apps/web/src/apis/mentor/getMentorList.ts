@@ -1,5 +1,6 @@
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
+import { useCallback } from "react";
 import { type MentorCardDetail, type MentorListResponse, MentorQueryKeys, mentorApi } from "./api";
 
 interface UseGetMentorListRequest {
@@ -24,14 +25,17 @@ const useGetMentorList = ({ region = "" }: UseGetMentorListRequest = {}) => {
 export const usePrefetchMentorList = () => {
   const queryClient = useQueryClient();
 
-  const prefetchMentorList = (region: string) => {
-    queryClient.prefetchInfiniteQuery({
-      queryKey: [MentorQueryKeys.mentorList, region],
-      queryFn: ({ pageParam = 0 }) => mentorApi.getMentorList(region, pageParam as number),
-      initialPageParam: 0,
-      staleTime: 1000 * 60 * 5,
-    });
-  };
+  const prefetchMentorList = useCallback(
+    (region: string) => {
+      queryClient.prefetchInfiniteQuery({
+        queryKey: [MentorQueryKeys.mentorList, region],
+        queryFn: ({ pageParam = 0 }) => mentorApi.getMentorList(region, pageParam as number),
+        initialPageParam: 0,
+        staleTime: 1000 * 60 * 5,
+      });
+    },
+    [queryClient],
+  );
 
   return { prefetchMentorList };
 };

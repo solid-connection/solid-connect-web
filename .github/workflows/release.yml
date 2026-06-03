@@ -9,7 +9,7 @@ on:
       target:
         description: "Promote target (both keeps the legacy web+admin selection)"
         required: true
-        default: "all"
+        default: "both"
         type: choice
         options:
           - all

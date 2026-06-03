@@ -15,7 +15,7 @@ export { default as useDeletePost } from "./deletePost";
 export { default as useGetBoard } from "./getBoard";
 export { default as useGetBoardList } from "./getBoardList";
 export { default as useGetPostDetail } from "./getPostDetail";
-export { default as useGetPostList } from "./getPostList";
+export { default as useGetPostList, getPostListQueryOptions } from "./getPostList";
 export { default as usePatchUpdateComment } from "./patchUpdateComment";
 export { default as useUpdatePost } from "./patchUpdatePost";
 export { default as useCreateComment } from "./postCreateComment";

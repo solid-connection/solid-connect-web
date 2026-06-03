@@ -105,18 +105,23 @@ const UniversityListContentInner = ({ universities, homeUniversitySlug }: Univer
   const languageTestTypeParam = searchParams.get("languageTestType");
   const queryLanguageTestType = isLanguageTestType(languageTestTypeParam) ? languageTestTypeParam : null;
   const queryCountryCodesKey = searchParams.getAll("countryCode").filter(isCountryCode).join(",");
-  const queryRegion = searchParams.getAll("region").filter(isRegionFilterValue).at(0) ?? RegionEnumExtend.ALL;
+  const queryRegionsKey = searchParams.getAll("region").filter(isRegionFilterValue).join(",");
+  const queryRegions = useMemo(() => {
+    const regions = queryRegionsKey.split(",").filter(isRegionFilterValue);
+    return regions.length > 0 ? regions : [RegionEnumExtend.ALL];
+  }, [queryRegionsKey]);
 
   const [searchText, setSearchText] = useState(querySearchText.trim());
-  const [selectedRegion, setSelectedRegion] = useState(queryRegion);
+  const [selectedRegions, setSelectedRegions] = useState<RegionEnumExtend[]>(queryRegions);
+  const selectedRegion = selectedRegions.at(0) ?? RegionEnumExtend.ALL;
 
   useEffect(() => {
     setSearchText(querySearchText.trim());
   }, [querySearchText]);
 
   useEffect(() => {
-    setSelectedRegion(queryRegion);
-  }, [queryRegion]);
+    setSelectedRegions(queryRegions);
+  }, [queryRegions]);
 
   // 검색어 및 지역 필터링
   const filteredUniversities = useMemo(() => {
@@ -132,8 +137,8 @@ const UniversityListContentInner = ({ universities, homeUniversitySlug }: Univer
     }
 
     // 지역 필터링
-    if (selectedRegion !== "전체") {
-      result = result.filter((uni) => uni.region === selectedRegion);
+    if (!selectedRegions.includes(RegionEnumExtend.ALL)) {
+      result = result.filter((uni) => selectedRegions.some((region) => uni.region === region));
     }
 
     if (queryLanguageTestType) {
@@ -148,13 +153,13 @@ const UniversityListContentInner = ({ universities, homeUniversitySlug }: Univer
     }
 
     return result;
-  }, [universities, searchText, selectedRegion, queryLanguageTestType, queryCountryCodesKey]);
+  }, [universities, searchText, selectedRegions, queryLanguageTestType, queryCountryCodesKey]);
 
   return (
     <div className="px-5">
       <SearchBar value={searchText} onChange={setSearchText} homeUniversitySlug={homeUniversitySlug} />
 
-      <RegionFilter selectedRegion={selectedRegion} onRegionChange={setSelectedRegion} />
+      <RegionFilter selectedRegion={selectedRegion} onRegionChange={(region) => setSelectedRegions([region])} />
 
       {/* 결과 카운트 */}
       <div className="mb-3 text-k-500 typo-medium-4">

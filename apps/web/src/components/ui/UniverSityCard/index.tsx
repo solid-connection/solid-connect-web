@@ -23,7 +23,11 @@ const UniversityCard = ({ university, showCapacity = true, linkPrefix = "/univer
       : "/university";
 
   return (
-    <a className="block" href={universityDetailHref} aria-labelledby={`university-name-${university.id}`}>
+    <a
+      className="block w-full min-w-0 flex-1"
+      href={universityDetailHref}
+      aria-labelledby={`university-name-${university.id}`}
+    >
       <div className="relative h-[91px] w-full overflow-hidden rounded-lg border border-solid border-k-100 hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/10">
         <div className="flex justify-between px-5 py-3.5">
           <div className="flex gap-[23.5px]">
