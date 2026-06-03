@@ -55,10 +55,11 @@ const useBlockCommunityUser = ({ onBlocked }: BlockCommunityUserOptions = {}) =>
         blockedId: userId,
         data: {},
       });
-      showIconToast("logo", "사용자를 차단했습니다.");
     } catch {
-      showIconToast("logo", "차단 정보를 로컬에 저장했습니다.");
+      // 서버 차단 동기화 실패와 관계없이 현재 화면에서는 차단 상태를 즉시 반영합니다.
     }
+
+    showIconToast("logo", "사용자를 차단했습니다.");
   };
 
   return {
