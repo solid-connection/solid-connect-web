@@ -59,7 +59,7 @@ const PostCards = ({ posts, boardCode }: PostCardsProps) => {
               data-index={virtualItem.index}
             >
               <Link href={`/community/${boardCode}/${post.id}`} className="no-underline">
-                <PostCard post={post} />
+                <PostCard post={post} priorityImage={virtualItem.index === 0} />
               </Link>
             </div>
           );
@@ -71,7 +71,7 @@ const PostCards = ({ posts, boardCode }: PostCardsProps) => {
 
 export default PostCards;
 
-export const PostCard = ({ post }: { post: ListPost }) => (
+export const PostCard = ({ post, priorityImage = false }: { post: ListPost; priorityImage?: boolean }) => (
   <div className="flex justify-between border-b border-b-gray-c-100 px-5 py-4">
     <div className="flex flex-col">
       <div className="flex items-center truncate font-serif text-gray-250">
@@ -104,6 +104,7 @@ export const PostCard = ({ post }: { post: ListPost }) => (
             sizes="80px"
             alt="게시글 사진"
             fallbackSrc="/images/article-thumb.png"
+            loading={priorityImage ? "eager" : undefined}
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center">

@@ -45,6 +45,7 @@ const useUpdatePost = () => {
       // 해당 게시글 상세 쿼리와 목록 쿼리를 무효화
       queryClient.invalidateQueries({ queryKey: [CommunityQueryKeys.posts, variables.postId] });
       queryClient.invalidateQueries({ queryKey: [CommunityQueryKeys.posts] });
+      queryClient.invalidateQueries({ queryKey: [CommunityQueryKeys.postList] });
 
       // ISR 페이지 revalidate
       if (variables.boardCode && accessToken) {
