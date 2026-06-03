@@ -13,6 +13,7 @@ type BlockCommunityUserOptions = {
 
 type BlockCommunityUserParams = {
   userId?: number;
+  postId?: number;
   nickname?: string;
 };
 
@@ -22,8 +23,9 @@ const useBlockCommunityUser = ({ onBlocked }: BlockCommunityUserOptions = {}) =>
   const { mutateAsync: blockUser, isPending } = postBlockUser();
   const blockedUserIds = useReportedPostsStore((state) => state.blockedUserIds);
   const addBlockedUser = useReportedPostsStore((state) => state.addBlockedUser);
+  const addBlockedPost = useReportedPostsStore((state) => state.addBlockedPost);
 
-  const handleBlockUser = async ({ userId, nickname }: BlockCommunityUserParams) => {
+  const handleBlockUser = async ({ userId, postId, nickname }: BlockCommunityUserParams) => {
     if (!userId) {
       return;
     }
@@ -48,6 +50,9 @@ const useBlockCommunityUser = ({ onBlocked }: BlockCommunityUserOptions = {}) =>
     }
 
     addBlockedUser(userId);
+    if (postId) {
+      addBlockedPost(postId);
+    }
     onBlocked?.();
 
     try {

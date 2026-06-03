@@ -19,16 +19,17 @@ const PostPageContent = ({ boardCode, postId }: PostPageContentProps) => {
   const router = useRouter();
   const reportedPostIds = useReportedPostsStore((state) => state.reportedPostIds);
   const blockedUserIds = useReportedPostsStore((state) => state.blockedUserIds);
-  const isReportedPost = reportedPostIds.includes(postId);
+  const blockedPostIds = useReportedPostsStore((state) => state.blockedPostIds);
+  const isHiddenPost = reportedPostIds.includes(postId) || blockedPostIds.includes(postId);
 
   const { data: post, isLoading, isError, refetch } = useGetPostDetail(postId);
   const isBlockedUserPost = post ? blockedUserIds.includes(post.postFindSiteUserResponse.id) : false;
 
   useEffect(() => {
-    if (isReportedPost) {
+    if (isHiddenPost) {
       router.replace(`/community/${boardCode}`);
     }
-  }, [boardCode, isReportedPost, router]);
+  }, [boardCode, isHiddenPost, router]);
 
   useEffect(() => {
     if (isBlockedUserPost) {
@@ -36,7 +37,7 @@ const PostPageContent = ({ boardCode, postId }: PostPageContentProps) => {
     }
   }, [boardCode, isBlockedUserPost, router]);
 
-  if (isReportedPost || isBlockedUserPost) {
+  if (isHiddenPost || isBlockedUserPost) {
     return null;
   }
 

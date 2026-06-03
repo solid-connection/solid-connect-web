@@ -99,7 +99,7 @@ const KebabMenu = ({ postId, boardCode, isOwner = false, authorId }: KebabMenuPr
                 <button
                   onClick={() => {
                     setIsDropdownOpen(false);
-                    void handleBlockUser({ userId: authorId });
+                    void handleBlockUser({ userId: authorId, postId });
                   }}
                   disabled={isBlocking}
                   className="flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-gray-700 typo-regular-2 hover:bg-k-50 disabled:cursor-not-allowed disabled:opacity-50"
