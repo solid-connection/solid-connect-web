@@ -54,6 +54,7 @@ export interface ListPost {
   postCategory: string;
   url: string | null;
   postThumbnailUrl: string | null;
+  postFindSiteUserResponse?: CommunityUser;
 }
 
 export interface PostCreateRequest {

@@ -1,11 +1,13 @@
 "use client";
 
 import clsx from "clsx";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useDeleteComment } from "@/apis/community";
+import useBlockCommunityUser from "@/app/community/_hooks/useBlockCommunityUser";
 import Dropdown from "@/components/ui/Dropdown";
 import Image from "@/components/ui/FallbackImage";
 import { DEFAULT_PROFILE_IMAGE } from "@/constants/profile";
+import useReportedPostsStore from "@/lib/zustand/useReportedPostsStore";
 import { IconMoreVertFilled, IconSubComment } from "@/public/svgs";
 import type { Comment as CommentType, CommunityUser } from "@/types/community";
 import { normalizeImageUrlToUploadCdn } from "@/utils/cdnUrl";
@@ -21,8 +23,19 @@ type CommentSectionProps = {
 const CommentSection = ({ comments, postId, refresh }: CommentSectionProps) => {
   const [curSelectedComment, setCurSelectedComment] = useState<number | null>(null);
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
+  const blockedUserIds = useReportedPostsStore((state) => state.blockedUserIds);
 
   const deleteCommentMutation = useDeleteComment();
+
+  const visibleComments = useMemo(() => {
+    if (blockedUserIds.length === 0) {
+      return comments;
+    }
+
+    const blockedUserIdSet = new Set(blockedUserIds);
+
+    return comments.filter((comment) => !blockedUserIdSet.has(comment.postFindSiteUserResponse.id));
+  }, [comments, blockedUserIds]);
 
   const deleteComment = (commentId: number) => {
     if (!window.confirm("정말 삭제하시겠습니까?")) return;
@@ -31,7 +44,7 @@ const CommentSection = ({ comments, postId, refresh }: CommentSectionProps) => {
 
   return (
     <div className="min-h-[50vh] pb-[49px]">
-      {comments?.map((comment) => (
+      {visibleComments?.map((comment) => (
         <Comment
           key={comment.id}
           comment={comment}
@@ -114,11 +127,15 @@ const Comment = ({
               nickname: isDeleted ? "알 수 없음" : comment.postFindSiteUserResponse.nickname,
             }}
           />
-          {comment.isOwner && (
+          {!isDeleted && (
             <CommentDropdown
               commentId={comment.id}
+              isOwner={comment.isOwner}
+              authorId={comment.postFindSiteUserResponse.id}
+              authorNickname={comment.postFindSiteUserResponse.nickname}
               activeDropdown={activeDropdown}
               toggleDropdown={toggleDropdown}
+              setActiveDropdown={setActiveDropdown}
               deleteComment={deleteComment}
             />
           )}
@@ -151,32 +168,52 @@ const CommentProfile = ({ user }: { user: CommunityUser }) => {
 
 const CommentDropdown = ({
   commentId,
+  isOwner,
+  authorId,
+  authorNickname,
   activeDropdown,
   toggleDropdown,
+  setActiveDropdown,
   deleteComment,
 }: {
   commentId: number;
+  isOwner: boolean;
+  authorId: number;
+  authorNickname: string;
   activeDropdown: number | null;
   toggleDropdown: (commentId: number) => void;
+  setActiveDropdown: (commentId: number | null) => void;
   deleteComment: (commentId: number) => void;
 }) => {
+  const { handleBlockUser } = useBlockCommunityUser({
+    onBlocked: () => setActiveDropdown(null),
+  });
+
+  const options = isOwner
+    ? [
+        {
+          label: "삭제하기",
+          action: () => {
+            deleteComment(commentId);
+          },
+        },
+      ]
+    : [
+        {
+          label: "차단하기",
+          action: () => {
+            setActiveDropdown(null);
+            void handleBlockUser({ userId: authorId, nickname: authorNickname });
+          },
+        },
+      ];
+
   return (
-    <div className="relative">
+    <div className="relative" onClick={(event) => event.stopPropagation()}>
       <button className="cursor-pointer" onClick={() => toggleDropdown(commentId)} aria-label="더보기">
         <IconMoreVertFilled />
       </button>
-      {activeDropdown === commentId && (
-        <Dropdown
-          options={[
-            {
-              label: "삭제하기",
-              action: () => {
-                deleteComment(commentId);
-              },
-            },
-          ]}
-        />
-      )}
+      {activeDropdown === commentId && <Dropdown options={options} />}
     </div>
   );
 };

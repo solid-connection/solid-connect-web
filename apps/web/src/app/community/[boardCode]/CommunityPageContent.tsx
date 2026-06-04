@@ -7,17 +7,10 @@ import { COMMUNITY_INITIAL_CATEGORY } from "@/apis/community/postListQuery";
 import ButtonTab from "@/components/ui/ButtonTab";
 import { COMMUNITY_BOARDS, COMMUNITY_CATEGORIES } from "@/constants/community";
 import useReportedPostsStore from "@/lib/zustand/useReportedPostsStore";
-import type { ListPost } from "@/types/community";
 import { CommunityPostListSkeleton } from "./CommunityPageSkeleton";
 import CommunityRegionSelector from "./CommunityRegionSelector";
 import PostCards from "./PostCards";
 import PostWriteButton from "./PostWriteButton";
-
-type ListPostWithAuthor = ListPost & {
-  postFindSiteUserResponse?: {
-    id: number;
-  };
-};
 
 interface CommunityPageContentProps {
   boardCode: string;
@@ -28,6 +21,7 @@ const CommunityPageContent = ({ boardCode }: CommunityPageContentProps) => {
   const [category, setCategory] = useState<string | null>(COMMUNITY_INITIAL_CATEGORY);
   const reportedPostIds = useReportedPostsStore((state) => state.reportedPostIds);
   const blockedUserIds = useReportedPostsStore((state) => state.blockedUserIds);
+  const blockedPostIds = useReportedPostsStore((state) => state.blockedPostIds);
 
   const { data: posts = [], isPending } = useGetPostList({
     boardCode,
@@ -35,19 +29,20 @@ const CommunityPageContent = ({ boardCode }: CommunityPageContentProps) => {
   });
 
   const visiblePosts = useMemo(() => {
-    if (reportedPostIds.length === 0 && blockedUserIds.length === 0) {
+    if (reportedPostIds.length === 0 && blockedUserIds.length === 0 && blockedPostIds.length === 0) {
       return posts;
     }
 
     const reportedIdSet = new Set(reportedPostIds);
     const blockedUserIdSet = new Set(blockedUserIds);
+    const blockedPostIdSet = new Set(blockedPostIds);
 
     return posts.filter((post) => {
-      if (reportedIdSet.has(post.id)) {
+      if (reportedIdSet.has(post.id) || blockedPostIdSet.has(post.id)) {
         return false;
       }
 
-      const authorId = (post as ListPostWithAuthor).postFindSiteUserResponse?.id;
+      const authorId = post.postFindSiteUserResponse?.id;
 
       if (typeof authorId === "number" && blockedUserIdSet.has(authorId)) {
         return false;
@@ -55,7 +50,7 @@ const CommunityPageContent = ({ boardCode }: CommunityPageContentProps) => {
 
       return true;
     });
-  }, [posts, reportedPostIds, blockedUserIds]);
+  }, [posts, reportedPostIds, blockedUserIds, blockedPostIds]);
 
   const handleBoardChange = (newBoard: string) => {
     router.push(`/community/${newBoard}`);

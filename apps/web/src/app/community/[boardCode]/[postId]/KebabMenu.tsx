@@ -1,8 +1,10 @@
 "use client";
 
+import { Ban } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { type RefObject, useEffect, useRef, useState } from "react";
 import { useDeletePost } from "@/apis/community";
+import useBlockCommunityUser from "@/app/community/_hooks/useBlockCommunityUser";
 import ReportPanel from "@/components/ui/ReportPanel";
 import { showIconToast } from "@/lib/toast/showIconToast";
 import { IconSetting } from "@/public/svgs/mentor";
@@ -52,6 +54,9 @@ const KebabMenu = ({ postId, boardCode, isOwner = false, authorId }: KebabMenuPr
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { mutate: deletePost } = useDeletePost();
   const router = useRouter();
+  const { handleBlockUser, isBlocking } = useBlockCommunityUser({
+    onBlocked: () => router.replace(`/community/${boardCode}`),
+  });
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -87,8 +92,25 @@ const KebabMenu = ({ postId, boardCode, isOwner = false, authorId }: KebabMenuPr
         <div className="absolute right-0 top-full z-10 mt-2 w-40 origin-top-right rounded-lg border border-gray-100 bg-white shadow-lg">
           <ul className="p-1">
             <li>
-              <ReportPanel idx={postId} blockUserId={authorId} />
+              <ReportPanel idx={postId} />
             </li>
+            {!isOwner && authorId && (
+              <li key={"차단하기"}>
+                <button
+                  onClick={() => {
+                    setIsDropdownOpen(false);
+                    void handleBlockUser({ userId: authorId, postId });
+                  }}
+                  disabled={isBlocking}
+                  className="flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-gray-700 typo-regular-2 hover:bg-k-50 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  <span className="flex-shrink-0">
+                    <Ban className="h-[18px] w-[18px] text-sub-d-500" />
+                  </span>
+                  <span>{"차단하기"}</span>
+                </button>
+              </li>
+            )}
             <li key={"URL 복사"}>
               <button
                 onClick={handleCopyUrl}

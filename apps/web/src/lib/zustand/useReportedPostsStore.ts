@@ -4,8 +4,10 @@ import { persist } from "zustand/middleware";
 interface ReportedPostsState {
   reportedPostIds: number[];
   blockedUserIds: number[];
+  blockedPostIds: number[];
   addReportedPost: (postId: number) => void;
   addBlockedUser: (userId: number) => void;
+  addBlockedPost: (postId: number) => void;
   removeBlockedUser: (userId: number) => void;
 }
 
@@ -14,6 +16,7 @@ const useReportedPostsStore = create<ReportedPostsState>()(
     (set) => ({
       reportedPostIds: [],
       blockedUserIds: [],
+      blockedPostIds: [],
       addReportedPost: (postId) => {
         set((state) => {
           if (state.reportedPostIds.includes(postId)) {
@@ -36,6 +39,17 @@ const useReportedPostsStore = create<ReportedPostsState>()(
           };
         });
       },
+      addBlockedPost: (postId) => {
+        set((state) => {
+          if (state.blockedPostIds.includes(postId)) {
+            return state;
+          }
+
+          return {
+            blockedPostIds: [...state.blockedPostIds, postId],
+          };
+        });
+      },
       removeBlockedUser: (userId) => {
         set((state) => ({
           blockedUserIds: state.blockedUserIds.filter((id) => id !== userId),
@@ -47,6 +61,7 @@ const useReportedPostsStore = create<ReportedPostsState>()(
       partialize: (state) => ({
         reportedPostIds: state.reportedPostIds,
         blockedUserIds: state.blockedUserIds,
+        blockedPostIds: state.blockedPostIds,
       }),
     },
   ),
