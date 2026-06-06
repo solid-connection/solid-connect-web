@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation } from "@tanstack/react-query";
-import { type FormEvent, useId, useState } from "react";
+import { type ChangeEvent, type FormEvent, useId, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -26,6 +26,8 @@ export function AdminLoginPage({ onLoginSuccess }: AdminLoginPageProps) {
 	});
 
 	const isLoading = signInMutation.isPending;
+	const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value);
+	const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value);
 
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
@@ -72,7 +74,7 @@ export function AdminLoginPage({ onLoginSuccess }: AdminLoginPageProps) {
 								type="email"
 								placeholder="admin@example.com"
 								value={email}
-								onChange={(e) => setEmail(e.target.value)}
+								onChange={handleEmailChange}
 								disabled={isLoading}
 								required
 								className="h-11 border-k-100 bg-bg-50 typo-regular-3 text-k-800 placeholder:text-k-400"
@@ -86,7 +88,7 @@ export function AdminLoginPage({ onLoginSuccess }: AdminLoginPageProps) {
 								id={passwordInputId}
 								type="password"
 								value={password}
-								onChange={(e) => setPassword(e.target.value)}
+								onChange={handlePasswordChange}
 								disabled={isLoading}
 								required
 								className="h-11 border-k-100 bg-bg-50 typo-regular-3 text-k-800"
