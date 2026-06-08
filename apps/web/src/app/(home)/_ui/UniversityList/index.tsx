@@ -1,6 +1,7 @@
 "use client";
 
 import ButtonTab from "@/components/ui/ButtonTab";
+import UniversityZoneLink from "@/components/ui/UniversityZoneLink";
 import UniversityCards from "@/components/university/UniversityCards";
 import { IconDirectionRight } from "@/public/svgs/mentor";
 
@@ -19,12 +20,12 @@ const UniversityList = ({ allRegionsUniversityList }: UniversityListProps) => {
     <div className="flex flex-col gap-2">
       <div className="flex justify-between">
         <span className="text-k-700 typo-sb-5">전체 학교 리스트</span>
-        <a href={moreHref}>
+        <UniversityZoneLink href={moreHref}>
           <span className="flex items-center gap-1 text-k-500 typo-sb-9">
             더보기
             <IconDirectionRight className="h-4 w-4" />
           </span>
-        </a>
+        </UniversityZoneLink>
       </div>
       <ButtonTab
         choices={homeUniversityChoices}

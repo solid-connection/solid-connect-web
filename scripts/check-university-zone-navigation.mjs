@@ -9,6 +9,7 @@ const webSrcDir = path.join(repoRoot, "apps/web/src");
 const checkedExtensions = new Set([".ts", ".tsx"]);
 
 const allowedMainWebUniversityRoutes = ["/university/score", "/university/application"];
+const universityCatalogLinkTag = "UniversityZoneLink";
 
 const jsxHrefPattern =
   /<([A-Za-z][\w.]*)\b[^>]*\bhref\s*=\s*(?:"([^"]*)"|'([^']*)'|\{\s*"([^"]*)"\s*\}|\{\s*'([^']*)'\s*\}|\{\s*`([^`]*)`\s*\})/g;
@@ -91,7 +92,7 @@ const collectViolations = (filePath) => {
     const [, tagName] = match;
     const route = pickMatchedRoute(match, 2);
 
-    if (tagName === "a" || route === null || !isUniversityCatalogRoute(route)) {
+    if (tagName === universityCatalogLinkTag || route === null || !isUniversityCatalogRoute(route)) {
       continue;
     }
 
@@ -100,7 +101,7 @@ const collectViolations = (filePath) => {
         filePath,
         source,
         index: match.index,
-        message: `Use <a href="${route}"> for university catalog navigation instead of <${tagName}>.`,
+        message: `Use <${universityCatalogLinkTag} href="${route}"> for university catalog navigation instead of <${tagName}>.`,
       }),
     );
   }
@@ -145,7 +146,7 @@ const collectViolations = (filePath) => {
 const violations = listSourceFiles(webSrcDir).flatMap(collectViolations);
 
 if (violations.length > 0) {
-  console.error("University catalog navigation must use plain <a> tags in apps/web.");
+  console.error(`University catalog navigation must use <${universityCatalogLinkTag}> in apps/web.`);
   console.error("Allowed main-web exceptions: /university/score, /university/application");
   console.error("");
   console.error(violations.join("\n"));

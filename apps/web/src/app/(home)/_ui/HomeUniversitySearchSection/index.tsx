@@ -3,6 +3,7 @@
 import clsx from "clsx";
 
 import CustomDropdown from "@/components/search/CustomDropdown";
+import UniversityZoneLink from "@/components/ui/UniversityZoneLink";
 import { IconHatColor, IconHatGray, IconLocationColor, IconLocationGray } from "@/public/svgs/search";
 import useHomeUniversitySearch from "./_hooks/useHomeUniversitySearch";
 
@@ -74,12 +75,12 @@ const HomeUniversitySearchSection = () => {
         })}
       </div>
 
-      <a
+      <UniversityZoneLink
         href={searchHref}
-        className="mt-3 block w-full rounded-lg bg-primary px-4 py-4 text-center text-k-0 transition-colors typo-sb-9 hover:bg-primary-600"
+        className="mt-3 w-full rounded-lg bg-primary px-4 py-4 text-center text-k-0 transition-colors typo-sb-9 hover:bg-primary-600"
       >
         학교 검색하기
-      </a>
+      </UniversityZoneLink>
     </section>
   );
 };

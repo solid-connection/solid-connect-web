@@ -1,4 +1,5 @@
 import Image from "@/components/ui/FallbackImage";
+import UniversityZoneLink from "@/components/ui/UniversityZoneLink";
 import { getHomeUniversitySlugByName } from "@/constants/university";
 import type { ListUniversity } from "@/types/university";
 import { normalizeImageUrlToUploadCdn } from "@/utils/cdnUrl";
@@ -24,7 +25,7 @@ const PopularUniversityCard = ({
     : "/university";
 
   return (
-    <a key={university.id} href={universityDetailHref}>
+    <UniversityZoneLink key={university.id} href={universityDetailHref}>
       <div className="relative w-[153px]">
         <div className="relative h-[120px] w-[153px] overflow-hidden rounded-lg bg-k-700">
           <Image
@@ -55,7 +56,7 @@ const PopularUniversityCard = ({
           {university.koreanName}
         </div>
       </div>
-    </a>
+    </UniversityZoneLink>
   );
 };
 
