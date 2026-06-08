@@ -16,8 +16,7 @@ const ChannelBox = ({ channels }: ChannelBoxProps) => {
     | undefined;
 
   const completedCount = (watchedChannels ?? []).filter(
-    (channel) =>
-      channel?.type !== null && channel?.type !== undefined && channel?.type !== "" && Boolean(channel?.url?.trim()),
+    (channel) => channel?.type !== null && channel?.type !== undefined && Boolean(channel?.url?.trim()),
   ).length;
   const visibleCount = Math.min(completedCount + 1, MAX_CHANNELS);
 
