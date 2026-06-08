@@ -19,6 +19,8 @@ const ICON_COMPONENTS = {
   my: Human,
 } as const;
 
+const UNIVERSITY_ZONE_ROUTE = "/university";
+
 const BottomNavigation = () => {
   const pathname = usePathname();
 
@@ -30,16 +32,11 @@ const BottomNavigation = () => {
     <nav className="fixed bottom-0 flex h-[56px] w-full max-w-app bg-white shadow-magic-bottom-nav">
       {NAV_ITEMS.map(({ route, text, iconType }) => {
         const isActive = isRouteActive(pathname, route);
-        return (
-          <Link
-            key={text}
-            href={route}
-            aria-current={isActive ? "page" : undefined}
-            aria-label={`${text} 페이지로 이동`}
-            className={`flex flex-[1_0_0] flex-col items-center self-stretch px-3 pb-2 pt-1.5 no-underline ${
-              isActive ? "text-primary" : "text-magic-nav-inactive"
-            }`}
-          >
+        const className = `flex flex-[1_0_0] flex-col items-center self-stretch px-3 pb-2 pt-1.5 no-underline ${
+          isActive ? "text-primary" : "text-magic-nav-inactive"
+        }`;
+        const content = (
+          <>
             {(() => {
               const IconComp = ICON_COMPONENTS[iconType];
               return <IconComp />;
@@ -53,6 +50,32 @@ const BottomNavigation = () => {
             >
               {text}
             </span>
+          </>
+        );
+
+        if (route === UNIVERSITY_ZONE_ROUTE) {
+          return (
+            <a
+              key={text}
+              href={route}
+              aria-current={isActive ? "page" : undefined}
+              aria-label={`${text} 페이지로 이동`}
+              className={className}
+            >
+              {content}
+            </a>
+          );
+        }
+
+        return (
+          <Link
+            key={text}
+            href={route}
+            aria-current={isActive ? "page" : undefined}
+            aria-label={`${text} 페이지로 이동`}
+            className={className}
+          >
+            {content}
           </Link>
         );
       })}

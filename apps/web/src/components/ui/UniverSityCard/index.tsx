@@ -1,4 +1,3 @@
-import Link from "next/link";
 import Image from "@/components/ui/FallbackImage";
 import CheveronRightFilled from "@/components/ui/icon/ChevronRightFilled";
 import { getHomeUniversitySlugByName } from "@/constants/university";
@@ -24,7 +23,7 @@ const UniversityCard = ({ university, showCapacity = true, linkPrefix = "/univer
       : "/university";
 
   return (
-    <Link
+    <a
       className="block w-full min-w-0 flex-1"
       href={universityDetailHref}
       aria-labelledby={`university-name-${university.id}`}
@@ -74,7 +73,7 @@ const UniversityCard = ({ university, showCapacity = true, linkPrefix = "/univer
           </div>
         </div>
       </div>
-    </Link>
+    </a>
   );
 };
 

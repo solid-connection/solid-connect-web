@@ -1,0 +1,92 @@
+import type { Metadata, Viewport } from "next";
+import localFont from "next/font/local";
+import type { ReactNode } from "react";
+import { Toaster } from "react-hot-toast";
+
+import GlobalLayout from "@/components/layout/GlobalLayout";
+import ReissueProvider from "@/components/layout/ReissueProvider";
+import QueryProvider from "@/lib/react-query/QueryProvider";
+import AppleScriptLoader from "@/lib/ScriptLoader/AppleScriptLoader";
+import "@/styles/globals.css";
+import { GoogleAnalytics } from "@next/third-parties/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+
+const siteUrl = process.env.NEXT_PUBLIC_WEB_URL || "https://solid-connection.com";
+
+export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
+  title: "솔리드 커넥션",
+  description: "솔리드 커넥션. 교환학생의 첫 걸음",
+  verification: {
+    other: {
+      "naver-site-verification": "dd46eae7f62548ac6d6fc34647df8e2bea591e62",
+    },
+  },
+};
+
+const pretendard = localFont({
+  src: "../../public/fonts/PretendardVariable.woff2",
+  display: "swap",
+  weight: "45 920",
+  variable: "--font-pretendard",
+  preload: true,
+  fallback: [
+    "system-ui",
+    "-apple-system",
+    "BlinkMacSystemFont",
+    "Apple SD Gothic Neo",
+    "Malgun Gothic",
+    "맑은 고딕",
+    "sans-serif",
+  ],
+});
+
+declare global {
+  interface Window {
+    Kakao: {
+      init: (key: string) => void;
+      Auth: {
+        authorize: (options: { redirectUri: string }) => void;
+      };
+    };
+    AppleID: {
+      auth: {
+        init: (config: object) => void;
+        signIn: () => Promise<unknown>;
+      };
+    };
+  }
+}
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  viewportFit: "cover", // iOS Safe Area support
+};
+
+const RootLayout = ({ children }: { children: ReactNode }) => (
+  <html lang="ko" className={pretendard.variable}>
+    <body className={pretendard.className}>
+      <AppleScriptLoader />
+      <GoogleAnalytics gaId="G-V1KLYZC1DS" />
+      <SpeedInsights />
+      <QueryProvider>
+        <ReissueProvider>
+          <GlobalLayout>{children}</GlobalLayout>
+        </ReissueProvider>
+        <Toaster
+          position="top-center"
+          gutter={8}
+          containerStyle={{ top: 68 }}
+          toastOptions={{
+            duration: 3000,
+          }}
+        />
+      </QueryProvider>
+    </body>
+  </html>
+);
+
+export default RootLayout;

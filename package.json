@@ -13,7 +13,9 @@
     "lint": "turbo lint",
     "typecheck": "turbo typecheck",
     "ci:check": "turbo ci:check",
-    "prepare": "husky"
+    "prepare": "husky",
+    "dev:university": "pnpm --filter @solid-connect/university-web run dev",
+    "build:university": "pnpm --filter @solid-connect/university-web run build"
   },
   "pnpm": {
     "onlyBuiltDependencies": [

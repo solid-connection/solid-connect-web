@@ -1,0 +1,65 @@
+import Image from "@/components/ui/FallbackImage";
+import { DEFAULT_PROFILE_IMAGE } from "@/constants/profile";
+import { IconGraduation } from "@/public/svgs/mentor";
+
+interface ProfileWithBadgeProps {
+  profileImageUrl?: string | null;
+  isMentor?: boolean;
+  hasBadge?: boolean;
+  width?: number;
+  height?: number;
+  isBadgeUp?: boolean; // 배지 위치 조정 여부
+}
+
+const ProfileWithBadge = ({
+  profileImageUrl,
+  isMentor,
+  hasBadge = false,
+  width = 86,
+  height = 86,
+  isBadgeUp = true,
+}: ProfileWithBadgeProps) => {
+  const showMentorBadge = isMentor ?? hasBadge;
+
+  // 배지 크기를 전체 크기에 비례해서 계산
+  const badgeSize = Math.round(width * 0.35);
+  const iconSize = Math.round(badgeSize * 0.67);
+
+  return (
+    <div className="relative shrink-0" style={{ width: `${width}px`, height: `${height}px` }}>
+      {/* 프로필 이미지 */}
+      <div
+        className={`h-full w-full overflow-hidden rounded-full ${
+          showMentorBadge ? "border-2 border-primary-2" : "border-none"
+        }`}
+      >
+        <Image
+          unoptimized
+          src={profileImageUrl || DEFAULT_PROFILE_IMAGE}
+          cdnHostType={profileImageUrl ? "upload" : undefined}
+          alt="프로필 이미지"
+          width={width}
+          height={height}
+          className="h-full w-full object-cover"
+          fallbackSrc={DEFAULT_PROFILE_IMAGE}
+        />
+      </div>
+
+      {/* 학습 상태 배지 */}
+      {showMentorBadge && (
+        <div
+          className={`absolute -right-1 flex items-center justify-center rounded-full bg-primary-1 ${
+            isBadgeUp ? "-top-1" : "-bottom-1"
+          }`}
+          style={{ width: `${badgeSize}px`, height: `${badgeSize}px` }}
+        >
+          <div style={{ width: `${iconSize}px`, height: `${iconSize}px` }}>
+            <IconGraduation />
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default ProfileWithBadge;

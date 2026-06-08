@@ -19,6 +19,14 @@ const imageRemotePatterns = [
   hostname,
 }));
 
+const universityWebDomain = process.env.UNIVERSITY_WEB_DOMAIN?.replace(/\/$/, "");
+const isProductionRuntime = process.env.NODE_ENV === "production";
+const universitySlugPattern = "(inha|incheon|sungshin)";
+
+if (isProductionRuntime && !universityWebDomain) {
+  throw new Error("UNIVERSITY_WEB_DOMAIN is required because /university catalog routes are served by university-web.");
+}
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   transpilePackages: ["@solid-connect/ai-inspector"],
@@ -61,6 +69,42 @@ const nextConfig = {
   },
   typescript: {
     ignoreBuildErrors: true,
+  },
+  async rewrites() {
+    if (!universityWebDomain) {
+      return [];
+    }
+
+    return [
+      {
+        source: "/university-static/:path*",
+        destination: `${universityWebDomain}/university-static/:path*`,
+      },
+      {
+        source: "/university/monitoring",
+        destination: `${universityWebDomain}/university/monitoring`,
+      },
+      {
+        source: "/university",
+        destination: `${universityWebDomain}/university`,
+      },
+      {
+        source: "/university/search",
+        destination: `${universityWebDomain}/university/search`,
+      },
+      {
+        source: `/university/list/:homeUniversity${universitySlugPattern}`,
+        destination: `${universityWebDomain}/university/:homeUniversity`,
+      },
+      {
+        source: `/university/:homeUniversity${universitySlugPattern}`,
+        destination: `${universityWebDomain}/university/:homeUniversity`,
+      },
+      {
+        source: `/university/:homeUniversity${universitySlugPattern}/:path*`,
+        destination: `${universityWebDomain}/university/:homeUniversity/:path*`,
+      },
+    ];
   },
   ...(shouldRunBundleAnalyzer
     ? {

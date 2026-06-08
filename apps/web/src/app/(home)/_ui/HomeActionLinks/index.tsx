@@ -6,7 +6,7 @@ const HomeActionLinks = () => {
   return (
     <div className="flex flex-col gap-2.5 px-5 py-3.5">
       <div className="flex gap-2">
-        <Link className="flex flex-1 flex-col gap-2 rounded-lg bg-bg-accent-blue p-2.5" href="/university/search">
+        <a className="flex flex-1 flex-col gap-2 rounded-lg bg-bg-accent-blue p-2.5" href="/university/search">
           <div className="flex flex-col">
             <span className="text-secondary typo-bold-5">학교 검색하기</span>
             <span className="text-k-700 typo-medium-4">모든 학교 목록을 확인해보세요</span>
@@ -14,7 +14,7 @@ const HomeActionLinks = () => {
           <div className="flex justify-end">
             <IconMagnifyingGlass />
           </div>
-        </Link>
+        </a>
         <Link className="flex flex-1 flex-col gap-2 rounded-lg bg-bg-accent-sky p-2.5" href="/university/score">
           <div className="flex flex-col">
             <span className="text-sub-a typo-bold-5">성적 입력하기</span>
