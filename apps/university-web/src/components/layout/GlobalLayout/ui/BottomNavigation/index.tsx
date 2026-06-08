@@ -20,6 +20,15 @@ const ICON_COMPONENTS = {
 } as const;
 
 const UNIVERSITY_ZONE_ROUTE_PREFIX = "/university";
+const mainWebOrigin = process.env.NEXT_PUBLIC_WEB_URL?.replace(/\/$/, "");
+
+const getMainWebHref = (route: string) => {
+  if (!mainWebOrigin) {
+    return route;
+  }
+
+  return `${mainWebOrigin}${route === "/" ? "" : route}`;
+};
 
 const BottomNavigation = () => {
   const pathname = usePathname();
@@ -57,7 +66,7 @@ const BottomNavigation = () => {
           return (
             <a
               key={text}
-              href={route}
+              href={getMainWebHref(route)}
               aria-current={isActive ? "page" : undefined}
               aria-label={`${text} 페이지로 이동`}
               className={className}
