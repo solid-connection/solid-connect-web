@@ -6,7 +6,6 @@ import { useGetArticleList } from "@/apis/news";
 import StudyDate from "@/components/mentor/StudyDate";
 import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 import MentoProfile from "@/components/ui/ProfileWithBadge";
-import { IconUserPrimaryColor } from "@/public/svgs/mentor";
 import useModifyHookForm from "./_hooks/useModifyHookForm";
 import usePutMyMentorProfileHandler from "./_hooks/usePutMyMentorProfileHandler";
 import AddArticleCard from "./_ui/AddArticleCard";
@@ -27,7 +26,7 @@ const ModifyContent = () => {
   const { onSubmit } = usePutMyMentorProfileHandler();
   // 채널 타입들을 감시
   if (!myMentorProfile) return <CloudSpinnerPage />;
-  const { profileImageUrl, hasBadge, menteeCount, nickname, country, universityName, term, channels } = myMentorProfile;
+  const { profileImageUrl, hasBadge, nickname, country, universityName, term, channels } = myMentorProfile;
 
   return (
     <div className="px-5">
@@ -37,17 +36,11 @@ const ModifyContent = () => {
           <div className="gap-4">
             <h1 className="text-gray-900 typo-sb-5">나의 멘토</h1>
             <div className="flex gap-4">
-              <div className="flex flex-col items-start gap-2">
+              <div className="mt-5 flex flex-col items-start gap-2">
                 <MentoProfile profileImageUrl={profileImageUrl} hasBadge={hasBadge} />
-                <div className="flex items-center gap-2 text-primary typo-regular-2">
-                  <span className="h-[16px] w-[16px]">
-                    <IconUserPrimaryColor />
-                  </span>
-                  누적 멘티 : {menteeCount}
-                </div>
               </div>
               <div className="flex flex-col gap-[8px]">
-                <div className="text-gray-500 typo-regular-2">{country}</div>
+                <div className="text-primary typo-sb-7">{country}</div>
                 <div className="text-gray-900 typo-sb-5">{nickname}</div>
                 <div className="text-gray-500 typo-regular-2">{universityName}</div>
                 <StudyDate term={term} />

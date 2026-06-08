@@ -27,7 +27,7 @@ const ChannelSelect = ({ name = "channel", control, onChannelChange }: ChannelSe
       <button
         type="button"
         onClick={toggleDropdown}
-        className={`flex w-full items-center justify-between rounded-lg border border-gray-300 px-4 py-3 focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary`}
+        className={`flex w-full items-center justify-between rounded-lg border border-k-100 px-4 py-3 focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary`}
       >
         <span className={`typo-medium-2 ${value ? "text-secondary" : "text-k-300"}`}>
           {value === null ? "선택 안함" : value || "채널을 선택해주세요."}
