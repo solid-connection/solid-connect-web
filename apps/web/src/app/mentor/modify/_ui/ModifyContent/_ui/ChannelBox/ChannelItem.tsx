@@ -5,6 +5,13 @@ import getErrorMessage from "@/lib/react-hook-form/getErrorMessage";
 import type { ChannelType } from "@/types/mentor";
 import ChannelSelect from "../../../../../../../components/mentor/ChannelSelct";
 
+const CHANNEL_TAG_COLORS = [
+  "bg-sub-c-100 text-sub-c-500",
+  "bg-sub-e-100 text-sub-e-500",
+  "bg-sub-d-100 text-sub-d-500",
+  "bg-sub-f-100 text-sub-f-500",
+];
+
 interface ChannelItemProps {
   index: number;
   channel?: { type: ChannelType; url: string };
@@ -39,7 +46,7 @@ const ChannelItem = ({ index }: ChannelItemProps) => {
     <div className={`mb-6 ${index > 0 ? "animate-channel-reveal" : ""}`}>
       <div className="flex h-6.5 w-17.5 items-center justify-center overflow-hidden rounded-2xl">
         <div
-          className={`flex h-full w-full items-center justify-center rounded px-2 py-[3px] typo-medium-2 channel-tag-${index + 1}`}
+          className={`flex h-full w-full items-center justify-center rounded px-2 py-[3px] typo-medium-2 ${CHANNEL_TAG_COLORS[index] ?? "bg-gray-100 text-gray-500"}`}
         >
           내 채널 {index + 1}
         </div>

@@ -66,20 +66,6 @@
   .score-table td:nth-of-type(5) {
     @apply flex-none basis-[18px];
   }
-
-  /* 채널 슬롯(순서)별 태그 색상 */
-  .channel-tag-1 {
-    @apply bg-sub-c-100 text-sub-c-500;
-  }
-  .channel-tag-2 {
-    @apply bg-sub-e-100 text-sub-e-500;
-  }
-  .channel-tag-3 {
-    @apply bg-sub-d-100 text-sub-d-500;
-  }
-  .channel-tag-4 {
-    @apply bg-sub-f-100 text-sub-f-500;
-  }
 }
 
 /* Toast 애니메이션 */
