@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import UniversityZoneLink from "@/components/ui/UniversityZoneLink";
 import { NAV_ITEMS } from "./constant/NAV_ITEMS";
 import isRouteActive from "./lib/isRouteActive";
 import DegreeHat from "./ui/DegreeHat";
@@ -55,7 +56,7 @@ const BottomNavigation = () => {
 
         if (route === UNIVERSITY_ZONE_ROUTE) {
           return (
-            <a
+            <UniversityZoneLink
               key={text}
               href={route}
               aria-current={isActive ? "page" : undefined}
@@ -63,7 +64,7 @@ const BottomNavigation = () => {
               className={className}
             >
               {content}
-            </a>
+            </UniversityZoneLink>
           );
         }
 
