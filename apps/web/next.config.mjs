@@ -1,7 +1,4 @@
-// Injected content via Sentry wizard below
-
 import bundleAnalyzer from "@next/bundle-analyzer";
-import { withSentryConfig } from "@sentry/nextjs";
 
 const shouldRunBundleAnalyzer = process.env.ANALYZE === "true";
 const svgComponentLoaders = ["@svgr/webpack"];
@@ -81,10 +78,6 @@ const nextConfig = {
         destination: `${universityWebDomain}/university-static/:path*`,
       },
       {
-        source: "/university/monitoring",
-        destination: `${universityWebDomain}/university/monitoring`,
-      },
-      {
         source: "/university",
         destination: `${universityWebDomain}/university`,
       },
@@ -137,43 +130,4 @@ const nextConfig = {
     : {}),
 };
 
-export default withSentryConfig(
-  withBundleAnalyzer(nextConfig),
-  {
-    // For all available options, see:
-    // https://github.com/getsentry/sentry-webpack-plugin#options
-
-    // Suppresses source map uploading logs during build
-    silent: true,
-    org: process.env.SENTRY_ORG,
-    project: process.env.SENTRY_PROJECT,
-    authToken: process.env.SENTRY_AUTH_TOKEN,
-  },
-  {
-    // For all available options, see:
-    // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
-
-    // Upload a larger set of source maps for prettier stack traces (increases build time)
-    widenClientFileUpload: true,
-
-    // IE11 지원 불필요 - 번들 사이즈 최적화를 위해 비활성화
-    transpileClientSDK: false,
-
-    // Routes browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers. (increases server load)
-    // Note: Check that the configured route will not match with your Next.js middleware, otherwise reporting of client-
-    // side errors will fail.
-    tunnelRoute: "/monitoring",
-
-    // Hides source maps from generated client bundles
-    hideSourceMaps: true,
-
-    // Automatically tree-shake Sentry logger statements to reduce bundle size
-    disableLogger: true,
-
-    // Enables automatic instrumentation of Vercel Cron Monitors.
-    // See the following for more information:
-    // https://docs.sentry.io/product/crons/
-    // https://vercel.com/docs/cron-jobs
-    automaticVercelMonitors: true,
-  },
-);
+export default withBundleAnalyzer(nextConfig);

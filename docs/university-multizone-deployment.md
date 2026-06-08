@@ -58,7 +58,7 @@ Vercel에서는 같은 Git repository를 두 개의 Project로 연결한다.
 - Required Environment Variables:
   - 기존 web 앱과 동일한 `NEXT_PUBLIC_API_SERVER_URL`
   - 기존 web 앱과 동일한 `NEXT_PUBLIC_WEB_URL`
-  - 기존 web 앱과 동일한 Kakao/Sentry/Firebase 계열 값
+  - 기존 web 앱과 동일한 Kakao/Firebase 계열 값
   - 선택: `UNIVERSITY_WEB_INDEXABLE_HOSTS=www.solid-connection.com,solid-connection.com`
 
 University project의 직접 배포 도메인은 검색엔진에 노출하지 않는다. 실제 사용자 URL은 main domain의 rewrite를 통해 제공한다.
