@@ -3,9 +3,10 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useUpdatePost } from "@/apis/community";
+import PostCategorySelector from "@/app/community/_components/PostCategorySelector";
 import useCommunityImageUpload from "@/app/community/_hooks/useCommunityImageUpload";
 import { showIconToast } from "@/lib/toast/showIconToast";
-import { IconArrowBackFilled, IconImage, IconPostCheckboxFilled, IconPostCheckboxOutlined } from "@/public/svgs";
+import { IconArrowBackFilled, IconImage } from "@/public/svgs";
 
 type PostModifyFormProps = {
   boardCode: string;
@@ -26,7 +27,9 @@ const PostModifyForm = ({
 }: PostModifyFormProps) => {
   const [title, setTitle] = useState<string>(defaultTitle);
   const [content, setContent] = useState<string>(defaultContent);
-  const [isQuestion, setIsQuestion] = useState<boolean>(defaultIsQuestion);
+  const [postCategory, setPostCategory] = useState<string>(
+    defaultPostCategory || (defaultIsQuestion ? "질문" : "자유"),
+  );
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
   const {
@@ -99,7 +102,7 @@ const PostModifyForm = ({
         boardCode,
         data: {
           postUpdateRequest: {
-            postCategory: isQuestion ? "질문" : "자유",
+            postCategory,
             title: trimmedTitle,
             content: trimmedContent,
           },
@@ -152,13 +155,8 @@ const PostModifyForm = ({
             }}
           />
         </div>
-        <div className="flex h-[42px] items-center justify-between border-b border-b-gray-c-100 px-5 py-2.5">
-          <div className="text-gray-250/87 flex items-center gap-1 typo-regular-2">
-            <button onClick={() => setIsQuestion(!isQuestion)} type="button">
-              {isQuestion ? <IconPostCheckboxFilled /> : <IconPostCheckboxOutlined />}
-            </button>
-            질문으로 업로드 하기
-          </div>
+        <div className="flex h-[42px] items-center justify-between gap-3 border-b border-b-gray-c-100 px-5 py-2.5">
+          <PostCategorySelector value={postCategory} onChange={setPostCategory} />
           <div>
             <button
               type="button"
