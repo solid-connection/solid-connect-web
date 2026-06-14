@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
+import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 import { NO_INDEX_ROBOTS } from "@/utils/seo";
 
 import EmailSignUpForm from "./EmailSignUpForm";
@@ -16,7 +17,7 @@ const EmailSignUpPage = () => {
     <>
       <TopDetailNavigation title="이메일로 시작하기" />
       <div className="w-full px-5">
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<CloudSpinnerPage />}>
           <EmailSignUpForm />
         </Suspense>
       </div>

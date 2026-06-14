@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 
+import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 import { NO_INDEX_ROBOTS } from "@/utils/seo";
 import KakaoLoginCallbackPage from "./KakaoLoginCallbackPage";
 
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
 
 const Page = () => (
   <div className="w-full px-5">
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<CloudSpinnerPage />}>
       <KakaoLoginCallbackPage />
     </Suspense>
   </div>
