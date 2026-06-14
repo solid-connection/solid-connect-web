@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { usePostEmailSignUp } from "@/apis/Auth";
 import BlockBtn from "@/components/button/BlockBtn";
@@ -9,9 +9,12 @@ import { Label } from "@/components/ui/Label";
 import { Progress } from "@/components/ui/Progress";
 import { showIconToast } from "@/lib/toast/showIconToast";
 import { IconCheckBlue, IconExpRed, IconEyeOff, IconEyeOn } from "@/public/svgs/ui";
+import { AUTH_REDIRECT_PARAM, buildSignUpPath, getSafeCommunityRedirectPath } from "@/utils/authRedirect";
 
 const EmailSignUpForm = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectPath = getSafeCommunityRedirectPath(searchParams?.get(AUTH_REDIRECT_PARAM)) ?? undefined;
   const [currentStep, setCurrentStep] = useState<number>(0);
   const [email, setEmail] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -69,7 +72,7 @@ const EmailSignUpForm = () => {
       { email, password },
       {
         onSuccess: (data) => {
-          router.push(`/sign-up?token=${data.signUpToken}`);
+          router.push(buildSignUpPath({ signUpToken: data.signUpToken, redirectPath }));
         },
       },
     );

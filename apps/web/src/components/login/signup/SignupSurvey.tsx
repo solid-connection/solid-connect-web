@@ -10,6 +10,11 @@ import useAuthStore from "@/lib/zustand/useAuthStore";
 
 import type { PreparationStatus, SignUpRequest } from "@/types/auth";
 import type { RegionKo } from "@/types/university";
+import {
+  AUTH_REDIRECT_PARAM,
+  getCommunityRedirectOrFallback,
+  getSafeCommunityRedirectPath,
+} from "@/utils/authRedirect";
 import SignupPolicyScreen from "./SignupPolicyScreen";
 import SignupPrepareScreen from "./SignupPrepareScreen";
 import SignupProfileScreen from "./SignupProfileScreen";
@@ -26,6 +31,7 @@ const SignupSurvey = ({ baseNickname, baseEmail, baseProfileImageUrl }: SignupSu
   const searchParams = useSearchParams();
 
   const signUpToken = searchParams?.get("token");
+  const redirectPath = getSafeCommunityRedirectPath(searchParams?.get(AUTH_REDIRECT_PARAM)) ?? undefined;
   if (!signUpToken) {
     router.push("/login");
   }
@@ -85,7 +91,7 @@ const SignupSurvey = ({ baseNickname, baseEmail, baseProfileImageUrl }: SignupSu
           showIconToast("logo", "회원가입이 완료되었습니다.");
 
           setTimeout(() => {
-            router.push("/");
+            router.push(getCommunityRedirectOrFallback(redirectPath));
           }, 100);
         },
       });

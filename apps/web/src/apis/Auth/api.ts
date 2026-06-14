@@ -41,6 +41,10 @@ export interface EmailLoginRequest {
   password: string;
 }
 
+export type AuthRedirectOptions = {
+  redirectPath?: string;
+};
+
 export interface EmailVerificationResponse {
   signUpToken: string;
 }

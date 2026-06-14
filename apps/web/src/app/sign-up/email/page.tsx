@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import { NO_INDEX_ROBOTS } from "@/utils/seo";
@@ -15,7 +16,9 @@ const EmailSignUpPage = () => {
     <>
       <TopDetailNavigation title="이메일로 시작하기" />
       <div className="w-full px-5">
-        <EmailSignUpForm />
+        <Suspense fallback={<div>Loading...</div>}>
+          <EmailSignUpForm />
+        </Suspense>
       </div>
     </>
   );

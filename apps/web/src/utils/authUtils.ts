@@ -1,5 +1,6 @@
 import { showIconToast } from "@/lib/toast/showIconToast";
 import type { appleOAuth2CodeResponse } from "@/types/auth";
+import { AUTH_REDIRECT_PARAM, getSafeCommunityRedirectPath } from "./authRedirect";
 
 export const authProviderName = (provider: "KAKAO" | "APPLE" | "EMAIL"): string => {
   if (provider === "KAKAO") {
@@ -13,21 +14,26 @@ export const authProviderName = (provider: "KAKAO" | "APPLE" | "EMAIL"): string 
   }
 };
 
-export const kakaoLogin = () => {
+export const kakaoLogin = (redirectPath?: string) => {
   if (window.Kakao?.Auth) {
+    const safeRedirectPath = getSafeCommunityRedirectPath(redirectPath);
+
     window.Kakao.Auth.authorize({
       redirectUri: `${process.env.NEXT_PUBLIC_WEB_URL}/login/kakao/callback`,
+      ...(safeRedirectPath ? { state: safeRedirectPath } : {}),
     });
   } else {
     showIconToast("logo", "Kakao SDK를 불러오는 중입니다. 잠시 후 다시 시도해주세요.");
   }
 };
 
-export const appleLogin = async () => {
+export const appleLogin = async (redirectPath?: string) => {
   if (!window.AppleID || !window.AppleID.auth) {
     showIconToast("logo", "Apple SDK를 불러오는 중입니다. 잠시 후 다시 시도해주세요.");
     return;
   }
+
+  const safeRedirectPath = getSafeCommunityRedirectPath(redirectPath);
 
   window.AppleID.auth.init({
     clientId: process.env.NEXT_PUBLIC_APPLE_CLIENT_ID,
@@ -39,7 +45,13 @@ export const appleLogin = async () => {
   try {
     const res = (await window.AppleID.auth.signIn()) as appleOAuth2CodeResponse;
     if (res.authorization) {
-      window.location.href = `/login/apple/callback?code=${encodeURIComponent(res.authorization.code)}`;
+      const params = new URLSearchParams({ code: res.authorization.code });
+
+      if (safeRedirectPath) {
+        params.set(AUTH_REDIRECT_PARAM, safeRedirectPath);
+      }
+
+      window.location.href = `/login/apple/callback?${params.toString()}`;
     }
   } catch (error) {
     // Log error for developers
