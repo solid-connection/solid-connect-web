@@ -6,7 +6,9 @@ import { useGetPostList } from "@/apis/community";
 import { COMMUNITY_INITIAL_CATEGORY } from "@/apis/community/postListQuery";
 import ButtonTab from "@/components/ui/ButtonTab";
 import { COMMUNITY_BOARDS, COMMUNITY_CATEGORIES } from "@/constants/community";
+import useAuthStore from "@/lib/zustand/useAuthStore";
 import useReportedPostsStore from "@/lib/zustand/useReportedPostsStore";
+import { buildLoginPathWithRedirect } from "@/utils/authRedirect";
 import { CommunityPostListSkeleton } from "./CommunityPageSkeleton";
 import CommunityRegionSelector from "./CommunityRegionSelector";
 import PostCards from "./PostCards";
@@ -22,6 +24,10 @@ const CommunityPageContent = ({ boardCode }: CommunityPageContentProps) => {
   const reportedPostIds = useReportedPostsStore((state) => state.reportedPostIds);
   const blockedUserIds = useReportedPostsStore((state) => state.blockedUserIds);
   const blockedPostIds = useReportedPostsStore((state) => state.blockedPostIds);
+  const accessToken = useAuthStore((state) => state.accessToken);
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const isInitialized = useAuthStore((state) => state.isInitialized);
+  const refreshStatus = useAuthStore((state) => state.refreshStatus);
 
   const { data: posts = [], isPending } = useGetPostList({
     boardCode,
@@ -57,7 +63,15 @@ const CommunityPageContent = ({ boardCode }: CommunityPageContentProps) => {
   };
 
   const postWriteHandler = () => {
-    router.push(`/community/${boardCode}/create`);
+    const createPath = `/community/${boardCode}/create`;
+
+    if (!isInitialized || refreshStatus === "refreshing") {
+      return;
+    }
+
+    const nextPath = isAuthenticated && accessToken ? createPath : buildLoginPathWithRedirect(createPath);
+
+    router.push(nextPath);
   };
 
   const getBoardNameKo = (code: string) => {

@@ -5,8 +5,11 @@ import { useEffect, useRef, useState } from "react";
 import { useCreatePost } from "@/apis/community";
 import useCommunityImageUpload from "@/app/community/_hooks/useCommunityImageUpload";
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
+import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 import { showIconToast } from "@/lib/toast/showIconToast";
+import useAuthStore from "@/lib/zustand/useAuthStore";
 import { IconImage, IconPostCheckboxFilled, IconPostCheckboxOutlined } from "@/public/svgs";
+import { buildLoginPathWithRedirect } from "@/utils/authRedirect";
 
 type PostFormProps = {
   boardCode: string;
@@ -18,6 +21,10 @@ const PostForm = ({ boardCode }: PostFormProps) => {
   const [content, setContent] = useState<string>("");
   const router = useRouter();
   const [isQuestion, setIsQuestion] = useState<boolean>(false);
+  const accessToken = useAuthStore((state) => state.accessToken);
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const isInitialized = useAuthStore((state) => state.isInitialized);
+  const refreshStatus = useAuthStore((state) => state.refreshStatus);
   const {
     maxImages,
     imageUploadRef,
@@ -34,6 +41,17 @@ const PostForm = ({ boardCode }: PostFormProps) => {
   } = useCommunityImageUpload();
 
   const createPostMutation = useCreatePost();
+  const createPath = `/community/${boardCode}/create`;
+
+  useEffect(() => {
+    if (!isInitialized || refreshStatus === "refreshing") {
+      return;
+    }
+
+    if (!isAuthenticated || !accessToken) {
+      router.replace(buildLoginPathWithRedirect(createPath));
+    }
+  }, [accessToken, createPath, isAuthenticated, isInitialized, refreshStatus, router]);
 
   useEffect(() => {
     const textarea = textareaRef.current;
@@ -57,6 +75,10 @@ const PostForm = ({ boardCode }: PostFormProps) => {
     }
     return () => {};
   }, []);
+
+  if (!isInitialized || refreshStatus === "refreshing" || !isAuthenticated || !accessToken) {
+    return <CloudSpinnerPage />;
+  }
 
   const submitPost = async () => {
     const titleValue = titleRef.current?.querySelector("textarea")?.value.trim() || "";

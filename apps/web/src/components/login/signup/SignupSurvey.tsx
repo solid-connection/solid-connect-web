@@ -10,6 +10,11 @@ import useAuthStore from "@/lib/zustand/useAuthStore";
 
 import type { PreparationStatus, SignUpRequest } from "@/types/auth";
 import type { RegionKo } from "@/types/university";
+import {
+  AUTH_REDIRECT_PARAM,
+  getCommunityRedirectOrFallback,
+  getSafeCommunityRedirectPath,
+} from "@/utils/authRedirect";
 import SignupPolicyScreen from "./SignupPolicyScreen";
 import SignupPrepareScreen from "./SignupPrepareScreen";
 import SignupProfileScreen from "./SignupProfileScreen";
@@ -26,9 +31,7 @@ const SignupSurvey = ({ baseNickname, baseEmail, baseProfileImageUrl }: SignupSu
   const searchParams = useSearchParams();
 
   const signUpToken = searchParams?.get("token");
-  if (!signUpToken) {
-    router.push("/login");
-  }
+  const redirectPath = getSafeCommunityRedirectPath(searchParams?.get(AUTH_REDIRECT_PARAM)) ?? undefined;
   const { setAccessToken } = useAuthStore();
   const [curStage, setCurStage] = useState<number>(1);
   const [curProgress, setCurProgress] = useState<number>(0);
@@ -45,8 +48,18 @@ const SignupSurvey = ({ baseNickname, baseEmail, baseProfileImageUrl }: SignupSu
   const uploadImageMutation = useUploadProfileImagePublic();
 
   useEffect(() => {
+    if (!signUpToken) {
+      router.replace("/login");
+    }
+  }, [signUpToken, router]);
+
+  useEffect(() => {
     setCurProgress(((curStage - 1) / 3) * 100);
   }, [curStage]);
+
+  if (!signUpToken) {
+    return null;
+  }
 
   const createRegisterRequest = async (): Promise<SignUpRequest> => {
     const submitRegion: RegionKo[] = region === "아직 잘 모르겠어요" ? [] : [region as RegionKo];
@@ -85,7 +98,7 @@ const SignupSurvey = ({ baseNickname, baseEmail, baseProfileImageUrl }: SignupSu
           showIconToast("logo", "회원가입이 완료되었습니다.");
 
           setTimeout(() => {
-            router.push("/");
+            router.push(getCommunityRedirectOrFallback(redirectPath));
           }, 100);
         },
       });

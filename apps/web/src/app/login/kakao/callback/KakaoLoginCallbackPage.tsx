@@ -4,12 +4,15 @@ import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { usePostKakaoAuth } from "@/apis/Auth";
 import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
+import { AUTH_REDIRECT_PARAM, getSafeCommunityRedirectPath } from "@/utils/authRedirect";
 
 const attemptedKakaoAuthCodes = new Set<string>();
 
 const KakaoLoginCallbackPage = () => {
   const searchParams = useSearchParams();
-  const { mutate: postKakaoAuth } = usePostKakaoAuth();
+  const redirectPath =
+    getSafeCommunityRedirectPath(searchParams?.get("state") ?? searchParams?.get(AUTH_REDIRECT_PARAM)) ?? undefined;
+  const { mutate: postKakaoAuth } = usePostKakaoAuth({ redirectPath });
   const code = searchParams?.get("code");
 
   useEffect(() => {

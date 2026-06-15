@@ -3,6 +3,7 @@ import { Suspense } from "react";
 
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import SignupSurvey from "@/components/login/signup/SignupSurvey";
+import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 import { NO_INDEX_ROBOTS } from "@/utils/seo";
 
 export const metadata: Metadata = {
@@ -15,7 +16,7 @@ const SignUpPage = () => {
     <>
       <TopDetailNavigation title="회원가입" />
       <div className="w-full px-5">
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<CloudSpinnerPage />}>
           <SignupSurvey baseNickname="" baseEmail="" baseProfileImageUrl="" />
         </Suspense>
       </div>

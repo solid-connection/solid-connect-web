@@ -2,12 +2,17 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { usePostEmailAuth } from "@/apis/Auth";
 import { IconSolidConnectionFullBlackLogo } from "@/public/svgs";
 import { IconAppleLogo, IconEmailIcon, IconKakaoLogo } from "@/public/svgs/auth";
+import {
+  AUTH_REDIRECT_PARAM,
+  buildSignUpEmailPathWithRedirect,
+  getSafeCommunityRedirectPath,
+} from "@/utils/authRedirect";
 import { appleLogin, kakaoLogin } from "@/utils/authUtils";
 import useInputHandler from "./_hooks/useInputHandler";
 
@@ -21,8 +26,10 @@ type LoginFormData = z.infer<typeof loginSchema>;
 
 const LoginContent = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectPath = getSafeCommunityRedirectPath(searchParams?.get(AUTH_REDIRECT_PARAM)) ?? undefined;
 
-  const { mutate: postEmailAuth, isPending } = usePostEmailAuth();
+  const { mutate: postEmailAuth, isPending } = usePostEmailAuth({ redirectPath });
   const { showPasswordField, handleEmailChange } = useInputHandler();
 
   const {
@@ -38,7 +45,7 @@ const LoginContent = () => {
   });
 
   const onSubmit = async (data: LoginFormData) => {
-    postEmailAuth(data, {});
+    postEmailAuth(data);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -110,7 +117,7 @@ const LoginContent = () => {
         <div className="mt-3 flex flex-col gap-3">
           <div className="mx-5 transition active:scale-95">
             <button
-              onClick={kakaoLogin}
+              onClick={() => kakaoLogin(redirectPath)}
               type="button"
               className="flex h-11 w-full items-center justify-center gap-[5px] rounded-lg bg-accent-custom-yellow p-2.5"
             >
@@ -120,7 +127,7 @@ const LoginContent = () => {
           </div>
           <div className="mx-5 transition active:scale-95">
             <button
-              onClick={() => router.push("/sign-up/email")}
+              onClick={() => router.push(buildSignUpEmailPathWithRedirect(redirectPath))}
               type="button"
               className="flex h-11 w-full items-center justify-center gap-[5px] rounded-lg bg-secondary p-2.5"
             >
@@ -130,7 +137,7 @@ const LoginContent = () => {
           </div>
           <div className="mx-5 transition active:scale-95">
             <button
-              onClick={appleLogin}
+              onClick={() => appleLogin(redirectPath)}
               type="button"
               className="flex h-11 w-full items-center justify-center gap-[5px] rounded-lg bg-black p-2.5"
             >
