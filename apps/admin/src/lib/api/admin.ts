@@ -73,6 +73,11 @@ export interface HomeUniversityPayload {
 	maxChoiceCount: number;
 }
 
+export interface TermResponse {
+	id: number;
+	label: string;
+}
+
 export interface UnivApplyInfoFieldResponse {
 	structuredFields: { field: string; aliases: string[] }[];
 	languageTestTypes: string[];
@@ -168,6 +173,8 @@ export const adminApi = {
 
 	deleteHomeUniversity: (id: number) =>
 		axiosInstance.delete<void>(`/admin/home-universities/${id}`).then((res) => res.data),
+
+	getTerms: () => axiosInstance.get<TermResponse[]>("/admin/terms").then((res) => res.data),
 
 	getUnivApplyInfoFields: () =>
 		axiosInstance.get<UnivApplyInfoFieldResponse>("/admin/univ-apply-infos/fields").then((res) => res.data),

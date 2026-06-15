@@ -5,7 +5,6 @@ import { type FormEvent, useId, useState } from "react";
 import { toast } from "sonner";
 import { AdminLayout } from "@/components/layout/AdminLayout";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
 import { adminApi, type UnivApplyInfoFieldResponse, type UnivApplyInfoImportResponse } from "@/lib/api/admin";
@@ -38,7 +37,7 @@ function buildAutoMappings(headers: string[], fields: UnivApplyInfoFieldResponse
 
 export function UnivApplyInfosPageContent() {
 	const homeUniversitySelectId = useId();
-	const termInputId = useId();
+	const termSelectId = useId();
 
 	const [homeUniversityId, setHomeUniversityId] = useState("");
 	const [termId, setTermId] = useState("");
@@ -50,6 +49,11 @@ export function UnivApplyInfosPageContent() {
 	const homeUniversitiesQuery = useQuery({
 		queryKey: ["admin", "home-universities"],
 		queryFn: adminApi.getHomeUniversities,
+	});
+
+	const termsQuery = useQuery({
+		queryKey: ["admin", "terms"],
+		queryFn: adminApi.getTerms,
 	});
 
 	const fieldsQuery = useQuery({
@@ -96,8 +100,8 @@ export function UnivApplyInfosPageContent() {
 		e.preventDefault();
 		const univId = Number(homeUniversityId);
 		const term = Number(termId);
-		if (!univId || !Number.isInteger(term) || term < 1) {
-			toast.error("협정 대학과 학기 ID를 입력해주세요.");
+		if (!univId || !term) {
+			toast.error("협정 대학과 학기를 선택해주세요.");
 			return;
 		}
 		if (!markdown.trim()) {
@@ -117,6 +121,7 @@ export function UnivApplyInfosPageContent() {
 	};
 
 	const universities = homeUniversitiesQuery.data ?? [];
+	const terms = termsQuery.data ?? [];
 	const fields = fieldsQuery.data;
 	const fieldOptions = fields
 		? [
@@ -160,17 +165,26 @@ export function UnivApplyInfosPageContent() {
 							)}
 						</div>
 						<div className="space-y-1.5">
-							<label className="typo-sb-11 text-k-700" htmlFor={termInputId}>
-								학기 ID
+							<label className="typo-sb-11 text-k-700" htmlFor={termSelectId}>
+								학기
 							</label>
-							<Input
-								id={termInputId}
+							<select
+								id={termSelectId}
 								value={termId}
 								onChange={(e) => setTermId(e.target.value)}
-								placeholder="예: 1"
-								type="number"
-								min={1}
-							/>
+								className="h-9 w-full rounded-md border border-k-200 bg-k-0 px-3 typo-regular-4 text-k-700 outline-none focus-visible:border-primary"
+							>
+								<option value="">학기 선택</option>
+								{terms.map((t) => (
+									<option key={t.id} value={t.id}>
+										{t.label}
+									</option>
+								))}
+							</select>
+							{termsQuery.isLoading && <p className="mt-1 typo-regular-4 text-k-500">불러오는 중...</p>}
+							{termsQuery.isError && (
+								<p className="mt-1 typo-regular-4 text-magic-danger">학기 목록을 불러오지 못했습니다.</p>
+							)}
 						</div>
 					</div>
 				</section>
