@@ -62,6 +62,34 @@ export interface CountryPayload {
 	regionCode: string;
 }
 
+export interface HomeUniversityResponse {
+	id: number;
+	name: string;
+	maxChoiceCount: number;
+}
+
+export interface HomeUniversityPayload {
+	name: string;
+	maxChoiceCount: number;
+}
+
+export interface UnivApplyInfoFieldResponse {
+	structuredFields: { field: string; aliases: string[] }[];
+	languageTestTypes: string[];
+}
+
+export interface UnivApplyInfoImportRequest {
+	termId: number;
+	homeUniversityId: number;
+	markdown: string;
+	columnMappings: Record<string, string>;
+}
+
+export interface UnivApplyInfoImportResponse {
+	successCount: number;
+	failedRows: { rowNumber: number; reason: string }[];
+}
+
 const assignMentorApplicationUniversity = (mentorApplicationId: string | number, universityId: number) =>
 	axiosInstance
 		.post<void>(`/admin/mentor-applications/${mentorApplicationId}/assign-university`, { universityId })
@@ -128,4 +156,22 @@ export const adminApi = {
 		axiosInstance.put(`/admin/countries/${code}`, data).then((res) => res.data),
 
 	delete지역삭제: (code: string) => axiosInstance.delete(`/admin/countries/${code}`).then((res) => res.data),
+
+	getHomeUniversities: () =>
+		axiosInstance.get<HomeUniversityResponse[]>("/admin/home-universities").then((res) => res.data),
+
+	createHomeUniversity: (data: HomeUniversityPayload) =>
+		axiosInstance.post<HomeUniversityResponse>("/admin/home-universities", data).then((res) => res.data),
+
+	updateHomeUniversity: (id: number, data: HomeUniversityPayload) =>
+		axiosInstance.put<HomeUniversityResponse>(`/admin/home-universities/${id}`, data).then((res) => res.data),
+
+	deleteHomeUniversity: (id: number) =>
+		axiosInstance.delete<void>(`/admin/home-universities/${id}`).then((res) => res.data),
+
+	getUnivApplyInfoFields: () =>
+		axiosInstance.get<UnivApplyInfoFieldResponse>("/admin/univ-apply-infos/fields").then((res) => res.data),
+
+	importUnivApplyInfos: (data: UnivApplyInfoImportRequest) =>
+		axiosInstance.post<UnivApplyInfoImportResponse>("/admin/univ-apply-infos", data).then((res) => res.data),
 };
