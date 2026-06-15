@@ -76,6 +76,11 @@ export interface HomeUniversityPayload {
 export interface TermResponse {
 	id: number;
 	label: string;
+	isCurrent: boolean;
+}
+
+export interface TermCreatePayload {
+	name: string;
 }
 
 export interface UnivApplyInfoFieldResponse {
@@ -175,6 +180,11 @@ export const adminApi = {
 		axiosInstance.delete<void>(`/admin/home-universities/${id}`).then((res) => res.data),
 
 	getTerms: () => axiosInstance.get<TermResponse[]>("/admin/terms").then((res) => res.data),
+
+	createTerm: (data: TermCreatePayload) =>
+		axiosInstance.post<TermResponse>("/admin/terms", data).then((res) => res.data),
+
+	activateTerm: (id: number) => axiosInstance.patch<void>(`/admin/terms/${id}/activate`).then((res) => res.data),
 
 	getUnivApplyInfoFields: () =>
 		axiosInstance.get<UnivApplyInfoFieldResponse>("/admin/univ-apply-infos/fields").then((res) => res.data),

@@ -1,4 +1,13 @@
-import { Building2, FileText, FlaskConical, MapPinned, MessageSquare, PlusCircle, UserCheck } from "lucide-react";
+import {
+	Building2,
+	CalendarDays,
+	FileText,
+	FlaskConical,
+	MapPinned,
+	MessageSquare,
+	PlusCircle,
+	UserCheck,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export type ActiveAdminMenu =
@@ -6,6 +15,7 @@ export type ActiveAdminMenu =
 	| "mentorApplications"
 	| "regionsCountries"
 	| "homeUniversities"
+	| "terms"
 	| "univApplyInfos"
 	| "bruno"
 	| "chatSocket";
@@ -15,6 +25,7 @@ const sideMenus = [
 	{ key: "mentorApplications", label: "멘토 승격 요청", icon: UserCheck, to: "/mentor-applications" as const },
 	{ key: "regionsCountries", label: "권역/지역 관리", icon: MapPinned, to: "/regions-countries" as const },
 	{ key: "homeUniversities", label: "협정 대학 관리", icon: Building2, to: "/home-universities" as const },
+	{ key: "terms", label: "학기 관리", icon: CalendarDays, to: "/terms" as const },
 	{ key: "univApplyInfos", label: "지원 대학 추가", icon: PlusCircle, to: "/univ-apply-infos" as const },
 	{ key: "bruno", label: "Bruno API", icon: FlaskConical, to: "/bruno" as const },
 	{ key: "chatSocket", label: "채팅 소켓", icon: MessageSquare, to: "/chat-socket" as const },
