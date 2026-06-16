@@ -161,13 +161,24 @@ export function UnivApplyInfosPageContent() {
 
 	const mappedFieldSet = new Set(Object.values(columnMappings).filter(Boolean));
 	const previewColumns = [
-		...UNIV_APPLY_INFO_FIELDS.filter((f) => mappedFieldSet.has(f.field)).map((f) => ({
+		// 필수 필드: 매핑 여부와 관계없이 항상 표시
+		...UNIV_APPLY_INFO_FIELDS.filter((f) => f.required).map((f) => ({
 			field: f.field,
 			label: f.label,
+			required: true,
+			mapped: mappedFieldSet.has(f.field),
 		})),
+		// 선택 필드: 매핑된 경우만 표시
+		...UNIV_APPLY_INFO_FIELDS.filter((f) => !f.required && mappedFieldSet.has(f.field)).map((f) => ({
+			field: f.field,
+			label: f.label,
+			required: false,
+			mapped: true,
+		})),
+		// 언어 시험 타입 컬럼
 		...[...mappedFieldSet]
 			.filter((f) => !UNIV_APPLY_INFO_FIELDS.some((sf) => sf.field === f))
-			.map((f) => ({ field: f, label: f })),
+			.map((f) => ({ field: f, label: f, required: false, mapped: true })),
 	];
 	const previewRows = showPreviewModal ? parsePreviewRows(markdown.trim(), columnMappings) : [];
 
@@ -371,7 +382,12 @@ export function UnivApplyInfosPageContent() {
 							<div>
 								<p className="typo-sb-9 text-k-900">임포트 미리보기</p>
 								<p className="mt-0.5 typo-regular-4 text-k-500">
-									총 {previewRows.length}개 대학 · {previewColumns.length}개 필드 매핑됨
+									총 {previewRows.length}개 대학 · {previewColumns.filter((c) => c.mapped).length}개 필드 매핑됨
+									{previewColumns.filter((c) => c.required && !c.mapped).length > 0 && (
+										<span className="ml-2 text-magic-danger">
+											· 필수 {previewColumns.filter((c) => c.required && !c.mapped).length}개 미매핑
+										</span>
+									)}
 								</p>
 							</div>
 							<button
@@ -392,9 +408,13 @@ export function UnivApplyInfosPageContent() {
 										{previewColumns.map((col) => (
 											<th
 												key={col.field}
-												className="border-b border-k-100 px-3 py-2.5 text-left typo-sb-11 text-k-500 whitespace-nowrap"
+												className="border-b border-k-100 px-3 py-2.5 text-left typo-sb-11 whitespace-nowrap"
 											>
-												{col.label}
+												{col.mapped ? (
+													<span className="text-k-700">{col.label}</span>
+												) : (
+													<span className="text-magic-danger">{col.label} *</span>
+												)}
 											</th>
 										))}
 									</tr>
@@ -403,11 +423,16 @@ export function UnivApplyInfosPageContent() {
 									{previewRows.map((row, i) => (
 										<tr key={Object.values(row).join("-")} className="border-b border-k-50 last:border-0">
 											<td className="px-3 py-2 typo-regular-4 text-k-400">{i + 1}</td>
-											{previewColumns.map((col) => (
-												<td key={col.field} className="px-3 py-2 typo-regular-4 text-k-700">
-													{row[col.field] ?? "—"}
-												</td>
-											))}
+											{previewColumns.map((col) => {
+												const value = row[col.field];
+												return (
+													<td key={col.field} className="max-w-[10rem] px-3 py-2 typo-regular-4 text-k-700">
+														<span className="block truncate" title={value ?? ""}>
+															{value ?? "—"}
+														</span>
+													</td>
+												);
+											})}
 										</tr>
 									))}
 								</tbody>
