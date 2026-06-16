@@ -37,6 +37,32 @@ function buildAutoMappings(headers: string[], languageTestTypes: string[]): Reco
 	return mappings;
 }
 
+function parsePreviewRows(markdown: string, columnMappings: Record<string, string>): Array<Record<string, string>> {
+	const processed = preprocessMarkdownCountryCodes(markdown, columnMappings);
+	const lines = processed.trim().split("\n");
+	if (lines.length < 3) return [];
+
+	const rawHeaders = lines[0]
+		.split("|")
+		.slice(1, -1)
+		.map((h) => h.trim());
+
+	return lines.slice(2).flatMap((line) => {
+		const cells = line
+			.split("|")
+			.slice(1, -1)
+			.map((c) => c.trim());
+		const row: Record<string, string> = {};
+		rawHeaders.forEach((header, i) => {
+			const field = columnMappings[header];
+			if (field && cells[i] !== undefined && cells[i] !== "") {
+				row[field] = cells[i];
+			}
+		});
+		return Object.keys(row).length > 0 ? [row] : [];
+	});
+}
+
 export function UnivApplyInfosPageContent() {
 	const homeUniversitySelectId = useId();
 	const termSelectId = useId();
@@ -47,6 +73,7 @@ export function UnivApplyInfosPageContent() {
 	const [parsedHeaders, setParsedHeaders] = useState<string[]>([]);
 	const [columnMappings, setColumnMappings] = useState<Record<string, string>>({});
 	const [importResult, setImportResult] = useState<UnivApplyInfoImportResponse | null>(null);
+	const [showPreviewModal, setShowPreviewModal] = useState(false);
 
 	const homeUniversitiesQuery = useQuery({
 		queryKey: ["admin", "home-universities"],
@@ -67,6 +94,7 @@ export function UnivApplyInfosPageContent() {
 	const importMutation = useMutation({
 		mutationFn: adminApi.importUnivApplyInfos,
 		onSuccess: (data) => {
+			setShowPreviewModal(false);
 			setImportResult(data);
 			if (data.failedRows.length === 0) {
 				toast.success(`${data.successCount}건 모두 추가됐습니다.`);
@@ -114,10 +142,14 @@ export function UnivApplyInfosPageContent() {
 			toast.error("먼저 [파싱] 버튼을 눌러 컬럼을 확인해주세요.");
 			return;
 		}
+		setShowPreviewModal(true);
+	};
+
+	const handleConfirmImport = () => {
 		const processedMarkdown = preprocessMarkdownCountryCodes(markdown.trim(), columnMappings);
 		importMutation.mutate({
-			homeUniversityId: univId,
-			termId: term,
+			homeUniversityId: Number(homeUniversityId),
+			termId: Number(termId),
 			markdown: processedMarkdown,
 			columnMappings,
 		});
@@ -126,6 +158,18 @@ export function UnivApplyInfosPageContent() {
 	const universities = homeUniversitiesQuery.data ?? [];
 	const terms = termsQuery.data ?? [];
 	const fields = fieldsQuery.data;
+
+	const mappedFieldSet = new Set(Object.values(columnMappings).filter(Boolean));
+	const previewColumns = [
+		...UNIV_APPLY_INFO_FIELDS.filter((f) => mappedFieldSet.has(f.field)).map((f) => ({
+			field: f.field,
+			label: f.label,
+		})),
+		...[...mappedFieldSet]
+			.filter((f) => !UNIV_APPLY_INFO_FIELDS.some((sf) => sf.field === f))
+			.map((f) => ({ field: f, label: f })),
+	];
+	const previewRows = showPreviewModal ? parsePreviewRows(markdown.trim(), columnMappings) : [];
 
 	return (
 		<AdminLayout
@@ -255,9 +299,7 @@ export function UnivApplyInfosPageContent() {
 				{/* ④ 임포트 버튼 */}
 				{parsedHeaders.length > 0 && (
 					<div>
-						<Button type="submit" disabled={importMutation.isPending}>
-							{importMutation.isPending ? "추가 중..." : "지원 대학 추가"}
-						</Button>
+						<Button type="submit">지원 대학 추가</Button>
 					</div>
 				)}
 			</form>
@@ -308,6 +350,81 @@ export function UnivApplyInfosPageContent() {
 						</div>
 					)}
 				</section>
+			)}
+
+			{/* 임포트 미리보기 모달 */}
+			{showPreviewModal && (
+				<div className="fixed inset-0 z-50 flex items-center justify-center">
+					<button
+						type="button"
+						aria-label="모달 닫기"
+						className="absolute inset-0 bg-black/50"
+						onClick={() => setShowPreviewModal(false)}
+					/>
+					<div
+						role="dialog"
+						aria-modal="true"
+						className="relative flex max-h-[80vh] w-full max-w-4xl flex-col rounded-xl bg-k-0 shadow-xl"
+					>
+						{/* 모달 헤더 */}
+						<div className="flex items-center justify-between border-b border-k-100 px-5 py-4">
+							<div>
+								<p className="typo-sb-9 text-k-900">임포트 미리보기</p>
+								<p className="mt-0.5 typo-regular-4 text-k-500">
+									총 {previewRows.length}개 대학 · {previewColumns.length}개 필드 매핑됨
+								</p>
+							</div>
+							<button
+								type="button"
+								onClick={() => setShowPreviewModal(false)}
+								className="typo-regular-4 text-k-400 hover:text-k-700"
+							>
+								✕
+							</button>
+						</div>
+
+						{/* 모달 테이블 */}
+						<div className="min-h-0 flex-1 overflow-auto">
+							<table className="w-full border-collapse text-sm">
+								<thead className="sticky top-0 bg-k-50">
+									<tr>
+										<th className="border-b border-k-100 px-3 py-2.5 text-left typo-sb-11 text-k-500">#</th>
+										{previewColumns.map((col) => (
+											<th
+												key={col.field}
+												className="border-b border-k-100 px-3 py-2.5 text-left typo-sb-11 text-k-500 whitespace-nowrap"
+											>
+												{col.label}
+											</th>
+										))}
+									</tr>
+								</thead>
+								<tbody>
+									{previewRows.map((row, i) => (
+										<tr key={Object.values(row).join("-")} className="border-b border-k-50 last:border-0">
+											<td className="px-3 py-2 typo-regular-4 text-k-400">{i + 1}</td>
+											{previewColumns.map((col) => (
+												<td key={col.field} className="px-3 py-2 typo-regular-4 text-k-700">
+													{row[col.field] ?? "—"}
+												</td>
+											))}
+										</tr>
+									))}
+								</tbody>
+							</table>
+						</div>
+
+						{/* 모달 푸터 */}
+						<div className="flex justify-end gap-2 border-t border-k-100 px-5 py-3">
+							<Button type="button" variant="secondary" onClick={() => setShowPreviewModal(false)}>
+								취소
+							</Button>
+							<Button type="button" onClick={handleConfirmImport} disabled={importMutation.isPending}>
+								{importMutation.isPending ? "추가 중..." : "추가"}
+							</Button>
+						</div>
+					</div>
+				</div>
 			)}
 		</AdminLayout>
 	);
