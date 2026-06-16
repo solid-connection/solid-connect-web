@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
 import { adminApi, type UnivApplyInfoImportResponse } from "@/lib/api/admin";
+import { preprocessMarkdownCountryCodes } from "./countryCodeAliases";
 import { findFieldByHeader, UNIV_APPLY_INFO_FIELDS } from "./univApplyInfoFields";
 
 function extractMarkdownHeaders(markdown: string): string[] {
@@ -113,10 +114,11 @@ export function UnivApplyInfosPageContent() {
 			toast.error("먼저 [파싱] 버튼을 눌러 컬럼을 확인해주세요.");
 			return;
 		}
+		const processedMarkdown = preprocessMarkdownCountryCodes(markdown.trim(), columnMappings);
 		importMutation.mutate({
 			homeUniversityId: univId,
 			termId: term,
-			markdown: markdown.trim(),
+			markdown: processedMarkdown,
 			columnMappings,
 		});
 	};

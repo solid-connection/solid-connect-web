@@ -1,0 +1,113 @@
+export const COUNTRY_CODE_BY_NAME: Record<string, string> = {
+	// 한국어
+	오스트리아: "AT",
+	호주: "AU",
+	아제르바이잔: "AZ",
+	브루나이: "BN",
+	브라질: "BR",
+	캐나다: "CA",
+	스위스: "CH",
+	중국: "CN",
+	체코: "CZ",
+	독일: "DE",
+	덴마크: "DK",
+	스페인: "ES",
+	핀란드: "FI",
+	프랑스: "FR",
+	영국: "GB",
+	홍콩: "HK",
+	헝가리: "HU",
+	인도네시아: "ID",
+	이스라엘: "IL",
+	이탈리아: "IT",
+	일본: "JP",
+	카자흐스탄: "KZ",
+	리투아니아: "LT",
+	말레이시아: "MY",
+	네덜란드: "NL",
+	노르웨이: "NO",
+	포르투갈: "PT",
+	러시아: "RU",
+	스웨덴: "SE",
+	싱가포르: "SG",
+	태국: "TH",
+	튀르키예: "TR",
+	대만: "TW",
+	미국: "US",
+	우즈베키스탄: "UZ",
+	// 영어 풀 네임
+	Austria: "AT",
+	Australia: "AU",
+	Azerbaijan: "AZ",
+	Brunei: "BN",
+	Brazil: "BR",
+	Canada: "CA",
+	Switzerland: "CH",
+	China: "CN",
+	"Czech Republic": "CZ",
+	Czechia: "CZ",
+	Germany: "DE",
+	Denmark: "DK",
+	Spain: "ES",
+	Finland: "FI",
+	France: "FR",
+	"United Kingdom": "GB",
+	UK: "GB",
+	"Hong Kong": "HK",
+	Hungary: "HU",
+	Indonesia: "ID",
+	Israel: "IL",
+	Italy: "IT",
+	Japan: "JP",
+	Kazakhstan: "KZ",
+	Lithuania: "LT",
+	Malaysia: "MY",
+	Netherlands: "NL",
+	Norway: "NO",
+	Portugal: "PT",
+	Russia: "RU",
+	Sweden: "SE",
+	Singapore: "SG",
+	Thailand: "TH",
+	Turkey: "TR",
+	Türkiye: "TR",
+	Taiwan: "TW",
+	"United States": "US",
+	USA: "US",
+	Uzbekistan: "UZ",
+};
+
+export function resolveCountryCode(value: string): string {
+	return COUNTRY_CODE_BY_NAME[value.trim()] ?? value;
+}
+
+export function preprocessMarkdownCountryCodes(markdown: string, columnMappings: Record<string, string>): string {
+	const lines = markdown.trim().split("\n");
+	if (lines.length < 3) return markdown;
+
+	const headers = lines[0]
+		.split("|")
+		.map((h) => h.trim())
+		.filter((h) => h.length > 0);
+
+	const countryCodeIndices = headers.reduce<number[]>((acc, header, i) => {
+		if (columnMappings[header] === "universityCountryCode") acc.push(i);
+		return acc;
+	}, []);
+
+	if (countryCodeIndices.length === 0) return markdown;
+
+	const processedLines = lines.map((line, lineIndex) => {
+		if (lineIndex === 0 || lineIndex === 1) return line;
+		const cells = line.split("|");
+		countryCodeIndices.forEach((colIndex) => {
+			const cellIndex = colIndex + 1;
+			if (cells[cellIndex] !== undefined) {
+				cells[cellIndex] = ` ${resolveCountryCode(cells[cellIndex].trim())} `;
+			}
+		});
+		return cells.join("|");
+	});
+
+	return processedLines.join("\n");
+}
