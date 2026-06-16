@@ -84,7 +84,6 @@ export interface TermCreatePayload {
 }
 
 export interface UnivApplyInfoFieldResponse {
-	structuredFields: { field: string; aliases: string[] }[];
 	languageTestTypes: string[];
 }
 
@@ -98,6 +97,7 @@ export interface UnivApplyInfoImportRequest {
 export interface UnivApplyInfoImportResponse {
 	successCount: number;
 	failedRows: { rowNumber: number; reason: string }[];
+	createdUniversities: string[];
 }
 
 const assignMentorApplicationUniversity = (mentorApplicationId: string | number, universityId: number) =>

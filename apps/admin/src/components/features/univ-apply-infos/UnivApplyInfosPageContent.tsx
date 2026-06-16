@@ -7,7 +7,8 @@ import { AdminLayout } from "@/components/layout/AdminLayout";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
-import { adminApi, type UnivApplyInfoFieldResponse, type UnivApplyInfoImportResponse } from "@/lib/api/admin";
+import { adminApi, type UnivApplyInfoImportResponse } from "@/lib/api/admin";
+import { findFieldByHeader, UNIV_APPLY_INFO_FIELDS } from "./univApplyInfoFields";
 
 function extractMarkdownHeaders(markdown: string): string[] {
 	const lines = markdown.trim().split("\n");
@@ -20,15 +21,15 @@ function extractMarkdownHeaders(markdown: string): string[] {
 		.filter((h) => h.length > 0);
 }
 
-function buildAutoMappings(headers: string[], fields: UnivApplyInfoFieldResponse): Record<string, string> {
+function buildAutoMappings(headers: string[], languageTestTypes: string[]): Record<string, string> {
 	const mappings: Record<string, string> = {};
 	for (const header of headers) {
-		const matched = fields.structuredFields.find((f) => f.field === header || f.aliases.some((a) => a === header));
-		if (matched) {
-			mappings[header] = matched.field;
+		const field = findFieldByHeader(header);
+		if (field) {
+			mappings[header] = field;
 			continue;
 		}
-		if (fields.languageTestTypes.includes(header)) {
+		if (languageTestTypes.includes(header)) {
 			mappings[header] = header;
 		}
 	}
@@ -90,7 +91,7 @@ export function UnivApplyInfosPageContent() {
 			toast.error("마크다운 헤더를 파싱할 수 없습니다. 형식을 확인해주세요.");
 			return;
 		}
-		const auto = fieldsQuery.data ? buildAutoMappings(headers, fieldsQuery.data) : {};
+		const auto = buildAutoMappings(headers, fieldsQuery.data?.languageTestTypes ?? []);
 		setParsedHeaders(headers);
 		setColumnMappings(auto);
 		setImportResult(null);
@@ -123,13 +124,6 @@ export function UnivApplyInfosPageContent() {
 	const universities = homeUniversitiesQuery.data ?? [];
 	const terms = termsQuery.data ?? [];
 	const fields = fieldsQuery.data;
-	const fieldOptions = fields
-		? [
-				...fields.structuredFields.map((f) => ({ value: f.field, label: f.field })),
-				...fields.languageTestTypes.map((t) => ({ value: t, label: t })),
-				{ value: "extraInfo", label: "extraInfo (기타)" },
-			]
-		: [];
 
 	return (
 		<AdminLayout
@@ -229,18 +223,24 @@ export function UnivApplyInfosPageContent() {
 										<TableRow key={header}>
 											<TableCell className="font-mono">{header}</TableCell>
 											<TableCell>
-												<select
-													value={columnMappings[header] ?? ""}
-													onChange={(e) => setColumnMappings((prev) => ({ ...prev, [header]: e.target.value }))}
-													className="h-9 min-w-[220px] rounded-md border border-k-200 bg-k-0 px-3 typo-regular-4 text-k-700 outline-none focus-visible:border-primary"
-												>
-													<option value="">매핑 없음 (extraInfo 저장)</option>
-													{fieldOptions.map((opt) => (
-														<option key={opt.value} value={opt.value}>
-															{opt.label}
-														</option>
-													))}
-												</select>
+												{fields?.languageTestTypes.includes(columnMappings[header] ?? "") ? (
+													<span className="inline-flex h-9 items-center rounded-md border border-k-200 bg-k-50 px-3 typo-regular-4 text-k-500">
+														언어 시험 타입: {columnMappings[header]}
+													</span>
+												) : (
+													<select
+														value={columnMappings[header] ?? ""}
+														onChange={(e) => setColumnMappings((prev) => ({ ...prev, [header]: e.target.value }))}
+														className="h-9 min-w-[220px] rounded-md border border-k-200 bg-k-0 px-3 typo-regular-4 text-k-700 outline-none focus-visible:border-primary"
+													>
+														<option value="">매핑 없음 (extraInfo 저장)</option>
+														{UNIV_APPLY_INFO_FIELDS.map((f) => (
+															<option key={f.field} value={f.field}>
+																{f.label}
+															</option>
+														))}
+													</select>
+												)}
 											</TableCell>
 										</TableRow>
 									))}
@@ -273,6 +273,18 @@ export function UnivApplyInfosPageContent() {
 							</>
 						)}
 					</p>
+					{importResult.createdUniversities.length > 0 && (
+						<div className="mt-3 rounded-lg border border-k-100 p-3">
+							<p className="typo-sb-11 text-k-700">신규 등록된 대학 {importResult.createdUniversities.length}개</p>
+							<ul className="mt-1.5 space-y-0.5">
+								{importResult.createdUniversities.map((name) => (
+									<li key={name} className="typo-regular-4 text-k-500">
+										{name}
+									</li>
+								))}
+							</ul>
+						</div>
+					)}
 					{importResult.failedRows.length > 0 && (
 						<div className="mt-3 overflow-x-auto rounded-lg border border-k-100">
 							<Table>
