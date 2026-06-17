@@ -168,13 +168,6 @@ export function UnivApplyInfosPageContent() {
 			required: true,
 			mapped: mappedFieldSet.has(f.field),
 		})),
-		// 선택 필드: 매핑된 경우만 표시
-		...UNIV_APPLY_INFO_FIELDS.filter((f) => !f.required && mappedFieldSet.has(f.field)).map((f) => ({
-			field: f.field,
-			label: f.label,
-			required: false,
-			mapped: true,
-		})),
 		// 언어 시험 타입 컬럼
 		...[...mappedFieldSet]
 			.filter((f) => !UNIV_APPLY_INFO_FIELDS.some((sf) => sf.field === f))
@@ -264,9 +257,6 @@ export function UnivApplyInfosPageContent() {
 				{parsedHeaders.length > 0 && (
 					<section className="rounded-xl border border-k-100 bg-k-0 p-4">
 						<h2 className="typo-sb-9 text-k-900">③ 컬럼 매핑</h2>
-						<p className="mt-1 typo-regular-4 text-k-500">
-							마크다운 헤더를 시스템 필드에 매핑합니다. 비워두면 extraInfo에 저장됩니다.
-						</p>
 						<div className="mt-3 overflow-x-auto rounded-lg border border-k-100">
 							<Table>
 								<TableHeader>
@@ -276,31 +266,38 @@ export function UnivApplyInfosPageContent() {
 									</TableRow>
 								</TableHeader>
 								<TableBody>
-									{parsedHeaders.map((header) => (
-										<TableRow key={header}>
-											<TableCell className="font-mono">{header}</TableCell>
-											<TableCell>
-												{fields?.languageTestTypes.includes(columnMappings[header] ?? "") ? (
-													<span className="inline-flex h-9 items-center rounded-md border border-k-200 bg-k-50 px-3 typo-regular-4 text-k-500">
-														언어 시험 타입: {columnMappings[header]}
-													</span>
-												) : (
-													<select
-														value={columnMappings[header] ?? ""}
-														onChange={(e) => setColumnMappings((prev) => ({ ...prev, [header]: e.target.value }))}
-														className="h-9 min-w-[220px] rounded-md border border-k-200 bg-k-0 px-3 typo-regular-4 text-k-700 outline-none focus-visible:border-primary"
-													>
-														<option value="">매핑 없음 (extraInfo 저장)</option>
-														{UNIV_APPLY_INFO_FIELDS.map((f) => (
-															<option key={f.field} value={f.field}>
-																{f.label}
+									{parsedHeaders.map((header) => {
+										const mappedValue = columnMappings[header];
+										const isLanguageTestType = fields?.languageTestTypes.includes(mappedValue ?? "") ?? false;
+
+										return (
+											<TableRow key={header}>
+												<TableCell className="font-mono">{header}</TableCell>
+												<TableCell>
+													{isLanguageTestType ? (
+														<span className="inline-flex h-9 items-center rounded-md border border-k-200 bg-k-50 px-3 typo-regular-4 text-k-500">
+															언어 시험 타입: {mappedValue}
+														</span>
+													) : (
+														<select
+															value={mappedValue ?? ""}
+															onChange={(e) => setColumnMappings((prev) => ({ ...prev, [header]: e.target.value }))}
+															className="h-9 min-w-[220px] rounded-md border border-k-200 bg-k-0 px-3 typo-regular-4 text-k-700 outline-none focus-visible:border-primary"
+														>
+															<option value="" disabled hidden>
+																필드 선택 (선택)
 															</option>
-														))}
-													</select>
-												)}
-											</TableCell>
-										</TableRow>
-									))}
+															{UNIV_APPLY_INFO_FIELDS.map((f) => (
+																<option key={f.field} value={f.field}>
+																	{f.label}
+																</option>
+															))}
+														</select>
+													)}
+												</TableCell>
+											</TableRow>
+										);
+									})}
 								</TableBody>
 							</Table>
 						</div>
@@ -381,14 +378,7 @@ export function UnivApplyInfosPageContent() {
 						<div className="flex items-center justify-between border-b border-k-100 px-5 py-4">
 							<div>
 								<p className="typo-sb-9 text-k-900">임포트 미리보기</p>
-								<p className="mt-0.5 typo-regular-4 text-k-500">
-									총 {previewRows.length}개 대학 · {previewColumns.filter((c) => c.mapped).length}개 필드 매핑됨
-									{previewColumns.filter((c) => c.required && !c.mapped).length > 0 && (
-										<span className="ml-2 text-magic-danger">
-											· 필수 {previewColumns.filter((c) => c.required && !c.mapped).length}개 미매핑
-										</span>
-									)}
-								</p>
+								<p className="mt-0.5 typo-regular-4 text-k-500">총 {previewRows.length}개 대학</p>
 							</div>
 							<button
 								type="button"
