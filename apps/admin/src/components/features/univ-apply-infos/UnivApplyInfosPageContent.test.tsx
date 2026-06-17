@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { adminApi } from "@/lib/api/admin";
 import { UnivApplyInfosPageContent } from "./UnivApplyInfosPageContent";
@@ -69,7 +69,7 @@ describe("UnivApplyInfosPageContent", () => {
 		});
 	});
 
-	it("renders server cell errors inline in the import preview modal", async () => {
+	it("클라이언트 검증 오류가 있으면 미리보기 모달에 즉시 표시하고 추가 버튼을 비활성화한다", async () => {
 		renderPage();
 
 		await screen.findByText("본교");
@@ -85,10 +85,15 @@ describe("UnivApplyInfosPageContent", () => {
 		fireEvent.click(screen.getByRole("button", { name: "파싱" }));
 		await screen.findByText("③ 컬럼 매핑");
 		fireEvent.click(screen.getByRole("button", { name: "지원 대학 추가" }));
-		fireEvent.click(await screen.findByRole("button", { name: "추가" }));
 
-		await waitFor(() => {
-			expect(within(screen.getByRole("dialog")).getByText("국가를 찾을 수 없습니다.")).toBeTruthy();
-		});
+		await screen.findByRole("dialog");
+
+		expect(within(screen.getByRole("dialog")).getByText("대학명은 필수입니다")).toBeTruthy();
+		expect(within(screen.getByRole("dialog")).getByText("유효하지 않은 국가 코드입니다")).toBeTruthy();
+
+		const addButton = within(screen.getByRole("dialog")).getByRole("button", { name: "추가" });
+		expect((addButton as HTMLButtonElement).disabled).toBe(true);
+
+		expect(mockedAdminApi.importUnivApplyInfos).not.toHaveBeenCalled();
 	});
 });
