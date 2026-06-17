@@ -70,8 +70,8 @@ function validateCell(value: string, rules: FieldRule[]): string | undefined {
 		if (!trimmed) continue;
 
 		if (rule.type === "maxLength") {
-			if (value.length > rule.max) {
-				return `값이 최대 길이(${rule.max}자)를 초과했습니다: ${value.length}자`;
+			if (trimmed.length > rule.max) {
+				return `값이 최대 길이(${rule.max}자)를 초과했습니다: ${trimmed.length}자`;
 			}
 		} else if (rule.type === "integer") {
 			if (!/^\d+$/.test(trimmed)) {
