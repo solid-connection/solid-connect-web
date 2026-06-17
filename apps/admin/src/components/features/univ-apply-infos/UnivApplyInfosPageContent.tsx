@@ -158,6 +158,13 @@ export function UnivApplyInfosPageContent() {
 			required: true,
 			mapped: mappedFieldSet.has(f.field),
 		})),
+		// 비필수 시스템 필드: 매핑된 경우에만 표시
+		...UNIV_APPLY_INFO_FIELDS.filter((f) => !f.required && mappedFieldSet.has(f.field)).map((f) => ({
+			field: f.field,
+			label: f.label,
+			required: false,
+			mapped: true,
+		})),
 		// 언어 시험 타입 컬럼
 		...[...mappedFieldSet]
 			.filter((f) => !UNIV_APPLY_INFO_FIELDS.some((sf) => sf.field === f))
