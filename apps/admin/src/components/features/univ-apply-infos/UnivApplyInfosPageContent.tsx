@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { type FormEvent, useEffect, useId, useState } from "react";
+import { type FormEvent, useId, useState } from "react";
 import { toast } from "sonner";
 import { AdminLayout } from "@/components/layout/AdminLayout";
 import { Button } from "@/components/ui/button";
@@ -10,13 +10,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { adminApi, type UnivApplyInfoImportResponse } from "@/lib/api/admin";
 import { preprocessMarkdownCountryCodes } from "./countryCodeAliases";
 import { findFieldByHeader, UNIV_APPLY_INFO_FIELDS } from "./univApplyInfoFields";
-import {
-	buildFailedCellMessages,
-	buildPreviewRows,
-	getPreviewCellError,
-	parseMarkdownRow,
-} from "./univApplyInfoPreview";
-import { mergeErrorMaps, validatePreviewRows } from "./univApplyInfoValidation";
+import { buildPreviewRows, getPreviewCellError, parseMarkdownRow } from "./univApplyInfoPreview";
+import { validatePreviewRows } from "./univApplyInfoValidation";
 
 function extractMarkdownHeaders(markdown: string): string[] {
 	const lines = markdown.trim().split("\n");
@@ -72,28 +67,12 @@ export function UnivApplyInfosPageContent() {
 	const importMutation = useMutation({
 		mutationFn: adminApi.importUnivApplyInfos,
 		onSuccess: (data) => {
-			setShowPreviewModal(data.failedRows.length > 0);
+			setShowPreviewModal(false);
 			setImportResult(data);
-			if (data.failedRows.length === 0) {
-				toast.success(`${data.successCount}건 모두 추가됐습니다.`);
-			} else {
-				toast.warning(`성공 ${data.successCount}건, 실패 ${data.failedRows.length}건`);
-			}
+			toast.success(`${data.successCount}건 모두 추가됐습니다.`);
 		},
 		onError: () => toast.error("지원 대학 추가에 실패했습니다."),
 	});
-
-	useEffect(() => {
-		const firstFailedRowNumber = importResult?.failedRows[0]?.rowNumber;
-		if (!showPreviewModal || !firstFailedRowNumber) return;
-
-		requestAnimationFrame(() => {
-			const rowElement = document.querySelector<HTMLElement>(`[data-preview-row-number="${firstFailedRowNumber}"]`);
-			if (typeof rowElement?.scrollIntoView === "function") {
-				rowElement.scrollIntoView({ block: "center" });
-			}
-		});
-	}, [importResult, showPreviewModal]);
 
 	const handleMarkdownChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
 		setMarkdown(e.target.value);
@@ -150,7 +129,7 @@ export function UnivApplyInfosPageContent() {
 	const fields = fieldsQuery.data;
 
 	const mappedFieldSet = new Set(Object.values(columnMappings).filter(Boolean));
-	const previewColumns = [
+	const previewColumns: { field: string; label: string; required: boolean; mapped: boolean }[] = [
 		// 필수 필드: 매핑 여부와 관계없이 항상 표시
 		...UNIV_APPLY_INFO_FIELDS.filter((f) => f.required).map((f) => ({
 			field: f.field,
@@ -174,20 +153,7 @@ export function UnivApplyInfosPageContent() {
 	const clientCellErrors = validatePreviewRows(previewRows);
 	// key format: "rowNumber:field:fieldName" — rowNumber is always the first segment
 	const clientErrorRowNumbers = new Set([...clientCellErrors.keys()].map((k) => Number(k.split(":")[0])));
-	const failedRowNumbers = new Set(importResult?.failedRows.map((row) => row.rowNumber) ?? []);
-	const failedCells = importResult?.failedRows.flatMap((row) => {
-		if (row.errors.length === 0) {
-			return [{ rowNumber: row.rowNumber, header: "-", value: "-", message: row.reason }];
-		}
-		return row.errors.map((error) => ({
-			rowNumber: row.rowNumber,
-			header: error.header || error.field || "-",
-			value: error.value || "-",
-			message: error.message || row.reason,
-		}));
-	});
-	// server errors are second so they take priority on key collision (post-import ground truth)
-	const failedCellMessages = mergeErrorMaps(clientCellErrors, buildFailedCellMessages(importResult));
+	const failedCellMessages = clientCellErrors;
 
 	return (
 		<AdminLayout
@@ -346,12 +312,6 @@ export function UnivApplyInfosPageContent() {
 					<h2 className="typo-sb-9 text-k-900">결과</h2>
 					<p className="mt-2 typo-regular-4 text-k-700">
 						성공 <span className="font-semibold text-primary">{importResult.successCount}</span>건
-						{importResult.failedRows.length > 0 && (
-							<>
-								{" "}
-								/ 실패 <span className="font-semibold text-magic-danger">{importResult.failedRows.length}</span>건
-							</>
-						)}
 					</p>
 					{importResult.createdUniversities.length > 0 && (
 						<div className="mt-3 rounded-lg border border-k-100 p-3">
@@ -363,34 +323,6 @@ export function UnivApplyInfosPageContent() {
 									</li>
 								))}
 							</ul>
-						</div>
-					)}
-					{importResult.failedRows.length > 0 && (
-						<div className="mt-3 overflow-x-auto rounded-lg border border-k-100">
-							<Table>
-								<TableHeader>
-									<TableRow>
-										<TableHead>행 번호</TableHead>
-										<TableHead>컬럼</TableHead>
-										<TableHead>입력값</TableHead>
-										<TableHead>실패 이유</TableHead>
-									</TableRow>
-								</TableHeader>
-								<TableBody>
-									{failedCells?.map((error, index) => (
-										<TableRow key={`${error.rowNumber}-${error.header}-${index}`}>
-											<TableCell>{error.rowNumber}</TableCell>
-											<TableCell>{error.header}</TableCell>
-											<TableCell className="max-w-[16rem]">
-												<span className="block truncate" title={error.value}>
-													{error.value}
-												</span>
-											</TableCell>
-											<TableCell>{error.message}</TableCell>
-										</TableRow>
-									))}
-								</TableBody>
-							</Table>
 						</div>
 					)}
 				</section>
@@ -418,9 +350,6 @@ export function UnivApplyInfosPageContent() {
 									총 {previewRows.length}개 대학
 									{clientErrorRowNumbers.size > 0 && (
 										<span className="ml-2 text-magic-danger">오류 {clientErrorRowNumbers.size}행</span>
-									)}
-									{importResult && importResult.failedRows.length > 0 && (
-										<span className="ml-2 text-magic-danger">실패 {importResult.failedRows.length}건</span>
 									)}
 								</p>
 							</div>
@@ -455,9 +384,7 @@ export function UnivApplyInfosPageContent() {
 											key={row.rowNumber}
 											data-preview-row-number={row.rowNumber}
 											className={`border-b border-k-50 last:border-0 ${
-												failedRowNumbers.has(row.rowNumber) || clientErrorRowNumbers.has(row.rowNumber)
-													? "bg-magic-danger/5"
-													: ""
+												clientErrorRowNumbers.has(row.rowNumber) ? "bg-magic-danger/5" : ""
 											}`}
 										>
 											<td className="px-3 py-2 typo-regular-4 text-k-400">{row.rowNumber}</td>

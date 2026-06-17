@@ -1,4 +1,3 @@
-import type { UnivApplyInfoImportResponse } from "@/lib/api/admin";
 import { preprocessMarkdownCountryCodes } from "./countryCodeAliases";
 
 export interface PreviewCell {
@@ -47,24 +46,6 @@ export function buildPreviewRows(markdown: string, columnMappings: Record<string
 
 		return row;
 	});
-}
-
-export function buildFailedCellMessages(importResult: UnivApplyInfoImportResponse | null): Map<string, string> {
-	const failedCellMessages = new Map<string, string>();
-
-	importResult?.failedRows.forEach((row) => {
-		row.errors.forEach((error) => {
-			const message = error.message || row.reason;
-			if (error.header) {
-				failedCellMessages.set(`${row.rowNumber}:header:${error.header}`, message);
-			}
-			if (error.field) {
-				failedCellMessages.set(`${row.rowNumber}:field:${error.field}`, message);
-			}
-		});
-	});
-
-	return failedCellMessages;
 }
 
 export function getPreviewCellError(

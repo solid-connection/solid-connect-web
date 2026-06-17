@@ -96,22 +96,7 @@ export interface UnivApplyInfoImportRequest {
 
 export interface UnivApplyInfoImportResponse {
 	successCount: number;
-	failedRows: UnivApplyInfoFailedRow[];
 	createdUniversities: string[];
-}
-
-export interface UnivApplyInfoFailedRow {
-	rowNumber: number;
-	reason: string;
-	errors: UnivApplyInfoCellError[];
-}
-
-export interface UnivApplyInfoCellError {
-	header: string | null;
-	field: string;
-	value: string | null;
-	code: string;
-	message: string | null;
 }
 
 const assignMentorApplicationUniversity = (mentorApplicationId: string | number, universityId: number) =>
