@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
 import { adminApi, type UnivApplyInfoImportResponse } from "@/lib/api/admin";
-import { isValidCountryCode, preprocessMarkdownCountryCodes } from "./countryCodeAliases";
+import { preprocessMarkdownCountryCodes } from "./countryCodeAliases";
 import { findFieldByHeader, UNIV_APPLY_INFO_FIELDS } from "./univApplyInfoFields";
 import {
 	buildFailedCellMessages,
@@ -16,6 +16,7 @@ import {
 	getPreviewCellError,
 	parseMarkdownRow,
 } from "./univApplyInfoPreview";
+import { mergeErrorMaps, validatePreviewRows } from "./univApplyInfoValidation";
 
 function extractMarkdownHeaders(markdown: string): string[] {
 	const lines = markdown.trim().split("\n");
@@ -163,6 +164,8 @@ export function UnivApplyInfosPageContent() {
 			.map((f) => ({ field: f, label: f, required: false, mapped: true })),
 	];
 	const previewRows = showPreviewModal ? buildPreviewRows(markdown.trim(), columnMappings) : [];
+	const clientCellErrors = validatePreviewRows(previewRows);
+	const clientErrorRowNumbers = new Set([...clientCellErrors.keys()].map((k) => Number(k.split(":")[0])));
 	const failedRowNumbers = new Set(importResult?.failedRows.map((row) => row.rowNumber) ?? []);
 	const failedCells = importResult?.failedRows.flatMap((row) => {
 		if (row.errors.length === 0) {
@@ -175,7 +178,7 @@ export function UnivApplyInfosPageContent() {
 			message: error.message || row.reason,
 		}));
 	});
-	const failedCellMessages = buildFailedCellMessages(importResult);
+	const failedCellMessages = mergeErrorMaps(clientCellErrors, buildFailedCellMessages(importResult));
 
 	return (
 		<AdminLayout
@@ -404,6 +407,9 @@ export function UnivApplyInfosPageContent() {
 								<p className="typo-sb-9 text-k-900">임포트 미리보기</p>
 								<p className="mt-0.5 typo-regular-4 text-k-500">
 									총 {previewRows.length}개 대학
+									{clientErrorRowNumbers.size > 0 && (
+										<span className="ml-2 text-magic-danger">오류 {clientErrorRowNumbers.size}행</span>
+									)}
 									{importResult && importResult.failedRows.length > 0 && (
 										<span className="ml-2 text-magic-danger">실패 {importResult.failedRows.length}건</span>
 									)}
@@ -440,22 +446,15 @@ export function UnivApplyInfosPageContent() {
 											key={row.rowNumber}
 											data-preview-row-number={row.rowNumber}
 											className={`border-b border-k-50 last:border-0 ${
-												failedRowNumbers.has(row.rowNumber) ? "bg-magic-danger/5" : ""
+												failedRowNumbers.has(row.rowNumber) || clientErrorRowNumbers.has(row.rowNumber)
+													? "bg-magic-danger/5"
+													: ""
 											}`}
 										>
 											<td className="px-3 py-2 typo-regular-4 text-k-400">{row.rowNumber}</td>
 											{previewColumns.map((col) => {
 												const cell = row.cellsByField[col.field];
 												const cellError = getPreviewCellError(failedCellMessages, row, col.field);
-												const hasCountryCodeWarning =
-													col.field === "universityCountryCode" &&
-													cell?.value !== undefined &&
-													!isValidCountryCode(cell.value);
-												const hasCapacityWarning =
-													col.field === "studentCapacity" &&
-													cell?.value !== undefined &&
-													!/^\d+$/.test(cell.value.trim());
-												const hasInlineWarning = (hasCountryCodeWarning || hasCapacityWarning) && !cellError;
 												return (
 													<td
 														key={col.field}
@@ -463,12 +462,8 @@ export function UnivApplyInfosPageContent() {
 															cellError ? "bg-magic-danger/10 text-magic-danger" : "text-k-700"
 														}`}
 													>
-														<span
-															className={`block truncate${hasInlineWarning ? " text-magic-danger" : ""}`}
-															title={cell?.value ?? ""}
-														>
+														<span className="block truncate" title={cell?.value ?? ""}>
 															{cell?.value ?? "—"}
-															{hasInlineWarning && " *"}
 														</span>
 														{cellError && <p className="mt-1 typo-regular-4 whitespace-normal">{cellError}</p>}
 													</td>
@@ -485,7 +480,11 @@ export function UnivApplyInfosPageContent() {
 							<Button type="button" variant="secondary" onClick={() => setShowPreviewModal(false)}>
 								취소
 							</Button>
-							<Button type="button" onClick={handleConfirmImport} disabled={importMutation.isPending}>
+							<Button
+								type="button"
+								onClick={handleConfirmImport}
+								disabled={importMutation.isPending || clientCellErrors.size > 0}
+							>
 								{importMutation.isPending ? "추가 중..." : "추가"}
 							</Button>
 						</div>
