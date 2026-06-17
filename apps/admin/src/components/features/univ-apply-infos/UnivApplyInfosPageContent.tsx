@@ -1,25 +1,28 @@
 "use client";
 
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { type FormEvent, useId, useState } from "react";
+import { type FormEvent, useEffect, useId, useState } from "react";
 import { toast } from "sonner";
 import { AdminLayout } from "@/components/layout/AdminLayout";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
 import { adminApi, type UnivApplyInfoImportResponse } from "@/lib/api/admin";
-import { preprocessMarkdownCountryCodes } from "./countryCodeAliases";
+import { isValidCountryCode, preprocessMarkdownCountryCodes } from "./countryCodeAliases";
 import { findFieldByHeader, UNIV_APPLY_INFO_FIELDS } from "./univApplyInfoFields";
+import {
+	buildFailedCellMessages,
+	buildPreviewRows,
+	getPreviewCellError,
+	parseMarkdownRow,
+} from "./univApplyInfoPreview";
 
 function extractMarkdownHeaders(markdown: string): string[] {
 	const lines = markdown.trim().split("\n");
 	if (lines.length < 2) return [];
 	const separatorPattern = /^\|[-| :]+\|$/;
 	if (!separatorPattern.test(lines[1].trim())) return [];
-	return lines[0]
-		.split("|")
-		.map((h) => h.trim())
-		.filter((h) => h.length > 0);
+	return parseMarkdownRow(lines[0]).filter((h) => h.length > 0);
 }
 
 function buildAutoMappings(headers: string[], languageTestTypes: string[]): Record<string, string> {
@@ -35,32 +38,6 @@ function buildAutoMappings(headers: string[], languageTestTypes: string[]): Reco
 		}
 	}
 	return mappings;
-}
-
-function parsePreviewRows(markdown: string, columnMappings: Record<string, string>): Array<Record<string, string>> {
-	const processed = preprocessMarkdownCountryCodes(markdown, columnMappings);
-	const lines = processed.trim().split("\n");
-	if (lines.length < 3) return [];
-
-	const rawHeaders = lines[0]
-		.split("|")
-		.slice(1, -1)
-		.map((h) => h.trim());
-
-	return lines.slice(2).flatMap((line) => {
-		const cells = line
-			.split("|")
-			.slice(1, -1)
-			.map((c) => c.trim());
-		const row: Record<string, string> = {};
-		rawHeaders.forEach((header, i) => {
-			const field = columnMappings[header];
-			if (field && cells[i] !== undefined && cells[i] !== "") {
-				row[field] = cells[i];
-			}
-		});
-		return Object.keys(row).length > 0 ? [row] : [];
-	});
 }
 
 export function UnivApplyInfosPageContent() {
@@ -94,7 +71,7 @@ export function UnivApplyInfosPageContent() {
 	const importMutation = useMutation({
 		mutationFn: adminApi.importUnivApplyInfos,
 		onSuccess: (data) => {
-			setShowPreviewModal(false);
+			setShowPreviewModal(data.failedRows.length > 0);
 			setImportResult(data);
 			if (data.failedRows.length === 0) {
 				toast.success(`${data.successCount}건 모두 추가됐습니다.`);
@@ -104,6 +81,18 @@ export function UnivApplyInfosPageContent() {
 		},
 		onError: () => toast.error("지원 대학 추가에 실패했습니다."),
 	});
+
+	useEffect(() => {
+		const firstFailedRowNumber = importResult?.failedRows[0]?.rowNumber;
+		if (!showPreviewModal || !firstFailedRowNumber) return;
+
+		requestAnimationFrame(() => {
+			const rowElement = document.querySelector<HTMLElement>(`[data-preview-row-number="${firstFailedRowNumber}"]`);
+			if (typeof rowElement?.scrollIntoView === "function") {
+				rowElement.scrollIntoView({ block: "center" });
+			}
+		});
+	}, [importResult, showPreviewModal]);
 
 	const handleMarkdownChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
 		setMarkdown(e.target.value);
@@ -173,7 +162,20 @@ export function UnivApplyInfosPageContent() {
 			.filter((f) => !UNIV_APPLY_INFO_FIELDS.some((sf) => sf.field === f))
 			.map((f) => ({ field: f, label: f, required: false, mapped: true })),
 	];
-	const previewRows = showPreviewModal ? parsePreviewRows(markdown.trim(), columnMappings) : [];
+	const previewRows = showPreviewModal ? buildPreviewRows(markdown.trim(), columnMappings) : [];
+	const failedRowNumbers = new Set(importResult?.failedRows.map((row) => row.rowNumber) ?? []);
+	const failedCells = importResult?.failedRows.flatMap((row) => {
+		if (row.errors.length === 0) {
+			return [{ rowNumber: row.rowNumber, header: "-", value: "-", message: row.reason }];
+		}
+		return row.errors.map((error) => ({
+			rowNumber: row.rowNumber,
+			header: error.header || error.field || "-",
+			value: error.value || "-",
+			message: error.message || row.reason,
+		}));
+	});
+	const failedCellMessages = buildFailedCellMessages(importResult);
 
 	return (
 		<AdminLayout
@@ -343,14 +345,22 @@ export function UnivApplyInfosPageContent() {
 								<TableHeader>
 									<TableRow>
 										<TableHead>행 번호</TableHead>
+										<TableHead>컬럼</TableHead>
+										<TableHead>입력값</TableHead>
 										<TableHead>실패 이유</TableHead>
 									</TableRow>
 								</TableHeader>
 								<TableBody>
-									{importResult.failedRows.map((row) => (
-										<TableRow key={row.rowNumber}>
-											<TableCell>{row.rowNumber}</TableCell>
-											<TableCell>{row.reason}</TableCell>
+									{failedCells?.map((error, index) => (
+										<TableRow key={`${error.rowNumber}-${error.header}-${index}`}>
+											<TableCell>{error.rowNumber}</TableCell>
+											<TableCell>{error.header}</TableCell>
+											<TableCell className="max-w-[16rem]">
+												<span className="block truncate" title={error.value}>
+													{error.value}
+												</span>
+											</TableCell>
+											<TableCell>{error.message}</TableCell>
 										</TableRow>
 									))}
 								</TableBody>
@@ -378,7 +388,12 @@ export function UnivApplyInfosPageContent() {
 						<div className="flex items-center justify-between border-b border-k-100 px-5 py-4">
 							<div>
 								<p className="typo-sb-9 text-k-900">임포트 미리보기</p>
-								<p className="mt-0.5 typo-regular-4 text-k-500">총 {previewRows.length}개 대학</p>
+								<p className="mt-0.5 typo-regular-4 text-k-500">
+									총 {previewRows.length}개 대학
+									{importResult && importResult.failedRows.length > 0 && (
+										<span className="ml-2 text-magic-danger">실패 {importResult.failedRows.length}건</span>
+									)}
+								</p>
 							</div>
 							<button
 								type="button"
@@ -400,26 +415,43 @@ export function UnivApplyInfosPageContent() {
 												key={col.field}
 												className="border-b border-k-100 px-3 py-2.5 text-left typo-sb-11 whitespace-nowrap"
 											>
-												{col.mapped ? (
-													<span className="text-k-700">{col.label}</span>
-												) : (
-													<span className="text-magic-danger">{col.label} *</span>
-												)}
+												<span className="text-k-700">{col.label}</span>
 											</th>
 										))}
 									</tr>
 								</thead>
 								<tbody>
-									{previewRows.map((row, i) => (
-										<tr key={Object.values(row).join("-")} className="border-b border-k-50 last:border-0">
-											<td className="px-3 py-2 typo-regular-4 text-k-400">{i + 1}</td>
+									{previewRows.map((row) => (
+										<tr
+											key={row.rowNumber}
+											data-preview-row-number={row.rowNumber}
+											className={`border-b border-k-50 last:border-0 ${
+												failedRowNumbers.has(row.rowNumber) ? "bg-magic-danger/5" : ""
+											}`}
+										>
+											<td className="px-3 py-2 typo-regular-4 text-k-400">{row.rowNumber}</td>
 											{previewColumns.map((col) => {
-												const value = row[col.field];
+												const cell = row.cellsByField[col.field];
+												const cellError = getPreviewCellError(failedCellMessages, row, col.field);
+												const hasCountryCodeWarning =
+													col.field === "universityCountryCode" &&
+													cell?.value !== undefined &&
+													!isValidCountryCode(cell.value);
 												return (
-													<td key={col.field} className="max-w-[10rem] px-3 py-2 typo-regular-4 text-k-700">
-														<span className="block truncate" title={value ?? ""}>
-															{value ?? "—"}
+													<td
+														key={col.field}
+														className={`max-w-[10rem] px-3 py-2 typo-regular-4 ${
+															cellError ? "bg-magic-danger/10 text-magic-danger" : "text-k-700"
+														}`}
+													>
+														<span
+															className={`block truncate${hasCountryCodeWarning && !cellError ? " text-magic-danger" : ""}`}
+															title={cell?.value ?? ""}
+														>
+															{cell?.value ?? "—"}
+															{hasCountryCodeWarning && !cellError && " *"}
 														</span>
+														{cellError && <p className="mt-1 typo-regular-4 whitespace-normal">{cellError}</p>}
 													</td>
 												);
 											})}

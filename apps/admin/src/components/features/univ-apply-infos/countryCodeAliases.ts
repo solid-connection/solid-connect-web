@@ -81,14 +81,22 @@ export function resolveCountryCode(value: string): string {
 	return COUNTRY_CODE_BY_NAME[value.trim()] ?? value;
 }
 
+export function isValidCountryCode(resolvedValue: string): boolean {
+	return /^[A-Z]{2}$/.test(resolvedValue);
+}
+
+function parseMarkdownRow(line: string): string[] {
+	let stripped = line.trim();
+	if (stripped.startsWith("|")) stripped = stripped.slice(1);
+	if (stripped.endsWith("|")) stripped = stripped.slice(0, -1);
+	return stripped.split("|").map((cell) => cell.trim());
+}
+
 export function preprocessMarkdownCountryCodes(markdown: string, columnMappings: Record<string, string>): string {
 	const lines = markdown.trim().split("\n");
 	if (lines.length < 3) return markdown;
 
-	const headers = lines[0]
-		.split("|")
-		.map((h) => h.trim())
-		.filter((h) => h.length > 0);
+	const headers = parseMarkdownRow(lines[0]);
 
 	const countryCodeIndices = headers.reduce<number[]>((acc, header, i) => {
 		if (columnMappings[header] === "universityCountryCode") acc.push(i);
@@ -99,9 +107,10 @@ export function preprocessMarkdownCountryCodes(markdown: string, columnMappings:
 
 	const processedLines = lines.map((line, lineIndex) => {
 		if (lineIndex === 0 || lineIndex === 1) return line;
+		const hasLeadingPipe = line.trim().startsWith("|");
 		const cells = line.split("|");
 		countryCodeIndices.forEach((colIndex) => {
-			const cellIndex = colIndex + 1;
+			const cellIndex = hasLeadingPipe ? colIndex + 1 : colIndex;
 			if (cells[cellIndex] !== undefined) {
 				cells[cellIndex] = ` ${resolveCountryCode(cells[cellIndex].trim())} `;
 			}

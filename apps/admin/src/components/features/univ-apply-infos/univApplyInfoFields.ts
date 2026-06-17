@@ -18,9 +18,15 @@ export const UNIV_APPLY_INFO_FIELDS = [
 
 export type UnivApplyInfoFieldName = (typeof UNIV_APPLY_INFO_FIELDS)[number]["field"];
 
+function normalizeHeader(header: string): string {
+	return header.replace(/\s+/g, "").trim();
+}
+
 export function findFieldByHeader(header: string): UnivApplyInfoFieldName | undefined {
-	const matched = UNIV_APPLY_INFO_FIELDS.find(
-		(f) => f.field === header || (f.aliases as readonly string[]).includes(header),
-	);
+	const normalizedHeader = normalizeHeader(header);
+	const matched = UNIV_APPLY_INFO_FIELDS.find((f) => {
+		const candidates = [f.field, f.label, ...f.aliases];
+		return candidates.some((candidate) => candidate === header || normalizeHeader(candidate) === normalizedHeader);
+	});
 	return matched?.field;
 }
