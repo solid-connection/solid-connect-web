@@ -165,6 +165,7 @@ export function UnivApplyInfosPageContent() {
 	];
 	const previewRows = showPreviewModal ? buildPreviewRows(markdown.trim(), columnMappings) : [];
 	const clientCellErrors = validatePreviewRows(previewRows);
+	// key format: "rowNumber:field:fieldName" — rowNumber is always the first segment
 	const clientErrorRowNumbers = new Set([...clientCellErrors.keys()].map((k) => Number(k.split(":")[0])));
 	const failedRowNumbers = new Set(importResult?.failedRows.map((row) => row.rowNumber) ?? []);
 	const failedCells = importResult?.failedRows.flatMap((row) => {
@@ -178,6 +179,7 @@ export function UnivApplyInfosPageContent() {
 			message: error.message || row.reason,
 		}));
 	});
+	// server errors are second so they take priority on key collision (post-import ground truth)
 	const failedCellMessages = mergeErrorMaps(clientCellErrors, buildFailedCellMessages(importResult));
 
 	return (
