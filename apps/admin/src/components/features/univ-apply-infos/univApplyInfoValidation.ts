@@ -44,11 +44,11 @@ const FIELD_RULES: Record<string, FieldRule[]> = {
 	gpaRequirement: [{ type: "maxLength", max: 100 }],
 	gpaRequirementCriteria: [{ type: "maxLength", max: 100 }],
 	detailsForLanguage: [{ type: "maxLength", max: 2000 }],
-	detailsForApply: [{ type: "maxLength", max: 1000 }],
-	detailsForMajor: [{ type: "maxLength", max: 1000 }],
+	detailsForApply: [{ type: "maxLength", max: 3000 }],
+	detailsForMajor: [{ type: "maxLength", max: 3000 }],
 	detailsForAccommodation: [{ type: "maxLength", max: 2000 }],
 	detailsForEnglishCourse: [{ type: "maxLength", max: 1000 }],
-	details: [{ type: "maxLength", max: 1000 }],
+	details: [{ type: "maxLength", max: 3000 }],
 	universityCountryCode: [
 		{
 			type: "format",
