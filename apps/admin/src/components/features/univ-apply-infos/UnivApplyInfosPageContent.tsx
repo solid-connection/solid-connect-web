@@ -263,43 +263,57 @@ export function UnivApplyInfosPageContent() {
 							<Table>
 								<TableHeader>
 									<TableRow>
-										<TableHead>마크다운 헤더</TableHead>
 										<TableHead>시스템 필드</TableHead>
+										<TableHead>마크다운 컬럼</TableHead>
 									</TableRow>
 								</TableHeader>
 								<TableBody>
-									{parsedHeaders.map((header) => {
-										const mappedValue = columnMappings[header];
-										const isLanguageTestType = fields?.languageTestTypes.includes(mappedValue ?? "") ?? false;
-
+									{UNIV_APPLY_INFO_FIELDS.map((f) => {
+										const mappedHeader = Object.entries(columnMappings).find(([, v]) => v === f.field)?.[0] ?? "";
+										const nonLangHeaders = parsedHeaders.filter(
+											(h) => !(fields?.languageTestTypes.includes(h) ?? false),
+										);
 										return (
-											<TableRow key={header}>
-												<TableCell className="font-mono">{header}</TableCell>
+											<TableRow key={f.field}>
+												<TableCell>{f.label}</TableCell>
 												<TableCell>
-													{isLanguageTestType ? (
-														<span className="inline-flex h-9 items-center rounded-md border border-k-200 bg-k-50 px-3 typo-regular-4 text-k-500">
-															언어 시험 타입: {mappedValue}
-														</span>
-													) : (
-														<select
-															value={mappedValue ?? ""}
-															onChange={(e) => setColumnMappings((prev) => ({ ...prev, [header]: e.target.value }))}
-															className="h-9 min-w-[220px] rounded-md border border-k-200 bg-k-0 px-3 typo-regular-4 text-k-700 outline-none focus-visible:border-primary"
-														>
-															<option value="" disabled hidden>
-																필드 선택 (선택)
+													<select
+														value={mappedHeader}
+														onChange={(e) => {
+															const newHeader = e.target.value;
+															setColumnMappings((prev) => {
+																const next = { ...prev };
+																const oldHeader = Object.entries(next).find(([, v]) => v === f.field)?.[0];
+																if (oldHeader) delete next[oldHeader];
+																if (newHeader) next[newHeader] = f.field;
+																return next;
+															});
+														}}
+														className="h-9 min-w-[220px] rounded-md border border-k-200 bg-k-0 px-3 typo-regular-4 text-k-700 outline-none focus-visible:border-primary"
+													>
+														<option value="">— 매핑 안 함 —</option>
+														{nonLangHeaders.map((h) => (
+															<option key={h} value={h}>
+																{h}
 															</option>
-															{UNIV_APPLY_INFO_FIELDS.map((f) => (
-																<option key={f.field} value={f.field}>
-																	{f.label}
-																</option>
-															))}
-														</select>
-													)}
+														))}
+													</select>
 												</TableCell>
 											</TableRow>
 										);
 									})}
+									{parsedHeaders
+										.filter((h) => fields?.languageTestTypes.includes(h) ?? false)
+										.map((header) => (
+											<TableRow key={header}>
+												<TableCell className="text-k-500">언어 시험 타입</TableCell>
+												<TableCell>
+													<span className="inline-flex h-9 items-center rounded-md border border-k-200 bg-k-50 px-3 typo-regular-4 text-k-500">
+														{header}
+													</span>
+												</TableCell>
+											</TableRow>
+										))}
 								</TableBody>
 							</Table>
 						</div>
@@ -437,6 +451,11 @@ export function UnivApplyInfosPageContent() {
 													col.field === "universityCountryCode" &&
 													cell?.value !== undefined &&
 													!isValidCountryCode(cell.value);
+												const hasCapacityWarning =
+													col.field === "studentCapacity" &&
+													cell?.value !== undefined &&
+													!/^\d+$/.test(cell.value.trim());
+												const hasInlineWarning = (hasCountryCodeWarning || hasCapacityWarning) && !cellError;
 												return (
 													<td
 														key={col.field}
@@ -445,11 +464,11 @@ export function UnivApplyInfosPageContent() {
 														}`}
 													>
 														<span
-															className={`block truncate${hasCountryCodeWarning && !cellError ? " text-magic-danger" : ""}`}
+															className={`block truncate${hasInlineWarning ? " text-magic-danger" : ""}`}
 															title={cell?.value ?? ""}
 														>
 															{cell?.value ?? "—"}
-															{hasCountryCodeWarning && !cellError && " *"}
+															{hasInlineWarning && " *"}
 														</span>
 														{cellError && <p className="mt-1 typo-regular-4 whitespace-normal">{cellError}</p>}
 													</td>

@@ -105,17 +105,19 @@ export function preprocessMarkdownCountryCodes(markdown: string, columnMappings:
 
 	if (countryCodeIndices.length === 0) return markdown;
 
+	const ESCAPED_PIPE = "\x00";
 	const processedLines = lines.map((line, lineIndex) => {
 		if (lineIndex === 0 || lineIndex === 1) return line;
 		const hasLeadingPipe = line.trim().startsWith("|");
-		const cells = line.split("|");
+		const cells = line.replace(/\\\|/g, ESCAPED_PIPE).split("|");
 		countryCodeIndices.forEach((colIndex) => {
 			const cellIndex = hasLeadingPipe ? colIndex + 1 : colIndex;
 			if (cells[cellIndex] !== undefined) {
-				cells[cellIndex] = ` ${resolveCountryCode(cells[cellIndex].trim())} `;
+				const cellValue = cells[cellIndex].replaceAll(ESCAPED_PIPE, "|").trim();
+				cells[cellIndex] = ` ${resolveCountryCode(cellValue)} `;
 			}
 		});
-		return cells.join("|");
+		return cells.map((c) => c.replaceAll(ESCAPED_PIPE, "\\|")).join("|");
 	});
 
 	return processedLines.join("\n");

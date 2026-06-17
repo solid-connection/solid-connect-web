@@ -13,10 +13,11 @@ export interface PreviewRow {
 }
 
 export function parseMarkdownRow(line: string): string[] {
-	let stripped = line.trim();
+	const ESCAPED_PIPE = "\x00";
+	let stripped = line.trim().replace(/\\\|/g, ESCAPED_PIPE);
 	if (stripped.startsWith("|")) stripped = stripped.slice(1);
 	if (stripped.endsWith("|")) stripped = stripped.slice(0, -1);
-	return stripped.split("|").map((cell) => cell.trim());
+	return stripped.split("|").map((cell) => cell.trim().replaceAll(ESCAPED_PIPE, "|"));
 }
 
 export function buildPreviewRows(markdown: string, columnMappings: Record<string, string>): PreviewRow[] {
