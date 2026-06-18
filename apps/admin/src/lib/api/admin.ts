@@ -79,6 +79,13 @@ export interface TermResponse {
 	isCurrent: boolean;
 }
 
+interface AdminTermApiResponse {
+	id: number;
+	label?: string | null;
+	name?: string | null;
+	isCurrent: boolean;
+}
+
 export interface TermCreatePayload {
 	name: string;
 }
@@ -103,6 +110,14 @@ const assignMentorApplicationUniversity = (mentorApplicationId: string | number,
 	axiosInstance
 		.post<void>(`/admin/mentor-applications/${mentorApplicationId}/assign-university`, { universityId })
 		.then((res) => res.data);
+
+export function normalizeTermResponse(term: AdminTermApiResponse): TermResponse {
+	return {
+		id: term.id,
+		label: term.label ?? term.name ?? "",
+		isCurrent: term.isCurrent,
+	};
+}
 
 export const adminApi = {
 	getMentorApplicationList: (params: MentorApplicationListParams) =>
@@ -178,10 +193,11 @@ export const adminApi = {
 	deleteHomeUniversity: (id: number) =>
 		axiosInstance.delete<void>(`/admin/home-universities/${id}`).then((res) => res.data),
 
-	getTerms: () => axiosInstance.get<TermResponse[]>("/admin/terms").then((res) => res.data),
+	getTerms: () =>
+		axiosInstance.get<AdminTermApiResponse[]>("/admin/terms").then((res) => res.data.map(normalizeTermResponse)),
 
 	createTerm: (data: TermCreatePayload) =>
-		axiosInstance.post<TermResponse>("/admin/terms", data).then((res) => res.data),
+		axiosInstance.post<AdminTermApiResponse>("/admin/terms", data).then((res) => normalizeTermResponse(res.data)),
 
 	activateTerm: (id: number) => axiosInstance.patch<void>(`/admin/terms/${id}/activate`).then((res) => res.data),
 
