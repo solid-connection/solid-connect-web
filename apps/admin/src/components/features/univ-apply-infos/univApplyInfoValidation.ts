@@ -1,4 +1,5 @@
 import { isValidCountryCode } from "./countryCodeAliases";
+import { UNIV_APPLY_INFO_FIELDS } from "./univApplyInfoFields";
 import type { PreviewRow } from "./univApplyInfoPreview";
 
 const TUITION_FEE_TYPES = ["HOME_UNIVERSITY_PAYMENT", "OVERSEAS_UNIVERSITY_PAYMENT", "MIXED_PAYMENT"] as const;
@@ -58,6 +59,12 @@ const FIELD_RULES: Record<string, FieldRule[]> = {
 	],
 };
 
+const REQUIRED_FIELDS = UNIV_APPLY_INFO_FIELDS.filter((field) => field.required);
+
+function getRequiredFieldMessage(label: string): string {
+	return `필수 필드입니다: ${label}`;
+}
+
 function validateCell(value: string, rules: FieldRule[]): string | undefined {
 	for (const rule of rules) {
 		const trimmed = value.trim();
@@ -94,9 +101,17 @@ export function validatePreviewRows(rows: PreviewRow[]): Map<string, string> {
 	const errors = new Map<string, string>();
 
 	for (const row of rows) {
+		for (const field of REQUIRED_FIELDS) {
+			const cell = row.cellsByField[field.field];
+			if (!cell?.value.trim()) {
+				errors.set(`${row.rowNumber}:field:${field.field}`, getRequiredFieldMessage(field.label));
+			}
+		}
+
 		for (const [field, cell] of Object.entries(row.cellsByField)) {
 			const rules = FIELD_RULES[field];
 			if (!rules) continue;
+			if (errors.has(`${row.rowNumber}:field:${field}`)) continue;
 			const message = validateCell(cell.value, rules);
 			if (message) {
 				errors.set(`${row.rowNumber}:field:${field}`, message);

@@ -10,6 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { adminApi, type UnivApplyInfoImportResponse } from "@/lib/api/admin";
 import { preprocessMarkdownCountryCodes } from "./countryCodeAliases";
 import { findFieldByHeader, UNIV_APPLY_INFO_FIELDS } from "./univApplyInfoFields";
+import { canConfirmUnivApplyInfoImport } from "./univApplyInfoImportGuard";
 import { buildPreviewRows, getPreviewCellError, parseMarkdownRow } from "./univApplyInfoPreview";
 import { validatePreviewRows } from "./univApplyInfoValidation";
 
@@ -115,6 +116,13 @@ export function UnivApplyInfosPageContent() {
 	};
 
 	const handleConfirmImport = () => {
+		if (!canConfirmImport) {
+			if (previewRows.length === 0) {
+				toast.error("추가할 지원 대학이 없습니다.");
+			}
+			return;
+		}
+
 		const processedMarkdown = preprocessMarkdownCountryCodes(markdown.trim(), columnMappings);
 		importMutation.mutate({
 			homeUniversityId: Number(homeUniversityId),
@@ -154,6 +162,11 @@ export function UnivApplyInfosPageContent() {
 	// key format: "rowNumber:field:fieldName" — rowNumber is always the first segment
 	const clientErrorRowNumbers = new Set([...clientCellErrors.keys()].map((k) => Number(k.split(":")[0])));
 	const failedCellMessages = clientCellErrors;
+	const canConfirmImport = canConfirmUnivApplyInfoImport({
+		previewRowCount: previewRows.length,
+		clientErrorCount: clientCellErrors.size,
+		isPending: importMutation.isPending,
+	});
 
 	return (
 		<AdminLayout
@@ -416,11 +429,7 @@ export function UnivApplyInfosPageContent() {
 							<Button type="button" variant="secondary" onClick={() => setShowPreviewModal(false)}>
 								취소
 							</Button>
-							<Button
-								type="button"
-								onClick={handleConfirmImport}
-								disabled={importMutation.isPending || clientCellErrors.size > 0}
-							>
+							<Button type="button" onClick={handleConfirmImport} disabled={!canConfirmImport}>
 								{importMutation.isPending ? "추가 중..." : "추가"}
 							</Button>
 						</div>
