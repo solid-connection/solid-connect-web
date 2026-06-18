@@ -5,6 +5,8 @@ export const COMMUNITY_BOARDS = [
   { code: "ASIA", nameKo: "아시아권" },
 ];
 
-export const COMMUNITY_CATEGORIES = ["전체", "자유", "질문"];
+export const COMMUNITY_CATEGORIES = ["전체", "자유", "질문", "동행", "중고거래"];
+
+export const COMMUNITY_POST_CATEGORIES = ["자유", "질문", "동행", "중고거래"];
 
 export const COMMUNITY_MAX_UPLOAD_IMAGES = 5;
