@@ -4,12 +4,13 @@ import type { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { showIconToast } from "@/lib/toast/showIconToast";
 import useAuthStore from "@/lib/zustand/useAuthStore";
-import { authApi, type KakaoAuthRequest, type KakaoAuthResponse } from "./api";
+import { buildSignUpPath, getCommunityRedirectOrFallback } from "@/utils/authRedirect";
+import { type AuthRedirectOptions, authApi, type KakaoAuthRequest, type KakaoAuthResponse } from "./api";
 
 /**
  * @description 카카오 로그인을 위한 useMutation 커스텀 훅
  */
-const usePostKakaoAuth = () => {
+const usePostKakaoAuth = ({ redirectPath }: AuthRedirectOptions = {}) => {
   const { setAccessToken } = useAuthStore();
   const router = useRouter();
 
@@ -23,11 +24,11 @@ const usePostKakaoAuth = () => {
 
         showIconToast("logo", "로그인에 성공했습니다.");
         setTimeout(() => {
-          router.push("/");
+          router.push(getCommunityRedirectOrFallback(redirectPath));
         }, 100);
       } else {
         // 새로운 회원일 시 - 회원가입 페이지로 이동
-        router.push(`/sign-up?token=${data.signUpToken}`);
+        router.push(buildSignUpPath({ signUpToken: data.signUpToken, redirectPath }));
       }
     },
     onError: () => {

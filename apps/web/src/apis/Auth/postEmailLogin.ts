@@ -4,12 +4,13 @@ import type { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { showIconToast } from "@/lib/toast/showIconToast";
 import useAuthStore from "@/lib/zustand/useAuthStore";
-import { authApi, type EmailLoginRequest, type EmailLoginResponse } from "./api";
+import { getCommunityRedirectOrFallback } from "@/utils/authRedirect";
+import { type AuthRedirectOptions, authApi, type EmailLoginRequest, type EmailLoginResponse } from "./api";
 
 /**
  * @description 이메일 로그인을 위한 useMutation 커스텀 훅
  */
-const usePostEmailAuth = () => {
+const usePostEmailAuth = ({ redirectPath }: AuthRedirectOptions = {}) => {
   const { setAccessToken } = useAuthStore();
   const router = useRouter();
 
@@ -27,7 +28,7 @@ const usePostEmailAuth = () => {
       // Zustand persist middleware가 localStorage에 저장할 시간을 보장
       // 토큰 저장 후 리다이렉트하여 타이밍 이슈 방지
       setTimeout(() => {
-        router.push("/");
+        router.push(getCommunityRedirectOrFallback(redirectPath));
       }, 100);
     },
   });

@@ -62,10 +62,62 @@ export interface CountryPayload {
 	regionCode: string;
 }
 
+export interface HomeUniversityResponse {
+	id: number;
+	name: string;
+	maxChoiceCount: number;
+}
+
+export interface HomeUniversityPayload {
+	name: string;
+	maxChoiceCount: number;
+}
+
+export interface TermResponse {
+	id: number;
+	label: string;
+	isCurrent: boolean;
+}
+
+interface AdminTermApiResponse {
+	id: number;
+	label?: string | null;
+	name?: string | null;
+	isCurrent: boolean;
+}
+
+export interface TermCreatePayload {
+	name: string;
+}
+
+export interface UnivApplyInfoFieldResponse {
+	languageTestTypes: string[];
+}
+
+export interface UnivApplyInfoImportRequest {
+	termId: number;
+	homeUniversityId: number;
+	markdown: string;
+	columnMappings: Record<string, string>;
+}
+
+export interface UnivApplyInfoImportResponse {
+	successCount: number;
+	createdUniversities: string[];
+}
+
 const assignMentorApplicationUniversity = (mentorApplicationId: string | number, universityId: number) =>
 	axiosInstance
 		.post<void>(`/admin/mentor-applications/${mentorApplicationId}/assign-university`, { universityId })
 		.then((res) => res.data);
+
+export function normalizeTermResponse(term: AdminTermApiResponse): TermResponse {
+	return {
+		id: term.id,
+		label: term.label ?? term.name ?? "",
+		isCurrent: term.isCurrent,
+	};
+}
 
 export const adminApi = {
 	getMentorApplicationList: (params: MentorApplicationListParams) =>
@@ -128,4 +180,30 @@ export const adminApi = {
 		axiosInstance.put(`/admin/countries/${code}`, data).then((res) => res.data),
 
 	delete지역삭제: (code: string) => axiosInstance.delete(`/admin/countries/${code}`).then((res) => res.data),
+
+	getHomeUniversities: () =>
+		axiosInstance.get<HomeUniversityResponse[]>("/admin/home-universities").then((res) => res.data),
+
+	createHomeUniversity: (data: HomeUniversityPayload) =>
+		axiosInstance.post<HomeUniversityResponse>("/admin/home-universities", data).then((res) => res.data),
+
+	updateHomeUniversity: (id: number, data: HomeUniversityPayload) =>
+		axiosInstance.put<HomeUniversityResponse>(`/admin/home-universities/${id}`, data).then((res) => res.data),
+
+	deleteHomeUniversity: (id: number) =>
+		axiosInstance.delete<void>(`/admin/home-universities/${id}`).then((res) => res.data),
+
+	getTerms: () =>
+		axiosInstance.get<AdminTermApiResponse[]>("/admin/terms").then((res) => res.data.map(normalizeTermResponse)),
+
+	createTerm: (data: TermCreatePayload) =>
+		axiosInstance.post<AdminTermApiResponse>("/admin/terms", data).then((res) => normalizeTermResponse(res.data)),
+
+	activateTerm: (id: number) => axiosInstance.patch<void>(`/admin/terms/${id}/activate`).then((res) => res.data),
+
+	getUnivApplyInfoFields: () =>
+		axiosInstance.get<UnivApplyInfoFieldResponse>("/admin/univ-apply-infos/fields").then((res) => res.data),
+
+	importUnivApplyInfos: (data: UnivApplyInfoImportRequest) =>
+		axiosInstance.post<UnivApplyInfoImportResponse>("/admin/univ-apply-infos", data).then((res) => res.data),
 };
