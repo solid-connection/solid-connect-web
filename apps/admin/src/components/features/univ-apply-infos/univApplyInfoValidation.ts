@@ -21,6 +21,10 @@ type FieldRule =
 	| { type: "enum"; values: readonly string[]; label: string }
 	| { type: "format"; check: (v: string) => boolean; message: string };
 
+interface ValidatePreviewRowsOptions {
+	validCountryCodes?: ReadonlySet<string>;
+}
+
 const FIELD_RULES: Record<string, FieldRule[]> = {
 	universityKoreanName: [
 		{ type: "required", message: "대학명은 필수입니다" },
@@ -97,7 +101,7 @@ function validateCell(value: string, rules: FieldRule[]): string | undefined {
 	return undefined;
 }
 
-export function validatePreviewRows(rows: PreviewRow[]): Map<string, string> {
+export function validatePreviewRows(rows: PreviewRow[], options: ValidatePreviewRowsOptions = {}): Map<string, string> {
 	const errors = new Map<string, string>();
 
 	for (const row of rows) {
@@ -115,6 +119,15 @@ export function validatePreviewRows(rows: PreviewRow[]): Map<string, string> {
 			const message = validateCell(cell.value, rules);
 			if (message) {
 				errors.set(`${row.rowNumber}:field:${field}`, message);
+				continue;
+			}
+			if (
+				field === "universityCountryCode" &&
+				cell.value.trim() &&
+				options.validCountryCodes &&
+				!options.validCountryCodes.has(cell.value.trim())
+			) {
+				errors.set(`${row.rowNumber}:field:${field}`, "서버에 등록되지 않은 국가 코드입니다");
 			}
 		}
 	}
