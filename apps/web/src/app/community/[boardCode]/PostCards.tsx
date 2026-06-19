@@ -6,7 +6,6 @@ import { useRef } from "react";
 import Image from "@/components/ui/FallbackImage";
 import { IconPostLikeOutline } from "@/public/svgs";
 import { IconCommunication } from "@/public/svgs/community";
-import { IconSolidConnentionLogo } from "@/public/svgs/mentor";
 import type { ListPost } from "@/types/community";
 import { normalizeImageUrlToUploadCdn } from "@/utils/cdnUrl";
 import { convertISODateToDate } from "@/utils/datetimeUtils";
@@ -71,47 +70,77 @@ const PostCards = ({ posts, boardCode }: PostCardsProps) => {
 
 export default PostCards;
 
-export const PostCard = ({ post, priorityImage = false }: { post: ListPost; priorityImage?: boolean }) => (
-  <div className="flex justify-between border-b border-b-gray-c-100 px-5 py-4">
-    <div className="flex flex-col">
-      <div className="flex items-center truncate font-serif text-gray-250">
-        <span className="typo-bold-5">{post.postCategory || ""}</span>
-        <span className="ml-2.5 typo-regular-4">{convertISODateToDate(post.createdAt) || "1970. 1. 1."}</span>
-      </div>
-      <span className="mt-2 font-serif text-black typo-sb-7">{post.title || ""}</span>
-      <div className="mt-1 h-11 overflow-hidden text-ellipsis break-all font-serif text-gray-250 typo-medium-2">
-        {post.content || "내용 없음"}
-      </div>
-      <div className="mt-1 flex items-center gap-2.5">
-        <div className="flex items-center gap-1">
-          <IconPostLikeOutline />
-          <span className="overflow-hidden font-serif text-gray-500 typo-regular-4">{post.likeCount || 0}</span>
-        </div>
-        <div className="flex items-center gap-1">
-          <IconCommunication />
-          <span className="overflow-hidden font-serif text-gray-500 typo-regular-4">{post.commentCount || 0}</span>
-        </div>
-      </div>
-    </div>
+const DEFAULT_THUMBNAIL_PATHS = new Set([
+  "/article-thumb.png",
+  "/site-thumbnail.png",
+  "/images/article-thumb.png",
+  "/images/site-thumbnail.png",
+]);
 
-    <div className="ml-4 mt-3 h-20 w-20 shrink-0 select-none">
-      <div className="bg-gray-c-50 relative h-full w-full overflow-hidden rounded border border-k-100">
-        {post.postThumbnailUrl ? (
-          <Image
-            className="object-cover"
-            src={normalizeImageUrlToUploadCdn(post.postThumbnailUrl)}
-            fill
-            sizes="80px"
-            alt="게시글 사진"
-            fallbackSrc="/images/article-thumb.png"
-            loading={priorityImage ? "eager" : undefined}
-          />
-        ) : (
-          <div className="flex h-full w-full items-center justify-center">
-            <IconSolidConnentionLogo />
+const getThumbnailPathname = (thumbnailSrc: string) => {
+  try {
+    return new URL(thumbnailSrc, "https://solid-connection.local").pathname;
+  } catch {
+    return thumbnailSrc;
+  }
+};
+
+const getPostThumbnailSrc = (postThumbnailUrl: string | null) => {
+  const thumbnailSrc = normalizeImageUrlToUploadCdn(postThumbnailUrl);
+  const thumbnailPathname = getThumbnailPathname(thumbnailSrc);
+
+  if (
+    !thumbnailSrc ||
+    DEFAULT_THUMBNAIL_PATHS.has(thumbnailPathname) ||
+    thumbnailPathname.startsWith("/svgs/placeholders/")
+  ) {
+    return null;
+  }
+
+  return thumbnailSrc;
+};
+
+export const PostCard = ({ post, priorityImage = false }: { post: ListPost; priorityImage?: boolean }) => {
+  const thumbnailSrc = getPostThumbnailSrc(post.postThumbnailUrl);
+
+  return (
+    <div className="flex justify-between border-b border-b-gray-c-100 px-5 py-4">
+      <div className="flex min-w-0 flex-1 flex-col">
+        <div className="flex items-center truncate font-serif text-gray-250">
+          <span className="typo-bold-5">{post.postCategory || ""}</span>
+          <span className="ml-2.5 typo-regular-4">{convertISODateToDate(post.createdAt) || "1970. 1. 1."}</span>
+        </div>
+        <span className="mt-2 font-serif text-black typo-sb-7">{post.title || ""}</span>
+        <div className="mt-1 h-11 overflow-hidden text-ellipsis break-all font-serif text-gray-250 typo-medium-2">
+          {post.content || "내용 없음"}
+        </div>
+        <div className="mt-1 flex items-center gap-2.5">
+          <div className="flex items-center gap-1">
+            <IconPostLikeOutline />
+            <span className="overflow-hidden font-serif text-gray-500 typo-regular-4">{post.likeCount || 0}</span>
           </div>
-        )}
+          <div className="flex items-center gap-1">
+            <IconCommunication />
+            <span className="overflow-hidden font-serif text-gray-500 typo-regular-4">{post.commentCount || 0}</span>
+          </div>
+        </div>
       </div>
+
+      {thumbnailSrc ? (
+        <div className="ml-4 mt-3 h-20 w-20 shrink-0 select-none">
+          <div className="bg-gray-c-50 relative h-full w-full overflow-hidden rounded border border-k-100">
+            <Image
+              className="object-cover"
+              src={thumbnailSrc}
+              fill
+              sizes="80px"
+              alt="게시글 사진"
+              fallbackSrc="/images/article-thumb.png"
+              loading={priorityImage ? "eager" : undefined}
+            />
+          </div>
+        </div>
+      ) : null}
     </div>
-  </div>
-);
+  );
+};
