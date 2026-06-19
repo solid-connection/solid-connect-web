@@ -17,6 +17,7 @@ interface ChatMessageBoxProps {
   message: ChatMessage;
   currentUserId?: number; // 현재 사용자 ID
   partnerNickname?: string; // 상대방 닉네임
+  partnerProfileUrl?: string | null;
   isPartnerMentor?: boolean;
 }
 
@@ -135,6 +136,7 @@ const ChatMessageBox = ({
   message,
   currentUserId = 1,
   partnerNickname = "상대방",
+  partnerProfileUrl = null,
   isPartnerMentor = false,
 }: ChatMessageBoxProps) => {
   const isMine = message.senderId === Number(currentUserId);
@@ -198,7 +200,7 @@ const ChatMessageBox = ({
   ) : (
     <div className="flex min-w-0 justify-start">
       <div className="flex max-w-[min(100%,28rem)] min-w-0 flex-row gap-2">
-        <ProfileWithBadge isMentor={isPartnerMentor} width={32} height={32} />
+        <ProfileWithBadge profileImageUrl={partnerProfileUrl} isMentor={isPartnerMentor} width={32} height={32} />
         <div className="flex min-w-0 flex-col items-start">
           <span className="mb-1 text-k-900 typo-medium-5">{partnerNickname}</span>
           <div className="flex min-w-0 items-end gap-1">
