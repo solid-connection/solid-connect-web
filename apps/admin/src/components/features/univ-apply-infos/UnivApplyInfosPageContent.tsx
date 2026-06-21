@@ -1,13 +1,18 @@
 "use client";
 
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { type FormEvent, useId, useState } from "react";
+import { type FormEvent, useId, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { AdminLayout } from "@/components/layout/AdminLayout";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
-import { adminApi, type UnivApplyInfoImportResponse } from "@/lib/api/admin";
+import {
+	type AdminCollection,
+	adminApi,
+	type CountryResponse,
+	type UnivApplyInfoImportResponse,
+} from "@/lib/api/admin";
 import { preprocessMarkdownCountryCodes } from "./countryCodeAliases";
 import { findFieldByHeader, UNIV_APPLY_INFO_FIELDS } from "./univApplyInfoFields";
 import { canConfirmUnivApplyInfoImport } from "./univApplyInfoImportGuard";
@@ -37,6 +42,20 @@ function buildAutoMappings(headers: string[], languageTestTypes: string[]): Reco
 	return mappings;
 }
 
+const toOptionalString = (value: string | number | null | undefined) => {
+	if (value === null || value === undefined) return undefined;
+	const normalized = String(value).trim();
+	return normalized.length > 0 ? normalized : undefined;
+};
+
+const normalizeCollection = <T,>(data: AdminCollection<T> | undefined) => {
+	if (!data) return [];
+	if (Array.isArray(data)) return data;
+	return data.content ?? data.data ?? data.items ?? data.result ?? [];
+};
+
+const getCountryCode = (country: CountryResponse) => toOptionalString(country.code);
+
 export function UnivApplyInfosPageContent() {
 	const homeUniversitySelectId = useId();
 	const termSelectId = useId();
@@ -57,6 +76,11 @@ export function UnivApplyInfosPageContent() {
 	const termsQuery = useQuery({
 		queryKey: ["admin", "terms"],
 		queryFn: adminApi.getTerms,
+	});
+
+	const countriesQuery = useQuery({
+		queryKey: ["admin", "countries"],
+		queryFn: adminApi.getCountries,
 	});
 
 	const fieldsQuery = useQuery({
@@ -135,6 +159,15 @@ export function UnivApplyInfosPageContent() {
 	const universities = homeUniversitiesQuery.data ?? [];
 	const terms = termsQuery.data ?? [];
 	const fields = fieldsQuery.data;
+	const validCountryCodes = useMemo(
+		() =>
+			new Set(
+				normalizeCollection(countriesQuery.data)
+					.map(getCountryCode)
+					.filter((code): code is string => Boolean(code)),
+			),
+		[countriesQuery.data],
+	);
 
 	const mappedFieldSet = new Set(Object.values(columnMappings).filter(Boolean));
 	const previewColumns: { field: string; label: string; required: boolean; mapped: boolean }[] = [
@@ -158,7 +191,9 @@ export function UnivApplyInfosPageContent() {
 			.map((f) => ({ field: f, label: f, required: false, mapped: true })),
 	];
 	const previewRows = showPreviewModal ? buildPreviewRows(markdown.trim(), columnMappings) : [];
-	const clientCellErrors = validatePreviewRows(previewRows);
+	const clientCellErrors = validatePreviewRows(previewRows, {
+		validCountryCodes: countriesQuery.isSuccess ? validCountryCodes : undefined,
+	});
 	// key format: "rowNumber:field:fieldName" — rowNumber is always the first segment
 	const clientErrorRowNumbers = new Set([...clientCellErrors.keys()].map((k) => Number(k.split(":")[0])));
 	const failedCellMessages = clientCellErrors;

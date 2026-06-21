@@ -104,4 +104,25 @@ describe("validatePreviewRows", () => {
 		expect(errors.get("1:field:universityCountryCode")).toContain("유효하지 않은 국가 코드");
 		expect(errors.get("1:field:studentCapacity")).toContain("정수");
 	});
+
+	it("rejects country codes that are absent from the server country list", () => {
+		const rows = [
+			makeRow({
+				universityKoreanName: {
+					header: "대학명 (국문)",
+					field: "universityKoreanName",
+					value: "괌 대학",
+				},
+				universityCountryCode: {
+					header: "국가",
+					field: "universityCountryCode",
+					value: "ZZ",
+				},
+			}),
+		];
+
+		const errors = validatePreviewRows(rows, { validCountryCodes: new Set(["US", "JP"]) });
+
+		expect(errors.get("1:field:universityCountryCode")).toContain("서버에 등록되지 않은 국가 코드");
+	});
 });
