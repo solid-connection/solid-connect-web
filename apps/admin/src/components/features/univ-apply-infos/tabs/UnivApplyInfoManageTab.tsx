@@ -120,6 +120,9 @@ export function UnivApplyInfoManageTab() {
 	const createMutation = useMutation({
 		mutationFn: (data: UnivApplyInfoCreatePayload) => adminApi.createUnivApplyInfo(data),
 		onSuccess: async () => {
+			await queryClient.invalidateQueries({
+				queryKey: ["univ-apply-infos", "search", searchQuery],
+			});
 			setCreateModal({ open: false });
 			toast.success("지원 대학을 추가했습니다.");
 		},
