@@ -165,6 +165,7 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
                       message={message}
                       currentUserId={userId}
                       partnerNickname={nickname}
+                      partnerProfileUrl={profileUrl}
                       isPartnerMentor={isPartnerMentor}
                     />
                   </div>

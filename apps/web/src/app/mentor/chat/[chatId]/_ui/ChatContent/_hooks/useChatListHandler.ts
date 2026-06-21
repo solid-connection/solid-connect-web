@@ -10,6 +10,7 @@ import useInfinityScroll from "@/utils/useInfinityScroll";
 
 const BOTTOM_PROXIMITY_THRESHOLD = 80;
 const OUTBOUND_TEXT_SCROLL_CONFIRM_TIMEOUT_MS = 5000;
+const INITIAL_SCROLL_SETTLE_DELAYS_MS = [100, 350, 800];
 
 interface PendingOutboundTextScroll {
   id: string;
@@ -210,20 +211,42 @@ const useChatListHandler = (chatId: number) => {
     shouldForceScrollToBottomRef.current = false;
   }, [chatId, clearPendingOutboundTextScrolls]);
 
-  // 초기 히스토리 로딩 완료 후, 최초 1회만 하단으로 이동합니다.
+  // 초기 메시지가 렌더링되면 최초 1회만 하단으로 이동합니다.
   useEffect(() => {
-    if (isLoading || isFetchingNextPage || submittedMessages.length === 0 || hasInitialAutoScrolledRef.current) {
+    if (isLoading || submittedMessages.length === 0 || hasInitialAutoScrolledRef.current) {
       return;
     }
 
-    const rafId = requestAnimationFrame(() => {
+    const rafIds: number[] = [];
+    const timeoutIds: ReturnType<typeof setTimeout>[] = [];
+
+    const scheduleScrollToBottom = () => {
+      const rafId = requestAnimationFrame(() => {
+        scrollToBottom();
+      });
+      rafIds.push(rafId);
+    };
+
+    scheduleScrollToBottom();
+    const doubleRafId = requestAnimationFrame(() => {
       scrollToBottom();
-      hasInitialAutoScrolledRef.current = true;
-      prevMessageCountRef.current = submittedMessages.length;
+      scheduleScrollToBottom();
+    });
+    rafIds.push(doubleRafId);
+
+    INITIAL_SCROLL_SETTLE_DELAYS_MS.forEach((delayMs) => {
+      const timeoutId = setTimeout(scrollToBottom, delayMs);
+      timeoutIds.push(timeoutId);
     });
 
-    return () => cancelAnimationFrame(rafId);
-  }, [isLoading, isFetchingNextPage, scrollToBottom, submittedMessages.length]);
+    hasInitialAutoScrolledRef.current = true;
+    prevMessageCountRef.current = submittedMessages.length;
+
+    return () => {
+      rafIds.forEach((rafId) => cancelAnimationFrame(rafId));
+      timeoutIds.forEach((timeoutId) => clearTimeout(timeoutId));
+    };
+  }, [isLoading, scrollToBottom, submittedMessages.length]);
 
   // 신규 메시지 도착 시 하단 근처라면 유지하고, 내가 보낸 메시지는 현재 위치와 무관하게 하단으로 이동합니다.
   useEffect(() => {
