@@ -191,7 +191,9 @@ export function UnivApplyInfosPageContent() {
 			.map((f) => ({ field: f, label: f, required: false, mapped: true })),
 	];
 	const previewRows = showPreviewModal ? buildPreviewRows(markdown.trim(), columnMappings) : [];
-	const clientCellErrors = validatePreviewRows(previewRows, { validCountryCodes });
+	const clientCellErrors = validatePreviewRows(previewRows, {
+		validCountryCodes: countriesQuery.isSuccess ? validCountryCodes : undefined,
+	});
 	// key format: "rowNumber:field:fieldName" — rowNumber is always the first segment
 	const clientErrorRowNumbers = new Set([...clientCellErrors.keys()].map((k) => Number(k.split(":")[0])));
 	const failedCellMessages = clientCellErrors;
