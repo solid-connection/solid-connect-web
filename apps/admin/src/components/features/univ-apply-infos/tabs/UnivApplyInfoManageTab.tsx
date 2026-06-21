@@ -196,6 +196,7 @@ export function UnivApplyInfoManageTab() {
 	};
 
 	const results = searchResultQuery.data?.univApplyInfoPreviews ?? [];
+	const isMutating = deleteMutation.isPending || updateMutation.isPending || createMutation.isPending;
 
 	return (
 		<div className="space-y-4">
@@ -241,6 +242,12 @@ export function UnivApplyInfoManageTab() {
 											검색 중...
 										</TableCell>
 									</TableRow>
+								) : searchResultQuery.isError ? (
+									<TableRow>
+										<TableCell colSpan={7} className="text-center typo-regular-4 text-magic-danger">
+											불러오지 못했습니다.
+										</TableCell>
+									</TableRow>
 								) : results.length === 0 ? (
 									<TableRow>
 										<TableCell colSpan={7} className="text-center typo-regular-4 text-k-500">
@@ -258,13 +265,19 @@ export function UnivApplyInfoManageTab() {
 											<TableCell>{item.studentCapacity ?? "—"}</TableCell>
 											<TableCell>
 												<div className="flex gap-2">
-													<Button size="sm" variant="secondary" onClick={() => handleOpenEdit(item)}>
+													<Button
+														size="sm"
+														variant="secondary"
+														onClick={() => handleOpenEdit(item)}
+														disabled={isMutating}
+													>
 														수정
 													</Button>
 													<Button
 														size="sm"
 														variant="destructive"
 														onClick={() => handleDelete(item.id, item.koreanName)}
+														disabled={isMutating}
 													>
 														삭제
 													</Button>
