@@ -5,6 +5,7 @@ export interface RecommendedUniversitiesResponseRecommendedUniversitiesItem {
   id: number;
   term: string;
   koreanName: string;
+  homeUniversityName?: HomeUniversityName;
   region: string;
   country: string;
   logoImageUrl: string;
