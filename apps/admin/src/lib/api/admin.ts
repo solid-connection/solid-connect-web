@@ -73,6 +73,126 @@ export interface HomeUniversityPayload {
 	maxChoiceCount: number;
 }
 
+export interface PageResponse<T> {
+	content: T[];
+	page: number;
+	size: number;
+	totalElements: number;
+	totalPages: number;
+}
+
+export interface HostUniversityListParams {
+	keyword?: string;
+	countryCode?: string;
+	regionCode?: string;
+	page?: number;
+	size?: number;
+}
+
+export interface HostUniversityResponse {
+	id: number;
+	koreanName: string;
+	englishName: string;
+	formatName: string;
+	logoImageUrl: string;
+	countryCode: string;
+	countryKoreanName: string;
+	regionCode: string;
+	regionKoreanName: string;
+}
+
+export interface HostUniversityDetailResponse {
+	id: number;
+	koreanName: string;
+	englishName: string;
+	formatName: string;
+	logoImageUrl: string;
+	backgroundImageUrl: string;
+	countryCode: string;
+	countryKoreanName: string;
+	regionCode: string;
+	regionKoreanName: string;
+	homepageUrl?: string;
+	englishCourseUrl?: string;
+	accommodationUrl?: string;
+	detailsForLocal?: string;
+}
+
+export interface HostUniversityPayload {
+	koreanName: string;
+	englishName: string;
+	formatName: string;
+	logoImageUrl: string;
+	backgroundImageUrl: string;
+	countryCode: string;
+	regionCode: string;
+	homepageUrl?: string;
+	englishCourseUrl?: string;
+	accommodationUrl?: string;
+	detailsForLocal?: string;
+}
+
+export interface UnivApplyInfoLanguageRequirement {
+	languageTestType: string;
+	minScore: string;
+}
+
+export interface UnivApplyInfoManageResponse {
+	id: number;
+	termId: number;
+	homeUniversityId: number | null;
+	hostUniversityId: number;
+	koreanName: string;
+	studentCapacity?: number;
+	semesterAvailableForDispatch?: string;
+	semesterRequirement?: string;
+	detailsForLanguage?: string;
+	gpaRequirement?: string;
+	gpaRequirementCriteria?: string;
+	detailsForAccommodation?: string;
+	extraInfo?: Record<string, string>;
+	languageRequirements: UnivApplyInfoLanguageRequirement[];
+}
+
+export interface UnivApplyInfoCreatePayload {
+	termId: number;
+	homeUniversityId: number;
+	hostUniversityId: number;
+	studentCapacity?: number;
+	semesterAvailableForDispatch?: string;
+	semesterRequirement?: string;
+	detailsForLanguage?: string;
+	gpaRequirement?: string;
+	gpaRequirementCriteria?: string;
+	detailsForAccommodation?: string;
+	extraInfo?: Record<string, string>;
+	languageRequirements?: UnivApplyInfoLanguageRequirement[];
+}
+
+export interface UnivApplyInfoUpdatePayload {
+	studentCapacity?: number;
+	semesterAvailableForDispatch?: string;
+	semesterRequirement?: string;
+	detailsForLanguage?: string;
+	gpaRequirement?: string;
+	gpaRequirementCriteria?: string;
+	detailsForAccommodation?: string;
+	extraInfo?: Record<string, string>;
+	languageRequirements?: UnivApplyInfoLanguageRequirement[];
+}
+
+export interface UnivApplyInfoSearchResult {
+	id: number;
+	term: string;
+	koreanName: string;
+	homeUniversityName?: string;
+	region: string;
+	country: string;
+	logoImageUrl: string;
+	studentCapacity?: number;
+	languageRequirements: UnivApplyInfoLanguageRequirement[];
+}
+
 export interface TermResponse {
 	id: number;
 	label: string;
@@ -205,5 +325,38 @@ export const adminApi = {
 		axiosInstance.get<UnivApplyInfoFieldResponse>("/admin/univ-apply-infos/fields").then((res) => res.data),
 
 	importUnivApplyInfos: (data: UnivApplyInfoImportRequest) =>
-		axiosInstance.post<UnivApplyInfoImportResponse>("/admin/univ-apply-infos", data).then((res) => res.data),
+		axiosInstance.post<UnivApplyInfoImportResponse>("/admin/univ-apply-infos/import", data).then((res) => res.data),
+
+	getHostUniversities: (params?: HostUniversityListParams) =>
+		axiosInstance
+			.get<PageResponse<HostUniversityResponse>>("/admin/host-universities", { params })
+			.then((res) => res.data),
+
+	getHostUniversity: (id: number) =>
+		axiosInstance.get<HostUniversityDetailResponse>(`/admin/host-universities/${id}`).then((res) => res.data),
+
+	createHostUniversity: (data: HostUniversityPayload) =>
+		axiosInstance.post<HostUniversityDetailResponse>("/admin/host-universities", data).then((res) => res.data),
+
+	updateHostUniversity: (id: number, data: HostUniversityPayload) =>
+		axiosInstance.put<HostUniversityDetailResponse>(`/admin/host-universities/${id}`, data).then((res) => res.data),
+
+	deleteHostUniversity: (id: number) =>
+		axiosInstance.delete<void>(`/admin/host-universities/${id}`).then((res) => res.data),
+
+	createUnivApplyInfo: (data: UnivApplyInfoCreatePayload) =>
+		axiosInstance.post<UnivApplyInfoManageResponse>("/admin/univ-apply-infos", data).then((res) => res.data),
+
+	updateUnivApplyInfo: (id: number, data: UnivApplyInfoUpdatePayload) =>
+		axiosInstance.patch<UnivApplyInfoManageResponse>(`/admin/univ-apply-infos/${id}`, data).then((res) => res.data),
+
+	deleteUnivApplyInfo: (id: number) =>
+		axiosInstance.delete<void>(`/admin/univ-apply-infos/${id}`).then((res) => res.data),
+
+	searchUnivApplyInfos: (value?: string) =>
+		axiosInstance
+			.get<{ univApplyInfoPreviews: UnivApplyInfoSearchResult[] }>("/univ-apply-infos/search/text", {
+				params: { value: value ?? "" },
+			})
+			.then((res) => res.data),
 };

@@ -66,7 +66,7 @@ export function AdminLayout({ children, activeMenu, title, description }: AdminL
 
 				<div className="flex min-h-[calc(100vh-96px)] overflow-hidden rounded-[24px] border border-k-100 bg-k-0 shadow-sdw-a">
 					<AdminSidebar activeMenu={activeMenu} />
-					<section className="flex-1 bg-bg-50 p-4 sm:p-6 lg:p-7">
+					<section className="min-w-0 flex-1 overflow-hidden bg-bg-50 p-4 sm:p-6 lg:p-7">
 						<div className="h-full rounded-2xl border border-k-100 bg-k-0 p-4 shadow-magic-admin-panel sm:p-6">
 							<h1 className="typo-bold-1 text-k-900">{title}</h1>
 							{description ? <p className="mt-1 typo-regular-4 text-k-500">{description}</p> : null}
