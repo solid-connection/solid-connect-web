@@ -35,12 +35,17 @@ const EDIT_TEXT_FIELDS = [
 type EditModal = { open: false } | { open: true; id: number; name: string };
 type CreateModal = { open: boolean };
 
-function parseExtraInfo(text: string): Record<string, string> | undefined {
+export function parseExtraInfo(text: string): Record<string, string> | undefined {
 	if (!text.trim()) return undefined;
 	try {
 		const parsed: unknown = JSON.parse(text);
 		if (typeof parsed === "object" && parsed !== null && !Array.isArray(parsed)) {
-			return parsed as Record<string, string>;
+			const extraInfo: Record<string, string> = {};
+			for (const [key, value] of Object.entries(parsed)) {
+				if (typeof value !== "string") return undefined;
+				extraInfo[key] = value;
+			}
+			return extraInfo;
 		}
 		return undefined;
 	} catch {
@@ -73,7 +78,7 @@ export function UnivApplyInfoManageTab() {
 
 	const searchResultQuery = useQuery({
 		queryKey: ["univ-apply-infos", "search", committedSearch],
-		queryFn: () => adminApi.searchUnivApplyInfos(committedSearch ?? {}),
+		queryFn: () => adminApi.searchUnivApplyInfos(committedSearch?.value),
 		enabled: committedSearch !== null,
 	});
 
@@ -205,7 +210,17 @@ export function UnivApplyInfoManageTab() {
 		setCreateModal({ open: true });
 	};
 
-	const results = searchResultQuery.data?.univApplyInfoPreviews ?? [];
+	const selectedHomeUniversityName = committedSearch?.homeUniversityId
+		? homeUniversitiesQuery.data?.find((university) => university.id === committedSearch.homeUniversityId)?.name
+		: undefined;
+	const selectedTermLabel = committedSearch?.termId
+		? termsQuery.data?.find((term) => term.id === committedSearch.termId)?.label
+		: undefined;
+	const results = (searchResultQuery.data?.univApplyInfoPreviews ?? []).filter(
+		(item) =>
+			(!committedSearch?.homeUniversityId || item.homeUniversityName === selectedHomeUniversityName) &&
+			(!committedSearch?.termId || item.term === selectedTermLabel),
+	);
 	const isMutating = deleteMutation.isPending || updateMutation.isPending || createMutation.isPending;
 
 	return (
@@ -521,21 +536,32 @@ export function UnivApplyInfoManageTab() {
 										placeholder="대학명으로 검색"
 										className="flex-1"
 									/>
-									<Button type="button" variant="secondary" onClick={() => setHostSearchQuery(hostKeyword)}>
+									<Button
+										type="button"
+										variant="secondary"
+										onClick={() => {
+											setHostSearchQuery(hostKeyword);
+											setCreateForm((p) => ({ ...p, hostUniversityId: undefined }));
+										}}
+									>
 										검색
 									</Button>
 								</div>
 								{(hostSearchQuery2.data?.content.length ?? 0) > 0 && (
 									<select
 										size={Math.min(5, hostSearchQuery2.data?.content.length ?? 0)}
+										value={createForm.hostUniversityId ?? ""}
 										onChange={(e) =>
 											setCreateForm((p) => ({
 												...p,
-												hostUniversityId: Number(e.target.value),
+												hostUniversityId: e.target.value ? Number(e.target.value) : undefined,
 											}))
 										}
 										className="mt-1 w-full rounded-md border border-k-200 bg-k-0 px-3 py-1 typo-regular-4 text-k-700"
 									>
+										<option value="" disabled>
+											호스트 대학교 선택
+										</option>
 										{hostSearchQuery2.data?.content.map((u) => (
 											<option key={u.id} value={u.id}>
 												{u.koreanName}

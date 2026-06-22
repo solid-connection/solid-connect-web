@@ -1,7 +1,7 @@
 "use client";
 
 import { keepPreviousData, useMutation, useQueries, useQuery, useQueryClient } from "@tanstack/react-query";
-import { type FormEvent, useId, useState } from "react";
+import { type FormEvent, useId, useRef, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -92,6 +92,12 @@ export function HostUniversityTab() {
 
 	const [modal, setModal] = useState<ModalState>({ open: false });
 	const [form, setForm] = useState<HostUniversityPayload>(EMPTY_FORM);
+	const pendingEditIdRef = useRef<number | null>(null);
+
+	const closeModal = () => {
+		pendingEditIdRef.current = null;
+		setModal({ open: false });
+	};
 
 	const query = useQuery({
 		queryKey: ["admin", "host-universities", searchParams],
@@ -105,7 +111,7 @@ export function HostUniversityTab() {
 		mutationFn: (data: HostUniversityPayload) => adminApi.createHostUniversity(data),
 		onSuccess: async () => {
 			await invalidate();
-			setModal({ open: false });
+			closeModal();
 			toast.success("호스트 대학교를 생성했습니다.");
 		},
 		onError: (e: unknown) => {
@@ -118,7 +124,7 @@ export function HostUniversityTab() {
 		mutationFn: ({ id, data }: { id: number; data: HostUniversityPayload }) => adminApi.updateHostUniversity(id, data),
 		onSuccess: async () => {
 			await invalidate();
-			setModal({ open: false });
+			closeModal();
 			toast.success("호스트 대학교를 수정했습니다.");
 		},
 		onError: (e: unknown) => {
@@ -145,11 +151,13 @@ export function HostUniversityTab() {
 	};
 
 	const handleOpenCreate = () => {
+		pendingEditIdRef.current = null;
 		setForm(EMPTY_FORM);
 		setModal({ open: true, mode: "create" });
 	};
 
 	const handleOpenEdit = (univ: HostUniversityResponse) => {
+		pendingEditIdRef.current = univ.id;
 		const cached = detailMap.get(univ.id);
 		if (cached) {
 			setForm(detailToForm(cached));
@@ -159,10 +167,13 @@ export function HostUniversityTab() {
 		adminApi
 			.getHostUniversity(univ.id)
 			.then((detail) => {
+				if (pendingEditIdRef.current !== univ.id) return;
 				setForm(detailToForm(detail));
 				setModal({ open: true, mode: "edit", id: univ.id });
 			})
-			.catch(() => toast.error("대학교 정보를 불러오지 못했습니다."));
+			.catch(() => {
+				if (pendingEditIdRef.current === univ.id) toast.error("대학교 정보를 불러오지 못했습니다.");
+			});
 	};
 
 	const handleDelete = (id: number, name: string) => {
@@ -357,12 +368,7 @@ export function HostUniversityTab() {
 
 			{modal.open && (
 				<div className="fixed inset-0 z-50 flex items-center justify-center">
-					<button
-						type="button"
-						aria-label="모달 닫기"
-						className="absolute inset-0 bg-black/50"
-						onClick={() => setModal({ open: false })}
-					/>
+					<button type="button" aria-label="모달 닫기" className="absolute inset-0 bg-black/50" onClick={closeModal} />
 					<div
 						role="dialog"
 						aria-modal="true"
@@ -372,11 +378,7 @@ export function HostUniversityTab() {
 							<p className="typo-sb-9 text-k-900">
 								{modal.mode === "create" ? "호스트 대학교 생성" : "호스트 대학교 수정"}
 							</p>
-							<button
-								type="button"
-								onClick={() => setModal({ open: false })}
-								className="typo-regular-4 text-k-400 hover:text-k-700"
-							>
+							<button type="button" onClick={closeModal} className="typo-regular-4 text-k-400 hover:text-k-700">
 								✕
 							</button>
 						</div>
@@ -418,7 +420,7 @@ export function HostUniversityTab() {
 								/>
 							</div>
 							<div className="flex justify-end gap-2 pt-2">
-								<Button type="button" variant="secondary" onClick={() => setModal({ open: false })}>
+								<Button type="button" variant="secondary" onClick={closeModal}>
 									취소
 								</Button>
 								<Button type="submit" disabled={createMutation.isPending || updateMutation.isPending}>

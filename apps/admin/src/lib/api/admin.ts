@@ -353,10 +353,10 @@ export const adminApi = {
 	deleteUnivApplyInfo: (id: number) =>
 		axiosInstance.delete<void>(`/admin/univ-apply-infos/${id}`).then((res) => res.data),
 
-	searchUnivApplyInfos: (params: { value?: string; homeUniversityId?: number; termId?: number }) =>
+	searchUnivApplyInfos: (value?: string) =>
 		axiosInstance
 			.get<{ univApplyInfoPreviews: UnivApplyInfoSearchResult[] }>("/univ-apply-infos/search/text", {
-				params,
+				params: { value: value ?? "" },
 			})
 			.then((res) => res.data),
 };
