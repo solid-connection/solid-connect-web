@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
+import { postReissueToken } from "@/apis/Auth";
 import { SKIP_GLOBAL_ERROR_TOAST_META } from "@/lib/react-query/errorToastMeta";
 import { QueryKeys } from "../queryKeys";
 import { myPageApi, type SchoolEmailConfirmPostRequest } from "./api";
@@ -11,7 +12,8 @@ const usePostConfirmSchoolEmail = () => {
     mutationKey: [QueryKeys.MyPage.schoolEmail, "confirm"],
     mutationFn: (data) => myPageApi.postConfirmSchoolEmail(data),
     meta: SKIP_GLOBAL_ERROR_TOAST_META,
-    onSuccess: () => {
+    onSuccess: async () => {
+      await postReissueToken();
       queryClient.invalidateQueries({
         queryKey: [QueryKeys.MyPage.profile],
       });
