@@ -2,7 +2,7 @@
 
 import { keepPreviousData, useMutation, useQueries, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ImageIcon, Upload } from "lucide-react";
-import { type FormEvent, useId, useRef, useState } from "react";
+import { type FormEvent, useEffect, useId, useRef, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -96,7 +96,29 @@ export function HostUniversityTab() {
 	const [form, setForm] = useState<HostUniversityFormState>(EMPTY_FORM);
 	const [logoFile, setLogoFile] = useState<File | null>(null);
 	const [backgroundFile, setBackgroundFile] = useState<File | null>(null);
+	const [logoPreviewUrl, setLogoPreviewUrl] = useState("");
+	const [backgroundPreviewUrl, setBackgroundPreviewUrl] = useState("");
 	const pendingEditIdRef = useRef<number | null>(null);
+
+	useEffect(() => {
+		if (!logoFile) {
+			setLogoPreviewUrl("");
+			return;
+		}
+		const url = URL.createObjectURL(logoFile);
+		setLogoPreviewUrl(url);
+		return () => URL.revokeObjectURL(url);
+	}, [logoFile]);
+
+	useEffect(() => {
+		if (!backgroundFile) {
+			setBackgroundPreviewUrl("");
+			return;
+		}
+		const url = URL.createObjectURL(backgroundFile);
+		setBackgroundPreviewUrl(url);
+		return () => URL.revokeObjectURL(url);
+	}, [backgroundFile]);
 
 	const closeModal = () => {
 		pendingEditIdRef.current = null;
@@ -205,13 +227,11 @@ export function HostUniversityTab() {
 	const handleLogoChange = (file: File | undefined) => {
 		if (!file) return;
 		setLogoFile(file);
-		setForm((prev) => ({ ...prev, logoImageUrl: URL.createObjectURL(file) }));
 	};
 
 	const handleBackgroundChange = (file: File | undefined) => {
 		if (!file) return;
 		setBackgroundFile(file);
-		setForm((prev) => ({ ...prev, backgroundImageUrl: URL.createObjectURL(file) }));
 	};
 
 	const handleSubmit = (e: FormEvent) => {
@@ -437,13 +457,9 @@ export function HostUniversityTab() {
 							<div className="space-y-1">
 								<p className="typo-sb-11 text-k-700">로고 이미지{modal.mode === "create" ? " *" : ""}</p>
 								<div className="flex items-center gap-3 rounded-lg border border-k-100 bg-k-50 p-3">
-									{form.logoImageUrl ? (
+									{logoPreviewUrl || form.logoImageUrl ? (
 										<img
-											src={
-												form.logoImageUrl.startsWith("blob:")
-													? form.logoImageUrl
-													: normalizeImageUrlToUploadCdn(form.logoImageUrl)
-											}
+											src={logoPreviewUrl || normalizeImageUrlToUploadCdn(form.logoImageUrl)}
 											alt="로고 미리보기"
 											className="h-14 w-14 shrink-0 rounded-md border border-k-100 bg-white object-contain p-1"
 										/>
@@ -477,13 +493,9 @@ export function HostUniversityTab() {
 							<div className="space-y-1">
 								<p className="typo-sb-11 text-k-700">배경 이미지{modal.mode === "create" ? " *" : ""}</p>
 								<div className="flex items-center gap-3 rounded-lg border border-k-100 bg-k-50 p-3">
-									{form.backgroundImageUrl ? (
+									{backgroundPreviewUrl || form.backgroundImageUrl ? (
 										<img
-											src={
-												form.backgroundImageUrl.startsWith("blob:")
-													? form.backgroundImageUrl
-													: normalizeImageUrlToUploadCdn(form.backgroundImageUrl)
-											}
+											src={backgroundPreviewUrl || normalizeImageUrlToUploadCdn(form.backgroundImageUrl)}
 											alt="배경 미리보기"
 											className="h-14 w-28 shrink-0 rounded-md border border-k-100 bg-white object-cover"
 										/>
