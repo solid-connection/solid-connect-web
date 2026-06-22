@@ -28,7 +28,6 @@ const MyProfileContent = () => {
   const clientRole = useAuthStore((state) => state.clientRole);
 
   const { nickname, email, profileImageUrl } = profileData;
-
   const isMentor = profileData.role === UserRole.MENTOR || profileData.role === UserRole.ADMIN;
   const viewAsMentor = clientRole ? clientRole === UserRole.MENTOR : isMentor;
 
@@ -145,6 +144,8 @@ const MyProfileContent = () => {
       {/* Account Management Section */}
       <div className="mt-6">
         <h2 className="px-1 text-primary typo-sb-5">계정 관리</h2>
+
+        <LinkedTextWithIcon href="/my/school-email" icon={<IconUniversity />} text="학교 인증" />
 
         <LinkedTextWithIcon icon={<IconLock />} text="로그인한 계정" subText={email} />
 
