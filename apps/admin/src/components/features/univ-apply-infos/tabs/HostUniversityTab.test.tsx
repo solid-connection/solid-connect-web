@@ -62,6 +62,9 @@ describe("HostUniversityTab image uploads", () => {
 		await waitFor(() =>
 			expect((screen.getByLabelText("로고 이미지 URL *") as HTMLInputElement).value).toBe("admin/logo/test.webp"),
 		);
+		expect(screen.getByRole("img", { name: "로고 미리보기" }).getAttribute("src")).toBe(
+			"https://cdn.upload.solid-connection.com/admin/logo/test.webp",
+		);
 	});
 
 	it("does not upload when formatName is blank", async () => {
