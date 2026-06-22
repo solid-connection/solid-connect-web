@@ -29,7 +29,7 @@ const ArticlePanel = ({ article, userId }: ArticlePanelProps) => {
 
   return (
     <>
-      <div className="relative h-[200px] w-full">
+      <div className="relative h-[200px] w-full overflow-hidden rounded-lg">
         <OptimisticImg src={imageSrc as string} alt="멘토 아티클 이미지" />
       </div>
       <div className="mt-[10px] flex justify-between">

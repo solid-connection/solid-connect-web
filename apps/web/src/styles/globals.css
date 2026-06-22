@@ -83,3 +83,18 @@
 .animate-slide-in {
   animation: slide-in 0.3s ease-out;
 }
+
+@keyframes channel-reveal {
+  from {
+    transform: translateY(-12px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-channel-reveal {
+  animation: channel-reveal 0.8s ease-out;
+}
