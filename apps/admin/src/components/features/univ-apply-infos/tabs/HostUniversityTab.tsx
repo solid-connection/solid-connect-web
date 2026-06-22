@@ -15,6 +15,7 @@ import {
 	type HostUniversityResponse,
 } from "@/lib/api/admin";
 import { cn } from "@/lib/utils";
+import { normalizeImageUrlToUploadCdn } from "@/lib/utils/cdnUrl";
 
 type ModalState = { open: false } | { open: true; mode: "create" } | { open: true; mode: "edit"; id: number };
 
@@ -442,7 +443,7 @@ export function HostUniversityTab() {
 										<div className="flex items-center gap-3 rounded-lg border border-k-100 bg-k-50 p-3">
 											{form.logoImageUrl ? (
 												<img
-													src={form.logoImageUrl}
+													src={normalizeImageUrlToUploadCdn(form.logoImageUrl)}
 													alt="로고 미리보기"
 													className="h-14 w-14 shrink-0 rounded-md border border-k-100 bg-white object-contain p-1"
 												/>
@@ -473,6 +474,7 @@ export function HostUniversityTab() {
 												<input
 													type="file"
 													accept="image/*"
+													aria-label="로고 이미지 파일"
 													className="sr-only"
 													disabled={logoUploadMutation.isPending}
 													onChange={(e) => {
@@ -487,7 +489,7 @@ export function HostUniversityTab() {
 										<div className="flex items-center gap-3 rounded-lg border border-k-100 bg-k-50 p-3">
 											{form.backgroundImageUrl ? (
 												<img
-													src={form.backgroundImageUrl}
+													src={normalizeImageUrlToUploadCdn(form.backgroundImageUrl)}
 													alt="배경 미리보기"
 													className="h-14 w-28 shrink-0 rounded-md border border-k-100 bg-white object-cover"
 												/>
@@ -518,6 +520,7 @@ export function HostUniversityTab() {
 												<input
 													type="file"
 													accept="image/*"
+													aria-label="배경 이미지 파일"
 													className="sr-only"
 													disabled={backgroundUploadMutation.isPending}
 													onChange={(e) => {
