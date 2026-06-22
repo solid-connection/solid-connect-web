@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 
 import { getAllUniversities, getUniversityDetailWithStatus } from "@/apis/universities/server";
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
-import { getHomeUniversityBySlug, HOME_UNIVERSITY_SLUGS, isMatchedHomeUniversityName } from "@/constants/university";
+import { getHomeUniversityBySlug, HOME_UNIVERSITY_SLUGS } from "@/constants/university";
 import type { HomeUniversitySlug } from "@/types/university";
 import { normalizeImageUrlToUploadCdn } from "@/utils/cdnUrl";
 import { createUrl, NO_INDEX_ROBOTS } from "@/utils/seo";
@@ -17,21 +17,17 @@ export const dynamicParams = false;
 
 // 모든 homeUniversity + id 조합에 대해 정적 경로 생성
 export async function generateStaticParams() {
-  const universities = await getAllUniversities();
-
   const params: { homeUniversity: string; id: string }[] = [];
 
-  // 각 대학에 대해 모든 homeUniversity 슬러그와 조합
   for (const slug of HOME_UNIVERSITY_SLUGS) {
     const homeUniversityInfo = getHomeUniversityBySlug(slug);
     if (!homeUniversityInfo) continue;
 
-    // 해당 홈대학에 속하는 대학들만 필터링
-    const filteredUniversities = universities.filter((uni) =>
-      isMatchedHomeUniversityName(uni.homeUniversityName, homeUniversityInfo.name),
-    );
+    const universities = await getAllUniversities({
+      homeUniversityId: homeUniversityInfo.homeUniversityId,
+    });
 
-    for (const university of filteredUniversities) {
+    for (const university of universities) {
       params.push({
         homeUniversity: slug,
         id: String(university.id),

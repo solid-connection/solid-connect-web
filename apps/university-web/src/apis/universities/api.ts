@@ -1,5 +1,12 @@
+import { DEFAULT_UNIVERSITY_TERM_ID } from "@/constants/university";
 import type { HomeUniversityName } from "@/types/university";
 import { axiosInstance, publicAxiosInstance } from "@/utils/axiosInstance";
+
+const getClientUniversityTermId = () => {
+  const termId = Number(process.env.NEXT_PUBLIC_UNIVERSITY_TERM_ID);
+
+  return Number.isInteger(termId) && termId > 0 ? termId : DEFAULT_UNIVERSITY_TERM_ID;
+};
 
 export interface RecommendedUniversitiesResponseRecommendedUniversitiesItem {
   id: number;
@@ -175,16 +182,29 @@ export const universitiesApi = {
     return res.data;
   },
 
-  getSearchText: async (params?: { value?: string }): Promise<SearchTextResponse> => {
+  getSearchText: async (params?: {
+    value?: string;
+    termId?: number;
+    homeUniversityId?: number;
+  }): Promise<SearchTextResponse> => {
     const res = await publicAxiosInstance.get<SearchTextResponse>(`/univ-apply-infos/search/text`, {
-      params: { value: params?.value ?? "" },
+      params: {
+        value: params?.value ?? "",
+        termId: params?.termId ?? getClientUniversityTermId(),
+        homeUniversityId: params?.homeUniversityId,
+      },
     });
     return res.data;
   },
 
   getSearchFilter: async (params?: { params?: Record<string, unknown> }): Promise<SearchFilterResponse> => {
+    const requestParams = {
+      ...params?.params,
+      termId: params?.params?.termId ?? getClientUniversityTermId(),
+    };
+
     const res = await publicAxiosInstance.get<SearchFilterResponse>(`/univ-apply-infos/search/filter`, {
-      params: params?.params,
+      params: requestParams,
     });
     return res.data;
   },

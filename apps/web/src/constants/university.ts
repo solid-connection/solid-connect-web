@@ -33,6 +33,7 @@ export const HOME_UNIVERSITY_TO_SLUG_MAP: Record<HomeUniversity, HomeUniversityS
  * 홈 대학교 정보 (온보딩 카드에서 사용)
  */
 export interface HomeUniversityInfo {
+  homeUniversityId: number;
   name: HomeUniversity;
   slug: HomeUniversitySlug;
   shortName: string;
@@ -43,6 +44,7 @@ export interface HomeUniversityInfo {
 
 export const HOME_UNIVERSITY_LIST: HomeUniversityInfo[] = [
   {
+    homeUniversityId: 1,
     name: HomeUniversity.INHA,
     slug: "inha",
     shortName: "인하대",
@@ -51,6 +53,7 @@ export const HOME_UNIVERSITY_LIST: HomeUniversityInfo[] = [
     color: "#004C98",
   },
   {
+    homeUniversityId: 2,
     name: HomeUniversity.INCHEON,
     slug: "incheon",
     shortName: "인천대",
@@ -59,6 +62,7 @@ export const HOME_UNIVERSITY_LIST: HomeUniversityInfo[] = [
     color: "#003876",
   },
   {
+    homeUniversityId: 3,
     name: HomeUniversity.SUNGSHIN,
     slug: "sungshin",
     shortName: "성신여대",
@@ -67,6 +71,9 @@ export const HOME_UNIVERSITY_LIST: HomeUniversityInfo[] = [
     color: "#7B1FA2",
   },
 ];
+
+// 배포 환경에서 UNIVERSITY_TERM_ID를 주입하지 못했을 때 사용하는 현재 학기 fallback입니다.
+export const DEFAULT_UNIVERSITY_TERM_ID = 12;
 
 /**
  * 슬러그로 홈 대학교 정보 조회

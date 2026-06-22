@@ -53,7 +53,9 @@ const UniversityListPage = async ({ params }: PageProps) => {
     notFound();
   }
 
-  const allUniversities = await getSearchUniversitiesAllRegions();
+  const allUniversities = await getSearchUniversitiesAllRegions({
+    homeUniversityId: universityInfo.homeUniversityId,
+  });
 
   // homeUniversityName으로 프론트에서 필터링
   const filteredUniversities = allUniversities.filter((university) =>
