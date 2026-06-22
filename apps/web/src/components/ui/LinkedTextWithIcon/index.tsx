@@ -37,7 +37,7 @@ const LinkedTextWithIcon = ({
   }
 
   return (
-    <button onClick={onClick} className="w-full cursor-pointer">
+    <button type="button" onClick={onClick} className="w-full cursor-pointer">
       {<Content icon={icon} text={text} subText={subText} textColor={textColor} />}
     </button>
   );

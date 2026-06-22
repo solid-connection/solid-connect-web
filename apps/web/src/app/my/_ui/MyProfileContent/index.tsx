@@ -18,6 +18,7 @@ import {
   IconUniversity,
 } from "@/public/svgs/my";
 import { UserRole } from "@/types/mentor";
+import { openKakaoOpenChat } from "@/utils/openKakaoOpenChat";
 
 const NEXT_PUBLIC_CONTACT_LINK = process.env.NEXT_PUBLIC_CONTACT_LINK;
 
@@ -37,8 +38,17 @@ const MyProfileContent = () => {
   const favoriteLocation =
     profileData.role === UserRole.MENTEE ? profileData.interestedCountries.slice(0, 3).join(", ") || "없음" : "없음";
 
+  const handleContactClick = () => {
+    if (!NEXT_PUBLIC_CONTACT_LINK) {
+      showIconToast("logo", "고객센터 링크를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.");
+      return;
+    }
+
+    openKakaoOpenChat(NEXT_PUBLIC_CONTACT_LINK);
+  };
+
   return (
-    <div className="px-5 py-2">
+    <div className="py-2">
       <div className="mb-4 text-start text-k-700 typo-sb-5">
         <p>{nickname}님은</p>
         <p>
@@ -155,7 +165,7 @@ const MyProfileContent = () => {
       <div className="mt-5 flex flex-col gap-0.5">
         <LinkedTextWithIcon href="/terms" text="서비스 이용약관" />
 
-        <LinkedTextWithIcon isBilink href={NEXT_PUBLIC_CONTACT_LINK} text="고객센터 문의" />
+        <LinkedTextWithIcon onClick={handleContactClick} text="고객센터 문의" />
 
         <LinkedTextWithIcon
           onClick={() => {

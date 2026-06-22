@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { usePostEmailAuth } from "@/apis/Auth";
-import { IconSolidConnectionFullBlackLogo } from "@/public/svgs";
+import { IconArrowBackFilled, IconSolidConnectionFullBlackLogo } from "@/public/svgs";
 import { IconAppleLogo, IconEmailIcon, IconKakaoLogo } from "@/public/svgs/auth";
 import {
   AUTH_REDIRECT_PARAM,
@@ -54,10 +54,27 @@ const LoginContent = () => {
     }
   };
 
+  const handleBack = () => {
+    if (window.history.length > 1) {
+      router.back();
+      return;
+    }
+
+    router.push("/");
+  };
+
   return (
     <div>
-      <div className="mt-[-56px] h-[77px] border-b border-bg-200 py-[21px] pl-5">
-        <Link href="/">
+      <div className="-mx-5 mt-[-56px] flex h-[77px] items-center gap-3 border-b border-bg-200 px-5">
+        <button
+          type="button"
+          onClick={handleBack}
+          className="flex h-6 w-6 shrink-0 items-center justify-center"
+          aria-label="뒤로가기"
+        >
+          <IconArrowBackFilled />
+        </button>
+        <Link href="/" aria-label="홈으로 이동">
           <IconSolidConnectionFullBlackLogo />
         </Link>
       </div>
