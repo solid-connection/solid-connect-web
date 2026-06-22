@@ -1,6 +1,6 @@
 "use client";
 
-import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { keepPreviousData, useMutation, useQueries, useQuery, useQueryClient } from "@tanstack/react-query";
 import { type FormEvent, useId, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -149,14 +149,20 @@ export function HostUniversityTab() {
 		setModal({ open: true, mode: "create" });
 	};
 
-	const handleOpenEdit = async (univ: HostUniversityResponse) => {
-		try {
-			const detail = await adminApi.getHostUniversity(univ.id);
-			setForm(detailToForm(detail));
+	const handleOpenEdit = (univ: HostUniversityResponse) => {
+		const cached = detailMap.get(univ.id);
+		if (cached) {
+			setForm(detailToForm(cached));
 			setModal({ open: true, mode: "edit", id: univ.id });
-		} catch {
-			toast.error("대학교 정보를 불러오지 못했습니다.");
+			return;
 		}
+		adminApi
+			.getHostUniversity(univ.id)
+			.then((detail) => {
+				setForm(detailToForm(detail));
+				setModal({ open: true, mode: "edit", id: univ.id });
+			})
+			.catch(() => toast.error("대학교 정보를 불러오지 못했습니다."));
 	};
 
 	const handleDelete = (id: number, name: string) => {
@@ -178,6 +184,15 @@ export function HostUniversityTab() {
 	const universities = query.data?.content ?? [];
 	const totalPages = query.data?.totalPages ?? 0;
 	const currentPage = searchParams.page;
+
+	const detailQueries = useQueries({
+		queries: universities.map((u) => ({
+			queryKey: ["admin", "host-universities", u.id] as const,
+			queryFn: () => adminApi.getHostUniversity(u.id),
+		})),
+	});
+
+	const detailMap = new Map(universities.map((u, i) => [u.id, detailQueries[i]?.data ?? null]));
 
 	return (
 		<div className="space-y-4">
@@ -219,62 +234,95 @@ export function HostUniversityTab() {
 					<Table>
 						<TableHeader>
 							<TableRow>
-								<TableHead>ID</TableHead>
-								<TableHead>한글명</TableHead>
-								<TableHead>영문명</TableHead>
-								<TableHead>국가</TableHead>
-								<TableHead>권역</TableHead>
-								<TableHead>작업</TableHead>
+								<TableHead className="whitespace-nowrap">ID</TableHead>
+								<TableHead className="whitespace-nowrap">한글명</TableHead>
+								<TableHead className="whitespace-nowrap">영문명</TableHead>
+								<TableHead className="whitespace-nowrap">표시명</TableHead>
+								<TableHead className="whitespace-nowrap">국가</TableHead>
+								<TableHead className="whitespace-nowrap">권역</TableHead>
+								<TableHead className="whitespace-nowrap">로고</TableHead>
+								<TableHead className="whitespace-nowrap">배경</TableHead>
+								<TableHead className="whitespace-nowrap">홈페이지</TableHead>
+								<TableHead className="whitespace-nowrap">영어강좌</TableHead>
+								<TableHead className="whitespace-nowrap">숙소</TableHead>
+								<TableHead className="whitespace-nowrap">현지 안내</TableHead>
+								<TableHead className="whitespace-nowrap">작업</TableHead>
 							</TableRow>
 						</TableHeader>
 						<TableBody>
 							{query.isLoading ? (
 								<TableRow>
-									<TableCell colSpan={6} className="text-center typo-regular-4 text-k-500">
+									<TableCell colSpan={13} className="text-center typo-regular-4 text-k-500">
 										불러오는 중...
 									</TableCell>
 								</TableRow>
 							) : query.isError ? (
 								<TableRow>
-									<TableCell colSpan={6} className="text-center typo-regular-4 text-magic-danger">
+									<TableCell colSpan={13} className="text-center typo-regular-4 text-magic-danger">
 										불러오지 못했습니다.
 									</TableCell>
 								</TableRow>
 							) : universities.length === 0 ? (
 								<TableRow>
-									<TableCell colSpan={6} className="text-center typo-regular-4 text-k-500">
+									<TableCell colSpan={13} className="text-center typo-regular-4 text-k-500">
 										결과가 없습니다.
 									</TableCell>
 								</TableRow>
 							) : (
-								universities.map((u) => (
-									<TableRow key={u.id}>
-										<TableCell>{u.id}</TableCell>
-										<TableCell>{u.koreanName}</TableCell>
-										<TableCell>{u.englishName}</TableCell>
-										<TableCell>
-											{u.countryKoreanName} ({u.countryCode})
-										</TableCell>
-										<TableCell>
-											{u.regionKoreanName} ({u.regionCode})
-										</TableCell>
-										<TableCell>
-											<div className="flex gap-2">
-												<Button size="sm" variant="secondary" onClick={() => handleOpenEdit(u)} disabled={isMutating}>
-													수정
-												</Button>
-												<Button
-													size="sm"
-													variant="destructive"
-													onClick={() => handleDelete(u.id, u.koreanName)}
-													disabled={isMutating}
-												>
-													삭제
-												</Button>
-											</div>
-										</TableCell>
-									</TableRow>
-								))
+								universities.map((u, idx) => {
+									const detail = detailMap.get(u.id);
+									const detailLoading = detailQueries[idx]?.isLoading;
+									const urlCell = (url: string | null | undefined) =>
+										url ? (
+											<a
+												href={url}
+												target="_blank"
+												rel="noopener noreferrer"
+												className="text-primary underline typo-regular-4"
+											>
+												링크
+											</a>
+										) : (
+											"—"
+										);
+									return (
+										<TableRow key={u.id}>
+											<TableCell>{u.id}</TableCell>
+											<TableCell className="whitespace-nowrap">{u.koreanName}</TableCell>
+											<TableCell className="whitespace-nowrap">{u.englishName}</TableCell>
+											<TableCell className="whitespace-nowrap">{u.formatName}</TableCell>
+											<TableCell className="whitespace-nowrap">
+												{u.countryKoreanName} ({u.countryCode})
+											</TableCell>
+											<TableCell className="whitespace-nowrap">
+												{u.regionKoreanName} ({u.regionCode})
+											</TableCell>
+											<TableCell>{urlCell(u.logoImageUrl)}</TableCell>
+											<TableCell>{detailLoading ? "…" : urlCell(detail?.backgroundImageUrl)}</TableCell>
+											<TableCell>{detailLoading ? "…" : urlCell(detail?.homepageUrl)}</TableCell>
+											<TableCell>{detailLoading ? "…" : urlCell(detail?.englishCourseUrl)}</TableCell>
+											<TableCell>{detailLoading ? "…" : urlCell(detail?.accommodationUrl)}</TableCell>
+											<TableCell className="max-w-48 truncate" title={detail?.detailsForLocal ?? ""}>
+												{detailLoading ? "…" : (detail?.detailsForLocal ?? "—")}
+											</TableCell>
+											<TableCell>
+												<div className="flex gap-2">
+													<Button size="sm" variant="secondary" onClick={() => handleOpenEdit(u)} disabled={isMutating}>
+														수정
+													</Button>
+													<Button
+														size="sm"
+														variant="destructive"
+														onClick={() => handleDelete(u.id, u.koreanName)}
+														disabled={isMutating}
+													>
+														삭제
+													</Button>
+												</div>
+											</TableCell>
+										</TableRow>
+									);
+								})
 							)}
 						</TableBody>
 					</Table>
