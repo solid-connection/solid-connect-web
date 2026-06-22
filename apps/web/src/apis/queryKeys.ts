@@ -51,6 +51,7 @@ export const QueryKeys = {
     interestedRegionCountry: "MyPage.interestedRegionCountry" as const,
     profile: "MyPage.profile" as const,
     password: "MyPage.password" as const,
+    schoolEmail: "MyPage.schoolEmail" as const,
   },
   applications: {
     folder: "applications.folder" as const,
