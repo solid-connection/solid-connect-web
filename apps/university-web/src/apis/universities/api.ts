@@ -1,10 +1,32 @@
+import { DEFAULT_UNIVERSITY_TERM_ID } from "@/constants/university";
 import type { HomeUniversityName } from "@/types/university";
 import { axiosInstance, publicAxiosInstance } from "@/utils/axiosInstance";
+
+const getClientUniversityTermId = () => {
+  const termId = Number(process.env.NEXT_PUBLIC_UNIVERSITY_TERM_ID);
+
+  return Number.isInteger(termId) && termId > 0 ? termId : DEFAULT_UNIVERSITY_TERM_ID;
+};
+
+const normalizePositiveInt = (value: unknown) => {
+  const numberValue = typeof value === "string" && value.trim() !== "" ? Number(value) : value;
+
+  return typeof numberValue === "number" && Number.isInteger(numberValue) && numberValue > 0 ? numberValue : undefined;
+};
+
+const getScopedTermId = (termId: unknown, useDefaultTermId?: boolean) => {
+  if (termId === undefined) {
+    return useDefaultTermId ? getClientUniversityTermId() : undefined;
+  }
+
+  return normalizePositiveInt(termId) ?? getClientUniversityTermId();
+};
 
 export interface RecommendedUniversitiesResponseRecommendedUniversitiesItem {
   id: number;
   term: string;
   koreanName: string;
+  homeUniversityName?: HomeUniversityName;
   region: string;
   country: string;
   logoImageUrl: string;
@@ -174,16 +196,34 @@ export const universitiesApi = {
     return res.data;
   },
 
-  getSearchText: async (params?: { value?: string }): Promise<SearchTextResponse> => {
+  getSearchText: async (params?: {
+    value?: string;
+    termId?: number;
+    useDefaultTermId?: boolean;
+    homeUniversityId?: number;
+  }): Promise<SearchTextResponse> => {
+    const requestParams = {
+      value: params?.value ?? "",
+      termId: getScopedTermId(params?.termId, params?.useDefaultTermId),
+      homeUniversityId: normalizePositiveInt(params?.homeUniversityId),
+    };
+
     const res = await publicAxiosInstance.get<SearchTextResponse>(`/univ-apply-infos/search/text`, {
-      params: { value: params?.value ?? "" },
+      params: requestParams,
     });
     return res.data;
   },
 
   getSearchFilter: async (params?: { params?: Record<string, unknown> }): Promise<SearchFilterResponse> => {
+    const { termId, homeUniversityId, useDefaultTermId, ...restParams } = params?.params ?? {};
+    const requestParams = {
+      ...restParams,
+      termId: getScopedTermId(termId, useDefaultTermId === true),
+      homeUniversityId: normalizePositiveInt(homeUniversityId),
+    };
+
     const res = await publicAxiosInstance.get<SearchFilterResponse>(`/univ-apply-infos/search/filter`, {
-      params: params?.params,
+      params: requestParams,
     });
     return res.data;
   },

@@ -20,9 +20,12 @@ const PopularUniversityCard = ({
   quality = 60, // 기본값을 60으로 낮춤
 }: PopularUniversityCardProps) => {
   const homeUniversitySlug = getHomeUniversitySlugByName(university.homeUniversityName);
-  const universityDetailHref = homeUniversitySlug
-    ? `/university/${homeUniversitySlug}/${university.id}`
-    : "/university";
+
+  if (!homeUniversitySlug) {
+    return null;
+  }
+
+  const universityDetailHref = `/university/${homeUniversitySlug}/${university.id}`;
 
   return (
     <UniversityZoneLink key={university.id} href={universityDetailHref}>

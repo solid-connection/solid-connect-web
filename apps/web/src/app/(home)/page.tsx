@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getHomeNewsList } from "@/apis/news/server/getNewsList";
 import { getCategorizedUniversities, getRecommendedUniversity } from "@/apis/universities/server";
+import { getHomeUniversitySlugByName } from "@/constants/university";
 import { type ListUniversity, RegionEnumExtend } from "@/types/university";
 import { createUrl } from "@/utils/seo";
 import FindLastYearScoreBar from "./_ui/FindLastYearScoreBar";
@@ -61,11 +62,40 @@ const resolveRecommendedUniversitiesHomeUniversityName = (
   const homeUniversityNameById = new Map(
     allUniversities.map((university) => [university.id, university.homeUniversityName]),
   );
+  const homeUniversityNamesByTermAndName = new Map<string, Set<ListUniversity["homeUniversityName"]>>();
+
+  allUniversities.forEach((university) => {
+    const key = `${university.term}:${university.koreanName}`;
+    const names = homeUniversityNamesByTermAndName.get(key) ?? new Set<ListUniversity["homeUniversityName"]>();
+
+    names.add(university.homeUniversityName);
+    homeUniversityNamesByTermAndName.set(key, names);
+  });
 
   return recommendedUniversities.map((university) => ({
     ...university,
-    homeUniversityName: university.homeUniversityName ?? homeUniversityNameById.get(university.id),
+    homeUniversityName:
+      university.homeUniversityName ??
+      homeUniversityNameById.get(university.id) ??
+      getUniqueHomeUniversityName(homeUniversityNamesByTermAndName, university),
   }));
+};
+
+const getUniqueHomeUniversityName = (
+  homeUniversityNamesByTermAndName: Map<string, Set<ListUniversity["homeUniversityName"]>>,
+  university: ListUniversity,
+) => {
+  const names = homeUniversityNamesByTermAndName.get(`${university.term}:${university.koreanName}`);
+
+  if (!names || names.size !== 1) {
+    return undefined;
+  }
+
+  return names.values().next().value;
+};
+
+const hasUniversityDetailRoute = (university: ListUniversity) => {
+  return getHomeUniversitySlugByName(university.homeUniversityName) !== undefined;
 };
 
 const HomePage = async () => {
@@ -78,7 +108,7 @@ const HomePage = async () => {
   const resolvedRecommendedUniversities = resolveRecommendedUniversitiesHomeUniversityName(
     recommendedUniversities,
     allUniversities,
-  );
+  ).filter(hasUniversityDetailRoute);
 
   return (
     <>

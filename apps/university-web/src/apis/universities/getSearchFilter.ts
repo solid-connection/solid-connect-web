@@ -10,6 +10,9 @@ export interface UniversitySearchFilterParams {
   languageTestType?: LanguageTestType;
   testScore?: number;
   countryCode?: CountryCode[];
+  termId?: number;
+  homeUniversityId?: number;
+  useDefaultTermId?: boolean;
 }
 
 // API 응답에 homeUniversityName이 포함된 타입
@@ -37,6 +40,15 @@ const useGetUniversitySearchByFilter = (
     }
     if (filters.countryCode && filters.countryCode.length > 0) {
       params.countryCode = filters.countryCode;
+    }
+    if (filters.termId !== undefined) {
+      params.termId = filters.termId;
+    }
+    if (filters.homeUniversityId !== undefined) {
+      params.homeUniversityId = filters.homeUniversityId;
+    }
+    if (filters.useDefaultTermId) {
+      params.useDefaultTermId = true;
     }
     return params;
   };
