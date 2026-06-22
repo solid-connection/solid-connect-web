@@ -145,6 +145,32 @@ export function HostUniversityTab() {
 		},
 	});
 
+	const logoUploadMutation = useMutation({
+		mutationFn: ({ file, englishName }: { file: File; englishName: string }) =>
+			adminApi.uploadAdminUniversityLogo(file, englishName),
+		onSuccess: ({ fileUrl }) => {
+			setForm((prev) => ({ ...prev, logoImageUrl: fileUrl }));
+			toast.success("로고 이미지를 업로드했습니다.");
+		},
+		onError: (e: unknown) => {
+			const msg = e instanceof Error ? e.message : "로고 이미지 업로드에 실패했습니다.";
+			toast.error(msg);
+		},
+	});
+
+	const backgroundUploadMutation = useMutation({
+		mutationFn: ({ file, englishName }: { file: File; englishName: string }) =>
+			adminApi.uploadAdminUniversityBackground(file, englishName),
+		onSuccess: ({ fileUrl }) => {
+			setForm((prev) => ({ ...prev, backgroundImageUrl: fileUrl }));
+			toast.success("배경 이미지를 업로드했습니다.");
+		},
+		onError: (e: unknown) => {
+			const msg = e instanceof Error ? e.message : "배경 이미지 업로드에 실패했습니다.";
+			toast.error(msg);
+		},
+	});
+
 	const handleSearch = (e: FormEvent) => {
 		e.preventDefault();
 		setSearchParams({ keyword, countryCode, regionCode, page: 0 });
@@ -181,6 +207,21 @@ export function HostUniversityTab() {
 		deleteMutation.mutate(id);
 	};
 
+	const uploadImage = (kind: "logo" | "background", file: File | undefined) => {
+		if (!file) return;
+		if (!form.formatName.trim()) {
+			toast.error("표시명을 먼저 입력해 주세요.");
+			return;
+		}
+
+		const variables = { file, englishName: form.formatName };
+		if (kind === "logo") {
+			logoUploadMutation.mutate(variables);
+		} else {
+			backgroundUploadMutation.mutate(variables);
+		}
+	};
+
 	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault();
 		const payload = toPayload(form);
@@ -192,6 +233,7 @@ export function HostUniversityTab() {
 	};
 
 	const isMutating = createMutation.isPending || updateMutation.isPending || deleteMutation.isPending;
+	const isUploading = logoUploadMutation.isPending || backgroundUploadMutation.isPending;
 	const universities = query.data?.content ?? [];
 	const totalPages = query.data?.totalPages ?? 0;
 	const currentPage = searchParams.page;
@@ -394,6 +436,36 @@ export function HostUniversityTab() {
 										onChange={(e) => setForm((prev) => ({ ...prev, [field]: e.target.value }))}
 										required
 									/>
+									{field === "logoImageUrl" && (
+										<>
+											<Input
+												type="file"
+												accept="image/*"
+												aria-label="로고 이미지 파일"
+												disabled={logoUploadMutation.isPending}
+												onChange={(e) => {
+													uploadImage("logo", e.target.files?.[0]);
+													e.target.value = "";
+												}}
+											/>
+											{logoUploadMutation.isPending && <p className="typo-regular-4 text-k-500">업로드 중...</p>}
+										</>
+									)}
+									{field === "backgroundImageUrl" && (
+										<>
+											<Input
+												type="file"
+												accept="image/*"
+												aria-label="배경 이미지 파일"
+												disabled={backgroundUploadMutation.isPending}
+												onChange={(e) => {
+													uploadImage("background", e.target.files?.[0]);
+													e.target.value = "";
+												}}
+											/>
+											{backgroundUploadMutation.isPending && <p className="typo-regular-4 text-k-500">업로드 중...</p>}
+										</>
+									)}
 								</div>
 							))}
 							{OPTIONAL_FIELDS.map((field) => (
@@ -423,7 +495,7 @@ export function HostUniversityTab() {
 								<Button type="button" variant="secondary" onClick={closeModal}>
 									취소
 								</Button>
-								<Button type="submit" disabled={createMutation.isPending || updateMutation.isPending}>
+								<Button type="submit" disabled={createMutation.isPending || updateMutation.isPending || isUploading}>
 									{modal.mode === "create" ? "생성" : "저장"}
 								</Button>
 							</div>
