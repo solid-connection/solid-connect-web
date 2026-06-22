@@ -73,7 +73,7 @@ export function UnivApplyInfoManageTab() {
 
 	const searchResultQuery = useQuery({
 		queryKey: ["univ-apply-infos", "search", committedSearch],
-		queryFn: () => adminApi.searchUnivApplyInfos(committedSearch!),
+		queryFn: () => adminApi.searchUnivApplyInfos(committedSearch ?? {}),
 		enabled: committedSearch !== null,
 	});
 
