@@ -246,7 +246,7 @@ export function HostUniversityTab() {
 								<TableHead className="whitespace-nowrap">영어강좌</TableHead>
 								<TableHead className="whitespace-nowrap">숙소</TableHead>
 								<TableHead className="whitespace-nowrap">현지 안내</TableHead>
-								<TableHead className="whitespace-nowrap">작업</TableHead>
+								<TableHead className="sticky right-0 whitespace-nowrap border-l border-k-100 bg-k-50">작업</TableHead>
 							</TableRow>
 						</TableHeader>
 						<TableBody>
@@ -305,7 +305,7 @@ export function HostUniversityTab() {
 											<TableCell className="max-w-48 truncate" title={detail?.detailsForLocal ?? ""}>
 												{detailLoading ? "…" : (detail?.detailsForLocal ?? "—")}
 											</TableCell>
-											<TableCell>
+											<TableCell className="sticky right-0 border-l border-k-100 bg-k-0">
 												<div className="flex gap-2">
 													<Button size="sm" variant="secondary" onClick={() => handleOpenEdit(u)} disabled={isMutating}>
 														수정
