@@ -8,6 +8,20 @@ const getClientUniversityTermId = () => {
   return Number.isInteger(termId) && termId > 0 ? termId : DEFAULT_UNIVERSITY_TERM_ID;
 };
 
+const normalizePositiveInt = (value: unknown) => {
+  const numberValue = typeof value === "string" && value.trim() !== "" ? Number(value) : value;
+
+  return typeof numberValue === "number" && Number.isInteger(numberValue) && numberValue > 0 ? numberValue : undefined;
+};
+
+const getScopedTermId = (termId: unknown, useDefaultTermId?: boolean) => {
+  if (termId === undefined) {
+    return useDefaultTermId ? getClientUniversityTermId() : undefined;
+  }
+
+  return normalizePositiveInt(termId) ?? getClientUniversityTermId();
+};
+
 export interface RecommendedUniversitiesResponseRecommendedUniversitiesItem {
   id: number;
   term: string;
@@ -185,22 +199,27 @@ export const universitiesApi = {
   getSearchText: async (params?: {
     value?: string;
     termId?: number;
+    useDefaultTermId?: boolean;
     homeUniversityId?: number;
   }): Promise<SearchTextResponse> => {
+    const requestParams = {
+      value: params?.value ?? "",
+      termId: getScopedTermId(params?.termId, params?.useDefaultTermId),
+      homeUniversityId: normalizePositiveInt(params?.homeUniversityId),
+    };
+
     const res = await publicAxiosInstance.get<SearchTextResponse>(`/univ-apply-infos/search/text`, {
-      params: {
-        value: params?.value ?? "",
-        termId: params?.termId ?? getClientUniversityTermId(),
-        homeUniversityId: params?.homeUniversityId,
-      },
+      params: requestParams,
     });
     return res.data;
   },
 
   getSearchFilter: async (params?: { params?: Record<string, unknown> }): Promise<SearchFilterResponse> => {
+    const { termId, homeUniversityId, useDefaultTermId, ...restParams } = params?.params ?? {};
     const requestParams = {
-      ...params?.params,
-      termId: params?.params?.termId ?? getClientUniversityTermId(),
+      ...restParams,
+      termId: getScopedTermId(termId, useDefaultTermId === true),
+      homeUniversityId: normalizePositiveInt(homeUniversityId),
     };
 
     const res = await publicAxiosInstance.get<SearchFilterResponse>(`/univ-apply-infos/search/filter`, {

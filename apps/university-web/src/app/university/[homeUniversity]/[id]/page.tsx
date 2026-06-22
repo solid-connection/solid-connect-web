@@ -17,25 +17,27 @@ export const dynamicParams = false;
 
 // 모든 homeUniversity + id 조합에 대해 정적 경로 생성
 export async function generateStaticParams() {
-  const params: { homeUniversity: string; id: string }[] = [];
+  const scopedUniversitiesBySlug = await Promise.all(
+    HOME_UNIVERSITY_SLUGS.map(async (slug) => {
+      const homeUniversityInfo = getHomeUniversityBySlug(slug);
+      if (!homeUniversityInfo) {
+        return { slug, universities: [] };
+      }
 
-  for (const slug of HOME_UNIVERSITY_SLUGS) {
-    const homeUniversityInfo = getHomeUniversityBySlug(slug);
-    if (!homeUniversityInfo) continue;
-
-    const universities = await getAllUniversities({
-      homeUniversityId: homeUniversityInfo.homeUniversityId,
-    });
-
-    for (const university of universities) {
-      params.push({
-        homeUniversity: slug,
-        id: String(university.id),
+      const universities = await getAllUniversities({
+        homeUniversityId: homeUniversityInfo.homeUniversityId,
       });
-    }
-  }
 
-  return params;
+      return { slug, universities };
+    }),
+  );
+
+  return scopedUniversitiesBySlug.flatMap(({ slug, universities }) =>
+    universities.map((university) => ({
+      homeUniversity: slug,
+      id: String(university.id),
+    })),
+  );
 }
 
 type PageProps = {

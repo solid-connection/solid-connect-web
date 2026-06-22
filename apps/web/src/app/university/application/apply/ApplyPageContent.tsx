@@ -20,7 +20,7 @@ const ApplyPageContent = () => {
   const router = useRouter();
   const [step, setStep] = useState<number>(1);
 
-  const { data: universityList = [] } = useUniversitySearch("");
+  const { data: universityList = [] } = useUniversitySearch("", undefined, { useDefaultTermId: true });
   const { data: gpaScoreList = [] } = useGetMyGpaScore();
   const { data: languageTestScoreList = [] } = useGetMyLanguageTestScore();
   const { mutate: postSubmitApplication } = usePostSubmitApplication({

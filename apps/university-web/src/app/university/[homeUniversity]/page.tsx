@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 
 import { getSearchUniversitiesAllRegions } from "@/apis/universities/server";
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
-import { getHomeUniversityBySlug, HOME_UNIVERSITY_SLUGS, isMatchedHomeUniversityName } from "@/constants/university";
+import { getHomeUniversityBySlug, HOME_UNIVERSITY_SLUGS } from "@/constants/university";
 import type { HomeUniversitySlug } from "@/types/university";
 
 import UniversityListContent from "./_ui/UniversityListContent";
@@ -53,19 +53,14 @@ const UniversityListPage = async ({ params }: PageProps) => {
     notFound();
   }
 
-  const allUniversities = await getSearchUniversitiesAllRegions({
+  const universities = await getSearchUniversitiesAllRegions({
     homeUniversityId: universityInfo.homeUniversityId,
   });
-
-  // homeUniversityName으로 프론트에서 필터링
-  const filteredUniversities = allUniversities.filter((university) =>
-    isMatchedHomeUniversityName(university.homeUniversityName, universityInfo.name),
-  );
 
   return (
     <>
       <TopDetailNavigation title={`${universityInfo.shortName} 파견학교`} backHref="/university" />
-      <UniversityListContent universities={filteredUniversities} homeUniversitySlug={homeUniversitySlug} />
+      <UniversityListContent universities={universities} homeUniversitySlug={homeUniversitySlug} />
     </>
   );
 };

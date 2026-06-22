@@ -19,14 +19,31 @@ const getUniversityTermId = () => {
   return Number.isInteger(termId) && termId > 0 ? termId : DEFAULT_UNIVERSITY_TERM_ID;
 };
 
+const normalizePositiveInt = (value: unknown) => {
+  const numberValue = typeof value === "string" && value.trim() !== "" ? Number(value) : value;
+
+  return typeof numberValue === "number" && Number.isInteger(numberValue) && numberValue > 0 ? numberValue : undefined;
+};
+
+const assertPositiveInt = (name: string, value: unknown) => {
+  const positiveInt = normalizePositiveInt(value);
+
+  if (positiveInt === undefined) {
+    throw new Error(`${name} must be a positive integer.`);
+  }
+
+  return positiveInt;
+};
+
 const createSearchTextEndpoint = (value: string, params: UniversitySearchTextParams = {}) => {
+  const termId = params.termId === undefined ? getUniversityTermId() : assertPositiveInt("termId", params.termId);
   const searchParams = new URLSearchParams({
     value,
-    termId: String(params.termId ?? getUniversityTermId()),
+    termId: String(termId),
   });
 
   if (params.homeUniversityId !== undefined) {
-    searchParams.set("homeUniversityId", String(params.homeUniversityId));
+    searchParams.set("homeUniversityId", String(assertPositiveInt("homeUniversityId", params.homeUniversityId)));
   }
 
   return `/univ-apply-infos/search/text?${searchParams.toString()}`;

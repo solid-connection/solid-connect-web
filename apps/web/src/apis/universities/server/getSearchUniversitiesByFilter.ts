@@ -24,6 +24,22 @@ const getUniversityTermId = () => {
   return Number.isInteger(termId) && termId > 0 ? termId : DEFAULT_UNIVERSITY_TERM_ID;
 };
 
+const normalizePositiveInt = (value: unknown) => {
+  const numberValue = typeof value === "string" && value.trim() !== "" ? Number(value) : value;
+
+  return typeof numberValue === "number" && Number.isInteger(numberValue) && numberValue > 0 ? numberValue : undefined;
+};
+
+const assertPositiveInt = (name: string, value: unknown) => {
+  const positiveInt = normalizePositiveInt(value);
+
+  if (positiveInt === undefined) {
+    throw new Error(`${name} must be a positive integer.`);
+  }
+
+  return positiveInt;
+};
+
 export const getSearchUniversitiesByFilter = async (
   filters: UniversitySearchFilterParams,
 ): Promise<ListUniversity[]> => {
@@ -40,10 +56,10 @@ export const getSearchUniversitiesByFilter = async (
     filters.countryCode.forEach((code) => params.append("countryCode", code));
   }
   if (filters.termId !== undefined) {
-    params.append("termId", String(filters.termId));
+    params.append("termId", String(assertPositiveInt("termId", filters.termId)));
   }
   if (filters.homeUniversityId !== undefined) {
-    params.append("homeUniversityId", String(filters.homeUniversityId));
+    params.append("homeUniversityId", String(assertPositiveInt("homeUniversityId", filters.homeUniversityId)));
   }
 
   // 필터 값이 하나도 없으면 빈 배열을 반환합니다.
@@ -64,13 +80,14 @@ export const getSearchUniversitiesByFilter = async (
 export const getSearchUniversitiesAllRegions = async (
   params: Pick<UniversitySearchFilterParams, "termId" | "homeUniversityId"> = {},
 ): Promise<ListUniversity[]> => {
+  const termId = params.termId === undefined ? getUniversityTermId() : assertPositiveInt("termId", params.termId);
   const searchParams = new URLSearchParams({
     value: "",
-    termId: String(params.termId ?? getUniversityTermId()),
+    termId: String(termId),
   });
 
   if (params.homeUniversityId !== undefined) {
-    searchParams.set("homeUniversityId", String(params.homeUniversityId));
+    searchParams.set("homeUniversityId", String(assertPositiveInt("homeUniversityId", params.homeUniversityId)));
   }
 
   const endpoint = `/univ-apply-infos/search/text?${searchParams.toString()}`;

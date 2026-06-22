@@ -12,13 +12,23 @@ interface ListUniversityWithHome extends ListUniversity {
   homeUniversityName?: HomeUniversityName;
 }
 
+export interface UniversitySearchOptions {
+  termId?: number;
+  homeUniversityId?: number;
+  useDefaultTermId?: boolean;
+}
+
 /**
  * @description 대학 검색을 위한 useQuery 커스텀 훅
  * 모든 대학 데이터를 한 번만 가져와 캐싱하고, 검색어에 따라 클라이언트에서 필터링합니다.
  * @param searchValue - 검색어
  * @param homeUniversityName - 홈 대학교 이름 (선택적 필터)
  */
-const useUniversitySearch = (searchValue: string, homeUniversityName?: HomeUniversityName) => {
+const useUniversitySearch = (
+  searchValue: string,
+  homeUniversityName?: HomeUniversityName,
+  options: UniversitySearchOptions = {},
+) => {
   // 1. 모든 대학 데이터를 한 번만 가져와 'Infinity' 캐시로 저장합니다.
   const {
     data: allUniversities,
@@ -26,8 +36,8 @@ const useUniversitySearch = (searchValue: string, homeUniversityName?: HomeUnive
     isError,
     error,
   } = useQuery<SearchTextResponse, AxiosError, ListUniversityWithHome[]>({
-    queryKey: [QueryKeys.universities.searchText],
-    queryFn: () => universitiesApi.getSearchText({ value: "" }),
+    queryKey: [QueryKeys.universities.searchText, options],
+    queryFn: () => universitiesApi.getSearchText({ value: "", ...options }),
     staleTime: Infinity,
     gcTime: Infinity,
     select: (data) => data.univApplyInfoPreviews as unknown as ListUniversityWithHome[],
