@@ -1,6 +1,7 @@
 "use client";
 
 import { keepPreviousData, useMutation, useQueries, useQuery, useQueryClient } from "@tanstack/react-query";
+import { ImageIcon, Loader2, Upload } from "lucide-react";
 import { type FormEvent, useId, useRef, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -13,6 +14,8 @@ import {
 	type HostUniversityPayload,
 	type HostUniversityResponse,
 } from "@/lib/api/admin";
+import { cn } from "@/lib/utils";
+import { normalizeImageUrlToUploadCdn } from "@/lib/utils/cdnUrl";
 
 type ModalState = { open: false } | { open: true; mode: "create" } | { open: true; mode: "edit"; id: number };
 
@@ -145,6 +148,32 @@ export function HostUniversityTab() {
 		},
 	});
 
+	const logoUploadMutation = useMutation({
+		mutationFn: ({ file, englishName }: { file: File; englishName: string }) =>
+			adminApi.uploadAdminUniversityLogo(file, englishName),
+		onSuccess: ({ fileUrl }) => {
+			setForm((prev) => ({ ...prev, logoImageUrl: fileUrl }));
+			toast.success("로고 이미지를 업로드했습니다.");
+		},
+		onError: (e: unknown) => {
+			const msg = e instanceof Error ? e.message : "로고 이미지 업로드에 실패했습니다.";
+			toast.error(msg);
+		},
+	});
+
+	const backgroundUploadMutation = useMutation({
+		mutationFn: ({ file, englishName }: { file: File; englishName: string }) =>
+			adminApi.uploadAdminUniversityBackground(file, englishName),
+		onSuccess: ({ fileUrl }) => {
+			setForm((prev) => ({ ...prev, backgroundImageUrl: fileUrl }));
+			toast.success("배경 이미지를 업로드했습니다.");
+		},
+		onError: (e: unknown) => {
+			const msg = e instanceof Error ? e.message : "배경 이미지 업로드에 실패했습니다.";
+			toast.error(msg);
+		},
+	});
+
 	const handleSearch = (e: FormEvent) => {
 		e.preventDefault();
 		setSearchParams({ keyword, countryCode, regionCode, page: 0 });
@@ -181,6 +210,21 @@ export function HostUniversityTab() {
 		deleteMutation.mutate(id);
 	};
 
+	const uploadImage = (kind: "logo" | "background", file: File | undefined) => {
+		if (!file) return;
+		if (!form.formatName.trim()) {
+			toast.error("표시명을 먼저 입력해 주세요.");
+			return;
+		}
+
+		const variables = { file, englishName: form.formatName };
+		if (kind === "logo") {
+			logoUploadMutation.mutate(variables);
+		} else {
+			backgroundUploadMutation.mutate(variables);
+		}
+	};
+
 	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault();
 		const payload = toPayload(form);
@@ -192,6 +236,7 @@ export function HostUniversityTab() {
 	};
 
 	const isMutating = createMutation.isPending || updateMutation.isPending || deleteMutation.isPending;
+	const isUploading = logoUploadMutation.isPending || backgroundUploadMutation.isPending;
 	const universities = query.data?.content ?? [];
 	const totalPages = query.data?.totalPages ?? 0;
 	const currentPage = searchParams.page;
@@ -394,6 +439,98 @@ export function HostUniversityTab() {
 										onChange={(e) => setForm((prev) => ({ ...prev, [field]: e.target.value }))}
 										required
 									/>
+									{field === "logoImageUrl" && (
+										<div className="flex items-center gap-3 rounded-lg border border-k-100 bg-k-50 p-3">
+											{form.logoImageUrl ? (
+												<img
+													src={normalizeImageUrlToUploadCdn(form.logoImageUrl)}
+													alt="로고 미리보기"
+													className="h-14 w-14 shrink-0 rounded-md border border-k-100 bg-white object-contain p-1"
+												/>
+											) : (
+												<div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-md border border-dashed border-k-200 bg-white">
+													<ImageIcon className="h-5 w-5 text-k-300" />
+												</div>
+											)}
+											<label
+												className={cn(
+													"flex cursor-pointer items-center gap-2 rounded-lg border px-3 py-2 typo-regular-4 transition-colors",
+													logoUploadMutation.isPending
+														? "cursor-not-allowed border-k-200 text-k-400 opacity-60"
+														: "border-k-200 text-k-600 hover:border-primary hover:bg-primary/5 hover:text-primary",
+												)}
+											>
+												{logoUploadMutation.isPending ? (
+													<>
+														<Loader2 className="h-4 w-4 animate-spin" />
+														업로드 중...
+													</>
+												) : (
+													<>
+														<Upload className="h-4 w-4" />
+														파일 선택
+													</>
+												)}
+												<input
+													type="file"
+													accept="image/*"
+													aria-label="로고 이미지 파일"
+													className="sr-only"
+													disabled={logoUploadMutation.isPending}
+													onChange={(e) => {
+														uploadImage("logo", e.target.files?.[0]);
+														e.target.value = "";
+													}}
+												/>
+											</label>
+										</div>
+									)}
+									{field === "backgroundImageUrl" && (
+										<div className="flex items-center gap-3 rounded-lg border border-k-100 bg-k-50 p-3">
+											{form.backgroundImageUrl ? (
+												<img
+													src={normalizeImageUrlToUploadCdn(form.backgroundImageUrl)}
+													alt="배경 미리보기"
+													className="h-14 w-28 shrink-0 rounded-md border border-k-100 bg-white object-cover"
+												/>
+											) : (
+												<div className="flex h-14 w-28 shrink-0 items-center justify-center rounded-md border border-dashed border-k-200 bg-white">
+													<ImageIcon className="h-5 w-5 text-k-300" />
+												</div>
+											)}
+											<label
+												className={cn(
+													"flex cursor-pointer items-center gap-2 rounded-lg border px-3 py-2 typo-regular-4 transition-colors",
+													backgroundUploadMutation.isPending
+														? "cursor-not-allowed border-k-200 text-k-400 opacity-60"
+														: "border-k-200 text-k-600 hover:border-primary hover:bg-primary/5 hover:text-primary",
+												)}
+											>
+												{backgroundUploadMutation.isPending ? (
+													<>
+														<Loader2 className="h-4 w-4 animate-spin" />
+														업로드 중...
+													</>
+												) : (
+													<>
+														<Upload className="h-4 w-4" />
+														파일 선택
+													</>
+												)}
+												<input
+													type="file"
+													accept="image/*"
+													aria-label="배경 이미지 파일"
+													className="sr-only"
+													disabled={backgroundUploadMutation.isPending}
+													onChange={(e) => {
+														uploadImage("background", e.target.files?.[0]);
+														e.target.value = "";
+													}}
+												/>
+											</label>
+										</div>
+									)}
 								</div>
 							))}
 							{OPTIONAL_FIELDS.map((field) => (
@@ -423,7 +560,7 @@ export function HostUniversityTab() {
 								<Button type="button" variant="secondary" onClick={closeModal}>
 									취소
 								</Button>
-								<Button type="submit" disabled={createMutation.isPending || updateMutation.isPending}>
+								<Button type="submit" disabled={createMutation.isPending || updateMutation.isPending || isUploading}>
 									{modal.mode === "create" ? "생성" : "저장"}
 								</Button>
 							</div>

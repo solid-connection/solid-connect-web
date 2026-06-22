@@ -132,6 +132,10 @@ export interface HostUniversityPayload {
 	detailsForLocal?: string;
 }
 
+export interface AdminUniversityImageUploadResponse {
+	fileUrl: string;
+}
+
 export interface UnivApplyInfoLanguageRequirement {
 	languageTestType: string;
 	minScore: string;
@@ -343,6 +347,28 @@ export const adminApi = {
 
 	deleteHostUniversity: (id: number) =>
 		axiosInstance.delete<void>(`/admin/host-universities/${id}`).then((res) => res.data),
+
+	uploadAdminUniversityLogo: (file: File, englishName: string) => {
+		const formData = new FormData();
+		formData.append("file", file);
+		formData.append("englishName", englishName);
+		return axiosInstance
+			.post<AdminUniversityImageUploadResponse>("/file/admin/university/logo", formData, {
+				headers: { "Content-Type": "multipart/form-data" },
+			})
+			.then((res) => res.data);
+	},
+
+	uploadAdminUniversityBackground: (file: File, englishName: string) => {
+		const formData = new FormData();
+		formData.append("file", file);
+		formData.append("englishName", englishName);
+		return axiosInstance
+			.post<AdminUniversityImageUploadResponse>("/file/admin/university/background", formData, {
+				headers: { "Content-Type": "multipart/form-data" },
+			})
+			.then((res) => res.data);
+	},
 
 	createUnivApplyInfo: (data: UnivApplyInfoCreatePayload) =>
 		axiosInstance.post<UnivApplyInfoManageResponse>("/admin/univ-apply-infos", data).then((res) => res.data),
