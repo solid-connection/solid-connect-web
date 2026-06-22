@@ -13,7 +13,12 @@ const usePostConfirmSchoolEmail = () => {
     mutationFn: (data) => myPageApi.postConfirmSchoolEmail(data),
     meta: SKIP_GLOBAL_ERROR_TOAST_META,
     onSuccess: async () => {
-      await postReissueToken();
+      try {
+        await postReissueToken();
+      } catch {
+        // 학교 인증은 이미 완료되었으므로 토큰 갱신 실패가 성공 흐름을 막지 않게 합니다.
+      }
+
       queryClient.invalidateQueries({
         queryKey: [QueryKeys.MyPage.profile],
       });
