@@ -1,12 +1,12 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-const { post } = vi.hoisted(() => ({ post: vi.fn() }));
+const { post, put } = vi.hoisted(() => ({ post: vi.fn(), put: vi.fn() }));
 
 vi.mock("@/lib/api/client", () => ({
 	axiosInstance: {
 		get: vi.fn(),
 		post,
-		put: vi.fn(),
+		put,
 		patch: vi.fn(),
 		delete: vi.fn(),
 	},
@@ -14,29 +14,67 @@ vi.mock("@/lib/api/client", () => ({
 
 import { adminApi } from "./admin";
 
-describe("admin university image uploads", () => {
+describe("admin host university multipart API", () => {
 	beforeEach(() => {
 		post.mockReset();
+		put.mockReset();
 	});
 
-	it.each([
-		["logo", "/file/admin/university/logo"],
-		["background", "/file/admin/university/background"],
-	] as const)("uploads the %s with formatName under the existing englishName wire key", async (kind, endpoint) => {
-		post.mockResolvedValue({ data: { fileUrl: `admin/${kind}/image.webp` } });
-		const file = new File(["image"], `${kind}.png`, { type: "image/png" });
+	it("createHostUniversity sends multipart/form-data with request JSON blob and files", async () => {
+		post.mockResolvedValue({ data: { id: 1, koreanName: "테스트 대학교" } });
+		const logoFile = new File(["logo"], "logo.png", { type: "image/png" });
+		const backgroundFile = new File(["bg"], "bg.png", { type: "image/png" });
+		const request = {
+			koreanName: "테스트 대학교",
+			englishName: "Test Univ",
+			formatName: "Test U",
+			countryCode: "JP",
+			regionCode: "ASIA",
+		};
 
-		const result =
-			kind === "logo"
-				? await adminApi.uploadAdminUniversityLogo(file, "university_of_test")
-				: await adminApi.uploadAdminUniversityBackground(file, "university_of_test");
+		await adminApi.createHostUniversity(request, logoFile, backgroundFile);
 
-		expect(post).toHaveBeenCalledWith(endpoint, expect.any(FormData), {
-			headers: { "Content-Type": "multipart/form-data" },
-		});
+		expect(post).toHaveBeenCalledWith("/admin/host-universities", expect.any(FormData));
 		const formData = post.mock.calls[0]?.[1] as FormData;
-		expect(formData.get("file")).toBe(file);
-		expect(formData.get("englishName")).toBe("university_of_test");
-		expect(result).toEqual({ fileUrl: `admin/${kind}/image.webp` });
+		expect(formData.get("logoFile")).toBe(logoFile);
+		expect(formData.get("backgroundFile")).toBe(backgroundFile);
+		const requestBlob = formData.get("request") as Blob;
+		expect(requestBlob.type).toBe("application/json");
+	});
+
+	it("updateHostUniversity sends multipart/form-data with optional files", async () => {
+		put.mockResolvedValue({ data: { id: 1 } });
+		const logoFile = new File(["logo"], "logo.png", { type: "image/png" });
+		const request = {
+			koreanName: "변경된 대학교",
+			englishName: "Changed Univ",
+			formatName: "Changed U",
+			countryCode: "KR",
+			regionCode: "ASIA",
+		};
+
+		await adminApi.updateHostUniversity(1, request, logoFile, null);
+
+		expect(put).toHaveBeenCalledWith("/admin/host-universities/1", expect.any(FormData));
+		const formData = put.mock.calls[0]?.[1] as FormData;
+		expect(formData.get("logoFile")).toBe(logoFile);
+		expect(formData.get("backgroundFile")).toBeNull();
+	});
+
+	it("updateHostUniversity omits both file parts when no files are provided", async () => {
+		put.mockResolvedValue({ data: { id: 1 } });
+		const request = {
+			koreanName: "대학교",
+			englishName: "University",
+			formatName: "U",
+			countryCode: "JP",
+			regionCode: "ASIA",
+		};
+
+		await adminApi.updateHostUniversity(1, request);
+
+		const formData = put.mock.calls[0]?.[1] as FormData;
+		expect(formData.get("logoFile")).toBeNull();
+		expect(formData.get("backgroundFile")).toBeNull();
 	});
 });

@@ -1,7 +1,7 @@
 "use client";
 
 import { keepPreviousData, useMutation, useQueries, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ImageIcon, Loader2, Upload } from "lucide-react";
+import { ImageIcon, Upload } from "lucide-react";
 import { type FormEvent, useId, useRef, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -19,23 +19,18 @@ import { normalizeImageUrlToUploadCdn } from "@/lib/utils/cdnUrl";
 
 type ModalState = { open: false } | { open: true; mode: "create" } | { open: true; mode: "edit"; id: number };
 
-const REQUIRED_FIELDS = [
-	"koreanName",
-	"englishName",
-	"formatName",
-	"logoImageUrl",
-	"backgroundImageUrl",
-	"countryCode",
-	"regionCode",
-] as const;
+interface HostUniversityFormState extends HostUniversityPayload {
+	logoImageUrl: string;
+	backgroundImageUrl: string;
+}
+
+const REQUIRED_FIELDS = ["koreanName", "englishName", "formatName", "countryCode", "regionCode"] as const;
 const OPTIONAL_FIELDS = ["homepageUrl", "englishCourseUrl", "accommodationUrl"] as const;
 
-const FIELD_LABELS: Record<keyof HostUniversityPayload, string> = {
+const FIELD_LABELS: Record<string, string> = {
 	koreanName: "한글명",
 	englishName: "영문명",
 	formatName: "표시명",
-	logoImageUrl: "로고 이미지 URL",
-	backgroundImageUrl: "배경 이미지 URL",
 	countryCode: "국가코드",
 	regionCode: "권역코드",
 	homepageUrl: "홈페이지 URL",
@@ -44,7 +39,7 @@ const FIELD_LABELS: Record<keyof HostUniversityPayload, string> = {
 	detailsForLocal: "상세 설명",
 };
 
-const EMPTY_FORM: HostUniversityPayload = {
+const EMPTY_FORM: HostUniversityFormState = {
 	koreanName: "",
 	englishName: "",
 	formatName: "",
@@ -58,7 +53,7 @@ const EMPTY_FORM: HostUniversityPayload = {
 	detailsForLocal: "",
 };
 
-function detailToForm(detail: HostUniversityDetailResponse): HostUniversityPayload {
+function detailToForm(detail: HostUniversityDetailResponse): HostUniversityFormState {
 	return {
 		koreanName: detail.koreanName,
 		englishName: detail.englishName,
@@ -74,9 +69,13 @@ function detailToForm(detail: HostUniversityDetailResponse): HostUniversityPaylo
 	};
 }
 
-function toPayload(form: HostUniversityPayload): HostUniversityPayload {
+function toPayload(form: HostUniversityFormState): HostUniversityPayload {
 	return {
-		...form,
+		koreanName: form.koreanName,
+		englishName: form.englishName,
+		formatName: form.formatName,
+		countryCode: form.countryCode,
+		regionCode: form.regionCode,
 		homepageUrl: form.homepageUrl || undefined,
 		englishCourseUrl: form.englishCourseUrl || undefined,
 		accommodationUrl: form.accommodationUrl || undefined,
@@ -94,11 +93,15 @@ export function HostUniversityTab() {
 	const [searchParams, setSearchParams] = useState({ keyword: "", countryCode: "", regionCode: "", page: 0 });
 
 	const [modal, setModal] = useState<ModalState>({ open: false });
-	const [form, setForm] = useState<HostUniversityPayload>(EMPTY_FORM);
+	const [form, setForm] = useState<HostUniversityFormState>(EMPTY_FORM);
+	const [logoFile, setLogoFile] = useState<File | null>(null);
+	const [backgroundFile, setBackgroundFile] = useState<File | null>(null);
 	const pendingEditIdRef = useRef<number | null>(null);
 
 	const closeModal = () => {
 		pendingEditIdRef.current = null;
+		setLogoFile(null);
+		setBackgroundFile(null);
 		setModal({ open: false });
 	};
 
@@ -111,7 +114,8 @@ export function HostUniversityTab() {
 	const invalidate = () => queryClient.invalidateQueries({ queryKey: ["admin", "host-universities"] });
 
 	const createMutation = useMutation({
-		mutationFn: (data: HostUniversityPayload) => adminApi.createHostUniversity(data),
+		mutationFn: ({ data, logo, background }: { data: HostUniversityPayload; logo: File; background: File }) =>
+			adminApi.createHostUniversity(data, logo, background),
 		onSuccess: async () => {
 			await invalidate();
 			closeModal();
@@ -124,7 +128,17 @@ export function HostUniversityTab() {
 	});
 
 	const updateMutation = useMutation({
-		mutationFn: ({ id, data }: { id: number; data: HostUniversityPayload }) => adminApi.updateHostUniversity(id, data),
+		mutationFn: ({
+			id,
+			data,
+			logo,
+			background,
+		}: {
+			id: number;
+			data: HostUniversityPayload;
+			logo?: File | null;
+			background?: File | null;
+		}) => adminApi.updateHostUniversity(id, data, logo, background),
 		onSuccess: async () => {
 			await invalidate();
 			closeModal();
@@ -148,32 +162,6 @@ export function HostUniversityTab() {
 		},
 	});
 
-	const logoUploadMutation = useMutation({
-		mutationFn: ({ file, englishName }: { file: File; englishName: string }) =>
-			adminApi.uploadAdminUniversityLogo(file, englishName),
-		onSuccess: ({ fileUrl }) => {
-			setForm((prev) => ({ ...prev, logoImageUrl: fileUrl }));
-			toast.success("로고 이미지를 업로드했습니다.");
-		},
-		onError: (e: unknown) => {
-			const msg = e instanceof Error ? e.message : "로고 이미지 업로드에 실패했습니다.";
-			toast.error(msg);
-		},
-	});
-
-	const backgroundUploadMutation = useMutation({
-		mutationFn: ({ file, englishName }: { file: File; englishName: string }) =>
-			adminApi.uploadAdminUniversityBackground(file, englishName),
-		onSuccess: ({ fileUrl }) => {
-			setForm((prev) => ({ ...prev, backgroundImageUrl: fileUrl }));
-			toast.success("배경 이미지를 업로드했습니다.");
-		},
-		onError: (e: unknown) => {
-			const msg = e instanceof Error ? e.message : "배경 이미지 업로드에 실패했습니다.";
-			toast.error(msg);
-		},
-	});
-
 	const handleSearch = (e: FormEvent) => {
 		e.preventDefault();
 		setSearchParams({ keyword, countryCode, regionCode, page: 0 });
@@ -182,11 +170,15 @@ export function HostUniversityTab() {
 	const handleOpenCreate = () => {
 		pendingEditIdRef.current = null;
 		setForm(EMPTY_FORM);
+		setLogoFile(null);
+		setBackgroundFile(null);
 		setModal({ open: true, mode: "create" });
 	};
 
 	const handleOpenEdit = (univ: HostUniversityResponse) => {
 		pendingEditIdRef.current = univ.id;
+		setLogoFile(null);
+		setBackgroundFile(null);
 		const cached = detailMap.get(univ.id);
 		if (cached) {
 			setForm(detailToForm(cached));
@@ -210,33 +202,33 @@ export function HostUniversityTab() {
 		deleteMutation.mutate(id);
 	};
 
-	const uploadImage = (kind: "logo" | "background", file: File | undefined) => {
+	const handleLogoChange = (file: File | undefined) => {
 		if (!file) return;
-		if (!form.formatName.trim()) {
-			toast.error("표시명을 먼저 입력해 주세요.");
-			return;
-		}
+		setLogoFile(file);
+		setForm((prev) => ({ ...prev, logoImageUrl: URL.createObjectURL(file) }));
+	};
 
-		const variables = { file, englishName: form.formatName };
-		if (kind === "logo") {
-			logoUploadMutation.mutate(variables);
-		} else {
-			backgroundUploadMutation.mutate(variables);
-		}
+	const handleBackgroundChange = (file: File | undefined) => {
+		if (!file) return;
+		setBackgroundFile(file);
+		setForm((prev) => ({ ...prev, backgroundImageUrl: URL.createObjectURL(file) }));
 	};
 
 	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault();
 		const payload = toPayload(form);
 		if (modal.open && modal.mode === "edit") {
-			updateMutation.mutate({ id: modal.id, data: payload });
+			updateMutation.mutate({ id: modal.id, data: payload, logo: logoFile, background: backgroundFile });
 		} else {
-			createMutation.mutate(payload);
+			if (!logoFile || !backgroundFile) {
+				toast.error("로고 및 배경 이미지를 모두 선택해 주세요.");
+				return;
+			}
+			createMutation.mutate({ data: payload, logo: logoFile, background: backgroundFile });
 		}
 	};
 
 	const isMutating = createMutation.isPending || updateMutation.isPending || deleteMutation.isPending;
-	const isUploading = logoUploadMutation.isPending || backgroundUploadMutation.isPending;
 	const universities = query.data?.content ?? [];
 	const totalPages = query.data?.totalPages ?? 0;
 	const currentPage = searchParams.page;
@@ -439,100 +431,89 @@ export function HostUniversityTab() {
 										onChange={(e) => setForm((prev) => ({ ...prev, [field]: e.target.value }))}
 										required
 									/>
-									{field === "logoImageUrl" && (
-										<div className="flex items-center gap-3 rounded-lg border border-k-100 bg-k-50 p-3">
-											{form.logoImageUrl ? (
-												<img
-													src={normalizeImageUrlToUploadCdn(form.logoImageUrl)}
-													alt="로고 미리보기"
-													className="h-14 w-14 shrink-0 rounded-md border border-k-100 bg-white object-contain p-1"
-												/>
-											) : (
-												<div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-md border border-dashed border-k-200 bg-white">
-													<ImageIcon className="h-5 w-5 text-k-300" />
-												</div>
-											)}
-											<label
-												className={cn(
-													"flex cursor-pointer items-center gap-2 rounded-lg border px-3 py-2 typo-regular-4 transition-colors",
-													logoUploadMutation.isPending
-														? "cursor-not-allowed border-k-200 text-k-400 opacity-60"
-														: "border-k-200 text-k-600 hover:border-primary hover:bg-primary/5 hover:text-primary",
-												)}
-											>
-												{logoUploadMutation.isPending ? (
-													<>
-														<Loader2 className="h-4 w-4 animate-spin" />
-														업로드 중...
-													</>
-												) : (
-													<>
-														<Upload className="h-4 w-4" />
-														파일 선택
-													</>
-												)}
-												<input
-													type="file"
-													accept="image/*"
-													aria-label="로고 이미지 파일"
-													className="sr-only"
-													disabled={logoUploadMutation.isPending}
-													onChange={(e) => {
-														uploadImage("logo", e.target.files?.[0]);
-														e.target.value = "";
-													}}
-												/>
-											</label>
-										</div>
-									)}
-									{field === "backgroundImageUrl" && (
-										<div className="flex items-center gap-3 rounded-lg border border-k-100 bg-k-50 p-3">
-											{form.backgroundImageUrl ? (
-												<img
-													src={normalizeImageUrlToUploadCdn(form.backgroundImageUrl)}
-													alt="배경 미리보기"
-													className="h-14 w-28 shrink-0 rounded-md border border-k-100 bg-white object-cover"
-												/>
-											) : (
-												<div className="flex h-14 w-28 shrink-0 items-center justify-center rounded-md border border-dashed border-k-200 bg-white">
-													<ImageIcon className="h-5 w-5 text-k-300" />
-												</div>
-											)}
-											<label
-												className={cn(
-													"flex cursor-pointer items-center gap-2 rounded-lg border px-3 py-2 typo-regular-4 transition-colors",
-													backgroundUploadMutation.isPending
-														? "cursor-not-allowed border-k-200 text-k-400 opacity-60"
-														: "border-k-200 text-k-600 hover:border-primary hover:bg-primary/5 hover:text-primary",
-												)}
-											>
-												{backgroundUploadMutation.isPending ? (
-													<>
-														<Loader2 className="h-4 w-4 animate-spin" />
-														업로드 중...
-													</>
-												) : (
-													<>
-														<Upload className="h-4 w-4" />
-														파일 선택
-													</>
-												)}
-												<input
-													type="file"
-													accept="image/*"
-													aria-label="배경 이미지 파일"
-													className="sr-only"
-													disabled={backgroundUploadMutation.isPending}
-													onChange={(e) => {
-														uploadImage("background", e.target.files?.[0]);
-														e.target.value = "";
-													}}
-												/>
-											</label>
-										</div>
-									)}
 								</div>
 							))}
+
+							<div className="space-y-1">
+								<p className="typo-sb-11 text-k-700">로고 이미지{modal.mode === "create" ? " *" : ""}</p>
+								<div className="flex items-center gap-3 rounded-lg border border-k-100 bg-k-50 p-3">
+									{form.logoImageUrl ? (
+										<img
+											src={
+												form.logoImageUrl.startsWith("blob:")
+													? form.logoImageUrl
+													: normalizeImageUrlToUploadCdn(form.logoImageUrl)
+											}
+											alt="로고 미리보기"
+											className="h-14 w-14 shrink-0 rounded-md border border-k-100 bg-white object-contain p-1"
+										/>
+									) : (
+										<div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-md border border-dashed border-k-200 bg-white">
+											<ImageIcon className="h-5 w-5 text-k-300" />
+										</div>
+									)}
+									<label
+										className={cn(
+											"flex cursor-pointer items-center gap-2 rounded-lg border px-3 py-2 typo-regular-4 transition-colors",
+											"border-k-200 text-k-600 hover:border-primary hover:bg-primary/5 hover:text-primary",
+										)}
+									>
+										<Upload className="h-4 w-4" />
+										{logoFile ? logoFile.name : "파일 선택"}
+										<input
+											type="file"
+											accept="image/*"
+											aria-label="로고 이미지 파일"
+											className="sr-only"
+											onChange={(e) => {
+												handleLogoChange(e.target.files?.[0]);
+												e.target.value = "";
+											}}
+										/>
+									</label>
+								</div>
+							</div>
+
+							<div className="space-y-1">
+								<p className="typo-sb-11 text-k-700">배경 이미지{modal.mode === "create" ? " *" : ""}</p>
+								<div className="flex items-center gap-3 rounded-lg border border-k-100 bg-k-50 p-3">
+									{form.backgroundImageUrl ? (
+										<img
+											src={
+												form.backgroundImageUrl.startsWith("blob:")
+													? form.backgroundImageUrl
+													: normalizeImageUrlToUploadCdn(form.backgroundImageUrl)
+											}
+											alt="배경 미리보기"
+											className="h-14 w-28 shrink-0 rounded-md border border-k-100 bg-white object-cover"
+										/>
+									) : (
+										<div className="flex h-14 w-28 shrink-0 items-center justify-center rounded-md border border-dashed border-k-200 bg-white">
+											<ImageIcon className="h-5 w-5 text-k-300" />
+										</div>
+									)}
+									<label
+										className={cn(
+											"flex cursor-pointer items-center gap-2 rounded-lg border px-3 py-2 typo-regular-4 transition-colors",
+											"border-k-200 text-k-600 hover:border-primary hover:bg-primary/5 hover:text-primary",
+										)}
+									>
+										<Upload className="h-4 w-4" />
+										{backgroundFile ? backgroundFile.name : "파일 선택"}
+										<input
+											type="file"
+											accept="image/*"
+											aria-label="배경 이미지 파일"
+											className="sr-only"
+											onChange={(e) => {
+												handleBackgroundChange(e.target.files?.[0]);
+												e.target.value = "";
+											}}
+										/>
+									</label>
+								</div>
+							</div>
+
 							{OPTIONAL_FIELDS.map((field) => (
 								<div key={field} className="space-y-1">
 									<label htmlFor={`field-${field}`} className="typo-sb-11 text-k-700">
@@ -560,7 +541,7 @@ export function HostUniversityTab() {
 								<Button type="button" variant="secondary" onClick={closeModal}>
 									취소
 								</Button>
-								<Button type="submit" disabled={createMutation.isPending || updateMutation.isPending || isUploading}>
+								<Button type="submit" disabled={createMutation.isPending || updateMutation.isPending}>
 									{modal.mode === "create" ? "생성" : "저장"}
 								</Button>
 							</div>
