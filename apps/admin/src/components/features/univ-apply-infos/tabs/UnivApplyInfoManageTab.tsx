@@ -52,8 +52,14 @@ export function UnivApplyInfoManageTab() {
 	const queryClient = useQueryClient();
 	const uid = useId();
 
-	const [searchValue, setSearchValue] = useState("");
-	const [searchQuery, setSearchQuery] = useState("");
+	const [searchText, setSearchText] = useState("");
+	const [searchHomeUniversityId, setSearchHomeUniversityId] = useState("");
+	const [searchTermId, setSearchTermId] = useState("");
+	const [committedSearch, setCommittedSearch] = useState<{
+		value?: string;
+		homeUniversityId?: number;
+		termId?: number;
+	} | null>(null);
 
 	const [editModal, setEditModal] = useState<EditModal>({ open: false });
 	const [editForm, setEditForm] = useState<UnivApplyInfoUpdatePayload>({});
@@ -66,9 +72,9 @@ export function UnivApplyInfoManageTab() {
 	const [hostSearchQuery, setHostSearchQuery] = useState("");
 
 	const searchResultQuery = useQuery({
-		queryKey: ["univ-apply-infos", "search", searchQuery],
-		queryFn: () => adminApi.searchUnivApplyInfos(searchQuery),
-		enabled: searchQuery.length > 0,
+		queryKey: ["univ-apply-infos", "search", committedSearch],
+		queryFn: () => adminApi.searchUnivApplyInfos(committedSearch!),
+		enabled: committedSearch !== null,
 	});
 
 	const homeUniversitiesQuery = useQuery({
@@ -92,7 +98,7 @@ export function UnivApplyInfoManageTab() {
 			adminApi.updateUnivApplyInfo(id, data),
 		onSuccess: async () => {
 			await queryClient.invalidateQueries({
-				queryKey: ["univ-apply-infos", "search", searchQuery],
+				queryKey: ["univ-apply-infos", "search"],
 			});
 			setEditModal({ open: false });
 			toast.success("지원 대학 정보를 수정했습니다.");
@@ -107,7 +113,7 @@ export function UnivApplyInfoManageTab() {
 		mutationFn: (id: number) => adminApi.deleteUnivApplyInfo(id),
 		onSuccess: async () => {
 			await queryClient.invalidateQueries({
-				queryKey: ["univ-apply-infos", "search", searchQuery],
+				queryKey: ["univ-apply-infos", "search"],
 			});
 			toast.success("지원 대학을 삭제했습니다.");
 		},
@@ -121,7 +127,7 @@ export function UnivApplyInfoManageTab() {
 		mutationFn: (data: UnivApplyInfoCreatePayload) => adminApi.createUnivApplyInfo(data),
 		onSuccess: async () => {
 			await queryClient.invalidateQueries({
-				queryKey: ["univ-apply-infos", "search", searchQuery],
+				queryKey: ["univ-apply-infos", "search"],
 			});
 			setCreateModal({ open: false });
 			toast.success("지원 대학을 추가했습니다.");
@@ -134,7 +140,11 @@ export function UnivApplyInfoManageTab() {
 
 	const handleSearch = (e: FormEvent) => {
 		e.preventDefault();
-		setSearchQuery(searchValue);
+		setCommittedSearch({
+			value: searchText || undefined,
+			homeUniversityId: searchHomeUniversityId ? Number(searchHomeUniversityId) : undefined,
+			termId: searchTermId ? Number(searchTermId) : undefined,
+		});
 	};
 
 	const handleOpenEdit = (item: UnivApplyInfoSearchResult) => {
@@ -207,20 +217,44 @@ export function UnivApplyInfoManageTab() {
 						단건 추가
 					</Button>
 				</div>
-				<form onSubmit={handleSearch} className="mt-3 flex gap-2">
+				<form onSubmit={handleSearch} className="mt-3 flex flex-wrap gap-2">
 					<Input
-						value={searchValue}
-						onChange={(e) => setSearchValue(e.target.value)}
-						placeholder="대학명으로 검색"
-						className="flex-1"
+						value={searchText}
+						onChange={(e) => setSearchText(e.target.value)}
+						placeholder="대학명"
+						className="w-48"
 					/>
+					<select
+						value={searchHomeUniversityId}
+						onChange={(e) => setSearchHomeUniversityId(e.target.value)}
+						className="h-9 rounded-md border border-k-200 bg-k-0 px-3 typo-regular-4 text-k-700 outline-none focus-visible:border-primary"
+					>
+						<option value="">국내 대학 전체</option>
+						{(homeUniversitiesQuery.data ?? []).map((u) => (
+							<option key={u.id} value={u.id}>
+								{u.name}
+							</option>
+						))}
+					</select>
+					<select
+						value={searchTermId}
+						onChange={(e) => setSearchTermId(e.target.value)}
+						className="h-9 rounded-md border border-k-200 bg-k-0 px-3 typo-regular-4 text-k-700 outline-none focus-visible:border-primary"
+					>
+						<option value="">학기 전체</option>
+						{(termsQuery.data ?? []).map((t) => (
+							<option key={t.id} value={t.id}>
+								{t.label}
+							</option>
+						))}
+					</select>
 					<Button type="submit" variant="secondary">
 						검색
 					</Button>
 				</form>
 			</section>
 
-			{searchQuery && (
+			{committedSearch !== null && (
 				<section className="rounded-xl border border-k-100 bg-k-0 p-4">
 					<div className="overflow-x-auto rounded-lg border border-k-100">
 						<Table>
