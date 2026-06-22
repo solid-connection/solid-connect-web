@@ -1,6 +1,7 @@
 "use client";
 
 import { keepPreviousData, useMutation, useQueries, useQuery, useQueryClient } from "@tanstack/react-query";
+import { ImageIcon, Loader2, Upload } from "lucide-react";
 import { type FormEvent, useId, useRef, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -13,6 +14,7 @@ import {
 	type HostUniversityPayload,
 	type HostUniversityResponse,
 } from "@/lib/api/admin";
+import { cn } from "@/lib/utils";
 
 type ModalState = { open: false } | { open: true; mode: "create" } | { open: true; mode: "edit"; id: number };
 
@@ -437,34 +439,94 @@ export function HostUniversityTab() {
 										required
 									/>
 									{field === "logoImageUrl" && (
-										<>
-											<Input
-												type="file"
-												accept="image/*"
-												aria-label="로고 이미지 파일"
-												disabled={logoUploadMutation.isPending}
-												onChange={(e) => {
-													uploadImage("logo", e.target.files?.[0]);
-													e.target.value = "";
-												}}
-											/>
-											{logoUploadMutation.isPending && <p className="typo-regular-4 text-k-500">업로드 중...</p>}
-										</>
+										<div className="flex items-center gap-3 rounded-lg border border-k-100 bg-k-50 p-3">
+											{form.logoImageUrl ? (
+												<img
+													src={form.logoImageUrl}
+													alt="로고 미리보기"
+													className="h-14 w-14 shrink-0 rounded-md border border-k-100 bg-white object-contain p-1"
+												/>
+											) : (
+												<div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-md border border-dashed border-k-200 bg-white">
+													<ImageIcon className="h-5 w-5 text-k-300" />
+												</div>
+											)}
+											<label
+												className={cn(
+													"flex cursor-pointer items-center gap-2 rounded-lg border px-3 py-2 typo-regular-4 transition-colors",
+													logoUploadMutation.isPending
+														? "cursor-not-allowed border-k-200 text-k-400 opacity-60"
+														: "border-k-200 text-k-600 hover:border-primary hover:bg-primary/5 hover:text-primary",
+												)}
+											>
+												{logoUploadMutation.isPending ? (
+													<>
+														<Loader2 className="h-4 w-4 animate-spin" />
+														업로드 중...
+													</>
+												) : (
+													<>
+														<Upload className="h-4 w-4" />
+														파일 선택
+													</>
+												)}
+												<input
+													type="file"
+													accept="image/*"
+													className="sr-only"
+													disabled={logoUploadMutation.isPending}
+													onChange={(e) => {
+														uploadImage("logo", e.target.files?.[0]);
+														e.target.value = "";
+													}}
+												/>
+											</label>
+										</div>
 									)}
 									{field === "backgroundImageUrl" && (
-										<>
-											<Input
-												type="file"
-												accept="image/*"
-												aria-label="배경 이미지 파일"
-												disabled={backgroundUploadMutation.isPending}
-												onChange={(e) => {
-													uploadImage("background", e.target.files?.[0]);
-													e.target.value = "";
-												}}
-											/>
-											{backgroundUploadMutation.isPending && <p className="typo-regular-4 text-k-500">업로드 중...</p>}
-										</>
+										<div className="flex items-center gap-3 rounded-lg border border-k-100 bg-k-50 p-3">
+											{form.backgroundImageUrl ? (
+												<img
+													src={form.backgroundImageUrl}
+													alt="배경 미리보기"
+													className="h-14 w-28 shrink-0 rounded-md border border-k-100 bg-white object-cover"
+												/>
+											) : (
+												<div className="flex h-14 w-28 shrink-0 items-center justify-center rounded-md border border-dashed border-k-200 bg-white">
+													<ImageIcon className="h-5 w-5 text-k-300" />
+												</div>
+											)}
+											<label
+												className={cn(
+													"flex cursor-pointer items-center gap-2 rounded-lg border px-3 py-2 typo-regular-4 transition-colors",
+													backgroundUploadMutation.isPending
+														? "cursor-not-allowed border-k-200 text-k-400 opacity-60"
+														: "border-k-200 text-k-600 hover:border-primary hover:bg-primary/5 hover:text-primary",
+												)}
+											>
+												{backgroundUploadMutation.isPending ? (
+													<>
+														<Loader2 className="h-4 w-4 animate-spin" />
+														업로드 중...
+													</>
+												) : (
+													<>
+														<Upload className="h-4 w-4" />
+														파일 선택
+													</>
+												)}
+												<input
+													type="file"
+													accept="image/*"
+													className="sr-only"
+													disabled={backgroundUploadMutation.isPending}
+													onChange={(e) => {
+														uploadImage("background", e.target.files?.[0]);
+														e.target.value = "";
+													}}
+												/>
+											</label>
+										</div>
 									)}
 								</div>
 							))}
