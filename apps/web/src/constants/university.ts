@@ -16,8 +16,7 @@ export const REGIONS_KO = ["유럽권", "미주권", "아시아권", "중국권"
  */
 export const HOME_UNIVERSITY_SLUG_MAP: Record<HomeUniversitySlug, HomeUniversity> = {
   inha: HomeUniversity.INHA,
-  incheon: HomeUniversity.INCHEON,
-  sungshin: HomeUniversity.SUNGSHIN,
+  kyunghee: HomeUniversity.KYUNGHEE,
 };
 
 /**
@@ -25,8 +24,7 @@ export const HOME_UNIVERSITY_SLUG_MAP: Record<HomeUniversitySlug, HomeUniversity
  */
 export const HOME_UNIVERSITY_TO_SLUG_MAP: Record<HomeUniversity, HomeUniversitySlug> = {
   [HomeUniversity.INHA]: "inha",
-  [HomeUniversity.INCHEON]: "incheon",
-  [HomeUniversity.SUNGSHIN]: "sungshin",
+  [HomeUniversity.KYUNGHEE]: "kyunghee",
 };
 
 /**
@@ -53,22 +51,13 @@ export const HOME_UNIVERSITY_LIST: HomeUniversityInfo[] = [
     color: "#004C98",
   },
   {
-    homeUniversityId: 2,
-    name: HomeUniversity.INCHEON,
-    slug: "incheon",
-    shortName: "인천대",
-    logoUrl: "/images/univs/incheon.png",
-    description: "인천대학교 교환학생 프로그램",
-    color: "#003876",
-  },
-  {
-    homeUniversityId: 3,
-    name: HomeUniversity.SUNGSHIN,
-    slug: "sungshin",
-    shortName: "성신여대",
-    logoUrl: "/images/univs/sungshin.jpg",
-    description: "성신여자대학교 교환학생 프로그램",
-    color: "#7B1FA2",
+    homeUniversityId: 4,
+    name: HomeUniversity.KYUNGHEE,
+    slug: "kyunghee",
+    shortName: "경희대",
+    logoUrl: "/images/univs/kyunghee.png",
+    description: "경희대학교 교환학생 프로그램",
+    color: "#8C1515",
   },
 ];
 
@@ -118,7 +107,7 @@ export const getHomeUniversitySlugByName = (value: string | null | undefined): H
 /**
  * 유효한 홈 대학교 슬러그 목록
  */
-export const HOME_UNIVERSITY_SLUGS: HomeUniversitySlug[] = ["inha", "incheon", "sungshin"];
+export const HOME_UNIVERSITY_SLUGS: HomeUniversitySlug[] = ["inha", "kyunghee"];
 
 export const COUNTRIES_KO = [
   // 2024-2 기준

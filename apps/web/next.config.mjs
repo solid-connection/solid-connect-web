@@ -21,7 +21,7 @@ const imageRemotePatterns = [
 
 const universityWebDomain = process.env.UNIVERSITY_WEB_DOMAIN?.replace(/\/$/, "");
 const isProductionRuntime = process.env.NODE_ENV === "production";
-const universitySlugPattern = "(inha|incheon|sungshin)";
+const universitySlugPattern = "(inha|kyunghee)";
 
 if (isProductionRuntime && !universityWebDomain) {
   throw new Error("UNIVERSITY_WEB_DOMAIN is required because /university catalog routes are served by university-web.");

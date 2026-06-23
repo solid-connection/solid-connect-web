@@ -2,13 +2,12 @@ export type RegionKo = "유럽권" | "미주권" | "아시아권";
 
 export enum HomeUniversityName {
   INHA = "인하대학교",
-  INCHEON = "인천대학교",
-  SUNGSHIN = "성신여자대학교",
+  KYUNGHEE = "경희대학교",
 }
 
 export { HomeUniversityName as HomeUniversity };
 
-export type HomeUniversitySlug = "inha" | "incheon" | "sungshin";
+export type HomeUniversitySlug = "inha" | "kyunghee";
 
 export interface RegionOption {
   value: string;
