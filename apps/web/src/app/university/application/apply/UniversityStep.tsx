@@ -20,6 +20,7 @@ type UniversityChoiceSelectProps = {
   index: number;
   universityList: ListUniversity[];
   selectedUniversityId?: number;
+  isSelectable: boolean;
   onSelect: (index: number, universityId: number) => void;
   isDisabled: (universityId: number, currentIndex: number) => boolean;
 };
@@ -28,13 +29,18 @@ const UniversityChoiceSelect = ({
   index,
   universityList,
   selectedUniversityId,
+  isSelectable,
   onSelect,
   isDisabled,
 }: UniversityChoiceSelectProps) => {
   return (
     <div className="flex flex-col gap-1">
       <label className="block text-k-600 typo-sb-9">{index + 1}지망</label>
-      <Select value={selectedUniversityId?.toString()} onValueChange={(value) => onSelect(index, Number(value))}>
+      <Select
+        value={selectedUniversityId?.toString()}
+        disabled={!isSelectable}
+        onValueChange={(value) => onSelect(index, Number(value))}
+      >
         <SelectTrigger className="h-[45px] border-0 bg-k-50 px-5 py-3 text-center text-primary shadow-none typo-sb-9 focus:ring-0 focus:ring-offset-0 data-[state=open]:border data-[state=open]:border-primary data-[state=open]:bg-white [&>span]:w-full">
           <SelectValue placeholder={index === 0 ? "학교를 선택해주세요" : "선택 안 함"} />
         </SelectTrigger>
@@ -69,11 +75,16 @@ const UniversityStep = ({
   const handleSelect = (index: number, value: number) => {
     const newList = curUniversityList.slice(0, maxChoiceCount);
     newList[index] = value;
+    if (value === 0) {
+      newList.length = index + 1;
+    }
     setCurUniversityList(newList);
   };
 
   const isDisabled = (universityId: number, currentIndex: number) =>
     curUniversityList.some((pickedId, i) => i !== currentIndex && pickedId > 0 && pickedId === universityId);
+
+  const isSelectable = (index: number) => index === 0 || Number(curUniversityList[index - 1]) > 0;
 
   const handleNext = () => {
     if (curUniversityList.length === 0 || curUniversityList[0] === 0) {
@@ -94,6 +105,7 @@ const UniversityStep = ({
               index={index}
               universityList={universityList}
               selectedUniversityId={curUniversityList[index]}
+              isSelectable={isSelectable(index)}
               onSelect={handleSelect}
               isDisabled={isDisabled}
             />
