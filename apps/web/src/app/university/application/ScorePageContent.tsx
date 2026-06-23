@@ -26,7 +26,7 @@ const ScorePageContent = () => {
   const maxChoiceCount = getHomeUniversityById(homeUniversityId)?.maxChoiceCount ?? DEFAULT_MAX_CHOICE_COUNT;
 
   const [searchActive, setSearchActive] = useState(false);
-  const [preference, setPreference] = useState("1순위");
+  const [preferenceIndex, setPreferenceIndex] = useState(0);
   const [regionFilter, setRegionFilter] = useState<RegionKo | "">("");
   const [searchValue, setSearchValue] = useState("");
   const [showNeedApply, _setShowNeedApply] = useState(false);
@@ -96,8 +96,13 @@ const ScorePageContent = () => {
     setSearchActive(true);
   };
 
-  const selectedChoiceIndex = Math.max(Number(preference.replace("순위", "")) - 1, 0);
-  const scoreSheets = filteredAndSortedData[selectedChoiceIndex] ?? [];
+  const handlePreferenceChange = (nextPreference: string) => {
+    const nextIndex = preferenceChoices.indexOf(nextPreference);
+    setPreferenceIndex(nextIndex >= 0 ? nextIndex : 0);
+  };
+
+  const selectedPreference = preferenceChoices[preferenceIndex] ?? preferenceChoices[0] ?? "1순위";
+  const scoreSheets = filteredAndSortedData[preferenceIndex] ?? [];
 
   useEffect(() => {
     if (isLoading) return;
@@ -105,11 +110,6 @@ const ScorePageContent = () => {
       router.replace("/university/application/apply");
     }
   }, [isError, isLoading, router]);
-
-  useEffect(() => {
-    if (preferenceChoices.includes(preference)) return;
-    setPreference(preferenceChoices[0] ?? "1순위");
-  }, [preference, preferenceChoices]);
 
   const hotKeyWords = ["RMIT", "오스트라바", "칼스루에", "그라츠", "추오", "프라하", "보라스", "빈", "메모리얼"];
 
@@ -129,7 +129,7 @@ const ScorePageContent = () => {
       ) : (
         <>
           <div className="mt-4 rounded-lg bg-white px-2 shadow-sdwB">
-            <Tab choices={preferenceChoices} choice={preference} setChoice={setPreference} />
+            <Tab choices={preferenceChoices} choice={selectedPreference} setChoice={handlePreferenceChange} />
           </div>
           <ButtonTab
             choices={REGIONS_KO}
