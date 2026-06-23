@@ -16,9 +16,7 @@ export interface UseSubmitApplicationRequest {
   gpaScoreId: number;
   languageTestScoreId: number;
   universityChoiceRequest: {
-    firstChoiceUniversityId: number | null;
-    secondChoiceUniversityId: number | null;
-    thirdChoiceUniversityId: number | null;
+    choices: number[];
   };
 }
 

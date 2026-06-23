@@ -10,9 +10,12 @@ import { IconSolidConnectionSmallLogo } from "@/public/svgs/my";
 import { formatLanguageTestScore, languageTestMapping, ScoreSubmitStatus } from "@/types/score";
 import ScoreCard from "./ScoreCard";
 
+const SCORE_TAB_CHOICES = ["공인어학", "학점"] as const;
+type ScoreTab = (typeof SCORE_TAB_CHOICES)[number];
+
 const ScoreScreen = () => {
   const router = useRouter();
-  const [curTab, setCurTab] = useState<"공인어학" | "학점">("공인어학");
+  const [curTab, setCurTab] = useState<ScoreTab>("공인어학");
   const { data: gpaScoreList = [] } = useGetMyGpaScore();
   const { data: languageTestScoreList = [] } = useGetMyLanguageTestScore();
   const isEmptyCurrentTab = curTab === "공인어학" ? languageTestScoreList.length === 0 : gpaScoreList.length === 0;
@@ -30,7 +33,7 @@ const ScoreScreen = () => {
   return (
     <div className="h-full">
       <div className="mx-5 mb-40">
-        <Tab choices={["공인어학", "학점"]} choice={curTab} setChoice={setCurTab} />
+        <Tab<ScoreTab> choices={SCORE_TAB_CHOICES} choice={curTab} setChoice={setCurTab} />
         {isEmptyCurrentTab ? (
           <div className="mt-24 flex flex-col items-center rounded-lg bg-white px-6 py-8 text-center shadow-sdwB">
             <IconSolidConnectionSmallLogo />
