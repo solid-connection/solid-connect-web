@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 import TextModal from "@/components/modal/TextModal";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/Select";
@@ -64,7 +64,7 @@ const UniversityStep = ({
   onNext,
 }: UniversityStepProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const choiceIndexes = Array.from({ length: maxChoiceCount }, (_, index) => index);
+  const choiceIndexes = useMemo(() => Array.from({ length: maxChoiceCount }, (_, index) => index), [maxChoiceCount]);
 
   const handleSelect = (index: number, value: number) => {
     const newList = curUniversityList.slice(0, maxChoiceCount);

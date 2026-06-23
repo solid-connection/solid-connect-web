@@ -15,10 +15,6 @@ import ScoreSearchBar from "./ScoreSearchBar";
 import ScoreSearchField from "./ScoreSearchField";
 import ScoreSheet from "./ScoreSheet";
 
-interface ScoreData {
-  choices: ScoreSheetType[][];
-}
-
 const ScorePageContent = () => {
   const router = useRouter();
   const searchRef = useRef<HTMLInputElement>(null!);
@@ -31,18 +27,15 @@ const ScorePageContent = () => {
   const [searchValue, setSearchValue] = useState("");
   const [showNeedApply, _setShowNeedApply] = useState(false);
 
-  const initialData: ScoreData = {
-    choices: Array.from({ length: maxChoiceCount }, () => []),
-  };
-
-  const { data: scoreResponseData = initialData, isError, isLoading } = useGetApplicationsList();
+  const emptyChoices = useMemo(
+    () => Array.from({ length: maxChoiceCount }, () => [] as ScoreSheetType[]),
+    [maxChoiceCount],
+  );
+  const { data: scoreResponseData, isError, isLoading } = useGetApplicationsList();
+  const scoreChoices = scoreResponseData?.choices ?? emptyChoices;
   const preferenceChoices = useMemo(
-    () =>
-      Array.from(
-        { length: Math.max(scoreResponseData.choices.length, maxChoiceCount) },
-        (_, index) => `${index + 1}순위`,
-      ),
-    [maxChoiceCount, scoreResponseData.choices.length],
+    () => Array.from({ length: Math.max(scoreChoices.length, maxChoiceCount) }, (_, index) => `${index + 1}순위`),
+    [maxChoiceCount, scoreChoices.length],
   );
 
   const filteredAndSortedData = useMemo(() => {
@@ -55,7 +48,7 @@ const ScorePageContent = () => {
     };
 
     // ✨ 2. API 응답 데이터를 받자마자 중복부터 제거하고 정렬합니다.
-    const sortedData = scoreResponseData.choices.map((choice) =>
+    const sortedData = scoreChoices.map((choice) =>
       uniqueByKoreanName(choice).sort((a, b) => b.applicants.length - a.applicants.length),
     );
 
@@ -72,7 +65,7 @@ const ScorePageContent = () => {
     };
 
     return sortedData.map(applyFilters);
-  }, [scoreResponseData, regionFilter, searchValue]);
+  }, [scoreChoices, regionFilter, searchValue]);
 
   // (이하 코드는 동일)
   const handleSearch = (event: FormEvent) => {
@@ -103,6 +96,11 @@ const ScorePageContent = () => {
 
   const selectedPreference = preferenceChoices[preferenceIndex] ?? preferenceChoices[0] ?? "1순위";
   const scoreSheets = filteredAndSortedData[preferenceIndex] ?? [];
+
+  useEffect(() => {
+    if (preferenceIndex < preferenceChoices.length) return;
+    setPreferenceIndex(0);
+  }, [preferenceChoices.length, preferenceIndex]);
 
   useEffect(() => {
     if (isLoading) return;
