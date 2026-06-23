@@ -1,26 +1,40 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { UserRole } from "@/types/mentor";
-import { isTokenExpired } from "@/utils/jwtUtils";
+import { isTokenExpired, tokenParse } from "@/utils/jwtUtils";
 
-const parseUserRoleFromToken = (token: string | null): UserRole | null => {
-  if (!token || isTokenExpired(token)) return null;
-
-  try {
-    const payload = JSON.parse(atob(token.split(".")[1])) as { role?: string };
-
-    if (payload.role === UserRole.MENTOR || payload.role === UserRole.MENTEE || payload.role === UserRole.ADMIN) {
-      return payload.role;
-    }
-
-    return null;
-  } catch {
-    return null;
+const parseUserRole = (role: string | undefined): UserRole | null => {
+  if (role === UserRole.MENTOR || role === UserRole.MENTEE || role === UserRole.ADMIN) {
+    return role;
   }
+
+  return null;
+};
+
+const parseHomeUniversityId = (homeUniversity: string | undefined): number | null => {
+  const homeUniversityId = Number(homeUniversity);
+
+  return Number.isInteger(homeUniversityId) && homeUniversityId > 0 ? homeUniversityId : null;
 };
 
 type RefreshStatus = "idle" | "refreshing" | "success" | "failed";
 type ClientRole = UserRole.MENTOR | UserRole.MENTEE;
+
+const parseAuthToken = (token: string | null) => {
+  if (!token || isTokenExpired(token)) {
+    return {
+      serverRole: null,
+      homeUniversityId: null,
+    };
+  }
+
+  const payload = tokenParse(token);
+
+  return {
+    serverRole: parseUserRole(payload?.role),
+    homeUniversityId: parseHomeUniversityId(payload?.home_university),
+  };
+};
 
 const resolveClientRole = (serverRole: UserRole | null, currentClientRole: ClientRole | null): ClientRole | null => {
   if (serverRole === UserRole.ADMIN) {
@@ -38,6 +52,7 @@ interface AuthState {
   accessToken: string | null;
   serverRole: UserRole | null;
   clientRole: ClientRole | null;
+  homeUniversityId: number | null;
   isAuthenticated: boolean;
   isLoading: boolean;
   isInitialized: boolean;
@@ -57,6 +72,7 @@ const useAuthStore = create<AuthState>()(
       accessToken: null,
       serverRole: null,
       clientRole: null,
+      homeUniversityId: null,
       isAuthenticated: false,
       isLoading: false,
       isInitialized: false,
@@ -65,12 +81,13 @@ const useAuthStore = create<AuthState>()(
 
       setAccessToken: (token) => {
         set((state) => {
-          const serverRole = parseUserRoleFromToken(token);
+          const { serverRole, homeUniversityId } = parseAuthToken(token);
 
           return {
             accessToken: token,
             serverRole,
             clientRole: resolveClientRole(serverRole, state.clientRole),
+            homeUniversityId,
             isAuthenticated: true,
             isLoading: false,
             isInitialized: true,
@@ -85,6 +102,7 @@ const useAuthStore = create<AuthState>()(
           accessToken: null,
           serverRole: null,
           clientRole: null,
+          homeUniversityId: null,
           isAuthenticated: false,
           isLoading: false,
           isInitialized: true,
@@ -133,15 +151,17 @@ const useAuthStore = create<AuthState>()(
             state.accessToken = null;
             state.serverRole = null;
             state.clientRole = null;
+            state.homeUniversityId = null;
             state.isAuthenticated = false;
             // 저장된 로그인 흔적이 있으면 ReissueProvider가 refresh를 마칠 때까지 인증 분기를 보류합니다.
             state.isInitialized = !hadStoredAuth;
             state.isLoading = hadStoredAuth;
             state.refreshStatus = hadStoredAuth ? "refreshing" : "idle";
           } else {
-            const serverRole = parseUserRoleFromToken(state.accessToken);
+            const { serverRole, homeUniversityId } = parseAuthToken(state.accessToken);
             state.serverRole = serverRole;
             state.clientRole = resolveClientRole(serverRole, state.clientRole);
+            state.homeUniversityId = homeUniversityId;
             state.isAuthenticated = true;
             state.isInitialized = true;
             state.isLoading = false;
