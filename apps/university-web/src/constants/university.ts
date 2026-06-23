@@ -51,7 +51,7 @@ export const HOME_UNIVERSITY_LIST: HomeUniversityInfo[] = [
     color: "#004C98",
   },
   {
-    homeUniversityId: 4,
+    homeUniversityId: 2,
     name: HomeUniversity.KYUNGHEE,
     slug: "kyunghee",
     shortName: "경희대",
