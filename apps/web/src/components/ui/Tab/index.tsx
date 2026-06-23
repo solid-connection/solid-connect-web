@@ -1,7 +1,7 @@
-type TabProps = {
-  choices: string[];
-  choice: string;
-  setChoice: React.Dispatch<React.SetStateAction<string>>;
+type TabProps<T extends string> = {
+  choices: readonly T[];
+  choice: T;
+  setChoice: (choice: T) => void;
   color?: {
     activeBtn?: string;
     deactiveBtn?: string;
@@ -10,7 +10,7 @@ type TabProps = {
   };
 };
 
-const Tab = ({ choices, choice, setChoice, color }: TabProps) => {
+const Tab = <const T extends string>({ choices, choice, setChoice, color }: TabProps<T>) => {
   const defaultColor = {
     activeBtnFont: "text-black",
     deactiveBtnFont: "text-gray-200",

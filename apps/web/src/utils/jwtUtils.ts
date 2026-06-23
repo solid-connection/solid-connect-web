@@ -1,6 +1,7 @@
 interface JwtPayload {
   sub: number | string;
-  role: string;
+  role?: string;
+  home_university?: string;
   iat: number;
   exp: number;
 }

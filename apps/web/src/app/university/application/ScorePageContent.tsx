@@ -6,7 +6,8 @@ import { useGetApplicationsList } from "@/apis/applications";
 import ConfirmCancelModal from "@/components/modal/ConfirmCancelModal";
 import ButtonTab from "@/components/ui/ButtonTab";
 import Tab from "@/components/ui/Tab";
-import { REGIONS_KO } from "@/constants/university";
+import { DEFAULT_MAX_CHOICE_COUNT, getHomeUniversityById, REGIONS_KO } from "@/constants/university";
+import useAuthStore from "@/lib/zustand/useAuthStore";
 import type { ScoreSheet as ScoreSheetType } from "@/types/application";
 import type { RegionKo } from "@/types/university";
 import ApplicationSectionTitle from "./_components/ApplicationSectionTitle";
@@ -14,31 +15,28 @@ import ScoreSearchBar from "./ScoreSearchBar";
 import ScoreSearchField from "./ScoreSearchField";
 import ScoreSheet from "./ScoreSheet";
 
-const PREFERENCE_CHOICE: ("1순위" | "2순위" | "3순위")[] = ["1순위", "2순위", "3순위"];
-
-interface ScoreData {
-  firstChoice: ScoreSheetType[];
-  secondChoice: ScoreSheetType[];
-  thirdChoice: ScoreSheetType[];
-}
-
 const ScorePageContent = () => {
   const router = useRouter();
   const searchRef = useRef<HTMLInputElement>(null!);
+  const homeUniversityId = useAuthStore((state) => state.homeUniversityId);
+  const maxChoiceCount = getHomeUniversityById(homeUniversityId)?.maxChoiceCount ?? DEFAULT_MAX_CHOICE_COUNT;
 
   const [searchActive, setSearchActive] = useState(false);
-  const [preference, setPreference] = useState<"1순위" | "2순위" | "3순위">("1순위");
+  const [preferenceIndex, setPreferenceIndex] = useState(0);
   const [regionFilter, setRegionFilter] = useState<RegionKo | "">("");
   const [searchValue, setSearchValue] = useState("");
   const [showNeedApply, _setShowNeedApply] = useState(false);
 
-  const initialData: ScoreData = {
-    firstChoice: [],
-    secondChoice: [],
-    thirdChoice: [],
-  };
-
-  const { data: scoreResponseData = initialData, isError, isLoading } = useGetApplicationsList();
+  const emptyChoices = useMemo(
+    () => Array.from({ length: maxChoiceCount }, () => [] as ScoreSheetType[]),
+    [maxChoiceCount],
+  );
+  const { data: scoreResponseData, isError, isLoading } = useGetApplicationsList();
+  const scoreChoices = scoreResponseData?.choices ?? emptyChoices;
+  const preferenceChoices = useMemo(
+    () => Array.from({ length: Math.max(scoreChoices.length, maxChoiceCount) }, (_, index) => `${index + 1}순위`),
+    [maxChoiceCount, scoreChoices.length],
+  );
 
   const filteredAndSortedData = useMemo(() => {
     // ✨ 1. 대학 이름(koreanName)을 기준으로 중복을 제거하는 헬퍼 함수
@@ -49,17 +47,10 @@ const ScorePageContent = () => {
       return Array.from(universityMap.values());
     };
 
-    // ✨ 2. API 응답 데이터를 받자마자 중복부터 제거합니다.
-    const firstChoice = uniqueByKoreanName(scoreResponseData?.firstChoice || []);
-    const secondChoice = uniqueByKoreanName(scoreResponseData?.secondChoice || []);
-    const thirdChoice = uniqueByKoreanName(scoreResponseData?.thirdChoice || []);
-
-    // 3. 중복이 제거된 데이터를 정렬합니다.
-    const sortedData = {
-      firstChoice: [...firstChoice].sort((a, b) => b.applicants.length - a.applicants.length),
-      secondChoice: [...secondChoice].sort((a, b) => b.applicants.length - a.applicants.length),
-      thirdChoice: [...thirdChoice].sort((a, b) => b.applicants.length - a.applicants.length),
-    };
+    // ✨ 2. API 응답 데이터를 받자마자 중복부터 제거하고 정렬합니다.
+    const sortedData = scoreChoices.map((choice) =>
+      uniqueByKoreanName(choice).sort((a, b) => b.applicants.length - a.applicants.length),
+    );
 
     // 4. 기존 필터링 로직을 적용합니다.
     const applyFilters = (data: ScoreSheetType[]) => {
@@ -73,12 +64,8 @@ const ScorePageContent = () => {
       return result;
     };
 
-    return {
-      firstChoice: applyFilters(sortedData.firstChoice),
-      secondChoice: applyFilters(sortedData.secondChoice),
-      thirdChoice: applyFilters(sortedData.thirdChoice),
-    };
-  }, [scoreResponseData, regionFilter, searchValue]);
+    return sortedData.map(applyFilters);
+  }, [scoreChoices, regionFilter, searchValue]);
 
   // (이하 코드는 동일)
   const handleSearch = (event: FormEvent) => {
@@ -102,19 +89,18 @@ const ScorePageContent = () => {
     setSearchActive(true);
   };
 
-  const getScoreSheet = () => {
-    switch (preference) {
-      case "1순위":
-        return filteredAndSortedData.firstChoice;
-      case "2순위":
-        return filteredAndSortedData.secondChoice;
-      case "3순위":
-        return filteredAndSortedData.thirdChoice;
-      default:
-        return [];
-    }
+  const handlePreferenceChange = (nextPreference: string) => {
+    const nextIndex = preferenceChoices.indexOf(nextPreference);
+    setPreferenceIndex(nextIndex >= 0 ? nextIndex : 0);
   };
-  const scoreSheets = getScoreSheet();
+
+  const selectedPreference = preferenceChoices[preferenceIndex] ?? preferenceChoices[0] ?? "1순위";
+  const scoreSheets = filteredAndSortedData[preferenceIndex] ?? [];
+
+  useEffect(() => {
+    if (preferenceIndex < preferenceChoices.length) return;
+    setPreferenceIndex(0);
+  }, [preferenceChoices.length, preferenceIndex]);
 
   useEffect(() => {
     if (isLoading) return;
@@ -141,7 +127,7 @@ const ScorePageContent = () => {
       ) : (
         <>
           <div className="mt-4 rounded-lg bg-white px-2 shadow-sdwB">
-            <Tab choices={PREFERENCE_CHOICE} choice={preference} setChoice={setPreference} />
+            <Tab choices={preferenceChoices} choice={selectedPreference} setChoice={handlePreferenceChange} />
           </div>
           <ButtonTab
             choices={REGIONS_KO}

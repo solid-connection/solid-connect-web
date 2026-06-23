@@ -45,15 +45,11 @@ export interface ApplicationScoreRequest {
 }
 
 export interface ApplicationUniversityRequest {
-  firstChoiceUniversityId: number;
-  secondChoiceUniversityId: number;
-  thirdChoiceUniversityId: number;
+  choices: number[];
 }
 
 export interface ApplicationListResponse {
-  firstChoice: ScoreSheet[];
-  secondChoice: ScoreSheet[];
-  thirdChoice: ScoreSheet[];
+  choices: ScoreSheet[][];
 }
 
 export interface ApplicationStatusResponse {
@@ -65,9 +61,7 @@ export interface SubmitApplicationRequest {
   gpaScoreId: number;
   languageTestScoreId: number;
   universityChoiceRequest: {
-    firstChoiceUniversityId: number | null;
-    secondChoiceUniversityId: number | null;
-    thirdChoiceUniversityId: number | null;
+    choices: number[];
   };
 }
 

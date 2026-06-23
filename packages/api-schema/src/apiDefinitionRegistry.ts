@@ -376,9 +376,7 @@ export const brunoApiDefinitionRegistry = [
         "gpaScoreId": 1,
         "languageTestScoreId": 1,
         "universityChoiceRequest": {
-          "firstChoiceUniversityId": 1,
-          "secondChoiceUniversityId": 2,
-          "thirdChoiceUniversityId": 3
+          "choices": [1, 2, 3]
         }
       },
       hasBody: true,
