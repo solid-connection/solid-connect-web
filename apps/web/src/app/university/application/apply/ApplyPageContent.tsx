@@ -18,6 +18,8 @@ import GpaStep from "./GpaStep";
 import LanguageStep from "./LanguageStep";
 import UniversityStep from "./UniversityStep";
 
+const APPLY_PROGRESS_TOTAL_STEPS = 5;
+
 const ApplyPageContent = () => {
   const router = useRouter();
   const homeUniversityId = useAuthStore((state) => state.homeUniversityId);
@@ -84,11 +86,16 @@ const ApplyPageContent = () => {
   };
 
   const isDataExist = gpaScoreList.length === 0 || languageTestScoreList.length === 0;
+  const hasSelectedUniversity = curUniversityList.some((universityId) => universityId > 0);
+  const progressStep = step === 3 && hasSelectedUniversity ? APPLY_PROGRESS_TOTAL_STEPS : step + 1;
+
   return (
     <>
       <TopDetailNavigation title="지원하기" handleBack={goPrevStep} />
       <div className="mt-1 px-5">
-        {(step === 1 || step === 2 || step === 3) && <ProgressBar currentStep={step} totalSteps={3} />}
+        {(step === 1 || step === 2 || step === 3) && (
+          <ProgressBar currentStep={progressStep} totalSteps={APPLY_PROGRESS_TOTAL_STEPS} />
+        )}
       </div>
       {isDataExist ? (
         <EmptyGPA />
