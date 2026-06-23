@@ -35,10 +35,13 @@ export interface HomeUniversityInfo {
   name: HomeUniversity;
   slug: HomeUniversitySlug;
   shortName: string;
+  maxChoiceCount: number;
   logoUrl: string;
   description: string;
   color: string;
 }
+
+export const DEFAULT_MAX_CHOICE_COUNT = 3;
 
 export const HOME_UNIVERSITY_LIST: HomeUniversityInfo[] = [
   {
@@ -46,6 +49,7 @@ export const HOME_UNIVERSITY_LIST: HomeUniversityInfo[] = [
     name: HomeUniversity.INHA,
     slug: "inha",
     shortName: "인하대",
+    maxChoiceCount: 3,
     logoUrl: "/images/univs/inha.png",
     description: "인하대학교 교환학생 프로그램",
     color: "#004C98",
@@ -55,6 +59,7 @@ export const HOME_UNIVERSITY_LIST: HomeUniversityInfo[] = [
     name: HomeUniversity.KYUNGHEE,
     slug: "kyunghee",
     shortName: "경희대",
+    maxChoiceCount: 5,
     logoUrl: "/images/univs/kyunghee.png",
     description: "경희대학교 교환학생 프로그램",
     color: "#8C1515",
@@ -69,6 +74,10 @@ export const DEFAULT_UNIVERSITY_TERM_ID = 13;
  */
 export const getHomeUniversityBySlug = (slug: string): HomeUniversityInfo | undefined => {
   return HOME_UNIVERSITY_LIST.find((uni) => uni.slug === slug);
+};
+
+export const getHomeUniversityById = (homeUniversityId: number | null | undefined): HomeUniversityInfo | undefined => {
+  return HOME_UNIVERSITY_LIST.find((uni) => uni.homeUniversityId === homeUniversityId);
 };
 
 export const normalizeHomeUniversityName = (value: string | null | undefined): HomeUniversity | undefined => {

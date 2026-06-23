@@ -1,13 +1,15 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { usePostSubmitApplication } from "@/apis/applications";
 import { useGetMyGpaScore, useGetMyLanguageTestScore } from "@/apis/Scores";
 import { useUniversitySearch } from "@/apis/universities";
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import ProgressBar from "@/components/ui/ProgressBar";
+import { DEFAULT_MAX_CHOICE_COUNT, getHomeUniversityById } from "@/constants/university";
 import { showIconToast } from "@/lib/toast/showIconToast";
+import useAuthStore from "@/lib/zustand/useAuthStore";
 import type { ListUniversity } from "@/types/university";
 import ConfirmStep from "./ConfirmStep";
 import DoneStep from "./DoneStep";
@@ -18,9 +20,18 @@ import UniversityStep from "./UniversityStep";
 
 const ApplyPageContent = () => {
   const router = useRouter();
+  const homeUniversityId = useAuthStore((state) => state.homeUniversityId);
   const [step, setStep] = useState<number>(1);
+  const maxChoiceCount = getHomeUniversityById(homeUniversityId)?.maxChoiceCount ?? DEFAULT_MAX_CHOICE_COUNT;
+  const universitySearchOptions = useMemo(
+    () => ({
+      useDefaultTermId: true,
+      homeUniversityId: homeUniversityId ?? undefined,
+    }),
+    [homeUniversityId],
+  );
 
-  const { data: universityList = [] } = useUniversitySearch("", undefined, { useDefaultTermId: true });
+  const { data: universityList = [] } = useUniversitySearch("", undefined, universitySearchOptions);
   const { data: gpaScoreList = [] } = useGetMyGpaScore();
   const { data: languageTestScoreList = [] } = useGetMyLanguageTestScore();
   const { mutate: postSubmitApplication } = usePostSubmitApplication({
@@ -54,7 +65,11 @@ const ApplyPageContent = () => {
       return;
     }
 
-    if (curUniversityList.length === 0 || curUniversityList[0] === 0) {
+    const selectedUniversityIds = curUniversityList
+      .filter((universityId) => Number.isInteger(universityId) && universityId > 0)
+      .slice(0, maxChoiceCount);
+
+    if (selectedUniversityIds.length === 0) {
       showIconToast("logo", "대학교를 선택해주세요.");
       return;
     }
@@ -63,9 +78,7 @@ const ApplyPageContent = () => {
       gpaScoreId: curGpaScore,
       languageTestScoreId: curLanguageTestScore,
       universityChoiceRequest: {
-        firstChoiceUniversityId: curUniversityList[0] || null,
-        secondChoiceUniversityId: curUniversityList[1] || null,
-        thirdChoiceUniversityId: curUniversityList[2] || null,
+        choices: selectedUniversityIds,
       },
     });
   };
@@ -102,6 +115,7 @@ const ApplyPageContent = () => {
               universityList={universityList}
               curUniversityList={curUniversityList}
               setCurUniversityList={setCurUniversityList}
+              maxChoiceCount={maxChoiceCount}
               onNext={goNextStep}
             />
           )}
