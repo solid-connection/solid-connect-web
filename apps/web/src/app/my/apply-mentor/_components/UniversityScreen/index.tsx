@@ -203,7 +203,7 @@ const UniversityScreen = ({ isSubmitting, onNext }: UniversityScreenProps) => {
       </div>
 
       <div className="fixed bottom-0 left-0 right-0 w-full bg-white pb-14">
-        <div className="mx-auto w-full max-w-app px-5">
+        <div className="mx-auto w-full max-w-app px-5 md:max-w-none">
           <BlockBtn
             className="mb-[29px]"
             disabled={isSubmitting || !selectedCountryName || !universityId || !term || !verificationFile}

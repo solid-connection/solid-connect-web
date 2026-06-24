@@ -11,8 +11,8 @@ const PopularUniversitySection = ({ universities }: PopularUniversitySectionProp
   const belowFold = universities.slice(3);
 
   return (
-    <div className="overflow-x-auto">
-      <div className="flex gap-2">
+    <div className="overflow-x-auto md:overflow-visible">
+      <div className="flex gap-2 md:grid md:grid-cols-3 md:gap-3 xl:grid-cols-4 2xl:grid-cols-6">
         {/* 첫 3장은 즉시 전송 – LCP 후보 */}
         {aboveFold.map((university, index) => (
           <PopularUniversityCard
@@ -30,8 +30,8 @@ const PopularUniversitySection = ({ universities }: PopularUniversitySectionProp
           <Suspense
             key={university.id}
             fallback={
-              <div className="relative w-[153px]">
-                <div className="h-[120px] w-[153px] animate-pulse rounded-lg bg-gray-200" />
+              <div className="relative w-[153px] md:w-full">
+                <div className="h-[120px] w-[153px] animate-pulse rounded-lg bg-gray-200 md:w-full" />
               </div>
             }
           >

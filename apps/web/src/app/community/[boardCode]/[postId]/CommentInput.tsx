@@ -38,7 +38,7 @@ const CommentInput = ({ postId, curSelectedComment, setCurSelectedComment, refre
   };
 
   return (
-    <div className="fixed bottom-14 flex w-full min-w-app max-w-app items-center gap-3 border-t border-bg-400 bg-k-0 p-2">
+    <div className="fixed bottom-14 flex w-full min-w-app max-w-app items-center gap-3 border-t border-bg-400 bg-k-0 p-2 md:bottom-0 md:left-[88px] md:w-[calc(100%-88px)] md:min-w-0 md:max-w-none">
       <div className="w-full">
         {curSelectedComment && (
           <div className="flex h-10 w-full items-center justify-between rounded-t-lg bg-bg-500 px-2.5 pb-2.5 pt-3">

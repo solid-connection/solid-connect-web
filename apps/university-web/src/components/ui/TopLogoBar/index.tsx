@@ -5,7 +5,7 @@ import { IconCloud } from "@/public/svgs/home";
 const TopLogoBar = () => (
   <div
     className={clsx(
-      "fixed top-0 z-30 flex h-14 w-full max-w-app items-center",
+      "fixed top-0 z-30 flex h-14 w-full max-w-app items-center md:hidden",
       "bg-gradient-to-r from-primary-1 to-sub-b",
     )}
   >

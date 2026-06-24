@@ -15,12 +15,12 @@ interface UniversityDetailProps {
 
 const UniversityDetail = ({ university, koreanName }: UniversityDetailProps) => {
   return (
-    <div className="relative">
-      <div className="absolute top-4 flex w-full justify-between gap-3 px-5">
+    <div className="relative md:bg-k-0">
+      <div className="absolute top-4 z-20 flex w-full justify-between gap-3 px-5 md:top-8 md:justify-end md:px-8 lg:px-10">
         <UniversityBtns universityId={university.id} />
       </div>
 
-      <div className="relative -z-10 h-60 w-full bg-blue-100">
+      <div className="relative -z-10 h-60 w-full bg-blue-100 md:z-0 md:h-80">
         <Image
           alt="대학 이미지"
           src={normalizeImageUrlToUploadCdn(university.backgroundImageUrl)}
@@ -29,7 +29,7 @@ const UniversityDetail = ({ university, koreanName }: UniversityDetailProps) => 
           fallbackSrc="/svgs/placeholders/image-placeholder.svg"
         />
       </div>
-      <div className="z-30 -mt-16 rounded-t-3xl bg-white px-5">
+      <div className="relative z-10 -mt-16 rounded-t-3xl bg-white px-5 md:-mt-20 md:rounded-none md:px-8 md:pb-16 lg:px-10">
         <TitleSection
           title={koreanName}
           subTitle={university.englishName}
@@ -41,34 +41,41 @@ const UniversityDetail = ({ university, koreanName }: UniversityDetailProps) => 
           <span className="px-[30px] text-k-900 typo-sb-9">{university.country}</span>
           <span className="px-[30px] text-k-900 typo-sb-9">모집 {university.studentCapacity}명</span>
         </div>
-        <LanguageSection
-          detailsForLanguage={university.detailsForLanguage}
-          languageRequirements={university.languageRequirements}
-        />
-        <InfoSection
-          semesterRequirement={university.semesterRequirement}
-          semesterAvailableForDispatch={university.semesterAvailableForDispatch}
-          detailsForApply={university.detailsForApply}
-          detailsForAccommodation={university?.detailsForAccommodation}
-        />
-        <div className="h-1 bg-k-50" />
-        <div className="my-7 px-3">
-          <div className="mb-3 text-k-900 typo-sb-7">전공상세</div>
-          <div className="break-words text-k-600 typo-medium-2">
-            <LinkifyText>{university?.detailsForMajor}</LinkifyText>
-          </div>
-        </div>
-        <div className="h-1 bg-k-50" />
-        <div className="my-7 px-3">
-          <div className="mb-3 text-k-900 typo-sb-7">영어강의 리스트</div>
+        <div className="md:grid md:grid-cols-[minmax(320px,420px)_minmax(0,1fr)] md:gap-8">
           <div>
-            <span className="break-words text-k-600 typo-medium-2">
-              <LinkifyText>{university?.detailsForEnglishCourse}</LinkifyText>
-            </span>
+            <LanguageSection
+              detailsForLanguage={university.detailsForLanguage}
+              languageRequirements={university.languageRequirements}
+            />
+            <InfoSection
+              semesterRequirement={university.semesterRequirement}
+              semesterAvailableForDispatch={university.semesterAvailableForDispatch}
+              detailsForApply={university.detailsForApply}
+              detailsForAccommodation={university?.detailsForAccommodation}
+            />
+          </div>
+
+          <div className="min-w-0">
+            <div className="h-1 bg-k-50" />
+            <div className="my-7 px-3">
+              <div className="mb-3 text-k-900 typo-sb-7">전공상세</div>
+              <div className="break-words text-k-600 typo-medium-2">
+                <LinkifyText>{university?.detailsForMajor}</LinkifyText>
+              </div>
+            </div>
+            <div className="h-1 bg-k-50" />
+            <div className="my-7 px-3">
+              <div className="mb-3 text-k-900 typo-sb-7">영어강의 리스트</div>
+              <div>
+                <span className="break-words text-k-600 typo-medium-2">
+                  <LinkifyText>{university?.detailsForEnglishCourse}</LinkifyText>
+                </span>
+              </div>
+            </div>
+            <MapSection universityEnglishName={university.englishName} />
           </div>
         </div>
-        <MapSection universityEnglishName={university.englishName} />
-        <div className="h-48" />
+        <div className="h-48 md:h-0" />
       </div>
     </div>
   );
