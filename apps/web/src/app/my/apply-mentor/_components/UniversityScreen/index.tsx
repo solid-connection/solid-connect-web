@@ -15,9 +15,10 @@ type FormValues = z.input<typeof mentorApplicationSchema>;
 type UniversityScreenProps = {
   isSubmitting: boolean;
   onNext: () => void;
+  isDesktop?: boolean;
 };
 
-const UniversityScreen = ({ isSubmitting, onNext }: UniversityScreenProps) => {
+const UniversityScreen = ({ isSubmitting, onNext, isDesktop = false }: UniversityScreenProps) => {
   const {
     watch,
     setValue,
@@ -99,9 +100,9 @@ const UniversityScreen = ({ isSubmitting, onNext }: UniversityScreenProps) => {
   };
 
   return (
-    <div className="pb-28">
-      <div className="px-5">
-        <div className="mt-5">
+    <div className={clsx({ "pb-28": !isDesktop })}>
+      <div className={clsx({ "px-5": !isDesktop })}>
+        <div className={clsx({ "mt-5": !isDesktop })}>
           <span className="text-k-900 typo-bold-1">
             나의
             <span className="text-primary"> 수학 학교</span>를
@@ -110,9 +111,9 @@ const UniversityScreen = ({ isSubmitting, onNext }: UniversityScreenProps) => {
           </span>
         </div>
 
-        <div className="mt-10 flex flex-col gap-5">
+        <div className={clsx("mt-10 grid gap-5", isDesktop ? "grid-cols-2" : "grid-cols-1")}>
           {/* 선택한 국가 */}
-          <div className="flex flex-col gap-2">
+          <div className={clsx("flex flex-col gap-2", isDesktop && "col-span-2")}>
             <label className="text-k-900 typo-sb-9">국가</label>
             <div className="flex h-12 items-center rounded-lg border border-k-200 bg-k-50 px-4 text-accent-custom-indigo typo-regular-2">
               {selectedCountryName || "이전 단계에서 국가를 선택해주세요"}
@@ -120,7 +121,7 @@ const UniversityScreen = ({ isSubmitting, onNext }: UniversityScreenProps) => {
           </div>
 
           {/* 학교 선택 */}
-          <div className="flex flex-col gap-2">
+          <div className={clsx("flex flex-col gap-2", isDesktop && "col-span-2")}>
             <label className="text-k-900 typo-sb-9">학교</label>
             {isLoading ? (
               <div className="flex h-12 items-center justify-center rounded-lg border border-k-200 bg-k-50 px-4 text-k-400 typo-regular-2">
@@ -202,8 +203,14 @@ const UniversityScreen = ({ isSubmitting, onNext }: UniversityScreenProps) => {
         </div>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 w-full bg-white pb-14 md:left-[88px] md:right-auto md:w-[calc(100%-88px)]">
-        <div className="mx-auto w-full max-w-app px-5 md:max-w-none">
+      <div
+        className={clsx(
+          isDesktop
+            ? "mt-10 w-full max-w-sm"
+            : "fixed bottom-0 left-0 right-0 w-full bg-white pb-14 md:left-[88px] md:right-auto md:w-[calc(100%-88px)]",
+        )}
+      >
+        <div className={clsx({ "mx-auto w-full max-w-app px-5 md:max-w-none": !isDesktop })}>
           <BlockBtn
             className="mb-[29px]"
             disabled={isSubmitting || !selectedCountryName || !universityId || !term || !verificationFile}

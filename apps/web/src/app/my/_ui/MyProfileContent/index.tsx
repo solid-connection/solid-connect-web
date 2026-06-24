@@ -19,6 +19,7 @@ import {
 } from "@/public/svgs/my";
 import { UserRole } from "@/types/mentor";
 import { openKakaoOpenChat } from "@/utils/openKakaoOpenChat";
+import useIsDesktopViewport from "@/utils/useIsDesktopViewport";
 
 const NEXT_PUBLIC_CONTACT_LINK = process.env.NEXT_PUBLIC_CONTACT_LINK;
 
@@ -41,6 +42,7 @@ const MyProfileContent = () => {
   const { mutate: deleteUserAccount } = useDeleteUserAccount();
   const { mutate: postLogout } = usePostLogout();
   const clientRole = useAuthStore((state) => state.clientRole);
+  const isDesktop = useIsDesktopViewport();
 
   const { nickname, email, profileImageUrl } = profileData;
   const isMentor = profileData.role === UserRole.MENTOR || profileData.role === UserRole.ADMIN;
@@ -87,14 +89,11 @@ const MyProfileContent = () => {
     handleLogout: () => postLogout(),
   };
 
-  return (
-    <>
-      <div className="md:hidden">
-        <MyProfileMobileView {...viewProps} />
-      </div>
-      <MyProfileDesktopView {...viewProps} />
-    </>
-  );
+  if (isDesktop === null) {
+    return <div aria-hidden className="min-h-screen bg-white md:bg-k-50" />;
+  }
+
+  return isDesktop ? <MyProfileDesktopView {...viewProps} /> : <MyProfileMobileView {...viewProps} />;
 };
 
 const MyProfileMobileView = ({
@@ -229,7 +228,7 @@ const MyProfileDesktopView = ({
   const statusText = viewAsMentor ? university || "수학학교 미등록" : favoriteLocation;
 
   return (
-    <div className="hidden min-h-screen bg-k-50 px-8 py-8 md:block lg:px-10">
+    <div className="min-h-screen bg-k-50 px-8 py-8 lg:px-10">
       <header className="mb-8">
         <p className="text-primary typo-sb-9">My Solid</p>
         <h1 className="mt-2 text-k-900 typo-bold-1">마이페이지</h1>
@@ -348,6 +347,10 @@ const DesktopQuickAction = ({
     return <Link href={href}>{content}</Link>;
   }
 
+  if (!onClick) {
+    return content;
+  }
+
   return (
     <button type="button" onClick={onClick} className="text-left">
       {content}
@@ -391,6 +394,10 @@ const DesktopMenuItem = ({
 
   if (href) {
     return <Link href={href}>{content}</Link>;
+  }
+
+  if (!onClick) {
+    return content;
   }
 
   return (

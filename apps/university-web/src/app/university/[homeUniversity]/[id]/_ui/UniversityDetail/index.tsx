@@ -131,7 +131,6 @@ const UniversityDetailBody = ({ university }: { university: University }) => (
 
 const UniversityStats = ({ university }: { university: University }) => (
   <div className="mb-7 mt-10 flex justify-center divide-x divide-k-100">
-    <span className="px-[30px] text-k-900 typo-sb-9">0회 파견</span>
     <span className="px-[30px] text-k-900 typo-sb-9">{university.country}</span>
     <span className="px-[30px] text-k-900 typo-sb-9">모집 {university.studentCapacity}명</span>
   </div>
