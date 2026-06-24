@@ -9,9 +9,10 @@ import type { MentorApplicationFormInputData } from "../../_lib/schema";
 
 type StudyStatusScreenProps = {
   onNext: () => void;
+  isDesktop?: boolean;
 };
 
-const StudyStatusScreen = ({ onNext }: StudyStatusScreenProps) => {
+const StudyStatusScreen = ({ onNext, isDesktop = false }: StudyStatusScreenProps) => {
   const {
     watch,
     setValue,
@@ -29,9 +30,9 @@ const StudyStatusScreen = ({ onNext }: StudyStatusScreenProps) => {
   };
 
   return (
-    <div className="pb-28">
-      <div className="px-5">
-        <div className="mt-5">
+    <div className={clsx({ "pb-28": !isDesktop })}>
+      <div className={clsx({ "px-5": !isDesktop })}>
+        <div className={clsx({ "mt-5": !isDesktop })}>
           <span className="text-k-900 typo-bold-1">
             현재 나의
             <span className="text-primary"> 준비 단계</span>를
@@ -45,7 +46,7 @@ const StudyStatusScreen = ({ onNext }: StudyStatusScreenProps) => {
         )}
 
         <div className="mt-10">
-          <div className="flex flex-col gap-5">
+          <div className={clsx("grid gap-5", isDesktop ? "grid-cols-3" : "grid-cols-1")}>
             {/* 지원 솔커 - 비활성화 */}
             <StatusChoiceButton
               status="BEFORE_EXCHANGE"
@@ -79,8 +80,14 @@ const StudyStatusScreen = ({ onNext }: StudyStatusScreenProps) => {
         </div>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 w-full bg-white pb-14 md:left-[88px] md:right-auto md:w-[calc(100%-88px)]">
-        <div className="mx-auto w-full max-w-app px-5 md:max-w-none">
+      <div
+        className={clsx(
+          isDesktop
+            ? "mt-10 w-full max-w-sm"
+            : "fixed bottom-0 left-0 right-0 w-full bg-white pb-14 md:left-[88px] md:right-auto md:w-[calc(100%-88px)]",
+        )}
+      >
+        <div className={clsx({ "mx-auto w-full max-w-app px-5 md:max-w-none": !isDesktop })}>
           <BlockBtn className="mb-[29px]" disabled={!preparationStatus} onClick={handleNext}>
             다음
           </BlockBtn>
