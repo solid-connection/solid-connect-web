@@ -31,7 +31,7 @@ const PopularUniversitySection = ({ universities }: PopularUniversitySectionProp
             key={university.id}
             fallback={
               <div className="relative w-[153px] md:w-full">
-                <div className="h-[120px] w-[153px] animate-pulse rounded-lg bg-gray-200 md:w-full" />
+                <div className="h-[120px] w-[153px] animate-pulse rounded-lg bg-gray-200 md:h-40 md:w-full" />
               </div>
             }
           >

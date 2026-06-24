@@ -106,7 +106,7 @@ const PasswordContent = () => {
           </>
         )}
 
-        <div className="fixed bottom-0 left-0 right-0 mb-20 w-full py-4">
+        <div className="fixed bottom-0 left-0 right-0 mb-20 w-full py-4 md:left-[88px] md:right-auto md:w-[calc(100%-88px)]">
           <div className="mx-auto w-full max-w-app px-5 md:max-w-none">
             {step === 0 && (
               <button
