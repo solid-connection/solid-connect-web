@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 const MentorPage = () => {
   return (
-    <div className="w-full px-5">
+    <div className="w-full px-5 md:px-0">
       <MentorClient />
     </div>
   );

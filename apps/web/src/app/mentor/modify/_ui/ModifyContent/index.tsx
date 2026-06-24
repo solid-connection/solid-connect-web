@@ -6,6 +6,7 @@ import { useGetArticleList } from "@/apis/news";
 import StudyDate from "@/components/mentor/StudyDate";
 import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 import MentoProfile from "@/components/ui/ProfileWithBadge";
+import useIsDesktopViewport from "@/utils/useIsDesktopViewport";
 import useModifyHookForm from "./_hooks/useModifyHookForm";
 import usePutMyMentorProfileHandler from "./_hooks/usePutMyMentorProfileHandler";
 import AddArticleCard from "./_ui/AddArticleCard";
@@ -15,6 +16,7 @@ import ChannelBox from "./_ui/ChannelBox";
 const ModifyContent = () => {
   const { data: myMentorProfile = null } = useGetMentorMyProfile();
   const { data: articleList = [] } = useGetArticleList(myMentorProfile?.id || 0);
+  const isDesktop = useIsDesktopViewport();
 
   const method = useModifyHookForm(myMentorProfile);
   const {
@@ -25,8 +27,111 @@ const ModifyContent = () => {
 
   const { onSubmit } = usePutMyMentorProfileHandler();
   // 채널 타입들을 감시
-  if (!myMentorProfile) return <CloudSpinnerPage />;
+  if (!myMentorProfile || isDesktop === null) return <CloudSpinnerPage />;
   const { profileImageUrl, hasBadge, nickname, country, universityName, term, channels } = myMentorProfile;
+
+  if (isDesktop) {
+    return (
+      <FormProvider {...method}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="min-h-screen bg-k-50 px-8 py-8 lg:px-10">
+            <header className="mb-8">
+              <p className="text-primary typo-sb-9">Mentor</p>
+              <h1 className="mt-2 text-k-900 typo-bold-1">멘토 정보 수정</h1>
+              <p className="mt-2 max-w-2xl text-k-500 typo-medium-2">
+                멘토 채널과 소개, 아티클을 정리해서 멘티에게 보여줄 프로필을 관리하세요.
+              </p>
+            </header>
+
+            <div className="grid items-start gap-8 xl:grid-cols-[minmax(0,1fr)_minmax(320px,380px)]">
+              <main className="grid gap-6">
+                <section className="rounded-lg border border-k-100 bg-white p-6">
+                  <h2 className="text-primary-1 typo-sb-5">내 채널 관리</h2>
+                  <div className="mt-2.5 grid gap-3">
+                    <ChannelBox channels={channels} />
+                  </div>
+                </section>
+
+                <section className="rounded-lg border border-k-100 bg-white p-6">
+                  <h2 className="text-primary-1 typo-sb-5">멘토 소개</h2>
+                  <div className="mt-5 grid gap-5 lg:grid-cols-2">
+                    <div>
+                      <label htmlFor="mentor-introduction" className="text-k-900 typo-sb-7">
+                        멘토 한마디
+                      </label>
+                      <textarea
+                        id="mentor-introduction"
+                        {...register("introduction")}
+                        className="mt-2.5 h-40 w-full rounded-lg bg-k-50 p-5 text-k-900 placeholder:text-k-300 typo-regular-2"
+                        placeholder="최대 200자 이내"
+                        maxLength={200}
+                      />
+                      {errors.introduction && (
+                        <p className="mt-1 text-red-500 typo-regular-2">
+                          {typeof errors.introduction === "object" && errors.introduction.message
+                            ? errors.introduction.message
+                            : "멘토 한마디를 입력해주세요"}
+                        </p>
+                      )}
+                    </div>
+                    <div>
+                      <label htmlFor="mentor-pass-tip" className="text-k-900 typo-sb-7">
+                        합격 레시피
+                      </label>
+                      <textarea
+                        id="mentor-pass-tip"
+                        {...register("passTip")}
+                        className="mt-2.5 h-40 w-full rounded-lg bg-k-50 p-5 text-k-900 placeholder:text-k-300 typo-regular-2"
+                        placeholder="최대 200자 이내"
+                        maxLength={200}
+                      />
+                      {errors.passTip && (
+                        <p className="mt-1 text-red-500 typo-regular-2">
+                          {typeof errors.passTip === "object" && errors.passTip.message
+                            ? errors.passTip.message
+                            : "합격 레시피를 입력해주세요"}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </section>
+
+                <section className="rounded-lg border border-k-100 bg-white p-6">
+                  <h2 className="text-primary-1 typo-sb-5">멘토 아티클</h2>
+                  <div className="mt-2.5">
+                    <AddArticleCard />
+                  </div>
+                  <div className="mt-6 grid gap-6 lg:grid-cols-2">
+                    {articleList.map((article) => (
+                      <ArticlePanel key={article.title} userId={myMentorProfile.id} article={article} />
+                    ))}
+                  </div>
+                </section>
+              </main>
+
+              <aside className="sticky top-8 rounded-lg border border-k-100 bg-white p-6">
+                <h2 className="text-k-900 typo-bold-4">나의 멘토</h2>
+                <div className="mt-5 flex items-start gap-4">
+                  <MentoProfile profileImageUrl={profileImageUrl} hasBadge={hasBadge} />
+                  <div className="min-w-0">
+                    <div className="text-primary typo-sb-7">{country}</div>
+                    <div className="mt-1 text-gray-900 typo-sb-5">{nickname}</div>
+                    <div className="mt-1 text-gray-500 typo-regular-2">{universityName}</div>
+                    <div className="mt-2">
+                      <StudyDate term={term} />
+                    </div>
+                  </div>
+                </div>
+                <button type="submit" className="mt-6 h-10 w-full rounded-3xl bg-primary-1 px-5 py-2.5 text-k-0">
+                  수정하기
+                </button>
+              </aside>
+            </div>
+          </div>
+        </form>
+      </FormProvider>
+    );
+  }
 
   return (
     <div className="px-5">

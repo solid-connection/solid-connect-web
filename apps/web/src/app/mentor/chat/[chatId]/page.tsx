@@ -21,9 +21,11 @@ const ChatDetailPage = async ({ params }: ChatDetailPageProps) => {
 
   if (Number.isNaN(chatId)) notFound();
   return (
-    <div className="flex w-full flex-col">
+    <div className="flex w-full flex-col md:min-h-screen md:bg-k-50">
       <ChatNavBar chatId={chatId} />
-      <ChatContent chatId={chatId} />
+      <div className="md:px-8 md:pb-8 lg:px-10">
+        <ChatContent chatId={chatId} />
+      </div>
     </div>
   );
 };

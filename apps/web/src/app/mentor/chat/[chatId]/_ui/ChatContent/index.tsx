@@ -10,6 +10,7 @@ import useAuthStore from "@/lib/zustand/useAuthStore";
 import { ConnectionStatus } from "@/types/chat";
 import { UserRole } from "@/types/mentor";
 import { tokenParse } from "@/utils/jwtUtils";
+import useIsDesktopViewport from "@/utils/useIsDesktopViewport";
 import useChatListHandler from "./_hooks/useChatListHandler";
 import usePutChatReadHandler from "./_hooks/usePutChatReadHandler";
 import { formatDateSeparator, isSameDay } from "./_lib/dateUtils";
@@ -27,6 +28,7 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
 
   const isMentor = parsedData?.role === UserRole.MENTOR || parsedData?.role === UserRole.ADMIN;
   const isPartnerMentor = !isMentor;
+  const isDesktop = useIsDesktopViewport();
 
   // 채팅 읽음 상태 업데이트 훅 진입시 자동으로
   usePutChatReadHandler(chatId);
@@ -57,16 +59,26 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
 
   const { partnerId, nickname, profileUrl, university } = partnerInfo ?? {};
 
+  if (isDesktop === null) return null;
+
   return (
-    <div className="relative flex h-[calc(100vh-112px)] flex-col">
+    <div
+      className={clsx(
+        "relative flex flex-col",
+        isDesktop
+          ? "h-[calc(100vh-204px)] min-h-[560px] overflow-hidden rounded-lg border border-k-100 bg-white"
+          : "h-[calc(100vh-112px)]",
+      )}
+    >
       <div className="flex-1 overflow-hidden">
-        <div className="flex h-full flex-col px-5 pb-2">
+        <div className={clsx("flex h-full flex-col", isDesktop ? "px-6 pb-3" : "px-5 pb-2")}>
           {/* 하단 여백 추가 */}
           {/* Floating 멘토 정보 영역 */}
-          <div className="z-10 mt-5 h-16 w-full flex-shrink-0">
+          <div className={clsx("z-10 w-full flex-shrink-0", isDesktop ? "border-b border-k-100 py-4" : "mt-5 h-16")}>
             <div
               className={clsx(
-                "flex w-full items-center justify-between rounded px-2.5 py-2",
+                "flex w-full items-center justify-between",
+                isDesktop ? "rounded-lg px-4 py-3" : "rounded px-2.5 py-2",
                 isMentor ? "bg-sub-c-100 text-sub-c-500" : "bg-primary-100 text-primary",
               )}
             >
@@ -87,7 +99,7 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
                 {isMentor ? "멘티 페이지" : "멘토 페이지"}
               </Link>
             </div>
-            <div className="rounded bg-white px-4 py-2 text-center">
+            <div className={clsx("bg-white px-4 text-center", isDesktop ? "pt-3" : "rounded py-2")}>
               <div className="rounded bg-white px-4 py-2 text-center">
                 {connectionStatus === ConnectionStatus.Connected ? (
                   <p
@@ -111,7 +123,7 @@ const ChatContent = ({ chatId }: ChatContentProps) => {
           {/* 채팅 메시지 영역 - 항상 스크롤 가능, 스크롤바 숨김 */}
           <div
             ref={scrollContainerRef}
-            className="scrollbar-hide mt-4 flex-1 overflow-y-auto p-4 pb-6"
+            className={clsx("scrollbar-hide flex-1 overflow-y-auto", isDesktop ? "p-6" : "mt-4 p-4 pb-6")}
             style={{
               scrollbarWidth: "none" /* Firefox */,
               msOverflowStyle: "none" /* Internet Explorer 10+ */,

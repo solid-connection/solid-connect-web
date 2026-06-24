@@ -11,6 +11,7 @@ import useAuthStore from "@/lib/zustand/useAuthStore";
 import { IconAlert, IconAlertSubC, IconDirectionRight, IconSetting } from "@/public/svgs/mentor";
 import { UserRole } from "@/types/mentor";
 import { tokenParse } from "@/utils/jwtUtils";
+import useIsDesktopViewport from "@/utils/useIsDesktopViewport";
 import ReportPanel from "../../../../../../components/ui/ReportPanel";
 
 interface ChatNavBarProps {
@@ -21,6 +22,7 @@ const ChatNavBar = ({ chatId }: ChatNavBarProps) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
   const accessToken = useAuthStore((state) => state.accessToken);
+  const isDesktop = useIsDesktopViewport();
   const result = tokenParse(accessToken);
   const isMentor = result?.role === UserRole.MENTOR || result?.role === UserRole.ADMIN;
   const isPartnerMentor = !isMentor;
@@ -50,18 +52,42 @@ const ChatNavBar = ({ chatId }: ChatNavBarProps) => {
     }, 300);
   };
 
+  if (isDesktop === null) return null;
+
   return (
     <div className="relative">
-      <nav>
-        <TopDetailNavigation
-          title={"멘토 채팅"}
-          icon={
-            <button className="h-4 w-4" onClick={handleSettingsClick}>
+      {isDesktop ? (
+        <header className="px-8 pt-8 lg:px-10">
+          <div className="mb-8 flex items-start justify-between gap-6">
+            <div>
+              <p className="text-primary typo-sb-9">Mentor</p>
+              <h1 className="mt-2 text-k-900 typo-bold-1">멘토 채팅</h1>
+              <p className="mt-2 max-w-2xl text-k-500 typo-medium-2">
+                멘토링 상대와 실시간으로 대화하며 궁금한 점을 해결하세요.
+              </p>
+            </div>
+            <button
+              type="button"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-k-100 bg-white"
+              onClick={handleSettingsClick}
+              aria-label="채팅 설정 열기"
+            >
               <IconSetting />
             </button>
-          }
-        />
-      </nav>
+          </div>
+        </header>
+      ) : (
+        <nav>
+          <TopDetailNavigation
+            title={"멘토 채팅"}
+            icon={
+              <button type="button" className="h-4 w-4" onClick={handleSettingsClick}>
+                <IconSetting />
+              </button>
+            }
+          />
+        </nav>
+      )}
 
       {/* 오버레이 (패널 외부 클릭 시 닫기) */}
       {(isExpanded || isAnimating) && (
