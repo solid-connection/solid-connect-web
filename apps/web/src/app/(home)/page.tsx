@@ -5,6 +5,7 @@ import { getHomeUniversitySlugByName } from "@/constants/university";
 import { type ListUniversity, RegionEnumExtend } from "@/types/university";
 import { createUrl } from "@/utils/seo";
 import FindLastYearScoreBar from "./_ui/FindLastYearScoreBar";
+import HomeDesktopView from "./_ui/HomeDesktopView";
 import HomeEntrySection from "./_ui/HomeEntrySection";
 import NewsSection from "./_ui/NewsSection";
 import PopularUniversitySection from "./_ui/PopularUniversitySection";
@@ -113,29 +114,26 @@ const HomePage = async () => {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
-      <div className="w-full md:min-h-screen md:px-8 md:py-8 lg:px-10">
-        <div className="md:grid md:grid-cols-[minmax(320px,420px)_minmax(0,1fr)] md:items-start md:gap-8">
-          <div className="md:sticky md:top-8 md:flex md:flex-col md:gap-4">
-            <FindLastYearScoreBar />
-            <HomeEntrySection />
-          </div>
+      <div className="w-full md:hidden">
+        <FindLastYearScoreBar />
+        <HomeEntrySection />
 
-          <div className="md:min-w-0 md:space-y-8">
-            <div className="border-t-[5px] border-k-50 py-5 pl-5 md:border-t-0 md:py-0 md:pl-0">
-              <div className="mb-2 flex items-center gap-1.5 font-serif text-k-700 typo-sb-7">
-                실시간 인기있는 파견학교
-              </div>
-              <PopularUniversitySection universities={resolvedRecommendedUniversities} />
-            </div>
-
-            <div className="p-5 md:p-0">
-              <UniversityList allRegionsUniversityList={allRegionsUniversityList} />
-            </div>
-
-            <NewsSection newsList={newsList} />
-          </div>
+        <div className="border-t-[5px] border-k-50 py-5 pl-5">
+          <div className="mb-2 flex items-center gap-1.5 font-serif text-k-700 typo-sb-7">실시간 인기있는 파견학교</div>
+          <PopularUniversitySection universities={resolvedRecommendedUniversities} />
         </div>
+
+        <div className="p-5">
+          <UniversityList allRegionsUniversityList={allRegionsUniversityList} />
+        </div>
+
+        <NewsSection newsList={newsList} />
       </div>
+      <HomeDesktopView
+        recommendedUniversities={resolvedRecommendedUniversities}
+        allRegionsUniversityList={allRegionsUniversityList}
+        newsList={newsList}
+      />
     </>
   );
 };

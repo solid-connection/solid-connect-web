@@ -79,7 +79,7 @@ const StudyStatusScreen = ({ onNext }: StudyStatusScreenProps) => {
         </div>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 w-full bg-white pb-14">
+      <div className="fixed bottom-0 left-0 right-0 w-full bg-white pb-14 md:left-[88px] md:right-auto md:w-[calc(100%-88px)]">
         <div className="mx-auto w-full max-w-app px-5 md:max-w-none">
           <BlockBtn className="mb-[29px]" disabled={!preparationStatus} onClick={handleNext}>
             다음
