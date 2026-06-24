@@ -13,25 +13,44 @@ import { convertISODateToDate } from "@/utils/datetimeUtils";
 type PostCardsProps = {
   posts: ListPost[];
   boardCode: string;
+  variant?: "mobile" | "desktop";
 };
 
-const PostCards = ({ posts, boardCode }: PostCardsProps) => {
+const PostCards = ({ posts, boardCode, variant = "mobile" }: PostCardsProps) => {
   const parentRef = useRef<HTMLDivElement>(null);
+  const isDesktop = variant === "desktop";
 
-  // 가상화 설정
   const virtualizer = useVirtualizer({
     count: posts.length,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => 140, // 각 PostCard의 예상 높이 (px)
-    overscan: 5, // 화면 밖에 미리 렌더링할 항목 수
+    estimateSize: () => (isDesktop ? 156 : 140),
+    overscan: 5,
   });
+
+  if (posts.length === 0) {
+    return (
+      <div
+        className={
+          isDesktop
+            ? "flex min-h-[420px] items-center justify-center rounded-lg border border-dashed border-k-100 bg-white text-k-400 typo-regular-2"
+            : "flex min-h-[320px] items-center justify-center text-k-400 typo-regular-2"
+        }
+      >
+        게시글이 없습니다.
+      </div>
+    );
+  }
 
   return (
     <div
       ref={parentRef}
-      className="flex flex-col overflow-auto"
+      className={
+        isDesktop
+          ? "flex flex-col overflow-auto rounded-lg border border-k-100 bg-white"
+          : "flex flex-col overflow-auto"
+      }
       style={{
-        height: "calc(100vh - 220px)", // 헤더, 탭 등을 제외한 높이
+        height: isDesktop ? "calc(100vh - 240px)" : "calc(100vh - 220px)",
         contain: "strict",
       }}
     >
@@ -58,7 +77,7 @@ const PostCards = ({ posts, boardCode }: PostCardsProps) => {
               data-index={virtualItem.index}
             >
               <Link href={`/community/${boardCode}/${post.id}`} className="no-underline">
-                <PostCard post={post} priorityImage={virtualItem.index === 0} />
+                <PostCard post={post} priorityImage={virtualItem.index === 0} variant={variant} />
               </Link>
             </div>
           );
@@ -100,18 +119,45 @@ const getPostThumbnailSrc = (postThumbnailUrl: string | null) => {
   return thumbnailSrc;
 };
 
-export const PostCard = ({ post, priorityImage = false }: { post: ListPost; priorityImage?: boolean }) => {
+export const PostCard = ({
+  post,
+  priorityImage = false,
+  variant = "mobile",
+}: {
+  post: ListPost;
+  priorityImage?: boolean;
+  variant?: "mobile" | "desktop";
+}) => {
   const thumbnailSrc = getPostThumbnailSrc(post.postThumbnailUrl);
+  const isDesktop = variant === "desktop";
 
   return (
-    <div className="flex justify-between border-b border-b-gray-c-100 px-5 py-4">
+    <div
+      className={
+        isDesktop
+          ? "flex h-full justify-between border-b border-b-gray-c-100 px-6 py-5 transition-colors hover:bg-k-50"
+          : "flex justify-between border-b border-b-gray-c-100 px-5 py-4"
+      }
+    >
       <div className="flex min-w-0 flex-1 flex-col">
         <div className="flex items-center truncate font-serif text-gray-250">
           <span className="typo-bold-5">{post.postCategory || ""}</span>
           <span className="ml-2.5 typo-regular-4">{convertISODateToDate(post.createdAt) || "1970. 1. 1."}</span>
         </div>
-        <span className="mt-2 font-serif text-black typo-sb-7">{post.title || ""}</span>
-        <div className="mt-1 h-11 overflow-hidden text-ellipsis break-all font-serif text-gray-250 typo-medium-2">
+        <span
+          className={
+            isDesktop ? "mt-2 truncate font-serif text-black typo-sb-4" : "mt-2 font-serif text-black typo-sb-7"
+          }
+        >
+          {post.title || ""}
+        </span>
+        <div
+          className={
+            isDesktop
+              ? "mt-2 line-clamp-2 min-h-11 break-all font-serif text-gray-250 typo-medium-2"
+              : "mt-1 h-11 overflow-hidden text-ellipsis break-all font-serif text-gray-250 typo-medium-2"
+          }
+        >
           {post.content || "내용 없음"}
         </div>
         <div className="mt-1 flex items-center gap-2.5">
@@ -127,13 +173,13 @@ export const PostCard = ({ post, priorityImage = false }: { post: ListPost; prio
       </div>
 
       {thumbnailSrc ? (
-        <div className="ml-4 mt-3 h-20 w-20 shrink-0 select-none">
+        <div className={isDesktop ? "ml-6 h-24 w-24 shrink-0 select-none" : "ml-4 mt-3 h-20 w-20 shrink-0 select-none"}>
           <div className="bg-gray-c-50 relative h-full w-full overflow-hidden rounded border border-k-100">
             <Image
               className="object-cover"
               src={thumbnailSrc}
               fill
-              sizes="80px"
+              sizes={isDesktop ? "96px" : "80px"}
               alt="게시글 사진"
               fallbackSrc="/images/article-thumb.png"
               loading={priorityImage ? "eager" : undefined}
