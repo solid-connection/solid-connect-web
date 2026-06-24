@@ -18,7 +18,7 @@ const MentorDetailPage = async ({ params }: MentorDetailPageProps) => {
   const mentorId = Number(id);
 
   return (
-    <div className="flex w-full flex-col px-5">
+    <div className="flex w-full flex-col px-5 md:px-0">
       <MentorDetialContent mentorId={mentorId} />
     </div>
   );

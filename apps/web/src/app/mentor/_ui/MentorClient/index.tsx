@@ -7,6 +7,7 @@ import { useGetMyInfo } from "@/apis/MyPage";
 import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { UserRole } from "@/types/mentor";
+import useIsDesktopViewport from "@/utils/useIsDesktopViewport";
 import MentorPageSkeleton from "../MentorPageSkeleton";
 import MenteePage from "./_ui/MenteePage";
 import MentorPage from "./_ui/MentorPage";
@@ -14,6 +15,7 @@ import MentorPage from "./_ui/MentorPage";
 const MentorClient = () => {
   const router = useRouter();
   const clientRole = useAuthStore((state) => state.clientRole);
+  const isDesktop = useIsDesktopViewport();
   const { data: myInfo, isLoading, isFetching, isError, error, refetch } = useGetMyInfo();
   const role = myInfo?.role;
   const status = (error as AxiosError | null)?.response?.status;
@@ -27,7 +29,7 @@ const MentorClient = () => {
     }
   }, [isAuthResolving, isUnauthorized, isError, role, router]);
 
-  if (isAuthResolving) {
+  if (isAuthResolving || isDesktop === null) {
     return <MentorPageSkeleton />;
   }
 
@@ -51,10 +53,18 @@ const MentorClient = () => {
   }
 
   if (role === UserRole.ADMIN) {
-    return clientRole === UserRole.MENTEE ? <MenteePage /> : <MentorPage />;
+    return clientRole === UserRole.MENTEE ? (
+      <MenteePage variant={isDesktop ? "desktop" : "mobile"} />
+    ) : (
+      <MentorPage variant={isDesktop ? "desktop" : "mobile"} />
+    );
   }
 
-  return role === UserRole.MENTOR ? <MentorPage /> : <MenteePage />;
+  return role === UserRole.MENTOR ? (
+    <MentorPage variant={isDesktop ? "desktop" : "mobile"} />
+  ) : (
+    <MenteePage variant={isDesktop ? "desktop" : "mobile"} />
+  );
 };
 
 export default MentorClient;
