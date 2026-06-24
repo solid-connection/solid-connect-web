@@ -122,18 +122,12 @@ export interface HostUniversityPayload {
 	koreanName: string;
 	englishName: string;
 	formatName: string;
-	logoImageUrl: string;
-	backgroundImageUrl: string;
 	countryCode: string;
 	regionCode: string;
 	homepageUrl?: string;
 	englishCourseUrl?: string;
 	accommodationUrl?: string;
 	detailsForLocal?: string;
-}
-
-export interface AdminUniversityImageUploadResponse {
-	fileUrl: string;
 }
 
 export interface UnivApplyInfoLanguageRequirement {
@@ -339,36 +333,33 @@ export const adminApi = {
 	getHostUniversity: (id: number) =>
 		axiosInstance.get<HostUniversityDetailResponse>(`/admin/host-universities/${id}`).then((res) => res.data),
 
-	createHostUniversity: (data: HostUniversityPayload) =>
-		axiosInstance.post<HostUniversityDetailResponse>("/admin/host-universities", data).then((res) => res.data),
+	createHostUniversity: (data: HostUniversityPayload, logoFile: File, backgroundFile: File) => {
+		const formData = new FormData();
+		formData.append("request", new Blob([JSON.stringify(data)], { type: "application/json" }));
+		formData.append("logoFile", logoFile);
+		formData.append("backgroundFile", backgroundFile);
+		return axiosInstance
+			.post<HostUniversityDetailResponse>("/admin/host-universities", formData)
+			.then((res) => res.data);
+	},
 
-	updateHostUniversity: (id: number, data: HostUniversityPayload) =>
-		axiosInstance.put<HostUniversityDetailResponse>(`/admin/host-universities/${id}`, data).then((res) => res.data),
+	updateHostUniversity: (
+		id: number,
+		data: HostUniversityPayload,
+		logoFile?: File | null,
+		backgroundFile?: File | null,
+	) => {
+		const formData = new FormData();
+		formData.append("request", new Blob([JSON.stringify(data)], { type: "application/json" }));
+		if (logoFile) formData.append("logoFile", logoFile);
+		if (backgroundFile) formData.append("backgroundFile", backgroundFile);
+		return axiosInstance
+			.put<HostUniversityDetailResponse>(`/admin/host-universities/${id}`, formData)
+			.then((res) => res.data);
+	},
 
 	deleteHostUniversity: (id: number) =>
 		axiosInstance.delete<void>(`/admin/host-universities/${id}`).then((res) => res.data),
-
-	uploadAdminUniversityLogo: (file: File, englishName: string) => {
-		const formData = new FormData();
-		formData.append("file", file);
-		formData.append("englishName", englishName);
-		return axiosInstance
-			.post<AdminUniversityImageUploadResponse>("/file/admin/university/logo", formData, {
-				headers: { "Content-Type": "multipart/form-data" },
-			})
-			.then((res) => res.data);
-	},
-
-	uploadAdminUniversityBackground: (file: File, englishName: string) => {
-		const formData = new FormData();
-		formData.append("file", file);
-		formData.append("englishName", englishName);
-		return axiosInstance
-			.post<AdminUniversityImageUploadResponse>("/file/admin/university/background", formData, {
-				headers: { "Content-Type": "multipart/form-data" },
-			})
-			.then((res) => res.data);
-	},
 
 	createUnivApplyInfo: (data: UnivApplyInfoCreatePayload) =>
 		axiosInstance.post<UnivApplyInfoManageResponse>("/admin/univ-apply-infos", data).then((res) => res.data),

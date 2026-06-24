@@ -36,6 +36,14 @@ export interface PasswordPatchRequest {
   newPasswordConfirmation: string;
 }
 
+export interface SchoolEmailPostRequest {
+  schoolEmail: string;
+}
+
+export interface SchoolEmailConfirmPostRequest {
+  code: string;
+}
+
 export const myPageApi = {
   getProfile: async (): Promise<MyInfoResponse> => {
     const response: AxiosResponse<MyInfoResponse> = await axiosInstance.get("/my");
@@ -63,6 +71,16 @@ export const myPageApi = {
     data: InterestedRegionCountryRequest,
   ): Promise<InterestedRegionCountryResponse> => {
     const res = await axiosInstance.patch<InterestedRegionCountryResponse>(`/my/interested-location`, data);
+    return res.data;
+  },
+
+  postSchoolEmail: async (data: SchoolEmailPostRequest): Promise<void> => {
+    const res = await axiosInstance.post<void>("/my/school-email", data);
+    return res.data;
+  },
+
+  postConfirmSchoolEmail: async (data: SchoolEmailConfirmPostRequest): Promise<void> => {
+    const res = await axiosInstance.post<void>("/my/school-email/confirm", data);
     return res.data;
   },
 };
