@@ -22,10 +22,10 @@ const HomeUniversitySearchSection = () => {
   } = useHomeUniversitySearch();
 
   return (
-    <section className="px-5 py-5">
+    <section className="px-5 py-5 md:px-0 md:py-0">
       <h2 className="mb-4 text-k-900 typo-bold-1">파견 학교 찾기</h2>
 
-      <div className="mb-3 flex gap-2 overflow-x-auto">
+      <div className="mb-3 flex gap-2 overflow-x-auto md:flex-wrap md:overflow-visible">
         {homeUniversities.map((university) => {
           const isSelected = university.slug === selectedHomeUniversitySlug;
 
@@ -73,14 +73,14 @@ const HomeUniversitySearchSection = () => {
             />
           );
         })}
-      </div>
 
-      <UniversityZoneLink
-        href={searchHref}
-        className="mt-3 w-full rounded-lg bg-primary px-4 py-4 text-center text-k-0 transition-colors typo-sb-9 hover:bg-primary-600"
-      >
-        학교 검색하기
-      </UniversityZoneLink>
+        <UniversityZoneLink
+          href={searchHref}
+          className="w-full rounded-lg bg-primary px-4 py-4 text-center text-k-0 transition-colors typo-sb-9 hover:bg-primary-600"
+        >
+          학교 검색하기
+        </UniversityZoneLink>
+      </div>
     </section>
   );
 };

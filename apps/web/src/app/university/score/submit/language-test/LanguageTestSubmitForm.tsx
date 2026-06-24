@@ -158,7 +158,7 @@ const LanguageTestSubmitForm = () => {
             </div>
           </div>
         </div>
-        <div className="mt-10 w-full max-w-app px-5">
+        <div className="mt-10 w-full max-w-app px-5 md:max-w-none">
           <button
             className={clsx(
               "mb-10 w-full rounded-lg py-4 text-white typo-sb-9",

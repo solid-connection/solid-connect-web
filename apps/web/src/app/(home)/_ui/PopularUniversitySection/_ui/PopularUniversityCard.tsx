@@ -28,11 +28,11 @@ const PopularUniversityCard = ({
   const universityDetailHref = `/university/${homeUniversitySlug}/${university.id}`;
 
   return (
-    <UniversityZoneLink key={university.id} href={universityDetailHref}>
-      <div className="relative w-[153px]">
-        <div className="relative h-[120px] w-[153px] overflow-hidden rounded-lg bg-k-700">
+    <UniversityZoneLink key={university.id} href={universityDetailHref} className="block md:min-w-0">
+      <div className="relative w-[153px] md:w-full">
+        <div className="relative h-[120px] w-[153px] overflow-hidden rounded-lg bg-k-700 md:h-40 md:w-full">
           <Image
-            className="h-[120px] rounded-lg object-cover"
+            className="h-[120px] rounded-lg object-cover md:h-40 md:w-full"
             src={
               university.backgroundImageUrl
                 ? normalizeImageUrlToUploadCdn(university.backgroundImageUrl)
@@ -44,7 +44,7 @@ const PopularUniversityCard = ({
             priority={priority}
             loading={loading}
             fetchPriority={fetchPriority}
-            sizes="(max-width: 600px) 100vw, (max-width: 768px) 50vw, 153px"
+            sizes="(max-width: 600px) 153px, (max-width: 1280px) 25vw, 16vw"
             quality={quality}
             placeholder={!priority ? "blur" : undefined}
             blurDataURL={
@@ -55,7 +55,7 @@ const PopularUniversityCard = ({
             fallbackSrc="/svgs/placeholders/university-background-placeholder.svg"
           />
         </div>
-        <div className="absolute bottom-[9px] left-[10px] z-10 tracking-[0.15px] text-white typo-sb-9">
+        <div className="absolute bottom-[9px] left-[10px] right-2 z-10 truncate tracking-[0.15px] text-white typo-sb-9">
           {university.koreanName}
         </div>
       </div>

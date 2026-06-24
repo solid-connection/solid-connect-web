@@ -64,40 +64,52 @@ const UniversityCards = ({ colleges, style, className, showCapacity = true, link
   const virtualItems = virtualizer.getVirtualItems();
 
   return (
-    <div
-      ref={listRef}
-      className={clsx("relative w-full", className)}
-      role="list"
-      style={{
-        ...style,
-        height: `${virtualizer.getTotalSize()}px`,
-      }}
-    >
-      {virtualItems.map((virtualItem) => {
-        const college = colleges[virtualItem.index];
+    <>
+      <div
+        ref={listRef}
+        className={clsx("relative w-full md:hidden", className)}
+        role="list"
+        style={{
+          ...style,
+          height: `${virtualizer.getTotalSize()}px`,
+        }}
+      >
+        {virtualItems.map((virtualItem) => {
+          const college = colleges[virtualItem.index];
 
-        if (!college) {
-          return null;
-        }
+          if (!college) {
+            return null;
+          }
 
-        return (
-          <div
-            key={virtualItem.key}
-            ref={virtualizer.measureElement}
-            className="absolute left-0 top-0 w-full pb-2.5"
-            data-index={virtualItem.index}
-            role="listitem"
-            aria-posinset={virtualItem.index + 1}
-            aria-setsize={colleges.length}
-            style={{
-              transform: `translateY(${virtualItem.start - virtualizer.options.scrollMargin}px)`,
-            }}
-          >
+          return (
+            <div
+              key={virtualItem.key}
+              ref={virtualizer.measureElement}
+              className="absolute left-0 top-0 w-full pb-2.5"
+              data-index={virtualItem.index}
+              role="listitem"
+              aria-posinset={virtualItem.index + 1}
+              aria-setsize={colleges.length}
+              style={{
+                transform: `translateY(${virtualItem.start - virtualizer.options.scrollMargin}px)`,
+              }}
+            >
+              <UniversityCard university={college} showCapacity={showCapacity} linkPrefix={linkPrefix} />
+            </div>
+          );
+        })}
+      </div>
+      <div
+        className={clsx("hidden gap-3 md:grid md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4", className)}
+        style={style}
+      >
+        {colleges.map((college) => (
+          <div key={college.id}>
             <UniversityCard university={college} showCapacity={showCapacity} linkPrefix={linkPrefix} />
           </div>
-        );
-      })}
-    </div>
+        ))}
+      </div>
+    </>
   );
 };
 
