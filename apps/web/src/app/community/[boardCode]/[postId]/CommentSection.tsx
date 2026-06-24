@@ -18,9 +18,10 @@ type CommentSectionProps = {
   comments: CommentType[];
   postId: number;
   refresh: () => void;
+  variant?: "mobile" | "desktop";
 };
 
-const CommentSection = ({ comments, postId, refresh }: CommentSectionProps) => {
+const CommentSection = ({ comments, postId, refresh, variant = "mobile" }: CommentSectionProps) => {
   const [curSelectedComment, setCurSelectedComment] = useState<number | null>(null);
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
   const blockedUserIds = useReportedPostsStore((state) => state.blockedUserIds);
@@ -42,9 +43,12 @@ const CommentSection = ({ comments, postId, refresh }: CommentSectionProps) => {
     deleteCommentMutation.mutate({ commentId, postId });
   };
 
-  return (
-    <div className="min-h-[50vh] pb-[49px]">
-      {visibleComments?.map((comment) => (
+  const commentList = (
+    <>
+      {visibleComments.length === 0 && (
+        <div className="flex min-h-40 items-center justify-center text-k-400 typo-regular-2">아직 댓글이 없습니다.</div>
+      )}
+      {visibleComments.map((comment) => (
         <Comment
           key={comment.id}
           comment={comment}
@@ -52,8 +56,34 @@ const CommentSection = ({ comments, postId, refresh }: CommentSectionProps) => {
           deleteComment={deleteComment}
           activeDropdown={activeDropdown}
           setActiveDropdown={setActiveDropdown}
+          variant={variant}
         />
       ))}
+    </>
+  );
+
+  if (variant === "desktop") {
+    return (
+      <aside className="flex max-h-[calc(100vh-132px)] min-h-[520px] flex-col rounded-lg border border-k-100 bg-white">
+        <div className="flex items-center justify-between border-b border-k-100 px-5 py-4">
+          <h2 className="text-k-900 typo-bold-4">댓글</h2>
+          <span className="text-primary typo-sb-9">{visibleComments.length}</span>
+        </div>
+        <div className="min-h-0 flex-1 overflow-auto">{commentList}</div>
+        <CommentInput
+          postId={postId}
+          curSelectedComment={curSelectedComment}
+          setCurSelectedComment={setCurSelectedComment}
+          refresh={refresh}
+          variant="desktop"
+        />
+      </aside>
+    );
+  }
+
+  return (
+    <div className="min-h-[50vh] pb-[49px]">
+      {commentList}
       <CommentInput
         postId={postId}
         curSelectedComment={curSelectedComment}
@@ -72,6 +102,7 @@ type CommentProps = {
   deleteComment: (commentId: number) => void;
   activeDropdown: number | null;
   setActiveDropdown: (commentId: number | null) => void;
+  variant?: "mobile" | "desktop";
 };
 
 const Comment = ({
@@ -80,6 +111,7 @@ const Comment = ({
   deleteComment,
   activeDropdown,
   setActiveDropdown,
+  variant = "mobile",
 }: CommentProps) => {
   const toggleDropdown = (commentId: number) => {
     setActiveDropdown(activeDropdown === commentId ? null : commentId);
@@ -91,6 +123,7 @@ const Comment = ({
     <div
       className={clsx(
         "flex border-b border-gray-c-100 px-5 py-[18px]",
+        variant === "desktop" && "transition-colors hover:bg-k-50",
         comment.parentId !== null ? "bg-line-1" : "bg-magic-comment-reply-bg",
       )}
       key={comment.id}
