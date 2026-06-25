@@ -61,107 +61,141 @@ const MentorDetialContent = ({ mentorId }: MentorDetailContentProps) => {
     </>
   );
 
-  if (isDesktop) {
-    return (
-      <div className="min-h-screen bg-k-50 px-8 py-8 lg:px-10">
-        <header className="mb-8">
-          <p className="text-primary typo-sb-9">Mentor</p>
-          <h1 className="mt-2 text-k-900 typo-bold-1">멘토 상세</h1>
-          <p className="mt-2 max-w-2xl text-k-500 typo-medium-2">
-            멘토의 파견 경험과 아티클을 확인하고 멘토링을 신청하세요.
-          </p>
-        </header>
+  const viewProps: MentorDetailViewProps = {
+    mentorId,
+    articleList,
+    channels,
+    profileSummary,
+    introduction,
+    passTip,
+    isApplied,
+    handleApplyMentoring,
+  };
 
-        <div className="grid items-start gap-8 xl:grid-cols-[minmax(320px,420px)_minmax(0,1fr)]">
-          <aside className="sticky top-8 rounded-lg border border-k-100 bg-white p-6">
-            {profileSummary}
-
-            <div className="my-6 h-px bg-k-100" />
-
-            <h2 className="mb-3 text-secondary typo-sb-7">멘토 채널</h2>
-            <ChannelLinks channels={channels} />
-
-            <button
-              type="button"
-              onClick={handleApplyMentoring}
-              disabled={isApplied}
-              className={getApplyButtonClassName(isApplied, "mt-6")}
-            >
-              멘토 신청하기
-            </button>
-          </aside>
-
-          <main className="grid gap-5">
-            <DesktopInfoPanel title="멘토 한마디">
-              <p className="whitespace-pre-wrap text-k-700 typo-regular-2">{introduction}</p>
-            </DesktopInfoPanel>
-
-            <DesktopInfoPanel title="합격 레시피">
-              <p className="whitespace-pre-wrap text-k-700 typo-regular-2">{passTip || "정보가 없습니다."}</p>
-            </DesktopInfoPanel>
-
-            <DesktopInfoPanel title="멘토의 아티클">
-              <div className="grid gap-5 lg:grid-cols-2">
-                {articleList.map((article) => (
-                  <MentorArticle key={article.title} article={article} mentorId={mentorId} />
-                ))}
-              </div>
-              {articleList.length === 0 && <p className="text-k-500 typo-regular-2">정보가 없습니다.</p>}
-            </DesktopInfoPanel>
-          </main>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <>
-      {/* 멘토 프로필 섹션 */}
-      <div className="mt-2 flex">{profileSummary}</div>
-      <hr className="mb-[30px] mt-[30px]" />
-
-      {/* 멘토 한마디 */}
-      <h3 className="mb-2 text-secondary typo-regular-1">멘토 한마디</h3>
-      <p className="mb-7 text-k-500 typo-regular-2">{introduction}</p>
-
-      {/* 멘토 채널 */}
-      <h3 className="mb-2 text-secondary typo-regular-1">멘토 채널</h3>
-      <div className="mb-7">
-        <ChannelLinks channels={channels} />
-      </div>
-
-      {/* 합격 레시피 */}
-      <h3 className="mb-2 text-secondary typo-regular-1">합격 레시피</h3>
-      {passTip ? (
-        <p className="mb-7 text-k-500 typo-regular-2">{passTip}</p>
-      ) : (
-        // TODO: passTip 없을 때 처리 필요
-        <p className="mb-7 text-k-500 typo-regular-2">정보가 없습니다.</p>
-      )}
-
-      {/* 멘토의 아티클 */}
-      <h3 className="mb-2 text-secondary typo-regular-1">멘토의 아티클</h3>
-      <div className="mb-6 space-y-4">
-        {articleList.map((article) => (
-          <MentorArticle key={article.title} article={article} mentorId={mentorId} />
-        ))}
-        {articleList.length === 0 && <p className="mb-7 text-k-500 typo-regular-2">정보가 없습니다.</p>}
-      </div>
-      <div className="pointer-events-none fixed bottom-20 left-1/2 flex w-full -translate-x-1/2 justify-center">
-        <div className="pointer-events-auto w-1/2 max-w-md px-4">
-          <button
-            type="button"
-            onClick={handleApplyMentoring}
-            disabled={isApplied}
-            className={getApplyButtonClassName(isApplied)}
-          >
-            {"멘토 신청하기"}
-          </button>
-        </div>
-      </div>
-    </>
-  );
+  return isDesktop ? <DesktopMentorDetailView {...viewProps} /> : <MobileMentorDetailView {...viewProps} />;
 };
+
+type MentorDetailViewProps = {
+  mentorId: number;
+  articleList: NonNullable<ReturnType<typeof useGetArticleList>["data"]>;
+  channels: Array<{ type: ChannelType; url: string }>;
+  profileSummary: ReactNode;
+  introduction: string;
+  passTip?: string | null;
+  isApplied: boolean;
+  handleApplyMentoring: () => void;
+};
+
+const DesktopMentorDetailView = ({
+  mentorId,
+  articleList,
+  channels,
+  profileSummary,
+  introduction,
+  passTip,
+  isApplied,
+  handleApplyMentoring,
+}: MentorDetailViewProps) => (
+  <div className="min-h-screen bg-k-50 px-8 py-8 lg:px-10">
+    <header className="mb-8">
+      <p className="text-primary typo-sb-9">Mentor</p>
+      <h1 className="mt-2 text-k-900 typo-bold-1">멘토 상세</h1>
+      <p className="mt-2 max-w-2xl text-k-500 typo-medium-2">
+        멘토의 파견 경험과 아티클을 확인하고 멘토링을 신청하세요.
+      </p>
+    </header>
+
+    <div className="grid items-start gap-8 xl:grid-cols-[minmax(320px,420px)_minmax(0,1fr)]">
+      <aside className="sticky top-8 rounded-lg border border-k-100 bg-white p-6">
+        {profileSummary}
+
+        <div className="my-6 h-px bg-k-100" />
+
+        <h2 className="mb-3 text-secondary typo-sb-7">멘토 채널</h2>
+        <ChannelLinks channels={channels} />
+
+        <button
+          type="button"
+          onClick={handleApplyMentoring}
+          disabled={isApplied}
+          className={getApplyButtonClassName(isApplied, "mt-6")}
+        >
+          멘토 신청하기
+        </button>
+      </aside>
+
+      <main className="grid gap-5">
+        <DesktopInfoPanel title="멘토 한마디">
+          <p className="whitespace-pre-wrap text-k-700 typo-regular-2">{introduction}</p>
+        </DesktopInfoPanel>
+
+        <DesktopInfoPanel title="합격 레시피">
+          <p className="whitespace-pre-wrap text-k-700 typo-regular-2">{passTip || "정보가 없습니다."}</p>
+        </DesktopInfoPanel>
+
+        <DesktopInfoPanel title="멘토의 아티클">
+          <div className="grid gap-5 lg:grid-cols-2">
+            {articleList.map((article) => (
+              <MentorArticle key={article.title} article={article} mentorId={mentorId} />
+            ))}
+          </div>
+          {articleList.length === 0 && <p className="text-k-500 typo-regular-2">정보가 없습니다.</p>}
+        </DesktopInfoPanel>
+      </main>
+    </div>
+  </div>
+);
+
+const MobileMentorDetailView = ({
+  mentorId,
+  articleList,
+  channels,
+  profileSummary,
+  introduction,
+  passTip,
+  isApplied,
+  handleApplyMentoring,
+}: MentorDetailViewProps) => (
+  <>
+    <div className="mt-2 flex">{profileSummary}</div>
+    <hr className="mb-[30px] mt-[30px]" />
+
+    <h3 className="mb-2 text-secondary typo-regular-1">멘토 한마디</h3>
+    <p className="mb-7 text-k-500 typo-regular-2">{introduction}</p>
+
+    <h3 className="mb-2 text-secondary typo-regular-1">멘토 채널</h3>
+    <div className="mb-7">
+      <ChannelLinks channels={channels} />
+    </div>
+
+    <h3 className="mb-2 text-secondary typo-regular-1">합격 레시피</h3>
+    {passTip ? (
+      <p className="mb-7 text-k-500 typo-regular-2">{passTip}</p>
+    ) : (
+      <p className="mb-7 text-k-500 typo-regular-2">정보가 없습니다.</p>
+    )}
+
+    <h3 className="mb-2 text-secondary typo-regular-1">멘토의 아티클</h3>
+    <div className="mb-6 space-y-4">
+      {articleList.map((article) => (
+        <MentorArticle key={article.title} article={article} mentorId={mentorId} />
+      ))}
+      {articleList.length === 0 && <p className="mb-7 text-k-500 typo-regular-2">정보가 없습니다.</p>}
+    </div>
+    <div className="pointer-events-none fixed bottom-20 left-1/2 flex w-full -translate-x-1/2 justify-center">
+      <div className="pointer-events-auto w-1/2 max-w-md px-4">
+        <button
+          type="button"
+          onClick={handleApplyMentoring}
+          disabled={isApplied}
+          className={getApplyButtonClassName(isApplied)}
+        >
+          멘토 신청하기
+        </button>
+      </div>
+    </div>
+  </>
+);
 
 const getApplyButtonClassName = (isApplied: boolean, className?: string) =>
   clsx(

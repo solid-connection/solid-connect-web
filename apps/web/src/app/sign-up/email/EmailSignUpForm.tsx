@@ -175,60 +175,72 @@ const EmailSignUpForm = () => {
     </BlockBtn>
   );
 
-  if (isDesktop) {
-    return (
-      <div className="min-h-screen bg-k-50 px-8 py-8 lg:px-10">
-        <div className="grid min-h-[calc(100vh-64px)] items-center gap-8 xl:grid-cols-[minmax(420px,520px)_minmax(300px,380px)] xl:justify-center">
-          <section className="rounded-lg border border-k-100 bg-white p-8">
-            <p className="text-primary typo-sb-9">Sign up</p>
-            <h1 className="mt-2 text-k-900 typo-bold-1">이메일로 시작하기</h1>
-            <p className="mt-2 text-k-500 typo-medium-2">이메일과 비밀번호를 입력해 솔커 계정을 만들어보세요.</p>
+  const viewProps = {
+    currentStep,
+    formFields,
+    submitButton,
+  };
 
-            <Progress value={currentStep * 50} showPercentage={true} className="mt-8" />
-            {formFields}
-            <div className="mt-8">{submitButton}</div>
-          </section>
-
-          <aside className="rounded-lg border border-k-100 bg-white p-6">
-            <h2 className="text-k-900 typo-bold-4">가입 단계</h2>
-            <div className="mt-5 grid gap-3">
-              {["이메일 입력", "비밀번호 설정", "프로필 완성"].map((item, index) => (
-                <div
-                  key={item}
-                  className={`rounded-lg px-4 py-3 typo-medium-2 ${
-                    currentStep >= index ? "bg-primary-100 text-primary" : "bg-k-50 text-k-500"
-                  }`}
-                >
-                  {item}
-                </div>
-              ))}
-            </div>
-          </aside>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <>
-      <div className="px-5 pt-2.5">
-        <Progress value={currentStep * 50} showPercentage={true} className="mt-4" />
-        <div className="mt-10">
-          <span className="text-k-900 typo-bold-1">
-            이메일을
-            <br />
-            입력해주세요
-          </span>
-        </div>
-
-        {formFields}
-      </div>
-
-      <div className="fixed bottom-14 w-full max-w-app bg-white md:bottom-0 md:left-[88px] md:w-[calc(100%-88px)] md:max-w-none">
-        <div className="mb-[37px] px-5">{submitButton}</div>
-      </div>
-    </>
-  );
+  return isDesktop ? <DesktopEmailSignUpView {...viewProps} /> : <MobileEmailSignUpView {...viewProps} />;
 };
+
+type EmailSignUpViewProps = {
+  currentStep: number;
+  formFields: React.ReactNode;
+  submitButton: React.ReactNode;
+};
+
+const DesktopEmailSignUpView = ({ currentStep, formFields, submitButton }: EmailSignUpViewProps) => (
+  <div className="min-h-screen bg-k-50 px-8 py-8 lg:px-10">
+    <div className="grid min-h-[calc(100vh-64px)] items-center gap-8 xl:grid-cols-[minmax(420px,520px)_minmax(300px,380px)] xl:justify-center">
+      <section className="rounded-lg border border-k-100 bg-white p-8">
+        <p className="text-primary typo-sb-9">Sign up</p>
+        <h1 className="mt-2 text-k-900 typo-bold-1">이메일로 시작하기</h1>
+        <p className="mt-2 text-k-500 typo-medium-2">이메일과 비밀번호를 입력해 솔커 계정을 만들어보세요.</p>
+
+        <Progress value={currentStep * 50} showPercentage={true} className="mt-8" />
+        {formFields}
+        <div className="mt-8">{submitButton}</div>
+      </section>
+
+      <aside className="rounded-lg border border-k-100 bg-white p-6">
+        <h2 className="text-k-900 typo-bold-4">가입 단계</h2>
+        <div className="mt-5 grid gap-3">
+          {["이메일 입력", "비밀번호 설정", "프로필 완성"].map((item, index) => (
+            <div
+              key={item}
+              className={`rounded-lg px-4 py-3 typo-medium-2 ${
+                currentStep >= index ? "bg-primary-100 text-primary" : "bg-k-50 text-k-500"
+              }`}
+            >
+              {item}
+            </div>
+          ))}
+        </div>
+      </aside>
+    </div>
+  </div>
+);
+
+const MobileEmailSignUpView = ({ currentStep, formFields, submitButton }: EmailSignUpViewProps) => (
+  <>
+    <div className="px-5 pt-2.5">
+      <Progress value={currentStep * 50} showPercentage={true} className="mt-4" />
+      <div className="mt-10">
+        <span className="text-k-900 typo-bold-1">
+          이메일을
+          <br />
+          입력해주세요
+        </span>
+      </div>
+
+      {formFields}
+    </div>
+
+    <div className="fixed bottom-14 w-full max-w-app bg-white md:bottom-0 md:left-[88px] md:w-[calc(100%-88px)] md:max-w-none">
+      <div className="mb-[37px] px-5">{submitButton}</div>
+    </div>
+  </>
+);
 
 export default EmailSignUpForm;

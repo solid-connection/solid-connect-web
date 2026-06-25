@@ -66,9 +66,7 @@ const LoginContent = () => {
 
   if (isDesktop === null) return null;
 
-  const fieldWrapperClassName = isDesktop ? "" : "mx-5";
-
-  const loginForm = (
+  const renderLoginForm = (fieldWrapperClassName: string) => (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-col gap-3">
         <div className={fieldWrapperClassName}>
@@ -112,7 +110,7 @@ const LoginContent = () => {
     </form>
   );
 
-  const socialButtons = (
+  const renderSocialButtons = (fieldWrapperClassName: string) => (
     <div className="mt-3">
       <div className="text-center font-serif text-k-300 typo-medium-1">or</div>
       <div className="mt-3 flex flex-col gap-3">
@@ -150,73 +148,92 @@ const LoginContent = () => {
     </div>
   );
 
-  if (isDesktop) {
-    return (
-      <div className="min-h-screen bg-k-50 px-8 py-8 lg:px-10">
-        <div className="grid min-h-[calc(100vh-64px)] items-center gap-8 xl:grid-cols-[minmax(360px,440px)_minmax(420px,520px)] xl:justify-center">
-          <aside className="rounded-lg border border-k-100 bg-white p-8">
-            <Link href="/" aria-label="홈으로 이동">
-              <IconSolidConnectionFullBlackLogo />
-            </Link>
-            <p className="mt-10 text-primary typo-sb-9">Solid Connection</p>
-            <h1 className="mt-3 text-k-900 typo-bold-1">교환학생 여정을 이어가세요</h1>
-            <p className="mt-4 text-k-500 typo-medium-2">
-              학교 탐색부터 지원 준비, 멘토링과 커뮤니티까지 한 계정에서 관리할 수 있습니다.
-            </p>
-            <div className="mt-8 grid gap-3">
-              {["관심 학교 저장", "지원 정보 관리", "멘토링 채팅"].map((item) => (
-                <div key={item} className="rounded-lg bg-k-50 px-4 py-3 text-k-700 typo-medium-2">
-                  {item}
-                </div>
-              ))}
-            </div>
-          </aside>
+  const desktopViewProps = {
+    loginForm: renderLoginForm(""),
+    socialButtons: renderSocialButtons(""),
+  };
+  const mobileViewProps = {
+    loginForm: renderLoginForm("mx-5"),
+    socialButtons: renderSocialButtons("mx-5"),
+    handleBack,
+  };
 
-          <section className="rounded-lg border border-k-100 bg-white p-8">
-            <div>
-              <p className="text-primary typo-sb-9">Login</p>
-              <h2 className="mt-2 font-serif text-k-900 typo-bold-1">로그인</h2>
-              <p className="mt-2 text-k-500 typo-medium-2">교환학생을 위한 여정을 지금 시작하세요.</p>
-            </div>
+  return isDesktop ? <DesktopLoginView {...desktopViewProps} /> : <MobileLoginView {...mobileViewProps} />;
+};
 
-            <div className="mt-8">
-              {loginForm}
-              {socialButtons}
-            </div>
-          </section>
-        </div>
-      </div>
-    );
-  }
+type DesktopLoginViewProps = {
+  loginForm: React.ReactNode;
+  socialButtons: React.ReactNode;
+};
 
-  return (
-    <div>
-      <div className="-mx-5 mt-[-56px] flex h-[77px] items-center gap-3 border-b border-bg-200 px-5">
-        <button
-          type="button"
-          onClick={handleBack}
-          className="flex h-6 w-6 shrink-0 items-center justify-center"
-          aria-label="뒤로가기"
-        >
-          <IconArrowBackFilled />
-        </button>
+type MobileLoginViewProps = DesktopLoginViewProps & {
+  handleBack: () => void;
+};
+
+const DesktopLoginView = ({ loginForm, socialButtons }: DesktopLoginViewProps) => (
+  <div className="min-h-screen bg-k-50 px-8 py-8 lg:px-10">
+    <div className="grid min-h-[calc(100vh-64px)] items-center gap-8 xl:grid-cols-[minmax(360px,440px)_minmax(420px,520px)] xl:justify-center">
+      <aside className="rounded-lg border border-k-100 bg-white p-8">
         <Link href="/" aria-label="홈으로 이동">
           <IconSolidConnectionFullBlackLogo />
         </Link>
-      </div>
-      <div className="h-[229px] pt-[90px]">
-        <div className="text-center font-serif text-k-900 typo-sb-3">로그인</div>
-        <div className="text-center font-serif text-k-300 typo-medium-4">
-          교환학생을 위한 여정
-          <br />
-          지금 솔리드 커넥션에서 시작하세요.
+        <p className="mt-10 text-primary typo-sb-9">Solid Connection</p>
+        <h1 className="mt-3 text-k-900 typo-bold-1">교환학생 여정을 이어가세요</h1>
+        <p className="mt-4 text-k-500 typo-medium-2">
+          학교 탐색부터 지원 준비, 멘토링과 커뮤니티까지 한 계정에서 관리할 수 있습니다.
+        </p>
+        <div className="mt-8 grid gap-3">
+          {["관심 학교 저장", "지원 정보 관리", "멘토링 채팅"].map((item) => (
+            <div key={item} className="rounded-lg bg-k-50 px-4 py-3 text-k-700 typo-medium-2">
+              {item}
+            </div>
+          ))}
         </div>
-      </div>
+      </aside>
 
-      {loginForm}
-      {socialButtons}
+      <section className="rounded-lg border border-k-100 bg-white p-8">
+        <div>
+          <p className="text-primary typo-sb-9">Login</p>
+          <h2 className="mt-2 font-serif text-k-900 typo-bold-1">로그인</h2>
+          <p className="mt-2 text-k-500 typo-medium-2">교환학생을 위한 여정을 지금 시작하세요.</p>
+        </div>
+
+        <div className="mt-8">
+          {loginForm}
+          {socialButtons}
+        </div>
+      </section>
     </div>
-  );
-};
+  </div>
+);
+
+const MobileLoginView = ({ loginForm, socialButtons, handleBack }: MobileLoginViewProps) => (
+  <div>
+    <div className="-mx-5 mt-[-56px] flex h-[77px] items-center gap-3 border-b border-bg-200 px-5">
+      <button
+        type="button"
+        onClick={handleBack}
+        className="flex h-6 w-6 shrink-0 items-center justify-center"
+        aria-label="뒤로가기"
+      >
+        <IconArrowBackFilled />
+      </button>
+      <Link href="/" aria-label="홈으로 이동">
+        <IconSolidConnectionFullBlackLogo />
+      </Link>
+    </div>
+    <div className="h-[229px] pt-[90px]">
+      <div className="text-center font-serif text-k-900 typo-sb-3">로그인</div>
+      <div className="text-center font-serif text-k-300 typo-medium-4">
+        교환학생을 위한 여정
+        <br />
+        지금 솔리드 커넥션에서 시작하세요.
+      </div>
+    </div>
+
+    {loginForm}
+    {socialButtons}
+  </div>
+);
 
 export default LoginContent;
