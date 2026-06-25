@@ -13,21 +13,19 @@ type SignupProfileScreenProps = {
   defaultProfileImageUrl: string;
   profileImageFile: File | null;
   setProfileImageFile: Dispatch<SetStateAction<File | null>>;
-  variant?: "mobile" | "desktop";
 };
 
-const SignupProfileScreen = ({
+const SignupProfileScreenBase = ({
   toNextStage,
   nickname,
   setNickname,
   defaultProfileImageUrl,
   profileImageFile,
   setProfileImageFile,
-  variant = "mobile",
-}: SignupProfileScreenProps) => {
+  isDesktop,
+}: SignupProfileScreenProps & { isDesktop: boolean }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploadedProfileImageFileView, setUploadedProfileImageFileView] = useState<string | null>(null);
-  const isDesktop = variant === "desktop";
 
   const submit = () => {
     if (!nickname) {
@@ -116,4 +114,12 @@ const SignupProfileScreen = ({
   );
 };
 
-export default SignupProfileScreen;
+export const DesktopSignupProfileScreen = (props: SignupProfileScreenProps) => (
+  <SignupProfileScreenBase {...props} isDesktop />
+);
+
+export const MobileSignupProfileScreen = (props: SignupProfileScreenProps) => (
+  <SignupProfileScreenBase {...props} isDesktop={false} />
+);
+
+export default MobileSignupProfileScreen;

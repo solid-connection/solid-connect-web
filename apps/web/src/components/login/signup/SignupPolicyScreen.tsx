@@ -8,12 +8,10 @@ import { Checkbox } from "@/components/ui/Checkbox";
 
 interface SignupPolicyScreenProps {
   toNextStage: () => void;
-  variant?: "mobile" | "desktop";
 }
 
-const SignupPolicyScreen = ({ toNextStage, variant = "mobile" }: SignupPolicyScreenProps) => {
+const SignupPolicyScreenBase = ({ toNextStage, isDesktop }: SignupPolicyScreenProps & { isDesktop: boolean }) => {
   const [isChecked, setIsChecked] = useState(false);
-  const isDesktop = variant === "desktop";
 
   return (
     <div className={isDesktop ? "" : "mt-[-56px]"}>
@@ -70,4 +68,12 @@ const SignupPolicyScreen = ({ toNextStage, variant = "mobile" }: SignupPolicyScr
   );
 };
 
-export default SignupPolicyScreen;
+export const DesktopSignupPolicyScreen = (props: SignupPolicyScreenProps) => (
+  <SignupPolicyScreenBase {...props} isDesktop />
+);
+
+export const MobileSignupPolicyScreen = (props: SignupPolicyScreenProps) => (
+  <SignupPolicyScreenBase {...props} isDesktop={false} />
+);
+
+export default MobileSignupPolicyScreen;

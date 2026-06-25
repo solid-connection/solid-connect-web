@@ -11,17 +11,14 @@ type SignupPrepareScreenProps = {
   preparation: PreparationStatus | null;
   setPreparation: Dispatch<SetStateAction<PreparationStatus | null>>;
   toNextStage: () => void;
-  variant?: "mobile" | "desktop";
 };
 
-const SignupPrepareScreen = ({
+const SignupPrepareScreenBase = ({
   preparation,
   setPreparation,
   toNextStage,
-  variant = "mobile",
-}: SignupPrepareScreenProps) => {
-  const isDesktop = variant === "desktop";
-
+  isDesktop,
+}: SignupPrepareScreenProps & { isDesktop: boolean }) => {
   const submit = () => {
     if (!preparation) {
       showIconToast("logo", "준비 단계를 선택해주세요.");
@@ -118,4 +115,12 @@ const PrepareChoiceButton = ({
   );
 };
 
-export default SignupPrepareScreen;
+export const DesktopSignupPrepareScreen = (props: SignupPrepareScreenProps) => (
+  <SignupPrepareScreenBase {...props} isDesktop />
+);
+
+export const MobileSignupPrepareScreen = (props: SignupPrepareScreenProps) => (
+  <SignupPrepareScreenBase {...props} isDesktop={false} />
+);
+
+export default MobileSignupPrepareScreen;
