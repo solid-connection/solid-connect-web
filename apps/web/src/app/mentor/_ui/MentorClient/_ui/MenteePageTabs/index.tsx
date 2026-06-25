@@ -12,7 +12,12 @@ import { VerifyStatus } from "@/types/mentee";
 import { MenteeTab } from "@/types/mentor";
 import { MentorChatCardsSkeleton } from "../../../MentorPageSkeleton";
 
-const MenteePageTabs = ({ variant = "mobile" }: { variant?: "mobile" | "desktop" }) => {
+type MenteeMentoringSectionBaseProps = {
+  isDesktop: boolean;
+  visibleCount: number;
+};
+
+const MenteeMentoringSectionBase = ({ isDesktop, visibleCount }: MenteeMentoringSectionBaseProps) => {
   // api
   const { data: mentoList = [], isPending: isMentoListPending } = useGetChatRooms();
   const { data: menteeWaitingMentoringList = [], isPending: isWaitingListPending } = useGetMenteeMentoringList(
@@ -26,8 +31,6 @@ const MenteePageTabs = ({ variant = "mobile" }: { variant?: "mobile" | "desktop"
 
   // 현재 탭에 따라 보여줄 데이터의 길이
   const currentDataLength = selectedTab === MenteeTab.MY_MENTOR ? mentoList.length : menteeWaitingMentoringList.length;
-  const isDesktop = variant === "desktop";
-  const visibleCount = isDesktop ? 4 : 2;
   const sectionTitle = selectedTab === MenteeTab.MY_MENTOR ? "진행 중인 멘토링" : "대기 중인 멘토링";
   const emptyMessage = selectedTab === MenteeTab.MY_MENTOR ? "진행중인 멘토링이 없어요!" : "대기중인 멘토링이 없어요!";
   const viewAllHref = selectedTab === MenteeTab.MY_MENTOR ? "/mentor/chat" : "/mentor/waiting";
@@ -101,4 +104,9 @@ const MenteePageTabs = ({ variant = "mobile" }: { variant?: "mobile" | "desktop"
     </>
   );
 };
-export default MenteePageTabs;
+
+export const MenteeMentoringDesktopPanel = () => <MenteeMentoringSectionBase isDesktop visibleCount={4} />;
+
+export const MenteeMentoringMobileSection = () => <MenteeMentoringSectionBase isDesktop={false} visibleCount={2} />;
+
+export default MenteeMentoringMobileSection;

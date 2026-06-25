@@ -9,8 +9,8 @@ import useAuthStore from "@/lib/zustand/useAuthStore";
 import { UserRole } from "@/types/mentor";
 import useIsDesktopViewport from "@/utils/useIsDesktopViewport";
 import MentorPageSkeleton from "../MentorPageSkeleton";
-import MenteePage from "./_ui/MenteePage";
-import MentorPage from "./_ui/MentorPage";
+import { MenteeDesktopPage, MenteeMobilePage } from "./_ui/MenteePage";
+import { MentorDesktopPage, MentorMobilePage } from "./_ui/MentorPage";
 
 const MentorClient = () => {
   const router = useRouter();
@@ -52,19 +52,13 @@ const MentorClient = () => {
     );
   }
 
-  if (role === UserRole.ADMIN) {
-    return clientRole === UserRole.MENTEE ? (
-      <MenteePage variant={isDesktop ? "desktop" : "mobile"} />
-    ) : (
-      <MentorPage variant={isDesktop ? "desktop" : "mobile"} />
-    );
+  const shouldRenderMentorPage = role === UserRole.ADMIN ? clientRole !== UserRole.MENTEE : role === UserRole.MENTOR;
+
+  if (shouldRenderMentorPage) {
+    return isDesktop ? <MentorDesktopPage /> : <MentorMobilePage />;
   }
 
-  return role === UserRole.MENTOR ? (
-    <MentorPage variant={isDesktop ? "desktop" : "mobile"} />
-  ) : (
-    <MenteePage variant={isDesktop ? "desktop" : "mobile"} />
-  );
+  return isDesktop ? <MenteeDesktopPage /> : <MenteeMobilePage />;
 };
 
 export default MentorClient;

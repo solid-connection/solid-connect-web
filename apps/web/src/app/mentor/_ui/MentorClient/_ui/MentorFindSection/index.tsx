@@ -11,7 +11,7 @@ import { MentorCardListSkeleton } from "../../../MentorPageSkeleton";
 import usePrefetchMentorFindTab from "./_hooks/usePrefetchMentorFindTab";
 import useSelectedTab from "./_hooks/useSelectedTab";
 
-const MentorFindSection = ({ variant = "mobile" }: { variant?: "mobile" | "desktop" }) => {
+const MentorFindSectionBase = ({ isDesktop }: { isDesktop: boolean }) => {
   const { listRef, selectedTab, handleSelectTab } = useSelectedTab();
 
   const {
@@ -24,8 +24,6 @@ const MentorFindSection = ({ variant = "mobile" }: { variant?: "mobile" | "deskt
   });
   const { lastElementRef } = useInfinityScroll({ fetchNextPage, hasNextPage });
   usePrefetchMentorFindTab();
-
-  const isDesktop = variant === "desktop";
 
   return (
     <section className={isDesktop ? "rounded-lg border border-k-100 bg-white p-6" : ""}>
@@ -71,4 +69,8 @@ const MentorFindSection = ({ variant = "mobile" }: { variant?: "mobile" | "deskt
   );
 };
 
-export default MentorFindSection;
+export const MentorFindDesktopPanel = () => <MentorFindSectionBase isDesktop />;
+
+export const MentorFindMobileSection = () => <MentorFindSectionBase isDesktop={false} />;
+
+export default MentorFindMobileSection;
