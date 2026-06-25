@@ -31,7 +31,7 @@ export interface RecommendedUniversitiesResponseRecommendedUniversitiesItem {
   country: string;
   logoImageUrl: string;
   backgroundImageUrl: string;
-  studentCapacity: number;
+  studentCapacity: number | null;
   languageRequirements: RecommendedUniversitiesResponseRecommendedUniversitiesItemLanguageRequirementsItem[];
 }
 
@@ -52,7 +52,7 @@ export interface WishListResponseItem {
   country: string;
   logoImageUrl: string;
   backgroundImageUrl: string;
-  studentCapacity: number;
+  studentCapacity: number | null;
   languageRequirements: WishListResponseItemLanguageRequirementsItem[];
 }
 
@@ -91,7 +91,7 @@ export interface UniversityDetailResponse {
   logoImageUrl: string;
   backgroundImageUrl: string;
   detailsForLocal: string;
-  studentCapacity: number;
+  studentCapacity: number | null;
   tuitionFeeType: string;
   semesterAvailableForDispatch: string;
   languageRequirements: UniversityDetailResponseLanguageRequirementsItem[];
@@ -116,7 +116,7 @@ export interface SearchTextResponseUnivApplyInfoPreviewsItem {
   country: string;
   logoImageUrl: string;
   backgroundImageUrl: string;
-  studentCapacity: number;
+  studentCapacity: number | null;
   languageRequirements: SearchTextResponseUnivApplyInfoPreviewsItemLanguageRequirementsItem[];
   homeUniversityName?: HomeUniversityName;
 }
@@ -138,7 +138,7 @@ export interface SearchFilterResponseUnivApplyInfoPreviewsItem {
   country: string;
   logoImageUrl: string;
   backgroundImageUrl: string;
-  studentCapacity: number;
+  studentCapacity: number | null;
   languageRequirements: SearchFilterResponseUnivApplyInfoPreviewsItemLanguageRequirementsItem[];
 }
 

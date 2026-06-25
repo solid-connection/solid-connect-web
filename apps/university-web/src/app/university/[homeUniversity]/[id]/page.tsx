@@ -96,7 +96,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const imageUrl = resolveMetadataImageUrl(universityData.backgroundImageUrl);
 
   const countryExchangeKeyword = `${universityData.country} 교환학생`;
-  const description = `${convertedKoreanName}(${universityData.englishName}) ${countryExchangeKeyword} 프로그램. 모집인원 ${universityData.studentCapacity}명. ${homeUniversityInfo?.shortName || ""} 학생을 위한 교환학생 정보.`;
+  const capacityDescription =
+    universityData.studentCapacity === null || universityData.studentCapacity === undefined
+      ? "모집인원 미정"
+      : `모집인원 ${universityData.studentCapacity}명`;
+  const description = `${convertedKoreanName}(${universityData.englishName}) ${countryExchangeKeyword} 프로그램. ${capacityDescription}. ${homeUniversityInfo?.shortName || ""} 학생을 위한 교환학생 정보.`;
   const title = `${convertedKoreanName} - ${countryExchangeKeyword} 정보 | 솔리드커넥션`;
 
   return {

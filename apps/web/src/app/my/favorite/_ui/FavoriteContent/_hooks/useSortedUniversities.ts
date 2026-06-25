@@ -28,7 +28,9 @@ const useSortedUniversities = (): UseSortedUniversitiesReturn => {
     switch (sequence) {
       // '모집인원 순'일 경우 studentCapacity를 기준으로 내림차순 정렬
       case filterType.NUMBER_OF_RECRUIT:
-        return newWishUniversity.sort((a: University, b: University) => b.studentCapacity - a.studentCapacity);
+        return newWishUniversity.sort(
+          (a: University, b: University) => (b.studentCapacity ?? -1) - (a.studentCapacity ?? -1),
+        );
       default:
         return wishUniversity; // 원본 순서(최신순) 그대로 반환
     }
