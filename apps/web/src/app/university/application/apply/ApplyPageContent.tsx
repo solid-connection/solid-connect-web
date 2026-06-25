@@ -106,14 +106,14 @@ const ApplyPageContent = () => {
 
   if (isDesktop === null) return null;
 
-  const isDataExist = !homeUniversityName || gpaScoreList.length === 0 || languageTestScoreList.length === 0;
+  const isScoreDataEmpty = !homeUniversityName || gpaScoreList.length === 0 || languageTestScoreList.length === 0;
   const hasSelectedUniversity = curUniversityList.some((universityId) => universityId > 0);
   const progressStep = step === 3 && hasSelectedUniversity ? APPLY_PROGRESS_TOTAL_STEPS : step + 1;
   const activeStepIndex =
     step === 99 ? APPLY_STEP_LABELS.length - 1 : Math.max(0, Math.min(step - 1, APPLY_STEP_LABELS.length - 1));
 
   const renderStep = (variant: "mobile" | "desktop") => {
-    if (isDataExist) {
+    if (isScoreDataEmpty) {
       return <EmptyGPA variant={variant} />;
     }
 

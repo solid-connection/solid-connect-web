@@ -65,7 +65,7 @@ const MenteePageTabs = ({ variant = "mobile" }: { variant?: "mobile" | "desktop"
         {!isCurrentTabPending &&
           selectedTab === MenteeTab.MY_MENTOR &&
           mentoList.slice(0, visibleCount).map((mentor) => (
-            <Link href={`mentor/chat/${mentor.id}`} key={mentor.id}>
+            <Link href={`/mentor/chat/${mentor.id}`} key={mentor.id}>
               <MentorChatCard
                 key={mentor.id}
                 nickname={mentor.partner.nickname}

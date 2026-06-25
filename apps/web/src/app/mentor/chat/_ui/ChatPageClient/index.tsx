@@ -13,15 +13,18 @@ import useIsDesktopViewport from "@/utils/useIsDesktopViewport";
 type ChatRoom = NonNullable<ReturnType<typeof useGetChatRooms>["data"]>[number];
 
 const ChatPageClient = () => {
-  const { data: chatRooms = [] } = useGetChatRooms();
-  const { data: myInfo } = useGetMyInfo();
+  const { data: chatRooms = [], isPending: isChatRoomsPending } = useGetChatRooms();
+  const { data: myInfo, isError: isMyInfoError, isLoading: isMyInfoLoading } = useGetMyInfo();
   const isDesktop = useIsDesktopViewport();
 
   const isMentee = myInfo?.role === UserRole.MENTEE;
   const isPartnerMentor = isMentee;
   const listTitle = isMentee ? "나의 멘토" : "나의 멘티";
+  const isProfilePending = isMyInfoLoading || (!isMyInfoError && !myInfo?.role);
 
-  if (isDesktop === null) return null;
+  if (isDesktop === null || isProfilePending || isChatRoomsPending) {
+    return <div aria-hidden className="min-h-screen bg-white md:bg-k-50" />;
+  }
 
   if (chatRooms.length === 0 && isMentee) {
     return <ChatEmptyState isDesktop={isDesktop} isMentee />;

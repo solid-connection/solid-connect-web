@@ -85,7 +85,18 @@ const ApplyMentorPage = () => {
             <section className="rounded-lg border border-k-100 bg-white p-6">
               <div className="mb-8">
                 <div className="mb-3 flex items-center justify-between">
-                  <span className="text-k-900 typo-bold-4">{stepTitle}</span>
+                  <div className="flex items-center gap-3">
+                    {step > 1 && (
+                      <button
+                        type="button"
+                        onClick={goPrevStep}
+                        className="rounded-lg border border-k-100 px-3 py-2 text-k-600 transition-colors hover:border-primary-300 hover:text-primary typo-sb-9"
+                      >
+                        이전
+                      </button>
+                    )}
+                    <span className="text-k-900 typo-bold-4">{stepTitle}</span>
+                  </div>
                   <span className="text-primary typo-sb-9">{step}/3</span>
                 </div>
                 <Progress showPercentage={false} value={progress} />

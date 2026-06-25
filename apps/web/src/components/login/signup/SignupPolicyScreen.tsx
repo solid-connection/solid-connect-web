@@ -17,7 +17,7 @@ const SignupPolicyScreen = ({ toNextStage, variant = "mobile" }: SignupPolicyScr
 
   return (
     <div className={isDesktop ? "" : "mt-[-56px]"}>
-      <div className={isDesktop ? "rounded-lg bg-k-50 p-6" : "border-b border-[#bgbgbg]"}>
+      <div className={isDesktop ? "rounded-lg bg-k-50 p-6" : "border-b border-[#bcbcbc]"}>
         <div className={isDesktop ? "" : "h-[375px] pl-5"}>
           <div className={isDesktop ? "" : "mt-[149px]"}>
             <svg xmlns="http://www.w3.org/2000/svg" width="46" height="30" viewBox="0 0 46 30" fill="none">

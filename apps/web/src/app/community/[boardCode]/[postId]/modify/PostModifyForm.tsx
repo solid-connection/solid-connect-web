@@ -58,6 +58,10 @@ const PostModifyForm = ({
   };
 
   useEffect(() => {
+    if (isDesktop === null) {
+      return () => {};
+    }
+
     const textarea = textareaRef.current;
     const titleDiv = titleRef.current;
 
@@ -78,7 +82,7 @@ const PostModifyForm = ({
       return () => textarea.removeEventListener("input", adjustHeight);
     }
     return () => {};
-  }, []);
+  }, [isDesktop]);
 
   const submitPost = async () => {
     const trimmedTitle = title.trim();
