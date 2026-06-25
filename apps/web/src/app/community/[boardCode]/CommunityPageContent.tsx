@@ -14,7 +14,7 @@ import { buildLoginPathWithRedirect } from "@/utils/authRedirect";
 import useIsDesktopViewport from "@/utils/useIsDesktopViewport";
 import { CommunityPostListSkeleton } from "./CommunityPageSkeleton";
 import CommunityRegionSelector from "./CommunityRegionSelector";
-import PostCards from "./PostCards";
+import { DesktopPostCards, MobilePostCards } from "./PostCards";
 import PostWriteButton from "./PostWriteButton";
 
 interface CommunityPageContentProps {
@@ -134,7 +134,7 @@ const CommunityMobileView = ({
         setChoice={setCategory}
         style={{ padding: "10px 0 10px 18px" }}
       />
-      {isPending ? <CommunityPostListSkeleton /> : <PostCards posts={visiblePosts} boardCode={boardCode} />}
+      {isPending ? <CommunityPostListSkeleton /> : <MobilePostCards posts={visiblePosts} boardCode={boardCode} />}
       <PostWriteButton onClick={postWriteHandler} />
     </div>
   );
@@ -232,11 +232,7 @@ const CommunityDesktopView = ({
             </span>
           </section>
 
-          {isPending ? (
-            <CommunityPostListSkeleton />
-          ) : (
-            <PostCards posts={visiblePosts} boardCode={boardCode} variant="desktop" />
-          )}
+          {isPending ? <CommunityPostListSkeleton /> : <DesktopPostCards posts={visiblePosts} boardCode={boardCode} />}
         </main>
       </div>
     </div>

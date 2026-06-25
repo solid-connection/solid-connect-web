@@ -7,8 +7,8 @@ import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 import useReportedPostsStore from "@/lib/zustand/useReportedPostsStore";
 import useIsDesktopViewport from "@/utils/useIsDesktopViewport";
-import CommentSection from "./CommentSection";
-import Content from "./Content";
+import { DesktopCommentSection, MobileCommentSection } from "./CommentSection";
+import { DesktopContent, MobileContent } from "./Content";
 import KebabMenu from "./KebabMenu";
 
 interface PostPageContentProps {
@@ -90,13 +90,8 @@ const PostPageContent = ({ boardCode, postId }: PostPageContentProps) => {
         </header>
 
         <div className="grid items-start gap-8 xl:grid-cols-[minmax(0,760px)_minmax(320px,420px)]">
-          <Content post={post} postId={postId} variant="desktop" />
-          <CommentSection
-            comments={post.postFindCommentResponses}
-            postId={postId}
-            refresh={refetch}
-            variant="desktop"
-          />
+          <DesktopContent post={post} postId={postId} />
+          <DesktopCommentSection comments={post.postFindCommentResponses} postId={postId} refresh={refetch} />
         </div>
       </div>
     );
@@ -118,8 +113,8 @@ const PostPageContent = ({ boardCode, postId }: PostPageContentProps) => {
           />
         }
       />
-      <Content post={post} postId={postId} />
-      <CommentSection comments={post.postFindCommentResponses} postId={postId} refresh={refetch} />
+      <MobileContent post={post} postId={postId} />
+      <MobileCommentSection comments={post.postFindCommentResponses} postId={postId} refresh={refetch} />
     </div>
   );
 };

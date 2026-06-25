@@ -10,16 +10,15 @@ type CommentInputProps = {
   curSelectedComment: number | null;
   setCurSelectedComment: React.Dispatch<React.SetStateAction<number | null>>;
   refresh: () => void;
-  variant?: "mobile" | "desktop";
 };
 
-const CommentInput = ({
+const CommentInputBase = ({
   postId,
   curSelectedComment,
   setCurSelectedComment,
   refresh,
-  variant = "mobile",
-}: CommentInputProps) => {
+  isDesktop,
+}: CommentInputProps & { isDesktop: boolean }) => {
   const [content, setContent] = useState<string>("");
 
   const createCommentMutation = useCreateComment();
@@ -47,7 +46,7 @@ const CommentInput = ({
   return (
     <div
       className={
-        variant === "desktop"
+        isDesktop
           ? "flex w-full items-center gap-3 border-t border-bg-400 bg-k-0 p-4"
           : "fixed bottom-14 flex w-full min-w-app max-w-app items-center gap-3 border-t border-bg-400 bg-k-0 p-2 md:bottom-0 md:left-[88px] md:w-[calc(100%-88px)] md:min-w-0 md:max-w-none"
       }
@@ -86,4 +85,8 @@ const CommentInput = ({
   );
 };
 
-export default CommentInput;
+export const DesktopCommentInput = (props: CommentInputProps) => <CommentInputBase {...props} isDesktop />;
+
+export const MobileCommentInput = (props: CommentInputProps) => <CommentInputBase {...props} isDesktop={false} />;
+
+export default MobileCommentInput;
