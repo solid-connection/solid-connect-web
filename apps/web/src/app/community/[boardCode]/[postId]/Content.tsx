@@ -19,14 +19,14 @@ export const metadata: Metadata = {
 type ContentProps = {
   post: PostType;
   postId: number;
-  variant?: "mobile" | "desktop";
 };
 
-const Content = ({ post, postId, variant = "mobile" }: ContentProps) => {
+const ContentBase = ({ post, postId, isDesktop }: ContentProps & { isDesktop: boolean }) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   const [likeCount, setLikeCount] = useState<number>(0);
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const postImages = (post.postFindPostImageResponses || []).slice(0, COMMUNITY_MAX_UPLOAD_IMAGES);
+  const PostImage = isDesktop ? DesktopPostImage : MobilePostImage;
 
   const postLikeMutation = usePostLike();
   const deleteLikeMutation = useDeleteLike();
@@ -82,20 +82,16 @@ const Content = ({ post, postId, variant = "mobile" }: ContentProps) => {
 
   const postBody = (
     <>
-      <div className={variant === "desktop" ? "p-6" : "pb-3 pl-5 pt-6"}>
+      <div className={isDesktop ? "p-6" : "pb-3 pl-5 pt-6"}>
         <div className="inline-flex rounded-full bg-primary px-3 py-[5px] font-serif text-white typo-medium-2">
           {post.postCategory || "카테고리"}
         </div>
-        <div
-          className={
-            variant === "desktop" ? "mt-5 font-serif text-black typo-bold-3" : "mt-4 font-serif text-black typo-sb-4"
-          }
-        >
+        <div className={isDesktop ? "mt-5 font-serif text-black typo-bold-3" : "mt-4 font-serif text-black typo-sb-4"}>
           {post.title || ""}
         </div>
         <div
           className={
-            variant === "desktop"
+            isDesktop
               ? "mt-5 whitespace-pre-wrap break-all font-serif text-gray-850 typo-regular-2"
               : "mr-5 mt-3 whitespace-pre-wrap break-all font-serif text-gray-850 typo-regular-2"
           }
@@ -104,7 +100,7 @@ const Content = ({ post, postId, variant = "mobile" }: ContentProps) => {
         </div>
 
         <div className="mt-5">
-          <PostImage images={postImages} onImageClick={handleImageClick} variant={variant} />
+          <PostImage images={postImages} onImageClick={handleImageClick} />
         </div>
         {selectedImageIndex !== null && postImages[selectedImageIndex] && (
           <ImagePopup
@@ -144,7 +140,7 @@ const Content = ({ post, postId, variant = "mobile" }: ContentProps) => {
     </div>
   );
 
-  if (variant === "desktop") {
+  if (isDesktop) {
     return (
       <article className="rounded-lg border border-k-100 bg-white">
         {postBody}
@@ -161,23 +157,25 @@ const Content = ({ post, postId, variant = "mobile" }: ContentProps) => {
   );
 };
 
-export default Content;
+export const DesktopContent = (props: ContentProps) => <ContentBase {...props} isDesktop />;
+
+export const MobileContent = (props: ContentProps) => <ContentBase {...props} isDesktop={false} />;
+
+export default MobileContent;
 
 const PostImage = ({
   images,
   onImageClick,
-  variant = "mobile",
+  isDesktop,
 }: {
   images: PostImageType[];
   onImageClick: (index: number) => void;
-  variant?: "mobile" | "desktop";
+  isDesktop: boolean;
 }) => {
   if (images.length === 1) {
     return (
-      <div className={variant === "desktop" ? "mb-3" : "mb-3 pr-5"}>
-        <div
-          className={variant === "desktop" ? "relative aspect-[16/10] overflow-hidden rounded-lg" : "relative pt-[75%]"}
-        >
+      <div className={isDesktop ? "mb-3" : "mb-3 pr-5"}>
+        <div className={isDesktop ? "relative aspect-[16/10] overflow-hidden rounded-lg" : "relative pt-[75%]"}>
           <Image
             src={normalizeImageUrlToUploadCdn(images[0].url)}
             layout="fill"
@@ -196,17 +194,25 @@ const PostImage = ({
           <Image
             key={image.id}
             src={normalizeImageUrlToUploadCdn(image.url)}
-            width={variant === "desktop" ? 180 : 197}
-            height={variant === "desktop" ? 180 : 197}
+            width={isDesktop ? 180 : 197}
+            height={isDesktop ? 180 : 197}
             alt="image"
             onClick={() => onImageClick(index)}
-            className={variant === "desktop" ? "rounded-lg object-cover" : undefined}
+            className={isDesktop ? "rounded-lg object-cover" : undefined}
           />
         ))}
       </div>
     </div>
   );
 };
+
+const DesktopPostImage = (props: { images: PostImageType[]; onImageClick: (index: number) => void }) => (
+  <PostImage {...props} isDesktop />
+);
+
+const MobilePostImage = (props: { images: PostImageType[]; onImageClick: (index: number) => void }) => (
+  <PostImage {...props} isDesktop={false} />
+);
 
 type ImagePopupProps = {
   image: PostImageType;

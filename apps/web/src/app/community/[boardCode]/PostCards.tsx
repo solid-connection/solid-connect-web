@@ -13,12 +13,11 @@ import { convertISODateToDate } from "@/utils/datetimeUtils";
 type PostCardsProps = {
   posts: ListPost[];
   boardCode: string;
-  variant?: "mobile" | "desktop";
 };
 
-const PostCards = ({ posts, boardCode, variant = "mobile" }: PostCardsProps) => {
+const PostCardsBase = ({ posts, boardCode, isDesktop }: PostCardsProps & { isDesktop: boolean }) => {
   const parentRef = useRef<HTMLDivElement>(null);
-  const isDesktop = variant === "desktop";
+  const PostCard = isDesktop ? DesktopPostCard : MobilePostCard;
 
   const virtualizer = useVirtualizer({
     count: posts.length,
@@ -77,7 +76,7 @@ const PostCards = ({ posts, boardCode, variant = "mobile" }: PostCardsProps) => 
               data-index={virtualItem.index}
             >
               <Link href={`/community/${boardCode}/${post.id}`} className="no-underline">
-                <PostCard post={post} priorityImage={virtualItem.index === 0} variant={variant} />
+                <PostCard post={post} priorityImage={virtualItem.index === 0} />
               </Link>
             </div>
           );
@@ -87,7 +86,11 @@ const PostCards = ({ posts, boardCode, variant = "mobile" }: PostCardsProps) => 
   );
 };
 
-export default PostCards;
+export const DesktopPostCards = (props: PostCardsProps) => <PostCardsBase {...props} isDesktop />;
+
+export const MobilePostCards = (props: PostCardsProps) => <PostCardsBase {...props} isDesktop={false} />;
+
+export default MobilePostCards;
 
 const DEFAULT_THUMBNAIL_PATHS = new Set([
   "/article-thumb.png",
@@ -119,17 +122,13 @@ const getPostThumbnailSrc = (postThumbnailUrl: string | null) => {
   return thumbnailSrc;
 };
 
-export const PostCard = ({
-  post,
-  priorityImage = false,
-  variant = "mobile",
-}: {
+type PostCardProps = {
   post: ListPost;
   priorityImage?: boolean;
-  variant?: "mobile" | "desktop";
-}) => {
+};
+
+const PostCardBase = ({ post, priorityImage = false, isDesktop }: PostCardProps & { isDesktop: boolean }) => {
   const thumbnailSrc = getPostThumbnailSrc(post.postThumbnailUrl);
-  const isDesktop = variant === "desktop";
 
   return (
     <div
@@ -190,3 +189,7 @@ export const PostCard = ({
     </div>
   );
 };
+
+export const DesktopPostCard = (props: PostCardProps) => <PostCardBase {...props} isDesktop />;
+
+export const MobilePostCard = (props: PostCardProps) => <PostCardBase {...props} isDesktop={false} />;

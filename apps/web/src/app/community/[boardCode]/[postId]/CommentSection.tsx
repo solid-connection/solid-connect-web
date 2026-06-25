@@ -10,19 +10,20 @@ import useReportedPostsStore from "@/lib/zustand/useReportedPostsStore";
 import { IconMoreVertFilled, IconSubComment } from "@/public/svgs";
 import type { Comment as CommentType, CommunityUser } from "@/types/community";
 import { convertISODateToDateTime } from "@/utils/datetimeUtils";
-import CommentInput from "./CommentInput";
+import { DesktopCommentInput, MobileCommentInput } from "./CommentInput";
 
 type CommentSectionProps = {
   comments: CommentType[];
   postId: number;
   refresh: () => void;
-  variant?: "mobile" | "desktop";
 };
 
-const CommentSection = ({ comments, postId, refresh, variant = "mobile" }: CommentSectionProps) => {
+const CommentSectionBase = ({ comments, postId, refresh, isDesktop }: CommentSectionProps & { isDesktop: boolean }) => {
   const [curSelectedComment, setCurSelectedComment] = useState<number | null>(null);
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
   const blockedUserIds = useReportedPostsStore((state) => state.blockedUserIds);
+  const Comment = isDesktop ? DesktopComment : MobileComment;
+  const CommentInput = isDesktop ? DesktopCommentInput : MobileCommentInput;
 
   const deleteCommentMutation = useDeleteComment();
 
@@ -54,13 +55,12 @@ const CommentSection = ({ comments, postId, refresh, variant = "mobile" }: Comme
           deleteComment={deleteComment}
           activeDropdown={activeDropdown}
           setActiveDropdown={setActiveDropdown}
-          variant={variant}
         />
       ))}
     </>
   );
 
-  if (variant === "desktop") {
+  if (isDesktop) {
     return (
       <aside className="flex max-h-[calc(100vh-132px)] min-h-[520px] flex-col rounded-lg border border-k-100 bg-white">
         <div className="flex items-center justify-between border-b border-k-100 px-5 py-4">
@@ -73,7 +73,6 @@ const CommentSection = ({ comments, postId, refresh, variant = "mobile" }: Comme
           curSelectedComment={curSelectedComment}
           setCurSelectedComment={setCurSelectedComment}
           refresh={refresh}
-          variant="desktop"
         />
       </aside>
     );
@@ -92,7 +91,11 @@ const CommentSection = ({ comments, postId, refresh, variant = "mobile" }: Comme
   );
 };
 
-export default CommentSection;
+export const DesktopCommentSection = (props: CommentSectionProps) => <CommentSectionBase {...props} isDesktop />;
+
+export const MobileCommentSection = (props: CommentSectionProps) => <CommentSectionBase {...props} isDesktop={false} />;
+
+export default MobileCommentSection;
 
 type CommentProps = {
   comment: CommentType;
@@ -100,17 +103,16 @@ type CommentProps = {
   deleteComment: (commentId: number) => void;
   activeDropdown: number | null;
   setActiveDropdown: (commentId: number | null) => void;
-  variant?: "mobile" | "desktop";
 };
 
-const Comment = ({
+const CommentBase = ({
   comment,
   setCurSelectedComment,
   deleteComment,
   activeDropdown,
   setActiveDropdown,
-  variant = "mobile",
-}: CommentProps) => {
+  isDesktop,
+}: CommentProps & { isDesktop: boolean }) => {
   const toggleDropdown = (commentId: number) => {
     setActiveDropdown(activeDropdown === commentId ? null : commentId);
   };
@@ -121,7 +123,7 @@ const Comment = ({
     <div
       className={clsx(
         "flex border-b border-gray-c-100 px-5 py-[18px]",
-        variant === "desktop" && "transition-colors hover:bg-k-50",
+        isDesktop && "transition-colors hover:bg-k-50",
         comment.parentId !== null ? "bg-line-1" : "bg-magic-comment-reply-bg",
       )}
       key={comment.id}
@@ -179,6 +181,10 @@ const Comment = ({
     </div>
   );
 };
+
+const DesktopComment = (props: CommentProps) => <CommentBase {...props} isDesktop />;
+
+const MobileComment = (props: CommentProps) => <CommentBase {...props} isDesktop={false} />;
 
 const CommentProfile = ({ user }: { user: CommunityUser }) => {
   return (
