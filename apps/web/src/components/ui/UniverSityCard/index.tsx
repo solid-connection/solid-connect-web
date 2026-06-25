@@ -14,6 +14,10 @@ type UniversityCardProps = {
 
 const UniversityCard = ({ university, showCapacity = true, linkPrefix = "/university" }: UniversityCardProps) => {
   const convertedKoreanName = university.koreanName;
+  const capacityLabel =
+    university.studentCapacity === null || university.studentCapacity === undefined
+      ? "모집 인원 미정"
+      : `모집 ${university.studentCapacity}명`;
 
   const mappedHomeUniversitySlug = getHomeUniversitySlugByName(university.homeUniversityName);
   const hasExplicitPrefix = linkPrefix !== "/university";
@@ -55,7 +59,7 @@ const UniversityCard = ({ university, showCapacity = true, linkPrefix = "/univer
                 <span className="text-k-500 typo-medium-4">
                   {university.country} | {university.region}
                 </span>
-                {showCapacity && <span className="text-primary typo-sb-11">모집 {university.studentCapacity}명</span>}
+                {showCapacity && <span className="text-primary typo-sb-11">{capacityLabel}</span>}
               </div>
               <div className="flex gap-4">
                 {university.languageRequirements.slice(0, 3).map((requirement) => {

@@ -14,6 +14,11 @@ interface UniversityDetailProps {
 }
 
 const UniversityDetail = ({ university, koreanName }: UniversityDetailProps) => {
+  const capacityLabel =
+    university.studentCapacity === null || university.studentCapacity === undefined
+      ? "모집 인원 미정"
+      : `모집 ${university.studentCapacity}명`;
+
   return (
     <div className="relative">
       <div className="absolute top-4 flex w-full justify-between gap-3 px-5">
@@ -39,7 +44,7 @@ const UniversityDetail = ({ university, koreanName }: UniversityDetailProps) => 
         <div className="mb-7 mt-10 flex justify-center divide-x">
           <span className="px-[30px] text-k-900 typo-sb-9">{}0회 파견</span>
           <span className="px-[30px] text-k-900 typo-sb-9">{university.country}</span>
-          <span className="px-[30px] text-k-900 typo-sb-9">모집 {university.studentCapacity}명</span>
+          <span className="px-[30px] text-k-900 typo-sb-9">{capacityLabel}</span>
         </div>
         <LanguageSection
           detailsForLanguage={university.detailsForLanguage}

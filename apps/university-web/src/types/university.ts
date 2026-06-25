@@ -57,7 +57,7 @@ export interface University {
   backgroundImageUrl: string;
   detailsForLocal: string; // 지역 정보
 
-  studentCapacity: number;
+  studentCapacity: number | null;
   tuitionFeeType: string; // 등록금 납부 유형
   semesterAvailableForDispatch: string; // 파견 가능 학기
 
@@ -85,7 +85,7 @@ export interface ListUniversity {
   country: string;
   logoImageUrl: string;
   backgroundImageUrl: string;
-  studentCapacity: number;
+  studentCapacity: number | null;
   languageRequirements: LanguageRequirement[];
 }
 
