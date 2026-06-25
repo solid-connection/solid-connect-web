@@ -6,6 +6,7 @@ type ScoreCardProps = {
   score: string;
   status: ScoreSubmitStatus;
   date: string; // Date ISO string
+  dateLabel?: string;
   isFocused?: boolean;
   variant?: "mobile" | "desktop";
 };
@@ -48,7 +49,15 @@ const getStatus = (status: ScoreSubmitStatus) => {
   }
 };
 
-const ScoreCard = ({ name, score, status, date, isFocused = false, variant = "mobile" }: ScoreCardProps) => {
+const ScoreCard = ({
+  name,
+  score,
+  status,
+  date,
+  dateLabel = "제출일",
+  isFocused = false,
+  variant = "mobile",
+}: ScoreCardProps) => {
   const isVerified = status === "APPROVED";
   const isDesktop = variant === "desktop";
 
@@ -70,7 +79,9 @@ const ScoreCard = ({ name, score, status, date, isFocused = false, variant = "mo
           })}
         >
           <span className="truncate">{name}</span>
-          <span className="font-serif text-k-300 typo-regular-5">제출일 : {formatDate(date)}</span>
+          <span className="font-serif text-k-300 typo-regular-5">
+            {dateLabel} : {formatDate(date)}
+          </span>
         </div>
         <div
           className={clsx(
