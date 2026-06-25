@@ -21,11 +21,12 @@ type ContentProps = {
   postId: number;
 };
 
-const Content = ({ post, postId }: ContentProps) => {
+const ContentBase = ({ post, postId, isDesktop }: ContentProps & { isDesktop: boolean }) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   const [likeCount, setLikeCount] = useState<number>(0);
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const postImages = (post.postFindPostImageResponses || []).slice(0, COMMUNITY_MAX_UPLOAD_IMAGES);
+  const PostImage = isDesktop ? DesktopPostImage : MobilePostImage;
 
   const postLikeMutation = usePostLike();
   const deleteLikeMutation = useDeleteLike();
@@ -79,18 +80,26 @@ const Content = ({ post, postId }: ContentProps) => {
     }
   };
 
-  return (
+  const postBody = (
     <>
-      <div className="pb-3 pl-5 pt-6">
+      <div className={isDesktop ? "p-6" : "pb-3 pl-5 pt-6"}>
         <div className="inline-flex rounded-full bg-primary px-3 py-[5px] font-serif text-white typo-medium-2">
           {post.postCategory || "카테고리"}
         </div>
-        <div className="mt-4 font-serif text-black typo-sb-4">{post.title || ""}</div>
-        <div className="mr-5 mt-3 whitespace-pre-wrap break-all font-serif text-gray-850 typo-regular-2">
+        <div className={isDesktop ? "mt-5 font-serif text-black typo-bold-3" : "mt-4 font-serif text-black typo-sb-4"}>
+          {post.title || ""}
+        </div>
+        <div
+          className={
+            isDesktop
+              ? "mt-5 whitespace-pre-wrap break-all font-serif text-gray-850 typo-regular-2"
+              : "mr-5 mt-3 whitespace-pre-wrap break-all font-serif text-gray-850 typo-regular-2"
+          }
+        >
           <LinkifyText>{post.content || ""}</LinkifyText>
         </div>
 
-        <div className="mt-3">
+        <div className="mt-5">
           <PostImage images={postImages} onImageClick={handleImageClick} />
         </div>
         {selectedImageIndex !== null && postImages[selectedImageIndex] && (
@@ -112,43 +121,73 @@ const Content = ({ post, postId }: ContentProps) => {
           </div>
         </div>
       </div>
+    </>
+  );
 
-      <div className="flex h-16 items-center justify-between border-y border-gray-c-100 px-5 py-3">
-        <div className="flex gap-2.5">
-          <div className="h-10 w-10 rounded-full bg-bg-600">
-            <Image
-              className="h-full w-full rounded-full object-cover"
-              src={
-                post.postFindSiteUserResponse.profileImageUrl
-                  ? normalizeImageUrlToUploadCdn(post.postFindSiteUserResponse.profileImageUrl)
-                  : DEFAULT_PROFILE_IMAGE
-              }
-              width={40}
-              height={40}
-              alt=""
-            />
+  const author = (
+    <div className="flex h-16 items-center justify-between border-y border-gray-c-100 px-5 py-3">
+      <div className="flex gap-2.5">
+        <div className="h-10 w-10 rounded-full bg-bg-600">
+          <Image
+            className="h-full w-full rounded-full object-cover"
+            src={
+              post.postFindSiteUserResponse.profileImageUrl
+                ? normalizeImageUrlToUploadCdn(post.postFindSiteUserResponse.profileImageUrl)
+                : DEFAULT_PROFILE_IMAGE
+            }
+            width={40}
+            height={40}
+            alt=""
+          />
+        </div>
+        <div className="flex flex-col">
+          <div className="overflow-hidden text-ellipsis font-serif text-black typo-medium-2">
+            {post.postFindSiteUserResponse.nickname || ""}
           </div>
-          <div className="flex flex-col">
-            <div className="overflow-hidden text-ellipsis font-serif text-black typo-medium-2">
-              {post.postFindSiteUserResponse.nickname || ""}
-            </div>
-            <div className="overflow-hidden font-serif text-gray-250 typo-regular-4">
-              {convertISODateToDateTime(post.createdAt) || ""}
-            </div>
+          <div className="overflow-hidden font-serif text-gray-250 typo-regular-4">
+            {convertISODateToDateTime(post.createdAt) || ""}
           </div>
         </div>
       </div>
+    </div>
+  );
+
+  if (isDesktop) {
+    return (
+      <article className="rounded-lg border border-k-100 bg-white">
+        {postBody}
+        {author}
+      </article>
+    );
+  }
+
+  return (
+    <>
+      {postBody}
+      {author}
     </>
   );
 };
 
-export default Content;
+export const DesktopContent = (props: ContentProps) => <ContentBase {...props} isDesktop />;
 
-const PostImage = ({ images, onImageClick }: { images: PostImageType[]; onImageClick: (index: number) => void }) => {
+export const MobileContent = (props: ContentProps) => <ContentBase {...props} isDesktop={false} />;
+
+export default MobileContent;
+
+const PostImage = ({
+  images,
+  onImageClick,
+  isDesktop,
+}: {
+  images: PostImageType[];
+  onImageClick: (index: number) => void;
+  isDesktop: boolean;
+}) => {
   if (images.length === 1) {
     return (
-      <div className="mb-3 pr-5">
-        <div className="relative pt-[75%]">
+      <div className={isDesktop ? "mb-3" : "mb-3 pr-5"}>
+        <div className={isDesktop ? "relative aspect-[16/10] overflow-hidden rounded-lg" : "relative pt-[75%]"}>
           <Image
             src={normalizeImageUrlToUploadCdn(images[0].url)}
             layout="fill"
@@ -167,16 +206,25 @@ const PostImage = ({ images, onImageClick }: { images: PostImageType[]; onImageC
           <Image
             key={image.id}
             src={normalizeImageUrlToUploadCdn(image.url)}
-            width={197}
-            height={197}
+            width={isDesktop ? 180 : 197}
+            height={isDesktop ? 180 : 197}
             alt="image"
             onClick={() => onImageClick(index)}
+            className={isDesktop ? "rounded-lg object-cover" : undefined}
           />
         ))}
       </div>
     </div>
   );
 };
+
+const DesktopPostImage = (props: { images: PostImageType[]; onImageClick: (index: number) => void }) => (
+  <PostImage {...props} isDesktop />
+);
+
+const MobilePostImage = (props: { images: PostImageType[]; onImageClick: (index: number) => void }) => (
+  <PostImage {...props} isDesktop={false} />
+);
 
 type ImagePopupProps = {
   image: PostImageType;

@@ -11,7 +11,7 @@ import { MentorCardListSkeleton } from "../../../MentorPageSkeleton";
 import usePrefetchMentorFindTab from "./_hooks/usePrefetchMentorFindTab";
 import useSelectedTab from "./_hooks/useSelectedTab";
 
-const MentorFindSection = () => {
+const MentorFindSectionBase = ({ isDesktop }: { isDesktop: boolean }) => {
   const { listRef, selectedTab, handleSelectTab } = useSelectedTab();
 
   const {
@@ -26,11 +26,15 @@ const MentorFindSection = () => {
   usePrefetchMentorFindTab();
 
   return (
-    <>
-      <h2 className="mb-3 text-gray-900 typo-sb-5">멘토 찾기</h2>
+    <section className={isDesktop ? "rounded-lg border border-k-100 bg-white p-6" : ""}>
+      <div className={isDesktop ? "mb-5 flex items-start justify-between gap-4" : ""}>
+        <div>
+          <h2 className="mb-3 text-gray-900 typo-sb-5">멘토 찾기</h2>
+          {isDesktop && <p className="text-k-500 typo-medium-3">권역별로 멘토를 탐색하고 멘토링을 신청하세요.</p>}
+        </div>
+      </div>
 
-      {/* 필터 탭 */}
-      <div className="mb-3 flex gap-2">
+      <div className="mb-3 flex gap-2 overflow-x-auto whitespace-nowrap">
         {Object.values(FilterTab).map((tab) => (
           <button
             key={tab}
@@ -44,8 +48,7 @@ const MentorFindSection = () => {
         ))}
       </div>
 
-      {/* 멘토 리스트 */}
-      <div ref={listRef} className="space-y-4 pb-28">
+      <div ref={listRef} className={isDesktop ? "grid gap-4 lg:grid-cols-2 2xl:grid-cols-3" : "space-y-4 pb-28"}>
         {isPending ? (
           <MentorCardListSkeleton />
         ) : mentorList.length === 0 ? (
@@ -61,9 +64,13 @@ const MentorFindSection = () => {
         )}
       </div>
 
-      <FloatingUpBtn />
-    </>
+      {!isDesktop && <FloatingUpBtn />}
+    </section>
   );
 };
 
-export default MentorFindSection;
+export const MentorFindDesktopPanel = () => <MentorFindSectionBase isDesktop />;
+
+export const MentorFindMobileSection = () => <MentorFindSectionBase isDesktop={false} />;
+
+export default MentorFindMobileSection;

@@ -12,7 +12,7 @@ import { IconMoreVertFilled, IconSubComment } from "@/public/svgs";
 import type { Comment as CommentType, CommunityUser } from "@/types/community";
 import { normalizeImageUrlToUploadCdn } from "@/utils/cdnUrl";
 import { convertISODateToDateTime } from "@/utils/datetimeUtils";
-import CommentInput from "./CommentInput";
+import { DesktopCommentInput, MobileCommentInput } from "./CommentInput";
 
 type CommentSectionProps = {
   comments: CommentType[];
@@ -20,10 +20,12 @@ type CommentSectionProps = {
   refresh: () => void;
 };
 
-const CommentSection = ({ comments, postId, refresh }: CommentSectionProps) => {
+const CommentSectionBase = ({ comments, postId, refresh, isDesktop }: CommentSectionProps & { isDesktop: boolean }) => {
   const [curSelectedComment, setCurSelectedComment] = useState<number | null>(null);
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
   const blockedUserIds = useReportedPostsStore((state) => state.blockedUserIds);
+  const Comment = isDesktop ? DesktopComment : MobileComment;
+  const CommentInput = isDesktop ? DesktopCommentInput : MobileCommentInput;
 
   const deleteCommentMutation = useDeleteComment();
 
@@ -42,9 +44,12 @@ const CommentSection = ({ comments, postId, refresh }: CommentSectionProps) => {
     deleteCommentMutation.mutate({ commentId, postId });
   };
 
-  return (
-    <div className="min-h-[50vh] pb-[49px]">
-      {visibleComments?.map((comment) => (
+  const commentList = (
+    <>
+      {visibleComments.length === 0 && (
+        <div className="flex min-h-40 items-center justify-center text-k-400 typo-regular-2">아직 댓글이 없습니다.</div>
+      )}
+      {visibleComments.map((comment) => (
         <Comment
           key={comment.id}
           comment={comment}
@@ -54,6 +59,30 @@ const CommentSection = ({ comments, postId, refresh }: CommentSectionProps) => {
           setActiveDropdown={setActiveDropdown}
         />
       ))}
+    </>
+  );
+
+  if (isDesktop) {
+    return (
+      <aside className="flex max-h-[calc(100vh-132px)] min-h-[520px] flex-col rounded-lg border border-k-100 bg-white">
+        <div className="flex items-center justify-between border-b border-k-100 px-5 py-4">
+          <h2 className="text-k-900 typo-bold-4">댓글</h2>
+          <span className="text-primary typo-sb-9">{visibleComments.length}</span>
+        </div>
+        <div className="min-h-0 flex-1 overflow-auto">{commentList}</div>
+        <CommentInput
+          postId={postId}
+          curSelectedComment={curSelectedComment}
+          setCurSelectedComment={setCurSelectedComment}
+          refresh={refresh}
+        />
+      </aside>
+    );
+  }
+
+  return (
+    <div className="min-h-[50vh] pb-[49px]">
+      {commentList}
       <CommentInput
         postId={postId}
         curSelectedComment={curSelectedComment}
@@ -64,7 +93,11 @@ const CommentSection = ({ comments, postId, refresh }: CommentSectionProps) => {
   );
 };
 
-export default CommentSection;
+export const DesktopCommentSection = (props: CommentSectionProps) => <CommentSectionBase {...props} isDesktop />;
+
+export const MobileCommentSection = (props: CommentSectionProps) => <CommentSectionBase {...props} isDesktop={false} />;
+
+export default MobileCommentSection;
 
 type CommentProps = {
   comment: CommentType;
@@ -74,13 +107,14 @@ type CommentProps = {
   setActiveDropdown: (commentId: number | null) => void;
 };
 
-const Comment = ({
+const CommentBase = ({
   comment,
   setCurSelectedComment,
   deleteComment,
   activeDropdown,
   setActiveDropdown,
-}: CommentProps) => {
+  isDesktop,
+}: CommentProps & { isDesktop: boolean }) => {
   const toggleDropdown = (commentId: number) => {
     setActiveDropdown(activeDropdown === commentId ? null : commentId);
   };
@@ -91,6 +125,7 @@ const Comment = ({
     <div
       className={clsx(
         "flex border-b border-gray-c-100 px-5 py-[18px]",
+        isDesktop && "transition-colors hover:bg-k-50",
         comment.parentId !== null ? "bg-line-1" : "bg-magic-comment-reply-bg",
       )}
       key={comment.id}
@@ -148,6 +183,10 @@ const Comment = ({
     </div>
   );
 };
+
+const DesktopComment = (props: CommentProps) => <CommentBase {...props} isDesktop />;
+
+const MobileComment = (props: CommentProps) => <CommentBase {...props} isDesktop={false} />;
 
 const CommentProfile = ({ user }: { user: CommunityUser }) => {
   return (

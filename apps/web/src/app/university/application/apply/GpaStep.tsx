@@ -1,12 +1,16 @@
 "use client";
 
+import clsx from "clsx";
 import { useState } from "react";
-import ScoreCard from "@/app/university/score/ScoreCard";
+import { DesktopScoreCard, MobileScoreCard } from "@/app/university/score/ScoreCard";
 import TextModal from "@/components/modal/TextModal";
 import Tab from "@/components/ui/Tab";
 import { showIconToast } from "@/lib/toast/showIconToast";
 import { type GpaScore, ScoreSubmitStatus } from "@/types/score";
-import ApplicationBottomActionBar from "../_components/ApplicationBottomActionBar";
+import {
+  DesktopApplicationBottomActionBar,
+  MobileApplicationBottomActionBar,
+} from "../_components/ApplicationBottomActionBar";
 import ApplicationSectionTitle from "../_components/ApplicationSectionTitle";
 
 type GpaStepProps = {
@@ -16,8 +20,16 @@ type GpaStepProps = {
   onNext: () => void;
 };
 
-const GpaStep = ({ gpaScoreList, curGpaScore, setCurGpaScore, onNext }: GpaStepProps) => {
+const GpaStepBase = ({
+  gpaScoreList,
+  curGpaScore,
+  setCurGpaScore,
+  onNext,
+  isDesktop,
+}: GpaStepProps & { isDesktop: boolean }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const ScoreCard = isDesktop ? DesktopScoreCard : MobileScoreCard;
+  const ActionBar = isDesktop ? DesktopApplicationBottomActionBar : MobileApplicationBottomActionBar;
 
   const handleNext = () => {
     if (curGpaScore === null) {
@@ -29,10 +41,12 @@ const GpaStep = ({ gpaScoreList, curGpaScore, setCurGpaScore, onNext }: GpaStepP
 
   return (
     <>
-      <div className="my-5 px-5">
+      <div className={clsx({ "my-5 px-5": !isDesktop })}>
         <ApplicationSectionTitle title="학점 성적 선택" description="지원에 사용할 학점 성적을 선택해주세요." />
-        <Tab choices={["공인어학", "학점"]} choice="학점" setChoice={() => {}} />
-        <div className="my-[14px] mb-40 flex flex-col gap-3">
+        <div className={clsx(isDesktop ? "mt-5 max-w-md" : "")}>
+          <Tab choices={["공인어학", "학점"]} choice="학점" setChoice={() => {}} />
+        </div>
+        <div className={clsx("my-[14px] grid gap-3", isDesktop ? "mb-0 lg:grid-cols-2" : "mb-40 grid-cols-1")}>
           {gpaScoreList.map((score) => (
             <button
               key={score.id}
@@ -54,14 +68,14 @@ const GpaStep = ({ gpaScoreList, curGpaScore, setCurGpaScore, onNext }: GpaStepP
                 score={`${score.gpaResponse.gpa.toFixed(2)}/${score.gpaResponse.gpaCriteria}`}
                 status={score.verifyStatus}
                 // date={new Date(score.issueDate).toISOString()}
-                date="2025-01-01"
+                date={score.issueDate}
                 isFocused={score.id === curGpaScore}
               />
             </button>
           ))}
         </div>
       </div>
-      <ApplicationBottomActionBar label="다음" onClick={handleNext} />
+      <ActionBar label="다음" onClick={handleNext} />
       <TextModal
         isOpen={isModalOpen}
         handleClose={() => setIsModalOpen(false)}
@@ -72,4 +86,8 @@ const GpaStep = ({ gpaScoreList, curGpaScore, setCurGpaScore, onNext }: GpaStepP
   );
 };
 
-export default GpaStep;
+export const DesktopGpaStep = (props: GpaStepProps) => <GpaStepBase {...props} isDesktop />;
+
+export const MobileGpaStep = (props: GpaStepProps) => <GpaStepBase {...props} isDesktop={false} />;
+
+export default MobileGpaStep;

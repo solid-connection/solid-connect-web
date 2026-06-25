@@ -6,6 +6,7 @@ type ScoreCardProps = {
   score: string;
   status: ScoreSubmitStatus;
   date: string; // Date ISO string
+  dateLabel?: string;
   isFocused?: boolean;
 };
 
@@ -47,36 +48,48 @@ const getStatus = (status: ScoreSubmitStatus) => {
   }
 };
 
-const ScoreCard = ({ name, score, status, date, isFocused = false }: ScoreCardProps) => {
+const ScoreCardBase = ({
+  name,
+  score,
+  status,
+  date,
+  dateLabel = "제출일",
+  isFocused = false,
+  isDesktop,
+}: ScoreCardProps & { isDesktop: boolean }) => {
   const isVerified = status === "APPROVED";
 
   return (
     <div
       className={clsx(
-        "flex h-[66px] flex-col rounded-lg px-5 py-3",
+        "flex flex-col rounded-lg",
+        isDesktop ? "min-h-[88px] px-5 py-4" : "h-[66px] px-5 py-3",
         isVerified ? "bg-secondary-100" : "bg-k-50",
         isFocused && "border border-secondary",
       )}
     >
-      <div className="flex">
+      <div className="flex h-full items-center">
         <div>{getStatus(status)}</div>
         <div
-          className={clsx("ml-3 flex flex-col text-start font-serif typo-sb-9", {
+          className={clsx("ml-3 flex min-w-0 flex-col text-start font-serif", isDesktop ? "typo-sb-7" : "typo-sb-9", {
             "text-k-900": isVerified,
             "text-k-300": !isVerified,
           })}
         >
-          {name}
+          <span className="truncate">{name}</span>
           <span className="font-serif text-k-300 typo-regular-5">
-            {status === "APPROVED" ? "만료일 : " : "제출일 : "}
-            {formatDate(date)}
+            {dateLabel} : {formatDate(date)}
           </span>
         </div>
         <div
-          className={clsx("ml-auto flex items-center font-serif typo-bold-5", {
-            "text-secondary": isFocused,
-            "text-secondary-300": !isFocused,
-          })}
+          className={clsx(
+            "ml-auto flex shrink-0 items-center pl-4 font-serif",
+            isDesktop ? "typo-bold-3" : "typo-bold-5",
+            {
+              "text-secondary": isFocused,
+              "text-secondary-300": !isFocused,
+            },
+          )}
         >
           {score}
         </div>
@@ -85,4 +98,8 @@ const ScoreCard = ({ name, score, status, date, isFocused = false }: ScoreCardPr
   );
 };
 
-export default ScoreCard;
+export const DesktopScoreCard = (props: ScoreCardProps) => <ScoreCardBase {...props} isDesktop />;
+
+export const MobileScoreCard = (props: ScoreCardProps) => <ScoreCardBase {...props} isDesktop={false} />;
+
+export default MobileScoreCard;

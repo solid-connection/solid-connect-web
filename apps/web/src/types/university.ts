@@ -1,4 +1,4 @@
-export type RegionKo = "유럽권" | "미주권" | "아시아권";
+export type RegionKo = "유럽권" | "미주권" | "아시아권" | "중국권";
 
 export enum HomeUniversityName {
   INHA = "인하대학교",

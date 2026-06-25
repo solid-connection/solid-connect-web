@@ -60,7 +60,11 @@ const UniversityListPage = async ({ params }: PageProps) => {
   return (
     <>
       <TopDetailNavigation title={`${universityInfo.shortName} 파견학교`} backHref="/university" />
-      <UniversityListContent universities={universities} homeUniversitySlug={homeUniversitySlug} />
+      <UniversityListContent
+        universities={universities}
+        homeUniversitySlug={homeUniversitySlug}
+        title={`${universityInfo.shortName} 파견학교`}
+      />
     </>
   );
 };

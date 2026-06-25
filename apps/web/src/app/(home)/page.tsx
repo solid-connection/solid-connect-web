@@ -4,11 +4,7 @@ import { getCategorizedUniversities, getRecommendedUniversity } from "@/apis/uni
 import { getHomeUniversitySlugByName } from "@/constants/university";
 import { type ListUniversity, RegionEnumExtend } from "@/types/university";
 import { createUrl } from "@/utils/seo";
-import FindLastYearScoreBar from "./_ui/FindLastYearScoreBar";
-import HomeEntrySection from "./_ui/HomeEntrySection";
-import NewsSection from "./_ui/NewsSection";
-import PopularUniversitySection from "./_ui/PopularUniversitySection";
-import UniversityList from "./_ui/UniversityList";
+import HomeResponsiveContent from "./_ui/HomeResponsiveContent";
 
 const pageUrl = createUrl("/");
 const ogImageUrl = createUrl("/opengraph-image.png");
@@ -113,21 +109,11 @@ const HomePage = async () => {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
-      <div className="w-full">
-        <FindLastYearScoreBar />
-        <HomeEntrySection />
-
-        <div className="border-t-[5px] border-k-50 py-5 pl-5">
-          <div className="mb-2 flex items-center gap-1.5 font-serif text-k-700 typo-sb-7">실시간 인기있는 파견학교</div>
-          <PopularUniversitySection universities={resolvedRecommendedUniversities} />
-        </div>
-
-        <div className="p-5">
-          <UniversityList allRegionsUniversityList={allRegionsUniversityList} />
-        </div>
-
-        <NewsSection newsList={newsList} />
-      </div>
+      <HomeResponsiveContent
+        recommendedUniversities={resolvedRecommendedUniversities}
+        allRegionsUniversityList={allRegionsUniversityList}
+        newsList={newsList}
+      />
     </>
   );
 };

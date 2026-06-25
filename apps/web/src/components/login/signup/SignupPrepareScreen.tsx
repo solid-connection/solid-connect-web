@@ -13,7 +13,12 @@ type SignupPrepareScreenProps = {
   toNextStage: () => void;
 };
 
-const SignupPrepareScreen = ({ preparation, setPreparation, toNextStage }: SignupPrepareScreenProps) => {
+const SignupPrepareScreenBase = ({
+  preparation,
+  setPreparation,
+  toNextStage,
+  isDesktop,
+}: SignupPrepareScreenProps & { isDesktop: boolean }) => {
   const submit = () => {
     if (!preparation) {
       showIconToast("logo", "준비 단계를 선택해주세요.");
@@ -24,8 +29,8 @@ const SignupPrepareScreen = ({ preparation, setPreparation, toNextStage }: Signu
 
   return (
     <div>
-      <div className="px-5">
-        <div className="mt-5">
+      <div className={isDesktop ? "" : "px-5"}>
+        <div className={isDesktop ? "" : "mt-5"}>
           <span className="text-k-900 typo-bold-1">
             현재 나의
             <span className="text-primary"> 준비 단계</span>를
@@ -35,7 +40,7 @@ const SignupPrepareScreen = ({ preparation, setPreparation, toNextStage }: Signu
         </div>
 
         <div className="mt-10">
-          <div className="flex flex-col gap-5">
+          <div className={isDesktop ? "grid gap-4" : "flex flex-col gap-5"}>
             <PrepareChoiceButton
               status={PreparationStatusEnum.CONSIDERING}
               description="교환학생 지원을 고민 중인가요?"
@@ -66,7 +71,7 @@ const SignupPrepareScreen = ({ preparation, setPreparation, toNextStage }: Signu
         </div>
       </div>
 
-      <div className="mt-10 px-5 pb-7">
+      <div className={isDesktop ? "mt-8" : "mt-10 px-5 pb-7"}>
         <BlockBtn disabled={!preparation} onClick={submit}>
           다음
         </BlockBtn>
@@ -110,4 +115,12 @@ const PrepareChoiceButton = ({
   );
 };
 
-export default SignupPrepareScreen;
+export const DesktopSignupPrepareScreen = (props: SignupPrepareScreenProps) => (
+  <SignupPrepareScreenBase {...props} isDesktop />
+);
+
+export const MobileSignupPrepareScreen = (props: SignupPrepareScreenProps) => (
+  <SignupPrepareScreenBase {...props} isDesktop={false} />
+);
+
+export default MobileSignupPrepareScreen;
