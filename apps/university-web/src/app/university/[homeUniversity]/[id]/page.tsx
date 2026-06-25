@@ -12,8 +12,9 @@ import { createUrl, NO_INDEX_ROBOTS } from "@/utils/seo";
 import UniversityDetail from "./_ui/UniversityDetail";
 import UniversityDetailPreparingFallback from "./_ui/UniversityDetailPreparingFallback";
 
-export const revalidate = false;
-export const dynamicParams = false;
+export const revalidate = false; // 가능한 상세 경로는 빌드 시 정적으로 생성
+// 전체 학교 목록 API가 일시적으로 실패해도 배포가 404-only 상태가 되지 않도록 런타임 생성을 허용합니다.
+export const dynamicParams = true;
 
 // 모든 homeUniversity + id 조합에 대해 정적 경로 생성
 export async function generateStaticParams() {
