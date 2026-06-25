@@ -1,5 +1,6 @@
 "use client";
 
+import clsx from "clsx";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useGetMyGpaScore, useGetMyLanguageTestScore } from "@/apis/Scores";
@@ -9,11 +10,30 @@ import Tab from "@/components/ui/Tab";
 import { showIconToast } from "@/lib/toast/showIconToast";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { IconSolidConnectionSmallLogo } from "@/public/svgs/my";
-import { formatLanguageTestScore, languageTestMapping, ScoreSubmitStatus } from "@/types/score";
+import {
+  formatLanguageTestScore,
+  type GpaScore,
+  type LanguageTestScore,
+  languageTestMapping,
+  ScoreSubmitStatus,
+} from "@/types/score";
+import useIsDesktopViewport from "@/utils/useIsDesktopViewport";
 import ScoreCard from "./ScoreCard";
 
 const SCORE_TAB_CHOICES = ["공인어학", "학점"] as const;
 type ScoreTab = (typeof SCORE_TAB_CHOICES)[number];
+type ScoreViewProps = {
+  curTab: ScoreTab;
+  setCurTab: (tab: ScoreTab) => void;
+  gpaScoreList: GpaScore[];
+  homeUniversityName: string;
+  languageTestScoreList: LanguageTestScore[];
+  isEmptyCurrentTab: boolean;
+  onScoreClick: (status: ScoreSubmitStatus, rejectedReason?: string | null) => void;
+  onSubmitClick: () => void;
+};
+
+const getSubmitLabel = (curTab: ScoreTab) => (curTab === "공인어학" ? "어학 성적 입력하기" : "학점 입력하기");
 
 const ScoreScreen = () => {
   const router = useRouter();
@@ -21,11 +41,13 @@ const ScoreScreen = () => {
   const isAuthInitialized = useAuthStore((state) => state.isInitialized);
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const [curTab, setCurTab] = useState<ScoreTab>("공인어학");
+  const isDesktop = useIsDesktopViewport();
   const shouldFetchGpaScore = isAuthInitialized && isAuthenticated && homeUniversityId !== null;
   // TODO: 서버의 모학교 미인증 에러 코드가 확정되면 GPA 조회 실패 시 학교 인증으로 보내는 fallback을 추가한다.
   const { data: gpaScoreData } = useGetMyGpaScore({ enabled: shouldFetchGpaScore });
   const { data: languageTestScoreList = [] } = useGetMyLanguageTestScore();
   const gpaScoreList = gpaScoreData?.gpaScoreStatusResponseList ?? [];
+  const homeUniversityName = gpaScoreData?.homeUniversityName ?? "";
   const isEmptyCurrentTab = curTab === "공인어학" ? languageTestScoreList.length === 0 : gpaScoreList.length === 0;
 
   useEffect(() => {
@@ -46,6 +68,10 @@ const ScoreScreen = () => {
     }
   };
 
+  const handleSubmitClick = () => {
+    router.push(curTab === "공인어학" ? "/university/score/submit/language-test" : "/university/score/submit/gpa");
+  };
+
   if (!isAuthInitialized) {
     return null;
   }
@@ -54,76 +80,207 @@ const ScoreScreen = () => {
     return null;
   }
 
+  if (isDesktop === null) return null;
+
+  const viewProps = {
+    curTab,
+    setCurTab,
+    gpaScoreList,
+    homeUniversityName,
+    languageTestScoreList,
+    isEmptyCurrentTab,
+    onScoreClick: handleScoreClick,
+    onSubmitClick: handleSubmitClick,
+  };
+
+  return isDesktop ? <ScoreDesktopView {...viewProps} /> : <ScoreMobileView {...viewProps} />;
+};
+
+const ScoreMobileView = ({
+  curTab,
+  setCurTab,
+  gpaScoreList,
+  homeUniversityName,
+  languageTestScoreList,
+  isEmptyCurrentTab,
+  onScoreClick,
+  onSubmitClick,
+}: ScoreViewProps) => {
   return (
     <div className="h-full">
       <div className="mx-5 mb-40">
         <Tab<ScoreTab> choices={SCORE_TAB_CHOICES} choice={curTab} setChoice={setCurTab} />
         {isEmptyCurrentTab ? (
-          <div className="mt-24 flex flex-col items-center rounded-lg bg-white px-6 py-8 text-center shadow-sdwB">
-            <IconSolidConnectionSmallLogo />
-            <p className="mt-3 text-k-500 typo-regular-2">
-              아직 등록된 성적이 없어요.
-              <br />
-              아래 버튼을 눌러 성적을 입력해 주세요.
-            </p>
-          </div>
+          <ScoreEmptyState />
         ) : (
-          <div className="mt-3.5 flex flex-col gap-3.5">
-            {curTab === "공인어학" &&
-              languageTestScoreList.map((score) => (
-                <button
-                  key={score.id}
-                  type="button"
-                  className="text-left"
-                  onClick={() => handleScoreClick(score.verifyStatus, score.rejectedReason)}
-                >
-                  <ScoreCard
-                    name={languageTestMapping[score.languageTestResponse.languageTestType]}
-                    score={formatLanguageTestScore(
-                      score.languageTestResponse.languageTestType,
-                      score.languageTestResponse.languageTestScore,
-                    )}
-                    status={score.verifyStatus}
-                    // date={new Date(score.issueDate).toISOString()}
-                    date="2026-01-01"
-                    isFocused={score.verifyStatus === "APPROVED"}
-                  />
-                </button>
-              ))}
-
-            {curTab === "학점" &&
-              gpaScoreData &&
-              gpaScoreList.map((score) => (
-                <button
-                  key={score.id}
-                  type="button"
-                  className="text-left"
-                  onClick={() => handleScoreClick(score.verifyStatus, score.rejectedReason)}
-                >
-                  <ScoreCard
-                    name={gpaScoreData.homeUniversityName}
-                    score={`${score.gpaResponse.gpa.toFixed(2)}/${score.gpaResponse.gpaCriteria}`}
-                    status={score.verifyStatus}
-                    // date={new Date(score.issueDate).toISOString()}
-                    date="2026-01-01"
-                    isFocused={score.verifyStatus === "APPROVED"}
-                  />
-                </button>
-              ))}
-          </div>
+          <ScoreList
+            curTab={curTab}
+            gpaScoreList={gpaScoreList}
+            homeUniversityName={homeUniversityName}
+            languageTestScoreList={languageTestScoreList}
+            onScoreClick={onScoreClick}
+          />
         )}
       </div>
       <div className="fixed bottom-14 w-full max-w-app bg-white md:bottom-0 md:left-[88px] md:w-[calc(100%-88px)] md:max-w-none">
         <div className="mb-[37px] px-5">
-          {curTab === "공인어학" ? (
-            <BlockBtn onClick={() => router.push("/university/score/submit/language-test")}>
-              어학 성적 입력하기
-            </BlockBtn>
-          ) : (
-            <BlockBtn onClick={() => router.push("/university/score/submit/gpa")}>학점 입력하기</BlockBtn>
-          )}
+          <BlockBtn onClick={onSubmitClick}>{getSubmitLabel(curTab)}</BlockBtn>
         </div>
       </div>
+    </div>
+  );
+};
+
+const ScoreDesktopView = ({
+  curTab,
+  setCurTab,
+  gpaScoreList,
+  homeUniversityName,
+  languageTestScoreList,
+  isEmptyCurrentTab,
+  onScoreClick,
+  onSubmitClick,
+}: ScoreViewProps) => {
+  const currentScoreCount = curTab === "공인어학" ? languageTestScoreList.length : gpaScoreList.length;
+
+  return (
+    <div className="min-h-screen bg-k-50 px-8 py-8 lg:px-10">
+      <div className="mx-auto max-w-6xl">
+        <header className="mb-8">
+          <p className="text-primary typo-sb-9">My scores</p>
+          <h1 className="mt-2 text-k-900 typo-bold-1">성적 확인하기</h1>
+          <p className="mt-2 text-k-500 typo-medium-2">
+            지원에 사용할 공인어학 성적과 학점 승인 상태를 한 곳에서 확인하세요.
+          </p>
+        </header>
+
+        <div className="grid items-start gap-8 xl:grid-cols-[minmax(0,1fr)_minmax(320px,380px)]">
+          <section className="min-h-[560px] rounded-lg border border-k-100 bg-white p-6">
+            <div className="flex items-start justify-between gap-6">
+              <div>
+                <h2 className="text-k-900 typo-bold-4">내 성적</h2>
+                <p className="mt-1 text-k-500 typo-medium-3">현재 탭에 등록된 성적 {currentScoreCount}개</p>
+              </div>
+              <div className="w-72">
+                <Tab<ScoreTab> choices={SCORE_TAB_CHOICES} choice={curTab} setChoice={setCurTab} />
+              </div>
+            </div>
+
+            {isEmptyCurrentTab ? (
+              <ScoreEmptyState variant="desktop" />
+            ) : (
+              <ScoreList
+                curTab={curTab}
+                gpaScoreList={gpaScoreList}
+                homeUniversityName={homeUniversityName}
+                languageTestScoreList={languageTestScoreList}
+                onScoreClick={onScoreClick}
+                variant="desktop"
+              />
+            )}
+          </section>
+
+          <aside className="sticky top-8 rounded-lg border border-k-100 bg-white p-6">
+            <h2 className="text-k-900 typo-bold-4">성적 등록</h2>
+            <p className="mt-2 text-k-500 typo-medium-3">
+              새 성적을 제출하면 운영팀 승인 후 지원서에서 사용할 수 있습니다.
+            </p>
+            <div className="mt-5 grid gap-3">
+              <div className="rounded-lg bg-k-50 px-4 py-3 text-k-700 typo-medium-2">
+                공인어학과 학점은 각각 제출할 수 있어요.
+              </div>
+              <div className="rounded-lg bg-k-50 px-4 py-3 text-k-700 typo-medium-2">
+                승인 거절 사유는 해당 성적을 누르면 확인할 수 있어요.
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={onSubmitClick}
+              className="mt-6 w-full rounded-lg bg-primary px-5 py-4 text-white typo-sb-9 transition-colors hover:bg-primary/90"
+            >
+              {getSubmitLabel(curTab)}
+            </button>
+          </aside>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const ScoreEmptyState = ({ variant = "mobile" }: { variant?: "mobile" | "desktop" }) => {
+  const isDesktop = variant === "desktop";
+
+  return (
+    <div
+      className={clsx(
+        "flex flex-col items-center rounded-lg bg-white px-6 py-8 text-center shadow-sdwB",
+        isDesktop ? "mt-8 min-h-[320px] justify-center border border-k-100 shadow-none" : "mt-24",
+      )}
+    >
+      <IconSolidConnectionSmallLogo />
+      <p className="mt-3 text-k-500 typo-regular-2">
+        아직 등록된 성적이 없어요.
+        <br />
+        아래 버튼을 눌러 성적을 입력해 주세요.
+      </p>
+    </div>
+  );
+};
+
+const ScoreList = ({
+  curTab,
+  gpaScoreList,
+  homeUniversityName,
+  languageTestScoreList,
+  onScoreClick,
+  variant = "mobile",
+}: Pick<ScoreViewProps, "curTab" | "gpaScoreList" | "homeUniversityName" | "languageTestScoreList" | "onScoreClick"> & {
+  variant?: "mobile" | "desktop";
+}) => {
+  const isDesktop = variant === "desktop";
+
+  return (
+    <div className={clsx(isDesktop ? "mt-6 grid gap-4 lg:grid-cols-2" : "mt-3.5 flex flex-col gap-3.5")}>
+      {curTab === "공인어학" &&
+        languageTestScoreList.map((score) => (
+          <button
+            key={score.id}
+            type="button"
+            className="text-left"
+            onClick={() => onScoreClick(score.verifyStatus, score.rejectedReason)}
+          >
+            <ScoreCard
+              name={languageTestMapping[score.languageTestResponse.languageTestType]}
+              score={formatLanguageTestScore(
+                score.languageTestResponse.languageTestType,
+                score.languageTestResponse.languageTestScore,
+              )}
+              status={score.verifyStatus}
+              date={score.issueDate}
+              isFocused={score.verifyStatus === "APPROVED"}
+              variant={variant}
+            />
+          </button>
+        ))}
+
+      {curTab === "학점" &&
+        gpaScoreList.map((score) => (
+          <button
+            key={score.id}
+            type="button"
+            className="text-left"
+            onClick={() => onScoreClick(score.verifyStatus, score.rejectedReason)}
+          >
+            <ScoreCard
+              name={homeUniversityName}
+              score={`${score.gpaResponse.gpa.toFixed(2)}/${score.gpaResponse.gpaCriteria}`}
+              status={score.verifyStatus}
+              date={score.issueDate}
+              isFocused={score.verifyStatus === "APPROVED"}
+              variant={variant}
+            />
+          </button>
+        ))}
     </div>
   );
 };

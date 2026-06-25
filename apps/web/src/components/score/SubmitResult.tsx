@@ -18,58 +18,87 @@ interface SubmitResultProps {
   description: string;
   infoRows: InfoRowProps[];
   buttonText: string;
+  variant?: "mobile" | "desktop";
   onClick?: () => void;
   handleClose?: () => void;
 }
 
 // --- 메인 컴포넌트 ---
-const SubmitResult = ({ title, description, infoRows, buttonText, onClick, handleClose }: SubmitResultProps) => {
-  return (
-    <div className="flex min-h-screen w-full flex-col items-center justify-center p-4 font-sans">
-      <div className="w-full max-w-md text-center">
-        {/* 상단 아이콘 및 텍스트 */}
-        <div className="mb-8 flex flex-col items-center">
-          <IconCheck />
-          <h1 className="mt-4 text-gray-800 typo-bold-1">{title}</h1>
-          <p className="mt-2 text-gray-500 typo-regular-2">{description}</p>
-        </div>
+const SubmitResult = ({
+  title,
+  description,
+  infoRows,
+  buttonText,
+  variant = "mobile",
+  onClick,
+  handleClose,
+}: SubmitResultProps) => {
+  const content = (
+    <div className="w-full max-w-md text-center">
+      <div className="mb-8 flex flex-col items-center">
+        <IconCheck />
+        <h1 className="mt-4 text-gray-800 typo-bold-1">{title}</h1>
+        <p className="mt-2 text-gray-500 typo-regular-2">{description}</p>
+      </div>
 
-        {/* 정보 카드 */}
-        <div className="rounded-2xl border border-gray-200 bg-white p-2 shadow-sm">
-          <div className="space-y-2">
-            {infoRows.map((row, index) => (
-              <div
-                key={row.label}
-                className={clsx(
-                  "flex items-center justify-between px-4 py-5 typo-regular-2",
-                  index < infoRows.length - 1 && "border-b border-gray-100",
-                )}
-              >
-                <span className="text-gray-600 typo-medium-2">{row.label}</span>
-                <div className="flex items-center gap-3">
-                  <span className={clsx("typo-sb-9", row.statusColor || "text-gray-900")}>{row.status}</span>
-                  {row.details && <span className="text-gray-400">{row.details}</span>}
-                </div>
+      <div className="rounded-lg border border-gray-200 bg-white p-2 shadow-sm">
+        <div className="space-y-2">
+          {infoRows.map((row, index) => (
+            <div
+              key={row.label}
+              className={clsx(
+                "flex items-center justify-between px-4 py-5 typo-regular-2",
+                index < infoRows.length - 1 && "border-b border-gray-100",
+              )}
+            >
+              <span className="text-gray-600 typo-medium-2">{row.label}</span>
+              <div className="flex min-w-0 items-center gap-3 pl-4">
+                <span className={clsx("shrink-0 typo-sb-9", row.statusColor || "text-gray-900")}>{row.status}</span>
+                {row.details && <span className="truncate text-gray-400">{row.details}</span>}
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
+      </div>
 
-        {/* 하단 버튼 */}
-        <div className="mt-8 grid grid-cols-2 gap-4">
+      <div className={clsx("mt-8 grid gap-4", handleClose ? "grid-cols-2" : "grid-cols-1")}>
+        {handleClose && (
           <button
+            type="button"
             onClick={handleClose}
             className="w-full rounded-lg border border-primary bg-primary-100 py-3 text-primary typo-sb-9"
           >
             닫기
           </button>
-          <button onClick={onClick} className="w-full rounded-lg bg-primary py-3 text-white typo-sb-9">
-            {buttonText}
-          </button>
-        </div>
+        )}
+        <button type="button" onClick={onClick} className="w-full rounded-lg bg-primary py-3 text-white typo-sb-9">
+          {buttonText}
+        </button>
       </div>
     </div>
   );
+
+  if (variant === "desktop") {
+    return (
+      <div className="min-h-screen bg-k-50 px-8 py-8 lg:px-10">
+        <div className="mx-auto grid min-h-[calc(100vh-64px)] max-w-5xl items-center gap-8 xl:grid-cols-[minmax(420px,520px)_minmax(280px,340px)]">
+          <section className="flex justify-center">{content}</section>
+          <aside className="rounded-lg border border-k-100 bg-white p-6">
+            <p className="text-primary typo-sb-9">Score submitted</p>
+            <h2 className="mt-2 text-k-900 typo-bold-4">승인 안내</h2>
+            <p className="mt-3 text-k-500 typo-medium-3">
+              제출한 성적은 운영팀 확인 후 사용할 수 있어요. 심사 중에는 지원에 사용할 수 없습니다.
+            </p>
+            <div className="mt-5 rounded-lg bg-k-50 px-4 py-3 text-k-600 typo-medium-3">
+              승인 결과는 성적 확인하기 화면에서 다시 확인할 수 있습니다.
+            </div>
+          </aside>
+        </div>
+      </div>
+    );
+  }
+
+  return <div className="flex min-h-screen w-full flex-col items-center justify-center p-4 font-sans">{content}</div>;
 };
 
 // --- 컴포넌트 사용 예시 ---
