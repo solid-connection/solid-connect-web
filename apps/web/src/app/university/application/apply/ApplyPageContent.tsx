@@ -14,12 +14,12 @@ import { showIconToast } from "@/lib/toast/showIconToast";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import type { ListUniversity } from "@/types/university";
 import useIsDesktopViewport from "@/utils/useIsDesktopViewport";
-import ConfirmStep from "./ConfirmStep";
-import DoneStep from "./DoneStep";
-import EmptyGPA from "./EmptyGPA";
-import GpaStep from "./GpaStep";
-import LanguageStep from "./LanguageStep";
-import UniversityStep from "./UniversityStep";
+import { DesktopConfirmStep, MobileConfirmStep } from "./ConfirmStep";
+import { DesktopDoneStep, MobileDoneStep } from "./DoneStep";
+import { DesktopEmptyGPA, MobileEmptyGPA } from "./EmptyGPA";
+import { DesktopGpaStep, MobileGpaStep } from "./GpaStep";
+import { DesktopLanguageStep, MobileLanguageStep } from "./LanguageStep";
+import { DesktopUniversityStep, MobileUniversityStep } from "./UniversityStep";
 
 const APPLY_PROGRESS_TOTAL_STEPS = 5;
 const APPLY_STEP_LABELS = ["어학 성적 선택", "학점 선택", "학교 선택", "제출 확인", "지원 완료"] as const;
@@ -112,54 +112,84 @@ const ApplyPageContent = () => {
   const activeStepIndex =
     step === 99 ? APPLY_STEP_LABELS.length - 1 : Math.max(0, Math.min(step - 1, APPLY_STEP_LABELS.length - 1));
 
-  const renderStep = (variant: "mobile" | "desktop") => {
+  const selectedUniversityList = curUniversityList
+    .map((id) => universityList.find((university) => university.id === id))
+    .filter(Boolean) as ListUniversity[];
+
+  const renderDesktopStep = () => {
     if (isScoreDataEmpty) {
-      return <EmptyGPA variant={variant} />;
+      return <DesktopEmptyGPA />;
     }
 
     return (
       <>
         {step === 1 && (
-          <LanguageStep
+          <DesktopLanguageStep
             languageTestScoreList={languageTestScoreList}
             curLanguageTestScore={curLanguageTestScore}
             setCurLanguageTestScore={setCurLanguageTestScore}
             onNext={goNextStep}
-            variant={variant}
           />
         )}
         {step === 2 && homeUniversityName && (
-          <GpaStep
+          <DesktopGpaStep
             gpaScoreList={gpaScoreList}
             homeUniversityName={homeUniversityName}
             curGpaScore={curGpaScore}
             setCurGpaScore={setCurGpaScore}
             onNext={goNextStep}
-            variant={variant}
           />
         )}
         {step === 3 && (
-          <UniversityStep
+          <DesktopUniversityStep
             universityList={universityList}
             curUniversityList={curUniversityList}
             setCurUniversityList={setCurUniversityList}
             maxChoiceCount={maxChoiceCount}
             onNext={goNextStep}
-            variant={variant}
           />
         )}
-        {step === 4 && (
-          <ConfirmStep
-            universityList={
-              curUniversityList
-                .map((id) => universityList.find((university) => university.id === id))
-                .filter(Boolean) as ListUniversity[]
-            }
-            onNext={handleSubmit}
-            variant={variant}
+        {step === 4 && <DesktopConfirmStep universityList={selectedUniversityList} onNext={handleSubmit} />}
+        {step === 99 && <DesktopDoneStep />}
+      </>
+    );
+  };
+
+  const renderMobileStep = () => {
+    if (isScoreDataEmpty) {
+      return <MobileEmptyGPA />;
+    }
+
+    return (
+      <>
+        {step === 1 && (
+          <MobileLanguageStep
+            languageTestScoreList={languageTestScoreList}
+            curLanguageTestScore={curLanguageTestScore}
+            setCurLanguageTestScore={setCurLanguageTestScore}
+            onNext={goNextStep}
           />
         )}
-        {step === 99 && <DoneStep variant={variant} />}
+        {step === 2 && homeUniversityName && (
+          <MobileGpaStep
+            gpaScoreList={gpaScoreList}
+            homeUniversityName={homeUniversityName}
+            curGpaScore={curGpaScore}
+            setCurGpaScore={setCurGpaScore}
+            onNext={goNextStep}
+          />
+        )}
+        {step === 3 && (
+          <MobileUniversityStep
+            universityList={universityList}
+            curUniversityList={curUniversityList}
+            setCurUniversityList={setCurUniversityList}
+            maxChoiceCount={maxChoiceCount}
+            onNext={goNextStep}
+          />
+        )}
+        {step === 4 && <MobileConfirmStep universityList={selectedUniversityList} onNext={handleSubmit} />}
+        {step === 99 && <MobileDoneStep />}
       </>
     );
   };
@@ -192,7 +222,7 @@ const ApplyPageContent = () => {
               {(step === 1 || step === 2 || step === 3) && (
                 <ProgressBar currentStep={progressStep} totalSteps={APPLY_PROGRESS_TOTAL_STEPS} />
               )}
-              <div className="mt-8">{renderStep("desktop")}</div>
+              <div className="mt-8">{renderDesktopStep()}</div>
             </section>
 
             <aside className="sticky top-8 rounded-lg border border-k-100 bg-white p-6">
@@ -234,7 +264,7 @@ const ApplyPageContent = () => {
           <ProgressBar currentStep={progressStep} totalSteps={APPLY_PROGRESS_TOTAL_STEPS} />
         )}
       </div>
-      {renderStep("mobile")}
+      {renderMobileStep()}
     </>
   );
 };

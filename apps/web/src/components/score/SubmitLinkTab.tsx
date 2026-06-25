@@ -3,7 +3,6 @@ import Link from "next/link";
 
 type SubmitLinkTabProps = {
   isActiveGpa?: boolean;
-  variant?: "mobile" | "desktop";
   color?: {
     activeBtn?: string;
     deactiveBtn?: string;
@@ -12,7 +11,7 @@ type SubmitLinkTabProps = {
   };
 };
 
-const SubmitLinkTab = ({ color, isActiveGpa = true, variant = "mobile" }: SubmitLinkTabProps) => {
+const SubmitLinkTabBase = ({ color, isActiveGpa = true, isDesktop }: SubmitLinkTabProps & { isDesktop: boolean }) => {
   const defaultColor = {
     activeBtnFont: "text-black",
     deactiveBtnFont: "text-gray-200",
@@ -22,7 +21,7 @@ const SubmitLinkTab = ({ color, isActiveGpa = true, variant = "mobile" }: Submit
     deactiveBtnFont: color?.deactiveBtnFont ? `text-[${color.deactiveBtnFont}]` : defaultColor.deactiveBtnFont,
   };
 
-  if (variant === "desktop") {
+  if (isDesktop) {
     return (
       <div className="grid h-11 w-full grid-cols-2 rounded-lg bg-k-50 p-1 typo-medium-2">
         <Link
@@ -72,4 +71,9 @@ const SubmitLinkTab = ({ color, isActiveGpa = true, variant = "mobile" }: Submit
     </div>
   );
 };
-export default SubmitLinkTab;
+
+export const DesktopSubmitLinkTab = (props: SubmitLinkTabProps) => <SubmitLinkTabBase {...props} isDesktop />;
+
+export const MobileSubmitLinkTab = (props: SubmitLinkTabProps) => <SubmitLinkTabBase {...props} isDesktop={false} />;
+
+export default MobileSubmitLinkTab;

@@ -2,27 +2,29 @@ import clsx from "clsx";
 
 import { IconCheck } from "@/public/svgs/mentor";
 import type { ListUniversity } from "@/types/university";
-import ApplicationBottomActionBar from "../_components/ApplicationBottomActionBar";
+import {
+  DesktopApplicationBottomActionBar,
+  MobileApplicationBottomActionBar,
+} from "../_components/ApplicationBottomActionBar";
 
 type ConfirmStepProps = {
   universityList: ListUniversity[];
   onNext: () => void;
-  variant?: "mobile" | "desktop";
 };
 
 type ConfirmUniversityCardProps = {
   universityList: ListUniversity[];
-  variant?: "mobile" | "desktop";
+  isDesktop: boolean;
 };
 
-const ConfirmUniversityCard = ({ universityList, variant = "mobile" }: ConfirmUniversityCardProps) => {
+const ConfirmUniversityCard = ({ universityList, isDesktop }: ConfirmUniversityCardProps) => {
   if (universityList.length === 0) return null;
 
   return (
     <div
       className={clsx(
         "mt-10 rounded-lg border border-secondary bg-white px-5 py-6",
-        variant === "desktop" ? "shadow-none" : "shadow-[0_0_5px_rgba(0,0,0,0.25)]",
+        isDesktop ? "shadow-none" : "shadow-[0_0_5px_rgba(0,0,0,0.25)]",
       )}
     >
       {universityList.map((university, index) => (
@@ -45,8 +47,8 @@ const ConfirmUniversityCard = ({ universityList, variant = "mobile" }: ConfirmUn
   );
 };
 
-const ConfirmStep = ({ universityList, onNext, variant = "mobile" }: ConfirmStepProps) => {
-  const isDesktop = variant === "desktop";
+const ConfirmStepBase = ({ universityList, onNext, isDesktop }: ConfirmStepProps & { isDesktop: boolean }) => {
+  const ActionBar = isDesktop ? DesktopApplicationBottomActionBar : MobileApplicationBottomActionBar;
 
   return (
     <div className={clsx(isDesktop ? "pt-4" : "px-5 pb-40 pt-[76px]")}>
@@ -63,10 +65,14 @@ const ConfirmStep = ({ universityList, onNext, variant = "mobile" }: ConfirmStep
         </p>
       </div>
 
-      <ConfirmUniversityCard universityList={universityList} variant={variant} />
-      <ApplicationBottomActionBar label="제출하기" onClick={onNext} variant={variant} />
+      <ConfirmUniversityCard universityList={universityList} isDesktop={isDesktop} />
+      <ActionBar label="제출하기" onClick={onNext} />
     </div>
   );
 };
 
-export default ConfirmStep;
+export const DesktopConfirmStep = (props: ConfirmStepProps) => <ConfirmStepBase {...props} isDesktop />;
+
+export const MobileConfirmStep = (props: ConfirmStepProps) => <ConfirmStepBase {...props} isDesktop={false} />;
+
+export default MobileConfirmStep;

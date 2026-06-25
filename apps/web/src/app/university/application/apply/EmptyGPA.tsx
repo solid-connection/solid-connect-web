@@ -4,9 +4,7 @@ import Link from "next/link";
 import { IconSolidConnectionSmallLogo } from "@/public/svgs/my";
 import ApplicationSectionTitle from "../_components/ApplicationSectionTitle";
 
-const EmptyGPA = ({ variant = "mobile" }: { variant?: "mobile" | "desktop" }) => {
-  const isDesktop = variant === "desktop";
-
+const EmptyGPABase = ({ isDesktop }: { isDesktop: boolean }) => {
   return (
     <div className={clsx(isDesktop ? "" : "mt-24 px-5")}>
       <div
@@ -30,4 +28,9 @@ const EmptyGPA = ({ variant = "mobile" }: { variant?: "mobile" | "desktop" }) =>
     </div>
   );
 };
-export default EmptyGPA;
+
+export const DesktopEmptyGPA = () => <EmptyGPABase isDesktop />;
+
+export const MobileEmptyGPA = () => <EmptyGPABase isDesktop={false} />;
+
+export default MobileEmptyGPA;

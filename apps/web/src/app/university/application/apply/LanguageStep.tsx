@@ -2,12 +2,15 @@
 
 import clsx from "clsx";
 import { useState } from "react";
-import ScoreCard from "@/app/university/score/ScoreCard";
+import { DesktopScoreCard, MobileScoreCard } from "@/app/university/score/ScoreCard";
 import TextModal from "@/components/modal/TextModal";
 import Tab from "@/components/ui/Tab";
 import { showIconToast } from "@/lib/toast/showIconToast";
 import { formatLanguageTestScoreWithMax, type LanguageTestScore, ScoreSubmitStatus } from "@/types/score";
-import ApplicationBottomActionBar from "../_components/ApplicationBottomActionBar";
+import {
+  DesktopApplicationBottomActionBar,
+  MobileApplicationBottomActionBar,
+} from "../_components/ApplicationBottomActionBar";
 import ApplicationSectionTitle from "../_components/ApplicationSectionTitle";
 
 type LanguageStepProps = {
@@ -15,18 +18,18 @@ type LanguageStepProps = {
   curLanguageTestScore: number | null;
   setCurLanguageTestScore: (id: number) => void;
   onNext: () => void;
-  variant?: "mobile" | "desktop";
 };
 
-const LanguageStep = ({
+const LanguageStepBase = ({
   languageTestScoreList,
   curLanguageTestScore,
   setCurLanguageTestScore,
   onNext,
-  variant = "mobile",
-}: LanguageStepProps) => {
+  isDesktop,
+}: LanguageStepProps & { isDesktop: boolean }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const isDesktop = variant === "desktop";
+  const ScoreCard = isDesktop ? DesktopScoreCard : MobileScoreCard;
+  const ActionBar = isDesktop ? DesktopApplicationBottomActionBar : MobileApplicationBottomActionBar;
 
   const handleNext = () => {
     if (curLanguageTestScore === null) {
@@ -71,13 +74,12 @@ const LanguageStep = ({
                 // date={new Date(score.issueDate).toISOString()}
                 date={score.issueDate}
                 isFocused={score.id === curLanguageTestScore}
-                variant={variant}
               />
             </button>
           ))}
         </div>
       </div>
-      <ApplicationBottomActionBar label="다음" onClick={handleNext} variant={variant} />
+      <ActionBar label="다음" onClick={handleNext} />
       <TextModal
         isOpen={isModalOpen}
         handleClose={() => setIsModalOpen(false)}
@@ -88,4 +90,8 @@ const LanguageStep = ({
   );
 };
 
-export default LanguageStep;
+export const DesktopLanguageStep = (props: LanguageStepProps) => <LanguageStepBase {...props} isDesktop />;
+
+export const MobileLanguageStep = (props: LanguageStepProps) => <LanguageStepBase {...props} isDesktop={false} />;
+
+export default MobileLanguageStep;

@@ -7,7 +7,10 @@ import TextModal from "@/components/modal/TextModal";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/Select";
 
 import type { ListUniversity } from "@/types/university";
-import ApplicationBottomActionBar from "../_components/ApplicationBottomActionBar";
+import {
+  DesktopApplicationBottomActionBar,
+  MobileApplicationBottomActionBar,
+} from "../_components/ApplicationBottomActionBar";
 
 type UniversityStepProps = {
   universityList: ListUniversity[];
@@ -15,7 +18,6 @@ type UniversityStepProps = {
   setCurUniversityList: (idList: number[]) => void;
   maxChoiceCount: number;
   onNext: () => void;
-  variant?: "mobile" | "desktop";
 };
 
 type UniversityChoiceSelectProps = {
@@ -64,17 +66,17 @@ const UniversityChoiceSelect = ({
   );
 };
 
-const UniversityStep = ({
+const UniversityStepBase = ({
   universityList,
   curUniversityList,
   setCurUniversityList,
   maxChoiceCount,
   onNext,
-  variant = "mobile",
-}: UniversityStepProps) => {
+  isDesktop,
+}: UniversityStepProps & { isDesktop: boolean }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const choiceIndexes = useMemo(() => Array.from({ length: maxChoiceCount }, (_, index) => index), [maxChoiceCount]);
-  const isDesktop = variant === "desktop";
+  const ActionBar = isDesktop ? DesktopApplicationBottomActionBar : MobileApplicationBottomActionBar;
 
   const handleSelect = (index: number, value: number) => {
     const newList = curUniversityList.slice(0, maxChoiceCount);
@@ -116,7 +118,7 @@ const UniversityStep = ({
           ))}
         </div>
       </div>
-      <ApplicationBottomActionBar label="다음" onClick={handleNext} variant={variant} />
+      <ActionBar label="다음" onClick={handleNext} />
       <TextModal
         isOpen={isModalOpen}
         handleClose={() => setIsModalOpen(false)}
@@ -127,4 +129,8 @@ const UniversityStep = ({
   );
 };
 
-export default UniversityStep;
+export const DesktopUniversityStep = (props: UniversityStepProps) => <UniversityStepBase {...props} isDesktop />;
+
+export const MobileUniversityStep = (props: UniversityStepProps) => <UniversityStepBase {...props} isDesktop={false} />;
+
+export default MobileUniversityStep;

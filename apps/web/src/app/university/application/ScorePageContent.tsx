@@ -15,7 +15,7 @@ import useIsDesktopViewport from "@/utils/useIsDesktopViewport";
 import ApplicationSectionTitle from "./_components/ApplicationSectionTitle";
 import ScoreSearchBar from "./ScoreSearchBar";
 import ScoreSearchField from "./ScoreSearchField";
-import ScoreSheet from "./ScoreSheet";
+import { DesktopScoreSheet, MobileScoreSheet } from "./ScoreSheet";
 
 type ScorePageViewProps = {
   searchRef: RefObject<HTMLInputElement>;
@@ -209,7 +209,7 @@ const ApplicationScoreMobileView = ({
 
           <div className="mx-auto mt-3 flex w-full flex-col gap-3 overflow-x-auto pb-4">
             {scoreSheets.map((choice) => (
-              <ScoreSheet key={choice.koreanName} scoreSheet={choice} />
+              <MobileScoreSheet key={choice.koreanName} scoreSheet={choice} />
             ))}
           </div>
         </>
@@ -260,7 +260,7 @@ const ApplicationScoreDesktopView = ({
             ) : (
               <div className="mt-6 grid gap-4 lg:grid-cols-2">
                 {scoreSheets.map((choice) => (
-                  <ScoreSheet key={choice.koreanName} scoreSheet={choice} variant="desktop" />
+                  <DesktopScoreSheet key={choice.koreanName} scoreSheet={choice} />
                 ))}
               </div>
             )}

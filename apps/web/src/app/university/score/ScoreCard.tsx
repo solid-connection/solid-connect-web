@@ -8,7 +8,6 @@ type ScoreCardProps = {
   date: string; // Date ISO string
   dateLabel?: string;
   isFocused?: boolean;
-  variant?: "mobile" | "desktop";
 };
 
 const formatDate = (date: string) => {
@@ -49,17 +48,16 @@ const getStatus = (status: ScoreSubmitStatus) => {
   }
 };
 
-const ScoreCard = ({
+const ScoreCardBase = ({
   name,
   score,
   status,
   date,
   dateLabel = "제출일",
   isFocused = false,
-  variant = "mobile",
-}: ScoreCardProps) => {
+  isDesktop,
+}: ScoreCardProps & { isDesktop: boolean }) => {
   const isVerified = status === "APPROVED";
-  const isDesktop = variant === "desktop";
 
   return (
     <div
@@ -100,4 +98,8 @@ const ScoreCard = ({
   );
 };
 
-export default ScoreCard;
+export const DesktopScoreCard = (props: ScoreCardProps) => <ScoreCardBase {...props} isDesktop />;
+
+export const MobileScoreCard = (props: ScoreCardProps) => <ScoreCardBase {...props} isDesktop={false} />;
+
+export default MobileScoreCard;
