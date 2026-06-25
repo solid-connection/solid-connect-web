@@ -12,14 +12,17 @@ import type { MentorApplicationFormInputData } from "../../_lib/schema";
 
 type InterestCountriesScreenProps = {
   onNext: () => void;
-  isDesktop?: boolean;
+};
+
+type InterestCountriesScreenBaseProps = InterestCountriesScreenProps & {
+  isDesktop: boolean;
 };
 
 const countryCodeByName = Object.fromEntries(
   Object.entries(COUNTRY_CODE_MAP).map(([code, countryName]) => [countryName, code]),
 ) as Record<string, CountryCode>;
 
-const InterestCountriesScreen = ({ onNext, isDesktop = false }: InterestCountriesScreenProps) => {
+const InterestCountriesScreenBase = ({ onNext, isDesktop }: InterestCountriesScreenBaseProps) => {
   const {
     watch,
     setValue,
@@ -147,4 +150,12 @@ const InterestCountriesScreen = ({ onNext, isDesktop = false }: InterestCountrie
   );
 };
 
-export default InterestCountriesScreen;
+export const DesktopInterestCountriesScreen = (props: InterestCountriesScreenProps) => (
+  <InterestCountriesScreenBase {...props} isDesktop />
+);
+
+export const MobileInterestCountriesScreen = (props: InterestCountriesScreenProps) => (
+  <InterestCountriesScreenBase {...props} isDesktop={false} />
+);
+
+export default MobileInterestCountriesScreen;

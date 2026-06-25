@@ -6,7 +6,7 @@ import BlockBtn from "@/components/button/BlockBtn";
 
 import { IconCheck } from "@/public/svgs/mentor";
 
-const CompletionScreen = ({ isDesktop = false }: { isDesktop?: boolean }) => {
+const CompletionScreenBase = ({ isDesktop }: { isDesktop: boolean }) => {
   const router = useRouter();
 
   if (isDesktop) {
@@ -71,4 +71,8 @@ const CompletionScreen = ({ isDesktop = false }: { isDesktop?: boolean }) => {
   );
 };
 
-export default CompletionScreen;
+export const DesktopCompletionScreen = () => <CompletionScreenBase isDesktop />;
+
+export const MobileCompletionScreen = () => <CompletionScreenBase isDesktop={false} />;
+
+export default MobileCompletionScreen;
