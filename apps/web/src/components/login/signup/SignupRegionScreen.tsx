@@ -12,19 +12,16 @@ type SignupRegionScreenProps = {
   curCountries: string[];
   setCurCountries: Dispatch<SetStateAction<string[]>>;
   toNextStage: () => void;
-  variant?: "mobile" | "desktop";
 };
 
-const SignupRegionScreen = ({
+const SignupRegionScreenBase = ({
   curRegion,
   setCurRegion,
   curCountries,
   setCurCountries,
   toNextStage,
-  variant = "mobile",
-}: SignupRegionScreenProps) => {
-  const isDesktop = variant === "desktop";
-
+  isDesktop,
+}: SignupRegionScreenProps & { isDesktop: boolean }) => {
   const submit = () => {
     if (!curRegion) {
       showIconToast("logo", "권역을 선택해주세요.");
@@ -46,12 +43,12 @@ const SignupRegionScreen = ({
         </div>
 
         <div className="mt-10">
-          <RegionButtons curRegion={curRegion} setCurRegion={setCurRegion} variant={variant} />
+          <RegionButtons curRegion={curRegion} setCurRegion={setCurRegion} isDesktop={isDesktop} />
           <CountryButtons
             curCountries={curCountries}
             setCurCountries={setCurCountries}
             region={curRegion}
-            variant={variant}
+            isDesktop={isDesktop}
           />
         </div>
       </div>
@@ -65,16 +62,24 @@ const SignupRegionScreen = ({
   );
 };
 
-export default SignupRegionScreen;
+export const DesktopSignupRegionScreen = (props: SignupRegionScreenProps) => (
+  <SignupRegionScreenBase {...props} isDesktop />
+);
+
+export const MobileSignupRegionScreen = (props: SignupRegionScreenProps) => (
+  <SignupRegionScreenBase {...props} isDesktop={false} />
+);
+
+export default MobileSignupRegionScreen;
 
 type RegionButtonsProps = {
   curRegion: string | null;
   setCurRegion: Dispatch<SetStateAction<string | null>>;
-  variant?: "mobile" | "desktop";
+  isDesktop: boolean;
 };
 
-const RegionButtons = ({ curRegion, setCurRegion, variant = "mobile" }: RegionButtonsProps) => (
-  <div className={variant === "desktop" ? "grid grid-cols-3 gap-4" : "grid grid-cols-2 gap-5"}>
+const RegionButtons = ({ curRegion, setCurRegion, isDesktop }: RegionButtonsProps) => (
+  <div className={isDesktop ? "grid grid-cols-3 gap-4" : "grid grid-cols-2 gap-5"}>
     {regionList.map((region) => (
       <button
         key={region.name}
@@ -109,10 +114,10 @@ type CountryButtonsProps = {
   curCountries: string[];
   setCurCountries: Dispatch<SetStateAction<string[]>>;
   region: string | null;
-  variant?: "mobile" | "desktop";
+  isDesktop: boolean;
 };
 
-const CountryButtons = ({ curCountries, setCurCountries, region, variant = "mobile" }: CountryButtonsProps) => {
+const CountryButtons = ({ curCountries, setCurCountries, region, isDesktop }: CountryButtonsProps) => {
   const toggleCountry = (country: string) => {
     if (curCountries.includes(country)) {
       setCurCountries(curCountries.filter((c) => c !== country));
@@ -124,7 +129,7 @@ const CountryButtons = ({ curCountries, setCurCountries, region, variant = "mobi
   const countries = regionList.find((r) => r.name === region)?.countries || [];
 
   return (
-    <div className={variant === "desktop" ? "mt-5 grid grid-cols-4 gap-3" : "mt-5 grid grid-cols-3 gap-4"}>
+    <div className={isDesktop ? "mt-5 grid grid-cols-4 gap-3" : "mt-5 grid grid-cols-3 gap-4"}>
       {countries.map((country) => (
         <button
           key={country}
