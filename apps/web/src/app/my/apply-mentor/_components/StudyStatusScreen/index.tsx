@@ -9,10 +9,13 @@ import type { MentorApplicationFormInputData } from "../../_lib/schema";
 
 type StudyStatusScreenProps = {
   onNext: () => void;
-  isDesktop?: boolean;
 };
 
-const StudyStatusScreen = ({ onNext, isDesktop = false }: StudyStatusScreenProps) => {
+type StudyStatusScreenBaseProps = StudyStatusScreenProps & {
+  isDesktop: boolean;
+};
+
+const StudyStatusScreenBase = ({ onNext, isDesktop }: StudyStatusScreenBaseProps) => {
   const {
     watch,
     setValue,
@@ -97,7 +100,15 @@ const StudyStatusScreen = ({ onNext, isDesktop = false }: StudyStatusScreenProps
   );
 };
 
-export default StudyStatusScreen;
+export const DesktopStudyStatusScreen = (props: StudyStatusScreenProps) => (
+  <StudyStatusScreenBase {...props} isDesktop />
+);
+
+export const MobileStudyStatusScreen = (props: StudyStatusScreenProps) => (
+  <StudyStatusScreenBase {...props} isDesktop={false} />
+);
+
+export default MobileStudyStatusScreen;
 
 type StatusChoiceButtonProps = {
   status: string;

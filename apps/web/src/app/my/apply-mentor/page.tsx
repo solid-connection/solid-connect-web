@@ -10,10 +10,10 @@ import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import { Progress } from "@/components/ui/Progress";
 import { showIconToast } from "@/lib/toast/showIconToast";
 import useIsDesktopViewport from "@/utils/useIsDesktopViewport";
-import CompletionScreen from "./_components/CompletionScreen";
-import InterestCountriesScreen from "./_components/InterestCountriesScreen";
-import StudyStatusScreen from "./_components/StudyStatusScreen";
-import UniversityScreen from "./_components/UniversityScreen";
+import { DesktopCompletionScreen, MobileCompletionScreen } from "./_components/CompletionScreen";
+import { DesktopInterestCountriesScreen, MobileInterestCountriesScreen } from "./_components/InterestCountriesScreen";
+import { DesktopStudyStatusScreen, MobileStudyStatusScreen } from "./_components/StudyStatusScreen";
+import { DesktopUniversityScreen, MobileUniversityScreen } from "./_components/UniversityScreen";
 import { mentorApplicationSchema } from "./_lib/schema";
 
 type FormInputValues = z.input<typeof mentorApplicationSchema>;
@@ -68,7 +68,7 @@ const ApplyMentorPage = () => {
   });
 
   if (step === 4) {
-    return <CompletionScreen isDesktop={Boolean(isDesktop)} />;
+    return isDesktop ? <DesktopCompletionScreen /> : <MobileCompletionScreen />;
   }
 
   if (isDesktop) {
@@ -102,9 +102,9 @@ const ApplyMentorPage = () => {
                 <Progress showPercentage={false} value={progress} />
               </div>
 
-              {step === 1 && <StudyStatusScreen isDesktop onNext={goNextStep} />}
-              {step === 2 && <InterestCountriesScreen isDesktop onNext={goNextStep} />}
-              {step === 3 && <UniversityScreen isDesktop isSubmitting={isPending} onNext={onSubmit} />}
+              {step === 1 && <DesktopStudyStatusScreen onNext={goNextStep} />}
+              {step === 2 && <DesktopInterestCountriesScreen onNext={goNextStep} />}
+              {step === 3 && <DesktopUniversityScreen isSubmitting={isPending} onNext={onSubmit} />}
             </section>
 
             <aside className="sticky top-8 rounded-lg border border-k-100 bg-white p-6">
@@ -136,9 +136,9 @@ const ApplyMentorPage = () => {
         </div>
 
         {/* Step Content */}
-        {step === 1 && <StudyStatusScreen onNext={goNextStep} />}
-        {step === 2 && <InterestCountriesScreen onNext={goNextStep} />}
-        {step === 3 && <UniversityScreen isSubmitting={isPending} onNext={onSubmit} />}
+        {step === 1 && <MobileStudyStatusScreen onNext={goNextStep} />}
+        {step === 2 && <MobileInterestCountriesScreen onNext={goNextStep} />}
+        {step === 3 && <MobileUniversityScreen isSubmitting={isPending} onNext={onSubmit} />}
       </FormProvider>
     </div>
   );

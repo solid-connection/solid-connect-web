@@ -15,10 +15,13 @@ type FormValues = z.input<typeof mentorApplicationSchema>;
 type UniversityScreenProps = {
   isSubmitting: boolean;
   onNext: () => void;
-  isDesktop?: boolean;
 };
 
-const UniversityScreen = ({ isSubmitting, onNext, isDesktop = false }: UniversityScreenProps) => {
+type UniversityScreenBaseProps = UniversityScreenProps & {
+  isDesktop: boolean;
+};
+
+const UniversityScreenBase = ({ isSubmitting, onNext, isDesktop }: UniversityScreenBaseProps) => {
   const {
     watch,
     setValue,
@@ -224,4 +227,10 @@ const UniversityScreen = ({ isSubmitting, onNext, isDesktop = false }: Universit
   );
 };
 
-export default UniversityScreen;
+export const DesktopUniversityScreen = (props: UniversityScreenProps) => <UniversityScreenBase {...props} isDesktop />;
+
+export const MobileUniversityScreen = (props: UniversityScreenProps) => (
+  <UniversityScreenBase {...props} isDesktop={false} />
+);
+
+export default MobileUniversityScreen;
