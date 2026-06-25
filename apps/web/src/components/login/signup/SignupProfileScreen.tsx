@@ -13,6 +13,7 @@ type SignupProfileScreenProps = {
   defaultProfileImageUrl: string;
   profileImageFile: File | null;
   setProfileImageFile: Dispatch<SetStateAction<File | null>>;
+  variant?: "mobile" | "desktop";
 };
 
 const SignupProfileScreen = ({
@@ -22,9 +23,11 @@ const SignupProfileScreen = ({
   defaultProfileImageUrl,
   profileImageFile,
   setProfileImageFile,
+  variant = "mobile",
 }: SignupProfileScreenProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploadedProfileImageFileView, setUploadedProfileImageFileView] = useState<string | null>(null);
+  const isDesktop = variant === "desktop";
 
   const submit = () => {
     if (!nickname) {
@@ -64,8 +67,8 @@ const SignupProfileScreen = ({
 
   return (
     <div>
-      <div className="px-5">
-        <div className="mt-5">
+      <div className={isDesktop ? "" : "px-5"}>
+        <div className={isDesktop ? "" : "mt-5"}>
           <span className="text-k-900 typo-bold-1">
             닉네임을
             <br />
@@ -104,7 +107,7 @@ const SignupProfileScreen = ({
         </div>
       </div>
 
-      <div className="mt-10 px-5 pb-7">
+      <div className={isDesktop ? "mt-8" : "mt-10 px-5 pb-7"}>
         <BlockBtn disabled={!nickname} onClick={submit}>
           가입 완료
         </BlockBtn>

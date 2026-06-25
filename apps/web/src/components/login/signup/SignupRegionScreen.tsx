@@ -12,6 +12,7 @@ type SignupRegionScreenProps = {
   curCountries: string[];
   setCurCountries: Dispatch<SetStateAction<string[]>>;
   toNextStage: () => void;
+  variant?: "mobile" | "desktop";
 };
 
 const SignupRegionScreen = ({
@@ -20,7 +21,10 @@ const SignupRegionScreen = ({
   curCountries,
   setCurCountries,
   toNextStage,
+  variant = "mobile",
 }: SignupRegionScreenProps) => {
+  const isDesktop = variant === "desktop";
+
   const submit = () => {
     if (!curRegion) {
       showIconToast("logo", "권역을 선택해주세요.");
@@ -31,8 +35,8 @@ const SignupRegionScreen = ({
 
   return (
     <div>
-      <div className="px-5">
-        <div className="mt-5">
+      <div className={isDesktop ? "" : "px-5"}>
+        <div className={isDesktop ? "" : "mt-5"}>
           <span className="text-k-900 typo-bold-1">
             현재 나의
             <span className="text-primary"> 관심 국가</span>를
@@ -42,12 +46,17 @@ const SignupRegionScreen = ({
         </div>
 
         <div className="mt-10">
-          <RegionButtons curRegion={curRegion} setCurRegion={setCurRegion} />
-          <CountryButtons curCountries={curCountries} setCurCountries={setCurCountries} region={curRegion} />
+          <RegionButtons curRegion={curRegion} setCurRegion={setCurRegion} variant={variant} />
+          <CountryButtons
+            curCountries={curCountries}
+            setCurCountries={setCurCountries}
+            region={curRegion}
+            variant={variant}
+          />
         </div>
       </div>
 
-      <div className="mt-10 px-5 pb-7">
+      <div className={isDesktop ? "mt-8" : "mt-10 px-5 pb-7"}>
         <BlockBtn disabled={!curRegion} onClick={submit}>
           다음
         </BlockBtn>
@@ -61,10 +70,11 @@ export default SignupRegionScreen;
 type RegionButtonsProps = {
   curRegion: string | null;
   setCurRegion: Dispatch<SetStateAction<string | null>>;
+  variant?: "mobile" | "desktop";
 };
 
-const RegionButtons = ({ curRegion, setCurRegion }: RegionButtonsProps) => (
-  <div className="grid grid-cols-2 gap-5">
+const RegionButtons = ({ curRegion, setCurRegion, variant = "mobile" }: RegionButtonsProps) => (
+  <div className={variant === "desktop" ? "grid grid-cols-3 gap-4" : "grid grid-cols-2 gap-5"}>
     {regionList.map((region) => (
       <button
         key={region.name}
@@ -99,9 +109,10 @@ type CountryButtonsProps = {
   curCountries: string[];
   setCurCountries: Dispatch<SetStateAction<string[]>>;
   region: string | null;
+  variant?: "mobile" | "desktop";
 };
 
-const CountryButtons = ({ curCountries, setCurCountries, region }: CountryButtonsProps) => {
+const CountryButtons = ({ curCountries, setCurCountries, region, variant = "mobile" }: CountryButtonsProps) => {
   const toggleCountry = (country: string) => {
     if (curCountries.includes(country)) {
       setCurCountries(curCountries.filter((c) => c !== country));
@@ -113,7 +124,7 @@ const CountryButtons = ({ curCountries, setCurCountries, region }: CountryButton
   const countries = regionList.find((r) => r.name === region)?.countries || [];
 
   return (
-    <div className="mt-5 grid grid-cols-3 gap-4">
+    <div className={variant === "desktop" ? "mt-5 grid grid-cols-4 gap-3" : "mt-5 grid grid-cols-3 gap-4"}>
       {countries.map((country) => (
         <button
           key={country}
