@@ -24,6 +24,7 @@
 ### `apps/university-web`
 
 - `/university`
+- `/university/revalidate`
 - `/university/search`
 - `/university/:homeUniversity`
 - `/university/:homeUniversity/search`

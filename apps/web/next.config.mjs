@@ -85,6 +85,10 @@ const nextConfig = {
         destination: `${universityWebDomain}/university/monitoring`,
       },
       {
+        source: "/university/revalidate",
+        destination: `${universityWebDomain}/university/revalidate`,
+      },
+      {
         source: "/university",
         destination: `${universityWebDomain}/university`,
       },
