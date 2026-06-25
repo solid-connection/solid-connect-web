@@ -67,7 +67,7 @@ pnpm install
 
 ## University Web Revalidation
 
-대학 지원 정보가 변경된 뒤 배포 없이 `university-web`의 정적 캐시를 무효화하려면 `POST /api/revalidate`를 호출한다.
+대학 지원 정보가 변경된 뒤 배포 없이 `university-web`의 정적 캐시를 무효화하려면 `POST /university/revalidate`를 호출한다.
 
 ### Environment
 
@@ -92,7 +92,7 @@ x-revalidate-secret: ${REVALIDATE_SECRET}
 ### Revalidate All University Pages
 
 ```bash
-curl -X POST "https://www.solid-connection.com/api/revalidate" \
+curl -X POST "https://www.solid-connection.com/university/revalidate" \
   -H "Authorization: Bearer ${REVALIDATE_SECRET}" \
   -H "Content-Type: application/json" \
   --data '{"scope":"university"}'
@@ -101,7 +101,7 @@ curl -X POST "https://www.solid-connection.com/api/revalidate" \
 ### Revalidate Home University Pages
 
 ```bash
-curl -X POST "https://www.solid-connection.com/api/revalidate" \
+curl -X POST "https://www.solid-connection.com/university/revalidate" \
   -H "Authorization: Bearer ${REVALIDATE_SECRET}" \
   -H "Content-Type: application/json" \
   --data '{"scope":"home-university","homeUniversity":"kyunghee"}'
@@ -110,7 +110,7 @@ curl -X POST "https://www.solid-connection.com/api/revalidate" \
 ### Revalidate One Path
 
 ```bash
-curl -X POST "https://www.solid-connection.com/api/revalidate" \
+curl -X POST "https://www.solid-connection.com/university/revalidate" \
   -H "Authorization: Bearer ${REVALIDATE_SECRET}" \
   -H "Content-Type: application/json" \
   --data '{"scope":"path","path":"/university/kyunghee"}'
