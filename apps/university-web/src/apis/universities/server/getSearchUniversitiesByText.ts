@@ -63,14 +63,7 @@ export const getUniversitiesByText = async (
 };
 
 export const getAllUniversities = async (params?: UniversitySearchTextParams): Promise<ListUniversity[]> => {
-  const endpoint = createSearchTextEndpoint("", params);
-  const response = await serverFetch<UniversitySearchResponse>(endpoint);
-
-  if (!response.ok) {
-    return [];
-  }
-
-  return response.data.univApplyInfoPreviews;
+  return getUniversitiesByText("", params);
 };
 
 export const getCategorizedUniversities = async (

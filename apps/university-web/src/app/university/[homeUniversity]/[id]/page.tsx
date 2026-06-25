@@ -12,9 +12,8 @@ import { createUrl, NO_INDEX_ROBOTS } from "@/utils/seo";
 import UniversityDetail from "./_ui/UniversityDetail";
 import UniversityDetailPreparingFallback from "./_ui/UniversityDetailPreparingFallback";
 
-export const revalidate = false; // 가능한 상세 경로는 빌드 시 정적으로 생성
-// 전체 학교 목록 API가 일시적으로 실패해도 배포가 404-only 상태가 되지 않도록 런타임 생성을 허용합니다.
-export const dynamicParams = true;
+export const revalidate = false; // 완전 정적 생성
+export const dynamicParams = false;
 
 // 모든 homeUniversity + id 조합에 대해 정적 경로 생성
 export async function generateStaticParams() {
@@ -190,7 +189,11 @@ const CollegeDetailPage = async ({ params }: PageProps) => {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
       <TopDetailNavigation title={convertedKoreanName} backHref={`/university/${homeUniversity}`} />
       <div className="w-full">
-        <UniversityDetail koreanName={convertedKoreanName} university={universityData} />
+        <UniversityDetail
+          koreanName={convertedKoreanName}
+          university={universityData}
+          backHref={`/university/${homeUniversity}`}
+        />
       </div>
     </>
   );

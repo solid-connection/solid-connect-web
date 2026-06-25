@@ -89,10 +89,5 @@ export const getSearchUniversitiesAllRegions = async (
 
   const endpoint = `/univ-apply-infos/search/text?${searchParams.toString()}`;
   const response = await serverFetch<UniversitySearchResponse>(endpoint);
-
-  if (!response.ok) {
-    return [];
-  }
-
-  return response.data.univApplyInfoPreviews;
+  return assertUniversitySsgResponse(response, "search all universities").univApplyInfoPreviews;
 };
