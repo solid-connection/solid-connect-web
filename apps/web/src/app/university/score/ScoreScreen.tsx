@@ -257,6 +257,7 @@ const ScoreList = ({
               )}
               status={score.verifyStatus}
               date={score.issueDate}
+              dateLabel="제출일"
               isFocused={score.verifyStatus === "APPROVED"}
               variant={variant}
             />
@@ -276,6 +277,7 @@ const ScoreList = ({
               score={`${score.gpaResponse.gpa.toFixed(2)}/${score.gpaResponse.gpaCriteria}`}
               status={score.verifyStatus}
               date={score.issueDate}
+              dateLabel="제출일"
               isFocused={score.verifyStatus === "APPROVED"}
               variant={variant}
             />
