@@ -13,7 +13,7 @@ const SubmitGpaPage = () => {
   return (
     <>
       <TopDetailNavigation title="성적 입력하기" />
-      <div className="w-full px-5">
+      <div className="w-full px-5 md:px-0">
         <GpaSubmitForm />
       </div>
     </>

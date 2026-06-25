@@ -1,5 +1,6 @@
 "use client";
 
+import clsx from "clsx";
 import { useState } from "react";
 import ScoreCard from "@/app/university/score/ScoreCard";
 import TextModal from "@/components/modal/TextModal";
@@ -14,6 +15,7 @@ type LanguageStepProps = {
   curLanguageTestScore: number | null;
   setCurLanguageTestScore: (id: number) => void;
   onNext: () => void;
+  variant?: "mobile" | "desktop";
 };
 
 const LanguageStep = ({
@@ -21,8 +23,10 @@ const LanguageStep = ({
   curLanguageTestScore,
   setCurLanguageTestScore,
   onNext,
+  variant = "mobile",
 }: LanguageStepProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const isDesktop = variant === "desktop";
 
   const handleNext = () => {
     if (curLanguageTestScore === null) {
@@ -34,10 +38,12 @@ const LanguageStep = ({
 
   return (
     <>
-      <div className="my-5 px-5">
+      <div className={clsx({ "my-5 px-5": !isDesktop })}>
         <ApplicationSectionTitle title="어학 성적 선택" description="지원에 사용할 공인어학 성적을 선택해주세요." />
-        <Tab choices={["공인어학", "학점"]} choice="공인어학" setChoice={() => {}} />
-        <div className="my-[14px] mb-40 flex flex-col gap-3">
+        <div className={clsx(isDesktop ? "mt-5 max-w-md" : "")}>
+          <Tab choices={["공인어학", "학점"]} choice="공인어학" setChoice={() => {}} />
+        </div>
+        <div className={clsx("my-[14px] grid gap-3", isDesktop ? "mb-0 lg:grid-cols-2" : "mb-40 grid-cols-1")}>
           {languageTestScoreList.map((score) => (
             <button
               className="transition-transform hover:scale-[1.01] active:scale-[0.97]"
@@ -63,14 +69,15 @@ const LanguageStep = ({
                 )}
                 status={score.verifyStatus}
                 // date={new Date(score.issueDate).toISOString()}
-                date="2025-01-01"
+                date={score.issueDate}
                 isFocused={score.id === curLanguageTestScore}
+                variant={variant}
               />
             </button>
           ))}
         </div>
       </div>
-      <ApplicationBottomActionBar label="다음" onClick={handleNext} />
+      <ApplicationBottomActionBar label="다음" onClick={handleNext} variant={variant} />
       <TextModal
         isOpen={isModalOpen}
         handleClose={() => setIsModalOpen(false)}
