@@ -70,10 +70,7 @@ const ScoreCard = ({ name, score, status, date, isFocused = false, variant = "mo
           })}
         >
           <span className="truncate">{name}</span>
-          <span className="font-serif text-k-300 typo-regular-5">
-            {status === "APPROVED" ? "만료일 : " : "제출일 : "}
-            {formatDate(date)}
-          </span>
+          <span className="font-serif text-k-300 typo-regular-5">제출일 : {formatDate(date)}</span>
         </div>
         <div
           className={clsx(

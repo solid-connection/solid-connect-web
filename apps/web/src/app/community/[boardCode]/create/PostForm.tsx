@@ -58,6 +58,10 @@ const PostForm = ({ boardCode }: PostFormProps) => {
   }, [accessToken, createPath, isAuthenticated, isInitialized, refreshStatus, router]);
 
   useEffect(() => {
+    if (isDesktop === null) {
+      return () => {};
+    }
+
     const textarea = textareaRef.current;
     const title = titleRef.current;
 
@@ -78,7 +82,7 @@ const PostForm = ({ boardCode }: PostFormProps) => {
       return () => textarea.removeEventListener("input", adjustHeight);
     }
     return () => {};
-  }, []);
+  }, [isDesktop]);
 
   if (!isInitialized || refreshStatus === "refreshing" || !isAuthenticated || !accessToken || isDesktop === null) {
     return <CloudSpinnerPage />;

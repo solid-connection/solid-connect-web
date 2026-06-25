@@ -110,7 +110,7 @@ const ScorePageContent = () => {
 
   const handleMobileRegionChange = (nextRegion: string | null | ((prev: string | null) => string | null)) => {
     const resolvedRegion = typeof nextRegion === "function" ? nextRegion(regionFilter || null) : nextRegion;
-    applyRegionFilter((resolvedRegion ?? "") as RegionKo | "");
+    applyRegionFilter(isRegionKo(resolvedRegion) ? resolvedRegion : "");
   };
 
   const handlePreferenceChange = (nextPreference: string) => {
@@ -298,7 +298,7 @@ const ApplicationScoreDesktopView = ({
                   <DesktopRegionButton
                     key={region}
                     isActive={regionFilter === region}
-                    onClick={() => onDesktopRegionChange(region as RegionKo)}
+                    onClick={() => onDesktopRegionChange(region)}
                   >
                     {region}
                   </DesktopRegionButton>
@@ -310,6 +310,10 @@ const ApplicationScoreDesktopView = ({
       </div>
     </div>
   );
+};
+
+const isRegionKo = (value: string | null): value is RegionKo => {
+  return value !== null && REGIONS_KO.some((region) => region === value);
 };
 
 const DesktopRegionButton = ({

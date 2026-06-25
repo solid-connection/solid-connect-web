@@ -26,8 +26,7 @@ const FavoriteContent = () => {
   const isDesktop = useIsDesktopViewport();
 
   const handleDeleteSelected = () => {
-    setIsEditMode(false);
-    handleDeleteAll();
+    handleDeleteAll(() => setIsEditMode(false));
   };
 
   const viewProps = {

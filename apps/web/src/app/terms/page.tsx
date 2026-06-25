@@ -168,10 +168,10 @@ const TermsDesktopView = () => (
       <aside className="sticky top-8 rounded-lg border border-k-100 bg-white p-6">
         <h2 className="text-k-900 typo-bold-4">목차</h2>
         <nav className="mt-5 grid gap-2">
-          {TERMS_SECTIONS.map((section) => (
+          {TERMS_SECTIONS.map((section, index) => (
             <a
               key={section.title}
-              href={`#${section.title}`}
+              href={`#${getTermsSectionId(index)}`}
               className="rounded-lg bg-k-50 px-4 py-3 text-k-600 transition-colors hover:bg-k-100 typo-medium-3"
             >
               {section.title}
@@ -189,9 +189,9 @@ const TermsDesktopView = () => (
 
 const TermsSectionList = ({ withAnchors = false }: { withAnchors?: boolean }) => (
   <div className="space-y-7">
-    {TERMS_SECTIONS.map((section) => (
-      <section key={section.title} id={withAnchors ? section.title : undefined} className="scroll-mt-8">
-        <p className="pb-2 text-k-902 font-normal">{section.title}</p>
+    {TERMS_SECTIONS.map((section, index) => (
+      <section key={section.title} id={withAnchors ? getTermsSectionId(index) : undefined} className="scroll-mt-8">
+        <p className="pb-2 text-k-800 font-normal">{section.title}</p>
         <ol className="ml-4 list-decimal space-y-2 text-k-900 typo-regular-2">
           {section.items.map((item) => (
             <li key={item}>{item}</li>
@@ -201,5 +201,7 @@ const TermsSectionList = ({ withAnchors = false }: { withAnchors?: boolean }) =>
     ))}
   </div>
 );
+
+const getTermsSectionId = (index: number) => `terms-section-${index + 1}`;
 
 export default TermsPage;

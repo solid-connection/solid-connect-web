@@ -150,7 +150,7 @@ const MatchEmptyState = ({ viewAsMentor }: { viewAsMentor: boolean }) => (
 );
 
 const toMentorPreview = (room: ChatRoom) => ({
-  id: room.id,
+  id: room.partner.partnerId,
   profileImageUrl: room.partner.profileUrl ?? null,
   nickname: room.partner.nickname ?? "",
   country: "",
