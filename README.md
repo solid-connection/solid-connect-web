@@ -65,6 +65,68 @@ rm -rf node_modules package-lock.json
 pnpm install
 ```
 
+## University Web Revalidation
+
+대학 지원 정보가 변경된 뒤 배포 없이 `university-web`의 정적 캐시를 무효화하려면 `POST /api/revalidate`를 호출한다.
+
+### Environment
+
+Vercel의 `solid-connect-university-web` 프로젝트에 다음 환경 변수가 필요하다.
+
+```bash
+REVALIDATE_SECRET=your-secret
+```
+
+### Authentication
+
+다음 두 방식 중 하나로 secret을 전달할 수 있다.
+
+```bash
+Authorization: Bearer ${REVALIDATE_SECRET}
+```
+
+```bash
+x-revalidate-secret: ${REVALIDATE_SECRET}
+```
+
+### Revalidate All University Pages
+
+```bash
+curl -X POST "https://www.solid-connection.com/api/revalidate" \
+  -H "Authorization: Bearer ${REVALIDATE_SECRET}" \
+  -H "Content-Type: application/json" \
+  --data '{"scope":"university"}'
+```
+
+### Revalidate Home University Pages
+
+```bash
+curl -X POST "https://www.solid-connection.com/api/revalidate" \
+  -H "Authorization: Bearer ${REVALIDATE_SECRET}" \
+  -H "Content-Type: application/json" \
+  --data '{"scope":"home-university","homeUniversity":"kyunghee"}'
+```
+
+### Revalidate One Path
+
+```bash
+curl -X POST "https://www.solid-connection.com/api/revalidate" \
+  -H "Authorization: Bearer ${REVALIDATE_SECRET}" \
+  -H "Content-Type: application/json" \
+  --data '{"scope":"path","path":"/university/kyunghee"}'
+```
+
+### Response
+
+```json
+{
+  "revalidated": true,
+  "paths": ["/university/kyunghee", "/university/kyunghee/search"]
+}
+```
+
+`revalidatePath`는 캐시를 무효화한다. 새 HTML은 API 호출 시점이 아니라 해당 페이지에 다음 요청이 들어올 때 다시 생성된다.
+
 ## AI Inspector Workflow
 
 Admin 계정일 때 좌측 하단에 AI 인스펙터 플로팅 버튼이 노출됩니다.
