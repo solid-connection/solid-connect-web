@@ -13,7 +13,7 @@ import UniversityDetail from "./_ui/UniversityDetail";
 import UniversityDetailPreparingFallback from "./_ui/UniversityDetailPreparingFallback";
 
 export const revalidate = false;
-export const dynamicParams = true;
+export const dynamicParams = false;
 
 // 모든 homeUniversity + id 조합에 대해 정적 경로 생성
 export async function generateStaticParams() {
