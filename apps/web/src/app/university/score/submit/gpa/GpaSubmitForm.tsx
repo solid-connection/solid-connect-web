@@ -7,8 +7,8 @@ import { useRouter } from "next/navigation";
 import { Suspense, useState } from "react";
 import { Controller, type SubmitHandler, useForm } from "react-hook-form";
 import { usePostGpaScore } from "@/apis/Scores";
-import SubmitLinkTab from "@/components/score/SubmitLinkTab";
-import SubmitResult, { type InfoRowProps } from "@/components/score/SubmitResult";
+import { DesktopSubmitLinkTab, MobileSubmitLinkTab } from "@/components/score/SubmitLinkTab";
+import { DesktopSubmitResult, type InfoRowProps, MobileSubmitResult } from "@/components/score/SubmitResult";
 import CustomDropdown from "@/components/search/CustomDropdown";
 import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 import useIsDesktopViewport from "@/utils/useIsDesktopViewport";
@@ -51,6 +51,7 @@ const GpaSubmitForm = () => {
   if (isDesktop === null) return null;
 
   if (showResult && submittedData) {
+    const Result = isDesktop ? DesktopSubmitResult : MobileSubmitResult;
     const infoRows: InfoRowProps[] = [
       {
         label: "학점 기준",
@@ -69,11 +70,10 @@ const GpaSubmitForm = () => {
     ];
 
     return (
-      <SubmitResult
+      <Result
         title="학점 입력 완료"
         description="성적 승인은 최대 3일까지 걸릴 수 있습니다."
         buttonText="홈으로"
-        variant={isDesktop ? "desktop" : "mobile"}
         onClick={() => router.push("/")}
         handleClose={() => setShowResult(false)}
         infoRows={infoRows}
@@ -176,7 +176,7 @@ const GpaSubmitForm = () => {
 
           <div className="grid items-start gap-8 xl:grid-cols-[minmax(460px,600px)_minmax(300px,360px)]">
             <section className="rounded-lg border border-k-100 bg-white p-8">
-              <SubmitLinkTab variant="desktop" />
+              <DesktopSubmitLinkTab />
               <form onSubmit={handleSubmit(onSubmit)} className="mt-8">
                 {formTitle}
                 {formFields}
@@ -200,7 +200,7 @@ const GpaSubmitForm = () => {
 
   return (
     <>
-      <SubmitLinkTab />
+      <MobileSubmitLinkTab />
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="pt-[30px]">
           {formTitle}

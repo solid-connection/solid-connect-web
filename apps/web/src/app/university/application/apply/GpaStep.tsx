@@ -2,12 +2,15 @@
 
 import clsx from "clsx";
 import { useState } from "react";
-import ScoreCard from "@/app/university/score/ScoreCard";
+import { DesktopScoreCard, MobileScoreCard } from "@/app/university/score/ScoreCard";
 import TextModal from "@/components/modal/TextModal";
 import Tab from "@/components/ui/Tab";
 import { showIconToast } from "@/lib/toast/showIconToast";
 import { type GpaScore, ScoreSubmitStatus } from "@/types/score";
-import ApplicationBottomActionBar from "../_components/ApplicationBottomActionBar";
+import {
+  DesktopApplicationBottomActionBar,
+  MobileApplicationBottomActionBar,
+} from "../_components/ApplicationBottomActionBar";
 import ApplicationSectionTitle from "../_components/ApplicationSectionTitle";
 
 type GpaStepProps = {
@@ -15,12 +18,18 @@ type GpaStepProps = {
   curGpaScore: number | null;
   setCurGpaScore: (id: number) => void;
   onNext: () => void;
-  variant?: "mobile" | "desktop";
 };
 
-const GpaStep = ({ gpaScoreList, curGpaScore, setCurGpaScore, onNext, variant = "mobile" }: GpaStepProps) => {
+const GpaStepBase = ({
+  gpaScoreList,
+  curGpaScore,
+  setCurGpaScore,
+  onNext,
+  isDesktop,
+}: GpaStepProps & { isDesktop: boolean }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const isDesktop = variant === "desktop";
+  const ScoreCard = isDesktop ? DesktopScoreCard : MobileScoreCard;
+  const ActionBar = isDesktop ? DesktopApplicationBottomActionBar : MobileApplicationBottomActionBar;
 
   const handleNext = () => {
     if (curGpaScore === null) {
@@ -61,13 +70,12 @@ const GpaStep = ({ gpaScoreList, curGpaScore, setCurGpaScore, onNext, variant = 
                 // date={new Date(score.issueDate).toISOString()}
                 date={score.issueDate}
                 isFocused={score.id === curGpaScore}
-                variant={variant}
               />
             </button>
           ))}
         </div>
       </div>
-      <ApplicationBottomActionBar label="다음" onClick={handleNext} variant={variant} />
+      <ActionBar label="다음" onClick={handleNext} />
       <TextModal
         isOpen={isModalOpen}
         handleClose={() => setIsModalOpen(false)}
@@ -78,4 +86,8 @@ const GpaStep = ({ gpaScoreList, curGpaScore, setCurGpaScore, onNext, variant = 
   );
 };
 
-export default GpaStep;
+export const DesktopGpaStep = (props: GpaStepProps) => <GpaStepBase {...props} isDesktop />;
+
+export const MobileGpaStep = (props: GpaStepProps) => <GpaStepBase {...props} isDesktop={false} />;
+
+export default MobileGpaStep;

@@ -7,8 +7,8 @@ import { useRouter } from "next/navigation";
 import { Suspense, useState } from "react";
 import { Controller, type SubmitHandler, useForm } from "react-hook-form";
 import { usePostLanguageTestScore } from "@/apis/Scores";
-import SubmitLinkTab from "@/components/score/SubmitLinkTab";
-import SubmitResult, { type InfoRowProps } from "@/components/score/SubmitResult";
+import { DesktopSubmitLinkTab, MobileSubmitLinkTab } from "@/components/score/SubmitLinkTab";
+import { DesktopSubmitResult, type InfoRowProps, MobileSubmitResult } from "@/components/score/SubmitResult";
 import CustomDropdown from "@/components/search/CustomDropdown";
 import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 import { formatLanguageTestScoreWithMax, LanguageTestEnum, languageTestScoreInfo } from "@/types/score";
@@ -59,6 +59,7 @@ const LanguageTestSubmitForm = () => {
 
   if (showResult && submittedData) {
     const submittedTestInfo = languageTestScoreInfo[submittedData.testType];
+    const Result = isDesktop ? DesktopSubmitResult : MobileSubmitResult;
 
     const infoRows: InfoRowProps[] = [
       {
@@ -74,11 +75,10 @@ const LanguageTestSubmitForm = () => {
     ];
 
     return (
-      <SubmitResult
+      <Result
         title="어학 성적 제출 완료"
         description="성적 승인은 최대 3일까지 걸릴 수 있습니다."
         buttonText="학점입력하기"
-        variant={isDesktop ? "desktop" : "mobile"}
         onClick={() => router.push("/university/score/submit/gpa")}
         handleClose={() => setShowResult(false)}
         infoRows={infoRows}
@@ -179,7 +179,7 @@ const LanguageTestSubmitForm = () => {
 
           <div className="grid items-start gap-8 xl:grid-cols-[minmax(460px,600px)_minmax(300px,360px)]">
             <section className="rounded-lg border border-k-100 bg-white p-8">
-              <SubmitLinkTab isActiveGpa={false} variant="desktop" />
+              <DesktopSubmitLinkTab isActiveGpa={false} />
               <form onSubmit={handleSubmit(onSubmit)} className="mt-8">
                 {formTitle}
                 {formFields}
@@ -203,7 +203,7 @@ const LanguageTestSubmitForm = () => {
 
   return (
     <>
-      <SubmitLinkTab isActiveGpa={false} />
+      <MobileSubmitLinkTab isActiveGpa={false} />
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="px-5 pt-[30px]">
           {formTitle}

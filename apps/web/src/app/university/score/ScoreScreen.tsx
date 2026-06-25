@@ -16,7 +16,7 @@ import {
   ScoreSubmitStatus,
 } from "@/types/score";
 import useIsDesktopViewport from "@/utils/useIsDesktopViewport";
-import ScoreCard from "./ScoreCard";
+import { DesktopScoreCard, MobileScoreCard } from "./ScoreCard";
 
 const SCORE_TAB_CHOICES = ["공인어학", "학점"] as const;
 type ScoreTab = (typeof SCORE_TAB_CHOICES)[number];
@@ -83,9 +83,9 @@ const ScoreMobileView = ({
       <div className="mx-5 mb-40">
         <Tab<ScoreTab> choices={SCORE_TAB_CHOICES} choice={curTab} setChoice={setCurTab} />
         {isEmptyCurrentTab ? (
-          <ScoreEmptyState />
+          <MobileScoreEmptyState />
         ) : (
-          <ScoreList
+          <MobileScoreList
             curTab={curTab}
             gpaScoreList={gpaScoreList}
             languageTestScoreList={languageTestScoreList}
@@ -137,14 +137,13 @@ const ScoreDesktopView = ({
             </div>
 
             {isEmptyCurrentTab ? (
-              <ScoreEmptyState variant="desktop" />
+              <DesktopScoreEmptyState />
             ) : (
-              <ScoreList
+              <DesktopScoreList
                 curTab={curTab}
                 gpaScoreList={gpaScoreList}
                 languageTestScoreList={languageTestScoreList}
                 onScoreClick={onScoreClick}
-                variant="desktop"
               />
             )}
           </section>
@@ -176,9 +175,7 @@ const ScoreDesktopView = ({
   );
 };
 
-const ScoreEmptyState = ({ variant = "mobile" }: { variant?: "mobile" | "desktop" }) => {
-  const isDesktop = variant === "desktop";
-
+const ScoreEmptyStateBase = ({ isDesktop }: { isDesktop: boolean }) => {
   return (
     <div
       className={clsx(
@@ -196,16 +193,20 @@ const ScoreEmptyState = ({ variant = "mobile" }: { variant?: "mobile" | "desktop
   );
 };
 
-const ScoreList = ({
+const MobileScoreEmptyState = () => <ScoreEmptyStateBase isDesktop={false} />;
+
+const DesktopScoreEmptyState = () => <ScoreEmptyStateBase isDesktop />;
+
+const ScoreListBase = ({
   curTab,
   gpaScoreList,
   languageTestScoreList,
   onScoreClick,
-  variant = "mobile",
+  isDesktop,
 }: Pick<ScoreViewProps, "curTab" | "gpaScoreList" | "languageTestScoreList" | "onScoreClick"> & {
-  variant?: "mobile" | "desktop";
+  isDesktop: boolean;
 }) => {
-  const isDesktop = variant === "desktop";
+  const ScoreCard = isDesktop ? DesktopScoreCard : MobileScoreCard;
 
   return (
     <div className={clsx(isDesktop ? "mt-6 grid gap-4 lg:grid-cols-2" : "mt-3.5 flex flex-col gap-3.5")}>
@@ -230,7 +231,6 @@ const ScoreList = ({
                 date={submittedDate}
                 dateLabel="제출일"
                 isFocused={score.verifyStatus === "APPROVED"}
-                variant={variant}
               />
             </button>
           );
@@ -254,7 +254,6 @@ const ScoreList = ({
                 date={submittedDate}
                 dateLabel="제출일"
                 isFocused={score.verifyStatus === "APPROVED"}
-                variant={variant}
               />
             </button>
           );
@@ -262,5 +261,13 @@ const ScoreList = ({
     </div>
   );
 };
+
+const MobileScoreList = (
+  props: Pick<ScoreViewProps, "curTab" | "gpaScoreList" | "languageTestScoreList" | "onScoreClick">,
+) => <ScoreListBase {...props} isDesktop={false} />;
+
+const DesktopScoreList = (
+  props: Pick<ScoreViewProps, "curTab" | "gpaScoreList" | "languageTestScoreList" | "onScoreClick">,
+) => <ScoreListBase {...props} isDesktop />;
 
 export default ScoreScreen;

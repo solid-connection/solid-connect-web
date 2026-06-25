@@ -4,15 +4,12 @@ import { IconExpandMoreFilled } from "@/public/svgs/community";
 import type { ScoreSheet as ScoreSheetType } from "@/types/application";
 import { formatLanguageTestScore, isLanguageTestEnum, languageTestMapping } from "@/types/score";
 
-const ScoreSheet = ({
-  scoreSheet,
-  variant = "mobile",
-}: {
+type ScoreSheetProps = {
   scoreSheet: ScoreSheetType;
-  variant?: "mobile" | "desktop";
-}) => {
+};
+
+const ScoreSheetBase = ({ scoreSheet, isDesktop }: ScoreSheetProps & { isDesktop: boolean }) => {
   const [tableOpened, setTableOpened] = useState(false);
-  const isDesktop = variant === "desktop";
 
   return (
     <div
@@ -63,4 +60,8 @@ const ScoreSheet = ({
   );
 };
 
-export default ScoreSheet;
+export const DesktopScoreSheet = (props: ScoreSheetProps) => <ScoreSheetBase {...props} isDesktop />;
+
+export const MobileScoreSheet = (props: ScoreSheetProps) => <ScoreSheetBase {...props} isDesktop={false} />;
+
+export default MobileScoreSheet;

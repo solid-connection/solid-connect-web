@@ -3,11 +3,14 @@ import BlockBtn from "@/components/button/BlockBtn";
 type ApplicationBottomActionBarProps = {
   label: string;
   onClick: () => void;
-  variant?: "mobile" | "desktop";
 };
 
-const ApplicationBottomActionBar = ({ label, onClick, variant = "mobile" }: ApplicationBottomActionBarProps) => {
-  if (variant === "desktop") {
+const ApplicationBottomActionBarBase = ({
+  label,
+  onClick,
+  isDesktop,
+}: ApplicationBottomActionBarProps & { isDesktop: boolean }) => {
+  if (isDesktop) {
     return (
       <div className="mt-8">
         <BlockBtn onClick={onClick}>{label}</BlockBtn>
@@ -22,4 +25,12 @@ const ApplicationBottomActionBar = ({ label, onClick, variant = "mobile" }: Appl
   );
 };
 
-export default ApplicationBottomActionBar;
+export const DesktopApplicationBottomActionBar = (props: ApplicationBottomActionBarProps) => (
+  <ApplicationBottomActionBarBase {...props} isDesktop />
+);
+
+export const MobileApplicationBottomActionBar = (props: ApplicationBottomActionBarProps) => (
+  <ApplicationBottomActionBarBase {...props} isDesktop={false} />
+);
+
+export default MobileApplicationBottomActionBar;

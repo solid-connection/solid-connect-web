@@ -4,9 +4,8 @@ import BlockBtn from "@/components/button/BlockBtn";
 import Image from "@/components/ui/FallbackImage";
 import ApplicationSectionTitle from "../_components/ApplicationSectionTitle";
 
-const DoneStep = ({ variant = "mobile" }: { variant?: "mobile" | "desktop" }) => {
+const DoneStepBase = ({ isDesktop }: { isDesktop: boolean }) => {
   const router = useRouter();
-  const isDesktop = variant === "desktop";
 
   return (
     <div className={clsx(isDesktop ? "" : "mt-24 px-5")}>
@@ -43,4 +42,8 @@ const DoneStep = ({ variant = "mobile" }: { variant?: "mobile" | "desktop" }) =>
   );
 };
 
-export default DoneStep;
+export const DesktopDoneStep = () => <DoneStepBase isDesktop />;
+
+export const MobileDoneStep = () => <DoneStepBase isDesktop={false} />;
+
+export default MobileDoneStep;

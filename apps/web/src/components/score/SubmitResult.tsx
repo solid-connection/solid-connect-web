@@ -18,21 +18,20 @@ interface SubmitResultProps {
   description: string;
   infoRows: InfoRowProps[];
   buttonText: string;
-  variant?: "mobile" | "desktop";
   onClick?: () => void;
   handleClose?: () => void;
 }
 
 // --- 메인 컴포넌트 ---
-const SubmitResult = ({
+const SubmitResultBase = ({
   title,
   description,
   infoRows,
   buttonText,
-  variant = "mobile",
   onClick,
   handleClose,
-}: SubmitResultProps) => {
+  isDesktop,
+}: SubmitResultProps & { isDesktop: boolean }) => {
   const content = (
     <div className="w-full max-w-md text-center">
       <div className="mb-8 flex flex-col items-center">
@@ -78,7 +77,7 @@ const SubmitResult = ({
     </div>
   );
 
-  if (variant === "desktop") {
+  if (isDesktop) {
     return (
       <div className="min-h-screen bg-k-50 px-8 py-8 lg:px-10">
         <div className="mx-auto grid min-h-[calc(100vh-64px)] max-w-5xl items-center gap-8 xl:grid-cols-[minmax(420px,520px)_minmax(280px,340px)]">
@@ -101,6 +100,10 @@ const SubmitResult = ({
   return <div className="flex min-h-screen w-full flex-col items-center justify-center p-4 font-sans">{content}</div>;
 };
 
+export const DesktopSubmitResult = (props: SubmitResultProps) => <SubmitResultBase {...props} isDesktop />;
+
+export const MobileSubmitResult = (props: SubmitResultProps) => <SubmitResultBase {...props} isDesktop={false} />;
+
 // --- 컴포넌트 사용 예시 ---
 const _ExamplePage = () => {
   const infoRows = [
@@ -118,7 +121,7 @@ const _ExamplePage = () => {
   ];
 
   return (
-    <SubmitResult
+    <MobileSubmitResult
       title={"어학 성적 입력 완료"}
       description={"지원은 총 3번만 가능하며, 제출 완료 후 성적을 변경 하실 수 없습니다."}
       infoRows={infoRows}
@@ -127,4 +130,4 @@ const _ExamplePage = () => {
   );
 };
 
-export default SubmitResult;
+export default MobileSubmitResult;
