@@ -242,47 +242,55 @@ const ScoreList = ({
   return (
     <div className={clsx(isDesktop ? "mt-6 grid gap-4 lg:grid-cols-2" : "mt-3.5 flex flex-col gap-3.5")}>
       {curTab === "공인어학" &&
-        languageTestScoreList.map((score) => (
-          <button
-            key={score.id}
-            type="button"
-            className="text-left"
-            onClick={() => onScoreClick(score.verifyStatus, score.rejectedReason)}
-          >
-            <ScoreCard
-              name={languageTestMapping[score.languageTestResponse.languageTestType]}
-              score={formatLanguageTestScore(
-                score.languageTestResponse.languageTestType,
-                score.languageTestResponse.languageTestScore,
-              )}
-              status={score.verifyStatus}
-              date={score.issueDate}
-              dateLabel="제출일"
-              isFocused={score.verifyStatus === "APPROVED"}
-              variant={variant}
-            />
-          </button>
-        ))}
+        languageTestScoreList.map((score) => {
+          const submittedDate = score.issueDate;
+
+          return (
+            <button
+              key={score.id}
+              type="button"
+              className="text-left"
+              onClick={() => onScoreClick(score.verifyStatus, score.rejectedReason)}
+            >
+              <ScoreCard
+                name={languageTestMapping[score.languageTestResponse.languageTestType]}
+                score={formatLanguageTestScore(
+                  score.languageTestResponse.languageTestType,
+                  score.languageTestResponse.languageTestScore,
+                )}
+                status={score.verifyStatus}
+                date={submittedDate}
+                dateLabel="제출일"
+                isFocused={score.verifyStatus === "APPROVED"}
+                variant={variant}
+              />
+            </button>
+          );
+        })}
 
       {curTab === "학점" &&
-        gpaScoreList.map((score) => (
-          <button
-            key={score.id}
-            type="button"
-            className="text-left"
-            onClick={() => onScoreClick(score.verifyStatus, score.rejectedReason)}
-          >
-            <ScoreCard
-              name={homeUniversityName}
-              score={`${score.gpaResponse.gpa.toFixed(2)}/${score.gpaResponse.gpaCriteria}`}
-              status={score.verifyStatus}
-              date={score.issueDate}
-              dateLabel="제출일"
-              isFocused={score.verifyStatus === "APPROVED"}
-              variant={variant}
-            />
-          </button>
-        ))}
+        gpaScoreList.map((score) => {
+          const submittedDate = score.issueDate;
+
+          return (
+            <button
+              key={score.id}
+              type="button"
+              className="text-left"
+              onClick={() => onScoreClick(score.verifyStatus, score.rejectedReason)}
+            >
+              <ScoreCard
+                name={homeUniversityName}
+                score={`${score.gpaResponse.gpa.toFixed(2)}/${score.gpaResponse.gpaCriteria}`}
+                status={score.verifyStatus}
+                date={submittedDate}
+                dateLabel="제출일"
+                isFocused={score.verifyStatus === "APPROVED"}
+                variant={variant}
+              />
+            </button>
+          );
+        })}
     </div>
   );
 };
