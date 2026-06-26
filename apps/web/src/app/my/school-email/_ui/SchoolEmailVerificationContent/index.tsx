@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { useGetMyInfo, usePostConfirmSchoolEmail, usePostSchoolEmail } from "@/apis/MyPage";
 import BlockBtn from "@/components/button/BlockBtn";
@@ -25,6 +25,7 @@ const formatTime = (seconds: number) => {
 
 const SchoolEmailVerificationContent = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { data: myInfo } = useGetMyInfo();
   const postSchoolEmailMutation = usePostSchoolEmail();
   const postConfirmSchoolEmailMutation = usePostConfirmSchoolEmail();
@@ -42,6 +43,7 @@ const SchoolEmailVerificationContent = () => {
   const isCodeInputValid = code.length === CODE_LENGTH;
   const isTimerExpired = remainingSeconds <= 0;
   const progressValue = step === "email" ? 0 : step === "code" ? 50 : 100;
+  const shouldReturnToApply = searchParams?.get("returnTo") === "applicationApply";
 
   useEffect(() => {
     if (step !== "code" || remainingSeconds <= 0) return;
@@ -132,7 +134,9 @@ const SchoolEmailVerificationContent = () => {
 
         <div className="fixed bottom-14 left-0 right-0 w-full bg-white">
           <div className="mx-auto mb-[37px] w-full max-w-app px-5">
-            <BlockBtn onClick={() => router.replace("/")}>홈으로</BlockBtn>
+            <BlockBtn onClick={() => router.replace(shouldReturnToApply ? "/university/application/apply" : "/")}>
+              {shouldReturnToApply ? "지원하기로 돌아가기" : "홈으로"}
+            </BlockBtn>
           </div>
         </div>
       </div>
