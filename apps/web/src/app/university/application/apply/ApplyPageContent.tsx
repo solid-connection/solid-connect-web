@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { usePostSubmitApplication } from "@/apis/applications";
 import { useGetMyGpaScore, useGetMyLanguageTestScore } from "@/apis/Scores";
 import { useUniversitySearch } from "@/apis/universities";
@@ -23,6 +23,8 @@ const APPLY_PROGRESS_TOTAL_STEPS = 5;
 const ApplyPageContent = () => {
   const router = useRouter();
   const homeUniversityId = useAuthStore((state) => state.homeUniversityId);
+  const isAuthInitialized = useAuthStore((state) => state.isInitialized);
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const [step, setStep] = useState<number>(1);
   const maxChoiceCount = getHomeUniversityById(homeUniversityId)?.maxChoiceCount ?? DEFAULT_MAX_CHOICE_COUNT;
   const universitySearchOptions = useMemo(
@@ -45,6 +47,14 @@ const ApplyPageContent = () => {
   const [curLanguageTestScore, setCurLanguageTestScore] = useState<number | null>(null);
   const [curGpaScore, setCurGpaScore] = useState<number | null>(null);
   const [curUniversityList, setCurUniversityList] = useState<number[]>([]);
+
+  useEffect(() => {
+    if (!isAuthInitialized || !isAuthenticated || homeUniversityId !== null) {
+      return;
+    }
+
+    router.replace("/my/school-email?returnTo=applicationApply");
+  }, [homeUniversityId, isAuthInitialized, isAuthenticated, router]);
 
   // 다음 스텝으로 넘어가기
   const goNextStep = () => setStep((prev) => prev + 1);
@@ -88,6 +98,10 @@ const ApplyPageContent = () => {
   const isDataExist = gpaScoreList.length === 0 || languageTestScoreList.length === 0;
   const hasSelectedUniversity = curUniversityList.some((universityId) => universityId > 0);
   const progressStep = step === 3 && hasSelectedUniversity ? APPLY_PROGRESS_TOTAL_STEPS : step + 1;
+
+  if (isAuthInitialized && isAuthenticated && homeUniversityId === null) {
+    return null;
+  }
 
   return (
     <>
