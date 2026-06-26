@@ -17,6 +17,6 @@
     "verify:schema": "pnpm run sync:bruno && pnpm run typecheck:generated"
   },
   "dependencies": {
-    "axios": "^1.6.7"
+    "axios": "^1.18.1"
   }
 }
