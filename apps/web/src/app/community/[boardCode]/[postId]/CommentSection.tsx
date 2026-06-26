@@ -5,12 +5,10 @@ import { useMemo, useState } from "react";
 import { useDeleteComment } from "@/apis/community";
 import useBlockCommunityUser from "@/app/community/_hooks/useBlockCommunityUser";
 import Dropdown from "@/components/ui/Dropdown";
-import Image from "@/components/ui/FallbackImage";
-import { DEFAULT_PROFILE_IMAGE } from "@/constants/profile";
+import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
 import useReportedPostsStore from "@/lib/zustand/useReportedPostsStore";
 import { IconMoreVertFilled, IconSubComment } from "@/public/svgs";
 import type { Comment as CommentType, CommunityUser } from "@/types/community";
-import { normalizeImageUrlToUploadCdn } from "@/utils/cdnUrl";
 import { convertISODateToDateTime } from "@/utils/datetimeUtils";
 import CommentInput from "./CommentInput";
 
@@ -152,15 +150,7 @@ const Comment = ({
 const CommentProfile = ({ user }: { user: CommunityUser }) => {
   return (
     <div className="flex items-center gap-2">
-      <div className="h-[25px] w-[25px] rounded-full bg-bg-600">
-        <Image
-          className="h-full w-full rounded-full"
-          src={user?.profileImageUrl ? normalizeImageUrlToUploadCdn(user?.profileImageUrl) : DEFAULT_PROFILE_IMAGE}
-          width={40}
-          height={40}
-          alt="alt"
-        />
-      </div>
+      <ProfileWithBadge profileImageUrl={user?.profileImageUrl} width={25} height={25} />
       <div className="overflow-hidden text-black typo-medium-2">{user?.nickname}</div>
     </div>
   );

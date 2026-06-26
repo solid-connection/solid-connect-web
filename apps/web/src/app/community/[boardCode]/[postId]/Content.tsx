@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import { useDeleteLike, usePostLike } from "@/apis/community";
 import Image from "@/components/ui/FallbackImage";
 import LinkifyText from "@/components/ui/LinkifyText";
+import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
 import { COMMUNITY_MAX_UPLOAD_IMAGES } from "@/constants/community";
-import { DEFAULT_PROFILE_IMAGE } from "@/constants/profile";
 import { showIconToast } from "@/lib/toast/showIconToast";
 import { IconCloseFilled, IconPostLikeFilled, IconPostLikeOutline } from "@/public/svgs";
 import { IconCommunication } from "@/public/svgs/community";
@@ -115,19 +115,7 @@ const Content = ({ post, postId }: ContentProps) => {
 
       <div className="flex h-16 items-center justify-between border-y border-gray-c-100 px-5 py-3">
         <div className="flex gap-2.5">
-          <div className="h-10 w-10 rounded-full bg-bg-600">
-            <Image
-              className="h-full w-full rounded-full object-cover"
-              src={
-                post.postFindSiteUserResponse.profileImageUrl
-                  ? normalizeImageUrlToUploadCdn(post.postFindSiteUserResponse.profileImageUrl)
-                  : DEFAULT_PROFILE_IMAGE
-              }
-              width={40}
-              height={40}
-              alt=""
-            />
-          </div>
+          <ProfileWithBadge profileImageUrl={post.postFindSiteUserResponse.profileImageUrl} width={40} height={40} />
           <div className="flex flex-col">
             <div className="overflow-hidden text-ellipsis font-serif text-black typo-medium-2">
               {post.postFindSiteUserResponse.nickname || ""}
