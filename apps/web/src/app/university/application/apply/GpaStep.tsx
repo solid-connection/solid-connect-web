@@ -11,12 +11,13 @@ import ApplicationSectionTitle from "../_components/ApplicationSectionTitle";
 
 type GpaStepProps = {
   gpaScoreList: GpaScore[];
+  homeUniversityName: string;
   curGpaScore: number | null;
   setCurGpaScore: (id: number) => void;
   onNext: () => void;
 };
 
-const GpaStep = ({ gpaScoreList, curGpaScore, setCurGpaScore, onNext }: GpaStepProps) => {
+const GpaStep = ({ gpaScoreList, homeUniversityName, curGpaScore, setCurGpaScore, onNext }: GpaStepProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleNext = () => {
@@ -50,7 +51,7 @@ const GpaStep = ({ gpaScoreList, curGpaScore, setCurGpaScore, onNext }: GpaStepP
               className="transition-transform hover:scale-[1.01] active:scale-[0.97]"
             >
               <ScoreCard
-                name="인하대학교" // TODO: 학교명 API에서 받아오기
+                name={homeUniversityName}
                 score={`${score.gpaResponse.gpa.toFixed(2)}/${score.gpaResponse.gpaCriteria}`}
                 status={score.verifyStatus}
                 // date={new Date(score.issueDate).toISOString()}

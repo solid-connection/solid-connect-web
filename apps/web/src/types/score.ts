@@ -146,6 +146,7 @@ export interface GpaScore {
 }
 
 export interface MyGpaScoreResponse {
+  homeUniversityName: string;
   gpaScoreStatusResponseList: GpaScore[];
 }
 

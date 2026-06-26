@@ -5,12 +5,13 @@ import { ScoresQueryKeys, scoresApi } from "./api";
 /**
  * @description 내 학점 점수 조회 훅
  */
-const useGetMyGpaScore = () => {
+const useGetMyGpaScore = ({ enabled = true }: { enabled?: boolean } = {}) => {
   return useQuery({
     queryKey: [ScoresQueryKeys.myGpaScore],
     queryFn: scoresApi.getMyGpaScore,
+    enabled,
     staleTime: Infinity,
-    select: (data) => data.data.gpaScoreStatusResponseList,
+    select: (data) => data.data,
   });
 };
 

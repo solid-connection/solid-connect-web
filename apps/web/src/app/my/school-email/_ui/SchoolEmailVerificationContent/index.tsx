@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/Inputa";
 import { Label } from "@/components/ui/Label";
 import { Progress } from "@/components/ui/Progress";
 import { IconExpRed } from "@/public/svgs/ui";
+import { getSchoolEmailReturnPath } from "../../_lib/returnTo";
 
 const VERIFICATION_LIMIT_SECONDS = 300;
 const CODE_LENGTH = 6;
@@ -43,7 +44,7 @@ const SchoolEmailVerificationContent = () => {
   const isCodeInputValid = code.length === CODE_LENGTH;
   const isTimerExpired = remainingSeconds <= 0;
   const progressValue = step === "email" ? 0 : step === "code" ? 50 : 100;
-  const shouldReturnToApply = searchParams?.get("returnTo") === "applicationApply";
+  const returnPath = getSchoolEmailReturnPath(searchParams?.get("returnTo"));
 
   useEffect(() => {
     if (step !== "code" || remainingSeconds <= 0) return;
@@ -134,8 +135,8 @@ const SchoolEmailVerificationContent = () => {
 
         <div className="fixed bottom-14 left-0 right-0 w-full bg-white">
           <div className="mx-auto mb-[37px] w-full max-w-app px-5">
-            <BlockBtn onClick={() => router.replace(shouldReturnToApply ? "/university/application/apply" : "/")}>
-              {shouldReturnToApply ? "지원하기로 돌아가기" : "홈으로"}
+            <BlockBtn onClick={() => router.replace(returnPath)}>
+              {returnPath === "/" ? "홈으로" : "이전 화면으로 돌아가기"}
             </BlockBtn>
           </div>
         </div>

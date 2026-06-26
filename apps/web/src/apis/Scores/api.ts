@@ -10,6 +10,7 @@ export const ScoresQueryKeys = {
 
 // ====== Types ======
 export interface UseMyGpaScoreResponse {
+  homeUniversityName: string;
   gpaScoreStatusResponseList: GpaScore[];
 }
 

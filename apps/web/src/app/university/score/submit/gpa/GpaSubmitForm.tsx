@@ -4,17 +4,22 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { Controller, type SubmitHandler, useForm } from "react-hook-form";
 import { usePostGpaScore } from "@/apis/Scores";
+import { getSchoolEmailVerificationPath } from "@/app/my/school-email/_lib/returnTo";
 import SubmitLinkTab from "@/components/score/SubmitLinkTab";
 import SubmitResult, { type InfoRowProps } from "@/components/score/SubmitResult";
 import CustomDropdown from "@/components/search/CustomDropdown";
 import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
+import useAuthStore from "@/lib/zustand/useAuthStore";
 import { type GpaFormData, gpaSchema } from "./_lib/schema";
 
 const GpaSubmitForm = () => {
   const router = useRouter();
+  const homeUniversityId = useAuthStore((state) => state.homeUniversityId);
+  const isAuthInitialized = useAuthStore((state) => state.isInitialized);
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const [showResult, setShowResult] = useState(false);
   const [submittedData, setSubmittedData] = useState<GpaFormData | null>(null);
   const { mutateAsync: postGpaScore } = usePostGpaScore();
@@ -32,6 +37,18 @@ const GpaSubmitForm = () => {
     mode: "onChange",
   });
   const selectedFile = watch("file");
+
+  useEffect(() => {
+    if (!isAuthInitialized || !isAuthenticated || homeUniversityId !== null) {
+      return;
+    }
+
+    router.replace(getSchoolEmailVerificationPath("gpaSubmit"));
+  }, [homeUniversityId, isAuthInitialized, isAuthenticated, router]);
+
+  if (isAuthInitialized && isAuthenticated && homeUniversityId === null) {
+    return null;
+  }
 
   // 3. 폼 제출 핸들러
   const onSubmit: SubmitHandler<GpaFormData> = async (data) => {
