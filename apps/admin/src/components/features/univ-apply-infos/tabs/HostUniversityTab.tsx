@@ -19,18 +19,25 @@ import { normalizeImageUrlToUploadCdn } from "@/lib/utils/cdnUrl";
 
 type ModalState = { open: false } | { open: true; mode: "create" } | { open: true; mode: "edit"; id: number };
 
-interface HostUniversityFormState extends HostUniversityPayload {
+interface HostUniversityFormState extends Omit<HostUniversityPayload, "formatName"> {
 	logoImageUrl: string;
 	backgroundImageUrl: string;
 }
 
-const REQUIRED_FIELDS = ["koreanName", "englishName", "formatName", "countryCode", "regionCode"] as const;
+function toFormatName(englishName: string): string {
+	return englishName
+		.trim()
+		.toLowerCase()
+		.replace(/[^a-z0-9]+/g, "_")
+		.replace(/^_+|_+$/g, "");
+}
+
+const REQUIRED_FIELDS = ["koreanName", "englishName", "countryCode", "regionCode"] as const;
 const OPTIONAL_FIELDS = ["homepageUrl", "englishCourseUrl", "accommodationUrl"] as const;
 
 const FIELD_LABELS: Record<string, string> = {
 	koreanName: "한글명",
 	englishName: "영문명",
-	formatName: "표시명",
 	countryCode: "국가코드",
 	regionCode: "권역코드",
 	homepageUrl: "홈페이지 URL",
@@ -42,7 +49,6 @@ const FIELD_LABELS: Record<string, string> = {
 const EMPTY_FORM: HostUniversityFormState = {
 	koreanName: "",
 	englishName: "",
-	formatName: "",
 	logoImageUrl: "",
 	backgroundImageUrl: "",
 	countryCode: "",
@@ -57,7 +63,6 @@ function detailToForm(detail: HostUniversityDetailResponse): HostUniversityFormS
 	return {
 		koreanName: detail.koreanName,
 		englishName: detail.englishName,
-		formatName: detail.formatName,
 		logoImageUrl: detail.logoImageUrl,
 		backgroundImageUrl: detail.backgroundImageUrl,
 		countryCode: detail.countryCode,
@@ -73,7 +78,7 @@ function toPayload(form: HostUniversityFormState): HostUniversityPayload {
 	return {
 		koreanName: form.koreanName,
 		englishName: form.englishName,
-		formatName: form.formatName,
+		formatName: toFormatName(form.englishName),
 		countryCode: form.countryCode,
 		regionCode: form.regionCode,
 		homepageUrl: form.homepageUrl || undefined,
