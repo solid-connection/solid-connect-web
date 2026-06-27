@@ -46,7 +46,11 @@ const ScoreScreen = () => {
     }
   };
 
-  if (isAuthInitialized && isAuthenticated && homeUniversityId === null) {
+  if (!isAuthInitialized) {
+    return null;
+  }
+
+  if (isAuthenticated && homeUniversityId === null) {
     return null;
   }
 
