@@ -1,5 +1,7 @@
 import axios, { type AxiosError, type AxiosInstance } from "axios";
 import { postReissueToken } from "@/apis/Auth/server";
+import { QueryKeys } from "@/apis/queryKeys";
+import queryClient from "@/lib/react-query/queryClient";
 import { showIconToast } from "@/lib/toast/showIconToast";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { isTokenExpired } from "@/utils/jwtUtils";
@@ -18,17 +20,22 @@ export class AuthenticationRequiredError extends Error {
 // --- 상태 관리 변수 ---
 let isRedirecting = false;
 
+const clearAuthState = () => {
+  useAuthStore.getState().clearAccessToken();
+  queryClient.removeQueries({ queryKey: [QueryKeys.MyPage.profile] });
+};
+
 // --- 유틸리티 함수 ---
 const redirectToLogin = (message: string) => {
   if (typeof window !== "undefined" && !isRedirecting) {
     isRedirecting = true;
     // Zustand 스토어 및 쿠키 상태 초기화
-    useAuthStore.getState().clearAccessToken();
+    clearAuthState();
     try {
       // 쿠키 유틸이 클라이언트에서만 동작하므로 window 가드 내에서 호출
     } catch {}
     showIconToast("logo", message);
-    window.location.href = "/login";
+    window.location.replace("/login");
   }
 };
 
@@ -40,7 +47,7 @@ const tryReissueAccessToken = async (): Promise<string | null> => {
     return useAuthStore.getState().accessToken;
   }
 
-  const { setLoading, clearAccessToken, setInitialized, setRefreshStatus } = useAuthStore.getState();
+  const { setLoading, setInitialized, setRefreshStatus } = useAuthStore.getState();
 
   reissuePromise = (async () => {
     setRefreshStatus("refreshing");
@@ -49,7 +56,7 @@ const tryReissueAccessToken = async (): Promise<string | null> => {
       await postReissueToken();
       setRefreshStatus("success");
     } catch {
-      clearAccessToken();
+      clearAuthState();
       setRefreshStatus("failed");
     } finally {
       setLoading(false);

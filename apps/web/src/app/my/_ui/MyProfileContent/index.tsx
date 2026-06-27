@@ -1,8 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { useDeleteUserAccount, usePostLogout } from "@/apis/Auth";
-import { type MyInfoResponse, useGetMyInfo } from "@/apis/MyPage";
+import { useGetMyInfo } from "@/apis/MyPage";
+import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 import LinkedTextWithIcon from "@/components/ui/LinkedTextWithIcon";
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
 import { showIconToast } from "@/lib/toast/showIconToast";
@@ -23,10 +26,39 @@ import { openKakaoOpenChat } from "@/utils/openKakaoOpenChat";
 const NEXT_PUBLIC_CONTACT_LINK = process.env.NEXT_PUBLIC_CONTACT_LINK;
 
 const MyProfileContent = () => {
-  const { data: profileData = {} as MyInfoResponse } = useGetMyInfo();
+  const router = useRouter();
+  const isInitialized = useAuthStore((state) => state.isInitialized);
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const shouldFetchProfile = isInitialized && isAuthenticated;
+  const { data: profileData, isLoading, isFetching, isError, refetch } = useGetMyInfo({ enabled: shouldFetchProfile });
   const { mutate: deleteUserAccount } = useDeleteUserAccount();
   const { mutate: postLogout } = usePostLogout();
   const clientRole = useAuthStore((state) => state.clientRole);
+
+  useEffect(() => {
+    if (!isInitialized || isAuthenticated) return;
+
+    router.replace("/login");
+  }, [isInitialized, isAuthenticated, router]);
+
+  if (isError) {
+    return (
+      <div className="flex min-h-[40vh] flex-col items-center justify-center gap-3 px-4 text-center">
+        <p className="text-k-700 typo-medium-2">마이페이지 정보를 불러오지 못했어요.</p>
+        <button
+          type="button"
+          onClick={() => refetch()}
+          className="rounded-full bg-primary px-4 py-2 text-white typo-medium-2"
+        >
+          다시 시도
+        </button>
+      </div>
+    );
+  }
+
+  if (!shouldFetchProfile || isLoading || (isFetching && !profileData) || !profileData) {
+    return <CloudSpinnerPage />;
+  }
 
   const { nickname, email, profileImageUrl } = profileData;
   const isMentor = profileData.role === UserRole.MENTOR || profileData.role === UserRole.ADMIN;

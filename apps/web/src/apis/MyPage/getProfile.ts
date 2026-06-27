@@ -7,10 +7,15 @@ type UseGetMyInfoResult = Omit<UseQueryResult<MyInfoResponse, AxiosError>, "data
   data: MyInfoResponse | undefined;
 };
 
-const useGetMyInfo = (): UseGetMyInfoResult => {
+type UseGetMyInfoParams = {
+  enabled?: boolean;
+};
+
+const useGetMyInfo = ({ enabled = true }: UseGetMyInfoParams = {}): UseGetMyInfoResult => {
   const queryResult = useQuery<MyInfoResponse, AxiosError>({
     queryKey: [QueryKeys.MyPage.profile],
     queryFn: () => myPageApi.getProfile(),
+    enabled,
     // staleTime을 무한으로 설정하여 불필요한 자동 refetch를 방지합니다.
     staleTime: Infinity,
     gcTime: 1000 * 60 * 30, // 예: 30분
