@@ -124,7 +124,7 @@ export function UnivApplyInfoImportTab() {
 		const univId = Number(homeUniversityId);
 		const term = Number(termId);
 		if (!univId || !term) {
-			toast.error("협정 대학과 학기를 선택해주세요.");
+			toast.error("국내 대학과 학기를 선택해주세요.");
 			return;
 		}
 		if (!markdown.trim()) {
@@ -206,7 +206,7 @@ export function UnivApplyInfoImportTab() {
 				<div className="mt-3 grid gap-3 sm:grid-cols-2">
 					<div className="space-y-1.5">
 						<label className="typo-sb-11 text-k-700" htmlFor={homeUniversitySelectId}>
-							협정 대학
+							국내 대학
 						</label>
 						<select
 							id={homeUniversitySelectId}
@@ -214,7 +214,7 @@ export function UnivApplyInfoImportTab() {
 							onChange={(e) => setHomeUniversityId(e.target.value)}
 							className="h-9 w-full rounded-md border border-k-200 bg-k-0 px-3 typo-regular-4 text-k-700 outline-none focus-visible:border-primary"
 						>
-							<option value="">협정 대학 선택</option>
+							<option value="">국내 대학 선택</option>
 							{universities.map((u) => (
 								<option key={u.id} value={u.id}>
 									{u.name}
@@ -223,7 +223,7 @@ export function UnivApplyInfoImportTab() {
 						</select>
 						{homeUniversitiesQuery.isLoading && <p className="mt-1 typo-regular-4 text-k-500">불러오는 중...</p>}
 						{homeUniversitiesQuery.isError && (
-							<p className="mt-1 typo-regular-4 text-magic-danger">협정 대학을 불러오지 못했습니다.</p>
+							<p className="mt-1 typo-regular-4 text-magic-danger">국내 대학을 불러오지 못했습니다.</p>
 						)}
 					</div>
 					<div className="space-y-1.5">

@@ -8,15 +8,11 @@ import { UnivApplyInfoManageTab } from "./tabs/UnivApplyInfoManageTab";
 
 export function UnivApplyInfosPageContent() {
 	return (
-		<AdminLayout
-			activeMenu="univApplyInfos"
-			title="지원 대학 관리"
-			description="호스트 대학교와 지원 대학을 관리합니다."
-		>
+		<AdminLayout activeMenu="univApplyInfos" title="지원 대학 관리" description="해외 대학과 지원 대학을 관리합니다.">
 			<div className="mt-4">
 				<Tabs defaultValue="hostUniversity">
 					<TabsList>
-						<TabsTrigger value="hostUniversity">호스트 대학교</TabsTrigger>
+						<TabsTrigger value="hostUniversity">해외 대학</TabsTrigger>
 						<TabsTrigger value="import">지원 대학 가져오기</TabsTrigger>
 						<TabsTrigger value="manage">지원 대학 관리</TabsTrigger>
 					</TabsList>

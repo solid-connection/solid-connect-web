@@ -28,7 +28,7 @@ function renderTab() {
 
 async function openCreateModal() {
 	renderTab();
-	fireEvent.click(await screen.findByRole("button", { name: "호스트 대학교 생성" }));
+	fireEvent.click(await screen.findByRole("button", { name: "해외 대학 생성" }));
 }
 
 describe("HostUniversityTab image uploads", () => {
@@ -78,7 +78,6 @@ describe("HostUniversityTab image uploads", () => {
 
 		fireEvent.change(screen.getByLabelText("한글명 *"), { target: { value: "테스트 대학교" } });
 		fireEvent.change(screen.getByLabelText("영문명 *"), { target: { value: "Test University" } });
-		fireEvent.change(screen.getByLabelText("표시명 *"), { target: { value: "Test U" } });
 		fireEvent.change(screen.getByLabelText("국가코드 *"), { target: { value: "JP" } });
 		fireEvent.change(screen.getByLabelText("권역코드 *"), { target: { value: "ASIA" } });
 
@@ -94,7 +93,6 @@ describe("HostUniversityTab image uploads", () => {
 
 		fireEvent.change(screen.getByLabelText("한글명 *"), { target: { value: "테스트 대학교" } });
 		fireEvent.change(screen.getByLabelText("영문명 *"), { target: { value: "Test University" } });
-		fireEvent.change(screen.getByLabelText("표시명 *"), { target: { value: "Test U" } });
 		fireEvent.change(screen.getByLabelText("국가코드 *"), { target: { value: "JP" } });
 		fireEvent.change(screen.getByLabelText("권역코드 *"), { target: { value: "ASIA" } });
 
