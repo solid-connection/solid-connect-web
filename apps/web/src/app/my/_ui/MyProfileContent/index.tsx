@@ -30,7 +30,7 @@ const MyProfileContent = () => {
   const isInitialized = useAuthStore((state) => state.isInitialized);
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const shouldFetchProfile = isInitialized && isAuthenticated;
-  const { data: profileData, isLoading, isFetching } = useGetMyInfo({ enabled: shouldFetchProfile });
+  const { data: profileData, isLoading, isFetching, isError, refetch } = useGetMyInfo({ enabled: shouldFetchProfile });
   const { mutate: deleteUserAccount } = useDeleteUserAccount();
   const { mutate: postLogout } = usePostLogout();
   const clientRole = useAuthStore((state) => state.clientRole);
@@ -40,6 +40,21 @@ const MyProfileContent = () => {
 
     router.replace("/login");
   }, [isInitialized, isAuthenticated, router]);
+
+  if (isError) {
+    return (
+      <div className="flex min-h-[40vh] flex-col items-center justify-center gap-3 px-4 text-center">
+        <p className="text-k-700 typo-medium-2">마이페이지 정보를 불러오지 못했어요.</p>
+        <button
+          type="button"
+          onClick={() => refetch()}
+          className="rounded-full bg-primary px-4 py-2 text-white typo-medium-2"
+        >
+          다시 시도
+        </button>
+      </div>
+    );
+  }
 
   if (!shouldFetchProfile || isLoading || (isFetching && !profileData) || !profileData) {
     return <CloudSpinnerPage />;
