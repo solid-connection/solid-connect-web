@@ -1,11 +1,10 @@
-import { DEFAULT_UNIVERSITY_TERM_ID } from "@/constants/university";
 import type { HomeUniversityName } from "@/types/university";
 import { axiosInstance, publicAxiosInstance } from "@/utils/axiosInstance";
 
 const getClientUniversityTermId = () => {
   const termId = Number(process.env.NEXT_PUBLIC_UNIVERSITY_TERM_ID);
 
-  return Number.isInteger(termId) && termId > 0 ? termId : DEFAULT_UNIVERSITY_TERM_ID;
+  return Number.isInteger(termId) && termId > 0 ? termId : undefined;
 };
 
 const normalizePositiveInt = (value: unknown) => {

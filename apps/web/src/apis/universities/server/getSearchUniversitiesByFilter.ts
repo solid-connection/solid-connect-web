@@ -1,5 +1,4 @@
 import { URLSearchParams } from "node:url";
-import { DEFAULT_UNIVERSITY_TERM_ID } from "@/constants/university";
 import type { CountryCode, LanguageTestType, ListUniversity } from "@/types/university";
 import serverFetch from "@/utils/serverFetchUtil";
 
@@ -21,7 +20,7 @@ export interface UniversitySearchFilterParams {
 const getUniversityTermId = () => {
   const termId = Number(process.env.UNIVERSITY_TERM_ID ?? process.env.NEXT_PUBLIC_UNIVERSITY_TERM_ID);
 
-  return Number.isInteger(termId) && termId > 0 ? termId : DEFAULT_UNIVERSITY_TERM_ID;
+  return Number.isInteger(termId) && termId > 0 ? termId : undefined;
 };
 
 const normalizePositiveInt = (value: unknown) => {
@@ -81,10 +80,11 @@ export const getSearchUniversitiesAllRegions = async (
   params: Pick<UniversitySearchFilterParams, "termId" | "homeUniversityId"> = {},
 ): Promise<ListUniversity[]> => {
   const termId = params.termId === undefined ? getUniversityTermId() : assertPositiveInt("termId", params.termId);
-  const searchParams = new URLSearchParams({
-    value: "",
-    termId: String(termId),
-  });
+  const searchParams = new URLSearchParams({ value: "" });
+
+  if (termId !== undefined) {
+    searchParams.set("termId", String(termId));
+  }
 
   if (params.homeUniversityId !== undefined) {
     searchParams.set("homeUniversityId", String(assertPositiveInt("homeUniversityId", params.homeUniversityId)));

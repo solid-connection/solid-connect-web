@@ -61,9 +61,6 @@ export const HOME_UNIVERSITY_LIST: HomeUniversityInfo[] = [
   },
 ];
 
-// 배포 환경에서 UNIVERSITY_TERM_ID를 주입하지 못했을 때 사용하는 현재 학기 fallback입니다.
-export const DEFAULT_UNIVERSITY_TERM_ID = 13;
-
 /**
  * 슬러그로 홈 대학교 정보 조회
  */
