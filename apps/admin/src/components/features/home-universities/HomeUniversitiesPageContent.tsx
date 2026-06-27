@@ -35,9 +35,9 @@ export function HomeUniversitiesPageContent() {
 			await invalidate();
 			setName("");
 			setMaxChoiceCount("");
-			toast.success("협정 대학을 생성했습니다.");
+			toast.success("국내 대학을 생성했습니다.");
 		},
-		onError: () => toast.error("협정 대학 생성에 실패했습니다."),
+		onError: () => toast.error("국내 대학 생성에 실패했습니다."),
 	});
 
 	const updateMutation = useMutation({
@@ -46,18 +46,18 @@ export function HomeUniversitiesPageContent() {
 		onSuccess: async () => {
 			await invalidate();
 			setEditingId(null);
-			toast.success("협정 대학을 수정했습니다.");
+			toast.success("국내 대학을 수정했습니다.");
 		},
-		onError: () => toast.error("협정 대학 수정에 실패했습니다."),
+		onError: () => toast.error("국내 대학 수정에 실패했습니다."),
 	});
 
 	const deleteMutation = useMutation({
 		mutationFn: adminApi.deleteHomeUniversity,
 		onSuccess: async () => {
 			await invalidate();
-			toast.success("협정 대학을 삭제했습니다.");
+			toast.success("국내 대학을 삭제했습니다.");
 		},
-		onError: () => toast.error("협정 대학 삭제에 실패했습니다."),
+		onError: () => toast.error("국내 대학 삭제에 실패했습니다."),
 	});
 
 	const handleCreate = (e: FormEvent) => {
@@ -88,7 +88,7 @@ export function HomeUniversitiesPageContent() {
 	};
 
 	const handleDelete = (id: number, univName: string) => {
-		if (!window.confirm(`협정 대학 "${univName}"을 삭제할까요?`)) return;
+		if (!window.confirm(`국내 대학 "${univName}"을 삭제할까요?`)) return;
 		deleteMutation.mutate(id);
 	};
 
@@ -97,14 +97,14 @@ export function HomeUniversitiesPageContent() {
 	return (
 		<AdminLayout
 			activeMenu="homeUniversities"
-			title="협정 대학 관리"
-			description="자교 협정 대학과 최대 지망 수를 관리합니다."
+			title="국내 대학 관리"
+			description="자교 국내 대학과 최대 지망 수를 관리합니다."
 		>
 			<div className="mt-4">
 				<section className="rounded-xl border border-k-100 bg-k-0 p-4">
 					<div className="flex items-center justify-between gap-3">
 						<div>
-							<h2 className="typo-sb-9 text-k-900">협정 대학</h2>
+							<h2 className="typo-sb-9 text-k-900">국내 대학</h2>
 							<p className="mt-1 typo-regular-4 text-k-500">예: 인하대학교</p>
 						</div>
 						<p className="typo-regular-4 text-k-500">총 {universities.length.toLocaleString()}건</p>
@@ -144,13 +144,13 @@ export function HomeUniversitiesPageContent() {
 								) : query.isError ? (
 									<TableRow>
 										<TableCell colSpan={4} className="text-center typo-regular-4 text-magic-danger">
-											협정 대학을 불러오지 못했습니다.
+											국내 대학을 불러오지 못했습니다.
 										</TableCell>
 									</TableRow>
 								) : universities.length === 0 ? (
 									<TableRow>
 										<TableCell colSpan={4} className="text-center typo-regular-4 text-k-500">
-											협정 대학이 없습니다.
+											국내 대학이 없습니다.
 										</TableCell>
 									</TableRow>
 								) : (

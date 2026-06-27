@@ -183,7 +183,7 @@ export function UnivApplyInfoManageTab() {
 		e.preventDefault();
 		const { termId, homeUniversityId, hostUniversityId } = createForm;
 		if (!termId || !homeUniversityId || !hostUniversityId) {
-			toast.error("학기, 협정 대학, 호스트 대학교는 필수입니다.");
+			toast.error("학기, 국내 대학, 해외 대학는 필수입니다.");
 			return;
 		}
 
@@ -278,7 +278,7 @@ export function UnivApplyInfoManageTab() {
 									<TableHead>ID</TableHead>
 									<TableHead>학기</TableHead>
 									<TableHead>대학명</TableHead>
-									<TableHead>협정대학</TableHead>
+									<TableHead>국내 대학</TableHead>
 									<TableHead>국가</TableHead>
 									<TableHead>정원</TableHead>
 									<TableHead>작업</TableHead>
@@ -502,7 +502,7 @@ export function UnivApplyInfoManageTab() {
 							</div>
 							<div className="space-y-1">
 								<label htmlFor={`${uid}-create-home-univ`} className="typo-sb-11 text-k-700">
-									협정 대학 *
+									국내 대학 *
 								</label>
 								<select
 									id={`${uid}-create-home-univ`}
@@ -516,7 +516,7 @@ export function UnivApplyInfoManageTab() {
 									required
 									className="h-9 w-full rounded-md border border-k-200 bg-k-0 px-3 typo-regular-4 text-k-700 outline-none focus-visible:border-primary"
 								>
-									<option value="">협정 대학 선택</option>
+									<option value="">국내 대학 선택</option>
 									{(homeUniversitiesQuery.data ?? []).map((u) => (
 										<option key={u.id} value={u.id}>
 											{u.name}
@@ -526,7 +526,7 @@ export function UnivApplyInfoManageTab() {
 							</div>
 							<div className="space-y-1">
 								<label htmlFor={`${uid}-create-host-keyword`} className="typo-sb-11 text-k-700">
-									호스트 대학교 *
+									해외 대학 *
 								</label>
 								<div className="flex gap-2">
 									<Input
@@ -560,7 +560,7 @@ export function UnivApplyInfoManageTab() {
 										className="mt-1 w-full rounded-md border border-k-200 bg-k-0 px-3 py-1 typo-regular-4 text-k-700"
 									>
 										<option value="" disabled>
-											호스트 대학교 선택
+											해외 대학 선택
 										</option>
 										{hostSearchQuery2.data?.content.map((u) => (
 											<option key={u.id} value={u.id}>

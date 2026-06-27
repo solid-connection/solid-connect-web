@@ -146,7 +146,7 @@ export function HostUniversityTab() {
 		onSuccess: async () => {
 			await invalidate();
 			closeModal();
-			toast.success("호스트 대학교를 생성했습니다.");
+			toast.success("해외 대학을 생성했습니다.");
 		},
 		onError: (e: unknown) => {
 			const msg = e instanceof Error ? e.message : "생성에 실패했습니다.";
@@ -169,7 +169,7 @@ export function HostUniversityTab() {
 		onSuccess: async () => {
 			await invalidate();
 			closeModal();
-			toast.success("호스트 대학교를 수정했습니다.");
+			toast.success("해외 대학을 수정했습니다.");
 		},
 		onError: (e: unknown) => {
 			const msg = e instanceof Error ? e.message : "수정에 실패했습니다.";
@@ -181,7 +181,7 @@ export function HostUniversityTab() {
 		mutationFn: (id: number) => adminApi.deleteHostUniversity(id),
 		onSuccess: async () => {
 			await invalidate();
-			toast.success("호스트 대학교를 삭제했습니다.");
+			toast.success("해외 대학을 삭제했습니다.");
 		},
 		onError: (e: unknown) => {
 			const msg = e instanceof Error ? e.message : "삭제에 실패했습니다.";
@@ -271,9 +271,9 @@ export function HostUniversityTab() {
 		<div className="space-y-4">
 			<section className="rounded-xl border border-k-100 bg-k-0 p-4">
 				<div className="flex items-center justify-between gap-3">
-					<h2 className="typo-sb-9 text-k-900">호스트 대학교</h2>
+					<h2 className="typo-sb-9 text-k-900">해외 대학</h2>
 					<Button type="button" onClick={handleOpenCreate}>
-						호스트 대학교 생성
+						해외 대학 생성
 					</Button>
 				</div>
 				<form onSubmit={handleSearch} className="mt-3 flex flex-wrap gap-2">
@@ -437,9 +437,7 @@ export function HostUniversityTab() {
 						className="relative flex max-h-[90vh] w-full max-w-lg flex-col overflow-y-auto rounded-xl bg-k-0 shadow-xl"
 					>
 						<div className="flex items-center justify-between border-b border-k-100 px-5 py-4">
-							<p className="typo-sb-9 text-k-900">
-								{modal.mode === "create" ? "호스트 대학교 생성" : "호스트 대학교 수정"}
-							</p>
+							<p className="typo-sb-9 text-k-900">{modal.mode === "create" ? "해외 대학 생성" : "해외 대학 수정"}</p>
 							<button type="button" onClick={closeModal} className="typo-regular-4 text-k-400 hover:text-k-700">
 								✕
 							</button>
