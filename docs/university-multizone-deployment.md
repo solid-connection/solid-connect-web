@@ -75,10 +75,11 @@ production 릴리즈는 GitHub Actions `Promote Main to Release Branches` workfl
 workflow target은 다음과 같이 사용한다.
 
 - `all`: `release-web`, `release-admin`, `release-university`를 모두 main으로 갱신
+- `web`: `release-web`만 main으로 갱신
+- `admin`: `release-admin`만 main으로 갱신
 - `university`: `release-university`만 main으로 갱신
-- `both`: 기존 호환용으로 `release-web`, `release-admin`만 갱신
 
-workflow 기본값은 `both`다. university web production 배포는 `all` 또는 `university`를 명시적으로 선택했을 때만 함께 승격한다.
+workflow 기본값은 `all`이다. 개별 production 배포가 필요하면 `web`, `admin`, `university`를 선택한다.
 
 production web project의 `UNIVERSITY_WEB_DOMAIN`은 university web production origin을 가리켜야 한다. 예를 들어 사용자 production URL이 `https://www.solid-connection.com/university`라면 rewrite 대상은 별도 university web production origin이다.
 
