@@ -1,11 +1,13 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useGetMyGpaScore, useGetMyLanguageTestScore } from "@/apis/Scores";
+import { getSchoolEmailVerificationPath } from "@/app/my/school-email/_lib/returnTo";
 import BlockBtn from "@/components/button/BlockBtn";
 import Tab from "@/components/ui/Tab";
 import { showIconToast } from "@/lib/toast/showIconToast";
+import useAuthStore from "@/lib/zustand/useAuthStore";
 import { IconSolidConnectionSmallLogo } from "@/public/svgs/my";
 import { formatLanguageTestScore, languageTestMapping, ScoreSubmitStatus } from "@/types/score";
 import ScoreCard from "./ScoreCard";
@@ -15,10 +17,24 @@ type ScoreTab = (typeof SCORE_TAB_CHOICES)[number];
 
 const ScoreScreen = () => {
   const router = useRouter();
+  const homeUniversityId = useAuthStore((state) => state.homeUniversityId);
+  const isAuthInitialized = useAuthStore((state) => state.isInitialized);
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const [curTab, setCurTab] = useState<ScoreTab>("공인어학");
-  const { data: gpaScoreList = [] } = useGetMyGpaScore();
+  const shouldFetchGpaScore = isAuthInitialized && isAuthenticated && homeUniversityId !== null;
+  // TODO: 서버의 모학교 미인증 에러 코드가 확정되면 GPA 조회 실패 시 학교 인증으로 보내는 fallback을 추가한다.
+  const { data: gpaScoreData } = useGetMyGpaScore({ enabled: shouldFetchGpaScore });
   const { data: languageTestScoreList = [] } = useGetMyLanguageTestScore();
+  const gpaScoreList = gpaScoreData?.gpaScoreStatusResponseList ?? [];
   const isEmptyCurrentTab = curTab === "공인어학" ? languageTestScoreList.length === 0 : gpaScoreList.length === 0;
+
+  useEffect(() => {
+    if (!isAuthInitialized || !isAuthenticated || homeUniversityId !== null) {
+      return;
+    }
+
+    router.replace(getSchoolEmailVerificationPath("score"));
+  }, [homeUniversityId, isAuthInitialized, isAuthenticated, router]);
 
   const handleScoreClick = (status: ScoreSubmitStatus, rejectedReason?: string | null) => {
     if (status === ScoreSubmitStatus.REJECTED) {
@@ -29,6 +45,14 @@ const ScoreScreen = () => {
       showIconToast("cap", "심사중인 성적은 사용할 수 없습니다");
     }
   };
+
+  if (!isAuthInitialized) {
+    return null;
+  }
+
+  if (isAuthenticated && homeUniversityId === null) {
+    return null;
+  }
 
   return (
     <div className="h-full">
@@ -68,6 +92,7 @@ const ScoreScreen = () => {
               ))}
 
             {curTab === "학점" &&
+              gpaScoreData &&
               gpaScoreList.map((score) => (
                 <button
                   key={score.id}
@@ -76,7 +101,7 @@ const ScoreScreen = () => {
                   onClick={() => handleScoreClick(score.verifyStatus, score.rejectedReason)}
                 >
                   <ScoreCard
-                    name="인하대학교" // TODO: 학교명 API에서 받아오기
+                    name={gpaScoreData.homeUniversityName}
                     score={`${score.gpaResponse.gpa.toFixed(2)}/${score.gpaResponse.gpaCriteria}`}
                     status={score.verifyStatus}
                     // date={new Date(score.issueDate).toISOString()}

@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { usePostSubmitApplication } from "@/apis/applications";
 import { useGetMyGpaScore, useGetMyLanguageTestScore } from "@/apis/Scores";
 import { useUniversitySearch } from "@/apis/universities";
+import { getSchoolEmailVerificationPath } from "@/app/my/school-email/_lib/returnTo";
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import ProgressBar from "@/components/ui/ProgressBar";
 import { DEFAULT_MAX_CHOICE_COUNT, getHomeUniversityById } from "@/constants/university";
@@ -36,7 +37,9 @@ const ApplyPageContent = () => {
   );
 
   const { data: universityList = [] } = useUniversitySearch("", undefined, universitySearchOptions);
-  const { data: gpaScoreList = [] } = useGetMyGpaScore();
+  const shouldFetchGpaScore = isAuthInitialized && isAuthenticated && homeUniversityId !== null;
+  // TODO: 서버의 모학교 미인증 에러 코드가 확정되면 GPA 조회 실패 시 학교 인증으로 보내는 fallback을 추가한다.
+  const { data: gpaScoreData } = useGetMyGpaScore({ enabled: shouldFetchGpaScore });
   const { data: languageTestScoreList = [] } = useGetMyLanguageTestScore();
   const { mutate: postSubmitApplication } = usePostSubmitApplication({
     onSuccess: () => {
@@ -53,7 +56,7 @@ const ApplyPageContent = () => {
       return;
     }
 
-    router.replace("/my/school-email?returnTo=applicationApply");
+    router.replace(getSchoolEmailVerificationPath("applicationApply"));
   }, [homeUniversityId, isAuthInitialized, isAuthenticated, router]);
 
   // 다음 스텝으로 넘어가기
@@ -95,6 +98,8 @@ const ApplyPageContent = () => {
     });
   };
 
+  const gpaScoreList = gpaScoreData?.gpaScoreStatusResponseList ?? [];
+  const homeUniversityName = gpaScoreData?.homeUniversityName;
   const isDataExist = gpaScoreList.length === 0 || languageTestScoreList.length === 0;
   const hasSelectedUniversity = curUniversityList.some((universityId) => universityId > 0);
   const progressStep = step === 3 && hasSelectedUniversity ? APPLY_PROGRESS_TOTAL_STEPS : step + 1;
@@ -123,9 +128,10 @@ const ApplyPageContent = () => {
               onNext={goNextStep}
             />
           )}
-          {step === 2 && (
+          {step === 2 && homeUniversityName && (
             <GpaStep
               gpaScoreList={gpaScoreList}
+              homeUniversityName={homeUniversityName}
               curGpaScore={curGpaScore}
               setCurGpaScore={setCurGpaScore}
               onNext={goNextStep}
