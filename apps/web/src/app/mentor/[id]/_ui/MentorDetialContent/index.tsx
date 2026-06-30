@@ -91,7 +91,9 @@ const MentorDetialContent = ({ mentorId }: MentorDetailContentProps) => {
               href={channel.url}
               target="_blank"
               key={idx}
-              className={`h-[40px] ${channels.length === 1 ? "w-full" : channels.length === 3 && idx === 2 ? "col-span-2" : ""}`}
+              className={clsx("block h-10 w-full", {
+                "col-span-2": channels.length === 3 && idx === 2,
+              })}
             >
               <ChannelBadge channelType={channel.type as ChannelType} />
             </Link>
