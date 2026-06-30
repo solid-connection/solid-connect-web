@@ -3,7 +3,7 @@
 import Image from "@/components/ui/FallbackImage";
 import LinkifyText from "@/components/ui/LinkifyText";
 import type { LanguageRequirement } from "@/types/university";
-import { formatLanguageTestName, getLanguageTestLogo } from "@/utils/languageUtils";
+import { DEFAULT_LANGUAGE_TEST_LOGO_SRC, formatLanguageTestName, getLanguageTestLogo } from "@/utils/languageUtils";
 
 interface LanguageSectionProps {
   languageRequirements: LanguageRequirement[];
@@ -54,7 +54,7 @@ const Language = ({ name, logoUrl, score }: { name: string; logoUrl: string; sco
             width={92}
             height={40}
             className="h-10 w-[92px] object-contain"
-            fallbackSrc="/images/language/default.png"
+            fallbackSrc={DEFAULT_LANGUAGE_TEST_LOGO_SRC}
           />
         </div>
       </div>

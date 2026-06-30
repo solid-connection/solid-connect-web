@@ -22,7 +22,7 @@ const imageRemotePatterns = [
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   assetPrefix: "/university-static",
-  transpilePackages: ["@solid-connect/ai-inspector"],
+  transpilePackages: ["@solid-connect/ai-inspector", "@solid-connect/ui"],
   reactCompiler: {
     compilationMode: "annotation",
   },
