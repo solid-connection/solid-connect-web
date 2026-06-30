@@ -117,14 +117,20 @@ const MyProfileContent = () => {
         </div>
 
         {viewAsMentor ? (
-          <div className="w-full cursor-pointer rounded-lg bg-secondary-500 py-2 text-center text-white typo-medium-2">
-            <Link href={"/my/modify"}>프로필 변경</Link>
-          </div>
+          <Link
+            href="/my/modify"
+            className="block w-full rounded-lg bg-secondary-500 py-2 text-center text-white typo-medium-2"
+          >
+            프로필 변경
+          </Link>
         ) : (
           <div className="mt-4 flex items-center justify-between gap-3">
-            <div className="w-full cursor-pointer rounded-lg bg-secondary-500 py-2 text-center text-white typo-medium-2">
-              <Link href={"/my/modify"}>프로필 변경</Link>
-            </div>
+            <Link
+              href="/my/modify"
+              className="block w-full rounded-lg bg-secondary-500 py-2 text-center text-white typo-medium-2"
+            >
+              프로필 변경
+            </Link>
             <Link
               href="/my/apply-mentor"
               className="w-full rounded-lg bg-secondary-800 py-2 text-center text-white typo-medium-2"
