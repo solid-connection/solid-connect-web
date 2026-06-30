@@ -9,6 +9,7 @@ export const languageTestLogoMap = {
   NEW_HSK: "/images/language/new_hsk.png",
   ETC: "/images/language/etc.png",
   DALF: "/images/language/dalf.png",
+  DELF: "/images/language/delf.jpg",
   CEFR: "/images/language/cefr.png",
   TCF: "/images/language/tcf.png",
   TEF: "/images/language/tef.png",
