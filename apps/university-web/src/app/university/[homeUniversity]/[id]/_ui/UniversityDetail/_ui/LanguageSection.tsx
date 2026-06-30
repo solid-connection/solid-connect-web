@@ -48,7 +48,14 @@ const Language = ({ name, logoUrl, score }: { name: string; logoUrl: string; sco
       <div className="flex">
         <div className="w-[140px] text-k-900 typo-sb-10">{name}</div>
         <div>
-          <Image src={logoUrl} alt="어학시험" width={50} height={50} fallbackSrc="/images/language/default.png" />
+          <Image
+            src={logoUrl}
+            alt={`${name} 로고`}
+            width={92}
+            height={40}
+            className="h-10 w-[92px] object-contain"
+            fallbackSrc="/images/language/default.png"
+          />
         </div>
       </div>
       <div className="text-secondary typo-sb-7">{score}</div>
