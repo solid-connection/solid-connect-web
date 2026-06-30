@@ -3,7 +3,10 @@
   "version": "2.2445",
   "private": true,
   "scripts": {
+    "sync:ui-public": "node ../../scripts/sync-ui-public-assets.mjs public/images/language",
+    "predev": "pnpm run sync:ui-public",
     "dev": "next dev",
+    "prebuild": "pnpm run sync:ui-public",
     "build": "next build",
     "start": "next start",
     "lint": "biome check --write . && pnpm run lint:university-zone-navigation",
@@ -14,7 +17,7 @@
     "typecheck": "tsc --noEmit",
     "typecheck:ci": "tsc --noEmit -p tsconfig.ci.json",
     "ci:check": "pnpm run lint:check && pnpm run typecheck:ci",
-    "analyze": "ANALYZE=true next build --webpack"
+    "analyze": "pnpm run sync:ui-public && ANALYZE=true next build --webpack"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

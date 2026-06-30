@@ -22,6 +22,10 @@
 packages/api-schema/src/apis/
 packages/api-schema/.cache/
 
+# generated public assets
+apps/web/public/images/language/
+apps/university-web/public/images/language/
+
 # superpowers design docs
 docs/superpowers/
 
