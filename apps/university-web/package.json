@@ -3,10 +3,7 @@
   "version": "2.2445",
   "private": true,
   "scripts": {
-    "sync:ui-public": "node ../../scripts/sync-ui-public-assets.mjs public/images/language",
-    "predev": "pnpm run sync:ui-public",
     "dev": "next dev --port 3001",
-    "prebuild": "pnpm run sync:ui-public",
     "build": "next build",
     "start": "next start",
     "lint": "biome check --write .",
@@ -16,7 +13,7 @@
     "typecheck": "tsc --noEmit",
     "typecheck:ci": "tsc --noEmit -p tsconfig.ci.json",
     "ci:check": "pnpm run lint:check && pnpm run typecheck:ci",
-    "analyze": "pnpm run sync:ui-public && ANALYZE=true next build --webpack"
+    "analyze": "ANALYZE=true next build --webpack"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -28,7 +25,6 @@
     "@react-google-maps/api": "^2.19.2",
     "@sentry/nextjs": "^10.22.0",
     "@solid-connect/ai-inspector": "workspace:^",
-    "@solid-connect/ui": "workspace:^",
     "@stomp/stompjs": "^7.1.1",
     "@tanstack/react-query": "^5.84.1",
     "@tanstack/react-query-devtools": "^5.84.1",

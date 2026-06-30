@@ -29,10 +29,6 @@
       "types": "./src/label.tsx",
       "default": "./src/label.tsx"
     },
-    "./language-test-logos": {
-      "types": "./src/language-test-logos.ts",
-      "default": "./src/language-test-logos.ts"
-    },
     "./table": {
       "types": "./src/table.tsx",
       "default": "./src/table.tsx"
