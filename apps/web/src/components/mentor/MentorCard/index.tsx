@@ -97,9 +97,7 @@ const MentorCard = ({ mentor, observeRef, isMine = false }: MentorCardProps) => 
               {channels?.map((channel, idx) => (
                 <a
                   key={idx}
-                  className={clsx("block h-10 w-full", {
-                    "col-span-2": channels && channels.length === 3 && idx === 2,
-                  })}
+                  className={`h-10 ${channels && channels.length === 1 ? "w-full" : channels && channels.length === 3 && idx === 2 ? "col-span-2" : ""}`}
                   href={channel.url}
                   target="_blank"
                   rel="noopener noreferrer"
