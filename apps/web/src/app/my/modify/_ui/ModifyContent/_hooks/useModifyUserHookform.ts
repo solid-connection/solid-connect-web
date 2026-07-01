@@ -14,7 +14,7 @@ type ProfileFormData = z.infer<typeof profileSchema>;
 
 interface UseModifyUserHookformReturn {
   methods: ReturnType<typeof useForm<ProfileFormData>>;
-  myInfo?: Partial<MyInfoResponse>;
+  myInfo?: MyInfoResponse;
   onSubmit: (data: ProfileFormData) => void;
 }
 

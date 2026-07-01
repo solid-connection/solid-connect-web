@@ -6,17 +6,13 @@ import { FormProvider } from "react-hook-form";
 import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 import { UserRole } from "@/types/mentor";
 import useModifyUserHookform from "./_hooks/useModifyUserHookform";
+import { resolveModifyProfileReadOnlyFields } from "./_lib/profileFields";
 import ImageInputFiled from "./_ui/ImageInputFiled";
 import InputField from "./_ui/InputFiled";
 import ReadOnlyField from "./_ui/ReadOnlyField";
 
 const ModifyContent = () => {
   const { methods, myInfo, onSubmit } = useModifyUserHookform();
-
-  const defaultUniversity: string =
-    (myInfo?.role === UserRole.MENTOR || myInfo?.role === UserRole.ADMIN) && myInfo.attendedUniversity
-      ? myInfo.attendedUniversity
-      : "인하대학교";
 
   const {
     handleSubmit,
@@ -26,6 +22,9 @@ const ModifyContent = () => {
   if (!myInfo) {
     return <CloudSpinnerPage />;
   }
+
+  const { homeUniversityName, attendedUniversity } = resolveModifyProfileReadOnlyFields(myInfo);
+
   return (
     <FormProvider {...methods}>
       <div className="px-5 py-6">
@@ -39,10 +38,10 @@ const ModifyContent = () => {
             <InputField name="nickname" label="닉네임" placeholder="닉네임을 입력해주세요" />
 
             {/* 출신학교 - 읽기 전용 */}
-            <ReadOnlyField label="출신학교" value={defaultUniversity} placeholder="서울대학교" />
+            <ReadOnlyField label="출신학교" value={homeUniversityName} placeholder="등록된 출신학교가 없습니다" />
 
             {/* 수학 학교 - 읽기 전용 */}
-            <ReadOnlyField label="수학 학교" value="컴퓨터공학과" placeholder="전공" />
+            <ReadOnlyField label="수학 학교" value={attendedUniversity} placeholder="등록된 수학 학교가 없습니다" />
 
             {/* 사용자 유형 - 읽기 전용 */}
             <ReadOnlyField
