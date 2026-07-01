@@ -13,7 +13,7 @@ import { MentorChatCardsSkeleton } from "../../../MentorPageSkeleton";
 import ApplicantListSection from "./_ui/ApplicantListSection";
 import MyMentorSection from "./_ui/MyMentorSection";
 
-const MentorPage = () => {
+const MentorMenteeListContent = ({ isDesktop }: { isDesktop: boolean }) => {
   const [selectedTab, setSelectedTab] = useState<MentorTab>(MentorTab.MY_MENTEE);
   const isMyMenteeTab = selectedTab === MentorTab.MY_MENTEE;
   const tabs = [MentorTab.MY_MENTEE, MentorTab.APPLY_LIST];
@@ -23,16 +23,14 @@ const MentorPage = () => {
   return (
     <>
       <header className="flex items-center justify-between">
-        {/* 탭 */}
         <div className="w-full">
           <TabSelector tabs={tabs} selectedTab={selectedTab} onTabChange={(tab) => setSelectedTab(tab as MentorTab)} />
         </div>
       </header>
 
-      <div className="mb-10 mt-4">
+      <div className={isDesktop ? "mt-4" : "mb-10 mt-4"}>
         <div className="mb-2 flex justify-between">
           <h2 className="text-gray-900 typo-sb-5">나의 멘티</h2>
-          {/* 전체보기 버튼 */}
           {isMyMenteeTab && myMenteeList.length > 2 && (
             <Link href={`/mentor/chat`} className="flex items-center text-k-500 typo-medium-3">
               전체보기
@@ -43,10 +41,8 @@ const MentorPage = () => {
           )}
         </div>
 
-        {/* 멘티 보기 탭일때 */}
         {isMyMenteeTab ? (
           <>
-            {/* 나의 멘티  */}
             {isMyMenteeListPending ? (
               <MentorChatCardsSkeleton count={3} />
             ) : myMenteeList.length === 0 ? (
@@ -66,13 +62,14 @@ const MentorPage = () => {
                 );
               })
             )}
-            {/* 중간 밑줄 */}
-            <div className="my-8 h-1.5 w-full bg-k-50"></div>
-            {/* 나의 멘토 페이지 */}
-            <MyMentorSection />
+            {!isDesktop && (
+              <>
+                <div className="my-8 h-1.5 w-full bg-k-50"></div>
+                <MyMentorSection />
+              </>
+            )}
           </>
         ) : (
-          // 멘티 신청 보기 탭일때
           <ApplicantListSection />
         )}
       </div>
@@ -80,4 +77,31 @@ const MentorPage = () => {
   );
 };
 
-export default MentorPage;
+export const MentorDesktopPage = () => {
+  return (
+    <div className="min-h-screen bg-k-50 px-8 py-8 lg:px-10">
+      <header className="mb-8">
+        <p className="text-primary typo-sb-9">Mentor</p>
+        <h1 className="mt-2 text-k-900 typo-bold-1">멘토 페이지</h1>
+        <p className="mt-2 max-w-2xl text-k-500 typo-medium-2">
+          멘토링 신청과 나의 멘토 프로필을 한 화면에서 관리하세요.
+        </p>
+      </header>
+
+      <div className="grid items-start gap-8 xl:grid-cols-[minmax(0,1fr)_minmax(340px,420px)]">
+        <section className="rounded-lg border border-k-100 bg-white p-6">
+          <MentorMenteeListContent isDesktop />
+        </section>
+        <section className="rounded-lg border border-k-100 bg-white p-6">
+          <MyMentorSection />
+        </section>
+      </div>
+    </div>
+  );
+};
+
+export const MentorMobilePage = () => {
+  return <MentorMenteeListContent isDesktop={false} />;
+};
+
+export default MentorMobilePage;

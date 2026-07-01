@@ -34,7 +34,40 @@ interface SearchPageContentProps {
   homeUniversitySlug: string;
 }
 
-const SearchPageContent = ({ homeUniversitySlug }: SearchPageContentProps) => {
+const SearchPageContent = (props: SearchPageContentProps) => {
+  return (
+    <SearchPageContentBase
+      {...props}
+      regionListClassName="mb-6 flex gap-2 overflow-x-auto"
+      dropdownGridClassName="grid grid-cols-1 gap-3"
+      submitClassName="mt-10"
+    />
+  );
+};
+
+export const DesktopSearchPageContent = (props: SearchPageContentProps) => {
+  return (
+    <SearchPageContentBase
+      {...props}
+      regionListClassName="mb-6 flex flex-wrap gap-2"
+      dropdownGridClassName="grid gap-3 md:grid-cols-2"
+      submitClassName="mt-8 w-full md:max-w-xs"
+    />
+  );
+};
+
+type SearchPageContentBaseProps = SearchPageContentProps & {
+  regionListClassName: string;
+  dropdownGridClassName: string;
+  submitClassName: string;
+};
+
+const SearchPageContentBase = ({
+  homeUniversitySlug,
+  regionListClassName,
+  dropdownGridClassName,
+  submitClassName,
+}: SearchPageContentBaseProps) => {
   const router = useRouter();
   const [searchText, setSearchText] = useState("");
 
@@ -97,7 +130,7 @@ const SearchPageContent = ({ homeUniversitySlug }: SearchPageContentProps) => {
       {/* 필터 검색 폼 */}
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-1 flex-col">
         {/* 지역 필터 */}
-        <div className="mb-6 flex space-x-2">
+        <div className={regionListClassName}>
           {REGIONS_SEARCH.map((region) => (
             <button
               key={region}
@@ -122,7 +155,7 @@ const SearchPageContent = ({ homeUniversitySlug }: SearchPageContentProps) => {
         </div>
 
         {/* 어학 및 국가 선택 */}
-        <div className="space-y-3">
+        <div className={dropdownGridClassName}>
           <Controller
             name="languageTestType"
             control={control}
@@ -175,7 +208,10 @@ const SearchPageContent = ({ homeUniversitySlug }: SearchPageContentProps) => {
 
         <button
           type="submit"
-          className="mt-10 rounded-lg bg-primary px-4 py-3 text-center text-white transition-colors typo-sb-9 hover:bg-primary-600"
+          className={clsx(
+            "rounded-lg bg-primary px-4 py-3 text-center text-white transition-colors typo-sb-9 hover:bg-primary-600",
+            submitClassName,
+          )}
         >
           학교 검색
         </button>

@@ -15,14 +15,15 @@ type SignupProfileScreenProps = {
   setProfileImageFile: Dispatch<SetStateAction<File | null>>;
 };
 
-const SignupProfileScreen = ({
+const SignupProfileScreenBase = ({
   toNextStage,
   nickname,
   setNickname,
   defaultProfileImageUrl,
   profileImageFile,
   setProfileImageFile,
-}: SignupProfileScreenProps) => {
+  isDesktop,
+}: SignupProfileScreenProps & { isDesktop: boolean }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploadedProfileImageFileView, setUploadedProfileImageFileView] = useState<string | null>(null);
 
@@ -64,8 +65,8 @@ const SignupProfileScreen = ({
 
   return (
     <div>
-      <div className="px-5">
-        <div className="mt-5">
+      <div className={isDesktop ? "" : "px-5"}>
+        <div className={isDesktop ? "" : "mt-5"}>
           <span className="text-k-900 typo-bold-1">
             닉네임을
             <br />
@@ -104,7 +105,7 @@ const SignupProfileScreen = ({
         </div>
       </div>
 
-      <div className="mt-10 px-5 pb-7">
+      <div className={isDesktop ? "mt-8" : "mt-10 px-5 pb-7"}>
         <BlockBtn disabled={!nickname} onClick={submit}>
           가입 완료
         </BlockBtn>
@@ -113,4 +114,12 @@ const SignupProfileScreen = ({
   );
 };
 
-export default SignupProfileScreen;
+export const DesktopSignupProfileScreen = (props: SignupProfileScreenProps) => (
+  <SignupProfileScreenBase {...props} isDesktop />
+);
+
+export const MobileSignupProfileScreen = (props: SignupProfileScreenProps) => (
+  <SignupProfileScreenBase {...props} isDesktop={false} />
+);
+
+export default MobileSignupProfileScreen;

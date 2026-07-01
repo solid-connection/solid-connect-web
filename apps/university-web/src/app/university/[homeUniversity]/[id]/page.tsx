@@ -12,7 +12,7 @@ import { createUrl, NO_INDEX_ROBOTS } from "@/utils/seo";
 import UniversityDetail from "./_ui/UniversityDetail";
 import UniversityDetailPreparingFallback from "./_ui/UniversityDetailPreparingFallback";
 
-export const revalidate = false;
+export const revalidate = false; // 완전 정적 생성
 export const dynamicParams = false;
 
 // 모든 homeUniversity + id 조합에 대해 정적 경로 생성
@@ -189,7 +189,11 @@ const CollegeDetailPage = async ({ params }: PageProps) => {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
       <TopDetailNavigation title={convertedKoreanName} backHref={`/university/${homeUniversity}`} />
       <div className="w-full">
-        <UniversityDetail koreanName={convertedKoreanName} university={universityData} />
+        <UniversityDetail
+          koreanName={convertedKoreanName}
+          university={universityData}
+          backHref={`/university/${homeUniversity}`}
+        />
       </div>
     </>
   );

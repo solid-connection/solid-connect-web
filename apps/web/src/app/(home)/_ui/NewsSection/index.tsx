@@ -14,7 +14,7 @@ const NewsSection = ({ newsList }: NewsSectionProps) => {
   const { sectionRef, visible } = useSectionHandler();
 
   return (
-    <div ref={sectionRef} className="mt-6 pl-5">
+    <div ref={sectionRef} className="mt-6 px-5 md:mt-0 md:px-0">
       <div className="mb-2.5 flex items-center gap-1.5 font-serif text-k-700 typo-sb-7">
         솔커에서 맛보는 소식
         <IconLoveLetter />
@@ -26,11 +26,11 @@ const NewsSection = ({ newsList }: NewsSectionProps) => {
         </Link> */}
       </div>
       {!visible ? (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 md:grid md:grid-cols-3">
           {Array.from({ length: 3 }).map((_, idx) => (
-            <div key={idx} className="flex animate-pulse gap-4">
-              <div className="h-24 w-44 shrink-0 rounded-xl bg-gray-300" />
-              <div className="mr-5 flex flex-col gap-2">
+            <div key={idx} className="flex animate-pulse gap-4 md:flex-col">
+              <div className="h-24 w-44 shrink-0 rounded-xl bg-gray-300 md:w-full" />
+              <div className="flex flex-col gap-2">
                 <div className="h-5 w-32 rounded bg-gray-300" />
                 <div className="h-4 w-40 rounded bg-gray-200" />
               </div>
@@ -38,20 +38,20 @@ const NewsSection = ({ newsList }: NewsSectionProps) => {
           ))}
         </div>
       ) : (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 md:grid md:grid-cols-3">
           {newsList.map((news) => (
             <Link key={news.id} target="_blank" href={news.url} rel="noreferrer">
-              <div className="flex gap-4">
+              <div className="flex gap-4 md:flex-col">
                 <Image
                   loading="lazy"
-                  className="h-24 w-44 shrink-0 rounded-xl object-cover"
+                  className="h-24 w-44 shrink-0 rounded-xl object-cover md:w-full"
                   src={news.imageUrl}
                   cdnHostType="default"
                   alt={news.title}
                   width={170}
                   height={90}
                 />
-                <div className="mr-5 flex flex-col gap-0.5">
+                <div className="flex flex-col gap-0.5">
                   <div className="text-serif text-k-700 typo-sb-9">{news.title}</div>
                   <div className="font-serif text-k-500 typo-regular-4">{news.description}</div>
                 </div>
