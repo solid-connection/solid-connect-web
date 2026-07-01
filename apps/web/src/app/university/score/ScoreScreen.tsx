@@ -295,11 +295,17 @@ const ScoreListBase = ({
 };
 
 const MobileScoreList = (
-  props: Pick<ScoreViewProps, "curTab" | "gpaScoreList" | "homeUniversityName" | "languageTestScoreList" | "onScoreClick">,
+  props: Pick<
+    ScoreViewProps,
+    "curTab" | "gpaScoreList" | "homeUniversityName" | "languageTestScoreList" | "onScoreClick"
+  >,
 ) => <ScoreListBase {...props} isDesktop={false} />;
 
 const DesktopScoreList = (
-  props: Pick<ScoreViewProps, "curTab" | "gpaScoreList" | "homeUniversityName" | "languageTestScoreList" | "onScoreClick">,
+  props: Pick<
+    ScoreViewProps,
+    "curTab" | "gpaScoreList" | "homeUniversityName" | "languageTestScoreList" | "onScoreClick"
+  >,
 ) => <ScoreListBase {...props} isDesktop />;
 
 export default ScoreScreen;
