@@ -11,7 +11,7 @@ export interface BaseUserInfo {
   email: string;
   likedPostCount: number;
   likedMentorCount: number;
-  homeUniversityName: string | null;
+  homeUniversityName?: string | null;
 }
 
 export interface MyInfo {
