@@ -1,16 +1,27 @@
-// 시험 종류별 로고 URL 맵
-export const logoMap: Record<string, string> = {
+export const DEFAULT_LANGUAGE_TEST_LOGO_SRC = "/images/language/default.png";
+
+export const logoMap = {
   TOEIC: "/images/language/toeic.png",
   TOEFL_IBT: "/images/language/toefl_ibt.png",
   TOEFL_ITP: "/images/language/toefl_itp.png",
   IELTS: "/images/language/ielts.png",
-};
+  JLPT: "/images/language/jlpt.png",
+  NEW_HSK: "/images/language/new_hsk.png",
+  ETC: "/images/language/etc.png",
+  DALF: "/images/language/dalf.png",
+  DELF: "/images/language/delf.jpg",
+  CEFR: "/images/language/cefr.png",
+  TCF: "/images/language/tcf.png",
+  TEF: "/images/language/tef.png",
+  DUOLINGO: "/images/language/duolingo.svg",
+} as const;
+
+type LanguageTestLogoType = keyof typeof logoMap;
 
 export const getLanguageTestLogo = (type: string): string => {
-  return logoMap[type] || "/images/language/default.png";
+  return type in logoMap ? logoMap[type as LanguageTestLogoType] : DEFAULT_LANGUAGE_TEST_LOGO_SRC;
 };
 
-// UNDER_SCORE → "UNDER SCORE" 처리를 위한 헬퍼
-export function formatLanguageTestName(type: string): string {
+export const formatLanguageTestName = (type: string): string => {
   return type.replace(/_/g, " ");
-}
+};

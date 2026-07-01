@@ -3,7 +3,7 @@
 import Image from "@/components/ui/FallbackImage";
 import LinkifyText from "@/components/ui/LinkifyText";
 import type { LanguageRequirement } from "@/types/university";
-import { formatLanguageTestName, getLanguageTestLogo } from "@/utils/languageUtils";
+import { DEFAULT_LANGUAGE_TEST_LOGO_SRC, formatLanguageTestName, getLanguageTestLogo } from "@/utils/languageUtils";
 
 interface LanguageSectionProps {
   languageRequirements: LanguageRequirement[];
@@ -48,7 +48,14 @@ const Language = ({ name, logoUrl, score }: { name: string; logoUrl: string; sco
       <div className="flex">
         <div className="w-[140px] text-k-900 typo-sb-10">{name}</div>
         <div>
-          <Image src={logoUrl} alt="어학시험" width={50} height={50} fallbackSrc="/images/language/default.png" />
+          <Image
+            src={logoUrl}
+            alt={`${name} 로고`}
+            width={92}
+            height={40}
+            className="h-10 w-[92px] object-contain"
+            fallbackSrc={DEFAULT_LANGUAGE_TEST_LOGO_SRC}
+          />
         </div>
       </div>
       <div className="text-secondary typo-sb-7">{score}</div>
