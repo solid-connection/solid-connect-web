@@ -310,6 +310,9 @@ importers:
       '@solid-connect/ai-inspector':
         specifier: workspace:^
         version: link:../../packages/ai-inspector
+      '@solid-connect/ui':
+        specifier: workspace:^
+        version: link:../../packages/ui
       '@stomp/stompjs':
         specifier: ^7.1.1
         version: 7.2.1
