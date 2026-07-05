@@ -122,7 +122,7 @@ const ScoreMobileView = ({
           />
         )}
       </div>
-      <div className="fixed bottom-14 w-full max-w-app bg-white md:bottom-0 md:left-[88px] md:w-[calc(100%-88px)] md:max-w-none">
+      <div className="fixed bottom-14 left-0 right-0 w-full max-w-app bg-white md:bottom-0 md:left-[88px] md:right-auto md:w-[calc(100%-88px)] md:max-w-none">
         <div className="mb-[37px] px-5">
           <BlockBtn onClick={onSubmitClick}>{getSubmitLabel(curTab)}</BlockBtn>
         </div>
