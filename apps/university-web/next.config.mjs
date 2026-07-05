@@ -63,6 +63,14 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  async rewrites() {
+    return [
+      {
+        source: "/university-static/images/language/:path*",
+        destination: "/images/language/:path*",
+      },
+    ];
+  },
   ...(shouldRunBundleAnalyzer
     ? {
         webpack: (config) => {
