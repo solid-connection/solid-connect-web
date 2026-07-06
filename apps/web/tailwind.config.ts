@@ -30,7 +30,7 @@ const typographyPlugin = plugin(({ addUtilities, theme }) => {
 
 const config: Config = {
   darkMode: ["class"],
-  content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
+  content: ["./src/**/*.{js,ts,jsx,tsx,mdx}", "../../packages/ui/src/**/*.{js,ts,jsx,tsx,mdx}"],
   safelist: [
     "ml-0",
     "ml-12",

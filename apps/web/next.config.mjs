@@ -29,7 +29,7 @@ if (isProductionRuntime && !universityWebDomain) {
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  transpilePackages: ["@solid-connect/ai-inspector"],
+  transpilePackages: ["@solid-connect/ai-inspector", "@solid-connect/ui"],
   reactCompiler: {
     compilationMode: "annotation",
   },
