@@ -22,7 +22,6 @@ const toSitemapEntry = (
 const getStaticRoutes = (): MetadataRoute.Sitemap => [
   toSitemapEntry("/", "daily", 1),
   toSitemapEntry("/university", "weekly", 0.85),
-  toSitemapEntry("/university/search", "weekly", 0.6),
   toSitemapEntry("/terms", "yearly", 0.35),
   ...HOME_UNIVERSITY_LIST.map((university) => toSitemapEntry(`/university/${university.slug}`, "weekly", 0.8)),
 ];

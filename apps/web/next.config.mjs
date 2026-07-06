@@ -70,6 +70,20 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  async redirects() {
+    return [
+      {
+        source: `/university/list/:homeUniversity${universitySlugPattern}`,
+        destination: "/university/:homeUniversity",
+        permanent: true,
+      },
+      {
+        source: `/university/list/:homeUniversity${universitySlugPattern}/:path*`,
+        destination: "/university/:homeUniversity/:path*",
+        permanent: true,
+      },
+    ];
+  },
   async rewrites() {
     if (!universityWebDomain) {
       return [];
@@ -95,10 +109,6 @@ const nextConfig = {
       {
         source: "/university/search",
         destination: `${universityWebDomain}/university/search`,
-      },
-      {
-        source: `/university/list/:homeUniversity${universitySlugPattern}`,
-        destination: `${universityWebDomain}/university/:homeUniversity`,
       },
       {
         source: `/university/:homeUniversity${universitySlugPattern}`,
