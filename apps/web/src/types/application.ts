@@ -13,11 +13,18 @@ export interface Applicant {
   testType: string;
   testScore: string;
   isMine: boolean;
+  score?: number | null;
+  convertedScore?: number | null;
+  preferenceOrder?: number | null;
 }
 
 export interface ScoreSheet {
+  id?: number;
   koreanName: string;
-  studentCapacity: number;
+  englishName?: string;
+  logoImageUrl?: string;
+  backgroundImageUrl?: string;
+  studentCapacity: number | null;
   region: string;
   country: string;
   applicants: Applicant[];
