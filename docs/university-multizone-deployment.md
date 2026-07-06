@@ -31,7 +31,7 @@
 - `/university/:homeUniversity/:id`
 - `/university-static/*`
 
-`/university/list/:homeUniversity`는 legacy URL로만 취급한다. child route는 유지하지 않고, main rewrite에서 `/university/:homeUniversity` SSG 페이지로 보낸다. 이렇게 하면 오래된 외부 링크는 살리면서 SSG catalog 안에 client-fetch 목록 페이지가 섞이지 않는다.
+`/university/list/:homeUniversity`는 legacy URL로만 취급한다. child route는 유지하지 않고, main redirect에서 `/university/:homeUniversity` SSG 페이지로 보낸다. 이렇게 하면 오래된 외부 링크는 canonical URL로 정리하면서 SSG catalog 안에 client-fetch 목록 페이지가 섞이지 않는다.
 
 ## Vercel 프로젝트 설정
 
