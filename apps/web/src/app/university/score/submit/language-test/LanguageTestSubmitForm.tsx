@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Suspense, useState } from "react";
+import { Suspense, useRef, useState } from "react";
 import { Controller, type SubmitHandler, useForm } from "react-hook-form";
 import { usePostLanguageTestScore } from "@/apis/Scores";
 import SubmitLinkTab from "@/components/score/SubmitLinkTab";
@@ -17,7 +17,8 @@ import { type LanguageTestFormData, languageTestSchema } from "./_lib/schema";
 const LanguageTestSubmitForm = () => {
   const router = useRouter();
   const [showResult, setShowResult] = useState(false);
-  const { mutateAsync: postLanguageTestScore } = usePostLanguageTestScore();
+  const isSubmitLockedRef = useRef(false);
+  const { mutateAsync: postLanguageTestScore, isPending: isPostLanguageTestScorePending } = usePostLanguageTestScore();
   const [submittedData, setSubmittedData] = useState<LanguageTestFormData | null>(null);
 
   // 3. react-hook-form 설정
@@ -27,16 +28,20 @@ const LanguageTestSubmitForm = () => {
     control,
     watch,
     reset,
-    formState: { errors, isValid },
+    formState: { errors, isSubmitting, isValid },
   } = useForm<LanguageTestFormData>({
     resolver: zodResolver(languageTestSchema),
     mode: "onChange", // 입력값이 변경될 때마다 유효성 검사
   });
 
   const selectedFile = watch("file");
+  const isSubmitDisabled = !isValid || isSubmitting || isPostLanguageTestScorePending;
 
   // 4. 폼 제출 핸들러
   const onSubmit: SubmitHandler<LanguageTestFormData> = async (data) => {
+    if (isSubmitLockedRef.current) return;
+
+    isSubmitLockedRef.current = true;
     try {
       await postLanguageTestScore({
         languageTestScoreRequest: {
@@ -53,6 +58,8 @@ const LanguageTestSubmitForm = () => {
       setSubmittedData(data);
     } catch (_error) {
       // 실패 토스트는 React Query 전역 onError에서 단일 처리
+    } finally {
+      isSubmitLockedRef.current = false;
     }
   };
 
@@ -162,9 +169,9 @@ const LanguageTestSubmitForm = () => {
           <button
             className={clsx(
               "mb-10 w-full rounded-lg py-4 text-white typo-sb-9",
-              isValid ? "bg-primary" : "cursor-not-allowed bg-k-100",
+              isSubmitDisabled ? "cursor-not-allowed bg-k-100" : "bg-primary",
             )}
-            disabled={!isValid}
+            disabled={isSubmitDisabled}
           >
             다음
           </button>
