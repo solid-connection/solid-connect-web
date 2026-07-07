@@ -15,7 +15,7 @@ const SignUpPage = () => {
   return (
     <>
       <TopDetailNavigation title="회원가입" />
-      <div className="w-full px-5">
+      <div className="w-full">
         <Suspense fallback={<CloudSpinnerPage />}>
           <SignupSurvey baseNickname="" baseEmail="" baseProfileImageUrl="" />
         </Suspense>
