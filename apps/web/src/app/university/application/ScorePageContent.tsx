@@ -236,10 +236,10 @@ const ApplicationScopeTabs = ({
 }) => (
   <div className="mt-6 flex h-11 items-start justify-between">
     <ScopeTabButton isActive={scope === "all"} onClick={() => onScopeChange("all")}>
-      모든 대학 ({totalUniversityCount})
+      모든 대학 ({totalUniversityCount}개)
     </ScopeTabButton>
     <ScopeTabButton isActive={scope === "withApplicants"} onClick={() => onScopeChange("withApplicants")}>
-      지원자 있는 대학 ({applicantUniversityCount})
+      지원자 있는 대학 ({applicantUniversityCount}개)
     </ScopeTabButton>
   </div>
 );
