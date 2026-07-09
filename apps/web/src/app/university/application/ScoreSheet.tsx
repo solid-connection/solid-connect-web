@@ -65,6 +65,7 @@ export const MobileScoreSheet = ({ scoreSheet, defaultOpen = false, detailHref }
   const [tableOpened, setTableOpened] = useState(defaultOpen);
   const resolvedDetailHref = detailHref ?? getApplicationDetailHref(scoreSheet.koreanName);
   const capacity = getScoreSheetCapacity(scoreSheet);
+  const toggleTableOpened = () => setTableOpened((prev) => !prev);
 
   return (
     <article
@@ -74,14 +75,25 @@ export const MobileScoreSheet = ({ scoreSheet, defaultOpen = false, detailHref }
       )}
     >
       <div
-        className={clsx("flex min-h-11 w-full items-center gap-2.5 px-4", tableOpened ? "bg-secondary-100" : "bg-k-50")}
+        className={clsx(
+          "flex min-h-11 w-full cursor-pointer items-center gap-2.5 px-4",
+          tableOpened ? "bg-secondary-100" : "bg-k-50",
+        )}
+        onClick={toggleTableOpened}
       >
         <span className="size-5 shrink-0 rounded-full bg-white" aria-hidden />
-        <Link href={resolvedDetailHref} className="min-w-0 flex-1 truncate text-k-900 typo-sb-7">
+        <Link
+          href={resolvedDetailHref}
+          className="min-w-0 flex-1 truncate text-k-900 typo-sb-7"
+          onClick={(event) => event.stopPropagation()}
+        >
           {scoreSheet.koreanName} ({scoreSheet.applicants.length}/{capacity})
         </Link>
         <button
-          onClick={() => setTableOpened((prev) => !prev)}
+          onClick={(event) => {
+            event.stopPropagation();
+            toggleTableOpened();
+          }}
           className="flex size-6 shrink-0 items-center justify-center text-k-600"
           type="button"
           aria-label={`${scoreSheet.koreanName} 지원자 목록 ${tableOpened ? "접기" : "펼치기"}`}
