@@ -3,6 +3,7 @@
 import clsx from "clsx";
 import Link from "next/link";
 import { useState } from "react";
+import Image from "@/components/ui/FallbackImage";
 import { IconExpandMoreFilled } from "@/public/svgs/community";
 import type { Applicant, ScoreSheet as ScoreSheetType } from "@/types/application";
 import { formatLanguageTestScore, isLanguageTestEnum, languageTestMapping } from "@/types/score";
@@ -61,6 +62,26 @@ const getScoreSheetCapacity = (scoreSheet: ScoreSheetType) => {
   return String(scoreSheet.studentCapacity);
 };
 
+export const ScoreSheetLogo = ({
+  scoreSheet,
+  className,
+  size = 20,
+}: {
+  scoreSheet: Pick<ScoreSheetType, "logoImageUrl">;
+  className?: string;
+  size?: number;
+}) => (
+  <Image
+    src={scoreSheet.logoImageUrl ?? ""}
+    alt=""
+    width={size}
+    height={size}
+    className={clsx("shrink-0 rounded-full border border-k-50 bg-white object-cover", className)}
+    fallbackSrc="/svgs/placeholders/university-logo-placeholder.svg"
+    aria-hidden
+  />
+);
+
 export const MobileScoreSheet = ({ scoreSheet, defaultOpen = false, detailHref }: ScoreSheetProps) => {
   const [tableOpened, setTableOpened] = useState(defaultOpen);
   const resolvedDetailHref = detailHref ?? getApplicationDetailHref(scoreSheet.koreanName);
@@ -81,7 +102,7 @@ export const MobileScoreSheet = ({ scoreSheet, defaultOpen = false, detailHref }
         )}
         onClick={toggleTableOpened}
       >
-        <span className="size-5 shrink-0 rounded-full bg-white" aria-hidden />
+        <ScoreSheetLogo scoreSheet={scoreSheet} className="size-5" />
         <Link
           href={resolvedDetailHref}
           className="min-w-0 flex-1 truncate text-k-900 typo-sb-7"

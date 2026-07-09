@@ -11,7 +11,7 @@ import useAuthStore from "@/lib/zustand/useAuthStore";
 import { IconExpandMoreFilled } from "@/public/svgs/community";
 import type { Applicant, ScoreSheet as ScoreSheetType } from "@/types/application";
 import type { RegionKo } from "@/types/university";
-import { getApplicationDetailHref, MobileScoreSheet } from "./ScoreSheet";
+import { getApplicationDetailHref, MobileScoreSheet, ScoreSheetLogo } from "./ScoreSheet";
 
 type ApplicantScope = "all" | "withApplicants";
 type ScoreSort = "applicants" | "gpa";
@@ -199,7 +199,7 @@ const AppliedUniversityRow = ({ preference, scoreSheet }: AppliedUniversity) => 
       href={getApplicationDetailHref(scoreSheet.koreanName)}
       className="flex h-11 items-center gap-2.5 rounded-lg border border-k-50 bg-white px-3.5 shadow-[0_0_10px_rgba(0,0,0,0.05)]"
     >
-      <span className="size-5 shrink-0 rounded-full bg-k-50" aria-hidden />
+      <ScoreSheetLogo scoreSheet={scoreSheet} className="size-5" />
       <span className="min-w-0 flex-1 truncate text-k-900 typo-sb-7">
         {scoreSheet.koreanName} ({preference}/{capacity})
       </span>
@@ -343,7 +343,15 @@ const uniqueScoreSheets = (scoreSheets: ScoreSheetType[]) => {
     const prev = scoreSheetMap.get(key);
     scoreSheetMap.set(
       key,
-      prev ? { ...prev, applicants: mergeApplicants(prev.applicants, scoreSheet.applicants) } : scoreSheet,
+      prev
+        ? {
+            ...prev,
+            englishName: prev.englishName ?? scoreSheet.englishName,
+            logoImageUrl: prev.logoImageUrl ?? scoreSheet.logoImageUrl,
+            backgroundImageUrl: prev.backgroundImageUrl ?? scoreSheet.backgroundImageUrl,
+            applicants: mergeApplicants(prev.applicants, scoreSheet.applicants),
+          }
+        : scoreSheet,
     );
   }
 
