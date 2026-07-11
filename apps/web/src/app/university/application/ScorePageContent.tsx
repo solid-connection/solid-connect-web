@@ -8,9 +8,10 @@ import { useGetApplicationsList } from "@/apis/applications";
 import ConfirmCancelModal from "@/components/modal/ConfirmCancelModal";
 import { DEFAULT_MAX_CHOICE_COUNT, getHomeUniversityById, REGIONS_KO } from "@/constants/university";
 import useAuthStore from "@/lib/zustand/useAuthStore";
+import { IconExpandMoreFilled } from "@/public/svgs/community";
 import type { Applicant, ScoreSheet as ScoreSheetType } from "@/types/application";
 import type { RegionKo } from "@/types/university";
-import { getApplicationDetailHref, MobileScoreSheet } from "./ScoreSheet";
+import { getApplicationDetailHref, MobileScoreSheet, ScoreSheetLogo } from "./ScoreSheet";
 
 type ApplicantScope = "all" | "withApplicants";
 type ScoreSort = "applicants" | "gpa";
@@ -160,7 +161,7 @@ const AppliedUniversitySection = ({
 }) => (
   <section className="mt-5">
     <div className="flex items-center justify-between gap-3">
-      <h1 className="text-k-900 typo-bold-4">지원한 대학({appliedUniversities.length})</h1>
+      <h1 className="text-k-900 typo-bold-4">지원한 대학 ({appliedUniversities.length}개)</h1>
       <button
         type="button"
         onClick={onChangeUniversities}
@@ -198,12 +199,12 @@ const AppliedUniversityRow = ({ preference, scoreSheet }: AppliedUniversity) => 
       href={getApplicationDetailHref(scoreSheet.koreanName)}
       className="flex h-11 items-center gap-2.5 rounded-lg border border-k-50 bg-white px-3.5 shadow-[0_0_10px_rgba(0,0,0,0.05)]"
     >
-      <span className="size-5 shrink-0 rounded-full bg-k-50" aria-hidden />
+      <ScoreSheetLogo scoreSheet={scoreSheet} className="size-5" />
       <span className="min-w-0 flex-1 truncate text-k-900 typo-sb-7">
         {scoreSheet.koreanName} ({preference}/{capacity})
       </span>
-      <span className="text-k-500" aria-hidden>
-        ˅
+      <span className="flex size-6 shrink-0 items-center justify-center text-k-600" aria-hidden>
+        <IconExpandMoreFilled />
       </span>
     </Link>
   );
@@ -342,7 +343,15 @@ const uniqueScoreSheets = (scoreSheets: ScoreSheetType[]) => {
     const prev = scoreSheetMap.get(key);
     scoreSheetMap.set(
       key,
-      prev ? { ...prev, applicants: mergeApplicants(prev.applicants, scoreSheet.applicants) } : scoreSheet,
+      prev
+        ? {
+            ...prev,
+            englishName: prev.englishName ?? scoreSheet.englishName,
+            logoImageUrl: prev.logoImageUrl ?? scoreSheet.logoImageUrl,
+            backgroundImageUrl: prev.backgroundImageUrl ?? scoreSheet.backgroundImageUrl,
+            applicants: mergeApplicants(prev.applicants, scoreSheet.applicants),
+          }
+        : scoreSheet,
     );
   }
 

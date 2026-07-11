@@ -22,8 +22,8 @@ export interface ScoreSheet {
   id?: number;
   koreanName: string;
   englishName?: string;
-  logoImageUrl?: string;
-  backgroundImageUrl?: string;
+  logoImageUrl?: string | null;
+  backgroundImageUrl?: string | null;
   studentCapacity: number | null;
   region: string;
   country: string;

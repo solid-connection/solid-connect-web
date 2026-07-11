@@ -234,6 +234,16 @@ const findScoreSheetWithApplicants = (
 
   const baseScoreSheet = matches[0].scoreSheet;
   const applicantMap = new Map<string, Applicant>();
+  const mergedUniversityImages = matches.reduce(
+    (images, { scoreSheet }) => ({
+      logoImageUrl: images.logoImageUrl ?? scoreSheet.logoImageUrl,
+      backgroundImageUrl: images.backgroundImageUrl ?? scoreSheet.backgroundImageUrl,
+    }),
+    {
+      logoImageUrl: baseScoreSheet.logoImageUrl,
+      backgroundImageUrl: baseScoreSheet.backgroundImageUrl,
+    },
+  );
 
   for (const { preferenceOrder, scoreSheet } of matches) {
     for (const applicant of scoreSheet.applicants) {
@@ -249,6 +259,7 @@ const findScoreSheetWithApplicants = (
 
   return {
     ...baseScoreSheet,
+    ...mergedUniversityImages,
     applicants: Array.from(applicantMap.values()),
   };
 };
