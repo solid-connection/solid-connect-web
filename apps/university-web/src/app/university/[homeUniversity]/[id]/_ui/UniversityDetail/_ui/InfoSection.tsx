@@ -11,6 +11,16 @@ interface InfoSectionProps {
   detailsForAccommodation: string;
 }
 
+const formatSemesterAvailableForDispatch = (value: string) => {
+  const trimmedValue = value.trim();
+
+  if (!trimmedValue || trimmedValue === "NO_DATA" || trimmedValue === "데이터 없음") {
+    return "-";
+  }
+
+  return trimmedValue;
+};
+
 const InfoSection = ({
   semesterRequirement,
   semesterAvailableForDispatch,
@@ -19,6 +29,7 @@ const InfoSection = ({
 }: InfoSectionProps) => {
   const [detailsForApplyFold, setDetailsForApplyFold] = useState<boolean>(true);
   const [detailsForAccomodationFold, setDetailsForAccommodationFold] = useState<boolean>(true);
+  const semesterAvailableForDispatchLabel = formatSemesterAvailableForDispatch(semesterAvailableForDispatch);
 
   return (
     <div>
@@ -41,7 +52,7 @@ const InfoSection = ({
             <span className="text-k-900 typo-sb-7">파견 가능학기</span>
           </div>
           <div className="flex h-7 w-[50px] items-center justify-center rounded-full bg-k-50">
-            <span className="text-primary typo-sb-10">{semesterAvailableForDispatch}</span>
+            <span className="text-primary typo-sb-10">{semesterAvailableForDispatchLabel}</span>
           </div>
         </div>
         {/* 자격요건 */}

@@ -22,12 +22,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 0.8,
     },
-    {
-      url: `${siteUrl}/university/search`,
-      lastModified,
-      changeFrequency: "weekly",
-      priority: 0.6,
-    },
     ...HOME_UNIVERSITY_SLUGS.map((slug) => ({
       url: `${siteUrl}/university/${slug}`,
       lastModified,

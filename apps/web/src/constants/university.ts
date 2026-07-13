@@ -10,7 +10,7 @@ import {
 
 export const REGIONS_SEARCH = ["유럽권", "미주권", "아시아권", "중국권"] as const;
 
-export const REGIONS_KO: RegionKo[] = ["유럽권", "미주권", "아시아권", "중국권"];
+export const REGIONS_KO = ["유럽권", "미주권", "아시아권", "중국권"] as const satisfies readonly RegionKo[];
 
 /**
  * 홈 대학교 URL 슬러그 매핑
