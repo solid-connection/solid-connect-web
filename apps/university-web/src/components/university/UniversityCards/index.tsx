@@ -99,10 +99,7 @@ const UniversityCards = ({ colleges, style, className, showCapacity = true, link
           );
         })}
       </div>
-      <div
-        className={clsx("hidden gap-3 md:grid md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4", className)}
-        style={style}
-      >
+      <div className={clsx("hidden gap-4 md:grid md:grid-cols-2 xl:grid-cols-3", className)} style={style}>
         {colleges.map((college) => (
           <div key={college.id}>
             <UniversityCard university={college} showCapacity={showCapacity} linkPrefix={linkPrefix} />
