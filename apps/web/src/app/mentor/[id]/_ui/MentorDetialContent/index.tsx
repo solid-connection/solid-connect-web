@@ -17,12 +17,21 @@ interface MentorDetailContentProps {
 }
 
 const MentorDetialContent = ({ mentorId }: MentorDetailContentProps) => {
-  const { data: mentorDetail } = useGetMentorDetail(mentorId);
-  const { data: articleList = [] } = useGetArticleList(mentorId);
+  const isValidMentorId = Number.isFinite(mentorId) && mentorId > 0;
+  const { data: mentorDetail, isPending, isError, refetch } = useGetMentorDetail(isValidMentorId ? mentorId : null);
+  const { data: articleList = [] } = useGetArticleList(mentorId, {
+    enabled: isValidMentorId && !!mentorDetail,
+  });
   const { mutate: postApplyMentoring } = usePostApplyMentoring();
   const isDesktop = useIsDesktopViewport();
 
-  if (!mentorDetail || isDesktop === null) return null; // type guard
+  if (isDesktop === null || (isValidMentorId && isPending)) {
+    return <MentorDetailSkeleton />;
+  }
+
+  if (!isValidMentorId || isError || !mentorDetail) {
+    return <MentorDetailUnavailableState onRetry={isValidMentorId ? () => refetch() : undefined} />;
+  }
 
   const {
     id,
@@ -234,6 +243,45 @@ const DesktopInfoPanel = ({ title, children }: { title: string; children: ReactN
     <h2 className="mb-4 text-secondary typo-sb-7">{title}</h2>
     {children}
   </section>
+);
+
+const MentorDetailSkeleton = () => (
+  <div className="min-h-screen bg-k-50 px-8 py-8 lg:px-10">
+    <div className="mb-8">
+      <div className="h-5 w-20 animate-pulse rounded-full bg-k-100" />
+      <div className="mt-3 h-9 w-44 animate-pulse rounded-lg bg-k-100" />
+      <div className="mt-3 h-5 w-80 max-w-full animate-pulse rounded-full bg-k-100" />
+    </div>
+    <div className="grid items-start gap-8 xl:grid-cols-[minmax(320px,420px)_minmax(0,1fr)]">
+      <div className="h-72 animate-pulse rounded-lg border border-k-100 bg-white" />
+      <div className="grid gap-5">
+        <div className="h-36 animate-pulse rounded-lg border border-k-100 bg-white" />
+        <div className="h-36 animate-pulse rounded-lg border border-k-100 bg-white" />
+        <div className="h-52 animate-pulse rounded-lg border border-k-100 bg-white" />
+      </div>
+    </div>
+  </div>
+);
+
+const MentorDetailUnavailableState = ({ onRetry }: { onRetry?: () => void }) => (
+  <div className="flex min-h-[60vh] flex-col items-center justify-center px-5 text-center">
+    <p className="text-k-900 typo-sb-5">멘토 정보를 찾지 못했어요.</p>
+    <p className="mt-2 text-k-500 typo-regular-2">멘토 목록에서 다시 확인해 주세요.</p>
+    <div className="mt-5 flex flex-wrap justify-center gap-2">
+      {onRetry && (
+        <button
+          type="button"
+          onClick={onRetry}
+          className="rounded-lg border border-k-100 px-4 py-2 text-k-700 typo-sb-9"
+        >
+          다시 시도
+        </button>
+      )}
+      <Link href="/mentor" className="rounded-lg bg-primary px-4 py-2 text-k-0 typo-sb-9">
+        멘토 목록으로 돌아가기
+      </Link>
+    </div>
+  </div>
 );
 
 export default MentorDetialContent;

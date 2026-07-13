@@ -1,11 +1,14 @@
 "use client";
 
+import Link from "next/link";
 import { FormProvider } from "react-hook-form";
+import { useGetMyInfo } from "@/apis/MyPage";
 import { useGetMentorMyProfile } from "@/apis/mentor";
 import { useGetArticleList } from "@/apis/news";
 import StudyDate from "@/components/mentor/StudyDate";
 import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 import MentoProfile from "@/components/ui/ProfileWithBadge";
+import { UserRole } from "@/types/mentor";
 import useIsDesktopViewport from "@/utils/useIsDesktopViewport";
 import useModifyHookForm from "./_hooks/useModifyHookForm";
 import usePutMyMentorProfileHandler from "./_hooks/usePutMyMentorProfileHandler";
@@ -14,14 +17,30 @@ import ArticlePanel from "./_ui/ArticlePanel";
 import ChannelBox from "./_ui/ChannelBox";
 
 const ModifyContent = () => {
-  const { data: myMentorProfile = null } = useGetMentorMyProfile();
-  const { data: articleList = [] } = useGetArticleList(myMentorProfile?.id || 0);
+  const { data: myInfo, isPending: isMyInfoPending, isError: isMyInfoError } = useGetMyInfo();
+  const canEditMentorProfile = myInfo?.role === UserRole.MENTOR || myInfo?.role === UserRole.ADMIN;
+  const {
+    data: myMentorProfile = null,
+    isPending,
+    isError,
+    refetch,
+  } = useGetMentorMyProfile({
+    enabled: canEditMentorProfile,
+    skipGlobalErrorToast: true,
+  });
+  const { data: articleList = [] } = useGetArticleList(myMentorProfile?.id || 0, {
+    enabled: canEditMentorProfile && !!myMentorProfile?.id,
+  });
   const isDesktop = useIsDesktopViewport();
 
   const method = useModifyHookForm(myMentorProfile);
   const { onSubmit } = usePutMyMentorProfileHandler();
 
-  if (!myMentorProfile || isDesktop === null) return <CloudSpinnerPage />;
+  if (isMyInfoPending || (canEditMentorProfile && isPending) || isDesktop === null) return <CloudSpinnerPage />;
+
+  if (isMyInfoError || !canEditMentorProfile || isError || !myMentorProfile) {
+    return <MentorModifyUnavailableState onRetry={() => refetch()} />;
+  }
 
   const viewProps: ModifyContentViewProps = {
     method,
@@ -230,5 +249,22 @@ const ModifyMobileView = ({ method, onSubmit, myMentorProfile, articleList }: Mo
     </div>
   );
 };
+
+const MentorModifyUnavailableState = ({ onRetry }: { onRetry: () => void }) => (
+  <div className="flex min-h-[60vh] flex-col items-center justify-center px-5 text-center">
+    <p className="text-k-900 typo-sb-5">멘토 프로필을 수정할 수 없어요.</p>
+    <p className="mt-2 max-w-md text-k-500 typo-regular-2">
+      멘토 권한이 있거나 멘토 전환이 완료된 계정에서만 프로필을 수정할 수 있습니다.
+    </p>
+    <div className="mt-5 flex flex-wrap justify-center gap-2">
+      <button type="button" onClick={onRetry} className="rounded-lg border border-k-100 px-4 py-2 text-k-700 typo-sb-9">
+        다시 시도
+      </button>
+      <Link href="/my/apply-mentor" className="rounded-lg bg-primary px-4 py-2 text-k-0 typo-sb-9">
+        멘토 전환 신청하기
+      </Link>
+    </div>
+  </div>
+);
 
 export default ModifyContent;
