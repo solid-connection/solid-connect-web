@@ -58,10 +58,13 @@ const UniversityCard = ({ university, showCapacity = true, linkPrefix = "/univer
                 {showCapacity && <span className="text-primary typo-sb-11">{capacityLabel}</span>}
               </div>
               <div className="flex gap-4">
-                {university.languageRequirements.slice(0, 3).map((requirement) => {
+                {university.languageRequirements.slice(0, 3).map((requirement, index) => {
                   const testName = shortenLanguageTestName(requirement.languageTestType);
                   return (
-                    <span key={requirement.languageTestType} className="whitespace-nowrap text-primary typo-sb-11">
+                    <span
+                      key={`${requirement.languageTestType}-${requirement.minScore}-${index}`}
+                      className="whitespace-nowrap text-primary typo-sb-11"
+                    >
                       {testName ?? requirement.languageTestType} {requirement.minScore}
                     </span>
                   );

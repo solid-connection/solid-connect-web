@@ -53,7 +53,7 @@ const UniversityDetailMobile = ({ university, koreanName }: UniversityDetailProp
         <UniversityBtns universityId={university.id} />
       </div>
 
-      <div className="relative -z-10 h-60 w-full bg-gradient-to-b from-k-700 to-k-900">
+      <div className="relative h-60 w-full bg-gradient-to-b from-k-700 to-k-900">
         <Image
           alt="대학 이미지"
           src={normalizeImageUrlToUploadCdn(university.backgroundImageUrl)}
@@ -158,7 +158,7 @@ const DesktopUniversitySummary = ({ university, koreanName }: UniversityDetailPr
         alt="대학 로고"
         width={56}
         height={56}
-        className="shrink-0 rounded-full border border-k-50 object-cover"
+        className="h-14 w-14 shrink-0 rounded-full border border-k-50 object-cover"
         fallbackSrc="/svgs/placeholders/university-logo-placeholder.svg"
       />
       <div className="min-w-0">
@@ -223,7 +223,7 @@ const DesktopLanguageSummary = ({ university }: { university: University }) => (
     <div className="mt-5 space-y-4">
       {university.languageRequirements.map((requirement, index) => (
         <div
-          key={`${requirement.languageTestType}-${index}`}
+          key={`${requirement.languageTestType}-${requirement.minScore}-${index}`}
           className="flex items-center justify-between gap-3 rounded-lg bg-k-50 px-4 py-3"
         >
           <div className="flex min-w-0 items-center gap-3">
@@ -232,7 +232,7 @@ const DesktopLanguageSummary = ({ university }: { university: University }) => (
               alt="어학시험"
               width={36}
               height={36}
-              className="shrink-0"
+              className="h-9 w-9 shrink-0 object-contain"
               fallbackSrc="/images/language/default.png"
             />
             <span className="truncate text-k-800 typo-sb-10">

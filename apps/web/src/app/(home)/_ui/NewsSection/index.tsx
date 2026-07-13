@@ -42,15 +42,17 @@ const NewsSection = ({ newsList }: NewsSectionProps) => {
           {newsList.map((news) => (
             <Link key={news.id} target="_blank" href={news.url} rel="noreferrer">
               <div className="flex gap-4 md:flex-col">
-                <Image
-                  loading="lazy"
-                  className="h-24 w-44 shrink-0 rounded-xl object-cover md:w-full"
-                  src={news.imageUrl}
-                  cdnHostType="default"
-                  alt={news.title}
-                  width={170}
-                  height={90}
-                />
+                <div className="relative h-24 w-44 shrink-0 overflow-hidden rounded-xl bg-k-100 md:w-full">
+                  <Image
+                    loading="lazy"
+                    className="object-cover"
+                    src={news.imageUrl}
+                    cdnHostType="default"
+                    alt={news.title}
+                    fill
+                    sizes="(max-width: 767px) 176px, 33vw"
+                  />
+                </div>
                 <div className="flex flex-col gap-0.5">
                   <div className="text-serif text-k-700 typo-sb-9">{news.title}</div>
                   <div className="font-serif text-k-500 typo-regular-4">{news.description}</div>

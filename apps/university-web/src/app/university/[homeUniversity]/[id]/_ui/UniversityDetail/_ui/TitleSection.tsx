@@ -15,7 +15,7 @@ const TitleSection = ({ logoUrl, title, subTitle }: TitleSectionProps) => {
           alt="대학 로고"
           width={48}
           height={48}
-          className="rounded-full object-cover"
+          className="h-12 w-12 shrink-0 rounded-full object-cover"
           fallbackSrc="/svgs/placeholders/university-logo-placeholder.svg"
         />
         <div className="flex min-w-0 flex-col">

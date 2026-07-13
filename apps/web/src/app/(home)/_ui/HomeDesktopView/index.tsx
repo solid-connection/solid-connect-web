@@ -184,15 +184,17 @@ const HomeDesktopView = ({ recommendedUniversities, allRegionsUniversityList, ne
                   rel="noreferrer"
                   className="overflow-hidden rounded-lg border border-k-100 bg-white transition-transform hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/10"
                 >
-                  <Image
-                    loading="lazy"
-                    className="h-36 w-full object-cover"
-                    src={news.imageUrl}
-                    cdnHostType="default"
-                    alt={news.title}
-                    width={360}
-                    height={144}
-                  />
+                  <div className="relative h-36 w-full overflow-hidden bg-k-100">
+                    <Image
+                      loading="lazy"
+                      className="object-cover"
+                      src={news.imageUrl}
+                      cdnHostType="default"
+                      alt={news.title}
+                      fill
+                      sizes="(max-width: 1535px) 50vw, 33vw"
+                    />
+                  </div>
                   <div className="p-4">
                     <h3 className="line-clamp-2 text-k-900 typo-bold-5">{news.title}</h3>
                     <p className="mt-2 line-clamp-2 text-k-500 typo-medium-4">{news.description}</p>
