@@ -141,26 +141,67 @@ const TermsPage = () => {
   return (
     <>
       <TopDetailNavigation title="이용약관" />
-      <div className="w-full">
-        <div className="px-5 py-6">
-          <p className="mb-6 text-k-800 typo-regular-2">시행일: 2026년 2월 21일</p>
-
-          <div className="space-y-7">
-            {TERMS_SECTIONS.map((section) => (
-              <section key={section.title}>
-                <p className="pb-2 text-k-902 font-normal">{section.title}</p>
-                <ol className="ml-4 list-decimal space-y-2 text-k-900 typo-regular-2">
-                  {section.items.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ol>
-              </section>
-            ))}
-          </div>
-        </div>
-      </div>
+      <TermsMobileView />
+      <TermsDesktopView />
     </>
   );
 };
+
+const TermsMobileView = () => (
+  <div className="w-full md:hidden">
+    <div className="px-5 py-6">
+      <p className="mb-6 text-k-800 typo-regular-2">시행일: 2026년 2월 21일</p>
+      <TermsSectionList />
+    </div>
+  </div>
+);
+
+const TermsDesktopView = () => (
+  <div className="hidden min-h-screen bg-k-50 px-8 py-8 md:block lg:px-10">
+    <header className="mb-8">
+      <p className="text-primary typo-sb-9">Terms</p>
+      <h1 className="mt-2 text-k-900 typo-bold-1">이용약관</h1>
+      <p className="mt-2 text-k-500 typo-medium-2">시행일: 2026년 2월 21일</p>
+    </header>
+
+    <div className="grid items-start gap-8 xl:grid-cols-[minmax(240px,300px)_minmax(0,860px)]">
+      <aside className="sticky top-8 rounded-lg border border-k-100 bg-white p-6">
+        <h2 className="text-k-900 typo-bold-4">목차</h2>
+        <nav className="mt-5 grid gap-2">
+          {TERMS_SECTIONS.map((section, index) => (
+            <a
+              key={section.title}
+              href={`#${getTermsSectionId(index)}`}
+              className="rounded-lg bg-k-50 px-4 py-3 text-k-600 transition-colors hover:bg-k-100 typo-medium-3"
+            >
+              {section.title}
+            </a>
+          ))}
+        </nav>
+      </aside>
+
+      <article className="rounded-lg border border-k-100 bg-white p-8">
+        <TermsSectionList withAnchors />
+      </article>
+    </div>
+  </div>
+);
+
+const TermsSectionList = ({ withAnchors = false }: { withAnchors?: boolean }) => (
+  <div className="space-y-7">
+    {TERMS_SECTIONS.map((section, index) => (
+      <section key={section.title} id={withAnchors ? getTermsSectionId(index) : undefined} className="scroll-mt-8">
+        <p className="pb-2 text-k-800 font-normal">{section.title}</p>
+        <ol className="ml-4 list-decimal space-y-2 text-k-900 typo-regular-2">
+          {section.items.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ol>
+      </section>
+    ))}
+  </div>
+);
+
+const getTermsSectionId = (index: number) => `terms-section-${index + 1}`;
 
 export default TermsPage;

@@ -32,19 +32,53 @@ const HomeUniversityCard = ({ university }: HomeUniversityCardProps) => {
       </div>
 
       <div className="flex h-8 w-8 items-center justify-center rounded-full bg-k-50 transition-colors group-hover:bg-primary-100">
-        <svg
-          width="16"
-          height="16"
-          viewBox="0 0 16 16"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="text-k-400 group-hover:text-primary"
-        >
-          <path d="M6 12L10 8L6 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
+        <ArrowIcon />
       </div>
     </Link>
   );
 };
+
+export const DesktopHomeUniversityCard = ({ university }: HomeUniversityCardProps) => {
+  return (
+    <Link
+      href={`/university/${university.slug}`}
+      className="group flex min-h-40 flex-col items-start rounded-lg border border-k-100 bg-white p-6 transition-all hover:-translate-y-0.5 hover:border-primary-300 hover:shadow-lg"
+    >
+      <div className="flex h-[72px] w-[72px] flex-shrink-0 items-center justify-center overflow-hidden rounded-full border border-k-100 bg-white">
+        <Image
+          src={university.logoUrl}
+          alt={`${university.name} 로고`}
+          width={56}
+          height={56}
+          className="h-14 w-14 object-contain"
+          fallbackSrc="/svgs/placeholders/university-logo-placeholder.svg"
+        />
+      </div>
+
+      <div className="mt-5 flex flex-1 flex-col">
+        <span className="mb-2 text-primary typo-sb-9">{university.shortName}</span>
+        <span className="text-k-800 typo-bold-3 group-hover:text-primary">{university.name}</span>
+        <span className="text-k-500 typo-medium-4">{university.description}</span>
+      </div>
+
+      <div className="mt-auto flex h-8 w-8 items-center justify-center self-end rounded-full bg-k-50 transition-colors group-hover:bg-primary-100">
+        <ArrowIcon />
+      </div>
+    </Link>
+  );
+};
+
+const ArrowIcon = () => (
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 16 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className="text-k-400 group-hover:text-primary"
+  >
+    <path d="M6 12L10 8L6 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
 
 export default HomeUniversityCard;

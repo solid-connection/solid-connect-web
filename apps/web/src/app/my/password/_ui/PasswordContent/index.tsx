@@ -7,6 +7,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { usePatchMyPassword } from "@/apis/MyPage";
+import useIsDesktopViewport from "@/utils/useIsDesktopViewport";
 import PasswordInput from "./_ui/PasswordInput";
 
 export const changePasswordSchema = z
@@ -35,6 +36,7 @@ interface ChangePasswordFormData {
 const PasswordContent = () => {
   const { mutate: patchMyPassword } = usePatchMyPassword();
   const [step, setStep] = useState(0); // 0: 현재 비밀번호, 1: 새 비밀번호
+  const isDesktop = useIsDesktopViewport(false);
 
   const methods = useForm<ChangePasswordFormData>({
     resolver: zodResolver(changePasswordSchema),
@@ -73,71 +75,164 @@ const PasswordContent = () => {
     !errors.newPassword &&
     !errors.newPasswordConfirmation;
 
+  const formProps = {
+    step,
+    isStep1ButtonEnabled: Boolean(isStep1ButtonEnabled),
+    isStep2ButtonEnabled: Boolean(isStep2ButtonEnabled),
+    handleNextStep,
+    onSubmit: handleSubmit(onSubmit),
+  };
+
   return (
     <FormProvider {...methods}>
-      <form className="px-5 py-7" onSubmit={handleSubmit(onSubmit)}>
-        <p className="mb-8 typo-sb-4">비밀번호 변경</p>
-
-        {step === 0 && (
-          <PasswordInput
-            name="currentPassword"
-            label="현재 비밀번호를 입력해주세요"
-            placeholder="8자리 이상 입력해주세요"
-            approveMessage="올바른 비밀번호 형식입니다."
-            autoFocus
-          />
-        )}
-
-        {step === 1 && (
-          <>
-            <PasswordInput
-              name="newPassword"
-              label="새로운 비밀번호를 입력해주세요"
-              placeholder="영문, 숫자, 특수문자 조합 8자 이상"
-              approveMessage="사용 가능한 비밀번호입니다."
-              autoFocus
-            />
-            <PasswordInput
-              approveMessage={"입력한 비밀번호와 동일합니다."}
-              name="newPasswordConfirmation"
-              label="비밀번호를 다시 입력해주세요"
-              placeholder="비밀번호 확인"
-            />
-          </>
-        )}
-
-        <div className="fixed bottom-0 left-0 right-0 mb-20 w-full py-4">
-          <div className="mx-auto w-full max-w-app px-5">
-            {step === 0 && (
-              <button
-                type="button"
-                onClick={handleNextStep}
-                disabled={!isStep1ButtonEnabled}
-                className={clsx(
-                  "w-full rounded-lg py-4 text-white transition-colors typo-sb-9",
-                  isStep1ButtonEnabled ? "bg-primary-600 hover:bg-primary-700" : "cursor-not-allowed bg-gray-400",
-                )}
-              >
-                확인
-              </button>
-            )}
-
-            {step === 1 && (
-              <button
-                type="submit"
-                disabled={!isStep2ButtonEnabled}
-                className={clsx(
-                  "w-full rounded-lg py-4 text-white transition-colors typo-sb-9",
-                  isStep2ButtonEnabled ? "bg-primary-600 hover:bg-primary-700" : "cursor-not-allowed bg-gray-400",
-                )}
-              >
-                변경하기
-              </button>
-            )}
-          </div>
-        </div>
-      </form>
+      {isDesktop ? <PasswordDesktopView {...formProps} /> : <PasswordMobileView {...formProps} />}
     </FormProvider>
+  );
+};
+
+type PasswordViewProps = {
+  step: number;
+  isStep1ButtonEnabled: boolean;
+  isStep2ButtonEnabled: boolean;
+  handleNextStep: () => Promise<void>;
+  onSubmit: () => void;
+};
+
+const PasswordMobileView = ({
+  step,
+  isStep1ButtonEnabled,
+  isStep2ButtonEnabled,
+  handleNextStep,
+  onSubmit,
+}: PasswordViewProps) => {
+  return (
+    <form className="px-5 py-7" onSubmit={onSubmit}>
+      <p className="mb-8 typo-sb-4">비밀번호 변경</p>
+      <PasswordFields step={step} />
+      <div className="fixed bottom-0 left-0 right-0 mb-20 w-full py-4 md:left-[88px] md:right-auto md:w-[calc(100%-88px)]">
+        <div className="mx-auto w-full max-w-app px-5 md:max-w-none">
+          <PasswordActionButton
+            step={step}
+            isStep1ButtonEnabled={isStep1ButtonEnabled}
+            isStep2ButtonEnabled={isStep2ButtonEnabled}
+            handleNextStep={handleNextStep}
+          />
+        </div>
+      </div>
+    </form>
+  );
+};
+
+const PasswordDesktopView = ({
+  step,
+  isStep1ButtonEnabled,
+  isStep2ButtonEnabled,
+  handleNextStep,
+  onSubmit,
+}: PasswordViewProps) => {
+  return (
+    <div className="min-h-screen bg-k-50 px-8 py-8 lg:px-10">
+      <header className="mb-8">
+        <p className="text-primary typo-sb-9">My Solid</p>
+        <h1 className="mt-2 text-k-900 typo-bold-1">비밀번호 수정</h1>
+        <p className="mt-2 text-k-500 typo-medium-2">현재 비밀번호 확인 후 새 비밀번호로 변경하세요.</p>
+      </header>
+
+      <div className="grid items-start gap-8 xl:grid-cols-[minmax(420px,640px)_minmax(280px,360px)]">
+        <section className="rounded-lg border border-k-100 bg-white p-6">
+          <form onSubmit={onSubmit}>
+            <PasswordFields step={step} />
+            <PasswordActionButton
+              step={step}
+              isStep1ButtonEnabled={isStep1ButtonEnabled}
+              isStep2ButtonEnabled={isStep2ButtonEnabled}
+              handleNextStep={handleNextStep}
+            />
+          </form>
+        </section>
+
+        <aside className="sticky top-8 rounded-lg border border-k-100 bg-white p-6">
+          <h2 className="text-k-900 typo-bold-4">보안 안내</h2>
+          <div className="mt-5 space-y-4 text-k-600 typo-medium-3">
+            <p>새 비밀번호는 대문자, 소문자, 숫자를 포함해 8자 이상으로 설정해야 합니다.</p>
+            <p>다른 서비스에서 사용 중인 비밀번호와 동일하게 설정하지 않는 것을 권장합니다.</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  );
+};
+
+const PasswordFields = ({ step }: { step: number }) => (
+  <>
+    {step === 0 && (
+      <PasswordInput
+        name="currentPassword"
+        label="현재 비밀번호를 입력해주세요"
+        placeholder="8자리 이상 입력해주세요"
+        approveMessage="올바른 비밀번호 형식입니다."
+        autoFocus
+      />
+    )}
+
+    {step === 1 && (
+      <>
+        <PasswordInput
+          name="newPassword"
+          label="새로운 비밀번호를 입력해주세요"
+          placeholder="영문, 숫자, 특수문자 조합 8자 이상"
+          approveMessage="사용 가능한 비밀번호입니다."
+          autoFocus
+        />
+        <PasswordInput
+          approveMessage="입력한 비밀번호와 동일합니다."
+          name="newPasswordConfirmation"
+          label="비밀번호를 다시 입력해주세요"
+          placeholder="비밀번호 확인"
+        />
+      </>
+    )}
+  </>
+);
+
+const PasswordActionButton = ({
+  step,
+  isStep1ButtonEnabled,
+  isStep2ButtonEnabled,
+  handleNextStep,
+}: {
+  step: number;
+  isStep1ButtonEnabled: boolean;
+  isStep2ButtonEnabled: boolean;
+  handleNextStep: () => Promise<void>;
+}) => {
+  if (step === 0) {
+    return (
+      <button
+        type="button"
+        onClick={handleNextStep}
+        disabled={!isStep1ButtonEnabled}
+        className={clsx(
+          "w-full rounded-lg py-4 text-white transition-colors typo-sb-9",
+          isStep1ButtonEnabled ? "bg-primary-600 hover:bg-primary-700" : "cursor-not-allowed bg-gray-400",
+        )}
+      >
+        확인
+      </button>
+    );
+  }
+
+  return (
+    <button
+      type="submit"
+      disabled={!isStep2ButtonEnabled}
+      className={clsx(
+        "w-full rounded-lg py-4 text-white transition-colors typo-sb-9",
+        isStep2ButtonEnabled ? "bg-primary-600 hover:bg-primary-700" : "cursor-not-allowed bg-gray-400",
+      )}
+    >
+      변경하기
+    </button>
   );
 };
 

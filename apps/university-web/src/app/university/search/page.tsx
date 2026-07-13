@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import { NO_INDEX_ROBOTS } from "@/utils/seo";
-import SearchClientContent from "./SearchClientContent";
+import SearchClientContent, { SearchDesktopContent } from "./SearchClientContent";
 
 export const revalidate = false;
 
@@ -15,12 +15,24 @@ const Page = async () => {
   return (
     <>
       <TopDetailNavigation title="파견학교 검색" />
-      <div className="w-full">
+      <div className="w-full md:hidden">
         <main className="flex flex-1 flex-col p-5">
           <h2 className="mb-1 typo-bold-1">오직 나를 위한</h2>
           <h2 className="mb-6 typo-bold-1">맞춤 파견 학교 찾기</h2>
           <SearchClientContent />
         </main>
+      </div>
+      <div className="hidden min-h-screen bg-k-50 px-8 py-8 md:block lg:px-10">
+        <div className="mx-auto max-w-6xl">
+          <header className="mb-8">
+            <p className="text-primary typo-sb-9">Search</p>
+            <h1 className="mt-2 text-k-900 typo-bold-1">맞춤 파견 학교 찾기</h1>
+            <p className="mt-2 text-k-500 typo-medium-2">
+              소속 학교와 관심 조건을 조합해서 지원 가능한 파견 학교를 찾아보세요.
+            </p>
+          </header>
+          <SearchDesktopContent />
+        </div>
       </div>
     </>
   );

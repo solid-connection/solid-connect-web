@@ -6,6 +6,7 @@ import Link from "next/link";
 import { type ReactNode, useMemo, useState } from "react";
 import { useGetApplicationsList } from "@/apis/applications";
 import Image from "@/components/ui/FallbackImage";
+import { SKIP_GLOBAL_ERROR_TOAST_META } from "@/lib/react-query/errorToastMeta";
 import { showIconToast } from "@/lib/toast/showIconToast";
 import { IconShare } from "@/public/svgs";
 import type { Applicant, ScoreSheet as ScoreSheetType } from "@/types/application";
@@ -20,7 +21,7 @@ type ApplicationUniversityDetailContentProps = {
 
 const ApplicationUniversityDetailContent = ({ universityName }: ApplicationUniversityDetailContentProps) => {
   const [sortMode, setSortMode] = useState<ApplicantSort>("preference");
-  const { data, isLoading } = useGetApplicationsList();
+  const { data, isLoading } = useGetApplicationsList({ meta: SKIP_GLOBAL_ERROR_TOAST_META });
   const scoreSheet = useMemo(
     () => findScoreSheetWithApplicants(data?.choices ?? [], universityName),
     [data?.choices, universityName],

@@ -11,7 +11,8 @@ import useAuthStore from "@/lib/zustand/useAuthStore";
 import { IconExpandMoreFilled } from "@/public/svgs/community";
 import type { Applicant, ScoreSheet as ScoreSheetType } from "@/types/application";
 import type { RegionKo } from "@/types/university";
-import { getApplicationDetailHref, MobileScoreSheet, ScoreSheetLogo } from "./ScoreSheet";
+import useIsDesktopViewport from "@/utils/useIsDesktopViewport";
+import { DesktopScoreSheet, getApplicationDetailHref, MobileScoreSheet, ScoreSheetLogo } from "./ScoreSheet";
 
 type ApplicantScope = "all" | "withApplicants";
 type ScoreSort = "applicants" | "gpa";
@@ -38,6 +39,7 @@ type ScorePageViewProps = {
 
 const ScorePageContent = () => {
   const router = useRouter();
+  const isDesktop = useIsDesktopViewport();
   const homeUniversityId = useAuthStore((state) => state.homeUniversityId);
   const maxChoiceCount = getHomeUniversityById(homeUniversityId)?.maxChoiceCount ?? DEFAULT_MAX_CHOICE_COUNT;
 
@@ -100,9 +102,11 @@ const ScorePageContent = () => {
     onChangeUniversities: () => router.push("/university/application/apply"),
   };
 
+  if (isDesktop === null) return null;
+
   return (
     <>
-      <ApplicationScoreView {...viewProps} />
+      {isDesktop ? <ApplicationScoreDesktopView {...viewProps} /> : <ApplicationScoreMobileView {...viewProps} />}
       <ConfirmCancelModal
         title="학교 지원이 필요합니다"
         isOpen={showNeedApply}
@@ -116,7 +120,7 @@ const ScorePageContent = () => {
   );
 };
 
-const ApplicationScoreView = ({
+const ApplicationScoreMobileView = ({
   appliedUniversities,
   displayedScoreSheets,
   totalUniversityCount,
@@ -131,7 +135,7 @@ const ApplicationScoreView = ({
   onChangeUniversities,
 }: ScorePageViewProps) => {
   return (
-    <main className="mx-auto w-full max-w-app px-5 pb-6 md:pt-14">
+    <main className="mx-auto w-full max-w-app px-5 pb-6">
       <AppliedUniversitySection appliedUniversities={appliedUniversities} onChangeUniversities={onChangeUniversities} />
       <div className="mt-5 h-1 bg-k-50" />
       <ParticipantBanner participantCount={participantCount} />
@@ -147,7 +151,80 @@ const ApplicationScoreView = ({
         onRegionChange={onRegionChange}
         onSortModeChange={onSortModeChange}
       />
-      <ScoreSheetList scoreSheets={displayedScoreSheets} />
+      <ScoreSheetList scoreSheets={displayedScoreSheets} variant="mobile" />
+    </main>
+  );
+};
+
+const ApplicationScoreDesktopView = ({
+  appliedUniversities,
+  displayedScoreSheets,
+  totalUniversityCount,
+  applicantUniversityCount,
+  participantCount,
+  scope,
+  regionFilter,
+  sortMode,
+  onScopeChange,
+  onRegionChange,
+  onSortModeChange,
+  onChangeUniversities,
+}: ScorePageViewProps) => {
+  return (
+    <main className="min-h-screen bg-k-50 px-8 py-8 lg:px-10">
+      <div className="mx-auto max-w-7xl">
+        <header className="flex flex-col gap-4 border-b border-k-100 pb-7 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <p className="text-primary typo-sb-9">Application scores</p>
+            <h1 className="mt-2 text-k-900 typo-bold-1">지원자 현황 확인</h1>
+            <p className="mt-2 text-k-500 typo-medium-2">
+              지원한 학교와 전체 지원자 현황을 한 화면에서 비교할 수 있어요.
+            </p>
+          </div>
+          <div className="grid grid-cols-3 gap-3">
+            <DesktopMetricCard label="전체 대학" value={`${totalUniversityCount}개`} />
+            <DesktopMetricCard label="지원자 있는 대학" value={`${applicantUniversityCount}개`} />
+            <DesktopMetricCard label="참여자" value={`${participantCount}명`} highlight />
+          </div>
+        </header>
+
+        <div className="mt-8 grid items-start gap-8 xl:grid-cols-[minmax(0,1fr)_360px]">
+          <section className="min-w-0 rounded-lg border border-k-100 bg-white p-6">
+            <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
+              <div>
+                <h2 className="text-k-900 typo-bold-4">
+                  {scope === "withApplicants" ? "지원자 있는 대학" : "모든 대학"}
+                </h2>
+                <p className="mt-1 text-k-500 typo-medium-3">조건에 맞는 대학 {displayedScoreSheets.length}개</p>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <ScopePill isActive={scope === "withApplicants"} onClick={() => onScopeChange("withApplicants")}>
+                  지원자 있음
+                </ScopePill>
+                <ScopePill isActive={scope === "all"} onClick={() => onScopeChange("all")}>
+                  전체 보기
+                </ScopePill>
+                <ScopePill
+                  isActive={sortMode === "gpa"}
+                  onClick={() => onSortModeChange(sortMode === "gpa" ? "applicants" : "gpa")}
+                >
+                  학점 높은 순
+                </ScopePill>
+              </div>
+            </div>
+
+            <ScoreSheetList scoreSheets={displayedScoreSheets} variant="desktop" />
+          </section>
+
+          <aside className="sticky top-8 space-y-5">
+            <DesktopAppliedUniversityPanel
+              appliedUniversities={appliedUniversities}
+              onChangeUniversities={onChangeUniversities}
+            />
+            <DesktopFilterPanel regionFilter={regionFilter} onRegionChange={onRegionChange} />
+          </aside>
+        </div>
+      </div>
     </main>
   );
 };
@@ -188,6 +265,43 @@ const AppliedUniversitySection = ({
   </section>
 );
 
+const DesktopAppliedUniversityPanel = ({
+  appliedUniversities,
+  onChangeUniversities,
+}: {
+  appliedUniversities: AppliedUniversity[];
+  onChangeUniversities: () => void;
+}) => (
+  <section className="rounded-lg border border-k-100 bg-white p-5">
+    <div className="flex items-center justify-between gap-3">
+      <div>
+        <h2 className="text-k-900 typo-bold-5">지원한 대학</h2>
+        <p className="mt-1 text-k-500 typo-medium-3">{appliedUniversities.length}개 대학 선택됨</p>
+      </div>
+      <button
+        type="button"
+        onClick={onChangeUniversities}
+        className="rounded-full bg-primary px-4 py-2 text-k-0 typo-sb-12"
+      >
+        변경
+      </button>
+    </div>
+    <div className="mt-4 space-y-2">
+      {appliedUniversities.length > 0 ? (
+        appliedUniversities.map(({ preference, scoreSheet }) => (
+          <AppliedUniversityRow
+            key={`${preference}-${scoreSheet.koreanName}`}
+            preference={preference}
+            scoreSheet={scoreSheet}
+          />
+        ))
+      ) : (
+        <div className="rounded-lg bg-k-50 px-4 py-5 text-k-500 typo-medium-3">지원한 대학 정보가 없어요.</div>
+      )}
+    </div>
+  </section>
+);
+
 const AppliedUniversityRow = ({ preference, scoreSheet }: AppliedUniversity) => {
   const capacity =
     scoreSheet.studentCapacity === null || scoreSheet.studentCapacity === undefined
@@ -197,7 +311,7 @@ const AppliedUniversityRow = ({ preference, scoreSheet }: AppliedUniversity) => 
   return (
     <Link
       href={getApplicationDetailHref(scoreSheet.koreanName)}
-      className="flex h-11 items-center gap-2.5 rounded-lg border border-k-50 bg-white px-3.5 shadow-[0_0_10px_rgba(0,0,0,0.05)]"
+      className="flex h-11 items-center gap-2.5 rounded-lg border border-k-50 bg-white px-3.5 shadow-[0_0_10px_rgba(0,0,0,0.05)] transition-colors hover:border-secondary-300"
     >
       <ScoreSheetLogo scoreSheet={scoreSheet} className="size-5" />
       <span className="min-w-0 flex-1 truncate text-k-900 typo-sb-7">
@@ -296,6 +410,33 @@ const ApplicationFilterChips = ({
   </div>
 );
 
+const DesktopFilterPanel = ({
+  regionFilter,
+  onRegionChange,
+}: {
+  regionFilter: RegionKo | "";
+  onRegionChange: (region: RegionKo | "") => void;
+}) => (
+  <section className="rounded-lg border border-k-100 bg-white p-5">
+    <h2 className="text-k-900 typo-bold-5">지역 필터</h2>
+    <p className="mt-1 text-k-500 typo-medium-3">권역별로 지원 현황을 좁혀보세요.</p>
+    <div className="mt-4 flex flex-wrap gap-2">
+      <FilterChip isActive={regionFilter === ""} onClick={() => onRegionChange("")}>
+        전체
+      </FilterChip>
+      {REGIONS_KO.map((region) => (
+        <FilterChip
+          key={region}
+          isActive={regionFilter === region}
+          onClick={() => onRegionChange(regionFilter === region ? "" : region)}
+        >
+          {region}
+        </FilterChip>
+      ))}
+    </div>
+  </section>
+);
+
 const FilterChip = ({
   children,
   isActive,
@@ -314,9 +455,60 @@ const FilterChip = ({
   </button>
 );
 
-const ScoreSheetList = ({ scoreSheets }: { scoreSheets: ScoreSheetType[] }) => {
+const ScopePill = ({
+  children,
+  isActive,
+  onClick,
+}: {
+  children: ReactNode;
+  isActive: boolean;
+  onClick: () => void;
+}) => (
+  <button
+    type="button"
+    onClick={onClick}
+    className={clsx(
+      "rounded-full border px-4 py-2 transition-colors typo-sb-12",
+      isActive ? "border-primary bg-primary text-k-0" : "border-k-100 bg-white text-k-500 hover:border-secondary-300",
+    )}
+  >
+    {children}
+  </button>
+);
+
+const DesktopMetricCard = ({
+  label,
+  value,
+  highlight = false,
+}: {
+  label: string;
+  value: string;
+  highlight?: boolean;
+}) => (
+  <div
+    className={clsx(
+      "min-w-32 rounded-lg border px-4 py-3",
+      highlight ? "border-secondary-300 bg-secondary-100" : "border-k-100 bg-white",
+    )}
+  >
+    <p className="text-k-500 typo-medium-12">{label}</p>
+    <p className={clsx("mt-1 typo-bold-4", highlight ? "text-primary" : "text-k-900")}>{value}</p>
+  </div>
+);
+
+const ScoreSheetList = ({ scoreSheets, variant }: { scoreSheets: ScoreSheetType[]; variant: "mobile" | "desktop" }) => {
   if (scoreSheets.length === 0) {
-    return <ApplicationScoreEmptyState />;
+    return <ApplicationScoreEmptyState variant={variant} />;
+  }
+
+  if (variant === "desktop") {
+    return (
+      <div className="mt-6 grid gap-4 2xl:grid-cols-2">
+        {scoreSheets.map((scoreSheet, index) => (
+          <DesktopScoreSheet key={scoreSheet.koreanName} scoreSheet={scoreSheet} defaultOpen={index === 0} />
+        ))}
+      </div>
+    );
   }
 
   return (
@@ -328,8 +520,13 @@ const ScoreSheetList = ({ scoreSheets }: { scoreSheets: ScoreSheetType[] }) => {
   );
 };
 
-const ApplicationScoreEmptyState = () => (
-  <div className="mt-4 flex min-h-48 flex-col items-center justify-center rounded-lg bg-k-50 px-6 py-8 text-center">
+const ApplicationScoreEmptyState = ({ variant = "mobile" }: { variant?: "mobile" | "desktop" }) => (
+  <div
+    className={clsx(
+      "flex flex-col items-center justify-center rounded-lg bg-k-50 px-6 py-8 text-center",
+      variant === "desktop" ? "mt-6 min-h-[360px] border border-k-100" : "mt-4 min-h-48",
+    )}
+  >
     <p className="text-k-900 typo-sb-7">조건에 맞는 대학이 없어요.</p>
     <p className="mt-2 text-k-500 typo-medium-3">다른 필터로 다시 확인해 주세요.</p>
   </div>

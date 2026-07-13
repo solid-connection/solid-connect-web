@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 const ModifyPage = () => {
-  return <div className="w-full px-5">{<ModifyContent />}</div>;
+  return <div className="w-full px-5 md:px-0">{<ModifyContent />}</div>;
 };
 
 export default ModifyPage;
