@@ -226,7 +226,7 @@ const SignupDesktopSurveyView = ({
   curStage: number;
   children: ReactNode;
 }) => (
-  <div className="min-h-screen bg-k-50 px-8 py-8 lg:px-10">
+  <div className="desktop-page-shell">
     <div className="grid min-h-[calc(100vh-64px)] items-center gap-8 xl:grid-cols-[minmax(420px,560px)_minmax(300px,380px)] xl:justify-center">
       <section className="rounded-lg border border-k-100 bg-white p-8">
         <p className="text-primary typo-sb-9">Sign up</p>

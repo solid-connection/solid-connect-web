@@ -169,7 +169,7 @@ const LanguageTestSubmitForm = () => {
 
   if (isDesktop) {
     return (
-      <div className="min-h-screen bg-k-50 px-8 py-8 lg:px-10">
+      <div className="desktop-page-shell">
         <div className="mx-auto max-w-5xl">
           <header className="mb-8">
             <p className="text-primary typo-sb-9">Score submit</p>
@@ -187,7 +187,7 @@ const LanguageTestSubmitForm = () => {
               </form>
             </section>
 
-            <aside className="sticky top-8 rounded-lg border border-k-100 bg-white p-6">
+            <aside className="desktop-sticky-panel rounded-lg border border-k-100 bg-white p-6">
               <h2 className="text-k-900 typo-bold-4">제출 전 확인</h2>
               <div className="mt-5 grid gap-3 text-k-700 typo-medium-2">
                 <div className="rounded-lg bg-k-50 px-4 py-3">공식 인증 기간이 표시된 원본 파일을 업로드해 주세요.</div>

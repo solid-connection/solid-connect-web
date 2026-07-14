@@ -109,7 +109,7 @@ const PasswordMobileView = ({
     <form className="px-5 py-7" onSubmit={onSubmit}>
       <p className="mb-8 typo-sb-4">비밀번호 변경</p>
       <PasswordFields step={step} />
-      <div className="fixed bottom-0 left-0 right-0 mb-20 w-full py-4 md:left-[88px] md:right-auto md:w-[calc(100%-88px)]">
+      <div className="fixed bottom-0 left-0 right-0 mb-20 w-full py-4 md:left-0 md:right-0 md:w-full">
         <div className="mx-auto w-full max-w-app px-5 md:max-w-none">
           <PasswordActionButton
             step={step}
@@ -131,7 +131,7 @@ const PasswordDesktopView = ({
   onSubmit,
 }: PasswordViewProps) => {
   return (
-    <div className="min-h-screen bg-k-50 px-8 py-8 lg:px-10">
+    <div className="desktop-page-shell">
       <header className="mb-8">
         <p className="text-primary typo-sb-9">My Solid</p>
         <h1 className="mt-2 text-k-900 typo-bold-1">비밀번호 수정</h1>
@@ -151,7 +151,7 @@ const PasswordDesktopView = ({
           </form>
         </section>
 
-        <aside className="sticky top-8 rounded-lg border border-k-100 bg-white p-6">
+        <aside className="desktop-sticky-panel rounded-lg border border-k-100 bg-white p-6">
           <h2 className="text-k-900 typo-bold-4">보안 안내</h2>
           <div className="mt-5 space-y-4 text-k-600 typo-medium-3">
             <p>새 비밀번호는 대문자, 소문자, 숫자를 포함해 8자 이상으로 설정해야 합니다.</p>

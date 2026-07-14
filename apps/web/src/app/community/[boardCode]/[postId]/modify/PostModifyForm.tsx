@@ -347,7 +347,7 @@ const DesktopPostModifyFormView = (props: PostModifyFormViewProps) => {
   const { routeBack, submitPost, selectedImages, maxImages } = props;
 
   return (
-    <div className="min-h-screen bg-k-50 px-8 py-8 lg:px-10">
+    <div className="desktop-page-shell">
       <header className="mb-8 flex items-end justify-between gap-6">
         <div>
           <p className="text-primary typo-sb-9">Community</p>
@@ -374,7 +374,7 @@ const DesktopPostModifyFormView = (props: PostModifyFormViewProps) => {
 
       <div className="grid items-start gap-8 xl:grid-cols-[minmax(520px,760px)_minmax(280px,360px)]">
         <DesktopPostModifyEditor {...props} />
-        <aside className="sticky top-8 rounded-lg border border-k-100 bg-white p-6">
+        <aside className="desktop-sticky-panel rounded-lg border border-k-100 bg-white p-6">
           <h2 className="text-k-900 typo-bold-4">{NOTICE_TITLE}</h2>
           <p className="mt-5 whitespace-pre-line text-k-600 typo-medium-3">{NOTICE_CONTENT}</p>
           <div className="mt-6 rounded-lg bg-k-50 p-4 text-k-500 typo-regular-2">

@@ -81,12 +81,12 @@ const HomeDesktopEntryPanel = () => {
           <p className="mt-1 text-k-500 typo-medium-4">자주 쓰는 교환학생 업무를 바로 이어갈 수 있어요.</p>
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
           {actionLinks.map(({ href, label, description, icon: Icon, colorClassName, isUniversityZone }) => {
             const content = (
               <div
                 key={href}
-                className={clsx("flex h-full min-h-32 flex-col justify-between rounded-lg p-4", colorClassName)}
+                className={clsx("flex h-full min-h-28 flex-col justify-between rounded-lg p-4", colorClassName)}
               >
                 <div>
                   <span className="block typo-bold-5">{label}</span>

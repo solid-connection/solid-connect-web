@@ -48,7 +48,7 @@ type ChatPageViewProps = {
 };
 
 const DesktopChatPageView = ({ chatRooms, isMentee, isPartnerMentor, listTitle }: ChatPageViewProps) => (
-  <div className="min-h-screen bg-k-50 px-8 py-8 lg:px-10">
+  <div className="desktop-page-shell">
     <header className="mb-8">
       <p className="text-primary typo-sb-9">Mentor</p>
       <h1 className="mt-2 text-k-900 typo-bold-1">멘토 채팅</h1>
@@ -63,7 +63,7 @@ const DesktopChatPageView = ({ chatRooms, isMentee, isPartnerMentor, listTitle }
         <DesktopChatRoomList chatRooms={chatRooms} isPartnerMentor={isPartnerMentor} />
       </section>
 
-      <aside className="sticky top-8 rounded-lg border border-k-100 bg-white p-6">
+      <aside className="desktop-sticky-panel rounded-lg border border-k-100 bg-white p-6">
         <h2 className="text-k-900 typo-bold-4">빠른 이동</h2>
         <div className="mt-5 grid gap-3">
           {isMentee && <DesktopQuickLink href="/mentor" title="멘토 찾기" description="새로운 멘토를 탐색해요" />}
@@ -128,7 +128,7 @@ const ChatEmptyStateBase = ({ isDesktop, isMentee }: { isDesktop: boolean; isMen
 );
 
 const DesktopChatEmptyState = ({ isMentee }: { isMentee: boolean }) => (
-  <div className="min-h-screen bg-k-50 px-8 py-8 lg:px-10">
+  <div className="desktop-page-shell">
     <header className="mb-8">
       <p className="text-primary typo-sb-9">Mentor</p>
       <h1 className="mt-2 text-k-900 typo-bold-1">멘토 채팅</h1>

@@ -151,7 +151,7 @@ const CommunityDesktopView = ({
   postWriteHandler,
 }: CommunityViewProps) => {
   return (
-    <div className="min-h-screen bg-k-50 px-8 py-8 lg:px-10">
+    <div className="desktop-page-shell">
       <header className="mb-8 flex items-end justify-between gap-6">
         <div>
           <p className="text-primary typo-sb-9">Community</p>
@@ -170,7 +170,7 @@ const CommunityDesktopView = ({
       </header>
 
       <div className="grid items-start gap-8 xl:grid-cols-[280px_minmax(0,1fr)]">
-        <aside className="sticky top-8 space-y-5">
+        <aside className="desktop-sticky-panel space-y-5">
           <section className="rounded-lg border border-k-100 bg-white p-5">
             <h2 className="text-k-900 typo-bold-4">게시판</h2>
             <div className="mt-4 grid gap-2">

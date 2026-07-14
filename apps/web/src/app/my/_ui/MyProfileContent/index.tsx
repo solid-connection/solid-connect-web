@@ -266,7 +266,7 @@ const MyProfileDesktopView = ({
   const statusText = viewAsMentor ? university || "수학학교 미등록" : favoriteLocation;
 
   return (
-    <div className="min-h-screen bg-k-50 px-8 py-8 lg:px-10">
+    <div className="desktop-page-shell">
       <header className="mb-8">
         <p className="text-primary typo-sb-9">My Solid</p>
         <h1 className="mt-2 text-k-900 typo-bold-1">마이페이지</h1>
@@ -347,7 +347,7 @@ const MyProfileDesktopView = ({
           </section>
         </main>
 
-        <aside className="sticky top-8 rounded-lg border border-k-100 bg-white p-6">
+        <aside className="desktop-sticky-panel rounded-lg border border-k-100 bg-white p-6">
           <h2 className="text-k-900 typo-bold-4">도움말 및 계정</h2>
           <div className="mt-5 divide-y divide-k-50">
             <DesktopTextAction href="/terms" title="서비스 이용약관" />

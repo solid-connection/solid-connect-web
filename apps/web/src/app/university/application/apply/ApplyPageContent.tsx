@@ -200,7 +200,7 @@ const ApplyPageContent = () => {
 
   if (isDesktop) {
     return (
-      <div className="min-h-screen bg-k-50 px-8 py-8 lg:px-10">
+      <div className="desktop-page-shell">
         <div className="mx-auto max-w-6xl">
           <header className="mb-8 flex items-start justify-between gap-6">
             <div>
@@ -225,7 +225,7 @@ const ApplyPageContent = () => {
               <div className="mt-8">{renderDesktopStep()}</div>
             </section>
 
-            <aside className="sticky top-8 rounded-lg border border-k-100 bg-white p-6">
+            <aside className="desktop-sticky-panel rounded-lg border border-k-100 bg-white p-6">
               <h2 className="text-k-900 typo-bold-4">지원 단계</h2>
               <div className="mt-5 grid gap-3">
                 {APPLY_STEP_LABELS.map((label, index) => {

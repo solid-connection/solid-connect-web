@@ -171,7 +171,7 @@ type MobileLoginViewProps = DesktopLoginViewProps & {
 };
 
 const DesktopLoginView = ({ loginForm, socialButtons }: DesktopLoginViewProps) => (
-  <div className="min-h-screen bg-k-50 px-8 py-8 lg:px-10">
+  <div className="desktop-page-shell">
     <div className="grid min-h-[calc(100vh-64px)] items-center gap-8 xl:grid-cols-[minmax(360px,440px)_minmax(420px,520px)] xl:justify-center">
       <aside className="rounded-lg border border-k-100 bg-white p-8">
         <Link href="/" aria-label="홈으로 이동">

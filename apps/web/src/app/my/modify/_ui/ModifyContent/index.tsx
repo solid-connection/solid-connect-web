@@ -88,7 +88,7 @@ const ModifyDesktopView = ({
   onSubmit,
 }: ModifyViewProps) => {
   return (
-    <div className="min-h-screen bg-k-50 px-8 py-8 lg:px-10">
+    <div className="desktop-page-shell">
       <header className="mb-8">
         <p className="text-primary typo-sb-9">My Solid</p>
         <h1 className="mt-2 text-k-900 typo-bold-1">프로필 수정</h1>
@@ -108,7 +108,7 @@ const ModifyDesktopView = ({
           />
         </section>
 
-        <aside className="sticky top-8 rounded-lg border border-k-100 bg-white p-6">
+        <aside className="desktop-sticky-panel rounded-lg border border-k-100 bg-white p-6">
           <h2 className="text-k-900 typo-bold-4">프로필 정보</h2>
           <div className="mt-5 space-y-4 text-k-600 typo-medium-3">
             <p>닉네임과 프로필 이미지는 커뮤니티, 멘토링, 채팅에서 함께 노출됩니다.</p>

@@ -48,7 +48,7 @@ const CommentInputBase = ({
       className={
         isDesktop
           ? "flex w-full items-center gap-3 border-t border-bg-400 bg-k-0 p-4"
-          : "fixed bottom-14 flex w-full min-w-app max-w-app items-center gap-3 border-t border-bg-400 bg-k-0 p-2 md:bottom-0 md:left-[88px] md:w-[calc(100%-88px)] md:min-w-0 md:max-w-none"
+          : "fixed bottom-14 flex w-full min-w-app max-w-app items-center gap-3 border-t border-bg-400 bg-k-0 p-2 md:bottom-0 md:left-0 md:w-full md:min-w-0 md:max-w-none"
       }
     >
       <div className="w-full">
