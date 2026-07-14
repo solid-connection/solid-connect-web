@@ -1,6 +1,6 @@
 # Skyscanner layout POC visual QA
 
-- Desktop: 34 authenticated/unauthenticated route states at `1440x1000`
+- Desktop: all 36 authenticated/unauthenticated and OAuth callback route states at `1440x1000`
 - Mobile regression: home, community, and application detail at `390x844`
 - Result: no horizontal overflow and no broken images in every captured state
 - `contact-sheet.png`: all desktop states
