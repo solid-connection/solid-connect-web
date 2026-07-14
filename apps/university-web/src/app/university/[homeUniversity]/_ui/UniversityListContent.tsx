@@ -168,7 +168,7 @@ const UniversityListDesktopView = ({
   setSelectedRegions,
 }: UniversityListViewProps & { title: string }) => {
   return (
-    <div className="hidden min-h-screen bg-k-50 px-8 py-8 md:block lg:px-10">
+    <div className="hidden desktop-page-shell md:block">
       <header className="mb-8 flex items-end justify-between gap-6">
         <div>
           <p className="text-primary typo-sb-9">{title}</p>
@@ -184,7 +184,7 @@ const UniversityListDesktopView = ({
       </header>
 
       <div className="grid grid-cols-[300px_minmax(0,1fr)] items-start gap-8">
-        <aside className="sticky top-8 space-y-5">
+        <aside className="desktop-sticky-panel space-y-5">
           <section className="rounded-lg border border-k-100 bg-white p-5">
             <h2 className="mb-4 text-k-900 typo-bold-4">검색</h2>
             <SearchBar value={searchText} onChange={setSearchText} homeUniversitySlug={homeUniversitySlug} />
@@ -221,7 +221,7 @@ const UniversityListMobileFallback = ({
 );
 
 const UniversityListDesktopFallback = ({ universities, homeUniversitySlug, title }: UniversityListContentProps) => (
-  <div className="hidden min-h-screen bg-k-50 px-8 py-8 md:block lg:px-10">
+  <div className="hidden desktop-page-shell md:block">
     <header className="mb-8 flex items-end justify-between gap-6">
       <div>
         <p className="text-primary typo-sb-9">{title}</p>
@@ -237,7 +237,7 @@ const UniversityListDesktopFallback = ({ universities, homeUniversitySlug, title
     </header>
 
     <div className="grid grid-cols-[300px_minmax(0,1fr)] items-start gap-8">
-      <aside className="sticky top-8 space-y-5">
+      <aside className="desktop-sticky-panel space-y-5">
         <section className="rounded-lg border border-k-100 bg-white p-5">
           <h2 className="mb-4 text-k-900 typo-bold-4">검색</h2>
           <SearchFallback homeUniversitySlug={homeUniversitySlug} />

@@ -51,8 +51,8 @@ const UniversitySelectPage = () => {
         </div>
       </div>
 
-      <div className="hidden min-h-screen bg-k-50 px-8 py-8 md:block lg:px-10">
-        <div className="mx-auto max-w-6xl">
+      <div className="hidden desktop-page-shell md:block">
+        <div>
           <header className="mb-8">
             <p className="text-primary typo-sb-9">University catalog</p>
             <h1 className="mt-2 text-k-900 typo-bold-1">소속 대학교 선택</h1>
@@ -74,7 +74,7 @@ const UniversitySelectPage = () => {
               </div>
             </section>
 
-            <aside className="sticky top-8 rounded-lg border border-k-100 bg-white p-6">
+            <aside className="desktop-sticky-panel rounded-lg border border-k-100 bg-white p-6">
               <h2 className="text-k-900 typo-bold-4">이렇게 확인해요</h2>
               <div className="mt-5 grid gap-3 text-k-700 typo-medium-2">
                 <div className="rounded-lg bg-k-50 px-4 py-3">소속 학교를 먼저 선택합니다.</div>
