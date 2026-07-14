@@ -1,0 +1,22 @@
+---
+description: Authoritative brand & UI design system. Read DESIGN.md before UI work.
+globs:
+  - "**/*.tsx"
+  - "**/*.jsx"
+  - "**/*.vue"
+  - "**/*.svelte"
+  - "**/*.css"
+  - "**/*.scss"
+  - "**/tailwind.config.*"
+  - "**/components/**"
+  - "**/app/**/page.*"
+alwaysApply: false
+---
+
+<!-- omd:start v=1 hash=f188a3882e27 -->
+The authoritative design spec lives at `@DESIGN.md` (repo root). Open and read before generating/modifying UI.
+
+Pending preference corrections: `@.omd/preferences.md`.
+
+Precedence: DESIGN.md > preferences.md > framework defaults.
+<!-- omd:end -->
