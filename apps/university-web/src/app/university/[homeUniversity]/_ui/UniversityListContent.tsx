@@ -44,6 +44,20 @@ const REGION_FILTER_ITEMS = [
   { value: RegionEnumExtend.CHINA, label: "중국권" },
 ] as const;
 
+const CurrentTermEmptyState = () => (
+  <div className="flex flex-col items-center justify-center py-20">
+    <p className="text-k-400 typo-medium-3">현재 학기 지원대학이 없습니다.</p>
+    <p className="mt-1 text-k-300 typo-medium-4">지금은 지원을 받는 대학이 없습니다.</p>
+  </div>
+);
+
+const SearchEmptyState = () => (
+  <div className="flex flex-col items-center justify-center py-20">
+    <p className="text-k-400 typo-medium-3">검색 결과가 없습니다.</p>
+    <p className="mt-1 text-k-300 typo-medium-4">다른 검색어나 필터를 시도해보세요.</p>
+  </div>
+);
+
 const UniversityListPrerenderFallback = ({ universities, homeUniversitySlug }: UniversityListContentProps) => (
   <div className="px-5">
     <div className="mb-4 mt-2">
@@ -89,10 +103,7 @@ const UniversityListPrerenderFallback = ({ universities, homeUniversitySlug }: U
     </div>
 
     {universities.length === 0 ? (
-      <div className="flex flex-col items-center justify-center py-20">
-        <p className="text-k-400 typo-medium-3">검색 결과가 없습니다.</p>
-        <p className="mt-1 text-k-300 typo-medium-4">다른 검색어나 필터를 시도해보세요.</p>
-      </div>
+      <CurrentTermEmptyState />
     ) : (
       <UniversityCards colleges={universities} className="mt-3" linkPrefix={`/university/${homeUniversitySlug}`} />
     )}
@@ -166,11 +177,10 @@ const UniversityListContentInner = ({ universities, homeUniversitySlug }: Univer
       </div>
 
       {/* 결과 표시 */}
-      {filteredUniversities.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-20">
-          <p className="text-k-400 typo-medium-3">검색 결과가 없습니다.</p>
-          <p className="mt-1 text-k-300 typo-medium-4">다른 검색어나 필터를 시도해보세요.</p>
-        </div>
+      {universities.length === 0 ? (
+        <CurrentTermEmptyState />
+      ) : filteredUniversities.length === 0 ? (
+        <SearchEmptyState />
       ) : (
         <UniversityCards
           colleges={filteredUniversities}
