@@ -105,7 +105,7 @@ const DesktopMentorDetailView = ({
   isApplied,
   handleApplyMentoring,
 }: MentorDetailViewProps) => (
-  <div className="min-h-screen bg-k-50 px-8 py-8 lg:px-10">
+  <div className="desktop-page-shell">
     <header className="mb-8">
       <p className="text-primary typo-sb-9">Mentor</p>
       <h1 className="mt-2 text-k-900 typo-bold-1">멘토 상세</h1>
@@ -115,7 +115,7 @@ const DesktopMentorDetailView = ({
     </header>
 
     <div className="grid items-start gap-8 xl:grid-cols-[minmax(320px,420px)_minmax(0,1fr)]">
-      <aside className="sticky top-8 rounded-lg border border-k-100 bg-white p-6">
+      <aside className="desktop-sticky-panel rounded-lg border border-k-100 bg-white p-6">
         {profileSummary}
 
         <div className="my-6 h-px bg-k-100" />
@@ -229,7 +229,7 @@ const ChannelLinks = ({ channels }: { channels: Array<{ type: ChannelType; url: 
         rel="noopener noreferrer"
         href={channel.url}
         target="_blank"
-        key={`${channel.type}-${channel.url}`}
+        key={`${channel.type}-${channel.url}-${idx}`}
         className={getChannelLinkClassName(channels.length, idx)}
       >
         <ChannelBadge channelType={channel.type} />
@@ -246,7 +246,7 @@ const DesktopInfoPanel = ({ title, children }: { title: string; children: ReactN
 );
 
 const MentorDetailSkeleton = () => (
-  <div className="min-h-screen bg-k-50 px-8 py-8 lg:px-10">
+  <div className="desktop-page-shell">
     <div className="mb-8">
       <div className="h-5 w-20 animate-pulse rounded-full bg-k-100" />
       <div className="mt-3 h-9 w-44 animate-pulse rounded-lg bg-k-100" />

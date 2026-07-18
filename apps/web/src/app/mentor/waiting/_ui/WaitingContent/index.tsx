@@ -35,7 +35,7 @@ type WaitingViewProps = {
 };
 
 const DesktopWaitingView = ({ approveList, pendingList }: WaitingViewProps) => (
-  <div className="min-h-screen bg-k-50 px-8 py-8 lg:px-10">
+  <div className="desktop-page-shell">
     <header className="mb-8">
       <p className="text-primary typo-sb-9">Mentor</p>
       <h1 className="mt-2 text-k-900 typo-bold-1">멘토링 신청 목록</h1>

@@ -191,7 +191,7 @@ type EmailSignUpViewProps = {
 };
 
 const DesktopEmailSignUpView = ({ currentStep, formFields, submitButton }: EmailSignUpViewProps) => (
-  <div className="min-h-screen bg-k-50 px-8 py-8 lg:px-10">
+  <div className="desktop-page-shell">
     <div className="grid min-h-[calc(100vh-64px)] items-center gap-8 xl:grid-cols-[minmax(420px,520px)_minmax(300px,380px)] xl:justify-center">
       <section className="rounded-lg border border-k-100 bg-white p-8">
         <p className="text-primary typo-sb-9">Sign up</p>
@@ -237,7 +237,7 @@ const MobileEmailSignUpView = ({ currentStep, formFields, submitButton }: EmailS
       {formFields}
     </div>
 
-    <div className="fixed bottom-14 left-0 right-0 w-full max-w-app bg-white md:bottom-0 md:left-[88px] md:right-auto md:w-[calc(100%-88px)] md:max-w-none">
+    <div className="fixed bottom-14 left-0 right-0 w-full max-w-app bg-white md:bottom-0 md:left-0 md:right-0 md:w-full md:max-w-none">
       <div className="mb-[37px] px-5">{submitButton}</div>
     </div>
   </>

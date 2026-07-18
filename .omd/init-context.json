@@ -1,0 +1,18 @@
+{
+  "reference_id": "skyscanner",
+  "description": "Apply Skyscanner's desktop layout principles to every Solid Connection web POC page while preserving the existing color concept and component design.",
+  "mode": "inspired",
+  "requested_components": ["button", "input", "table", "card", "badge", "tabs", "dialog"],
+  "builder_url": "https://oh-my-design.kr/builder?step=preview&ref=skyscanner&cfg=c2t5c2Nhbm5lcnx8fHx8MHxidXR0b24saW5wdXQsdGFibGUsY2FyZCxiYWRnZSx0YWJzLGRpYWxvZw",
+  "delta_set": {
+    "axes": {
+      "density.shift": 0
+    },
+    "voiceHints": ["Preserve Solid Connection's existing Korean product voice"],
+    "matchedKeywords": ["desktop", "product", "search", "results", "filters"],
+    "warnings": [
+      "Skyscanner color, typography, logo, imagery, and branded component styling are explicitly excluded"
+    ]
+  },
+  "bootstrapped_at": "2026-07-14T03:31:28.000Z"
+}

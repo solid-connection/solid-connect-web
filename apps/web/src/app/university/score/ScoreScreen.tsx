@@ -122,7 +122,7 @@ const ScoreMobileView = ({
           />
         )}
       </div>
-      <div className="fixed bottom-14 left-0 right-0 w-full max-w-app bg-white md:bottom-0 md:left-[88px] md:right-auto md:w-[calc(100%-88px)] md:max-w-none">
+      <div className="fixed bottom-14 left-0 right-0 w-full max-w-app bg-white md:bottom-0 md:left-0 md:right-0 md:w-full md:max-w-none">
         <div className="mb-[37px] px-5">
           <BlockBtn onClick={onSubmitClick}>{getSubmitLabel(curTab)}</BlockBtn>
         </div>
@@ -144,7 +144,7 @@ const ScoreDesktopView = ({
   const currentScoreCount = curTab === "공인어학" ? languageTestScoreList.length : gpaScoreList.length;
 
   return (
-    <div className="min-h-screen bg-k-50 px-8 py-8 lg:px-10">
+    <div className="desktop-page-shell">
       <div className="mx-auto max-w-6xl">
         <header className="mb-8">
           <p className="text-primary typo-sb-9">My scores</p>
@@ -179,7 +179,7 @@ const ScoreDesktopView = ({
             )}
           </section>
 
-          <aside className="sticky top-8 rounded-lg border border-k-100 bg-white p-6">
+          <aside className="desktop-sticky-panel rounded-lg border border-k-100 bg-white p-6">
             <h2 className="text-k-900 typo-bold-4">성적 등록</h2>
             <p className="mt-2 text-k-500 typo-medium-3">
               새 성적을 제출하면 운영팀 승인 후 지원서에서 사용할 수 있습니다.

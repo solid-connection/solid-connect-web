@@ -11,6 +11,7 @@ import { showIconToast } from "@/lib/toast/showIconToast";
 import { IconShare } from "@/public/svgs";
 import type { Applicant, ScoreSheet as ScoreSheetType } from "@/types/application";
 import { normalizeImageUrlToUploadCdn } from "@/utils/cdnUrl";
+import useIsDesktopViewport from "@/utils/useIsDesktopViewport";
 import { formatApplicantGpa, formatApplicantLanguageTest } from "../ScoreSheet";
 
 type ApplicantSort = "preference" | "gpa";
@@ -21,6 +22,7 @@ type ApplicationUniversityDetailContentProps = {
 
 const ApplicationUniversityDetailContent = ({ universityName }: ApplicationUniversityDetailContentProps) => {
   const [sortMode, setSortMode] = useState<ApplicantSort>("preference");
+  const isDesktop = useIsDesktopViewport();
   const { data, isLoading } = useGetApplicationsList({ meta: SKIP_GLOBAL_ERROR_TOAST_META });
   const scoreSheet = useMemo(
     () => findScoreSheetWithApplicants(data?.choices ?? [], universityName),
@@ -39,16 +41,27 @@ const ApplicationUniversityDetailContent = ({ universityName }: ApplicationUnive
     });
   }, [scoreSheet, sortMode]);
 
-  if (isLoading) {
-    return <ApplicationUniversityDetailSkeleton />;
+  if (isLoading || isDesktop === null) {
+    return <ApplicationUniversityDetailSkeleton isDesktop={isDesktop === true} />;
   }
 
   if (!scoreSheet) {
-    return <ApplicationUniversityDetailNotFound universityName={universityName} />;
+    return <ApplicationUniversityDetailNotFound universityName={universityName} isDesktop={isDesktop} />;
+  }
+
+  if (isDesktop) {
+    return (
+      <DesktopApplicationUniversityDetail
+        scoreSheet={scoreSheet}
+        applicants={applicants}
+        sortMode={sortMode}
+        setSortMode={setSortMode}
+      />
+    );
   }
 
   return (
-    <div className="mx-auto w-full max-w-app bg-white md:min-h-screen">
+    <div className="mx-auto w-full max-w-app bg-white">
       <MobileApplicationUniversityDetail
         scoreSheet={scoreSheet}
         applicants={applicants}
@@ -58,6 +71,80 @@ const ApplicationUniversityDetailContent = ({ universityName }: ApplicationUnive
     </div>
   );
 };
+
+const DesktopApplicationUniversityDetail = ({
+  scoreSheet,
+  applicants,
+  sortMode,
+  setSortMode,
+}: {
+  scoreSheet: ScoreSheetType;
+  applicants: Applicant[];
+  sortMode: ApplicantSort;
+  setSortMode: (sortMode: ApplicantSort) => void;
+}) => (
+  <main className="desktop-page-shell">
+    <section className="relative min-h-72 overflow-hidden rounded-lg border border-k-100 bg-k-900">
+      <Image
+        alt={`${scoreSheet.koreanName} 이미지`}
+        src={normalizeImageUrlToUploadCdn(scoreSheet.backgroundImageUrl)}
+        fill
+        className="object-cover opacity-60"
+        fallbackSrc="/svgs/placeholders/university-background-placeholder.svg"
+        priority
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-black/10" />
+      <div className="relative flex min-h-72 flex-col justify-between p-8 text-k-0">
+        <div className="flex justify-end">
+          <ShareActionButton />
+        </div>
+        <div className="flex items-end gap-5">
+          <UniversityLogo scoreSheet={scoreSheet} />
+          <div className="min-w-0">
+            <h1 className="truncate typo-bold-1">{scoreSheet.koreanName}</h1>
+            <p className="mt-1 truncate text-k-100 typo-medium-2">{scoreSheet.englishName ?? ""}</p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {[getCountryLabel(scoreSheet.country), getCapacityLabel(scoreSheet), `지원자 ${applicants.length}명`].map(
+                (stat) => (
+                  <span key={stat} className="rounded-lg bg-white/90 px-3 py-2 text-k-800 typo-sb-11">
+                    {stat}
+                  </span>
+                ),
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div className="mt-8 grid items-start gap-8 xl:grid-cols-[minmax(0,1fr)_320px]">
+      <section className="rounded-lg border border-k-100 bg-white p-6">
+        <ApplicantListSection applicants={applicants} sortMode={sortMode} setSortMode={setSortMode} isDesktop />
+      </section>
+      <aside className="desktop-sticky-panel rounded-lg border border-k-100 bg-white p-6">
+        <h2 className="text-k-900 typo-bold-4">지원 현황 요약</h2>
+        <dl className="mt-5 space-y-4">
+          <DesktopSummaryMetric label="전체 지원자" value={`${applicants.length}명`} />
+          <DesktopSummaryMetric label="모집 인원" value={getCapacityLabel(scoreSheet).replace("모집 ", "")} />
+          <DesktopSummaryMetric label="국가" value={getCountryLabel(scoreSheet.country)} />
+        </dl>
+        <Link
+          href="/university/application"
+          className="mt-6 flex h-11 items-center justify-center rounded-lg bg-primary text-k-0 typo-sb-9"
+        >
+          전체 대학 보기
+        </Link>
+      </aside>
+    </div>
+  </main>
+);
+
+const DesktopSummaryMetric = ({ label, value }: { label: string; value: string }) => (
+  <div className="flex items-center justify-between gap-4 border-b border-k-50 pb-4 last:border-b-0 last:pb-0">
+    <dt className="text-k-500 typo-medium-3">{label}</dt>
+    <dd className="text-right text-k-900 typo-sb-7">{value}</dd>
+  </div>
+);
 
 const MobileApplicationUniversityDetail = ({
   scoreSheet,
@@ -99,12 +186,14 @@ const ApplicantListSection = ({
   applicants,
   sortMode,
   setSortMode,
+  isDesktop = false,
 }: {
   applicants: Applicant[];
   sortMode: ApplicantSort;
   setSortMode: (sortMode: ApplicantSort) => void;
+  isDesktop?: boolean;
 }) => (
-  <section className="pt-7">
+  <section className={clsx(!isDesktop && "pt-7")}>
     <h2 className="text-k-900 typo-bold-4">지원자 목록 ({applicants.length}명)</h2>
     <p className="mt-1 text-k-400 typo-regular-2">모든 지원자들의 성적 정보를 확인하세요.</p>
     <div className="mt-5 flex h-11">
@@ -115,7 +204,7 @@ const ApplicantListSection = ({
         학점 순
       </ApplicantSortTab>
     </div>
-    <div className="mt-4 flex flex-col gap-2">
+    <div className={clsx("mt-4 gap-3", isDesktop ? "grid lg:grid-cols-2" : "flex flex-col")}>
       {applicants.map((applicant, index) => (
         <ApplicantScoreCard key={`${applicant.nicknameForApply}-${index}`} applicant={applicant} />
       ))}
@@ -196,9 +285,9 @@ const ShareActionButton = () => {
   );
 };
 
-const ApplicationUniversityDetailSkeleton = () => (
-  <div className="px-5 py-8">
-    <div className="h-60 animate-pulse rounded-3xl bg-k-50" />
+const ApplicationUniversityDetailSkeleton = ({ isDesktop = false }: { isDesktop?: boolean }) => (
+  <div className={clsx(isDesktop ? "desktop-page-shell" : "px-5 py-8")}>
+    <div className={clsx("animate-pulse bg-k-100", isDesktop ? "h-72 rounded-lg" : "h-60 rounded-3xl")} />
     <div className="mt-6 space-y-3">
       <div className="h-28 animate-pulse rounded-[10px] bg-k-50" />
       <div className="h-28 animate-pulse rounded-[10px] bg-k-50" />
@@ -207,8 +296,19 @@ const ApplicationUniversityDetailSkeleton = () => (
   </div>
 );
 
-const ApplicationUniversityDetailNotFound = ({ universityName }: { universityName: string }) => (
-  <div className="flex min-h-[60vh] flex-col items-center justify-center px-5 text-center">
+const ApplicationUniversityDetailNotFound = ({
+  universityName,
+  isDesktop,
+}: {
+  universityName: string;
+  isDesktop: boolean;
+}) => (
+  <div
+    className={clsx(
+      "flex min-h-[60vh] flex-col items-center justify-center px-5 text-center",
+      isDesktop && "desktop-page-shell",
+    )}
+  >
     <p className="text-k-900 typo-sb-5">{universityName} 지원자 현황을 찾지 못했어요.</p>
     <Link href="/university/application" className="mt-4 rounded-lg bg-primary px-4 py-2 text-k-0 typo-sb-9">
       목록으로 돌아가기

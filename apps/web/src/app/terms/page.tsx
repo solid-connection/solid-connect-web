@@ -157,7 +157,7 @@ const TermsMobileView = () => (
 );
 
 const TermsDesktopView = () => (
-  <div className="hidden min-h-screen bg-k-50 px-8 py-8 md:block lg:px-10">
+  <div className="hidden desktop-page-shell md:block">
     <header className="mb-8">
       <p className="text-primary typo-sb-9">Terms</p>
       <h1 className="mt-2 text-k-900 typo-bold-1">이용약관</h1>
@@ -165,7 +165,7 @@ const TermsDesktopView = () => (
     </header>
 
     <div className="grid items-start gap-8 xl:grid-cols-[minmax(240px,300px)_minmax(0,860px)]">
-      <aside className="sticky top-8 rounded-lg border border-k-100 bg-white p-6">
+      <aside className="desktop-sticky-panel rounded-lg border border-k-100 bg-white p-6">
         <h2 className="text-k-900 typo-bold-4">목차</h2>
         <nav className="mt-5 grid gap-2">
           {TERMS_SECTIONS.map((section, index) => (

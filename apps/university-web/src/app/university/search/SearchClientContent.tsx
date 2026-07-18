@@ -46,7 +46,7 @@ export const SearchDesktopContent = () => {
         </div>
       </section>
 
-      <aside className="sticky top-8 rounded-lg border border-k-100 bg-white p-6">
+      <aside className="desktop-sticky-panel rounded-lg border border-k-100 bg-white p-6">
         <h2 className="text-k-900 typo-bold-4">소속 학교</h2>
         <p className="mt-2 text-k-500 typo-medium-3">선택한 학교 기준으로 검색 결과가 제공됩니다.</p>
         <div className="mt-5">

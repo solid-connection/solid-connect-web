@@ -137,7 +137,7 @@ const InterestCountriesScreenBase = ({ onNext, isDesktop }: InterestCountriesScr
         className={clsx(
           isDesktop
             ? "mt-10 w-full max-w-sm"
-            : "fixed bottom-0 left-0 right-0 w-full bg-white pb-14 md:left-[88px] md:right-auto md:w-[calc(100%-88px)]",
+            : "fixed bottom-0 left-0 right-0 w-full bg-white pb-14 md:left-0 md:right-0 md:w-full",
         )}
       >
         <div className={clsx({ "mx-auto w-full max-w-app px-5 md:max-w-none": !isDesktop })}>

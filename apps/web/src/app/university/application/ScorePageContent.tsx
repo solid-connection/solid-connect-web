@@ -171,7 +171,7 @@ const ApplicationScoreDesktopView = ({
   onChangeUniversities,
 }: ScorePageViewProps) => {
   return (
-    <main className="min-h-screen bg-k-50 px-8 py-8 lg:px-10">
+    <main className="desktop-page-shell">
       <div className="mx-auto max-w-7xl">
         <header className="flex flex-col gap-4 border-b border-k-100 pb-7 lg:flex-row lg:items-end lg:justify-between">
           <div>
@@ -216,7 +216,7 @@ const ApplicationScoreDesktopView = ({
             <ScoreSheetList scoreSheets={displayedScoreSheets} variant="desktop" />
           </section>
 
-          <aside className="sticky top-8 space-y-5">
+          <aside className="desktop-sticky-panel space-y-5">
             <DesktopAppliedUniversityPanel
               appliedUniversities={appliedUniversities}
               onChangeUniversities={onChangeUniversities}

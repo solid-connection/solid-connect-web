@@ -36,59 +36,59 @@ const DesktopNavigation = () => {
   const pathname = usePathname();
 
   return (
-    <nav
-      className="fixed inset-y-0 left-0 z-40 hidden w-[88px] flex-col border-r border-k-100 bg-white px-3 py-4 md:flex"
-      aria-label="주요 메뉴"
-    >
-      <a
-        href={getMainWebHref("/")}
-        className="flex h-14 w-full items-center justify-center rounded-2xl bg-primary text-k-0"
-        aria-label="홈으로 이동"
-      >
-        <IconCloud />
-      </a>
+    <nav className="sticky top-0 z-40 hidden h-[72px] border-b border-k-100 bg-white md:block" aria-label="주요 메뉴">
+      <div className="mx-auto flex h-full w-full max-w-[1280px] items-center px-8 lg:px-10">
+        <a href={getMainWebHref("/")} className="flex shrink-0 items-center gap-3" aria-label="홈으로 이동">
+          <span className="flex size-10 items-center justify-center rounded-lg bg-primary text-k-0">
+            <IconCloud />
+          </span>
+          <span className="text-k-900 typo-sb-6">Solid Connection</span>
+        </a>
 
-      <div className="mt-6 flex flex-1 flex-col gap-2">
-        {NAV_ITEMS.map(({ route, text, iconType }) => {
-          const isActive = isRouteActive(pathname, route);
-          const IconComp = ICON_COMPONENTS[iconType];
-          const className = clsx(
-            "flex h-[70px] flex-col items-center justify-center gap-1 rounded-2xl text-center transition-colors typo-medium-5",
-            isActive ? "bg-primary-100 text-primary" : "text-k-500 hover:bg-k-50 hover:text-k-700",
-          );
-          const content = (
-            <>
-              <IconComp />
-              <span>{text}</span>
-            </>
-          );
+        <div className="ml-10 flex min-w-0 flex-1 items-center gap-1">
+          {NAV_ITEMS.map(({ route, text, iconType }) => {
+            const isActive = isRouteActive(pathname, route);
+            const IconComp = ICON_COMPONENTS[iconType];
+            const className = clsx(
+              "flex h-10 min-w-[88px] items-center justify-center gap-2 rounded-lg px-3 transition-colors typo-sb-9",
+              isActive ? "bg-primary-100 text-primary" : "text-k-500 hover:bg-k-50 hover:text-k-700",
+            );
+            const content = (
+              <>
+                <span className="flex size-6 items-center justify-center" aria-hidden>
+                  <IconComp />
+                </span>
+                <span>{text}</span>
+              </>
+            );
 
-          if (!route.startsWith(UNIVERSITY_ZONE_ROUTE_PREFIX)) {
+            if (!route.startsWith(UNIVERSITY_ZONE_ROUTE_PREFIX)) {
+              return (
+                <a
+                  key={text}
+                  href={getMainWebHref(route)}
+                  aria-current={isActive ? "page" : undefined}
+                  aria-label={`${text} 페이지로 이동`}
+                  className={className}
+                >
+                  {content}
+                </a>
+              );
+            }
+
             return (
-              <a
+              <Link
                 key={text}
-                href={getMainWebHref(route)}
+                href={route}
                 aria-current={isActive ? "page" : undefined}
                 aria-label={`${text} 페이지로 이동`}
                 className={className}
               >
                 {content}
-              </a>
+              </Link>
             );
-          }
-
-          return (
-            <Link
-              key={text}
-              href={route}
-              aria-current={isActive ? "page" : undefined}
-              aria-label={`${text} 페이지로 이동`}
-              className={className}
-            >
-              {content}
-            </Link>
-          );
-        })}
+          })}
+        </div>
       </div>
     </nav>
   );

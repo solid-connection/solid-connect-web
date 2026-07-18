@@ -22,8 +22,8 @@ const Page = async () => {
           <SearchClientContent />
         </main>
       </div>
-      <div className="hidden min-h-screen bg-k-50 px-8 py-8 md:block lg:px-10">
-        <div className="mx-auto max-w-6xl">
+      <div className="hidden desktop-page-shell md:block">
+        <div>
           <header className="mb-8">
             <p className="text-primary typo-sb-9">Search</p>
             <h1 className="mt-2 text-k-900 typo-bold-1">맞춤 파견 학교 찾기</h1>

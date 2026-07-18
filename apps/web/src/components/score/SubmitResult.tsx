@@ -79,7 +79,7 @@ const SubmitResultBase = ({
 
   if (isDesktop) {
     return (
-      <div className="min-h-screen bg-k-50 px-8 py-8 lg:px-10">
+      <div className="desktop-page-shell">
         <div className="mx-auto grid min-h-[calc(100vh-64px)] max-w-5xl items-center gap-8 xl:grid-cols-[minmax(420px,520px)_minmax(280px,340px)]">
           <section className="flex justify-center">{content}</section>
           <aside className="rounded-lg border border-k-100 bg-white p-6">

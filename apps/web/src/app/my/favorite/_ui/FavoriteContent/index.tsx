@@ -121,7 +121,7 @@ const FavoriteDesktopView = ({
   handleDeleteSelected,
 }: FavoriteViewProps) => {
   return (
-    <div className="min-h-screen bg-k-50 px-8 py-8 lg:px-10">
+    <div className="desktop-page-shell">
       <header className="mb-8 flex items-end justify-between gap-6">
         <div>
           <p className="text-primary typo-sb-9">My Solid</p>

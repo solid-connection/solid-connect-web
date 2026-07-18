@@ -31,6 +31,14 @@
 }
 
 @layer components {
+  .desktop-page-shell {
+    @apply mx-auto min-h-[calc(100vh-72px)] w-full max-w-[1280px] bg-k-50 px-8 py-10 lg:px-10;
+  }
+
+  .desktop-sticky-panel {
+    @apply sticky top-28;
+  }
+
   .score-table {
     @apply border-collapse;
   }

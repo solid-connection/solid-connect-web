@@ -116,7 +116,7 @@ const UniversityDetailDesktop = ({ university, koreanName, backHref = "/universi
           <MapSection universityEnglishName={university.englishName} variant="desktop" />
         </section>
 
-        <aside className="sticky top-8 space-y-5">
+        <aside className="desktop-sticky-panel space-y-5">
           <DesktopUniversitySummary university={university} koreanName={koreanName} />
           <DesktopLanguageSummary university={university} />
           <DesktopRequirementSummary university={university} />

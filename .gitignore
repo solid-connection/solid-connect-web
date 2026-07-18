@@ -50,3 +50,7 @@ docs/superpowers/
 # Turborepo
 .turbo
 **/.turbo
+
+# Local AI design harness installation
+/.agents/
+/.codex/
