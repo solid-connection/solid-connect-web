@@ -7,6 +7,7 @@ import ApplicationBottomActionBar from "../_components/ApplicationBottomActionBa
 type ConfirmStepProps = {
   universityList: ListUniversity[];
   onNext: () => void;
+  isSubmitting?: boolean;
 };
 
 type ConfirmUniversityCardProps = {
@@ -38,7 +39,7 @@ const ConfirmUniversityCard = ({ universityList }: ConfirmUniversityCardProps) =
   );
 };
 
-const ConfirmStep = ({ universityList, onNext }: ConfirmStepProps) => {
+const ConfirmStep = ({ universityList, onNext, isSubmitting = false }: ConfirmStepProps) => {
   return (
     <div className="px-5 pb-40 pt-[76px]">
       <div className="flex items-center justify-center">
@@ -55,7 +56,7 @@ const ConfirmStep = ({ universityList, onNext }: ConfirmStepProps) => {
       </div>
 
       <ConfirmUniversityCard universityList={universityList} />
-      <ApplicationBottomActionBar label="제출하기" onClick={onNext} />
+      <ApplicationBottomActionBar label="제출하기" onClick={onNext} disabled={isSubmitting} />
     </div>
   );
 };
