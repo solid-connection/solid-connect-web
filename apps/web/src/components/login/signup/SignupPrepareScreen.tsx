@@ -94,15 +94,18 @@ const PrepareChoiceButton = ({
 }: PrepareChoiceButtonProps) => {
   return (
     <button
-      className={clsx("flex items-center gap-9 rounded-lg py-5 shadow-magic-signup-step", {
-        "border border-primary bg-primary-100": preparation === status,
-        "border border-white bg-white": preparation !== status,
-      })}
+      className={clsx(
+        "flex items-center gap-7 rounded-lg border px-6 py-5 text-left shadow-magic-signup-step focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
+        {
+          "border-primary bg-primary-100": preparation === status,
+          "border-white bg-white": preparation !== status,
+        },
+      )}
       onClick={() => setPreparation(status)}
       type="button"
     >
-      <div className="pl-[2.75rem]">{icon}</div>
-      <div className="flex flex-col items-start">
+      <div className="flex w-16 shrink-0 justify-center">{icon}</div>
+      <div className="flex min-w-0 flex-col items-start">
         <span className="text-k-500 typo-regular-4">{description}</span>
         <span className="text-k-800 typo-sb-4">{name}</span>
       </div>
