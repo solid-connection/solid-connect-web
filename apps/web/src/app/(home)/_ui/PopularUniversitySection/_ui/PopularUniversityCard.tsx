@@ -56,7 +56,7 @@ const PopularUniversityCard = ({
           />
           {/* gradient overlay - Figma 노드 4265:39770 기반 */}
           <div
-            className="absolute bottom-0 inset-x-0 h-full rounded-b-lg"
+            className="absolute bottom-0 inset-x-0 h-1/2 rounded-b-lg"
             style={{
               background:
                 "linear-gradient(180deg, rgba(255, 255, 255, 0.00) 0%, rgba(0, 0, 0, 0.35) 75%, rgba(0, 0, 0, 0.70) 100%)",
