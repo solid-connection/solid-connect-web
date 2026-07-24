@@ -54,6 +54,14 @@ const PopularUniversityCard = ({
             }
             fallbackSrc="/svgs/placeholders/university-background-placeholder.svg"
           />
+          {/* gradient overlay - Figma 노드 4265:39770 기반 */}
+          <div
+            className="absolute inset-0 rounded-lg"
+            style={{
+              background:
+                "linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.35) 75%, rgba(0, 0, 0, 0.70) 100%)",
+            }}
+          />
         </div>
         <div className="absolute bottom-[9px] left-[10px] z-10 tracking-[0.15px] text-white typo-sb-9">
           {university.koreanName}
