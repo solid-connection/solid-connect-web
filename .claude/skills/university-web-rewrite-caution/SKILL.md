@@ -64,4 +64,4 @@ pnpm --filter @solid-connect/web run build   # UNIVERSITY_WEB_DOMAIN 필요
 
 - `docs/university-multizone-deployment.md` — 라우트 소유권, Vercel 프로젝트 분리, 배포 절차
 - `docs/screenshots/university-skyscanner-layout-poc/` — 진행 중인 리라이트의 최신 시각 QA 기준
-- `[[bruno-codegen-react-query]]` — university-web도 같은 Bruno codegen을 공유하므로 API 변경 시 함께 참고
+- `.claude/skills/bruno-codegen-react-query/SKILL.md` — university-web도 같은 Bruno codegen을 공유하므로 API 변경 시 함께 참고
