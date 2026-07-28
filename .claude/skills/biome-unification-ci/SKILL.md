@@ -62,8 +62,9 @@ description: Standardize Biome-based lint/typecheck commands across web, admin, 
 1. `pnpm --filter @solid-connect/web run ci:check`
 2. `pnpm --filter @solid-connect/admin run ci:check`
 3. `pnpm --filter @solid-connect/university-web run ci:check`
-4. `pnpm ci:check`
-5. `pnpm build`
+4. `pnpm typecheck` (루트 Turbo 전체 타입 체크)
+5. `pnpm ci:check`
+6. `pnpm build`
 
 ## 실패 대응
 
