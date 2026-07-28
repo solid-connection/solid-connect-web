@@ -1,4 +1,9 @@
-# Skill: feat/univ-extends 리베이스 + Bruno 명세 동기화
+---
+name: univ-extends-bruno-sync
+description: Rebase the feat/univ-extends branch and keep the generated Bruno TypeScript API client in sync. Use only when working on the feat/univ-extends branch or asked to rebase it against develop/main.
+---
+
+# feat/univ-extends 리베이스 + Bruno 명세 동기화
 
 ## 목적
 

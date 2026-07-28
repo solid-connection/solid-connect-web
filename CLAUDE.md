@@ -1,4 +1,12 @@
-# 커밋 룰
+# solid-connect-web
+
+## 프로젝트 개요
+
+- Solid Connection 교환학생 플랫폼의 pnpm + turbo 모노레포.
+- 앱: `apps/web`(사용자 메인, Next.js App Router), `apps/admin`(관리자), `apps/university-web`(대학 정보 카탈로그, 별도 배포되는 Multi-Zone SSG 앱).
+- 공유 패키지: `packages/api-schema`(Bruno 기반 생성 API 클라이언트), `packages/bruno-api-typescript`(codegen), `packages/ui`(공통 컴포넌트), `packages/ai-inspector`(운영 중 UI 수정 요청 → PR 자동화).
+- `apps/university-web`은 **현재 데스크톱 레이아웃 리라이트가 진행 중**이다. 이 앱을 건드리기 전에 반드시 `[[university-web-rewrite-caution]]` 스킬(`.claude/skills/university-web-rewrite-caution/SKILL.md`)을 먼저 확인한다.
+- 더 자세한 아키텍처/컨텍스트는 `AGENTS.md`, `llms.txt`, `ARCHITECTURE.md`를 참고한다.
 
 ## 커밋 메시지 작성 규칙
 

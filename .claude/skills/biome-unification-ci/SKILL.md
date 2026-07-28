@@ -1,4 +1,9 @@
-# Skill: Biome 단일 품질체크 표준화 (Web/Admin/CI)
+---
+name: biome-unification-ci
+description: Standardize Biome-based lint/typecheck commands across web, admin, university-web, Husky hooks, and CI so local and GitHub Actions runs stay identical. Use when adding a new package's quality scripts, debugging a CI-vs-local lint mismatch, or asked to unify quality checks.
+---
+
+# Biome 단일 품질체크 표준화 (Web/Admin/University-Web/CI)
 
 ## 목적
 
@@ -20,6 +25,13 @@
 - 체크 전용: `pnpm --filter @solid-connect/admin run lint:check`
 - 타입 체크: `pnpm --filter @solid-connect/admin run typecheck`
 - CI 체크: `pnpm --filter @solid-connect/admin run ci:check`
+
+### University Web
+
+- 자동 수정: `pnpm --filter @solid-connect/university-web run lint`
+- 체크 전용: `pnpm --filter @solid-connect/university-web run lint:check`
+- 타입 체크: `pnpm --filter @solid-connect/university-web run typecheck:ci`
+- CI 체크: `pnpm --filter @solid-connect/university-web run ci:check`
 
 ### Root (Turbo)
 
@@ -49,8 +61,9 @@
 
 1. `pnpm --filter @solid-connect/web run ci:check`
 2. `pnpm --filter @solid-connect/admin run ci:check`
-3. `pnpm ci:check`
-4. `pnpm build`
+3. `pnpm --filter @solid-connect/university-web run ci:check`
+4. `pnpm ci:check`
+5. `pnpm build`
 
 ## 실패 대응
 

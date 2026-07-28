@@ -1,4 +1,9 @@
-# Skill: `fix/issues-405-409` 리베이스 플레이북
+---
+name: rebase-issues-405-409
+description: Rebase playbook for the fix/issues-405-409 branch onto origin/main, including known conflict resolution rules for UniverSityCard and pnpm-lock.yaml. Use only when working on the fix/issues-405-409 branch.
+---
+
+# `fix/issues-405-409` 리베이스 플레이북
 
 ## 목적
 
