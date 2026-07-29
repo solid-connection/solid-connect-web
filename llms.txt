@@ -10,6 +10,7 @@ This repository uses Bruno as the single source of truth for API schema and gene
 - Main apps:
   - `apps/web` (Next.js)
   - `apps/admin`
+  - `apps/university-web` (Next.js, separately deployed Multi-Zone SSG app for university catalog pages — **currently mid-rewrite**, see the `university-web-rewrite-caution` skill and `docs/university-multizone-deployment.md` before editing)
 - Shared API schema package:
   - `packages/api-schema`
 - Code generator:

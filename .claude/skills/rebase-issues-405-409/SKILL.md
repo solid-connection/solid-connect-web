@@ -1,4 +1,9 @@
-# Skill: `fix/issues-405-409` 리베이스 플레이북
+---
+name: rebase-issues-405-409
+description: Rebase playbook for the fix/issues-405-409 branch onto origin/main, including known conflict resolution rules for UniverSityCard and pnpm-lock.yaml. Use only when working on the fix/issues-405-409 branch.
+---
+
+# `fix/issues-405-409` 리베이스 플레이북
 
 ## 목적
 
@@ -40,11 +45,13 @@ git rebase --continue
 
 ```bash
 git status --short --branch
+git merge-base --is-ancestor origin/main HEAD && echo "origin/main is ancestor: OK"
 git rev-list --left-right --count origin/main...HEAD
 git log --oneline --max-count=12
 ```
 
-- 기대값: `origin/main...HEAD` 결과가 `0 7` (기준 브랜치 대비 feature 커밋 7개만 남음)
+- 워킹 트리가 clean하고, `origin/main`이 현재 브랜치의 조상(ancestor)인지로 리베이스 성공 여부를 판단한다.
+- `git rev-list --left-right --count origin/main...HEAD`의 좌측 값(뒤처진 커밋 수)은 반드시 `0`이어야 한다. 우측 값(feature 커밋 수)은 `origin/main`이 전진했거나 브랜치에 커밋이 추가/제거됐으면 달라질 수 있으므로 고정값(예: `7`)으로 기대하지 말고 `git log`로 실제 커밋 목록을 참고값으로만 확인한다.
 - 원격 feature 브랜치와 히스토리가 달라지므로 push 시 `--force-with-lease`를 사용한다.
 
 ```bash
