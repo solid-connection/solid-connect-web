@@ -1,12 +1,18 @@
 "use client";
 
-import { useUniversitySearch } from "@/apis/universities";
+import { useGetApplicationPreview } from "@/apis/applications";
 import RestrictedApplicationStatusView from "../_components/RestrictedApplicationStatusView";
 
 const SignedInApplicationStatusPage = () => {
-  const { data: universities = [], isLoading } = useUniversitySearch("", undefined, { useDefaultTermId: true });
+  const { data, isLoading } = useGetApplicationPreview();
 
-  return <RestrictedApplicationStatusView universities={universities} isLoading={isLoading} />;
+  return (
+    <RestrictedApplicationStatusView
+      totalUniversityCount={data?.totalUniversityCount}
+      universities={data?.universities}
+      isLoading={isLoading}
+    />
+  );
 };
 
 export default SignedInApplicationStatusPage;

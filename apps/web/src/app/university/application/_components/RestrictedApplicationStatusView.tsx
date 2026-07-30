@@ -5,18 +5,20 @@ import type { ReactNode } from "react";
 import Image from "@/components/ui/FallbackImage";
 import { REGIONS_KO } from "@/constants/university";
 import { IconExpandMoreFilled } from "@/public/svgs/community";
-import type { ListUniversity } from "@/types/university";
+import type { ApplicationUniversityPreview } from "@/types/application";
 
 const PREVIEW_ROW_COUNT = 8;
 
 type RestrictedApplicationStatusViewProps = {
-  universities?: ListUniversity[];
+  totalUniversityCount?: number;
+  universities?: ApplicationUniversityPreview[];
   isLoading?: boolean;
   guestOverlay?: ReactNode;
   onLockedRowClick?: () => void;
 };
 
 const RestrictedApplicationStatusView = ({
+  totalUniversityCount = 0,
   universities = [],
   isLoading = false,
   guestOverlay,
@@ -28,7 +30,7 @@ const RestrictedApplicationStatusView = ({
   return (
     <main className="relative mx-auto min-h-[calc(100dvh-112px)] w-full max-w-app overflow-hidden px-5 pb-8 pt-5">
       <RestrictedParticipantBanner />
-      <RestrictedScopeTabs totalUniversityCount={universities.length} />
+      <RestrictedScopeTabs totalUniversityCount={totalUniversityCount} />
       <RestrictedFilterChips />
       <div className="mt-3 flex flex-col gap-2" aria-busy={isLoading}>
         {shouldShowSkeleton
@@ -90,7 +92,13 @@ const RestrictedFilterChips = () => (
   </div>
 );
 
-const RestrictedUniversityRow = ({ university, onClick }: { university: ListUniversity; onClick?: () => void }) => {
+const RestrictedUniversityRow = ({
+  university,
+  onClick,
+}: {
+  university: ApplicationUniversityPreview;
+  onClick?: () => void;
+}) => {
   const content = (
     <>
       <Image
