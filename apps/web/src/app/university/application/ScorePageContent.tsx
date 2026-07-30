@@ -15,13 +15,38 @@ const ScorePageContent = () => {
   const homeUniversityId = useAuthStore((state) => state.homeUniversityId);
   const shouldFetchScoreStatus = isAuthInitialized && isAuthenticated && homeUniversityId !== null;
 
-  const { data: gpaScoreData, isLoading: isGpaLoading } = useGetMyGpaScore({ enabled: shouldFetchScoreStatus });
-  const { data: languageTestScores = [], isLoading: isLanguageTestLoading } = useGetMyLanguageTestScore({
+  const {
+    data: gpaScoreData,
+    isLoading: isGpaLoading,
+    isError: isGpaError,
+    refetch: refetchGpa,
+  } = useGetMyGpaScore({ enabled: shouldFetchScoreStatus });
+  const {
+    data: languageTestScores = [],
+    isLoading: isLanguageTestLoading,
+    isError: isLanguageTestError,
+    refetch: refetchLanguageTest,
+  } = useGetMyLanguageTestScore({
     enabled: shouldFetchScoreStatus,
   });
 
   if (!isAuthInitialized || (shouldFetchScoreStatus && (isGpaLoading || isLanguageTestLoading))) {
     return <CloudSpinnerPage />;
+  }
+
+  if (shouldFetchScoreStatus && (isGpaError || isLanguageTestError)) {
+    return (
+      <div className="flex min-h-[40vh] flex-col items-center justify-center gap-3 px-4 text-center">
+        <p className="text-k-700 typo-medium-2">성적 승인 상태를 불러오지 못했어요.</p>
+        <button
+          type="button"
+          onClick={() => void Promise.all([refetchGpa(), refetchLanguageTest()])}
+          className="rounded-full bg-primary px-4 py-2 text-white typo-medium-2"
+        >
+          다시 시도
+        </button>
+      </div>
+    );
   }
 
   const access = resolveApplicationStatusAccess({
@@ -40,6 +65,10 @@ const ScorePageContent = () => {
       return <ScorePendingApplicationStatusPage />;
     case "approved":
       return <ApprovedApplicationStatusPage />;
+    default: {
+      const exhaustiveAccess: never = access;
+      return exhaustiveAccess;
+    }
   }
 };
 

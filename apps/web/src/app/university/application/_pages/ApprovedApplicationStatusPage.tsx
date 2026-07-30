@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { type ReactNode, useEffect, useMemo, useState } from "react";
 import { useGetApplicationsList } from "@/apis/applications";
+import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 import { DEFAULT_MAX_CHOICE_COUNT, getHomeUniversityById, REGIONS_KO } from "@/constants/university";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { IconExpandMoreFilled } from "@/public/svgs/community";
@@ -50,10 +51,7 @@ const ApprovedApplicationStatusPage = () => {
   const { data: scoreResponseData, isError, isLoading } = useGetApplicationsList();
   const scoreChoices = scoreResponseData?.choices ?? emptyChoices;
 
-  const allScoreSheets = useMemo(
-    () => sortScoreSheets(uniqueScoreSheets(scoreChoices.flat()), sortMode),
-    [scoreChoices, sortMode],
-  );
+  const allScoreSheets = useMemo(() => uniqueScoreSheets(scoreChoices.flat()), [scoreChoices]);
   const appliedUniversities = useMemo(
     () => getAppliedUniversities(scoreChoices, maxChoiceCount),
     [scoreChoices, maxChoiceCount],
@@ -81,6 +79,10 @@ const ApprovedApplicationStatusPage = () => {
       router.replace("/university/application/apply");
     }
   }, [isError, isLoading, router]);
+
+  if (isLoading) {
+    return <CloudSpinnerPage />;
+  }
 
   const viewProps = {
     appliedUniversities,
@@ -306,7 +308,7 @@ const ScoreSheetList = ({ scoreSheets }: { scoreSheets: ScoreSheetType[] }) => {
   return (
     <div className="mt-3 flex flex-col gap-2 pb-6">
       {scoreSheets.map((scoreSheet, index) => (
-        <MobileScoreSheet key={scoreSheet.koreanName} scoreSheet={scoreSheet} defaultOpen={index === 0} />
+        <MobileScoreSheet key={getScoreSheetKey(scoreSheet)} scoreSheet={scoreSheet} defaultOpen={index === 0} />
       ))}
     </div>
   );

@@ -13,6 +13,7 @@ type RestrictedApplicationStatusViewProps = {
   totalUniversityCount?: number;
   universities?: ApplicationUniversityPreview[];
   isLoading?: boolean;
+  showPlaceholderRows?: boolean;
   guestOverlay?: ReactNode;
   onLockedRowClick?: () => void;
 };
@@ -21,11 +22,12 @@ const RestrictedApplicationStatusView = ({
   totalUniversityCount = 0,
   universities = [],
   isLoading = false,
+  showPlaceholderRows = false,
   guestOverlay,
   onLockedRowClick,
 }: RestrictedApplicationStatusViewProps) => {
   const previewUniversities = universities.slice(0, PREVIEW_ROW_COUNT);
-  const shouldShowSkeleton = isLoading || previewUniversities.length === 0;
+  const shouldShowSkeleton = isLoading || showPlaceholderRows;
 
   return (
     <main className="relative mx-auto min-h-[calc(100dvh-112px)] w-full max-w-app overflow-hidden px-5 pb-8 pt-5">
@@ -33,11 +35,15 @@ const RestrictedApplicationStatusView = ({
       <RestrictedScopeTabs totalUniversityCount={totalUniversityCount} />
       <RestrictedFilterChips />
       <div className="mt-3 flex flex-col gap-2" aria-busy={isLoading}>
-        {shouldShowSkeleton
-          ? Array.from({ length: PREVIEW_ROW_COUNT }, (_, index) => <RestrictedSkeletonRow key={index} />)
-          : previewUniversities.map((university) => (
-              <RestrictedUniversityRow key={university.id} university={university} onClick={onLockedRowClick} />
-            ))}
+        {shouldShowSkeleton ? (
+          Array.from({ length: PREVIEW_ROW_COUNT }, (_, index) => <RestrictedSkeletonRow key={index} />)
+        ) : previewUniversities.length > 0 ? (
+          previewUniversities.map((university) => (
+            <RestrictedUniversityRow key={university.id} university={university} onClick={onLockedRowClick} />
+          ))
+        ) : (
+          <RestrictedUniversityEmptyState />
+        )}
       </div>
       {guestOverlay}
     </main>
@@ -137,6 +143,13 @@ const RestrictedSkeletonRow = () => (
     <span className="size-5 shrink-0 rounded-full bg-white" />
     <span className="h-4 w-40 rounded-full bg-k-100" />
     <span className="ml-auto h-2 w-3 rounded-full bg-k-100" />
+  </div>
+);
+
+const RestrictedUniversityEmptyState = () => (
+  <div className="flex min-h-48 flex-col items-center justify-center rounded-lg bg-k-50 px-6 py-8 text-center">
+    <p className="text-k-900 typo-sb-7">아직 지원자가 있는 대학이 없어요.</p>
+    <p className="mt-2 text-k-500 typo-medium-3">지원 현황이 등록되면 여기에 표시됩니다.</p>
   </div>
 );
 
