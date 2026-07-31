@@ -10,6 +10,8 @@ const authAxiosInstance = axios.create({
 	withCredentials: true,
 });
 
+const ADMIN_AUTH_PATH = "/admin/auth";
+
 const assertAdminApiServerUrl = () => {
 	if (!API_SERVER_URL) {
 		throw createMissingAdminApiServerUrlError();
@@ -18,12 +20,12 @@ const assertAdminApiServerUrl = () => {
 
 export const adminSignInApi = (email: string, password: string): Promise<AxiosResponse<AdminSignInResponse>> => {
 	assertAdminApiServerUrl();
-	return authAxiosInstance.post("/auth/email/sign-in", { email, password });
+	return authAxiosInstance.post(`${ADMIN_AUTH_PATH}/sign-in`, { email, password });
 };
 
 export const reissueAccessTokenApi = (): Promise<AxiosResponse<ReissueAccessTokenResponse>> => {
 	assertAdminApiServerUrl();
-	return authAxiosInstance.post("/auth/reissue");
+	return authAxiosInstance.post(`${ADMIN_AUTH_PATH}/reissue`);
 };
 
 export const adminSignOutApi = (): Promise<AxiosResponse<void>> => {
@@ -31,7 +33,7 @@ export const adminSignOutApi = (): Promise<AxiosResponse<void>> => {
 
 	const accessToken = loadAccessToken();
 
-	return authAxiosInstance.post("/auth/sign-out", undefined, {
+	return authAxiosInstance.post(`${ADMIN_AUTH_PATH}/sign-out`, undefined, {
 		headers: accessToken ? { Authorization: `Bearer ${accessToken}` } : undefined,
 	});
 };
