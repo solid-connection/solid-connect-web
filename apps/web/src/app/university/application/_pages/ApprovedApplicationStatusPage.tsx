@@ -1,5 +1,6 @@
 "use client";
 
+import type { AxiosError } from "axios";
 import clsx from "clsx";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -7,11 +8,30 @@ import { type ReactNode, useEffect, useMemo, useState } from "react";
 import { useGetApplicationsList } from "@/apis/applications";
 import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 import { DEFAULT_MAX_CHOICE_COUNT, getHomeUniversityById, REGIONS_KO } from "@/constants/university";
+import { SKIP_GLOBAL_ERROR_TOAST_META } from "@/lib/react-query/errorToastMeta";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { IconExpandMoreFilled } from "@/public/svgs/community";
 import type { Applicant, ScoreSheet as ScoreSheetType } from "@/types/application";
 import type { RegionKo } from "@/types/university";
 import { getApplicationDetailHref, MobileScoreSheet, ScoreSheetLogo } from "../ScoreSheet";
+
+type ApplicationAccessErrorCode = "APPLICATION_NOT_FOUND" | "APPLICATION_NOT_APPROVED";
+
+const APPLICATION_ACCESS_ERRORS: Record<ApplicationAccessErrorCode, { status: number; message: string }> = {
+  APPLICATION_NOT_FOUND: { status: 404, message: "사용자의 대학 지원 정보를 찾을 수 없습니다." },
+  APPLICATION_NOT_APPROVED: { status: 400, message: "성적표가 인증되지 않았습니다." },
+};
+
+const isApplicationAccessError = (error: AxiosError<{ message: string }> | null): boolean => {
+  if (!error) return false;
+
+  const status = error.response?.status;
+  const message = error.response?.data?.message;
+
+  return Object.values(APPLICATION_ACCESS_ERRORS).some(
+    (accessError) => accessError.status === status && accessError.message === message,
+  );
+};
 
 type ApplicantScope = "all" | "withApplicants";
 type ScoreSort = "applicants" | "gpa";
@@ -48,8 +68,17 @@ const ApprovedApplicationStatusPage = () => {
     () => Array.from({ length: maxChoiceCount }, () => [] as ScoreSheetType[]),
     [maxChoiceCount],
   );
-  const { data: scoreResponseData, isError, isLoading } = useGetApplicationsList();
+  const {
+    data: scoreResponseData,
+    isError,
+    isLoading,
+    error,
+    refetch,
+  } = useGetApplicationsList({
+    meta: SKIP_GLOBAL_ERROR_TOAST_META,
+  });
   const scoreChoices = scoreResponseData?.choices ?? emptyChoices;
+  const isApplicationMissingOrUnapproved = isApplicationAccessError(error);
 
   const allScoreSheets = useMemo(() => uniqueScoreSheets(scoreChoices.flat()), [scoreChoices]);
   const appliedUniversities = useMemo(
@@ -73,15 +102,33 @@ const ApprovedApplicationStatusPage = () => {
     return sortScoreSheets(result, sortMode);
   }, [allScoreSheets, regionFilter, scope, sortMode]);
 
-  useEffect(() => {
-    if (isLoading) return;
-    if (isError) {
-      router.replace("/university/application/apply");
-    }
-  }, [isError, isLoading, router]);
+  useEffect(
+    function redirectToApplyWhenApplicationMissing() {
+      if (isLoading) return;
+      if (isError && isApplicationMissingOrUnapproved) {
+        router.replace("/university/application/apply");
+      }
+    },
+    [isApplicationMissingOrUnapproved, isError, isLoading, router],
+  );
 
-  if (isLoading) {
+  if (isLoading || (isError && isApplicationMissingOrUnapproved)) {
     return <CloudSpinnerPage />;
+  }
+
+  if (isError) {
+    return (
+      <div className="flex min-h-[40vh] flex-col items-center justify-center gap-3 px-4 text-center">
+        <p className="text-k-700 typo-medium-2">지원 현황을 불러오지 못했어요.</p>
+        <button
+          type="button"
+          onClick={() => void refetch()}
+          className="rounded-full bg-primary px-4 py-2 text-white typo-medium-2"
+        >
+          다시 시도
+        </button>
+      </div>
+    );
   }
 
   const viewProps = {

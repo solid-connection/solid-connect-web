@@ -1,6 +1,9 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { useGetMyGpaScore, useGetMyLanguageTestScore } from "@/apis/Scores";
+import { getSchoolEmailVerificationPath } from "@/app/my/school-email/_lib/returnTo";
 import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import ApprovedApplicationStatusPage from "./_pages/ApprovedApplicationStatusPage";
@@ -10,9 +13,11 @@ import ScorePendingApplicationStatusPage from "./_pages/ScorePendingApplicationS
 import SignedInApplicationStatusPage from "./_pages/SignedInApplicationStatusPage";
 
 const ScorePageContent = () => {
+  const router = useRouter();
   const isAuthInitialized = useAuthStore((state) => state.isInitialized);
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const homeUniversityId = useAuthStore((state) => state.homeUniversityId);
+  const needsSchoolEmailVerification = isAuthInitialized && isAuthenticated && homeUniversityId === null;
   const shouldFetchScoreStatus = isAuthInitialized && isAuthenticated && homeUniversityId !== null;
 
   const {
@@ -20,7 +25,7 @@ const ScorePageContent = () => {
     isLoading: isGpaLoading,
     isError: isGpaError,
     refetch: refetchGpa,
-  } = useGetMyGpaScore({ enabled: shouldFetchScoreStatus });
+  } = useGetMyGpaScore({ enabled: shouldFetchScoreStatus, refetchOnMount: "always" });
   const {
     data: languageTestScores = [],
     isLoading: isLanguageTestLoading,
@@ -28,9 +33,22 @@ const ScorePageContent = () => {
     refetch: refetchLanguageTest,
   } = useGetMyLanguageTestScore({
     enabled: shouldFetchScoreStatus,
+    refetchOnMount: "always",
   });
 
-  if (!isAuthInitialized || (shouldFetchScoreStatus && (isGpaLoading || isLanguageTestLoading))) {
+  useEffect(
+    function redirectToSchoolEmailVerification() {
+      if (!needsSchoolEmailVerification) return;
+      router.replace(getSchoolEmailVerificationPath("applicationStatus"));
+    },
+    [needsSchoolEmailVerification, router],
+  );
+
+  if (
+    !isAuthInitialized ||
+    needsSchoolEmailVerification ||
+    (shouldFetchScoreStatus && (isGpaLoading || isLanguageTestLoading))
+  ) {
     return <CloudSpinnerPage />;
   }
 

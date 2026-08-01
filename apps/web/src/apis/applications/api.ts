@@ -10,7 +10,11 @@ export const ApplicationsQueryKeys = {
 
 // ====== Types ======
 export interface UseSubmitApplicationResponse {
-  isSuccess: boolean;
+  totalApplyCount: number;
+  applyCount: number;
+  appliedUniversities: {
+    choices: string[];
+  };
 }
 
 export interface UseSubmitApplicationRequest {
