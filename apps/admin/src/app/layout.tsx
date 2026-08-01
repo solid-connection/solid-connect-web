@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import "../styles.css";
+import { EnvironmentSwitcherFab } from "@/components/layout/EnvironmentSwitcherFab";
 import { Providers } from "./providers";
 
 export const metadata = {
@@ -11,7 +12,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 	return (
 		<html lang="ko">
 			<body>
-				<Providers>{children}</Providers>
+				<Providers>
+					{children}
+					<EnvironmentSwitcherFab />
+				</Providers>
 			</body>
 		</html>
 	);

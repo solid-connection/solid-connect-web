@@ -1,38 +1,29 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-const { create, loadAccessToken, post, removeAccessToken, requestInterceptors, saveAdminApiEnvironment } = vi.hoisted(
-	() => {
-		const hoistedPost = vi.fn();
-		return {
-			create: vi.fn(() => ({
-				post: hoistedPost,
-				interceptors: {
-					request: {
-						use: (fn: (config: Record<string, unknown>) => Record<string, unknown>) => {
-							requestInterceptors.push(fn);
-						},
+const { create, loadAccessToken, post, removeAccessToken, requestInterceptors } = vi.hoisted(() => {
+	const hoistedPost = vi.fn();
+	return {
+		create: vi.fn(() => ({
+			post: hoistedPost,
+			interceptors: {
+				request: {
+					use: (fn: (config: Record<string, unknown>) => Record<string, unknown>) => {
+						requestInterceptors.push(fn);
 					},
 				},
-			})),
-			loadAccessToken: vi.fn(),
-			post: hoistedPost,
-			removeAccessToken: vi.fn(),
-			requestInterceptors: [] as Array<(config: Record<string, unknown>) => Record<string, unknown>>,
-			saveAdminApiEnvironment: vi.fn(),
-		};
-	},
-);
+			},
+		})),
+		loadAccessToken: vi.fn(),
+		post: hoistedPost,
+		removeAccessToken: vi.fn(),
+		requestInterceptors: [] as Array<(config: Record<string, unknown>) => Record<string, unknown>>,
+	};
+});
 
 vi.mock("axios", () => ({
 	default: {
 		create,
 	},
-}));
-
-vi.mock("@/lib/auth/environment", () => ({
-	getApiBaseUrlForEnvironment: (environment: string) =>
-		environment === "dev" ? "https://api.stage.solid-connection.com" : "https://api.solid-connection.com",
-	resolveEnvironmentFromEmail: (email: string) => (email === "dev@solid-connection.com" ? "dev" : "prod"),
 }));
 
 vi.mock("@/lib/env", () => ({
@@ -42,7 +33,6 @@ vi.mock("@/lib/env", () => ({
 vi.mock("@/lib/utils/localStorage", () => ({
 	loadAccessToken,
 	removeAccessToken,
-	saveAdminApiEnvironment,
 }));
 
 import { adminSignInApi, adminSignOutApi, reissueAccessTokenApi } from "./auth";
@@ -52,7 +42,6 @@ describe("어드민 인증 API", () => {
 		loadAccessToken.mockReset();
 		post.mockReset();
 		removeAccessToken.mockReset();
-		saveAdminApiEnvironment.mockReset();
 	});
 
 	it("어드민 refresh token 쿠키를 주고받도록 credentials를 포함한다", () => {
@@ -61,18 +50,16 @@ describe("어드민 인증 API", () => {
 		});
 	});
 
-	it("어드민 전용 로그인 API를 이메일 환경에 맞춰 호출한다", async () => {
+	it("어드민 전용 로그인 API를 호출하고 이전 access token을 정리한다", async () => {
 		post.mockResolvedValue({ data: { accessToken: "access-token" } });
 
-		await adminSignInApi("dev@solid-connection.com", "password");
+		await adminSignInApi("admin@solid-connection.com", "password");
 
 		expect(removeAccessToken).toHaveBeenCalledOnce();
-		expect(saveAdminApiEnvironment).toHaveBeenCalledWith("dev");
-		expect(post).toHaveBeenCalledWith(
-			"/admin/auth/sign-in",
-			{ email: "dev@solid-connection.com", password: "password" },
-			{ baseURL: "https://api.stage.solid-connection.com" },
-		);
+		expect(post).toHaveBeenCalledWith("/admin/auth/sign-in", {
+			email: "admin@solid-connection.com",
+			password: "password",
+		});
 	});
 
 	it("어드민 전용 재발급 API를 호출한다", async () => {

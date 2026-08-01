@@ -1,29 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getAdminApiServerUrl } from "@/lib/env";
-import { loadAdminApiEnvironment } from "@/lib/utils/localStorage";
-
-type DisplayedEnvironment = "dev" | "prod" | "local";
-
-const environmentStyles: Record<DisplayedEnvironment, string> = {
-	dev: "bg-magic-success-surface text-magic-success",
-	prod: "bg-magic-danger-surface text-magic-danger",
-	local: "bg-bg-50 text-k-600",
-};
-
-const environmentLabels: Record<DisplayedEnvironment, string> = {
-	dev: "DEV",
-	prod: "PROD",
-	local: "LOCAL",
-};
-
-const resolveDisplayedEnvironment = (): DisplayedEnvironment => {
-	if (import.meta.env.DEV && getAdminApiServerUrl()) {
-		return "local";
-	}
-	return loadAdminApiEnvironment() ?? "prod";
-};
+import {
+	type DisplayedEnvironment,
+	environmentLabels,
+	environmentStyles,
+	resolveDisplayedEnvironment,
+} from "./environmentDisplay";
 
 export function EnvironmentBanner() {
 	const [environment, setEnvironment] = useState<DisplayedEnvironment | null>(null);
