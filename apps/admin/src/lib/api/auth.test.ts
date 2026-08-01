@@ -36,11 +36,11 @@ describe("adminSignInApi", () => {
 		});
 
 		const { adminSignInApi } = await import("./auth");
-		await adminSignInApi("admin@dev.solid-connection.com", "password");
+		await adminSignInApi("dev@solid-connection.com", "password");
 
 		expect(post).toHaveBeenCalledWith(
 			"/auth/email/sign-in",
-			{ email: "admin@dev.solid-connection.com", password: "password" },
+			{ email: "dev@solid-connection.com", password: "password" },
 			{ baseURL: "https://api.stage.solid-connection.com" },
 		);
 
