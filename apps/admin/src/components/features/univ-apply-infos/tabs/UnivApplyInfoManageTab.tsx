@@ -78,7 +78,12 @@ export function UnivApplyInfoManageTab() {
 
 	const searchResultQuery = useQuery({
 		queryKey: ["univ-apply-infos", "search", committedSearch],
-		queryFn: () => adminApi.searchUnivApplyInfos(committedSearch?.value),
+		queryFn: () =>
+			adminApi.searchUnivApplyInfos({
+				value: committedSearch?.value,
+				homeUniversityId: committedSearch?.homeUniversityId,
+				termId: committedSearch?.termId,
+			}),
 		enabled: committedSearch !== null,
 	});
 
@@ -210,17 +215,7 @@ export function UnivApplyInfoManageTab() {
 		setCreateModal({ open: true });
 	};
 
-	const selectedHomeUniversityName = committedSearch?.homeUniversityId
-		? homeUniversitiesQuery.data?.find((university) => university.id === committedSearch.homeUniversityId)?.name
-		: undefined;
-	const selectedTermLabel = committedSearch?.termId
-		? termsQuery.data?.find((term) => term.id === committedSearch.termId)?.label
-		: undefined;
-	const results = (searchResultQuery.data?.univApplyInfoPreviews ?? []).filter(
-		(item) =>
-			(!committedSearch?.homeUniversityId || item.homeUniversityName === selectedHomeUniversityName) &&
-			(!committedSearch?.termId || item.term === selectedTermLabel),
-	);
+	const results = searchResultQuery.data?.univApplyInfoPreviews ?? [];
 	const isMutating = deleteMutation.isPending || updateMutation.isPending || createMutation.isPending;
 
 	return (
