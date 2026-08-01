@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { resolveActiveApiBaseUrl } from "@/lib/env";
 import { loadAccessToken } from "@/lib/utils/localStorage";
 
 type ConnectionState = "DISCONNECTED" | "CONNECTING" | "CONNECTED" | "ERROR";
@@ -92,7 +93,7 @@ export function ChatSocketPageContent() {
 	const subscriptionRef = useRef<StompSubscription | null>(null);
 
 	const [connectionState, setConnectionState] = useState<ConnectionState>("DISCONNECTED");
-	const [serverUrl, setServerUrl] = useState(import.meta.env.VITE_API_SERVER_URL?.trim() ?? "");
+	const [serverUrl, setServerUrl] = useState(resolveActiveApiBaseUrl());
 	const [token, setToken] = useState("");
 	const [roomId, setRoomId] = useState("");
 	const [topicTemplate, setTopicTemplate] = useState(defaultTopicTemplate);
