@@ -32,7 +32,7 @@ vi.mock("axios", () => ({
 vi.mock("@/lib/auth/environment", () => ({
 	getApiBaseUrlForEnvironment: (environment: string) =>
 		environment === "dev" ? "https://api.stage.solid-connection.com" : "https://api.solid-connection.com",
-	resolveEnvironmentFromEmail: (email: string) => (email.endsWith("@dev.solid-connection.com") ? "dev" : "prod"),
+	resolveEnvironmentFromEmail: (email: string) => (email === "dev@solid-connection.com" ? "dev" : "prod"),
 }));
 
 vi.mock("@/lib/env", () => ({
@@ -64,13 +64,13 @@ describe("어드민 인증 API", () => {
 	it("어드민 전용 로그인 API를 이메일 환경에 맞춰 호출한다", async () => {
 		post.mockResolvedValue({ data: { accessToken: "access-token" } });
 
-		await adminSignInApi("admin@dev.solid-connection.com", "password");
+		await adminSignInApi("dev@solid-connection.com", "password");
 
 		expect(removeAccessToken).toHaveBeenCalledOnce();
 		expect(saveAdminApiEnvironment).toHaveBeenCalledWith("dev");
 		expect(post).toHaveBeenCalledWith(
 			"/admin/auth/sign-in",
-			{ email: "admin@dev.solid-connection.com", password: "password" },
+			{ email: "dev@solid-connection.com", password: "password" },
 			{ baseURL: "https://api.stage.solid-connection.com" },
 		);
 	});
