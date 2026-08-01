@@ -69,14 +69,13 @@ University project의 직접 배포 도메인은 검색엔진에 노출하지 �
 production 릴리즈는 GitHub Actions `Promote Main to Release Branches` workflow로 release branch를 갱신해 Vercel 배포를 트리거한다.
 
 - Main Web Project production branch: `release-web`
-- Admin Project production branch: `release-admin`
+- Admin Project production branch: `main` (release 승격 없이 main 병합 시 production 배포)
 - University Web Project production branch: `release-university`
 
 workflow target은 다음과 같이 사용한다.
 
-- `all`: `release-web`, `release-admin`, `release-university`를 모두 main으로 갱신
+- `all`: `release-web`, `release-university`를 모두 main으로 갱신
 - `web`: `release-web`만 main으로 갱신
-- `admin`: `release-admin`만 main으로 갱신
 - `university`: `release-university`만 main으로 갱신
 
 workflow 기본값은 `all`이다. 개별 production 배포가 필요하면 `web`, `admin`, `university`를 선택한다.
