@@ -53,11 +53,3 @@ export const saveAdminApiEnvironment = (environment: AdminApiEnvironment) => {
 		console.error("Could not save admin api environment", err);
 	}
 };
-
-export const removeAdminApiEnvironment = () => {
-	try {
-		localStorage.removeItem(ADMIN_API_ENVIRONMENT_KEY);
-	} catch (err) {
-		console.error("Could not remove admin api environment", err);
-	}
-};

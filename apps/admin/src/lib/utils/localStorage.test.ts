@@ -4,7 +4,6 @@ import {
 	loadAccessToken,
 	loadAdminApiEnvironment,
 	removeAccessToken,
-	removeAdminApiEnvironment,
 	saveAccessToken,
 	saveAdminApiEnvironment,
 } from "./localStorage";
@@ -53,14 +52,6 @@ describe("어드민 API 환경 localStorage 저장", () => {
 		saveAdminApiEnvironment("prod");
 
 		expect(loadAdminApiEnvironment()).toBe("prod");
-	});
-
-	it("환경 값을 제거한다", () => {
-		saveAdminApiEnvironment("stage");
-
-		removeAdminApiEnvironment();
-
-		expect(loadAdminApiEnvironment()).toBeNull();
 	});
 
 	it("레거시 값 'dev'는 'stage'로 해석한다", () => {
