@@ -59,6 +59,21 @@ export interface ApplicationListResponse {
   choices: ScoreSheet[][];
 }
 
+export interface ApplicationUniversityPreview {
+  id: number;
+  koreanName: string;
+  studentCapacity: number | null;
+  region: string;
+  country: string;
+  logoImageUrl: string;
+  backgroundImageUrl: string;
+}
+
+export interface ApplicationPreviewResponse {
+  totalUniversityCount: number;
+  universities: ApplicationUniversityPreview[];
+}
+
 export interface ApplicationStatusResponse {
   status: ApplyStatus;
   updateCount: number;

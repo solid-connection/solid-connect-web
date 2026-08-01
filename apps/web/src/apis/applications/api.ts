@@ -1,15 +1,20 @@
 import type { AxiosResponse } from "axios";
-import type { ApplicationListResponse } from "@/types/application";
+import type { ApplicationListResponse, ApplicationPreviewResponse } from "@/types/application";
 import { axiosInstance } from "@/utils/axiosInstance";
 
 // ====== Query Keys ======
 export const ApplicationsQueryKeys = {
   competitorsApplicationList: "competitorsApplicationList",
+  applicationPreview: "applicationPreview",
 } as const;
 
 // ====== Types ======
 export interface UseSubmitApplicationResponse {
-  isSuccess: boolean;
+  totalApplyCount: number;
+  applyCount: number;
+  appliedUniversities: {
+    choices: string[];
+  };
 }
 
 export interface UseSubmitApplicationRequest {
@@ -35,6 +40,13 @@ export const applicationsApi = {
    */
   getApplicationsList: async (): Promise<AxiosResponse<ApplicationListResponse>> => {
     return axiosInstance.get("/applications");
+  },
+
+  /**
+   * 지원자가 있는 대학의 제한 공개 정보 조회
+   */
+  getApplicationPreview: async (): Promise<AxiosResponse<ApplicationPreviewResponse>> => {
+    return axiosInstance.get("/applications/preview");
   },
 
   /**
