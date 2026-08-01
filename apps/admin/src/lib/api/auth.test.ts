@@ -1,60 +1,96 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
-const { post, requestInterceptors } = vi.hoisted(() => ({
-	post: vi.fn().mockResolvedValue({ data: { accessToken: "token" } }),
-	requestInterceptors: [] as Array<(config: Record<string, unknown>) => Record<string, unknown>>,
-}));
+const { create, loadAccessToken, post, removeAccessToken, requestInterceptors, saveAdminApiEnvironment } = vi.hoisted(
+	() => {
+		const hoistedPost = vi.fn();
+		return {
+			create: vi.fn(() => ({
+				post: hoistedPost,
+				interceptors: {
+					request: {
+						use: (fn: (config: Record<string, unknown>) => Record<string, unknown>) => {
+							requestInterceptors.push(fn);
+						},
+					},
+				},
+			})),
+			loadAccessToken: vi.fn(),
+			post: hoistedPost,
+			removeAccessToken: vi.fn(),
+			requestInterceptors: [] as Array<(config: Record<string, unknown>) => Record<string, unknown>>,
+			saveAdminApiEnvironment: vi.fn(),
+		};
+	},
+);
 
 vi.mock("axios", () => ({
 	default: {
-		create: () => ({
-			post,
-			interceptors: {
-				request: {
-					use: (fn: (config: Record<string, unknown>) => Record<string, unknown>) => {
-						requestInterceptors.push(fn);
-					},
-				},
-			},
-		}),
+		create,
 	},
 }));
 
-describe("adminSignInApi", () => {
+vi.mock("@/lib/auth/environment", () => ({
+	getApiBaseUrlForEnvironment: (environment: string) =>
+		environment === "dev" ? "https://api.stage.solid-connection.com" : "https://api.solid-connection.com",
+	resolveEnvironmentFromEmail: (email: string) => (email.endsWith("@dev.solid-connection.com") ? "dev" : "prod"),
+}));
+
+vi.mock("@/lib/env", () => ({
+	resolveActiveApiBaseUrl: () => "https://api.solid-connection.com",
+}));
+
+vi.mock("@/lib/utils/localStorage", () => ({
+	loadAccessToken,
+	removeAccessToken,
+	saveAdminApiEnvironment,
+}));
+
+import { adminSignInApi, adminSignOutApi, reissueAccessTokenApi } from "./auth";
+
+describe("어드민 인증 API", () => {
 	beforeEach(() => {
-		post.mockClear();
-		localStorage.clear();
+		loadAccessToken.mockReset();
+		post.mockReset();
+		removeAccessToken.mockReset();
+		saveAdminApiEnvironment.mockReset();
 	});
 
-	afterEach(() => {
-		vi.restoreAllMocks();
-	});
-
-	it("dev 이메일 로그인 요청은 localStorage 저장 성공 여부와 무관하게 stage baseURL로 전송된다", async () => {
-		const setItemSpy = vi.spyOn(Storage.prototype, "setItem").mockImplementation(() => {
-			throw new Error("storage unavailable");
+	it("어드민 refresh token 쿠키를 주고받도록 credentials를 포함한다", () => {
+		expect(create).toHaveBeenCalledWith({
+			withCredentials: true,
 		});
+	});
 
-		const { adminSignInApi } = await import("./auth");
+	it("어드민 전용 로그인 API를 이메일 환경에 맞춰 호출한다", async () => {
+		post.mockResolvedValue({ data: { accessToken: "access-token" } });
+
 		await adminSignInApi("admin@dev.solid-connection.com", "password");
 
+		expect(removeAccessToken).toHaveBeenCalledOnce();
+		expect(saveAdminApiEnvironment).toHaveBeenCalledWith("dev");
 		expect(post).toHaveBeenCalledWith(
-			"/auth/email/sign-in",
+			"/admin/auth/sign-in",
 			{ email: "admin@dev.solid-connection.com", password: "password" },
 			{ baseURL: "https://api.stage.solid-connection.com" },
 		);
-
-		setItemSpy.mockRestore();
 	});
 
-	it("prod 이메일 로그인 요청은 prod baseURL로 전송된다", async () => {
-		const { adminSignInApi } = await import("./auth");
-		await adminSignInApi("admin@solid-connection.com", "password");
+	it("어드민 전용 재발급 API를 호출한다", async () => {
+		post.mockResolvedValue({ data: { accessToken: "reissued-access-token" } });
 
-		expect(post).toHaveBeenCalledWith(
-			"/auth/email/sign-in",
-			{ email: "admin@solid-connection.com", password: "password" },
-			{ baseURL: "https://api.solid-connection.com" },
-		);
+		await reissueAccessTokenApi();
+
+		expect(post).toHaveBeenCalledWith("/admin/auth/reissue");
+	});
+
+	it("어드민 전용 로그아웃 API에 access token을 전달한다", async () => {
+		loadAccessToken.mockReturnValue("access-token");
+		post.mockResolvedValue({ data: undefined });
+
+		await adminSignOutApi();
+
+		expect(post).toHaveBeenCalledWith("/admin/auth/sign-out", undefined, {
+			headers: { Authorization: "Bearer access-token" },
+		});
 	});
 });
