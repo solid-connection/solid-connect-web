@@ -14,7 +14,6 @@ on:
         options:
           - all
           - web
-          - admin
           - university
       force_redeploy:
         description: "When up to date, skip divergence and print manual redeploy guidance"
@@ -40,14 +39,11 @@ jobs:
             web)
               TARGETS='["web"]'
               ;;
-            admin)
-              TARGETS='["admin"]'
-              ;;
             university)
               TARGETS='["university"]'
               ;;
             all)
-              TARGETS='["web","admin","university"]'
+              TARGETS='["web","university"]'
               ;;
             *)
               echo "Unsupported target: $TARGET" >&2
