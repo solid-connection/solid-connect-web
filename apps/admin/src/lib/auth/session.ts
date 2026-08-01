@@ -1,6 +1,11 @@
 import { reissueAccessTokenApi } from "@/lib/api/auth";
 import { isTokenExpired } from "@/lib/utils/jwtUtils";
-import { loadAccessToken, removeAccessToken, saveAccessToken } from "@/lib/utils/localStorage";
+import {
+	loadAccessToken,
+	removeAccessToken,
+	removeAdminApiEnvironment,
+	saveAccessToken,
+} from "@/lib/utils/localStorage";
 
 let reissuePromise: Promise<string | null> | null = null;
 let sessionVersion = 0;
@@ -23,6 +28,7 @@ export const clearSession = () => {
 	sessionVersion += 1;
 	reissuePromise = null;
 	removeAccessToken();
+	removeAdminApiEnvironment();
 };
 
 export const reissueAccessTokenIfPossible = async (): Promise<string | null> => {
