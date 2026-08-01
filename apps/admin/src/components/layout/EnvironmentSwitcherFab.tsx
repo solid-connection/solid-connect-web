@@ -3,32 +3,15 @@
 import { useEffect, useState } from "react";
 import type { AdminApiEnvironment } from "@/lib/auth/environment";
 import { switchAdminApiEnvironment } from "@/lib/auth/session";
-import { getAdminApiServerUrl } from "@/lib/env";
-import { loadAdminApiEnvironment } from "@/lib/utils/localStorage";
-
-type DisplayedEnvironment = AdminApiEnvironment | "local";
-
-const environmentStyles: Record<DisplayedEnvironment, string> = {
-	stage: "bg-magic-success-surface text-magic-success",
-	prod: "bg-magic-danger-surface text-magic-danger",
-	local: "bg-bg-50 text-k-600",
-};
-
-const environmentLabels: Record<DisplayedEnvironment, string> = {
-	stage: "STAGE",
-	prod: "PROD",
-	local: "LOCAL",
-};
+import {
+	type DisplayedEnvironment,
+	environmentLabels,
+	environmentStyles,
+	resolveDisplayedEnvironment,
+} from "./environmentDisplay";
 
 const nextEnvironmentOf = (environment: AdminApiEnvironment): AdminApiEnvironment =>
 	environment === "stage" ? "prod" : "stage";
-
-const resolveDisplayedEnvironment = (): DisplayedEnvironment => {
-	if (import.meta.env.DEV && getAdminApiServerUrl()) {
-		return "local";
-	}
-	return loadAdminApiEnvironment() ?? "prod";
-};
 
 export function EnvironmentSwitcherFab() {
 	const [environment, setEnvironment] = useState<DisplayedEnvironment | null>(null);
