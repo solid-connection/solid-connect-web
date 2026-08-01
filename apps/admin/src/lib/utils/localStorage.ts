@@ -35,7 +35,11 @@ export const loadAdminApiEnvironment = (): AdminApiEnvironment | null => {
 
 	try {
 		const value = localStorage.getItem(ADMIN_API_ENVIRONMENT_KEY);
-		return value === "dev" || value === "prod" ? value : null;
+		// 레거시 값("dev")으로 저장된 기존 사용자의 선택을 보존하기 위해 stage로 해석한다.
+		if (value === "dev") {
+			return "stage";
+		}
+		return value === "stage" || value === "prod" ? value : null;
 	} catch (err) {
 		console.error("Could not load admin api environment", err);
 		return null;

@@ -1,8 +1,16 @@
 import { afterEach, describe, expect, it } from "vitest";
 
-import { loadAccessToken, removeAccessToken, saveAccessToken } from "./localStorage";
+import {
+	loadAccessToken,
+	loadAdminApiEnvironment,
+	removeAccessToken,
+	removeAdminApiEnvironment,
+	saveAccessToken,
+	saveAdminApiEnvironment,
+} from "./localStorage";
 
 const ADMIN_ACCESS_TOKEN_KEY = "adminAccessToken";
+const ADMIN_API_ENVIRONMENT_KEY = "adminApiEnvironment";
 
 describe("어드민 access token localStorage 저장", () => {
 	afterEach(() => {
@@ -33,5 +41,37 @@ describe("어드민 access token localStorage 저장", () => {
 		saveAccessToken("access-token");
 
 		expect(localStorage.getItem("accessToken")).toBeNull();
+	});
+});
+
+describe("어드민 API 환경 localStorage 저장", () => {
+	afterEach(() => {
+		localStorage.clear();
+	});
+
+	it("환경 값을 저장하고 조회한다", () => {
+		saveAdminApiEnvironment("prod");
+
+		expect(loadAdminApiEnvironment()).toBe("prod");
+	});
+
+	it("환경 값을 제거한다", () => {
+		saveAdminApiEnvironment("stage");
+
+		removeAdminApiEnvironment();
+
+		expect(loadAdminApiEnvironment()).toBeNull();
+	});
+
+	it("레거시 값 'dev'는 'stage'로 해석한다", () => {
+		localStorage.setItem(ADMIN_API_ENVIRONMENT_KEY, "dev");
+
+		expect(loadAdminApiEnvironment()).toBe("stage");
+	});
+
+	it("알 수 없는 값은 null을 반환한다", () => {
+		localStorage.setItem(ADMIN_API_ENVIRONMENT_KEY, "unknown");
+
+		expect(loadAdminApiEnvironment()).toBeNull();
 	});
 });

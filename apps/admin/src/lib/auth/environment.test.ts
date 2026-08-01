@@ -1,28 +1,52 @@
-import { describe, expect, it } from "vitest";
-import { getApiBaseUrlForEnvironment, resolveEnvironmentFromEmail } from "./environment";
-
-describe("resolveEnvironmentFromEmail", () => {
-	it("dev 계정 이메일(dev@solid-connection.com)은 dev 환경으로 판별한다", () => {
-		expect(resolveEnvironmentFromEmail("dev@solid-connection.com")).toBe("dev");
-	});
-
-	it("대소문자와 앞뒤 공백을 무시하고 판별한다", () => {
-		expect(resolveEnvironmentFromEmail("  Dev@Solid-Connection.Com  ")).toBe("dev");
-	});
-
-	it("dev 계정 이메일이 아닌 이메일은 prod 환경으로 판별한다", () => {
-		expect(resolveEnvironmentFromEmail("admin@solid-connection.com")).toBe("prod");
-	});
-
-	it("로컬파트가 dev로 시작하지만 정확히 일치하지 않는 이메일은 prod로 판별한다", () => {
-		expect(resolveEnvironmentFromEmail("dev2@solid-connection.com")).toBe("prod");
-		expect(resolveEnvironmentFromEmail("dev@notsolid-connection.com")).toBe("prod");
-	});
-});
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { getApiBaseUrlForEnvironment } from "./environment";
 
 describe("getApiBaseUrlForEnvironment", () => {
 	it("환경에 맞는 API base URL을 반환한다", () => {
-		expect(getApiBaseUrlForEnvironment("dev")).toBe("https://api.stage.solid-connection.com");
+		expect(getApiBaseUrlForEnvironment("stage")).toBe("https://api.stage.solid-connection.com");
 		expect(getApiBaseUrlForEnvironment("prod")).toBe("https://api.solid-connection.com");
+	});
+});
+
+const { removeAccessToken, removeAdminApiEnvironment, saveAdminApiEnvironment } = vi.hoisted(() => ({
+	removeAccessToken: vi.fn(),
+	removeAdminApiEnvironment: vi.fn(),
+	saveAdminApiEnvironment: vi.fn(),
+}));
+
+vi.mock("@/lib/api/auth", () => ({
+	reissueAccessTokenApi: vi.fn(),
+}));
+
+vi.mock("@/lib/utils/localStorage", () => ({
+	loadAccessToken: vi.fn(),
+	removeAccessToken,
+	removeAdminApiEnvironment,
+	saveAccessToken: vi.fn(),
+	saveAdminApiEnvironment,
+}));
+
+describe("switchAdminApiEnvironment", () => {
+	beforeEach(() => {
+		removeAccessToken.mockReset();
+		removeAdminApiEnvironment.mockReset();
+		saveAdminApiEnvironment.mockReset();
+	});
+
+	it("세션(access token, 환경 값)을 모두 지운 뒤 새 환경을 저장한다", async () => {
+		const { switchAdminApiEnvironment } = await import("./session");
+		const redirect = vi.fn();
+		const callOrder: string[] = [];
+
+		removeAdminApiEnvironment.mockImplementation(() => callOrder.push("removeAdminApiEnvironment"));
+		saveAdminApiEnvironment.mockImplementation(() => callOrder.push("saveAdminApiEnvironment"));
+
+		switchAdminApiEnvironment("prod", redirect);
+
+		expect(removeAccessToken).toHaveBeenCalledOnce();
+		expect(removeAdminApiEnvironment).toHaveBeenCalledOnce();
+		expect(saveAdminApiEnvironment).toHaveBeenCalledWith("prod");
+		expect(callOrder).toEqual(["removeAdminApiEnvironment", "saveAdminApiEnvironment"]);
+		expect(redirect).toHaveBeenCalledWith("/auth/login");
 	});
 });

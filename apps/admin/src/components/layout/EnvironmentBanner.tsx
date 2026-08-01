@@ -4,16 +4,16 @@ import { useEffect, useState } from "react";
 import { getAdminApiServerUrl } from "@/lib/env";
 import { loadAdminApiEnvironment } from "@/lib/utils/localStorage";
 
-type DisplayedEnvironment = "dev" | "prod" | "local";
+type DisplayedEnvironment = "stage" | "prod" | "local";
 
 const environmentStyles: Record<DisplayedEnvironment, string> = {
-	dev: "bg-magic-success-surface text-magic-success",
+	stage: "bg-magic-success-surface text-magic-success",
 	prod: "bg-magic-danger-surface text-magic-danger",
 	local: "bg-bg-50 text-k-600",
 };
 
 const environmentLabels: Record<DisplayedEnvironment, string> = {
-	dev: "DEV",
+	stage: "STAGE",
 	prod: "PROD",
 	local: "LOCAL",
 };
