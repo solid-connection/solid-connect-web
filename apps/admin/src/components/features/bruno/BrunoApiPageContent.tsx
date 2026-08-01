@@ -15,6 +15,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { axiosInstance } from "@/lib/api/client";
+import { resolveActiveApiBaseUrl } from "@/lib/env";
 import { cn } from "@/lib/utils";
 
 type EndpointItem = BrunoApiDefinitionRegistryItem;
@@ -46,7 +47,6 @@ const ALL_ENDPOINTS: EndpointItem[] = [...brunoApiDefinitionRegistry].sort((a, b
 const METHOD_FILTERS: MethodFilter[] = ["ALL", "GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"];
 const MUTATING_METHODS = new Set<DefinitionMethod>(["POST", "PUT", "PATCH", "DELETE"]);
 const METHODS_WITHOUT_BODY = new Set<string>(["GET", "HEAD"]);
-const apiServerUrl = import.meta.env.VITE_API_SERVER_URL?.trim() ?? "";
 
 const toPrettyJson = (value: unknown): string => {
 	if (value === undefined) {
@@ -199,7 +199,7 @@ export function BrunoApiPageContent() {
 	const remoteWarningUrl =
 		selectedEndpoint && isAbsoluteUrl(selectedEndpoint.definition.path)
 			? selectedEndpoint.definition.path
-			: apiServerUrl;
+			: resolveActiveApiBaseUrl();
 	const showRemoteWarning = isRemoteApiServer(remoteWarningUrl);
 
 	useEffect(() => {
