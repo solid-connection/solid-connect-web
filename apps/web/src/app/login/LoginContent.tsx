@@ -48,12 +48,6 @@ const LoginContent = () => {
     postEmailAuth(data);
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      handleSubmit(onSubmit)();
-    }
-  };
-
   const handleBack = () => {
     if (window.history.length > 1) {
       router.back();
@@ -97,7 +91,6 @@ const LoginContent = () => {
               {...register("email", {
                 onChange: handleEmailChange,
               })}
-              onKeyDown={handleKeyDown}
             />
             {errors.email && <p className="mt-1 text-red-500 typo-regular-4">{errors.email.message}</p>}
           </div>
@@ -112,7 +105,6 @@ const LoginContent = () => {
               placeholder="비밀번호"
               className="w-full rounded-lg border border-k-100 px-5 py-3 font-serif text-k-400 typo-regular-4 focus:outline-none"
               {...register("password")}
-              onKeyDown={handleKeyDown}
             />
             {errors.password && <p className="mt-1 text-red-500 typo-regular-4">{errors.password.message}</p>}
           </div>

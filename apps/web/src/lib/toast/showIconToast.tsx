@@ -17,12 +17,20 @@ const TOAST_DURATION = 3000;
 const TOAST_COOLDOWN = 3500;
 const activeToastKeys = new Set<string>();
 
-export const showIconToast = (icon: ToastIconKey, message: string) => {
+export type ShowIconToastOptions = {
+  /** 동일한 아이콘+메시지 토스트를 TOAST_COOLDOWN 동안 억제할지 여부 (기본 true) */
+  dedupe?: boolean;
+};
+
+export const showIconToast = (icon: ToastIconKey, message: string, options?: ShowIconToastOptions) => {
   const Icon = ICONS[icon];
   const key = `${icon}:${message}`;
+  const dedupe = options?.dedupe ?? true;
 
-  if (activeToastKeys.has(key)) return;
-  activeToastKeys.add(key);
+  if (dedupe) {
+    if (activeToastKeys.has(key)) return;
+    activeToastKeys.add(key);
+  }
 
   toast.custom(
     () => (
@@ -36,5 +44,7 @@ export const showIconToast = (icon: ToastIconKey, message: string) => {
     { duration: TOAST_DURATION },
   );
 
-  setTimeout(() => activeToastKeys.delete(key), TOAST_COOLDOWN);
+  if (dedupe) {
+    setTimeout(() => activeToastKeys.delete(key), TOAST_COOLDOWN);
+  }
 };
