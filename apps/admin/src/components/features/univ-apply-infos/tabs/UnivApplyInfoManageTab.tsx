@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { type FormEvent, useId, useState } from "react";
+import { type FormEvent, useEffect, useId, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -69,6 +69,7 @@ export function UnivApplyInfoManageTab() {
 	const [editModal, setEditModal] = useState<EditModal>({ open: false });
 	const [editForm, setEditForm] = useState<UnivApplyInfoUpdatePayload>({});
 	const [editExtraInfoText, setEditExtraInfoText] = useState("");
+	const editingId = editModal.open ? editModal.id : undefined;
 
 	const [createModal, setCreateModal] = useState<CreateModal>({ open: false });
 	const [createForm, setCreateForm] = useState<Partial<UnivApplyInfoCreatePayload>>({});
@@ -102,6 +103,28 @@ export function UnivApplyInfoManageTab() {
 		queryFn: () => adminApi.getHostUniversities({ keyword: hostSearchQuery, size: 10 }),
 		enabled: hostSearchQuery.length > 0,
 	});
+
+	const editDetailQuery = useQuery({
+		queryKey: ["univ-apply-infos", "detail", editingId],
+		queryFn: () => adminApi.getUnivApplyInfo(editingId as number),
+		enabled: editingId !== undefined,
+	});
+
+	// biome-ignore lint/correctness/useExhaustiveDependencies: 조회된 상세 정보의 id가 바뀔 때만 폼을 채워야 하며, 리페치로 데이터 참조가 바뀌어도 수정 중인 값을 덮어쓰면 안 됨
+	useEffect(() => {
+		if (!editDetailQuery.data) return;
+		const detail = editDetailQuery.data;
+		setEditForm({
+			studentCapacity: detail.studentCapacity,
+			semesterAvailableForDispatch: detail.semesterAvailableForDispatch,
+			semesterRequirement: detail.semesterRequirement,
+			detailsForLanguage: detail.detailsForLanguage,
+			gpaRequirement: detail.gpaRequirement,
+			gpaRequirementCriteria: detail.gpaRequirementCriteria,
+			detailsForAccommodation: detail.detailsForAccommodation,
+		});
+		setEditExtraInfoText(detail.extraInfo ? JSON.stringify(detail.extraInfo, null, 2) : "");
+	}, [editDetailQuery.data?.id]);
 
 	const updateMutation = useMutation({
 		mutationFn: ({ id, data }: { id: number; data: UnivApplyInfoUpdatePayload }) =>
@@ -158,7 +181,7 @@ export function UnivApplyInfoManageTab() {
 	};
 
 	const handleOpenEdit = (item: UnivApplyInfoSearchResult) => {
-		setEditForm({ studentCapacity: item.studentCapacity });
+		setEditForm({});
 		setEditExtraInfoText("");
 		setEditModal({ open: true, id: item.id, name: item.koreanName });
 	};
@@ -363,85 +386,91 @@ export function UnivApplyInfoManageTab() {
 								✕
 							</button>
 						</div>
-						<form onSubmit={handleEditSubmit} className="space-y-3 p-5">
-							<div className="space-y-1">
-								<label htmlFor={`${uid}-edit-student-capacity`} className="typo-sb-11 text-k-700">
-									정원
-								</label>
-								<Input
-									id={`${uid}-edit-student-capacity`}
-									type="number"
-									min={1}
-									value={editForm.studentCapacity ?? ""}
-									onChange={(e) =>
-										setEditForm((p) => ({
-											...p,
-											studentCapacity: e.target.value ? Number(e.target.value) : undefined,
-										}))
-									}
-								/>
-							</div>
-							<div className="space-y-1">
-								<label htmlFor={`${uid}-edit-semester-dispatch`} className="typo-sb-11 text-k-700">
-									파견 가능 학기
-								</label>
-								<select
-									id={`${uid}-edit-semester-dispatch`}
-									value={editForm.semesterAvailableForDispatch ?? ""}
-									onChange={(e) =>
-										setEditForm((p) => ({
-											...p,
-											semesterAvailableForDispatch: e.target.value || undefined,
-										}))
-									}
-									className="h-9 w-full rounded-md border border-k-200 bg-k-0 px-3 typo-regular-4 text-k-700 outline-none focus-visible:border-primary"
-								>
-									<option value="">— 선택 안 함 —</option>
-									{SEMESTER_OPTIONS.map((o) => (
-										<option key={o.value} value={o.value}>
-											{o.label}
-										</option>
-									))}
-								</select>
-							</div>
-							{EDIT_TEXT_FIELDS.map(({ key, label }) => (
-								<div key={key} className="space-y-1">
-									<label htmlFor={`${uid}-edit-${key}`} className="typo-sb-11 text-k-700">
-										{label}
+						{editDetailQuery.isLoading ? (
+							<p className="p-5 typo-regular-4 text-k-500">불러오는 중...</p>
+						) : editDetailQuery.isError ? (
+							<p className="p-5 typo-regular-4 text-magic-danger">상세 정보를 불러오지 못했습니다.</p>
+						) : (
+							<form onSubmit={handleEditSubmit} className="space-y-3 p-5">
+								<div className="space-y-1">
+									<label htmlFor={`${uid}-edit-student-capacity`} className="typo-sb-11 text-k-700">
+										정원
 									</label>
 									<Input
-										id={`${uid}-edit-${key}`}
-										value={editForm[key] ?? ""}
+										id={`${uid}-edit-student-capacity`}
+										type="number"
+										min={1}
+										value={editForm.studentCapacity ?? ""}
 										onChange={(e) =>
 											setEditForm((p) => ({
 												...p,
-												[key]: e.target.value || undefined,
+												studentCapacity: e.target.value ? Number(e.target.value) : undefined,
 											}))
 										}
 									/>
 								</div>
-							))}
-							<div className="space-y-1">
-								<label htmlFor={`${uid}-edit-extra-info`} className="typo-sb-11 text-k-700">
-									추가 정보 (JSON)
-								</label>
-								<Textarea
-									id={`${uid}-edit-extra-info`}
-									value={editExtraInfoText}
-									onChange={(e) => setEditExtraInfoText(e.target.value)}
-									placeholder='{"key": "value"}'
-									className="h-20 font-mono"
-								/>
-							</div>
-							<div className="flex justify-end gap-2 pt-2">
-								<Button type="button" variant="secondary" onClick={() => setEditModal({ open: false })}>
-									취소
-								</Button>
-								<Button type="submit" disabled={updateMutation.isPending}>
-									{updateMutation.isPending ? "저장 중..." : "저장"}
-								</Button>
-							</div>
-						</form>
+								<div className="space-y-1">
+									<label htmlFor={`${uid}-edit-semester-dispatch`} className="typo-sb-11 text-k-700">
+										파견 가능 학기
+									</label>
+									<select
+										id={`${uid}-edit-semester-dispatch`}
+										value={editForm.semesterAvailableForDispatch ?? ""}
+										onChange={(e) =>
+											setEditForm((p) => ({
+												...p,
+												semesterAvailableForDispatch: e.target.value || undefined,
+											}))
+										}
+										className="h-9 w-full rounded-md border border-k-200 bg-k-0 px-3 typo-regular-4 text-k-700 outline-none focus-visible:border-primary"
+									>
+										<option value="">— 선택 안 함 —</option>
+										{SEMESTER_OPTIONS.map((o) => (
+											<option key={o.value} value={o.value}>
+												{o.label}
+											</option>
+										))}
+									</select>
+								</div>
+								{EDIT_TEXT_FIELDS.map(({ key, label }) => (
+									<div key={key} className="space-y-1">
+										<label htmlFor={`${uid}-edit-${key}`} className="typo-sb-11 text-k-700">
+											{label}
+										</label>
+										<Input
+											id={`${uid}-edit-${key}`}
+											value={editForm[key] ?? ""}
+											onChange={(e) =>
+												setEditForm((p) => ({
+													...p,
+													[key]: e.target.value || undefined,
+												}))
+											}
+										/>
+									</div>
+								))}
+								<div className="space-y-1">
+									<label htmlFor={`${uid}-edit-extra-info`} className="typo-sb-11 text-k-700">
+										추가 정보 (JSON)
+									</label>
+									<Textarea
+										id={`${uid}-edit-extra-info`}
+										value={editExtraInfoText}
+										onChange={(e) => setEditExtraInfoText(e.target.value)}
+										placeholder='{"key": "value"}'
+										className="h-20 font-mono"
+									/>
+								</div>
+								<div className="flex justify-end gap-2 pt-2">
+									<Button type="button" variant="secondary" onClick={() => setEditModal({ open: false })}>
+										취소
+									</Button>
+									<Button type="submit" disabled={updateMutation.isPending}>
+										{updateMutation.isPending ? "저장 중..." : "저장"}
+									</Button>
+								</div>
+							</form>
+						)}
 					</div>
 				</div>
 			)}

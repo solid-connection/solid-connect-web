@@ -361,6 +361,9 @@ export const adminApi = {
 	deleteHostUniversity: (id: number) =>
 		axiosInstance.delete<void>(`/admin/host-universities/${id}`).then((res) => res.data),
 
+	getUnivApplyInfo: (id: number) =>
+		axiosInstance.get<UnivApplyInfoManageResponse>(`/admin/univ-apply-infos/${id}`).then((res) => res.data),
+
 	createUnivApplyInfo: (data: UnivApplyInfoCreatePayload) =>
 		axiosInstance.post<UnivApplyInfoManageResponse>("/admin/univ-apply-infos", data).then((res) => res.data),
 
