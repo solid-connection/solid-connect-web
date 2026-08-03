@@ -21,7 +21,20 @@ const imageRemotePatterns = [
 
 const universityWebDomain = process.env.UNIVERSITY_WEB_DOMAIN?.replace(/\/$/, "");
 const isProductionRuntime = process.env.NODE_ENV === "production";
-const universitySlugPattern = "(inha|kyunghee)";
+
+/**
+ * `/university/:homeUniversity` 를 university-web 으로 넘길 홈 대학 슬러그 목록.
+ *
+ * 여기에 없는 슬러그는 rewrite 되지 않고 apps/web 으로 떨어져 404 가 된다.
+ * `/university/score/*`, `/university/application/*` 는 apps/web 소유이므로
+ * 와일드카드 대신 allowlist 를 유지한다.
+ *
+ * 홈 대학을 추가할 때는 `apps/university-web/src/constants/university.ts` 의
+ * `HOME_UNIVERSITY_SLUGS` 와 **이 목록을 함께** 갱신해야 한다.
+ * (next.config 는 .mjs 라 TS 상수를 직접 import 할 수 없어 수동 동기화가 필요하다.)
+ */
+const UNIVERSITY_SLUGS = ["inha", "kyunghee", "chungang"];
+const universitySlugPattern = `(${UNIVERSITY_SLUGS.join("|")})`;
 
 if (isProductionRuntime && !universityWebDomain) {
   throw new Error("UNIVERSITY_WEB_DOMAIN is required because /university catalog routes are served by university-web.");
