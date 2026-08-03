@@ -17,6 +17,7 @@ export const REGIONS_KO = ["유럽권", "미주권", "아시아권", "중국권"
 export const HOME_UNIVERSITY_SLUG_MAP: Record<HomeUniversitySlug, HomeUniversity> = {
   inha: HomeUniversity.INHA,
   kyunghee: HomeUniversity.KYUNGHEE,
+  chungang: HomeUniversity.CHUNGANG,
 };
 
 /**
@@ -25,6 +26,7 @@ export const HOME_UNIVERSITY_SLUG_MAP: Record<HomeUniversitySlug, HomeUniversity
 export const HOME_UNIVERSITY_TO_SLUG_MAP: Record<HomeUniversity, HomeUniversitySlug> = {
   [HomeUniversity.INHA]: "inha",
   [HomeUniversity.KYUNGHEE]: "kyunghee",
+  [HomeUniversity.CHUNGANG]: "chungang",
 };
 
 /**
@@ -58,6 +60,15 @@ export const HOME_UNIVERSITY_LIST: HomeUniversityInfo[] = [
     logoUrl: "/images/univs/kyunghee.png",
     description: "경희대학교 교환학생 프로그램",
     color: "#8C1515",
+  },
+  {
+    homeUniversityId: 3,
+    name: HomeUniversity.CHUNGANG,
+    slug: "chungang",
+    shortName: "중앙대",
+    logoUrl: "/images/univs/chungang.png",
+    description: "중앙대학교 교환학생 프로그램",
+    color: "#006DB4",
   },
 ];
 
@@ -104,7 +115,7 @@ export const getHomeUniversitySlugByName = (value: string | null | undefined): H
 /**
  * 유효한 홈 대학교 슬러그 목록
  */
-export const HOME_UNIVERSITY_SLUGS: HomeUniversitySlug[] = ["inha", "kyunghee"];
+export const HOME_UNIVERSITY_SLUGS: HomeUniversitySlug[] = ["inha", "kyunghee", "chungang"];
 
 export const COUNTRIES_KO = [
   // 2024-2 기준
