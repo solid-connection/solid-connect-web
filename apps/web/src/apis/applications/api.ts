@@ -8,6 +8,14 @@ export const ApplicationsQueryKeys = {
   applicationPreview: "applicationPreview",
 } as const;
 
+// ====== Utils ======
+/** 유효한 양의 정수만 쿼리 파라미터로 내보낸다. (universities/api.ts 와 동일한 규칙) */
+const normalizePositiveInt = (value: unknown) => {
+  const numberValue = typeof value === "string" && value.trim() !== "" ? Number(value) : value;
+
+  return typeof numberValue === "number" && Number.isInteger(numberValue) && numberValue > 0 ? numberValue : undefined;
+};
+
 // ====== Types ======
 export interface UseSubmitApplicationResponse {
   totalApplyCount: number;
@@ -37,9 +45,16 @@ export interface CompetitorsResponse {
 export const applicationsApi = {
   /**
    * 지원 목록 조회
+   *
+   * homeUniversityId 는 클라이언트가 임의로 정하는 값이 아니라,
+   * access token 에서 파싱된 로그인 사용자의 소속 대학(useAuthStore.homeUniversityId)을 그대로 전달한다.
    */
-  getApplicationsList: async (): Promise<AxiosResponse<ApplicationListResponse>> => {
-    return axiosInstance.get("/applications");
+  getApplicationsList: async (params?: {
+    homeUniversityId?: number | null;
+  }): Promise<AxiosResponse<ApplicationListResponse>> => {
+    return axiosInstance.get("/applications", {
+      params: { homeUniversityId: normalizePositiveInt(params?.homeUniversityId) },
+    });
   },
 
   /**
