@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { getAllUniversities, getUniversityDetailWithStatus } from "@/apis/universities/server";
+import { getAllUniversitiesSafe, getUniversityDetailWithStatus } from "@/apis/universities/server";
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import { getHomeUniversityBySlug, HOME_UNIVERSITY_SLUGS } from "@/constants/university";
 import type { HomeUniversitySlug } from "@/types/university";
@@ -10,10 +10,11 @@ import { createUrl, NO_INDEX_ROBOTS } from "@/utils/seo";
 
 // UniversityDetail 컴포넌트
 import UniversityDetail from "./_ui/UniversityDetail";
-import UniversityDetailPreparingFallback from "./_ui/UniversityDetailPreparingFallback";
+import UniversityDetailCsrFallback from "./_ui/UniversityDetailCsrFallback";
 
 export const revalidate = false;
-export const dynamicParams = false;
+// 정적 생성에 실패해 목록에 빠진 경로도 요청 시점에 렌더링한다(404 대신 CSR 폴백으로 이어짐).
+export const dynamicParams = true;
 
 // 모든 homeUniversity + id 조합에 대해 정적 경로 생성
 export async function generateStaticParams() {
@@ -24,11 +25,13 @@ export async function generateStaticParams() {
         return { slug, universities: [] };
       }
 
-      const universities = await getAllUniversities({
+      // 조회 실패 시 빌드를 중단하지 않고 해당 홈 대학 경로만 건너뛴다.
+      // 빠진 경로는 dynamicParams=true 덕분에 요청 시점에 렌더링되고, 그때도 실패하면 CSR 폴백이 받는다.
+      const universities = await getAllUniversitiesSafe({
         homeUniversityId: homeUniversityInfo.homeUniversityId,
       });
 
-      return { slug, universities };
+      return { slug, universities: universities ?? [] };
     }),
   );
 
@@ -159,10 +162,11 @@ const CollegeDetailPage = async ({ params }: PageProps) => {
       notFound();
     }
 
+    // 서버에서 데이터를 못 가져온 경우, 준비중 화면으로 굳히지 않고 브라우저에서 다시 조회한다.
     return (
       <>
         <TopDetailNavigation title="파견 학교 상세" backHref={`/university/${homeUniversity}`} />
-        <UniversityDetailPreparingFallback backHref={`/university/${homeUniversity}`} />
+        <UniversityDetailCsrFallback universityId={collegeId} backHref={`/university/${homeUniversity}`} />
       </>
     );
   }

@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { getSearchUniversitiesAllRegions } from "@/apis/universities/server";
+import { getAllUniversitiesSafe } from "@/apis/universities/server";
 import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import { getHomeUniversityBySlug, HOME_UNIVERSITY_SLUGS } from "@/constants/university";
 import type { HomeUniversitySlug } from "@/types/university";
 
 import UniversityListContent from "./_ui/UniversityListContent";
+import UniversityListCsrFallback from "./_ui/UniversityListCsrFallback";
 
 export const revalidate = false;
 export const dynamicParams = false;
@@ -53,14 +54,22 @@ const UniversityListPage = async ({ params }: PageProps) => {
     notFound();
   }
 
-  const universities = await getSearchUniversitiesAllRegions({
+  const universities = await getAllUniversitiesSafe({
     homeUniversityId: universityInfo.homeUniversityId,
   });
 
   return (
     <>
       <TopDetailNavigation title={`${universityInfo.shortName} 파견학교`} backHref="/university" />
-      <UniversityListContent universities={universities} homeUniversitySlug={homeUniversitySlug} />
+      {universities === null ? (
+        // 서버에서 목록을 못 가져온 경우, 빈 목록을 정적으로 굳히지 않고 브라우저에서 다시 조회한다.
+        <UniversityListCsrFallback
+          homeUniversityId={universityInfo.homeUniversityId}
+          homeUniversitySlug={homeUniversitySlug}
+        />
+      ) : (
+        <UniversityListContent universities={universities} homeUniversitySlug={homeUniversitySlug} />
+      )}
     </>
   );
 };
