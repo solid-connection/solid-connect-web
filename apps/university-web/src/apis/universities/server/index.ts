@@ -5,7 +5,12 @@ export {
   getSearchUniversitiesByFilter,
   type UniversitySearchFilterParams,
 } from "./getSearchUniversitiesByFilter";
-export { getAllUniversities, getCategorizedUniversities, getUniversitiesByText } from "./getSearchUniversitiesByText";
+export {
+  getAllUniversities,
+  getAllUniversitiesSafe,
+  getCategorizedUniversities,
+  getUniversitiesByText,
+} from "./getSearchUniversitiesByText";
 export {
   getUniversityDetail,
   getUniversityDetailForSsg,

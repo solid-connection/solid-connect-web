@@ -66,6 +66,26 @@ export const getAllUniversities = async (params?: UniversitySearchTextParams): P
   return getUniversitiesByText("", params);
 };
 
+/**
+ * 전체 대학 목록을 조회하되, 실패 시 throw 대신 null 을 반환한다.
+ *
+ * 빌드를 중단시키는 대신 호출부가 CSR 폴백으로 넘어갈 수 있게 하기 위한 변형이다.
+ * 빈 배열이 아니라 null 을 돌려주는 이유는 "결과가 0건인 정상 응답"과 "조회 실패"를
+ * 호출부에서 반드시 구분할 수 있게 하기 위해서다.
+ */
+export const getAllUniversitiesSafe = async (params?: UniversitySearchTextParams): Promise<ListUniversity[] | null> => {
+  const endpoint = createSearchTextEndpoint("", params);
+  const response = await serverFetch<UniversitySearchResponse>(endpoint);
+
+  if (!response.ok) {
+    // biome-ignore lint/suspicious/noConsole: 정적 생성이 조용히 축소되는 것을 막기 위해 빌드 로그에 실패를 남긴다.
+    console.warn(`[university-web] 대학 목록 조회 실패 (status ${response.status}) - CSR 폴백으로 전환합니다.`);
+    return null;
+  }
+
+  return response.data.univApplyInfoPreviews;
+};
+
 export const getCategorizedUniversities = async (
   params?: UniversitySearchTextParams,
 ): Promise<AllRegionsUniversityList> => {

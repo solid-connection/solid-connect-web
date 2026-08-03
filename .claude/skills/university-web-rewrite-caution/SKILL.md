@@ -42,8 +42,13 @@ description: Safety checklist before touching apps/university-web — it is a se
    - 리라이트 과정에서 공통 레이아웃 프리미티브가 `packages/ui`로 추출되고 있다 (예: `packages/ui/src/mobile-hero-detail-shell.tsx`).
    - university 전용 화면이라도 web/admin과 겹치는 레이아웃 패턴이면 `apps/university-web` 내부에 새로 만들지 말고 `packages/ui`에 있는지 먼저 확인하고, 없으면 그쪽에 추가하는 것을 우선 고려한다.
 
-6. **SSG 데이터 페칭은 실패를 삼키지 않는다.**
-   - university-web의 카탈로그 SSG는 "데이터 fetch 실패 시 빈 카탈로그로 조용히 빌드 성공" 대신 **빌드 자체가 실패**하도록 되어 있다. 이 특성을 유지한다 (에러를 try/catch로 삼켜 빈 배열 fallback을 만들지 않는다).
+6. **SSG 데이터 페칭 실패는 CSR 폴백으로 넘긴다. 단, 조용히 빈 화면을 만들지 않는다.**
+   - 카탈로그 목록/상세는 정적 생성에 실패해도 **빌드를 중단시키지 않고** 클라이언트에서 같은 API를 다시 조회한다.
+     - `getAllUniversitiesSafe()` — 실패 시 throw 대신 `null` 반환 (빈 배열이 아니라 `null` 인 이유는 "0건인 정상 응답"과 "조회 실패"를 호출부가 구분해야 하기 때문).
+     - `[homeUniversity]/page.tsx` → `UniversityListCsrFallback`, `[homeUniversity]/[id]/page.tsx` → `UniversityDetailCsrFallback`.
+     - `[homeUniversity]/[id]` 는 `dynamicParams = true`. 정적 목록에서 빠진 경로가 404 가 되지 않고 요청 시점에 렌더되도록 하기 위함이다.
+   - **여기서 지켜야 할 원칙은 "빈 카탈로그를 조용히 정적으로 굳히지 않는다"이다.** 실패를 try/catch 로 삼켜 빈 배열을 그대로 렌더하는 코드는 여전히 금지다. 실패했으면 반드시 (a) 빌드 로그에 남기고 (b) 클라이언트에서 다시 조회하는 폴백 컴포넌트를 렌더해야 한다.
+   - `assertUniversitySsgResponse()` 를 쓰는 기존 경로(`getAllUniversities`, `getUniversitiesByText` 등)는 그대로 throw 한다. 폴백이 필요한 호출부만 `*Safe` 변형을 쓴다.
    - 데이터 갱신은 수동 DB 갱신 후 university zone 재배포로 처리한다(`/university/revalidate` 참고).
 
 7. **환경변수 의존성 확인.**
