@@ -21,6 +21,7 @@ import {
   IconUniversity,
 } from "@/public/svgs/my";
 import { UserRole } from "@/types/mentor";
+import { LOGIN_REQUIRED_MESSAGE } from "@/utils/authRedirect";
 import { openKakaoOpenChat } from "@/utils/openKakaoOpenChat";
 
 const NEXT_PUBLIC_CONTACT_LINK = process.env.NEXT_PUBLIC_CONTACT_LINK;
@@ -38,6 +39,8 @@ const MyProfileContent = () => {
   useEffect(() => {
     if (!isInitialized || isAuthenticated) return;
 
+    // SPA 이동이라 토스트가 로그인 페이지까지 유지된다.
+    showIconToast("logo", LOGIN_REQUIRED_MESSAGE);
     router.replace("/login");
   }, [isInitialized, isAuthenticated, router]);
 
