@@ -10,7 +10,7 @@ import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 import { showIconToast } from "@/lib/toast/showIconToast";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { IconImage } from "@/public/svgs";
-import { buildLoginPathWithRedirect } from "@/utils/authRedirect";
+import { buildLoginPathWithRedirect, LOGIN_REQUIRED_MESSAGE } from "@/utils/authRedirect";
 
 type PostFormProps = {
   boardCode: string;
@@ -50,6 +50,8 @@ const PostForm = ({ boardCode }: PostFormProps) => {
     }
 
     if (!isAuthenticated || !accessToken) {
+      // SPA 이동이라 토스트가 로그인 페이지까지 유지된다.
+      showIconToast("logo", LOGIN_REQUIRED_MESSAGE);
       router.replace(buildLoginPathWithRedirect(createPath));
     }
   }, [accessToken, createPath, isAuthenticated, isInitialized, refreshStatus, router]);
