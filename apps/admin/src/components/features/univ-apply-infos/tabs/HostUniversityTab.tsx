@@ -134,7 +134,8 @@ export function HostUniversityTab() {
 
 	const query = useQuery({
 		queryKey: ["admin", "host-universities", searchParams],
-		queryFn: () => adminApi.getHostUniversities({ ...searchParams, size: 20 }),
+		// 서버의 page 파라미터는 1-indexed 계약이므로, 0-indexed로 관리되는 UI 상태를 API 호출 시점에 변환한다.
+		queryFn: () => adminApi.getHostUniversities({ ...searchParams, page: searchParams.page + 1, size: 20 }),
 		placeholderData: keepPreviousData,
 	});
 
