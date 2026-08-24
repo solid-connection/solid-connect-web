@@ -92,6 +92,23 @@ production university web project의 `NEXT_PUBLIC_WEB_URL`은 실제 사용자�
 NEXT_PUBLIC_WEB_URL=https://www.solid-connection.com
 ```
 
+## SSG 데이터 재배포
+
+대학 API 데이터만 변경된 경우에는 Git 변경이 없어도 `Redeploy University Web` workflow를 실행한다. 이 workflow는 `release-university`의 현재 소스를 사용해 university web production을 새로 빌드한다. 동일한 커밋의 기존 배포를 재사용하지 않으므로 빌드 시점의 최신 API 데이터가 SSG 페이지에 반영된다.
+
+GitHub Actions 화면에서 수동으로 실행할 수 있다. API 데이터 갱신 작업에서 자동 호출하려면 repository dispatch event type을 `university-data-updated`로 전송한다. 선택적으로 `client_payload.reason`에 갱신 이유를 넣을 수 있다.
+
+```json
+{
+  "event_type": "university-data-updated",
+  "client_payload": {
+    "reason": "대학 API 초기 데이터 입력 완료"
+  }
+}
+```
+
+workflow는 저장소의 `VERCEL_TOKEN`과 `VERCEL_ORG_ID` secret을 사용한다. 대상 프로젝트는 `solid-connect-university-web`으로 고정하며 다른 web과 admin 프로젝트는 재배포하지 않는다.
+
 ## Local Development
 
 터미널 두 개에서 실행한다.
