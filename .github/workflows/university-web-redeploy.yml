@@ -1,0 +1,139 @@
+name: Redeploy University Web
+
+on:
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: "Reason for rebuilding university SSG pages"
+        required: false
+        default: "University API data updated"
+        type: string
+  repository_dispatch:
+    types: [university-data-updated]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: university-web-production-redeploy
+  cancel-in-progress: false
+
+jobs:
+  redeploy:
+    name: Redeploy university web production
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment:
+      name: Production – solid-connect-university-web
+      url: ${{ steps.deploy.outputs.deployment_url }}
+    env:
+      VERCEL_PROJECT_NAME: solid-connect-university-web
+      VERCEL_RELEASE_BRANCH: release-university
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      REDEPLOY_REASON: ${{ github.event.inputs.reason || github.event.client_payload.reason || 'University API data updated' }}
+    steps:
+      - name: Checkout university release branch
+        uses: actions/checkout@v4
+        with:
+          ref: release-university
+          fetch-depth: 1
+
+      - name: Validate Vercel credentials
+        run: |
+          set -euo pipefail
+
+          if [ -z "$VERCEL_ORG_ID" ] || [ -z "$VERCEL_TOKEN" ]; then
+            echo "VERCEL_ORG_ID and VERCEL_TOKEN secrets are required." >&2
+            exit 1
+          fi
+
+      - name: Trigger fresh production deployment
+        id: deploy
+        env:
+          REPOSITORY_ID: ${{ github.event.repository.id }}
+        run: |
+          set -euo pipefail
+
+          RELEASE_SHA=$(git rev-parse HEAD)
+          REQUEST_BODY=$(jq -n \
+            --arg name "$VERCEL_PROJECT_NAME" \
+            --arg ref "$VERCEL_RELEASE_BRANCH" \
+            --arg sha "$RELEASE_SHA" \
+            --argjson repoId "$REPOSITORY_ID" \
+            '{
+              name: $name,
+              gitSource: {
+                type: "github",
+                repoId: $repoId,
+                ref: $ref,
+                sha: $sha
+              },
+              target: "production"
+            }')
+
+          HTTP_STATUS=$(curl --silent --show-error \
+            --output deployment.json \
+            --write-out "%{http_code}" \
+            --request POST \
+            --header "Authorization: Bearer $VERCEL_TOKEN" \
+            --header "Content-Type: application/json" \
+            --data "$REQUEST_BODY" \
+            "https://api.vercel.com/v13/deployments?teamId=$VERCEL_ORG_ID&forceNew=1")
+
+          if [[ ! "$HTTP_STATUS" =~ ^2 ]]; then
+            jq -r '.error.message // "Vercel deployment request failed."' deployment.json >&2
+            exit 1
+          fi
+
+          DEPLOYMENT_ID=$(jq -r '.id // empty' deployment.json)
+          DEPLOYMENT_HOST=$(jq -r '.url // empty' deployment.json)
+
+          if [ -z "$DEPLOYMENT_ID" ] || [ -z "$DEPLOYMENT_HOST" ]; then
+            echo "Vercel response did not include a deployment ID and URL." >&2
+            exit 1
+          fi
+
+          {
+            echo "deployment_id=$DEPLOYMENT_ID"
+            echo "deployment_url=https://$DEPLOYMENT_HOST"
+          } >> "$GITHUB_OUTPUT"
+
+          {
+            echo "## University Web redeploy"
+            echo "- Reason: $REDEPLOY_REASON"
+            echo "- Source branch: $VERCEL_RELEASE_BRANCH"
+            echo "- Source commit: $RELEASE_SHA"
+            echo "- Deployment: https://$DEPLOYMENT_HOST"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Wait for deployment
+        env:
+          DEPLOYMENT_ID: ${{ steps.deploy.outputs.deployment_id }}
+        run: |
+          set -euo pipefail
+
+          for attempt in $(seq 1 90); do
+            RESPONSE=$(curl --fail-with-body --silent --show-error \
+              --header "Authorization: Bearer $VERCEL_TOKEN" \
+              "https://api.vercel.com/v13/deployments/$DEPLOYMENT_ID?teamId=$VERCEL_ORG_ID")
+            STATE=$(jq -r '.readyState // "UNKNOWN"' <<< "$RESPONSE")
+
+            echo "Deployment state: $STATE"
+
+            case "$STATE" in
+              READY)
+                echo "- Result: READY" >> "$GITHUB_STEP_SUMMARY"
+                exit 0
+                ;;
+              ERROR|CANCELED)
+                echo "- Result: $STATE" >> "$GITHUB_STEP_SUMMARY"
+                exit 1
+                ;;
+            esac
+
+            sleep 10
+          done
+
+          echo "Vercel deployment did not finish within 15 minutes." >&2
+          exit 1
