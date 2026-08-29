@@ -134,7 +134,7 @@ export function HostUniversityTab() {
 
 	const query = useQuery({
 		queryKey: ["admin", "host-universities", searchParams],
-		queryFn: () => adminApi.getHostUniversities({ ...searchParams, size: 20 }),
+		queryFn: () => adminApi.getHostUniversities({ ...searchParams, page: searchParams.page + 1, size: 20 }),
 		placeholderData: keepPreviousData,
 	});
 
