@@ -30,7 +30,7 @@ jobs:
       VERCEL_PROJECT_NAME: solid-connect-university-web
       VERCEL_RELEASE_BRANCH: release-university
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_TOKEN_UNIV: ${{ secrets.VERCEL_TOKEN_UNIV }}
       REDEPLOY_REASON: ${{ github.event.inputs.reason || github.event.client_payload.reason || 'University API data updated' }}
     steps:
       - name: Checkout university release branch
@@ -43,8 +43,8 @@ jobs:
         run: |
           set -euo pipefail
 
-          if [ -z "$VERCEL_ORG_ID" ] || [ -z "$VERCEL_TOKEN" ]; then
-            echo "VERCEL_ORG_ID and VERCEL_TOKEN secrets are required." >&2
+          if [ -z "$VERCEL_ORG_ID" ] || [ -z "$VERCEL_TOKEN_UNIV" ]; then
+            echo "VERCEL_ORG_ID and VERCEL_TOKEN_UNIV secrets are required." >&2
             exit 1
           fi
 
@@ -76,7 +76,7 @@ jobs:
             --output deployment.json \
             --write-out "%{http_code}" \
             --request POST \
-            --header "Authorization: Bearer $VERCEL_TOKEN" \
+            --header "Authorization: Bearer $VERCEL_TOKEN_UNIV" \
             --header "Content-Type: application/json" \
             --data "$REQUEST_BODY" \
             "https://api.vercel.com/v13/deployments?teamId=$VERCEL_ORG_ID&forceNew=1")
@@ -115,7 +115,7 @@ jobs:
 
           for attempt in $(seq 1 90); do
             RESPONSE=$(curl --fail-with-body --silent --show-error \
-              --header "Authorization: Bearer $VERCEL_TOKEN" \
+              --header "Authorization: Bearer $VERCEL_TOKEN_UNIV" \
               "https://api.vercel.com/v13/deployments/$DEPLOYMENT_ID?teamId=$VERCEL_ORG_ID")
             STATE=$(jq -r '.readyState // "UNKNOWN"' <<< "$RESPONSE")
 

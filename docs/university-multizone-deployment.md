@@ -107,7 +107,7 @@ GitHub Actions 화면에서 수동으로 실행할 수 있다. API 데이터 갱
 }
 ```
 
-workflow는 저장소의 `VERCEL_TOKEN`과 `VERCEL_ORG_ID` secret을 사용한다. 대상 프로젝트는 `solid-connect-university-web`으로 고정하며 다른 web과 admin 프로젝트는 재배포하지 않는다.
+workflow는 저장소의 `VERCEL_TOKEN_UNIV`와 `VERCEL_ORG_ID` secret을 사용한다. 대상 프로젝트는 `solid-connect-university-web`으로 고정하며 다른 web과 admin 프로젝트는 재배포하지 않는다.
 
 ## Local Development
 
