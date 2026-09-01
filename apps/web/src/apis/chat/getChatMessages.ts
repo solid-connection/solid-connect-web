@@ -18,8 +18,8 @@ const useGetChatHistories = (roomId: number, size: number = 20) => {
     number
   >({
     queryKey: [ChatQueryKeys.chatHistories, roomId],
-    queryFn: ({ pageParam = 0 }: { pageParam?: number }) => chatApi.getChatHistories({ roomId, size, page: pageParam }),
-    initialPageParam: 0,
+    queryFn: ({ pageParam = 1 }: { pageParam?: number }) => chatApi.getChatHistories({ roomId, size, page: pageParam }),
+    initialPageParam: 1,
     getNextPageParam: (lastPage: ChatHistoriesResponse) => {
       // nextPageNumber가 -1이면 더 이상 페이지가 없음
       return lastPage.nextPageNumber === -1 ? undefined : lastPage.nextPageNumber;
