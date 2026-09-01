@@ -59,6 +59,9 @@ const useDeletePost = () => {
       // 게시글 목록 페이지 이동
       router.replace(`/community/${variables.boardCode || "FREE"}`);
     },
+    onError: () => {
+      showIconToast("logo", "게시글 삭제에 실패했습니다. 잠시 후 다시 시도해주세요.");
+    },
   });
 };
 

@@ -7,6 +7,7 @@ import { useDeletePost } from "@/apis/community";
 import useBlockCommunityUser from "@/app/community/_hooks/useBlockCommunityUser";
 import ReportPanel from "@/components/ui/ReportPanel";
 import { showIconToast } from "@/lib/toast/showIconToast";
+import { customConfirm } from "@/lib/zustand/useConfirmModalStore";
 import { IconSetting } from "@/public/svgs/mentor";
 
 const useClickOutside = (ref: RefObject<HTMLDivElement | null>, handler: (event: MouseEvent | TouchEvent) => void) => {
@@ -52,7 +53,7 @@ type KebabMenuProps = {
 
 const KebabMenu = ({ postId, boardCode, isOwner = false, authorId }: KebabMenuProps) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const { mutate: deletePost } = useDeletePost();
+  const { mutate: deletePost, isPending: isDeleting } = useDeletePost();
   const router = useRouter();
   const { handleBlockUser, isBlocking } = useBlockCommunityUser({
     onBlocked: () => router.replace(`/community/${boardCode}`),
@@ -75,6 +76,23 @@ const KebabMenu = ({ postId, boardCode, isOwner = false, authorId }: KebabMenuPr
     } catch (err) {
       showIconToast("logo", "URL 복사에 실패했습니다.");
     }
+  };
+
+  const handleDeletePost = async () => {
+    setIsDropdownOpen(false);
+
+    const confirmed = await customConfirm({
+      title: "게시글 삭제",
+      content: "삭제한 게시글은 복구할 수 없습니다.\n정말 삭제하시겠습니까?",
+      approveMessage: "삭제하기",
+      rejectMessage: "취소",
+    });
+
+    if (!confirmed) {
+      return;
+    }
+
+    deletePost({ postId, boardCode });
   };
 
   return (
@@ -136,12 +154,10 @@ const KebabMenu = ({ postId, boardCode, isOwner = false, authorId }: KebabMenuPr
                 </li>
                 <li key={"삭제하기"}>
                   <button
-                    onClick={() => {
-                      if (confirm("정말로 삭제하시겠습니까?")) {
-                        deletePost({ postId, boardCode });
-                      }
-                    }}
-                    className={`flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-gray-700 typo-regular-2 hover:bg-k-50`}
+                    type="button"
+                    onClick={() => void handleDeletePost()}
+                    disabled={isDeleting}
+                    className="flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-gray-700 typo-regular-2 hover:bg-k-50 disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     <span>{"삭제하기"}</span>
                   </button>
