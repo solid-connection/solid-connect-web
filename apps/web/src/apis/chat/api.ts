@@ -45,7 +45,7 @@ interface RawChatRoomListResponse {
 }
 
 export const chatApi = {
-  getChatHistories: async ({ roomId, size = 20, page = 0 }: GetChatHistoriesParams): Promise<ChatHistoriesResponse> => {
+  getChatHistories: async ({ roomId, size = 20, page = 1 }: GetChatHistoriesParams): Promise<ChatHistoriesResponse> => {
     const res = await axiosInstance.get<RawChatHistoriesResponse>(`/chats/rooms/${roomId}`, {
       params: {
         size,
