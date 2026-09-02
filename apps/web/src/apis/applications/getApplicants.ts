@@ -15,11 +15,20 @@ type UseGetApplicationsListOptions = Omit<
 >;
 
 /**
- * @description 지원 목록 조회 훅
- *
- * `GET /applications` 는 전체 지원자 현황을 내려주고 소속 대학을 구분해주지 않는다.
- * 그래서 access token 에서 파싱된 소속 대학(useAuthStore.homeUniversityId)으로
- * 파견학교 목록을 따로 받아, 그 범위에 속한 항목만 남기도록 클라이언트에서 걸러낸다.
+ * 지원 기간에는 지원한 대학만, 기간 종료 후에는 소속 대학의 전체 현황을 공개한다.
+ * 전체 현황을 다시 공개할 때 반환값을 "applications"로 변경한다.
+ */
+type ApplicationStatusEndpoint = "applications" | "competitors";
+
+const getApplicationStatusEndpoint = (): ApplicationStatusEndpoint => "competitors";
+
+const applicationStatusEndpoint = getApplicationStatusEndpoint();
+const shouldFilterByHomeUniversity = applicationStatusEndpoint === "applications";
+const applicationStatusQueryFn =
+  applicationStatusEndpoint === "competitors" ? applicationsApi.getCompetitors : applicationsApi.getApplicationsList;
+
+/**
+ * @description 내가 지원한 대학의 지원자 현황 조회 훅
  */
 const useGetApplicationsList = (
   props?: UseGetApplicationsListOptions,
@@ -28,28 +37,23 @@ const useGetApplicationsList = (
 
   const applicationsQuery = useQuery({
     queryKey: [ApplicationsQueryKeys.competitorsApplicationList],
-    queryFn: applicationsApi.getApplicationsList,
+    queryFn: applicationStatusQueryFn,
     staleTime: 1000 * 60 * 5, // 5분간 캐시
     select: (response) => response.data,
     ...props,
   });
 
-  // 필터 기준이 되는 소속 대학의 파견학교 목록
+  // GET /applications를 사용할 때만 소속 대학의 파견학교 목록으로 범위를 제한한다.
   const { data: scopedUniversities } = useQuery({
     queryKey: [QueryKeys.universities.searchText, { homeUniversityId }],
     queryFn: () => universitiesApi.getSearchText({ value: "", homeUniversityId: homeUniversityId ?? undefined }),
-    enabled: homeUniversityId !== null,
+    enabled: shouldFilterByHomeUniversity && homeUniversityId !== null,
     staleTime: 1000 * 60 * 5,
     select: (response) => response.univApplyInfoPreviews,
   });
 
   const scopedData = useMemo(() => {
-    if (!applicationsQuery.data) {
-      return applicationsQuery.data;
-    }
-
-    // 소속 대학을 모르면(비인증·학교 미인증) 기존과 동일하게 전체를 보여준다.
-    if (homeUniversityId === null) {
+    if (!applicationsQuery.data || !shouldFilterByHomeUniversity || homeUniversityId === null) {
       return applicationsQuery.data;
     }
 
