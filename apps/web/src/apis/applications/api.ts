@@ -25,21 +25,23 @@ export interface UseSubmitApplicationRequest {
   };
 }
 
-export interface CompetitorsResponse {
-  competitors: Array<{
-    id: number;
-    name: string;
-    score: number;
-  }>;
-}
-
 // ====== API Functions ======
 export const applicationsApi = {
   /**
-   * 지원 목록 조회
+   * 전체 지원자 현황 조회
    */
   getApplicationsList: async (): Promise<AxiosResponse<ApplicationListResponse>> => {
     return axiosInstance.get("/applications");
+  },
+
+  /**
+   * 내가 지원한 대학의 경쟁자 현황 조회
+   *
+   * 서버에서 현재 사용자의 지원 대학만 반환하므로, 클라이언트에서 소속 대학 기준으로
+   * 다시 필터링하지 않는다.
+   */
+  getCompetitors: async (): Promise<AxiosResponse<ApplicationListResponse>> => {
+    return axiosInstance.get("/applications/competitors");
   },
 
   /**
@@ -56,13 +58,5 @@ export const applicationsApi = {
     request: UseSubmitApplicationRequest,
   ): Promise<AxiosResponse<UseSubmitApplicationResponse>> => {
     return axiosInstance.post("/applications", request);
-  },
-
-  /**
-   * 경쟁자 목록 조회
-   */
-  getCompetitors: async (config?: { params?: Record<string, unknown> }): Promise<CompetitorsResponse> => {
-    const res = await axiosInstance.get<CompetitorsResponse>("/applications/competitors", config);
-    return res.data;
   },
 };

@@ -3,7 +3,7 @@ import type { ApplicationListResponse, ScoreSheet } from "@/types/application";
 /**
  * 지원자 현황 응답을 소속 대학 기준으로 걸러내기 위한 키.
  *
- * `GET /applications` 응답(ScoreSheet)에는 홈 대학 식별자도, 지원 정보 id 도 없다.
+ * GET /applications 응답(ScoreSheet)에는 홈 대학 식별자도, 지원 정보 id도 없다.
  * 그래서 파견학교 목록과 겹치는 필드(파견학교명 + 국가 + 모집인원)를 합쳐 식별한다.
  *
  * 파견학교명만으로는 부족하다. 서로 다른 홈 대학이 같은 이름의 파견학교를 가질 수 있고
