@@ -1,10 +1,9 @@
 import type { AxiosResponse } from "axios";
 import type { ApplicationListResponse, ApplicationPreviewResponse } from "@/types/application";
+import type { RegionEnum } from "@/types/university";
 import { axiosInstance } from "@/utils/axiosInstance";
 
-// ====== Query Keys ======
 export const ApplicationsQueryKeys = {
-  competitorsApplicationList: "competitorsApplicationList",
   applicationPreview: "applicationPreview",
 } as const;
 
@@ -25,13 +24,17 @@ export interface UseSubmitApplicationRequest {
   };
 }
 
+export type ApplicantsSearchParams = {
+  region?: RegionEnum;
+  keyword?: string;
+};
 // ====== API Functions ======
 export const applicationsApi = {
   /**
    * 전체 지원자 현황 조회
    */
-  getApplicationsList: async (): Promise<AxiosResponse<ApplicationListResponse>> => {
-    return axiosInstance.get("/applications");
+  getApplicationsList: async (params?: ApplicantsSearchParams): Promise<AxiosResponse<ApplicationListResponse>> => {
+    return axiosInstance.get("/applications", { params });
   },
 
   /**
