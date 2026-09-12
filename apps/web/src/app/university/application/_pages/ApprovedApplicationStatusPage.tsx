@@ -5,14 +5,14 @@ import clsx from "clsx";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { type ReactNode, useEffect, useMemo, useState } from "react";
-import { useGetApplicationsList, useGetCompetitors } from "@/apis/applications";
+import { useGetApplicationsList } from "@/apis/applications";
 import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
 import { DEFAULT_MAX_CHOICE_COUNT, getHomeUniversityById, REGIONS_KO } from "@/constants/university";
 import { SKIP_GLOBAL_ERROR_TOAST_META } from "@/lib/react-query/errorToastMeta";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { IconExpandMoreFilled } from "@/public/svgs/community";
 import type { Applicant, ScoreSheet as ScoreSheetType } from "@/types/application";
-import { type RegionKo, regionMapping } from "@/types/university";
+import type { RegionKo } from "@/types/university";
 import { getApplicationDetailHref, MobileScoreSheet, ScoreSheetLogo } from "../ScoreSheet";
 
 type ApplicationAccessErrorCode = "APPLICATION_NOT_FOUND" | "APPLICATION_NOT_APPROVED";
@@ -46,7 +46,7 @@ type ScorePageViewProps = {
   displayedScoreSheets: ScoreSheetType[];
   totalUniversityCount: number;
   applicantUniversityCount: number;
-  participantCount: number | null;
+  participantCount: number;
   scope: ApplicantScope;
   regionFilter: RegionKo | "";
   sortMode: ScoreSort;
@@ -68,20 +68,19 @@ const ApprovedApplicationStatusPage = () => {
     () => Array.from({ length: maxChoiceCount }, () => [] as ScoreSheetType[]),
     [maxChoiceCount],
   );
-  const applicantSearchParams = useMemo(
-    () => ({ region: regionFilter ? (regionMapping[regionFilter] ?? undefined) : undefined }),
-    [regionFilter],
-  );
+  /**
+   * 모의지원 기간에는 내가 지원한 대학의 경쟁자만(useGetCompetitors),
+   * 기간이 끝나면 소속 대학의 전체 지원자 현황(useGetApplicationsList)을 보여준다.
+   */
   const {
     data: scoreResponseData,
     isError,
     isLoading,
     error,
     refetch,
-  } = useGetCompetitors({
+  } = useGetApplicationsList(undefined, {
     meta: SKIP_GLOBAL_ERROR_TOAST_META,
   });
-  const { data: applicantResponseData } = useGetApplicationsList(applicantSearchParams);
   const scoreChoices = scoreResponseData?.choices ?? emptyChoices;
   const isApplicationMissingOrUnapproved = isApplicationAccessError(error);
 
@@ -92,23 +91,24 @@ const ApprovedApplicationStatusPage = () => {
   );
   const totalUniversityCount = allScoreSheets.length;
   const applicantUniversityCount = allScoreSheets.filter((scoreSheet) => scoreSheet.applicants.length > 0).length;
-  const participantCount = useMemo(
-    () => (applicantResponseData ? getParticipantCount(applicantResponseData.choices.flat()) : null),
-    [applicantResponseData],
+  /**
+   * 지역 칩은 서버 파라미터 대신 클라이언트에서 건다.
+   * GET /applications 에 region 을 넘기면 choices 자체가 걸러져서 "지원한 대학" 목록까지 해당 권역만 남는다.
+   */
+  const regionScopedScoreSheets = useMemo(
+    () => (regionFilter ? allScoreSheets.filter((scoreSheet) => scoreSheet.region === regionFilter) : allScoreSheets),
+    [allScoreSheets, regionFilter],
   );
+  const participantCount = useMemo(() => getParticipantCount(regionScopedScoreSheets), [regionScopedScoreSheets]);
 
   const displayedScoreSheets = useMemo(() => {
-    let result =
+    const result =
       scope === "withApplicants"
-        ? allScoreSheets.filter((scoreSheet) => scoreSheet.applicants.length > 0)
-        : allScoreSheets;
-
-    if (regionFilter) {
-      result = result.filter((scoreSheet) => scoreSheet.region === regionFilter);
-    }
+        ? regionScopedScoreSheets.filter((scoreSheet) => scoreSheet.applicants.length > 0)
+        : regionScopedScoreSheets;
 
     return sortScoreSheets(result, sortMode);
-  }, [allScoreSheets, regionFilter, scope, sortMode]);
+  }, [regionScopedScoreSheets, scope, sortMode]);
 
   useEffect(
     function redirectToApplyWhenApplicationMissing() {
@@ -251,7 +251,7 @@ const AppliedUniversityRow = ({ preference, scoreSheet }: AppliedUniversity) => 
   );
 };
 
-const ParticipantBanner = ({ participantCount }: { participantCount: number | null }) => (
+const ParticipantBanner = ({ participantCount }: { participantCount: number }) => (
   <section className="mt-6 rounded-lg bg-secondary-100 px-5 py-3">
     <div className="flex items-center gap-4">
       <div className="flex size-10 items-center justify-center text-[34px]" aria-hidden>
@@ -259,11 +259,7 @@ const ParticipantBanner = ({ participantCount }: { participantCount: number | nu
       </div>
       <div className="min-w-0 text-k-800">
         <p className="typo-regular-4">솔리드 커넥션과 함께하고 있어요</p>
-        <p className="mt-0.5 typo-sb-9">
-          {participantCount === null
-            ? "지원자 수를 불러오는 중이에요."
-            : `총 ${participantCount}명이 성적 공유 참여중!`}
-        </p>
+        <p className="mt-0.5 typo-sb-9">총 {participantCount}명이 성적 공유 참여중!</p>
       </div>
     </div>
   </section>
