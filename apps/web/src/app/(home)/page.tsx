@@ -99,11 +99,12 @@ const hasUniversityDetailRoute = (university: ListUniversity) => {
 };
 
 const HomePage = async () => {
-  const newsList = await getHomeNewsList();
-  const { data } = await getRecommendedUniversity();
+  const [newsList, { data }, allRegionsUniversityList] = await Promise.all([
+    getHomeNewsList(),
+    getRecommendedUniversity(),
+    getCategorizedUniversities(),
+  ]);
   const recommendedUniversities = data?.recommendedUniversities || [];
-  // 권역별 전체 대학 리스트를 미리 가져와 빌드합니다
-  const allRegionsUniversityList = await getCategorizedUniversities();
   const allUniversities = allRegionsUniversityList[RegionEnumExtend.ALL] || [];
   const resolvedRecommendedUniversities = resolveRecommendedUniversitiesHomeUniversityName(
     recommendedUniversities,
