@@ -2,11 +2,11 @@
 
 import clsx from "clsx";
 
-import type { ListUniversity } from "@/types/university";
+import type { UniversityCardData } from "@/types/university";
 import UniversityCard from "../../ui/UniverSityCard";
 
 type UniversityCardsProps = {
-  colleges: ListUniversity[];
+  colleges: UniversityCardData[];
   style?: React.CSSProperties;
   className?: string;
   showCapacity?: boolean;
