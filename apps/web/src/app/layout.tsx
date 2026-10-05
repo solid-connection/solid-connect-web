@@ -6,7 +6,6 @@ import { Toaster } from "react-hot-toast";
 import GlobalLayout from "@/components/layout/GlobalLayout";
 import ReissueProvider from "@/components/layout/ReissueProvider";
 import QueryProvider from "@/lib/react-query/QueryProvider";
-import AppleScriptLoader from "@/lib/ScriptLoader/AppleScriptLoader";
 import PendingToastPresenter from "@/lib/toast/PendingToastPresenter";
 import "@/styles/globals.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
@@ -71,7 +70,6 @@ export const viewport: Viewport = {
 const RootLayout = ({ children }: { children: ReactNode }) => (
   <html lang="ko" className={pretendard.variable}>
     <body className={pretendard.className}>
-      <AppleScriptLoader />
       <GoogleAnalytics gaId="G-V1KLYZC1DS" />
       <SpeedInsights />
       <QueryProvider>

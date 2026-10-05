@@ -7,14 +7,15 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { usePostEmailAuth } from "@/apis/Auth";
 import { IconArrowBackFilled, IconSolidConnectionFullBlackLogo } from "@/public/svgs";
-import { IconAppleLogo, IconEmailIcon, IconKakaoLogo } from "@/public/svgs/auth";
+import { IconEmailIcon, IconKakaoLogo } from "@/public/svgs/auth";
 import {
   AUTH_REDIRECT_PARAM,
   buildSignUpEmailPathWithRedirect,
   getSafeCommunityRedirectPath,
 } from "@/utils/authRedirect";
-import { appleLogin, kakaoLogin } from "@/utils/authUtils";
+import { kakaoLogin } from "@/utils/authUtils";
 import useInputHandler from "./_hooks/useInputHandler";
+import AppleLoginButton from "./_ui/AppleLoginButton";
 
 // Zod 스키마 정의
 const loginSchema = z.object({
@@ -144,16 +145,7 @@ const LoginContent = () => {
               <span className="text-white">이메일로 시작하기</span>
             </button>
           </div>
-          <div className="mx-5 transition active:scale-95">
-            <button
-              onClick={() => appleLogin(redirectPath)}
-              type="button"
-              className="flex h-11 w-full items-center justify-center gap-[5px] rounded-lg bg-black p-2.5"
-            >
-              <IconAppleLogo />
-              <span className="text-white">애플로 시작하기</span>
-            </button>
-          </div>
+          <AppleLoginButton redirectPath={redirectPath} />
         </div>
       </div>
     </div>
