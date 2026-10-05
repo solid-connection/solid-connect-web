@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-import AIInspectorFab from "./ui/AIInspectorFab/index";
+import AdminViewSwitcherFab from "./ui/AdminViewSwitcherFab/index";
 import BottomNavigation from "./ui/BottomNavigation";
 import ClientModal from "./ui/ClientModal";
 
@@ -17,7 +17,7 @@ const GlobalLayout = ({ children }: LayoutProps) => {
     <div className="mx-auto mb-14 w-full min-w-app max-w-app pt-14">
       {children}
       <BottomNavigation />
-      <AIInspectorFab />
+      <AdminViewSwitcherFab />
       <ClientModal />
       {/* <ServerModal /> */}
     </div>
