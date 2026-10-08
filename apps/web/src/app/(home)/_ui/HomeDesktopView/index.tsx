@@ -2,25 +2,25 @@ import Link from "next/link";
 
 import Image from "@/components/ui/FallbackImage";
 import UniversityZoneLink from "@/components/ui/UniversityZoneLink";
-import { getHomeUniversitySlugByName, HOME_UNIVERSITY_LIST, isMatchedHomeUniversityName } from "@/constants/university";
+import { getHomeUniversitySlugByName, HOME_UNIVERSITY_LIST } from "@/constants/university";
 import { IconLoveLetter, IconRightArrow } from "@/public/svgs/home";
 import { IconDirectionRight } from "@/public/svgs/mentor";
 import type { News } from "@/types/news";
-import { type AllRegionsUniversityList, type ListUniversity, RegionEnumExtend } from "@/types/university";
+import type { ListUniversity } from "@/types/university";
 import { normalizeImageUrlToUploadCdn } from "@/utils/cdnUrl";
 import shortenLanguageTestName from "@/utils/universityUtils";
+import type { HomeDesktopData } from "./_utils/getHomeDesktopData";
 import HomeDesktopEntryPanel from "./HomeDesktopEntryPanel";
 
 type HomeDesktopViewProps = {
   recommendedUniversities: ListUniversity[];
-  allRegionsUniversityList: AllRegionsUniversityList;
+  desktopData: HomeDesktopData;
   newsList: News[];
 };
 
 const POPULAR_UNIVERSITY_COUNT = 6;
-const PREVIEW_UNIVERSITY_COUNT = 6;
 
-const getUniversityHref = (university: ListUniversity) => {
+const getUniversityHref = (university: Pick<ListUniversity, "id" | "homeUniversityName">) => {
   const homeUniversitySlug = getHomeUniversitySlugByName(university.homeUniversityName);
 
   return homeUniversitySlug ? `/university/${homeUniversitySlug}/${university.id}` : "/university";
@@ -38,17 +38,9 @@ const getLanguageRequirementText = (university: ListUniversity) => {
   return `${testName} ${firstRequirement.minScore}`;
 };
 
-const HomeDesktopView = ({ recommendedUniversities, allRegionsUniversityList, newsList }: HomeDesktopViewProps) => {
-  const allUniversities = allRegionsUniversityList[RegionEnumExtend.ALL] ?? [];
-  const countryCount = new Set(allUniversities.map((university) => university.country)).size;
+const HomeDesktopView = ({ recommendedUniversities, desktopData, newsList }: HomeDesktopViewProps) => {
+  const { totalUniversityCount, countryCount, previewUniversities, universityCountsByHome } = desktopData;
   const popularUniversities = recommendedUniversities.slice(0, POPULAR_UNIVERSITY_COUNT);
-  const previewUniversities = allUniversities.slice(0, PREVIEW_UNIVERSITY_COUNT);
-  const universityCountsByHome = HOME_UNIVERSITY_LIST.map((homeUniversity) => ({
-    ...homeUniversity,
-    count: allUniversities.filter((university) =>
-      isMatchedHomeUniversityName(university.homeUniversityName, homeUniversity.name),
-    ).length,
-  }));
 
   return (
     <div className="min-h-screen bg-k-50 px-8 py-8 lg:px-10">
@@ -79,7 +71,7 @@ const HomeDesktopView = ({ recommendedUniversities, allRegionsUniversityList, ne
             <div className="mt-5 grid grid-cols-2 gap-3">
               <div className="rounded-lg bg-k-50 p-4">
                 <span className="text-k-500 typo-medium-5">전체 학교</span>
-                <strong className="mt-2 block text-k-900 typo-bold-1">{allUniversities.length}</strong>
+                <strong className="mt-2 block text-k-900 typo-bold-1">{totalUniversityCount}</strong>
               </div>
               <div className="rounded-lg bg-primary-100 p-4">
                 <span className="text-primary typo-medium-5">국가</span>
@@ -87,14 +79,14 @@ const HomeDesktopView = ({ recommendedUniversities, allRegionsUniversityList, ne
               </div>
             </div>
             <div className="mt-4 divide-y divide-k-50">
-              {universityCountsByHome.map((homeUniversity) => (
+              {HOME_UNIVERSITY_LIST.map((homeUniversity) => (
                 <UniversityZoneLink
                   key={homeUniversity.slug}
                   href={`/university/${homeUniversity.slug}`}
                   className="flex items-center justify-between py-3 text-k-700 hover:text-primary"
                 >
                   <span className="typo-medium-3">{homeUniversity.name}</span>
-                  <span className="typo-sb-9">{homeUniversity.count}개</span>
+                  <span className="typo-sb-9">{universityCountsByHome[homeUniversity.slug]}개</span>
                 </UniversityZoneLink>
               ))}
             </div>

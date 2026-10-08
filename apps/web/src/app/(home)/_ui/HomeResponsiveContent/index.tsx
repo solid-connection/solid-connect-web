@@ -1,24 +1,28 @@
 "use client";
 
 import type { News } from "@/types/news";
-import type { AllRegionsUniversityList, ListUniversity } from "@/types/university";
+import type { ListUniversity } from "@/types/university";
 import useIsDesktopViewport from "@/utils/useIsDesktopViewport";
 import FindLastYearScoreBar from "../FindLastYearScoreBar";
 import HomeDesktopView from "../HomeDesktopView";
+import type { HomeDesktopData } from "../HomeDesktopView/_utils/getHomeDesktopData";
 import HomeEntrySection from "../HomeEntrySection";
 import NewsSection from "../NewsSection";
 import PopularUniversitySection from "../PopularUniversitySection";
 import UniversityList from "../UniversityList";
+import type { HomeUniversityPreviewList } from "../UniversityList/types";
 
 type HomeResponsiveContentProps = {
   recommendedUniversities: ListUniversity[];
-  allRegionsUniversityList: AllRegionsUniversityList;
+  homeUniversityPreviews: HomeUniversityPreviewList;
+  desktopData: HomeDesktopData;
   newsList: News[];
 };
 
 const HomeResponsiveContent = ({
   recommendedUniversities,
-  allRegionsUniversityList,
+  homeUniversityPreviews,
+  desktopData,
   newsList,
 }: HomeResponsiveContentProps) => {
   const isDesktop = useIsDesktopViewport();
@@ -31,7 +35,7 @@ const HomeResponsiveContent = ({
     return (
       <HomeDesktopView
         recommendedUniversities={recommendedUniversities}
-        allRegionsUniversityList={allRegionsUniversityList}
+        desktopData={desktopData}
         newsList={newsList}
       />
     );
@@ -48,7 +52,7 @@ const HomeResponsiveContent = ({
       </div>
 
       <div className="p-5">
-        <UniversityList allRegionsUniversityList={allRegionsUniversityList} />
+        <UniversityList homeUniversityPreviews={homeUniversityPreviews} />
       </div>
 
       <NewsSection newsList={newsList} />

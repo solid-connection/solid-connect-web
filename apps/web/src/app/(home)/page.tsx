@@ -4,7 +4,9 @@ import { getCategorizedUniversities, getRecommendedUniversity } from "@/apis/uni
 import { getHomeUniversitySlugByName } from "@/constants/university";
 import { type ListUniversity, RegionEnumExtend } from "@/types/university";
 import { createUrl } from "@/utils/seo";
+import { getHomeDesktopData } from "./_ui/HomeDesktopView/_utils/getHomeDesktopData";
 import HomeResponsiveContent from "./_ui/HomeResponsiveContent";
+import { getHomeUniversityPreviews } from "./_ui/UniversityList/_utils/getHomeUniversityPreviews";
 
 const pageUrl = createUrl("/");
 const ogImageUrl = createUrl("/opengraph-image.png");
@@ -95,23 +97,27 @@ const hasUniversityDetailRoute = (university: ListUniversity) => {
 };
 
 const HomePage = async () => {
-  const newsList = await getHomeNewsList();
-  const { data } = await getRecommendedUniversity();
+  const [newsList, { data }, allRegionsUniversityList] = await Promise.all([
+    getHomeNewsList(),
+    getRecommendedUniversity(),
+    getCategorizedUniversities(),
+  ]);
   const recommendedUniversities = data?.recommendedUniversities || [];
-  // 권역별 전체 대학 리스트를 미리 가져와 빌드합니다
-  const allRegionsUniversityList = await getCategorizedUniversities();
   const allUniversities = allRegionsUniversityList[RegionEnumExtend.ALL] || [];
   const resolvedRecommendedUniversities = resolveRecommendedUniversitiesHomeUniversityName(
     recommendedUniversities,
     allUniversities,
   ).filter(hasUniversityDetailRoute);
+  const homeUniversityPreviews = getHomeUniversityPreviews(allUniversities);
+  const desktopData = getHomeDesktopData(allUniversities);
 
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
       <HomeResponsiveContent
         recommendedUniversities={resolvedRecommendedUniversities}
-        allRegionsUniversityList={allRegionsUniversityList}
+        homeUniversityPreviews={homeUniversityPreviews}
+        desktopData={desktopData}
         newsList={newsList}
       />
     </>

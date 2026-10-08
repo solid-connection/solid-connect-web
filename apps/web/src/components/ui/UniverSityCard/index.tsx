@@ -2,12 +2,12 @@ import Image from "@/components/ui/FallbackImage";
 import CheveronRightFilled from "@/components/ui/icon/ChevronRightFilled";
 import UniversityZoneLink from "@/components/ui/UniversityZoneLink";
 import { getHomeUniversitySlugByName } from "@/constants/university";
-import type { ListUniversity } from "@/types/university";
+import type { UniversityCardData } from "@/types/university";
 import { normalizeImageUrlToUploadCdn } from "@/utils/cdnUrl";
 import shortenLanguageTestName from "@/utils/universityUtils";
 
 type UniversityCardProps = {
-  university: ListUniversity;
+  university: UniversityCardData;
   showCapacity?: boolean;
   linkPrefix?: string;
 };
