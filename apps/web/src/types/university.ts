@@ -90,6 +90,12 @@ export interface ListUniversity {
   languageRequirements: LanguageRequirement[];
 }
 
+export type UniversityCardData = Pick<
+  ListUniversity,
+  "id" | "koreanName" | "homeUniversityName" | "region" | "country" | "logoImageUrl" | "languageRequirements"
+> &
+  Partial<Pick<ListUniversity, "studentCapacity">>;
+
 /**
  * 권역별 대학 리스트 응답 타입
  * - Enum 값(전체·미주·유럽·아시아·중국)을 key 로 사용한다.

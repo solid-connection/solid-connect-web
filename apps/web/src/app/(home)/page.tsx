@@ -9,6 +9,7 @@ import HomeEntrySection from "./_ui/HomeEntrySection";
 import NewsSection from "./_ui/NewsSection";
 import PopularUniversitySection from "./_ui/PopularUniversitySection";
 import UniversityList from "./_ui/UniversityList";
+import { getHomeUniversityPreviews } from "./_ui/UniversityList/_utils/getHomeUniversityPreviews";
 
 const pageUrl = createUrl("/");
 const ogImageUrl = createUrl("/opengraph-image.png");
@@ -110,6 +111,7 @@ const HomePage = async () => {
     recommendedUniversities,
     allUniversities,
   ).filter(hasUniversityDetailRoute);
+  const homeUniversityPreviews = getHomeUniversityPreviews(allUniversities);
 
   return (
     <>
@@ -124,7 +126,7 @@ const HomePage = async () => {
         </div>
 
         <div className="p-5">
-          <UniversityList allRegionsUniversityList={allRegionsUniversityList} />
+          <UniversityList homeUniversityPreviews={homeUniversityPreviews} />
         </div>
 
         <NewsSection newsList={newsList} />

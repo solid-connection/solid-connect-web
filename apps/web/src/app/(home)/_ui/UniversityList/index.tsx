@@ -5,16 +5,16 @@ import UniversityZoneLink from "@/components/ui/UniversityZoneLink";
 import UniversityCards from "@/components/university/UniversityCards";
 import { IconDirectionRight } from "@/public/svgs/mentor";
 
-import type { AllRegionsUniversityList } from "@/types/university";
 import useHomeUniversityList from "./_hooks/useHomeUniversityList";
+import type { HomeUniversityPreviewList } from "./types";
 
 interface UniversityListProps {
-  allRegionsUniversityList: AllRegionsUniversityList;
+  homeUniversityPreviews: HomeUniversityPreviewList;
 }
 
-const UniversityList = ({ allRegionsUniversityList }: UniversityListProps) => {
+const UniversityList = ({ homeUniversityPreviews }: UniversityListProps) => {
   const { selectedHomeUniversity, setSelectedHomeUniversity, homeUniversityChoices, previewUniversities, moreHref } =
-    useHomeUniversityList(allRegionsUniversityList);
+    useHomeUniversityList(homeUniversityPreviews);
 
   return (
     <div className="flex flex-col gap-2">
