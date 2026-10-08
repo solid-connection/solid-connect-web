@@ -1,15 +1,19 @@
 import type { AxiosResponse } from "axios";
-import type { ApplicationListResponse } from "@/types/application";
+import type { ApplicationListResponse, ApplicationPreviewResponse } from "@/types/application";
+import type { RegionEnum } from "@/types/university";
 import { axiosInstance } from "@/utils/axiosInstance";
 
-// ====== Query Keys ======
 export const ApplicationsQueryKeys = {
-  competitorsApplicationList: "competitorsApplicationList",
+  applicationPreview: "applicationPreview",
 } as const;
 
 // ====== Types ======
 export interface UseSubmitApplicationResponse {
-  isSuccess: boolean;
+  totalApplyCount: number;
+  applyCount: number;
+  appliedUniversities: {
+    choices: string[];
+  };
 }
 
 export interface UseSubmitApplicationRequest {
@@ -20,21 +24,34 @@ export interface UseSubmitApplicationRequest {
   };
 }
 
-export interface CompetitorsResponse {
-  competitors: Array<{
-    id: number;
-    name: string;
-    score: number;
-  }>;
-}
-
+export type ApplicantsSearchParams = {
+  region?: RegionEnum;
+  keyword?: string;
+};
 // ====== API Functions ======
 export const applicationsApi = {
   /**
-   * 지원 목록 조회
+   * 전체 지원자 현황 조회
    */
-  getApplicationsList: async (): Promise<AxiosResponse<ApplicationListResponse>> => {
-    return axiosInstance.get("/applications");
+  getApplicationsList: async (params?: ApplicantsSearchParams): Promise<AxiosResponse<ApplicationListResponse>> => {
+    return axiosInstance.get("/applications", { params });
+  },
+
+  /**
+   * 내가 지원한 대학의 경쟁자 현황 조회
+   *
+   * 서버에서 현재 사용자의 지원 대학만 반환하므로, 클라이언트에서 소속 대학 기준으로
+   * 다시 필터링하지 않는다.
+   */
+  getCompetitors: async (): Promise<AxiosResponse<ApplicationListResponse>> => {
+    return axiosInstance.get("/applications/competitors");
+  },
+
+  /**
+   * 지원자가 있는 대학의 제한 공개 정보 조회
+   */
+  getApplicationPreview: async (): Promise<AxiosResponse<ApplicationPreviewResponse>> => {
+    return axiosInstance.get("/applications/preview");
   },
 
   /**
@@ -44,13 +61,5 @@ export const applicationsApi = {
     request: UseSubmitApplicationRequest,
   ): Promise<AxiosResponse<UseSubmitApplicationResponse>> => {
     return axiosInstance.post("/applications", request);
-  },
-
-  /**
-   * 경쟁자 목록 조회
-   */
-  getCompetitors: async (config?: { params?: Record<string, unknown> }): Promise<CompetitorsResponse> => {
-    const res = await axiosInstance.get<CompetitorsResponse>("/applications/competitors", config);
-    return res.data;
   },
 };

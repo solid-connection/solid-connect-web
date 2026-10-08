@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { Controller, type SubmitHandler, useForm } from "react-hook-form";
 import { usePostGpaScore } from "@/apis/Scores";
 import { getSchoolEmailVerificationPath } from "@/app/my/school-email/_lib/returnTo";
@@ -23,8 +23,9 @@ const GpaSubmitForm = () => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const [showResult, setShowResult] = useState(false);
   const [submittedData, setSubmittedData] = useState<GpaFormData | null>(null);
-  const { mutateAsync: postGpaScore } = usePostGpaScore();
+  const isSubmitLockedRef = useRef(false);
   const isDesktop = useIsDesktopViewport();
+  const { mutateAsync: postGpaScore, isPending: isPostGpaScorePending } = usePostGpaScore();
 
   const {
     register,
@@ -32,12 +33,13 @@ const GpaSubmitForm = () => {
     control,
     watch,
     reset,
-    formState: { errors, isValid },
+    formState: { errors, isSubmitting, isValid },
   } = useForm<GpaFormData>({
     resolver: zodResolver(gpaSchema),
     mode: "onChange",
   });
   const selectedFile = watch("file");
+  const isSubmitDisabled = !isValid || isSubmitting || isPostGpaScorePending;
 
   useEffect(() => {
     if (!isAuthInitialized || !isAuthenticated || homeUniversityId !== null) {
@@ -52,17 +54,27 @@ const GpaSubmitForm = () => {
   }
 
   const onSubmit: SubmitHandler<GpaFormData> = async (data) => {
-    await postGpaScore({
-      gpaScoreRequest: {
-        gpa: Number(data.gpa),
-        gpaCriteria: Number(data.gpaCriteria),
-        issueDate: "2025-01-01",
-      },
-      file: data.file[0],
-    });
-    setSubmittedData(data);
-    setShowResult(true);
-    reset();
+    if (isSubmitLockedRef.current) return;
+
+    isSubmitLockedRef.current = true;
+    try {
+      await postGpaScore({
+        gpaScoreRequest: {
+          gpa: Number(data.gpa),
+          gpaCriteria: Number(data.gpaCriteria),
+          issueDate: "2025-01-01", // TODO: 실제 날짜 데이터로 변경
+        },
+        file: data.file[0],
+      });
+      // 성공 시, 결과 화면에 보여줄 데이터를 저장하고 상태 변경
+      setSubmittedData(data);
+      setShowResult(true);
+      reset();
+    } catch (_error) {
+      // 실패 토스트는 React Query 전역 onError에서 단일 처리
+    } finally {
+      isSubmitLockedRef.current = false;
+    }
   };
 
   if (isDesktop === null) return null;
@@ -173,9 +185,9 @@ const GpaSubmitForm = () => {
     <button
       className={clsx(
         "w-full rounded-lg py-4 text-white typo-sb-9",
-        isValid ? "bg-primary" : "cursor-not-allowed bg-k-100",
+        isSubmitDisabled ? "cursor-not-allowed bg-k-100" : "bg-primary",
       )}
-      disabled={!isValid}
+      disabled={isSubmitDisabled}
     >
       다음
     </button>

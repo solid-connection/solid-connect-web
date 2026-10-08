@@ -69,14 +69,13 @@ University project의 직접 배포 도메인은 검색엔진에 노출하지 �
 production 릴리즈는 GitHub Actions `Promote Main to Release Branches` workflow로 release branch를 갱신해 Vercel 배포를 트리거한다.
 
 - Main Web Project production branch: `release-web`
-- Admin Project production branch: `release-admin`
+- Admin Project production branch: `main` (release 승격 없이 main 병합 시 production 배포)
 - University Web Project production branch: `release-university`
 
 workflow target은 다음과 같이 사용한다.
 
-- `all`: `release-web`, `release-admin`, `release-university`를 모두 main으로 갱신
+- `all`: `release-web`, `release-university`를 모두 main으로 갱신
 - `web`: `release-web`만 main으로 갱신
-- `admin`: `release-admin`만 main으로 갱신
 - `university`: `release-university`만 main으로 갱신
 
 workflow 기본값은 `all`이다. 개별 production 배포가 필요하면 `web`, `admin`, `university`를 선택한다.
@@ -92,6 +91,23 @@ production university web project의 `NEXT_PUBLIC_WEB_URL`은 실제 사용자�
 ```bash
 NEXT_PUBLIC_WEB_URL=https://www.solid-connection.com
 ```
+
+## SSG 데이터 재배포
+
+대학 API 데이터만 변경된 경우에는 Git 변경이 없어도 `Redeploy University Web` workflow를 실행한다. 이 workflow는 `release-university`의 현재 소스를 사용해 university web production을 새로 빌드한다. 동일한 커밋의 기존 배포를 재사용하지 않으므로 빌드 시점의 최신 API 데이터가 SSG 페이지에 반영된다.
+
+GitHub Actions 화면에서 수동으로 실행할 수 있다. API 데이터 갱신 작업에서 자동 호출하려면 repository dispatch event type을 `university-data-updated`로 전송한다. 선택적으로 `client_payload.reason`에 갱신 이유를 넣을 수 있다.
+
+```json
+{
+  "event_type": "university-data-updated",
+  "client_payload": {
+    "reason": "대학 API 초기 데이터 입력 완료"
+  }
+}
+```
+
+workflow는 저장소의 `VERCEL_TOKEN_UNIV`와 `VERCEL_ORG_ID` secret을 사용한다. 대상 프로젝트는 `solid-connect-university-web`으로 고정하며 다른 web과 admin 프로젝트는 재배포하지 않는다.
 
 ## Local Development
 

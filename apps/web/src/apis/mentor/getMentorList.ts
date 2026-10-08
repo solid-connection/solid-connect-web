@@ -13,8 +13,8 @@ interface UseGetMentorListRequest {
 const useGetMentorList = ({ region = "" }: UseGetMentorListRequest = {}) => {
   return useInfiniteQuery<MentorListResponse, AxiosError, MentorCardDetail[], [string, string], number>({
     queryKey: [MentorQueryKeys.mentorList, region],
-    queryFn: ({ pageParam = 0 }) => mentorApi.getMentorList(region, pageParam),
-    initialPageParam: 0,
+    queryFn: ({ pageParam = 1 }) => mentorApi.getMentorList(region, pageParam),
+    initialPageParam: 1,
     getNextPageParam: (lastPage) => (lastPage.nextPageNumber === -1 ? undefined : lastPage.nextPageNumber),
     staleTime: 1000 * 60 * 5,
     select: (data) => data.pages.flatMap((p) => p.content),
@@ -29,8 +29,8 @@ export const usePrefetchMentorList = () => {
     (region: string) => {
       queryClient.prefetchInfiniteQuery({
         queryKey: [MentorQueryKeys.mentorList, region],
-        queryFn: ({ pageParam = 0 }) => mentorApi.getMentorList(region, pageParam as number),
-        initialPageParam: 0,
+        queryFn: ({ pageParam = 1 }) => mentorApi.getMentorList(region, pageParam as number),
+        initialPageParam: 1,
         staleTime: 1000 * 60 * 5,
       });
     },

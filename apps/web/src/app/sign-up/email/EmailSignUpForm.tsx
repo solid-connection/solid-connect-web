@@ -90,10 +90,12 @@ const EmailSignUpForm = () => {
         </Label>
         <Input
           id="email"
+          name="email"
           variant="gray"
           placeholder="ID@example.com"
           type="email"
           autoComplete="email"
+          spellCheck={false}
           value={email}
           onChange={handleEmailChange}
         />
@@ -107,6 +109,7 @@ const EmailSignUpForm = () => {
             <div className="relative">
               <Input
                 id="password"
+                name="password"
                 variant="gray"
                 placeholder="비밀번호를 입력해주세요"
                 type={passwordsVisible ? "text" : "password"}
@@ -131,6 +134,7 @@ const EmailSignUpForm = () => {
             <div className="relative">
               <Input
                 id="passwordConfirm"
+                name="passwordConfirm"
                 variant="gray"
                 placeholder="비밀번호를 다시 입력해주세요"
                 type={passwordsVisible ? "text" : "password"}
@@ -142,7 +146,7 @@ const EmailSignUpForm = () => {
                 type="button"
                 onClick={togglePasswordVisibility}
                 className="absolute right-3.5 top-1/2 -translate-y-1/2"
-                aria-label={passwordsVisible ? "비밀번호 숨기기" : "비밀번호 보기"}
+                aria-label={passwordsVisible ? "비밀번호 확인 숨기기" : "비밀번호 확인 보기"}
               >
                 {passwordsVisible ? <IconEyeOn /> : <IconEyeOff />}
               </button>

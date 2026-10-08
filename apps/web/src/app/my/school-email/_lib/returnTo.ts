@@ -1,5 +1,6 @@
 export const SCHOOL_EMAIL_RETURN_PATHS = {
   applicationApply: "/university/application/apply",
+  applicationStatus: "/university/application",
   score: "/university/score",
   gpaSubmit: "/university/score/submit/gpa",
 } as const;

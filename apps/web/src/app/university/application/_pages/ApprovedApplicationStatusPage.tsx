@@ -1,0 +1,659 @@
+"use client";
+
+import type { AxiosError } from "axios";
+import clsx from "clsx";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { type ReactNode, useEffect, useMemo, useState } from "react";
+import { useGetApplicationsList } from "@/apis/applications";
+import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
+import { DEFAULT_MAX_CHOICE_COUNT, getHomeUniversityById, REGIONS_KO } from "@/constants/university";
+import { SKIP_GLOBAL_ERROR_TOAST_META } from "@/lib/react-query/errorToastMeta";
+import useAuthStore from "@/lib/zustand/useAuthStore";
+import { IconExpandMoreFilled } from "@/public/svgs/community";
+import type { Applicant, ScoreSheet as ScoreSheetType } from "@/types/application";
+import type { RegionKo } from "@/types/university";
+import useIsDesktopViewport from "@/utils/useIsDesktopViewport";
+import { DesktopScoreSheet, getApplicationDetailHref, MobileScoreSheet, ScoreSheetLogo } from "../ScoreSheet";
+
+type ApplicationAccessErrorCode = "APPLICATION_NOT_FOUND" | "APPLICATION_NOT_APPROVED";
+
+const APPLICATION_ACCESS_ERRORS: Record<ApplicationAccessErrorCode, { status: number; message: string }> = {
+  APPLICATION_NOT_FOUND: { status: 404, message: "사용자의 대학 지원 정보를 찾을 수 없습니다." },
+  APPLICATION_NOT_APPROVED: { status: 400, message: "성적표가 인증되지 않았습니다." },
+};
+
+const isApplicationAccessError = (error: AxiosError<{ message: string }> | null): boolean => {
+  if (!error) return false;
+
+  const status = error.response?.status;
+  const message = error.response?.data?.message;
+
+  return Object.values(APPLICATION_ACCESS_ERRORS).some(
+    (accessError) => accessError.status === status && accessError.message === message,
+  );
+};
+
+type ApplicantScope = "all" | "withApplicants";
+type ScoreSort = "applicants" | "gpa";
+
+type AppliedUniversity = {
+  preference: number;
+  scoreSheet: ScoreSheetType;
+};
+
+type ScorePageViewProps = {
+  appliedUniversities: AppliedUniversity[];
+  displayedScoreSheets: ScoreSheetType[];
+  totalUniversityCount: number;
+  applicantUniversityCount: number;
+  participantCount: number;
+  scope: ApplicantScope;
+  regionFilter: RegionKo | "";
+  sortMode: ScoreSort;
+  onScopeChange: (scope: ApplicantScope) => void;
+  onRegionChange: (region: RegionKo | "") => void;
+  onSortModeChange: (sortMode: ScoreSort) => void;
+  onChangeUniversities: () => void;
+};
+
+const ApprovedApplicationStatusPage = () => {
+  const router = useRouter();
+  const isDesktop = useIsDesktopViewport();
+  const homeUniversityId = useAuthStore((state) => state.homeUniversityId);
+  const maxChoiceCount = getHomeUniversityById(homeUniversityId)?.maxChoiceCount ?? DEFAULT_MAX_CHOICE_COUNT;
+
+  const [scope, setScope] = useState<ApplicantScope>("withApplicants");
+  const [regionFilter, setRegionFilter] = useState<RegionKo | "">("");
+  const [sortMode, setSortMode] = useState<ScoreSort>("applicants");
+  const emptyChoices = useMemo(
+    () => Array.from({ length: maxChoiceCount }, () => [] as ScoreSheetType[]),
+    [maxChoiceCount],
+  );
+  /**
+   * 모의지원 기간에는 내가 지원한 대학의 경쟁자만(useGetCompetitors),
+   * 기간이 끝나면 소속 대학의 전체 지원자 현황(useGetApplicationsList)을 보여준다.
+   */
+  const {
+    data: scoreResponseData,
+    isError,
+    isLoading,
+    error,
+    refetch,
+  } = useGetApplicationsList(undefined, {
+    meta: SKIP_GLOBAL_ERROR_TOAST_META,
+  });
+  const scoreChoices = scoreResponseData?.choices ?? emptyChoices;
+  const isApplicationMissingOrUnapproved = isApplicationAccessError(error);
+
+  const allScoreSheets = useMemo(() => uniqueScoreSheets(scoreChoices.flat()), [scoreChoices]);
+  const appliedUniversities = useMemo(
+    () => getAppliedUniversities(scoreChoices, maxChoiceCount),
+    [scoreChoices, maxChoiceCount],
+  );
+  const totalUniversityCount = allScoreSheets.length;
+  const applicantUniversityCount = allScoreSheets.filter((scoreSheet) => scoreSheet.applicants.length > 0).length;
+  /**
+   * 지역 칩은 서버 파라미터 대신 클라이언트에서 건다.
+   * GET /applications 에 region 을 넘기면 choices 자체가 걸러져서 "지원한 대학" 목록까지 해당 권역만 남는다.
+   */
+  const regionScopedScoreSheets = useMemo(
+    () => (regionFilter ? allScoreSheets.filter((scoreSheet) => scoreSheet.region === regionFilter) : allScoreSheets),
+    [allScoreSheets, regionFilter],
+  );
+  const participantCount = useMemo(() => getParticipantCount(regionScopedScoreSheets), [regionScopedScoreSheets]);
+
+  const displayedScoreSheets = useMemo(() => {
+    const result =
+      scope === "withApplicants"
+        ? regionScopedScoreSheets.filter((scoreSheet) => scoreSheet.applicants.length > 0)
+        : regionScopedScoreSheets;
+
+    return sortScoreSheets(result, sortMode);
+  }, [regionScopedScoreSheets, scope, sortMode]);
+
+  useEffect(
+    function redirectToApplyWhenApplicationMissing() {
+      if (isLoading) return;
+      if (isError && isApplicationMissingOrUnapproved) {
+        router.replace("/university/application/apply");
+      }
+    },
+    [isApplicationMissingOrUnapproved, isError, isLoading, router],
+  );
+
+  if (isLoading || (isError && isApplicationMissingOrUnapproved)) {
+    return <CloudSpinnerPage />;
+  }
+
+  if (isError) {
+    return (
+      <div className="flex min-h-[40vh] flex-col items-center justify-center gap-3 px-4 text-center">
+        <p className="text-k-700 typo-medium-2">지원 현황을 불러오지 못했어요.</p>
+        <button
+          type="button"
+          onClick={() => void refetch()}
+          className="rounded-full bg-primary px-4 py-2 text-white typo-medium-2"
+        >
+          다시 시도
+        </button>
+      </div>
+    );
+  }
+
+  if (isDesktop === null) return <CloudSpinnerPage />;
+
+  const viewProps = {
+    appliedUniversities,
+    displayedScoreSheets,
+    totalUniversityCount,
+    applicantUniversityCount,
+    participantCount,
+    scope,
+    regionFilter,
+    sortMode,
+    onScopeChange: setScope,
+    onRegionChange: setRegionFilter,
+    onSortModeChange: setSortMode,
+    onChangeUniversities: () => router.push("/university/application/apply"),
+  };
+
+  return isDesktop ? <ApplicationScoreDesktopView {...viewProps} /> : <ApplicationScoreView {...viewProps} />;
+};
+
+const ApplicationScoreView = ({
+  appliedUniversities,
+  displayedScoreSheets,
+  totalUniversityCount,
+  applicantUniversityCount,
+  participantCount,
+  scope,
+  regionFilter,
+  sortMode,
+  onScopeChange,
+  onRegionChange,
+  onSortModeChange,
+  onChangeUniversities,
+}: ScorePageViewProps) => {
+  return (
+    <main className="mx-auto w-full max-w-app px-5 pb-6 md:pt-14">
+      <AppliedUniversitySection appliedUniversities={appliedUniversities} onChangeUniversities={onChangeUniversities} />
+      <div className="mt-5 h-1 bg-k-50" />
+      <ParticipantBanner participantCount={participantCount} />
+      <ApplicationScopeTabs
+        scope={scope}
+        totalUniversityCount={totalUniversityCount}
+        applicantUniversityCount={applicantUniversityCount}
+        onScopeChange={onScopeChange}
+      />
+      <ApplicationFilterChips
+        regionFilter={regionFilter}
+        sortMode={sortMode}
+        onRegionChange={onRegionChange}
+        onSortModeChange={onSortModeChange}
+      />
+      <ScoreSheetList scoreSheets={displayedScoreSheets} />
+    </main>
+  );
+};
+
+const ApplicationScoreDesktopView = ({
+  appliedUniversities,
+  displayedScoreSheets,
+  totalUniversityCount,
+  applicantUniversityCount,
+  participantCount,
+  scope,
+  regionFilter,
+  sortMode,
+  onScopeChange,
+  onRegionChange,
+  onSortModeChange,
+  onChangeUniversities,
+}: ScorePageViewProps) => {
+  return (
+    <main className="min-h-screen bg-k-50 px-8 py-8 lg:px-10">
+      <div className="mx-auto max-w-7xl">
+        <header className="flex flex-col gap-4 border-b border-k-100 pb-7 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <p className="text-primary typo-sb-9">Application scores</p>
+            <h1 className="mt-2 text-k-900 typo-bold-1">지원자 현황 확인</h1>
+            <p className="mt-2 text-k-500 typo-medium-2">
+              지원한 학교와 전체 지원자 현황을 한 화면에서 비교할 수 있어요.
+            </p>
+          </div>
+          <div className="grid grid-cols-3 gap-3">
+            <DesktopMetricCard label="전체 대학" value={`${totalUniversityCount}개`} />
+            <DesktopMetricCard label="지원자 있는 대학" value={`${applicantUniversityCount}개`} />
+            <DesktopMetricCard label="참여자" value={`${participantCount}명`} highlight />
+          </div>
+        </header>
+
+        <div className="mt-8 grid items-start gap-8 xl:grid-cols-[minmax(0,1fr)_360px]">
+          <section className="min-w-0 rounded-lg border border-k-100 bg-white p-6">
+            <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
+              <div>
+                <h2 className="text-k-900 typo-bold-4">
+                  {scope === "withApplicants" ? "지원자 있는 대학" : "모든 대학"}
+                </h2>
+                <p className="mt-1 text-k-500 typo-medium-3">조건에 맞는 대학 {displayedScoreSheets.length}개</p>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <ScopePill isActive={scope === "withApplicants"} onClick={() => onScopeChange("withApplicants")}>
+                  지원자 있음
+                </ScopePill>
+                <ScopePill isActive={scope === "all"} onClick={() => onScopeChange("all")}>
+                  전체 보기
+                </ScopePill>
+                <ScopePill
+                  isActive={sortMode === "gpa"}
+                  onClick={() => onSortModeChange(sortMode === "gpa" ? "applicants" : "gpa")}
+                >
+                  학점 높은 순
+                </ScopePill>
+              </div>
+            </div>
+
+            <ScoreSheetList scoreSheets={displayedScoreSheets} variant="desktop" />
+          </section>
+
+          <aside className="sticky top-8 space-y-5">
+            <DesktopAppliedUniversityPanel
+              appliedUniversities={appliedUniversities}
+              onChangeUniversities={onChangeUniversities}
+            />
+            <DesktopFilterPanel regionFilter={regionFilter} onRegionChange={onRegionChange} />
+          </aside>
+        </div>
+      </div>
+    </main>
+  );
+};
+
+const DesktopAppliedUniversityPanel = ({
+  appliedUniversities,
+  onChangeUniversities,
+}: {
+  appliedUniversities: AppliedUniversity[];
+  onChangeUniversities: () => void;
+}) => (
+  <section className="rounded-lg border border-k-100 bg-white p-5">
+    <div className="flex items-center justify-between gap-3">
+      <div>
+        <h2 className="text-k-900 typo-bold-5">지원한 대학</h2>
+        <p className="mt-1 text-k-500 typo-medium-3">{appliedUniversities.length}개 대학 선택됨</p>
+      </div>
+      <button
+        type="button"
+        onClick={onChangeUniversities}
+        className="rounded-full bg-primary px-4 py-2 text-k-0 typo-sb-12"
+      >
+        변경
+      </button>
+    </div>
+    <div className="mt-4 space-y-2">
+      {appliedUniversities.length > 0 ? (
+        appliedUniversities.map(({ preference, scoreSheet }) => (
+          <AppliedUniversityRow
+            key={`${preference}-${getScoreSheetKey(scoreSheet)}`}
+            preference={preference}
+            scoreSheet={scoreSheet}
+          />
+        ))
+      ) : (
+        <div className="rounded-lg bg-k-50 px-4 py-5 text-k-500 typo-medium-3">지원한 대학 정보가 없어요.</div>
+      )}
+    </div>
+  </section>
+);
+
+const DesktopFilterPanel = ({
+  regionFilter,
+  onRegionChange,
+}: {
+  regionFilter: RegionKo | "";
+  onRegionChange: (region: RegionKo | "") => void;
+}) => (
+  <section className="rounded-lg border border-k-100 bg-white p-5">
+    <h2 className="text-k-900 typo-bold-5">지역 필터</h2>
+    <p className="mt-1 text-k-500 typo-medium-3">권역별로 지원 현황을 좁혀보세요.</p>
+    <div className="mt-4 flex flex-wrap gap-2">
+      <FilterChip isActive={regionFilter === ""} onClick={() => onRegionChange("")}>
+        전체
+      </FilterChip>
+      {REGIONS_KO.map((region) => (
+        <FilterChip
+          key={region}
+          isActive={regionFilter === region}
+          onClick={() => onRegionChange(regionFilter === region ? "" : region)}
+        >
+          {region}
+        </FilterChip>
+      ))}
+    </div>
+  </section>
+);
+
+const ScopePill = ({
+  children,
+  isActive,
+  onClick,
+}: {
+  children: ReactNode;
+  isActive: boolean;
+  onClick: () => void;
+}) => (
+  <button
+    type="button"
+    onClick={onClick}
+    className={clsx(
+      "rounded-full border px-4 py-2 transition-colors typo-sb-12",
+      isActive ? "border-primary bg-primary text-k-0" : "border-k-100 bg-white text-k-500 hover:border-secondary-300",
+    )}
+  >
+    {children}
+  </button>
+);
+
+const DesktopMetricCard = ({
+  label,
+  value,
+  highlight = false,
+}: {
+  label: string;
+  value: string;
+  highlight?: boolean;
+}) => (
+  <div
+    className={clsx(
+      "min-w-32 rounded-lg border px-4 py-3",
+      highlight ? "border-secondary-300 bg-secondary-100" : "border-k-100 bg-white",
+    )}
+  >
+    <p className="text-k-500 typo-medium-12">{label}</p>
+    <p className={clsx("mt-1 typo-bold-4", highlight ? "text-primary" : "text-k-900")}>{value}</p>
+  </div>
+);
+
+const AppliedUniversitySection = ({
+  appliedUniversities,
+  onChangeUniversities,
+}: {
+  appliedUniversities: AppliedUniversity[];
+  onChangeUniversities: () => void;
+}) => (
+  <section className="mt-5">
+    <div className="flex items-center justify-between gap-3">
+      <h1 className="text-k-900 typo-bold-4">지원한 대학 ({appliedUniversities.length}개)</h1>
+      <button
+        type="button"
+        onClick={onChangeUniversities}
+        className="h-8 shrink-0 rounded-2xl bg-primary px-4 text-k-0 typo-sb-12"
+      >
+        지원 대학교 변경
+      </button>
+    </div>
+    <div className="mt-4 space-y-2">
+      {appliedUniversities.length > 0 ? (
+        appliedUniversities.map(({ preference, scoreSheet }) => (
+          <AppliedUniversityRow
+            key={`${preference}-${getScoreSheetKey(scoreSheet)}`}
+            preference={preference}
+            scoreSheet={scoreSheet}
+          />
+        ))
+      ) : (
+        <div className="rounded-lg bg-k-50 px-4 py-4 text-k-500 typo-medium-3">
+          지원한 대학 정보를 불러오는 중입니다.
+        </div>
+      )}
+    </div>
+  </section>
+);
+
+const AppliedUniversityRow = ({ preference, scoreSheet }: AppliedUniversity) => {
+  const capacity =
+    scoreSheet.studentCapacity === null || scoreSheet.studentCapacity === undefined
+      ? "미정"
+      : scoreSheet.studentCapacity;
+
+  return (
+    <Link
+      href={getApplicationDetailHref(scoreSheet.koreanName)}
+      className="flex h-11 items-center gap-2.5 rounded-lg border border-k-50 bg-white px-3.5 shadow-[0_0_10px_rgba(0,0,0,0.05)]"
+    >
+      <ScoreSheetLogo scoreSheet={scoreSheet} className="size-5" />
+      <span className="min-w-0 flex-1 truncate text-k-900 typo-sb-7">
+        {scoreSheet.koreanName} ({preference}/{capacity})
+      </span>
+      <span className="flex size-6 shrink-0 items-center justify-center text-k-600" aria-hidden>
+        <IconExpandMoreFilled />
+      </span>
+    </Link>
+  );
+};
+
+const ParticipantBanner = ({ participantCount }: { participantCount: number }) => (
+  <section className="mt-6 rounded-lg bg-secondary-100 px-5 py-3">
+    <div className="flex items-center gap-4">
+      <div className="flex size-10 items-center justify-center text-[34px]" aria-hidden>
+        🔥
+      </div>
+      <div className="min-w-0 text-k-800">
+        <p className="typo-regular-4">솔리드 커넥션과 함께하고 있어요</p>
+        <p className="mt-0.5 typo-sb-9">총 {participantCount}명이 성적 공유 참여중!</p>
+      </div>
+    </div>
+  </section>
+);
+
+const ApplicationScopeTabs = ({
+  scope,
+  totalUniversityCount,
+  applicantUniversityCount,
+  onScopeChange,
+}: {
+  scope: ApplicantScope;
+  totalUniversityCount: number;
+  applicantUniversityCount: number;
+  onScopeChange: (scope: ApplicantScope) => void;
+}) => (
+  <div className="mt-6 flex h-11 items-start justify-between">
+    <ScopeTabButton isActive={scope === "all"} onClick={() => onScopeChange("all")}>
+      모든 대학 ({totalUniversityCount}개)
+    </ScopeTabButton>
+    <ScopeTabButton isActive={scope === "withApplicants"} onClick={() => onScopeChange("withApplicants")}>
+      지원자 있는 대학 ({applicantUniversityCount}개)
+    </ScopeTabButton>
+  </div>
+);
+
+const ScopeTabButton = ({
+  children,
+  isActive,
+  onClick,
+}: {
+  children: ReactNode;
+  isActive: boolean;
+  onClick: () => void;
+}) => (
+  <button
+    type="button"
+    onClick={onClick}
+    className={clsx(
+      "flex h-11 flex-1 items-center justify-center border-b-2 typo-medium-2",
+      isActive ? "border-primary text-k-900" : "border-transparent text-k-300",
+    )}
+  >
+    {children}
+  </button>
+);
+
+const ApplicationFilterChips = ({
+  regionFilter,
+  sortMode,
+  onRegionChange,
+  onSortModeChange,
+}: {
+  regionFilter: RegionKo | "";
+  sortMode: ScoreSort;
+  onRegionChange: (region: RegionKo | "") => void;
+  onSortModeChange: (sortMode: ScoreSort) => void;
+}) => (
+  <div className="mt-4 flex gap-2 overflow-x-auto whitespace-nowrap pb-1">
+    {REGIONS_KO.map((region) => (
+      <FilterChip
+        key={region}
+        isActive={regionFilter === region}
+        onClick={() => onRegionChange(regionFilter === region ? "" : region)}
+      >
+        {region}
+      </FilterChip>
+    ))}
+    <FilterChip
+      isActive={sortMode === "gpa"}
+      onClick={() => onSortModeChange(sortMode === "gpa" ? "applicants" : "gpa")}
+    >
+      학점 높은 순
+    </FilterChip>
+  </div>
+);
+
+const FilterChip = ({
+  children,
+  isActive,
+  onClick,
+}: {
+  children: ReactNode;
+  isActive: boolean;
+  onClick: () => void;
+}) => (
+  <button
+    type="button"
+    onClick={onClick}
+    className={clsx("rounded-full px-3 py-[5px] typo-sb-12", isActive ? "bg-primary text-k-0" : "bg-k-50 text-k-300")}
+  >
+    {children}
+  </button>
+);
+
+const ScoreSheetList = ({
+  scoreSheets,
+  variant = "mobile",
+}: {
+  scoreSheets: ScoreSheetType[];
+  variant?: "mobile" | "desktop";
+}) => {
+  if (scoreSheets.length === 0) {
+    return <ApplicationScoreEmptyState />;
+  }
+
+  if (variant === "desktop") {
+    return (
+      <div className="mt-6 grid gap-4 2xl:grid-cols-2">
+        {scoreSheets.map((scoreSheet, index) => (
+          <DesktopScoreSheet key={getScoreSheetKey(scoreSheet)} scoreSheet={scoreSheet} defaultOpen={index === 0} />
+        ))}
+      </div>
+    );
+  }
+
+  return (
+    <div className="mt-3 flex flex-col gap-2 pb-6">
+      {scoreSheets.map((scoreSheet, index) => (
+        <MobileScoreSheet key={getScoreSheetKey(scoreSheet)} scoreSheet={scoreSheet} defaultOpen={index === 0} />
+      ))}
+    </div>
+  );
+};
+
+const ApplicationScoreEmptyState = () => (
+  <div className="mt-4 flex min-h-48 flex-col items-center justify-center rounded-lg bg-k-50 px-6 py-8 text-center">
+    <p className="text-k-900 typo-sb-7">조건에 맞는 대학이 없어요.</p>
+    <p className="mt-2 text-k-500 typo-medium-3">다른 필터로 다시 확인해 주세요.</p>
+  </div>
+);
+
+const uniqueScoreSheets = (scoreSheets: ScoreSheetType[]) => {
+  const scoreSheetMap = new Map<string, ScoreSheetType>();
+
+  for (const scoreSheet of scoreSheets) {
+    const key = getScoreSheetKey(scoreSheet);
+    const prev = scoreSheetMap.get(key);
+    scoreSheetMap.set(
+      key,
+      prev
+        ? {
+            ...prev,
+            englishName: prev.englishName ?? scoreSheet.englishName,
+            logoImageUrl: prev.logoImageUrl ?? scoreSheet.logoImageUrl,
+            backgroundImageUrl: prev.backgroundImageUrl ?? scoreSheet.backgroundImageUrl,
+            applicants: mergeApplicants(prev.applicants, scoreSheet.applicants),
+          }
+        : scoreSheet,
+    );
+  }
+
+  return Array.from(scoreSheetMap.values());
+};
+
+const getAppliedUniversities = (scoreChoices: ScoreSheetType[][], maxChoiceCount: number): AppliedUniversity[] => {
+  return scoreChoices.slice(0, maxChoiceCount).flatMap((choice, index) => {
+    const mine = choice.find((scoreSheet) => scoreSheet.applicants.some((applicant) => applicant.isMine));
+
+    return mine ? [{ preference: index + 1, scoreSheet: mine }] : [];
+  });
+};
+
+const getScoreSheetKey = (scoreSheet: ScoreSheetType) => {
+  return scoreSheet.id ? String(scoreSheet.id) : scoreSheet.koreanName;
+};
+
+const mergeApplicants = (currentApplicants: Applicant[], nextApplicants: Applicant[]) => {
+  const applicantMap = new Map<string, Applicant>();
+
+  for (const applicant of currentApplicants) {
+    applicantMap.set(applicant.nicknameForApply, applicant);
+  }
+
+  for (const applicant of nextApplicants) {
+    if (!applicantMap.has(applicant.nicknameForApply)) {
+      applicantMap.set(applicant.nicknameForApply, applicant);
+    }
+  }
+
+  return Array.from(applicantMap.values());
+};
+
+const getParticipantCount = (scoreSheets: ScoreSheetType[]) => {
+  const nicknames = new Set<string>();
+
+  for (const scoreSheet of scoreSheets) {
+    for (const applicant of scoreSheet.applicants) {
+      nicknames.add(applicant.nicknameForApply);
+    }
+  }
+
+  return nicknames.size;
+};
+
+const getAverageGpa = (scoreSheet: ScoreSheetType) => {
+  if (scoreSheet.applicants.length === 0) {
+    return 0;
+  }
+
+  const totalGpa = scoreSheet.applicants.reduce((sum, applicant) => sum + applicant.gpa, 0);
+  return totalGpa / scoreSheet.applicants.length;
+};
+
+const sortScoreSheets = (scoreSheets: ScoreSheetType[], sortMode: ScoreSort) => {
+  return [...scoreSheets].sort((a, b) => {
+    if (sortMode === "gpa") {
+      return getAverageGpa(b) - getAverageGpa(a);
+    }
+
+    return b.applicants.length - a.applicants.length;
+  });
+};
+
+export default ApprovedApplicationStatusPage;

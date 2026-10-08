@@ -361,6 +361,9 @@ export const adminApi = {
 	deleteHostUniversity: (id: number) =>
 		axiosInstance.delete<void>(`/admin/host-universities/${id}`).then((res) => res.data),
 
+	getUnivApplyInfo: (id: number) =>
+		axiosInstance.get<UnivApplyInfoManageResponse>(`/admin/univ-apply-infos/${id}`).then((res) => res.data),
+
 	createUnivApplyInfo: (data: UnivApplyInfoCreatePayload) =>
 		axiosInstance.post<UnivApplyInfoManageResponse>("/admin/univ-apply-infos", data).then((res) => res.data),
 
@@ -370,10 +373,14 @@ export const adminApi = {
 	deleteUnivApplyInfo: (id: number) =>
 		axiosInstance.delete<void>(`/admin/univ-apply-infos/${id}`).then((res) => res.data),
 
-	searchUnivApplyInfos: (value?: string) =>
+	searchUnivApplyInfos: (params: { value?: string; homeUniversityId?: number; termId?: number }) =>
 		axiosInstance
 			.get<{ univApplyInfoPreviews: UnivApplyInfoSearchResult[] }>("/univ-apply-infos/search/text", {
-				params: { value: value ?? "" },
+				params: {
+					value: params.value ?? "",
+					homeUniversityId: params.homeUniversityId,
+					termId: params.termId,
+				},
 			})
 			.then((res) => res.data),
 };

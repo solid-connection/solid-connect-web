@@ -41,17 +41,17 @@ GitHub Actions, Vercel를 사용하여 CI/CD를 관리합니다.
 
 main 브랜치에 push가 되면 자동으로 CI가 진행되어 stage 환경에 배포됩니다.
 
-Github Actions의 `Promote Main to Release Branches`를 가동시키면 선택한 release branch가 main으로 갱신되고, 각 Vercel Project의 production 환경에 배포됩니다.
+**admin은 main 병합만으로 production이 배포됩니다.** Vercel Admin Project의 production branch가 `main`이며, release branch 승격 단계가 없습니다. admin 앱은 배포가 하나(main)이고, stage/prod API 전환은 앱 내 환경 스위처로 런타임에 처리합니다.
+
+web, university-web은 Github Actions의 `Promote Main to Release Branches`를 가동시키면 선택한 release branch가 main으로 갱신되고, 각 Vercel Project의 production 환경에 배포됩니다.
 
 - `release-web`: web production 배포
-- `release-admin`: admin production 배포
 - `release-university`: university-web production 배포
 
 릴리즈 workflow의 target은 다음과 같이 사용합니다.
 
-- `all`: web, admin, university-web 전체 릴리즈
+- `all`: web, university-web 전체 릴리즈
 - `web`: web만 릴리즈
-- `admin`: admin만 릴리즈
 - `university`: university-web만 릴리즈
 
-기본값은 `all`입니다. 특정 project만 production 릴리즈하려면 `web`, `admin`, `university`를 선택합니다.
+기본값은 `all`입니다. 특정 project만 production 릴리즈하려면 `web`, `university`를 선택합니다.

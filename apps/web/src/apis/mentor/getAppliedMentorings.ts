@@ -14,8 +14,8 @@ import {
 const useGetApplyMentoringList = (verifyStatus: VerifyStatus) => {
   return useInfiniteQuery<ApplyMentoringListResponse, AxiosError, MentoringListItem[], [string, VerifyStatus], number>({
     queryKey: [MentorQueryKeys.applyMentoringList, verifyStatus],
-    queryFn: ({ pageParam = 0 }) => mentorApi.getApplyMentoringList(verifyStatus, pageParam),
-    initialPageParam: 0,
+    queryFn: ({ pageParam = 1 }) => mentorApi.getApplyMentoringList(verifyStatus, pageParam),
+    initialPageParam: 1,
     getNextPageParam: (lastPage) => (lastPage.nextPageNumber === -1 ? undefined : lastPage.nextPageNumber),
     staleTime: 1000 * 60 * 5, // 5분간 캐시
     select: (data) => data.pages.flatMap((p) => p.content),
@@ -29,8 +29,8 @@ export const usePrefetchApplyMentoringList = () => {
   const prefetchList = (verifyStatus: VerifyStatus) => {
     queryClient.prefetchInfiniteQuery({
       queryKey: [MentorQueryKeys.applyMentoringList, verifyStatus],
-      queryFn: ({ pageParam = 0 }) => mentorApi.getApplyMentoringList(verifyStatus, pageParam as number),
-      initialPageParam: 0,
+      queryFn: ({ pageParam = 1 }) => mentorApi.getApplyMentoringList(verifyStatus, pageParam as number),
+      initialPageParam: 1,
       staleTime: 1000 * 60 * 5,
     });
   };

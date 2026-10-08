@@ -10,6 +10,7 @@ import {
 type ConfirmStepProps = {
   universityList: ListUniversity[];
   onNext: () => void;
+  isSubmitting?: boolean;
 };
 
 type ConfirmUniversityCardProps = {
@@ -47,7 +48,12 @@ const ConfirmUniversityCard = ({ universityList, isDesktop }: ConfirmUniversityC
   );
 };
 
-const ConfirmStepBase = ({ universityList, onNext, isDesktop }: ConfirmStepProps & { isDesktop: boolean }) => {
+const ConfirmStepBase = ({
+  universityList,
+  onNext,
+  isDesktop,
+  isSubmitting = false,
+}: ConfirmStepProps & { isDesktop: boolean }) => {
   const ActionBar = isDesktop ? DesktopApplicationBottomActionBar : MobileApplicationBottomActionBar;
 
   return (
@@ -66,7 +72,7 @@ const ConfirmStepBase = ({ universityList, onNext, isDesktop }: ConfirmStepProps
       </div>
 
       <ConfirmUniversityCard universityList={universityList} isDesktop={isDesktop} />
-      <ActionBar label="제출하기" onClick={onNext} />
+      <ActionBar label="제출하기" onClick={onNext} disabled={isSubmitting} />
     </div>
   );
 };

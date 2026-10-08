@@ -2,10 +2,32 @@ import { useMutation } from "@tanstack/react-query";
 
 import type { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
+import { SKIP_GLOBAL_ERROR_TOAST_META } from "@/lib/react-query/errorToastMeta";
 import { showIconToast } from "@/lib/toast/showIconToast";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { getCommunityRedirectOrFallback } from "@/utils/authRedirect";
 import { type AuthRedirectOptions, authApi, type EmailLoginRequest, type EmailLoginResponse } from "./api";
+
+const EMAIL_LOGIN_FAILURE_MESSAGE = "이메일 또는 비밀번호를 확인해주세요.";
+const EMAIL_LOGIN_REQUEST_FAILURE_MESSAGE = "로그인에 실패했습니다. 잠시 후 다시 시도해주세요.";
+
+type EmailLoginErrorResponse = {
+  message?: string;
+};
+
+const getEmailLoginErrorMessage = (error: AxiosError<EmailLoginErrorResponse>) => {
+  const responseMessage = error.response?.data?.message;
+
+  if (responseMessage) {
+    return responseMessage;
+  }
+
+  if (error.response?.status === 401) {
+    return EMAIL_LOGIN_FAILURE_MESSAGE;
+  }
+
+  return EMAIL_LOGIN_REQUEST_FAILURE_MESSAGE;
+};
 
 /**
  * @description 이메일 로그인을 위한 useMutation 커스텀 훅
@@ -14,8 +36,11 @@ const usePostEmailAuth = ({ redirectPath }: AuthRedirectOptions = {}) => {
   const { setAccessToken } = useAuthStore();
   const router = useRouter();
 
-  return useMutation<EmailLoginResponse, AxiosError, EmailLoginRequest>({
+  return useMutation<EmailLoginResponse, AxiosError<EmailLoginErrorResponse>, EmailLoginRequest>({
     mutationFn: (data) => authApi.postEmailLogin(data),
+    // 로그인 API는 publicAxiosInstance를 사용해 전역 401 인터셉터/토스트가 적용되지 않으므로
+    // 전역 에러 토스트를 건너뛰고 이 mutation에서 직접 처리한다.
+    meta: SKIP_GLOBAL_ERROR_TOAST_META,
     onSuccess: (data) => {
       const { accessToken } = data;
 
@@ -30,6 +55,13 @@ const usePostEmailAuth = ({ redirectPath }: AuthRedirectOptions = {}) => {
       setTimeout(() => {
         router.push(getCommunityRedirectOrFallback(redirectPath));
       }, 100);
+    },
+    onError: (error) => {
+      const message = getEmailLoginErrorMessage(error);
+
+      // 로그인 실패는 사용자가 자격증명을 고쳐 곧바로 재시도하는 경우가 많아
+      // 동일 메시지 억제(dedupe)를 끄고 매 시도마다 토스트를 노출한다.
+      showIconToast("logo", message, { dedupe: false });
     },
   });
 };

@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { adminSignOutApi } from "@/lib/api/auth";
 import { clearSession } from "@/lib/auth/session";
 import { type ActiveAdminMenu, AdminSidebar } from "./AdminSidebar";
+import { EnvironmentBanner } from "./EnvironmentBanner";
 
 interface AdminLayoutProps {
 	children: React.ReactNode;
@@ -51,6 +52,7 @@ export function AdminLayout({ children, activeMenu, title, description }: AdminL
 						</div>
 					</div>
 					<div className="flex items-center gap-2">
+						<EnvironmentBanner />
 						<p className="hidden rounded-full bg-bg-50 px-3 py-1 typo-medium-4 text-k-600 sm:block">운영 콘솔</p>
 						<button
 							type="button"

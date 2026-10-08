@@ -5,8 +5,10 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useGetMyInfo } from "@/apis/MyPage";
 import CloudSpinnerPage from "@/components/ui/CloudSpinnerPage";
+import { showIconToast } from "@/lib/toast/showIconToast";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { UserRole } from "@/types/mentor";
+import { LOGIN_REQUIRED_MESSAGE } from "@/utils/authRedirect";
 import useIsDesktopViewport from "@/utils/useIsDesktopViewport";
 import MentorPageSkeleton from "../MentorPageSkeleton";
 import { MenteeDesktopPage, MenteeMobilePage } from "./_ui/MenteePage";
@@ -25,6 +27,8 @@ const MentorClient = () => {
   useEffect(() => {
     if (isAuthResolving) return;
     if (isUnauthorized || (!isError && !role)) {
+      // SPA 이동이라 토스트가 로그인 페이지까지 유지된다.
+      showIconToast("logo", LOGIN_REQUIRED_MESSAGE);
       router.replace("/login");
     }
   }, [isAuthResolving, isUnauthorized, isError, role, router]);

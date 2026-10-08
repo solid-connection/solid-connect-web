@@ -2,7 +2,7 @@
 
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { usePostSubmitApplication } from "@/apis/applications";
 import { useGetMyGpaScore, useGetMyLanguageTestScore } from "@/apis/Scores";
 import { useUniversitySearch } from "@/apis/universities";
@@ -45,7 +45,8 @@ const ApplyPageContent = () => {
   // TODO: 서버의 모학교 미인증 에러 코드가 확정되면 GPA 조회 실패 시 학교 인증으로 보내는 fallback을 추가한다.
   const { data: gpaScoreData } = useGetMyGpaScore({ enabled: shouldFetchGpaScore });
   const { data: languageTestScoreList = [] } = useGetMyLanguageTestScore();
-  const { mutate: postSubmitApplication } = usePostSubmitApplication({
+  const isSubmitLockedRef = useRef(false);
+  const { mutate: postSubmitApplication, isPending: isSubmitApplicationPending } = usePostSubmitApplication({
     onSuccess: () => {
       setStep(99);
     },
@@ -73,6 +74,10 @@ const ApplyPageContent = () => {
   };
 
   const handleSubmit = async () => {
+    if (isSubmitLockedRef.current || isSubmitApplicationPending) {
+      return;
+    }
+
     if (curGpaScore === null) {
       showIconToast("logo", "GPA를 선택해주세요.");
       return;
@@ -92,13 +97,21 @@ const ApplyPageContent = () => {
       return;
     }
 
-    postSubmitApplication({
-      gpaScoreId: curGpaScore,
-      languageTestScoreId: curLanguageTestScore,
-      universityChoiceRequest: {
-        choices: selectedUniversityIds,
+    isSubmitLockedRef.current = true;
+    postSubmitApplication(
+      {
+        gpaScoreId: curGpaScore,
+        languageTestScoreId: curLanguageTestScore,
+        universityChoiceRequest: {
+          choices: selectedUniversityIds,
+        },
       },
-    });
+      {
+        onSettled: () => {
+          isSubmitLockedRef.current = false;
+        },
+      },
+    );
   };
 
   const gpaScoreList = gpaScoreData?.gpaScoreStatusResponseList ?? [];
@@ -149,7 +162,13 @@ const ApplyPageContent = () => {
             onNext={goNextStep}
           />
         )}
-        {step === 4 && <DesktopConfirmStep universityList={selectedUniversityList} onNext={handleSubmit} />}
+        {step === 4 && (
+          <DesktopConfirmStep
+            universityList={selectedUniversityList}
+            onNext={handleSubmit}
+            isSubmitting={isSubmitApplicationPending}
+          />
+        )}
         {step === 99 && <DesktopDoneStep />}
       </>
     );
@@ -188,7 +207,13 @@ const ApplyPageContent = () => {
             onNext={goNextStep}
           />
         )}
-        {step === 4 && <MobileConfirmStep universityList={selectedUniversityList} onNext={handleSubmit} />}
+        {step === 4 && (
+          <MobileConfirmStep
+            universityList={selectedUniversityList}
+            onNext={handleSubmit}
+            isSubmitting={isSubmitApplicationPending}
+          />
+        )}
         {step === 99 && <MobileDoneStep />}
       </>
     );

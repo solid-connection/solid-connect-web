@@ -21,7 +21,7 @@ type ApplicationUniversityDetailContentProps = {
 
 const ApplicationUniversityDetailContent = ({ universityName }: ApplicationUniversityDetailContentProps) => {
   const [sortMode, setSortMode] = useState<ApplicantSort>("preference");
-  const { data, isLoading } = useGetApplicationsList({ meta: SKIP_GLOBAL_ERROR_TOAST_META });
+  const { data, isLoading } = useGetApplicationsList(undefined, { meta: SKIP_GLOBAL_ERROR_TOAST_META });
   const scoreSheet = useMemo(
     () => findScoreSheetWithApplicants(data?.choices ?? [], universityName),
     [data?.choices, universityName],

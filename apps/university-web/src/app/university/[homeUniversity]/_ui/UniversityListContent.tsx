@@ -111,6 +111,7 @@ const UniversityListContentInner = ({ universities, homeUniversitySlug, title }:
     <>
       <UniversityListMobileView
         universities={filteredUniversities}
+        isCurrentTermEmpty={universities.length === 0}
         homeUniversitySlug={homeUniversitySlug}
         searchText={searchText}
         selectedRegions={selectedRegions}
@@ -119,6 +120,7 @@ const UniversityListContentInner = ({ universities, homeUniversitySlug, title }:
       />
       <UniversityListDesktopView
         universities={filteredUniversities}
+        isCurrentTermEmpty={universities.length === 0}
         homeUniversitySlug={homeUniversitySlug}
         title={title}
         searchText={searchText}
@@ -132,6 +134,7 @@ const UniversityListContentInner = ({ universities, homeUniversitySlug, title }:
 };
 
 type UniversityListViewProps = {
+  isCurrentTermEmpty: boolean;
   universities: ListUniversity[];
   homeUniversitySlug: HomeUniversitySlug;
   searchText: string;
@@ -141,6 +144,7 @@ type UniversityListViewProps = {
 };
 
 const UniversityListMobileView = ({
+  isCurrentTermEmpty,
   universities,
   homeUniversitySlug,
   searchText,
@@ -153,12 +157,18 @@ const UniversityListMobileView = ({
       <SearchBar value={searchText} onChange={setSearchText} homeUniversitySlug={homeUniversitySlug} />
       <RegionFilter selectedRegions={selectedRegions} onRegionChange={(region) => setSelectedRegions([region])} />
       <ResultCount count={universities.length} />
-      <UniversityResultList universities={universities} homeUniversitySlug={homeUniversitySlug} className="mt-3" />
+      <UniversityResultList
+        universities={universities}
+        homeUniversitySlug={homeUniversitySlug}
+        isCurrentTermEmpty={isCurrentTermEmpty}
+        className="mt-3"
+      />
     </div>
   );
 };
 
 const UniversityListDesktopView = ({
+  isCurrentTermEmpty,
   universities,
   homeUniversitySlug,
   title,
@@ -201,7 +211,12 @@ const UniversityListDesktopView = ({
             <ResultCount count={universities.length} />
             <span className="text-k-400 typo-medium-5">최신 파견학기 기준</span>
           </div>
-          <UniversityResultList universities={universities} homeUniversitySlug={homeUniversitySlug} className="mt-0" />
+          <UniversityResultList
+            universities={universities}
+            homeUniversitySlug={homeUniversitySlug}
+            isCurrentTermEmpty={isCurrentTermEmpty}
+            className="mt-0"
+          />
         </section>
       </div>
     </div>
@@ -216,7 +231,12 @@ const UniversityListMobileFallback = ({
     <SearchFallback homeUniversitySlug={homeUniversitySlug} />
     <RegionFilterFallback />
     <ResultCount count={universities.length} />
-    <UniversityResultList universities={universities} homeUniversitySlug={homeUniversitySlug} className="mt-3" />
+    <UniversityResultList
+      universities={universities}
+      homeUniversitySlug={homeUniversitySlug}
+      isCurrentTermEmpty={universities.length === 0}
+      className="mt-3"
+    />
   </div>
 );
 
@@ -253,7 +273,12 @@ const UniversityListDesktopFallback = ({ universities, homeUniversitySlug, title
           <ResultCount count={universities.length} />
           <span className="text-k-400 typo-medium-5">최신 파견학기 기준</span>
         </div>
-        <UniversityResultList universities={universities} homeUniversitySlug={homeUniversitySlug} className="mt-0" />
+        <UniversityResultList
+          universities={universities}
+          homeUniversitySlug={homeUniversitySlug}
+          isCurrentTermEmpty={universities.length === 0}
+          className="mt-0"
+        />
       </section>
     </div>
   </div>
@@ -308,6 +333,7 @@ const ResultCount = ({ count }: { count: number }) => (
 );
 
 const UniversityResultList = ({
+  isCurrentTermEmpty = false,
   universities,
   homeUniversitySlug,
   className,
@@ -315,9 +341,10 @@ const UniversityResultList = ({
   universities: ListUniversity[];
   homeUniversitySlug: HomeUniversitySlug;
   className?: string;
+  isCurrentTermEmpty?: boolean;
 }) => {
   if (universities.length === 0) {
-    return <EmptyUniversityResult />;
+    return <EmptyUniversityResult isCurrentTermEmpty={isCurrentTermEmpty} />;
   }
 
   return (
@@ -325,10 +352,14 @@ const UniversityResultList = ({
   );
 };
 
-const EmptyUniversityResult = () => (
+const EmptyUniversityResult = ({ isCurrentTermEmpty }: { isCurrentTermEmpty: boolean }) => (
   <div className="flex min-h-96 flex-col items-center justify-center rounded-lg border border-dashed border-k-100 bg-white py-20">
-    <p className="text-k-400 typo-medium-3">검색 결과가 없습니다.</p>
-    <p className="mt-1 text-k-300 typo-medium-4">다른 검색어나 필터를 시도해보세요.</p>
+    <p className="text-k-400 typo-medium-3">
+      {isCurrentTermEmpty ? "현재 학기 지원대학이 없습니다." : "검색 결과가 없습니다."}
+    </p>
+    <p className="mt-1 text-k-300 typo-medium-4">
+      {isCurrentTermEmpty ? "지금은 지원을 받는 대학이 없습니다." : "다른 검색어나 필터를 시도해보세요."}
+    </p>
   </div>
 );
 

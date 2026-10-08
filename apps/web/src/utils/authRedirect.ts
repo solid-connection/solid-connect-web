@@ -1,5 +1,8 @@
 export const AUTH_REDIRECT_PARAM = "redirect";
 
+/** 로그인이 필요해 로그인 페이지로 보낼 때 사용자에게 안내할 메시지 */
+export const LOGIN_REQUIRED_MESSAGE = "로그인이 필요한 페이지입니다.";
+
 const FALLBACK_REDIRECT_PATH = "/";
 const COMMUNITY_PATH_PREFIX = "/community/";
 

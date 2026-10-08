@@ -2,7 +2,7 @@ import axios, { type AxiosError, type AxiosInstance } from "axios";
 import { postReissueToken } from "@/apis/Auth/server";
 import { QueryKeys } from "@/apis/queryKeys";
 import queryClient from "@/lib/react-query/queryClient";
-import { showIconToast } from "@/lib/toast/showIconToast";
+import { setPendingToast } from "@/lib/toast/pendingToast";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { isTokenExpired } from "@/utils/jwtUtils";
 
@@ -34,7 +34,9 @@ const redirectToLogin = (message: string) => {
     try {
       // 쿠키 유틸이 클라이언트에서만 동작하므로 window 가드 내에서 호출
     } catch {}
-    showIconToast("logo", message);
+    // location.replace 는 하드 내비게이션이라 여기서 토스트를 띄우면 화면에 뜨기 전에 사라진다.
+    // 로그인 페이지에 도착한 뒤 PendingToastPresenter 가 대신 띄우도록 넘긴다.
+    setPendingToast("logo", message);
     window.location.replace("/login");
   }
 };

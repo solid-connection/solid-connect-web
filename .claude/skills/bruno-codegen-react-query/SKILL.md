@@ -1,4 +1,9 @@
-# Skill: Bruno API 동기화 + Codegen + React Query 연계
+---
+name: bruno-codegen-react-query
+description: Sync Bruno API specs, regenerate the shared TypeScript API client, and wire React Query on top. Use when the user asks to "브루노 다시 동기화해줘", "codegen 돌려서 타입 최신화해줘", "생성 코드 기준으로 react-query 붙여줘", or reports a response type mismatch between server and generated types.
+---
+
+# Bruno API 동기화 + Codegen + React Query 연계
 
 ## 목적
 
@@ -11,17 +16,10 @@
 - 응답 타입 불일치 점검
 - 앱별 React Query 래퍼/훅 연결
 
-## 실행 트리거 예시
-
-- "브루노 다시 동기화해줘"
-- "codegen 돌려서 타입 최신화해줘"
-- "생성 코드 기준으로 react-query 붙여줘"
-- "응답 타입이 서버랑 다른데 원인 확인해줘"
-
 ## 핵심 원칙
 
 1. Bruno를 단일 소스로 본다.
-2. 생성 파일을 직접 수정하지 않는다.
+2. 생성 파일(`packages/api-schema/src/apis/*`)을 직접 수정하지 않는다.
 3. 잘못된 생성 결과는 생성기(`packages/bruno-api-typescript`)를 수정한다.
 4. `onSuccess`, invalidation, toast, navigation 등은 앱 레이어에서 처리한다.
 
@@ -66,9 +64,6 @@
 
 ## 실패 대응
 
-- remote sync 실패 시:
-  - `BRUNO_REPO_URL`, `BRUNO_REPO_REF`, `BRUNO_COLLECTION_PATH` 점검
-- 생성 실패 시:
-  - 파싱 불가 `.bru`와 docs JSON 형식 확인
-- 타입 불일치 지속 시:
-  - 임시 수동 패치 금지, 생성기 로직 우선 수정
+- remote sync 실패 시: `BRUNO_REPO_URL`, `BRUNO_REPO_REF`, `BRUNO_COLLECTION_PATH` 점검
+- 생성 실패 시: 파싱 불가 `.bru`와 docs JSON 형식 확인
+- 타입 불일치 지속 시: 임시 수동 패치 금지, 생성기 로직 우선 수정

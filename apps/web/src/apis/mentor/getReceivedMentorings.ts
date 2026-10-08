@@ -10,8 +10,8 @@ const OFFSET = 5;
 const useGetMentoringList = ({ size = OFFSET }: { size?: number } = {}) => {
   return useInfiniteQuery<MentoringListResponse, AxiosError, MentoringItem[], [string, number], number>({
     queryKey: [MentorQueryKeys.mentoringList, size],
-    queryFn: ({ pageParam = 0 }) => mentorApi.getMentoringList(pageParam, size),
-    initialPageParam: 0,
+    queryFn: ({ pageParam = 1 }) => mentorApi.getMentoringList(pageParam, size),
+    initialPageParam: 1,
     getNextPageParam: (lastPage) => {
       return lastPage.nextPageNumber !== -1 ? lastPage.nextPageNumber : undefined;
     },

@@ -1,4 +1,9 @@
-# Skill: Commit + Push + PR Subagent
+---
+name: commit-push-pr
+description: One-shot commit, push, and PR creation subagent flow with Korean commit/PR language enforced. Use when the user asks to commit and push and open a PR in a single request (e.g. "커밋하고 푸시해서 PR까지 만들어줘").
+---
+
+# Commit + Push + PR Subagent
 
 ## Goal
 
@@ -15,14 +20,14 @@
 
 1. 작업 브랜치 확인: `git branch --show-current`
 2. 변경사항 확인: `git status --short --branch`, `git diff --stat`
-3. 커밋 스타일 준수: 저장소 규칙(`<type>: <subject>`) 사용
+3. 커밋 스타일 준수: 저장소 규칙(이모지 + `<type>: <subject>`, `AGENTS.md`의 Commit Message Convention 참고)
 4. 커밋 메시지와 PR 제목/본문은 한국어로 작성
 
 ## Execution Steps
 
 ```bash
 git add <files>
-git commit -m "docs: 커밋/푸시/PR 서브에이전트 스킬 문서 추가"
+git commit -m "📝 docs: 커밋/푸시/PR 서브에이전트 스킬 문서 추가"
 git push -u origin <branch>
 gh pr create --base <base> --head <branch> --title "<title>" --body "$(cat <<'EOF'
 ## 요약

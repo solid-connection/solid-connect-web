@@ -7,6 +7,7 @@ import GlobalLayout from "@/components/layout/GlobalLayout";
 import ReissueProvider from "@/components/layout/ReissueProvider";
 import QueryProvider from "@/lib/react-query/QueryProvider";
 import AppleScriptLoader from "@/lib/ScriptLoader/AppleScriptLoader";
+import PendingToastPresenter from "@/lib/toast/PendingToastPresenter";
 import "@/styles/globals.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -85,6 +86,7 @@ const RootLayout = ({ children }: { children: ReactNode }) => (
             duration: 3000,
           }}
         />
+        <PendingToastPresenter />
       </QueryProvider>
     </body>
   </html>

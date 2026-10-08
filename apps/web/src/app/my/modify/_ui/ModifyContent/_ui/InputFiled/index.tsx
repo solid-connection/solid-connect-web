@@ -27,8 +27,8 @@ const InputField = ({ name, label, placeholder }: InputFieldProps) => {
           value={(field.value as string) ?? ""} // undefined일 때 빈 문자열
           placeholder={placeholder}
           className={clsx(
-            "w-full rounded-lg border p-3 pr-12 text-primary placeholder:text-primary-200 focus:border-primary focus:outline-none",
-            error ? "border-red-500" : "border-gray-300",
+            "w-full rounded-lg bg-k-50 p-3 pr-12 text-primary placeholder:text-primary-200 focus:outline-none",
+            error && "border border-red-500",
           )}
         />
       </div>
