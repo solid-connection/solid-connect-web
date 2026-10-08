@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 
-import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import { NO_INDEX_ROBOTS } from "@/utils/seo";
 
 import PostModifyContent from "./PostModifyContent";
@@ -21,12 +20,9 @@ const PostModifyPage = async ({ params }: PostModifyPageProps) => {
   const { boardCode, postId } = await params;
 
   return (
-    <>
-      <TopDetailNavigation title="글 수정" />
-      <div className="w-full px-5">
-        <PostModifyContent boardCode={boardCode} postId={Number(postId)} />
-      </div>
-    </>
+    <div className="w-full px-5 md:px-0">
+      <PostModifyContent boardCode={boardCode} postId={Number(postId)} />
+    </div>
   );
 };
 

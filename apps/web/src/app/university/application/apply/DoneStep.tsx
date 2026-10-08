@@ -1,13 +1,17 @@
+import clsx from "clsx";
 import { useRouter } from "next/navigation";
 import BlockBtn from "@/components/button/BlockBtn";
 import Image from "@/components/ui/FallbackImage";
 import ApplicationSectionTitle from "../_components/ApplicationSectionTitle";
 
-const DoneStep = () => {
+const DoneStepBase = ({ isDesktop }: { isDesktop: boolean }) => {
   const router = useRouter();
+
   return (
-    <div className="mt-24 px-5">
-      <div className="rounded-lg bg-white px-6 py-8 text-center shadow-sdwB">
+    <div className={clsx(isDesktop ? "" : "mt-24 px-5")}>
+      <div
+        className={clsx("rounded-lg bg-white px-6 py-8 text-center", isDesktop ? "border border-k-100" : "shadow-sdwB")}
+      >
         <div className="flex justify-center">
           <Image src="/images/survey-complete-icon.png" width={120} height={120} alt="지원 완료" />
         </div>
@@ -18,7 +22,7 @@ const DoneStep = () => {
         />
       </div>
 
-      <div className="mt-6 flex w-full flex-col gap-3">
+      <div className={clsx("mt-6 grid w-full gap-3", isDesktop ? "grid-cols-2" : "grid-cols-1")}>
         <BlockBtn
           onClick={() => {
             router.push("/university/application");
@@ -38,4 +42,8 @@ const DoneStep = () => {
   );
 };
 
-export default DoneStep;
+export const DesktopDoneStep = () => <DoneStepBase isDesktop />;
+
+export const MobileDoneStep = () => <DoneStepBase isDesktop={false} />;
+
+export default MobileDoneStep;

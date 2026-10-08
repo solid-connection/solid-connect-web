@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 const Page = () => (
-  <div className="w-full px-5">
+  <div className="w-full px-5 md:px-0">
     <Suspense fallback={<CloudSpinnerPage />}>
       <KakaoLoginCallbackPage />
     </Suspense>

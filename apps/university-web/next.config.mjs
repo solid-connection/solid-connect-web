@@ -39,6 +39,7 @@ const nextConfig = {
     remotePatterns: imageRemotePatterns,
     formats: ["image/avif", "image/webp"],
     deviceSizes: [360, 640, 768, 1024, 1280],
+    qualities: [50, 55, 60, 75],
   },
   // 압축 활성화
   compress: true,

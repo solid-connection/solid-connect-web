@@ -6,7 +6,7 @@ import { IconGraduationCap, IconRightArrow } from "@/public/svgs/home";
 const FindLastYearScoreBar = () => {
   return (
     <button
-      className="h-15 flex w-full cursor-pointer items-center justify-between border-b border-k-100 px-5 py-3 focus:outline-none"
+      className="h-15 flex w-full cursor-pointer items-center justify-between border-b border-k-100 px-5 py-3 focus:outline-none md:h-auto md:rounded-xl md:border md:border-k-100 md:bg-k-0 md:py-4"
       onClick={() => showIconToast("logo", "해당 기능은 현재 준비중입니다.")}
     >
       <div>

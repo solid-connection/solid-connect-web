@@ -68,7 +68,11 @@ const UniversityListPage = async ({ params }: PageProps) => {
           homeUniversitySlug={homeUniversitySlug}
         />
       ) : (
-        <UniversityListContent universities={universities} homeUniversitySlug={homeUniversitySlug} />
+        <UniversityListContent
+          universities={universities}
+          homeUniversitySlug={homeUniversitySlug}
+          title={`${universityInfo.shortName} 파견학교`}
+        />
       )}
     </>
   );

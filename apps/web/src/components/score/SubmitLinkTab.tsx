@@ -11,7 +11,7 @@ type SubmitLinkTabProps = {
   };
 };
 
-const SubmitLinkTab = ({ color, isActiveGpa = true }: SubmitLinkTabProps) => {
+const SubmitLinkTabBase = ({ color, isActiveGpa = true, isDesktop }: SubmitLinkTabProps & { isDesktop: boolean }) => {
   const defaultColor = {
     activeBtnFont: "text-black",
     deactiveBtnFont: "text-gray-200",
@@ -20,6 +20,32 @@ const SubmitLinkTab = ({ color, isActiveGpa = true }: SubmitLinkTabProps) => {
     activeBtnFont: color?.activeBtnFont ? `text-[${color.activeBtnFont}]` : defaultColor.activeBtnFont,
     deactiveBtnFont: color?.deactiveBtnFont ? `text-[${color.deactiveBtnFont}]` : defaultColor.deactiveBtnFont,
   };
+
+  if (isDesktop) {
+    return (
+      <div className="grid h-11 w-full grid-cols-2 rounded-lg bg-k-50 p-1 typo-medium-2">
+        <Link
+          href="/university/score/submit/language-test"
+          className={clsx(
+            "flex items-center justify-center rounded-md transition-colors",
+            !isActiveGpa ? "bg-white text-primary shadow-sdwA" : "text-k-500 hover:text-k-700",
+          )}
+        >
+          공인어학
+        </Link>
+        <Link
+          href="/university/score/submit/gpa"
+          className={clsx(
+            "flex items-center justify-center rounded-md transition-colors",
+            isActiveGpa ? "bg-white text-primary shadow-sdwA" : "text-k-500 hover:text-k-700",
+          )}
+        >
+          학점
+        </Link>
+      </div>
+    );
+  }
+
   return (
     <div className="flex h-9 w-full cursor-pointer flex-row typo-medium-2">
       <Link
@@ -45,4 +71,9 @@ const SubmitLinkTab = ({ color, isActiveGpa = true }: SubmitLinkTabProps) => {
     </div>
   );
 };
-export default SubmitLinkTab;
+
+export const DesktopSubmitLinkTab = (props: SubmitLinkTabProps) => <SubmitLinkTabBase {...props} isDesktop />;
+
+export const MobileSubmitLinkTab = (props: SubmitLinkTabProps) => <SubmitLinkTabBase {...props} isDesktop={false} />;
+
+export default MobileSubmitLinkTab;

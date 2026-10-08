@@ -14,7 +14,7 @@ const MatchPage = () => {
   return (
     <>
       <TopDetailNavigation title="매칭 멘토" />
-      <div className="w-full px-5">
+      <div className="w-full px-5 md:px-0">
         <MatchContent />
       </div>
     </>

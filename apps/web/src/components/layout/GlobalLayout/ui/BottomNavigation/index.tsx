@@ -30,7 +30,7 @@ const BottomNavigation = () => {
   }
 
   return (
-    <nav className="fixed bottom-0 flex h-[56px] w-full max-w-app bg-white shadow-magic-bottom-nav">
+    <nav className="fixed bottom-0 flex h-[56px] w-full max-w-app bg-white shadow-magic-bottom-nav md:hidden">
       {NAV_ITEMS.map(({ route, text, iconType }) => {
         const isActive = isRouteActive(pathname, route);
         const className = `flex flex-[1_0_0] flex-col items-center self-stretch px-3 pb-2 pt-1.5 no-underline ${

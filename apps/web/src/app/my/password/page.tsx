@@ -14,7 +14,7 @@ const ModifyPage = () => {
   return (
     <>
       <TopDetailNavigation title="비밀번호 수정" />
-      <div className="w-full px-5">
+      <div className="w-full px-5 md:px-0">
         <PasswordContent />
       </div>
     </>

@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import AIInspectorFab from "./ui/AIInspectorFab/index";
 import BottomNavigation from "./ui/BottomNavigation";
 import ClientModal from "./ui/ClientModal";
+import DesktopNavigation from "./ui/DesktopNavigation";
 
 // import ServerModal from "./ui/ServerModal";
 
@@ -14,12 +15,15 @@ type LayoutProps = {
 
 const GlobalLayout = ({ children }: LayoutProps) => {
   return (
-    <div className="mx-auto mb-14 w-full min-w-app max-w-app pt-14">
-      {children}
-      <BottomNavigation />
-      <AIInspectorFab />
-      <ClientModal />
-      {/* <ServerModal /> */}
+    <div className="min-h-screen bg-white md:bg-k-50 md:pl-[88px]">
+      <DesktopNavigation />
+      <div className="mx-auto mb-14 min-h-screen w-full min-w-app max-w-app bg-white pt-14 md:mx-0 md:mb-0 md:min-w-0 md:max-w-none md:pt-0">
+        {children}
+        <BottomNavigation />
+        <AIInspectorFab />
+        <ClientModal />
+        {/* <ServerModal /> */}
+      </div>
     </div>
   );
 };

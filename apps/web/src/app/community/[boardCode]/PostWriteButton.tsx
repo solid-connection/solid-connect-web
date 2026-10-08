@@ -29,7 +29,7 @@ const PostWriteButton = ({ onClick }: PostWriteButtonProps) => {
 
   return (
     <div
-      className={`fixed bottom-16 flex w-full max-w-app flex-col items-center transition-transform duration-300 ease-in-out ${isVisible ? "translate-y-0" : "translate-y-[calc(100%+66px)]"} `}
+      className={`fixed bottom-16 flex w-full max-w-app flex-col items-center transition-transform duration-300 ease-in-out md:bottom-6 md:left-[88px] md:w-[calc(100%-88px)] md:max-w-none ${isVisible ? "translate-y-0" : "translate-y-[calc(100%+66px)]"} `}
     >
       <button
         className="relative flex h-14 w-14 cursor-pointer items-center justify-center rounded-full bg-primary shadow-magic-floating-action"
