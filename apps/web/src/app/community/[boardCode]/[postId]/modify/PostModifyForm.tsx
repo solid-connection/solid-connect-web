@@ -99,7 +99,6 @@ const PostModifyForm = ({
     updatePostMutation.mutate(
       {
         postId,
-        boardCode,
         data: {
           postUpdateRequest: {
             postCategory,
