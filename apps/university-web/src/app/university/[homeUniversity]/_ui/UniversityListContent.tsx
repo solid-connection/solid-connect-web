@@ -187,14 +187,14 @@ const UniversityListDesktopView = ({
         </div>
         <Link
           href={`/university/${homeUniversitySlug}/search`}
-          className="rounded-lg border border-k-100 bg-white px-4 py-3 text-k-700 transition-colors typo-sb-9 hover:border-primary hover:text-primary"
+          className="shrink-0 rounded-lg border border-k-100 bg-white px-4 py-3 text-k-700 transition-colors typo-sb-9 hover:border-primary hover:text-primary"
         >
           조건 검색
         </Link>
       </header>
 
-      <div className="grid grid-cols-[300px_minmax(0,1fr)] items-start gap-8">
-        <aside className="sticky top-8 space-y-5">
+      <div className="grid grid-cols-1 items-start gap-8 xl:grid-cols-[300px_minmax(0,1fr)]">
+        <aside className="space-y-5 xl:sticky xl:top-8">
           <section className="rounded-lg border border-k-100 bg-white p-5">
             <h2 className="mb-4 text-k-900 typo-bold-4">검색</h2>
             <SearchBar value={searchText} onChange={setSearchText} homeUniversitySlug={homeUniversitySlug} />
@@ -250,14 +250,14 @@ const UniversityListDesktopFallback = ({ universities, homeUniversitySlug, title
       </div>
       <Link
         href={`/university/${homeUniversitySlug}/search`}
-        className="rounded-lg border border-k-100 bg-white px-4 py-3 text-k-700 transition-colors typo-sb-9 hover:border-primary hover:text-primary"
+        className="shrink-0 rounded-lg border border-k-100 bg-white px-4 py-3 text-k-700 transition-colors typo-sb-9 hover:border-primary hover:text-primary"
       >
         조건 검색
       </Link>
     </header>
 
-    <div className="grid grid-cols-[300px_minmax(0,1fr)] items-start gap-8">
-      <aside className="sticky top-8 space-y-5">
+    <div className="grid grid-cols-1 items-start gap-8 xl:grid-cols-[300px_minmax(0,1fr)]">
+      <aside className="space-y-5 xl:sticky xl:top-8">
         <section className="rounded-lg border border-k-100 bg-white p-5">
           <h2 className="mb-4 text-k-900 typo-bold-4">검색</h2>
           <SearchFallback homeUniversitySlug={homeUniversitySlug} />
@@ -310,7 +310,7 @@ const SearchFallback = ({ homeUniversitySlug }: { homeUniversitySlug: HomeUniver
 );
 
 const RegionFilterFallback = ({ desktop = false }: { desktop?: boolean }) => (
-  <div className={desktop ? "mb-4 flex flex-col gap-2" : "mb-4 flex gap-2 overflow-x-auto pb-1"}>
+  <div className={desktop ? "mb-4 flex flex-wrap gap-2 xl:flex-col" : "mb-4 flex gap-2 overflow-x-auto pb-1"}>
     {REGION_FILTER_ITEMS.map(({ value, label }) => (
       <span
         key={value}
