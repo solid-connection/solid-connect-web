@@ -8,39 +8,31 @@ import UniversityZoneLink from "@/components/ui/UniversityZoneLink";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { IconIdCard, IconMagnifyingGlass, IconMuseum, IconPaper } from "@/public/svgs/home";
 import { IconHatColor, IconHatGray, IconLocationColor, IconLocationGray } from "@/public/svgs/search";
-import useHomeUniversitySearch from "../HomeUniversitySearchSection/_hooks/useHomeUniversitySearch";
+import { useHomeUniversitySearch } from "../HomeUniversitySearchSection/_hooks/HomeUniversitySearchProvider";
 
 const actionLinks = [
   {
     href: "/university/search",
     label: "학교 검색하기",
-    description: "조건에 맞는 파견학교 찾기",
     icon: IconMagnifyingGlass,
-    colorClassName: "bg-bg-accent-blue text-secondary",
     isUniversityZone: true,
   },
   {
     href: "/university/score",
     label: "성적 입력하기",
-    description: "내 점수로 합격선 확인",
     icon: IconPaper,
-    colorClassName: "bg-bg-accent-sky text-sub-a",
     isUniversityZone: false,
   },
   {
     href: "/university/application/apply",
     label: "학교 지원하기",
-    description: "희망 학교 지원서 작성",
     icon: IconMuseum,
-    colorClassName: "bg-bg-accent-orange text-accent-custom-orange",
     isUniversityZone: false,
   },
   {
     href: "/university/application",
     label: "지원자 현황 확인",
-    description: "현재 경쟁률 확인",
     icon: IconIdCard,
-    colorClassName: "bg-bg-accent-green text-accent-custom-green",
     isUniversityZone: false,
   },
 ] as const;
@@ -78,32 +70,33 @@ const HomeDesktopEntryPanel = () => {
       <section className="rounded-lg border border-k-100 bg-white p-6">
         <div className="mb-5">
           <h2 className="text-k-900 typo-bold-4">빠른 실행</h2>
-          <p className="mt-1 text-k-500 typo-medium-4">자주 쓰는 교환학생 업무를 바로 이어갈 수 있어요.</p>
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
-          {actionLinks.map(({ href, label, description, icon: Icon, colorClassName, isUniversityZone }) => {
+        <div className="divide-y divide-k-100">
+          {actionLinks.map(({ href, label, icon: Icon, isUniversityZone }) => {
             const content = (
-              <div
-                key={href}
-                className={clsx("flex h-full min-h-32 flex-col justify-between rounded-lg p-4", colorClassName)}
-              >
-                <div>
-                  <span className="block typo-bold-5">{label}</span>
-                  <span className="mt-1 block text-k-700 typo-medium-5">{description}</span>
-                </div>
-                <div className="flex justify-end">
+              <div key={href} className="flex items-center gap-3 py-4 text-k-800">
+                <span className="shrink-0 text-primary [&>svg]:h-6 [&>svg]:w-6">
                   <Icon />
-                </div>
+                </span>
+                <span className="typo-medium-2">{label}</span>
               </div>
             );
 
             return isUniversityZone ? (
-              <UniversityZoneLink key={href} href={href} className="h-full transition-transform hover:-translate-y-0.5">
+              <UniversityZoneLink
+                key={href}
+                href={href}
+                className="block rounded hover:bg-k-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+              >
                 {content}
               </UniversityZoneLink>
             ) : (
-              <Link key={href} href={href} className="h-full transition-transform hover:-translate-y-0.5">
+              <Link
+                key={href}
+                href={href}
+                className="block rounded hover:bg-k-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+              >
                 {content}
               </Link>
             );

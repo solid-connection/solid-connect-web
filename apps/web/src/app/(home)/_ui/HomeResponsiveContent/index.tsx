@@ -7,6 +7,7 @@ import FindLastYearScoreBar from "../FindLastYearScoreBar";
 import HomeDesktopView from "../HomeDesktopView";
 import type { HomeDesktopData } from "../HomeDesktopView/_utils/getHomeDesktopData";
 import HomeEntrySection from "../HomeEntrySection";
+import { HomeUniversitySearchProvider } from "../HomeUniversitySearchSection/_hooks/HomeUniversitySearchProvider";
 import NewsSection from "../NewsSection";
 import PopularUniversitySection from "../PopularUniversitySection";
 import UniversityList from "../UniversityList";
@@ -19,7 +20,7 @@ type HomeResponsiveContentProps = {
   newsList: News[];
 };
 
-const HomeResponsiveContent = ({
+const HomeResponsiveView = ({
   recommendedUniversities,
   homeUniversityPreviews,
   desktopData,
@@ -59,5 +60,11 @@ const HomeResponsiveContent = ({
     </div>
   );
 };
+
+const HomeResponsiveContent = (props: HomeResponsiveContentProps) => (
+  <HomeUniversitySearchProvider>
+    <HomeResponsiveView {...props} />
+  </HomeUniversitySearchProvider>
+);
 
 export default HomeResponsiveContent;

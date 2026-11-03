@@ -5,7 +5,7 @@ import clsx from "clsx";
 import CustomDropdown from "@/components/search/CustomDropdown";
 import UniversityZoneLink from "@/components/ui/UniversityZoneLink";
 import { IconHatColor, IconHatGray, IconLocationColor, IconLocationGray } from "@/public/svgs/search";
-import useHomeUniversitySearch from "./_hooks/useHomeUniversitySearch";
+import { useHomeUniversitySearch } from "./_hooks/HomeUniversitySearchProvider";
 
 const HomeUniversitySearchSection = () => {
   const {

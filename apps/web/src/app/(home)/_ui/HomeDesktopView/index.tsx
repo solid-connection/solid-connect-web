@@ -43,41 +43,37 @@ const HomeDesktopView = ({ recommendedUniversities, desktopData, newsList }: Hom
   const popularUniversities = recommendedUniversities.slice(0, POPULAR_UNIVERSITY_COUNT);
 
   return (
-    <div className="min-h-screen bg-k-50 px-8 py-8 lg:px-10">
+    <div className="mx-auto min-h-screen max-w-screen-2xl bg-white px-6 py-8 lg:px-10">
       <header className="mb-8 flex items-end justify-between gap-6">
         <div>
-          <p className="text-primary typo-sb-9">Solid Connection</p>
-          <h1 className="mt-2 text-k-900 typo-bold-1">교환학생 준비</h1>
-          <p className="mt-2 max-w-2xl text-k-500 typo-medium-2">
-            파견학교 탐색부터 성적 입력, 지원 현황까지 한 화면에서 이어갈 수 있어요.
-          </p>
+          <h1 className="text-k-900 typo-bold-1">교환학생 준비</h1>
         </div>
 
         <UniversityZoneLink
           href="/university"
-          className="flex items-center gap-2 rounded-lg border border-k-100 bg-white px-4 py-3 text-k-700 transition-colors typo-sb-9 hover:border-primary hover:text-primary"
+          className="flex shrink-0 items-center gap-2 py-2 text-primary typo-sb-9 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4"
         >
           전체 파견학교
           <IconDirectionRight className="h-4 w-4" />
         </UniversityZoneLink>
       </header>
 
-      <div className="grid grid-cols-[minmax(280px,340px)_minmax(0,1fr)] items-start gap-8 xl:grid-cols-[minmax(320px,390px)_minmax(0,1fr)]">
-        <aside className="sticky top-8 space-y-5">
+      <div className="grid items-start gap-8 xl:grid-cols-[300px_minmax(0,1fr)]">
+        <aside className="grid gap-6 md:grid-cols-2 xl:sticky xl:top-8 xl:block xl:space-y-6">
           <HomeDesktopEntryPanel />
 
-          <section className="rounded-lg border border-k-100 bg-white p-6">
+          <section className="border-t border-k-100 pt-6">
             <h2 className="text-k-900 typo-bold-4">학교 현황</h2>
-            <div className="mt-5 grid grid-cols-2 gap-3">
-              <div className="rounded-lg bg-k-50 p-4">
-                <span className="text-k-500 typo-medium-5">전체 학교</span>
-                <strong className="mt-2 block text-k-900 typo-bold-1">{totalUniversityCount}</strong>
+            <dl className="mt-4 grid grid-cols-2 gap-4">
+              <div>
+                <dt className="text-k-600 typo-medium-5">전체 학교</dt>
+                <dd className="mt-1 text-k-900 tabular-nums typo-sb-5">{totalUniversityCount}개</dd>
               </div>
-              <div className="rounded-lg bg-primary-100 p-4">
-                <span className="text-primary typo-medium-5">국가</span>
-                <strong className="mt-2 block text-primary-900 typo-bold-1">{countryCount}</strong>
+              <div>
+                <dt className="text-k-600 typo-medium-5">국가</dt>
+                <dd className="mt-1 text-k-900 tabular-nums typo-sb-5">{countryCount}개</dd>
               </div>
-            </div>
+            </dl>
             <div className="mt-4 divide-y divide-k-50">
               {HOME_UNIVERSITY_LIST.map((homeUniversity) => (
                 <UniversityZoneLink
@@ -96,12 +92,12 @@ const HomeDesktopView = ({ recommendedUniversities, desktopData, newsList }: Hom
         <main className="min-w-0 space-y-8">
           <section>
             <SectionHeader title="실시간 인기있는 파견학교" />
-            <div className="grid grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6">
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,220px),1fr))] gap-4">
               {popularUniversities.map((university, index) => (
                 <UniversityZoneLink
                   key={university.id}
                   href={getUniversityHref(university)}
-                  className="group overflow-hidden rounded-lg border border-k-100 bg-white transition-transform hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/10"
+                  className="group overflow-hidden rounded-lg border border-k-100 bg-white transition-colors hover:border-k-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
                 >
                   <div className="relative h-40 bg-k-100">
                     <Image
@@ -118,7 +114,7 @@ const HomeDesktopView = ({ recommendedUniversities, desktopData, newsList }: Hom
                     </span>
                   </div>
                   <div className="min-h-28 p-4">
-                    <h3 className="truncate text-k-900 typo-bold-5" title={university.koreanName}>
+                    <h3 className="line-clamp-2 text-k-900 typo-bold-5" title={university.koreanName}>
                       {university.koreanName}
                     </h3>
                     <p className="mt-1 text-k-500 typo-medium-5">{university.region}</p>
@@ -131,12 +127,12 @@ const HomeDesktopView = ({ recommendedUniversities, desktopData, newsList }: Hom
 
           <section>
             <SectionHeader title="전체 학교 리스트" />
-            <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 2xl:grid-cols-3">
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
               {previewUniversities.map((university) => (
                 <UniversityZoneLink
                   key={university.id}
                   href={getUniversityHref(university)}
-                  className="flex min-w-0 items-center gap-4 rounded-lg border border-k-100 bg-white p-4 transition-transform hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/10"
+                  className="flex min-w-0 items-center gap-4 rounded-lg border border-k-100 bg-white p-4 transition-colors hover:border-k-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
                 >
                   <Image
                     className="h-14 w-14 shrink-0 rounded-full border border-k-50 object-cover"
@@ -147,7 +143,7 @@ const HomeDesktopView = ({ recommendedUniversities, desktopData, newsList }: Hom
                     fallbackSrc="/svgs/placeholders/university-logo-placeholder.svg"
                   />
                   <div className="min-w-0 flex-1">
-                    <h3 className="truncate text-k-900 typo-bold-5" title={university.koreanName}>
+                    <h3 className="line-clamp-2 text-k-900 typo-bold-5" title={university.koreanName}>
                       {university.koreanName}
                     </h3>
                     <p className="mt-1 truncate text-k-500 typo-medium-5">
@@ -167,14 +163,14 @@ const HomeDesktopView = ({ recommendedUniversities, desktopData, newsList }: Hom
                 <IconLoveLetter />
               </div>
             </div>
-            <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 2xl:grid-cols-3">
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
               {newsList.map((news) => (
                 <Link
                   key={news.id}
                   href={news.url}
                   target="_blank"
                   rel="noreferrer"
-                  className="overflow-hidden rounded-lg border border-k-100 bg-white transition-transform hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/10"
+                  className="overflow-hidden rounded-lg border border-k-100 bg-white transition-colors hover:border-k-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
                 >
                   <div className="relative h-36 w-full overflow-hidden bg-k-100">
                     <Image

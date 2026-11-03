@@ -271,8 +271,7 @@ const MyProfileDesktopView = ({
   return (
     <div className="min-h-screen bg-k-50 px-8 py-8 lg:px-10">
       <header className="mb-8">
-        <p className="text-primary typo-sb-9">My Solid</p>
-        <h1 className="mt-2 text-k-900 typo-bold-1">마이페이지</h1>
+        <h1 className="text-k-900 typo-bold-1">마이페이지</h1>
         <p className="mt-2 text-k-500 typo-medium-2">프로필, 지원 정보, 계정 설정을 한 곳에서 관리하세요.</p>
       </header>
 
@@ -376,8 +375,8 @@ const DesktopQuickAction = ({
   title: string;
 }) => {
   const content = (
-    <div className="flex h-32 flex-col justify-between rounded-lg border border-k-100 bg-white p-5 text-k-700 transition-transform hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/10">
-      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-100 text-primary [&>svg]:h-6 [&>svg]:w-6">
+    <div className="flex min-h-16 items-center gap-3 rounded-lg border border-k-100 bg-white px-4 py-3 text-k-700 transition-colors hover:bg-k-50">
+      <div className="flex h-6 w-6 shrink-0 items-center justify-center text-primary [&>svg]:h-6 [&>svg]:w-6">
         {icon}
       </div>
       <span className="typo-sb-7">{title}</span>
@@ -402,7 +401,7 @@ const DesktopQuickAction = ({
 const DesktopPanel = ({ title, children }: { title: string; children: ReactNode }) => (
   <section className="rounded-lg border border-k-100 bg-white p-6">
     <h2 className="text-k-900 typo-bold-4">{title}</h2>
-    <div className="mt-5 grid gap-3">{children}</div>
+    <div className="mt-5 divide-y divide-k-100">{children}</div>
   </section>
 );
 
@@ -420,12 +419,10 @@ const DesktopMenuItem = ({
   subText?: string;
 }) => {
   const content = (
-    <div className="flex items-center justify-between rounded-lg bg-k-50 px-4 py-3 text-k-700 transition-colors hover:bg-k-100">
+    <div className="flex min-w-0 items-center justify-between gap-3 py-4 text-k-700 transition-colors hover:text-primary">
       <div className="flex min-w-0 items-center gap-3">
         {icon && (
-          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white [&>svg]:h-5 [&>svg]:w-5">
-            {icon}
-          </span>
+          <span className="flex h-5 w-5 shrink-0 items-center justify-center [&>svg]:h-5 [&>svg]:w-5">{icon}</span>
         )}
         <span className="truncate typo-medium-2">{title}</span>
       </div>
