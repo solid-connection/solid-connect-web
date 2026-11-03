@@ -2,7 +2,17 @@
   "$schema": "https://biomejs.dev/schemas/2.3.12/schema.json",
   "extends": ["../../packages/config/biome/base.json"],
   "files": {
-    "includes": ["**", "!node_modules", "!.next", "!build", "!dist", "!*.tsbuildinfo"]
+    "includes": [
+      "**",
+      "!node_modules",
+      "!.next",
+      "!build",
+      "!dist",
+      "!*.tsbuildinfo",
+      "!playwright-report",
+      "!test-results",
+      "!storybook-static"
+    ]
   },
   "vcs": {
     "useIgnoreFile": false
