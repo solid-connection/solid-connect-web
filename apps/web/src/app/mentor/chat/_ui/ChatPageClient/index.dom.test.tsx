@@ -121,5 +121,5 @@ it("does not mount the private room query before ChatAccess authorizes a user", 
   Object.assign(mocks.query, { data: [room(2, "2026-10-27T00:00:00Z")], isPending: false });
   rerender(<ChatPageClient />);
   expect(screen.getByRole("list", { name: "채팅방" })).toBeTruthy();
-  expect(useGetChatRooms).toHaveBeenCalledTimes(1);
+  expect(useGetChatRooms).toHaveBeenCalledExactlyOnceWith(2);
 });

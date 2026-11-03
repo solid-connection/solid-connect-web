@@ -6,7 +6,13 @@ import { useChatUserId } from "@/apis/chat";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { getValidAccessToken } from "@/utils/axiosInstance";
 
-const ChatAccess = ({ children }: { children: (userId: number) => ReactNode }) => {
+const ChatAccess = ({
+  children,
+  fallbackHeader,
+}: {
+  children: (userId: number) => ReactNode;
+  fallbackHeader?: ReactNode;
+}) => {
   const userId = useChatUserId();
   const initialized = useAuthStore((state) => state.isInitialized);
   const loading = useAuthStore((state) => state.isLoading);
@@ -43,35 +49,44 @@ const ChatAccess = ({ children }: { children: (userId: number) => ReactNode }) =
   if (activeUserId) return children(activeUserId);
   if (initialized && authenticated && !loading && refreshStatus === "retryable") {
     return (
-      <div className="flex flex-col items-center gap-4 px-5 py-16">
-        <p role="alert" className="text-k-700">
-          로그인 정보를 확인하지 못했어요. 다시 시도해주세요.
-        </p>
-        <button
-          type="button"
-          className="rounded-lg bg-primary px-6 py-3 text-white"
-          onClick={() => void getValidAccessToken().catch(() => {})}
-        >
-          다시 확인
-        </button>
-      </div>
+      <>
+        {fallbackHeader}
+        <div className="flex flex-col items-center gap-4 px-5 py-16">
+          <p role="alert" className="text-k-700">
+            로그인 정보를 확인하지 못했어요. 다시 시도해주세요.
+          </p>
+          <button
+            type="button"
+            className="rounded-lg bg-primary px-6 py-3 text-white"
+            onClick={() => void getValidAccessToken().catch(() => {})}
+          >
+            다시 확인
+          </button>
+        </div>
+      </>
     );
   }
   if (!initialized || loading || authenticated) {
     return (
-      <p role="status" className="px-5 py-16 text-center text-k-500">
-        로그인 정보를 확인하고 있어요.
-      </p>
+      <>
+        {fallbackHeader}
+        <p role="status" className="px-5 py-16 text-center text-k-500">
+          로그인 정보를 확인하고 있어요.
+        </p>
+      </>
     );
   }
   if (!activeUserId) {
     return (
-      <div className="flex flex-col items-center gap-4 px-5 py-16">
-        <p className="text-k-700">채팅하려면 로그인이 필요해요.</p>
-        <Link href="/login" className="rounded-lg bg-primary px-6 py-3 text-white">
-          로그인하기
-        </Link>
-      </div>
+      <>
+        {fallbackHeader}
+        <div className="flex flex-col items-center gap-4 px-5 py-16">
+          <p className="text-k-700">채팅하려면 로그인이 필요해요.</p>
+          <Link href="/login" className="rounded-lg bg-primary px-6 py-3 text-white">
+            로그인하기
+          </Link>
+        </div>
+      </>
     );
   }
   return null;

@@ -172,3 +172,23 @@ test("만료된 토큰으로 방에 처음 들어가도 로그인 재요청 없�
   await expect(page.getByText("아직 대화가 없어요. 첫 메시지를 보내보세요.")).toBeVisible();
   expect((await (await request.get(`${apiURL}/__state`)).json()).refreshes).toBe(2);
 });
+
+test("이전 기록을 읽는 중 토큰이 만료되고 수신해도 초안과 전송을 유지한다", async ({ page, request }) => {
+  await openChat(page);
+  const region = page.getByRole("region", { name: "채팅 메시지", exact: true });
+  await region.evaluate((element) => {
+    element.scrollTop = 0;
+  });
+  await expect.poll(() => region.evaluate((element) => element.scrollTop)).toBe(0);
+  const input = page.getByRole("textbox", { name: "메시지", exact: true });
+  await input.fill("만료 후에도 보낼 초안");
+  await page.clock.setFixedTime(new Date("2100-01-01T00:00:01Z"));
+  await request.post(`${apiURL}/__control`, { data: { reissueStatus: 200, push: 1 } });
+  await expect(page.getByText("복구 메시지 1", { exact: true })).toHaveCount(1);
+  await expect(input).toHaveValue("만료 후에도 보낼 초안");
+  await expect(page.getByText("테스트 멘토님과 채팅", { exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: "메시지 보내기" })).toBeEnabled();
+  await expect.poll(() => region.evaluate((element) => element.scrollTop)).toBe(0);
+  await page.getByRole("button", { name: "메시지 보내기" }).click();
+  await expect(page.locator("[data-message-key]").filter({ hasText: "만료 후에도 보낼 초안" })).toHaveCount(1);
+});

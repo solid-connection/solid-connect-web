@@ -8,8 +8,9 @@ import { chatKeys } from "./queryKeys";
 /**
  * @description 채팅방 목록을 가져오는 훅
  */
-const useGetChatRooms = () => {
-  const userId = useChatUserId();
+const useGetChatRooms = (contextUserId?: number) => {
+  const authenticatedUserId = useChatUserId();
+  const userId = contextUserId ?? authenticatedUserId;
 
   return useQuery<ChatRoomListResponse, AxiosError, ChatRoom[]>({
     queryKey: chatKeys.rooms(userId),
