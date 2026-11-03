@@ -91,6 +91,61 @@ export const normalizeChatMessage = (message: RawChatMessage): ChatMessage => {
   };
 };
 
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === "object" && value !== null && !Array.isArray(value);
+
+const isOptionalNumericId = (value: unknown): value is NumericLike => {
+  if (value === undefined || value === null) return true;
+  if (typeof value !== "number" && typeof value !== "string") return false;
+  if (typeof value === "string" && value.trim() === "") return false;
+
+  return Number.isSafeInteger(Number(value));
+};
+
+const isTimestamp = (value: unknown): value is string =>
+  typeof value === "string" && value.trim() !== "" && Number.isFinite(Date.parse(value));
+
+const isRawAttachment = (value: unknown): value is RawChatAttachment =>
+  isRecord(value) &&
+  isOptionalNumericId(value.id) &&
+  typeof value.isImage === "boolean" &&
+  typeof value.url === "string" &&
+  value.url.trim() !== "" &&
+  (value.thumbnailUrl === undefined || value.thumbnailUrl === null || typeof value.thumbnailUrl === "string") &&
+  isTimestamp(value.createdAt);
+
+export const parseChatMessage = (value: unknown): ChatMessage | null => {
+  if (
+    !isRecord(value) ||
+    !isOptionalNumericId(value.id) ||
+    typeof value.content !== "string" ||
+    !isTimestamp(value.createdAt)
+  ) {
+    return null;
+  }
+
+  const rawSenderId = value.senderId ?? value.siteUserId;
+  if (!isOptionalNumericId(rawSenderId)) return null;
+
+  const senderId = Number(rawSenderId);
+  if (!Number.isSafeInteger(senderId) || senderId <= 0) return null;
+
+  if (
+    value.attachments !== undefined &&
+    (!Array.isArray(value.attachments) || !value.attachments.every(isRawAttachment))
+  ) {
+    return null;
+  }
+
+  return normalizeChatMessage({
+    id: value.id,
+    content: value.content,
+    senderId,
+    createdAt: value.createdAt,
+    attachments: value.attachments as RawChatAttachment[] | undefined,
+  });
+};
+
 export const normalizeChatPartner = (partner: RawChatPartner): ChatPartner => ({
   partnerId: toNumber(partner.partnerId ?? partner.siteUserId),
   nickname: partner.nickname,

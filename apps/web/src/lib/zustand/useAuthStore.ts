@@ -17,7 +17,7 @@ const parseHomeUniversityId = (homeUniversity: string | undefined): number | nul
   return Number.isInteger(homeUniversityId) && homeUniversityId > 0 ? homeUniversityId : null;
 };
 
-type RefreshStatus = "idle" | "refreshing" | "success" | "failed";
+type RefreshStatus = "idle" | "refreshing" | "success" | "retryable" | "failed";
 type ClientRole = UserRole.MENTOR | UserRole.MENTEE;
 
 const parseAuthToken = (token: string | null) => {
@@ -48,7 +48,23 @@ const resolveClientRole = (serverRole: UserRole | null, currentClientRole: Clien
   return null;
 };
 
+const authenticatedTokenState = (token: string, clientRole: ClientRole | null) => {
+  const { serverRole, homeUniversityId } = parseAuthToken(token);
+  return {
+    accessToken: token,
+    serverRole,
+    clientRole: resolveClientRole(serverRole, clientRole),
+    homeUniversityId,
+    isAuthenticated: true,
+    isLoading: false,
+    isInitialized: true,
+    refreshStatus: "success" as const,
+    shouldAttemptRefresh: true,
+  };
+};
+
 interface AuthState {
+  sessionVersion: number;
   accessToken: string | null;
   serverRole: UserRole | null;
   clientRole: ClientRole | null;
@@ -59,6 +75,7 @@ interface AuthState {
   refreshStatus: RefreshStatus;
   shouldAttemptRefresh: boolean;
   setAccessToken: (token: string) => void;
+  setRefreshedAccessToken: (token: string, expectedSessionVersion: number) => void;
   clearAccessToken: () => void;
   setClientRole: (role: ClientRole) => void;
   setLoading: (loading: boolean) => void;
@@ -69,6 +86,7 @@ interface AuthState {
 const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
+      sessionVersion: 0,
       accessToken: null,
       serverRole: null,
       clientRole: null,
@@ -80,25 +98,21 @@ const useAuthStore = create<AuthState>()(
       shouldAttemptRefresh: false,
 
       setAccessToken: (token) => {
-        set((state) => {
-          const { serverRole, homeUniversityId } = parseAuthToken(token);
+        set((state) => ({
+          ...authenticatedTokenState(token, state.clientRole),
+          sessionVersion: state.sessionVersion + 1,
+        }));
+      },
 
-          return {
-            accessToken: token,
-            serverRole,
-            clientRole: resolveClientRole(serverRole, state.clientRole),
-            homeUniversityId,
-            isAuthenticated: true,
-            isLoading: false,
-            isInitialized: true,
-            refreshStatus: "success",
-            shouldAttemptRefresh: true,
-          };
-        });
+      setRefreshedAccessToken: (token, expectedSessionVersion) => {
+        set((state) =>
+          state.sessionVersion === expectedSessionVersion ? authenticatedTokenState(token, state.clientRole) : {},
+        );
       },
 
       clearAccessToken: () => {
-        set({
+        set((state) => ({
+          sessionVersion: state.sessionVersion + 1,
           accessToken: null,
           serverRole: null,
           clientRole: null,
@@ -108,7 +122,7 @@ const useAuthStore = create<AuthState>()(
           isInitialized: true,
           refreshStatus: "idle",
           shouldAttemptRefresh: false,
-        });
+        }));
       },
 
       setClientRole: (role) => {

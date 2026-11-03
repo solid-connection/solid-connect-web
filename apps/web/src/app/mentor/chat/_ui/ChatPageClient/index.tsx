@@ -1,111 +1,34 @@
 "use client";
 
-import clsx from "clsx";
 import Link from "next/link";
-import { useGetChatRooms } from "@/apis/chat";
-import { useGetMyInfo } from "@/apis/MyPage";
+import { type ChatRoom, useGetChatRooms } from "@/apis/chat";
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
+import useAuthStore from "@/lib/zustand/useAuthStore";
 import { IconSearchBlue, IconSolidConnentionLogo } from "@/public/svgs/mentor";
 import { UserRole } from "@/types/mentor";
 import { convertISODateToKoreanTime } from "@/utils/datetimeUtils";
-import useIsDesktopViewport from "@/utils/useIsDesktopViewport";
+import ChatAccess from "../ChatAccess";
 
-type ChatRoom = NonNullable<ReturnType<typeof useGetChatRooms>["data"]>[number];
-
-const ChatPageClient = () => {
-  const { data: chatRooms = [], isPending: isChatRoomsPending } = useGetChatRooms();
-  const { data: myInfo, isError: isMyInfoError, isLoading: isMyInfoLoading } = useGetMyInfo();
-  const isDesktop = useIsDesktopViewport();
-
-  const isMentee = myInfo?.role === UserRole.MENTEE;
-  const isPartnerMentor = isMentee;
-  const listTitle = isMentee ? "나의 멘토" : "나의 멘티";
-  const isProfilePending = isMyInfoLoading || (!isMyInfoError && !myInfo?.role);
-
-  if (isDesktop === null || isProfilePending || isChatRoomsPending) {
-    return <div aria-hidden className="min-h-screen bg-white md:bg-k-50" />;
-  }
-
-  if (chatRooms.length === 0) {
-    return isDesktop ? <DesktopChatEmptyState isMentee={isMentee} /> : <MobileChatEmptyState isMentee={isMentee} />;
-  }
-
-  const viewProps = {
-    chatRooms,
-    isMentee,
-    isPartnerMentor,
-    listTitle,
-  };
-
-  return isDesktop ? <DesktopChatPageView {...viewProps} /> : <MobileChatPageView {...viewProps} />;
+const getReceivedTimestamp = (value: string) => {
+  if (typeof value !== "string" || !value.trim()) return null;
+  const timestamp = new Date(value).getTime();
+  return Number.isFinite(timestamp) ? timestamp : null;
 };
 
-type ChatPageViewProps = {
-  chatRooms: ChatRoom[];
-  isMentee: boolean;
-  isPartnerMentor: boolean;
-  listTitle: string;
+const compareRecentRooms = (first: ChatRoom, second: ChatRoom) => {
+  const firstTime = getReceivedTimestamp(first.lastReceivedTime);
+  const secondTime = getReceivedTimestamp(second.lastReceivedTime);
+  if (firstTime === null) return secondTime === null ? 0 : 1;
+  if (secondTime === null) return -1;
+  return secondTime - firstTime;
 };
 
-const DesktopChatPageView = ({ chatRooms, isMentee, isPartnerMentor, listTitle }: ChatPageViewProps) => (
-  <div className="min-h-screen bg-k-50 px-8 py-8 lg:px-10">
-    <header className="mb-8">
-      <p className="text-primary typo-sb-9">Mentor</p>
-      <h1 className="mt-2 text-k-900 typo-bold-1">멘토 채팅</h1>
-      <p className="mt-2 max-w-2xl text-k-500 typo-medium-2">
-        진행 중인 멘토링 대화를 확인하고 바로 이어서 대화하세요.
-      </p>
-    </header>
-
-    <div className="grid items-start gap-8 xl:grid-cols-[minmax(0,1fr)_minmax(300px,360px)]">
-      <section className="rounded-lg border border-k-100 bg-white p-6">
-        <ChatListHeader title={listTitle} count={chatRooms.length} />
-        <DesktopChatRoomList chatRooms={chatRooms} isPartnerMentor={isPartnerMentor} />
-      </section>
-
-      <aside className="sticky top-8 rounded-lg border border-k-100 bg-white p-6">
-        <h2 className="text-k-900 typo-bold-4">빠른 이동</h2>
-        <div className="mt-5 grid gap-3">
-          {isMentee && <DesktopQuickLink href="/mentor" title="멘토 찾기" description="새로운 멘토를 탐색해요" />}
-          <DesktopQuickLink href="/mentor/waiting" title="신청 목록" description="대기 중인 멘토링을 확인해요" />
-        </div>
-      </aside>
-    </div>
-  </div>
-);
-
-const MobileChatPageView = ({ chatRooms, isMentee, isPartnerMentor, listTitle }: ChatPageViewProps) => (
-  <div className="flex h-full w-full flex-col">
-    {isMentee && (
-      <Link href="/mentor" className="flex h-[66px] w-full items-center justify-between bg-secondary-100 px-9 py-3">
-        <div>
-          <div className="flex items-center gap-2">
-            <span className="h-5 w-5">
-              <IconSearchBlue />
-            </span>
-            <span className="text-secondary typo-sb-9">멘토를 찾으러 가볼까요?</span>
-          </div>
-          <p className="w-[140px] text-end text-k-600 typo-medium-3">나의 멘토 찾으러가기</p>
-        </div>
-        <div className="text-blue-600">
-          <span>›</span>
-        </div>
-      </Link>
-    )}
-
-    <div className="px-5 py-4">
-      <ChatListHeader title={listTitle} count={chatRooms.length} />
-      <MobileChatRoomList chatRooms={chatRooms} isPartnerMentor={isPartnerMentor} />
-    </div>
-  </div>
-);
-
-const ChatEmptyStateBase = ({ isDesktop, isMentee }: { isDesktop: boolean; isMentee: boolean }) => (
-  <div className={clsx("flex flex-col items-center justify-center", isDesktop ? "min-h-[360px]" : "min-h-screen")}>
-    <div className="w-15 h-[45px]">
+const EmptyChatRooms = ({ isMentee }: { isMentee: boolean }) => (
+  <div className="flex min-h-[40vh] flex-col items-center justify-center gap-4 px-5 text-center">
+    <div aria-hidden="true" className="h-[45px] w-15">
       <IconSolidConnentionLogo />
     </div>
-    <p className="text-center text-k-300 typo-medium-2">
+    <p className="text-k-500 typo-medium-2">
       {isMentee ? (
         <>
           현재 매칭된 멘토가 없어요.
@@ -117,95 +40,149 @@ const ChatEmptyStateBase = ({ isDesktop, isMentee }: { isDesktop: boolean; isMen
       )}
     </p>
     {isMentee && (
-      <Link
-        href="/mentor"
-        className="mt-5 flex h-[52px] w-60 items-center justify-center gap-[10px] rounded-[30px] bg-gradient-to-l from-primary to-sub-a px-[10px] text-white typo-sb-9"
-      >
+      <Link href="/mentor" className="rounded-3xl bg-primary px-6 py-3 text-white typo-sb-9">
         멘토 찾으러 가볼까요?
       </Link>
     )}
   </div>
 );
 
-const DesktopChatEmptyState = ({ isMentee }: { isMentee: boolean }) => (
-  <div className="min-h-screen bg-k-50 px-8 py-8 lg:px-10">
-    <header className="mb-8">
-      <p className="text-primary typo-sb-9">Mentor</p>
-      <h1 className="mt-2 text-k-900 typo-bold-1">멘토 채팅</h1>
-    </header>
-    <section className="rounded-lg border border-k-100 bg-white p-6">
-      <ChatEmptyStateBase isDesktop isMentee={isMentee} />
-    </section>
-  </div>
-);
+const ChatRoomList = () => {
+  const { data: chatRooms, isPending, isError, isFetching, refetch } = useGetChatRooms();
+  const role = useAuthStore((state) => state.clientRole ?? state.serverRole);
+  const isMentee = role === UserRole.MENTEE;
 
-const MobileChatEmptyState = ({ isMentee }: { isMentee: boolean }) => (
-  <ChatEmptyStateBase isDesktop={false} isMentee={isMentee} />
-);
-
-const ChatListHeader = ({ title, count }: { title: string; count: number }) => (
-  <div className="mb-4 flex items-center gap-[10px]">
-    <h2 className="text-gray-900 typo-sb-5">{title}</h2>
-    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-center text-white typo-regular-4">
-      {count}
-    </span>
-  </div>
-);
-
-type ChatRoomListProps = {
-  chatRooms: ChatRoom[];
-  isPartnerMentor: boolean;
-};
-
-type ChatRoomListBaseProps = ChatRoomListProps & {
-  isDesktop: boolean;
-};
-
-const ChatRoomListBase = ({ chatRooms, isPartnerMentor, isDesktop }: ChatRoomListBaseProps) => (
-  <div className={isDesktop ? "grid gap-2" : "w-full space-y-3"}>
-    {chatRooms.map((chat) => {
-      const { nickname, profileUrl } = chat.partner;
-      const { lastChatMessage, lastReceivedTime, unReadCount } = chat;
-
-      return (
-        <Link
-          key={chat.id}
-          href={`/mentor/chat/${chat.id}`}
-          className={clsx(
-            "flex items-center justify-between border-k-50",
-            isDesktop ? "rounded-lg border px-4 py-3 transition-colors hover:bg-k-50" : "border-b py-2",
-          )}
+  if (!chatRooms) {
+    return isError ? (
+      <div role="alert" className="flex min-h-[40vh] flex-col items-center justify-center gap-3 px-5 text-center">
+        <p className="text-k-700 typo-medium-2">채팅 목록을 불러오지 못했어요.</p>
+        <button
+          type="button"
+          disabled={isFetching}
+          onClick={() => void refetch()}
+          className="rounded-lg bg-primary px-5 py-2 text-white disabled:opacity-50"
         >
-          <div className="flex min-w-0 items-center gap-3">
-            <ProfileWithBadge profileImageUrl={profileUrl} isMentor={isPartnerMentor} width={48} height={48} />
-            <div className="flex min-w-0 flex-col items-start">
-              <h3 className="text-k-900 typo-sb-9">{nickname}</h3>
-              <p className="max-w-full truncate text-k-600 typo-regular-2">{lastChatMessage}</p>
-            </div>
-          </div>
-          <div className="ml-4 flex shrink-0 flex-col items-end gap-1">
-            <p className="text-k-500 typo-regular-4">{convertISODateToKoreanTime(lastReceivedTime)}</p>
-            {unReadCount > 0 && (
-              <span className="ml-2 rounded-full bg-secondary px-2 py-1 text-white typo-regular-4">
-                {unReadCount > 9 ? "9+" : unReadCount}
+          다시 시도
+        </button>
+      </div>
+    ) : (
+      <p role="status" className="px-5 py-16 text-center text-k-500">
+        {isPending ? "채팅 목록을 불러오고 있어요." : "채팅 목록을 확인하고 있어요."}
+      </p>
+    );
+  }
+
+  const sortedRooms = [...chatRooms].sort(compareRecentRooms);
+
+  return (
+    <div className="flex h-full min-w-0 w-full flex-col">
+      {isError && (
+        <div role="alert" className="flex flex-wrap items-center justify-between gap-2 bg-k-50 px-5 py-3">
+          <p className="text-k-700 typo-regular-4">새 채팅 목록을 불러오지 못했어요. 이전 목록을 표시하고 있어요.</p>
+          <button
+            type="button"
+            disabled={isFetching}
+            onClick={() => void refetch()}
+            className="rounded border border-k-200 px-3 py-1 text-k-700 typo-regular-4 disabled:opacity-50"
+          >
+            다시 시도
+          </button>
+        </div>
+      )}
+      {isFetching && (
+        <p role="status" className="px-5 py-2 text-k-500 typo-regular-4">
+          채팅 목록을 업데이트하고 있어요.
+        </p>
+      )}
+      {sortedRooms.length === 0 ? (
+        <EmptyChatRooms isMentee={isMentee} />
+      ) : (
+        <>
+          {isMentee && (
+            <Link
+              href="/mentor"
+              className="flex min-h-[66px] w-full items-center justify-between gap-3 bg-secondary-100 px-5 py-3"
+            >
+              <div className="min-w-0">
+                <div className="flex items-center gap-2">
+                  <span aria-hidden="true" className="h-5 w-5 shrink-0">
+                    <IconSearchBlue />
+                  </span>
+                  <span className="text-secondary typo-sb-9">멘토를 찾으러 가볼까요?</span>
+                </div>
+                <p className="text-k-600 typo-medium-3">나의 멘토 찾으러가기</p>
+              </div>
+              <span aria-hidden="true" className="shrink-0 text-blue-600">
+                ›
               </span>
-            )}
-          </div>
-        </Link>
-      );
-    })}
+            </Link>
+          )}
+          <section aria-label="채팅 목록" className="min-w-0 px-5 py-4">
+            <div className="mb-4 flex items-center gap-2.5">
+              <h2 className="text-gray-900 typo-sb-5">{isMentee ? "나의 멘토" : "나의 멘티"}</h2>
+              <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-white typo-regular-4">
+                <span aria-hidden="true">{sortedRooms.length}</span>
+                <span className="sr-only">채팅방 {sortedRooms.length}개</span>
+              </span>
+            </div>
+            <ul aria-label="채팅방" className="w-full space-y-3">
+              {sortedRooms.map((chat) => {
+                const { nickname, profileUrl } = chat.partner;
+                const receivedTime =
+                  getReceivedTimestamp(chat.lastReceivedTime) === null
+                    ? null
+                    : convertISODateToKoreanTime(chat.lastReceivedTime);
+
+                return (
+                  <li key={chat.id} className="min-w-0">
+                    <Link
+                      href={`/mentor/chat/${chat.id}`}
+                      className="flex min-w-0 items-center justify-between gap-3 border-b border-k-50 py-2"
+                    >
+                      <div className="flex min-w-0 flex-1 items-center gap-2">
+                        <div className="shrink-0">
+                          <ProfileWithBadge profileImageUrl={profileUrl} isMentor={isMentee} width={48} height={48} />
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <h3 className="truncate text-k-900 typo-sb-9">{nickname}</h3>
+                          <p className="truncate text-k-600 typo-regular-2">
+                            {chat.lastChatMessage || "새로운 멘토링이 시작되었어요!"}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex shrink-0 flex-col items-end gap-1">
+                        {receivedTime && (
+                          <time
+                            dateTime={chat.lastReceivedTime}
+                            className="whitespace-nowrap text-k-500 typo-regular-4"
+                          >
+                            {receivedTime}
+                          </time>
+                        )}
+                        {chat.unReadCount > 0 && (
+                          <span className="rounded-full bg-secondary px-2 py-1 text-white typo-regular-4">
+                            <span aria-hidden="true">{chat.unReadCount > 9 ? "9+" : chat.unReadCount}</span>
+                            <span className="sr-only">안 읽은 메시지 {chat.unReadCount}개</span>
+                          </span>
+                        )}
+                      </div>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
+        </>
+      )}
+    </div>
+  );
+};
+
+const ChatPageClient = () => (
+  <div className="md:mx-auto md:max-w-5xl md:px-6 md:py-8">
+    <h1 className="mb-6 hidden text-k-900 typo-bold-1 md:block">채팅</h1>
+    <ChatAccess>{(userId) => <ChatRoomList key={userId} />}</ChatAccess>
   </div>
-);
-
-const DesktopChatRoomList = (props: ChatRoomListProps) => <ChatRoomListBase {...props} isDesktop />;
-
-const MobileChatRoomList = (props: ChatRoomListProps) => <ChatRoomListBase {...props} isDesktop={false} />;
-
-const DesktopQuickLink = ({ href, title, description }: { href: string; title: string; description: string }) => (
-  <Link href={href} className="rounded-lg bg-k-50 px-4 py-3 transition-colors hover:bg-k-100">
-    <span className="block text-k-800 typo-sb-7">{title}</span>
-    <span className="mt-1 block text-k-500 typo-regular-2">{description}</span>
-  </Link>
 );
 
 export default ChatPageClient;

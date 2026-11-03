@@ -92,6 +92,9 @@ const HomeDesktopView = ({ recommendedUniversities, desktopData, newsList }: Hom
         <main className="min-w-0 space-y-8">
           <section>
             <SectionHeader title="실시간 인기있는 파견학교" />
+            {popularUniversities.length === 0 && (
+              <p className="py-6 text-k-600 typo-regular-2">표시할 파견학교가 없어요.</p>
+            )}
             <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,220px),1fr))] gap-4">
               {popularUniversities.map((university, index) => (
                 <UniversityZoneLink
@@ -104,6 +107,7 @@ const HomeDesktopView = ({ recommendedUniversities, desktopData, newsList }: Hom
                       alt={`${university.koreanName} 배경 이미지`}
                       src={normalizeImageUrlToUploadCdn(university.backgroundImageUrl)}
                       fill
+                      sizes="(max-width: 1279px) 50vw, 30vw"
                       className="object-cover"
                       fallbackSrc="/svgs/placeholders/university-background-placeholder.svg"
                       priority={index === 0}
@@ -127,6 +131,9 @@ const HomeDesktopView = ({ recommendedUniversities, desktopData, newsList }: Hom
 
           <section>
             <SectionHeader title="전체 학교 리스트" />
+            {previewUniversities.length === 0 && (
+              <p className="py-6 text-k-600 typo-regular-2">등록된 파견학교가 없어요.</p>
+            )}
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
               {previewUniversities.map((university) => (
                 <UniversityZoneLink
@@ -164,6 +171,7 @@ const HomeDesktopView = ({ recommendedUniversities, desktopData, newsList }: Hom
               </div>
             </div>
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+              {newsList.length === 0 && <p className="py-6 text-k-600 typo-regular-2">등록된 소식이 없어요.</p>}
               {newsList.map((news) => (
                 <Link
                   key={news.id}

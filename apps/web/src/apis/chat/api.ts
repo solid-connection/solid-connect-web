@@ -2,20 +2,12 @@ import type { AxiosResponse } from "axios";
 import type { ChatMessage, ChatPartner, ChatRoom } from "@/types/chat";
 import { axiosInstance } from "@/utils/axiosInstance";
 import {
-  normalizeChatMessage,
   normalizeChatPartner,
   normalizeChatRoom,
-  type RawChatMessage,
+  parseChatMessage,
   type RawChatPartner,
   type RawChatRoom,
 } from "./normalize";
-
-// QueryKeys for chat domain
-export const ChatQueryKeys = {
-  chatRooms: "chatRooms",
-  chatHistories: "chatHistories",
-  partnerInfo: "partnerInfo",
-} as const;
 
 // Re-export types from @/types/chat
 export type { ChatMessage, ChatRoom, ChatPartner };
@@ -33,11 +25,12 @@ interface GetChatHistoriesParams {
   roomId: number;
   size?: number;
   page?: number;
+  signal?: AbortSignal;
 }
 
 interface RawChatHistoriesResponse {
   nextPageNumber: number;
-  content: RawChatMessage[];
+  content: unknown[];
 }
 
 interface RawChatRoomListResponse {
@@ -45,33 +38,51 @@ interface RawChatRoomListResponse {
 }
 
 export const chatApi = {
-  getChatHistories: async ({ roomId, size = 20, page = 1 }: GetChatHistoriesParams): Promise<ChatHistoriesResponse> => {
+  getChatHistories: async ({
+    roomId,
+    size = 20,
+    page = 1,
+    signal,
+  }: GetChatHistoriesParams): Promise<ChatHistoriesResponse> => {
     const res = await axiosInstance.get<RawChatHistoriesResponse>(`/chats/rooms/${roomId}`, {
       params: {
         size,
         page,
       },
+      signal,
     });
-    return {
-      nextPageNumber: res.data.nextPageNumber,
-      content: (res.data.content ?? []).map(normalizeChatMessage),
-    };
+    const nextPageNumber = res.data?.nextPageNumber;
+    if (
+      !Array.isArray(res.data?.content) ||
+      (nextPageNumber !== -1 && (!Number.isSafeInteger(nextPageNumber) || nextPageNumber <= page))
+    ) {
+      throw new Error("채팅 내역 응답이 올바르지 않습니다.");
+    }
+
+    const content: ChatMessage[] = [];
+    for (const rawMessage of res.data.content) {
+      const message = parseChatMessage(rawMessage);
+      if (!message) throw new Error("채팅 내역에 올바르지 않은 메시지가 있습니다.");
+      content.push(message);
+    }
+
+    return { nextPageNumber, content };
   },
 
-  getChatRooms: async (): Promise<ChatRoomListResponse> => {
-    const res = await axiosInstance.get<RawChatRoomListResponse>("/chats/rooms");
+  getChatRooms: async (signal?: AbortSignal): Promise<ChatRoomListResponse> => {
+    const res = await axiosInstance.get<RawChatRoomListResponse>("/chats/rooms", { signal });
     return {
       chatRooms: (res.data.chatRooms ?? []).map(normalizeChatRoom),
     };
   },
 
-  putReadChatRoom: async (roomId: number): Promise<void> => {
-    const response: AxiosResponse<void> = await axiosInstance.put(`/chats/rooms/${roomId}/read`);
+  putReadChatRoom: async (roomId: number, signal?: AbortSignal): Promise<void> => {
+    const response: AxiosResponse<void> = await axiosInstance.put(`/chats/rooms/${roomId}/read`, undefined, { signal });
     return response.data;
   },
 
-  getChatPartner: async (roomId: number): Promise<ChatPartner> => {
-    const res = await axiosInstance.get<RawChatPartner>(`/chats/rooms/${roomId}/partner`);
+  getChatPartner: async (roomId: number, signal?: AbortSignal): Promise<ChatPartner> => {
+    const res = await axiosInstance.get<RawChatPartner>(`/chats/rooms/${roomId}/partner`, { signal });
     return normalizeChatPartner(res.data);
   },
 };

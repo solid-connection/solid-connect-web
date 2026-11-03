@@ -22,7 +22,7 @@ const HomeUniversitySearchSection = () => {
   } = useHomeUniversitySearch();
 
   return (
-    <section className="px-5 py-5 md:px-0 md:py-0">
+    <section aria-label="파견학교 검색" className="px-5 py-5 md:px-0 md:py-0">
       <h2 className="mb-4 text-k-900 typo-bold-1">파견 학교 찾기</h2>
 
       <div className="mb-3 flex gap-2 overflow-x-auto md:flex-wrap md:overflow-visible">

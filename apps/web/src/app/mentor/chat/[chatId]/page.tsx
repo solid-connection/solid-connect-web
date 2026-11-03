@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 
 import { NO_INDEX_ROBOTS } from "@/utils/seo";
 import ChatContent from "./_ui/ChatContent";
-import ChatNavBar from "./_ui/ChatNavBar";
 
 export const metadata: Metadata = {
   title: "멘토와 채팅 | 솔리드커넥션",
@@ -19,13 +18,10 @@ const ChatDetailPage = async ({ params }: ChatDetailPageProps) => {
   const { chatId: chatIdParam } = await params;
   const chatId = Number(chatIdParam);
 
-  if (Number.isNaN(chatId)) notFound();
+  if (!/^\d+$/.test(chatIdParam) || !Number.isSafeInteger(chatId) || chatId <= 0) notFound();
   return (
-    <div className="flex w-full flex-col md:min-h-screen md:bg-k-50">
-      <ChatNavBar chatId={chatId} />
-      <div className="md:px-8 md:pb-8 lg:px-10">
-        <ChatContent chatId={chatId} />
-      </div>
+    <div className="flex w-full flex-col md:mx-auto md:max-w-5xl md:border-x md:border-k-100">
+      <ChatContent key={chatId} chatId={chatId} />
     </div>
   );
 };

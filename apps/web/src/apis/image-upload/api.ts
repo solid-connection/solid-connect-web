@@ -59,7 +59,7 @@ export const imageUploadApi = {
   /**
    * 채팅 이미지 업로드 (로그인 후)
    */
-  postUploadChatImages: async (files: File[]): Promise<string[]> => {
+  postUploadChatImages: async (files: File[], signal?: AbortSignal): Promise<string[]> => {
     const formData = new FormData();
     files.forEach((file) => {
       formData.append("files", file);
@@ -67,6 +67,7 @@ export const imageUploadApi = {
 
     const res = await axiosInstance.post<UploadChatImageResponse[]>(`/file/chat`, formData, {
       headers: { "Content-Type": "multipart/form-data" },
+      signal,
     });
     return res.data.map((image) => image.fileUrl);
   },

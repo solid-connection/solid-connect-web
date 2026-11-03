@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "@/components/ui/FallbackImage";
 import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
 import type { ChatAttachment, ChatMessage } from "@/types/chat";
 import { normalizeImageUrlToUploadCdn } from "@/utils/cdnUrl";
@@ -9,132 +8,107 @@ import { formatTime } from "@/utils/datetimeUtils";
 import { downloadFile, getFileExtension, getFileNamePrefix } from "@/utils/fileUtils";
 import { getMessageType, shouldShowContent } from "./_utils/messageUtils";
 
-const CHAT_IMAGE_HEALTH_CHECK_LIMIT = 10;
-const CHAT_IMAGE_HEALTH_CHECK_INTERVAL_MS = 1000;
-const CHAT_IMAGE_HEALTH_CHECK_SLOW_INTERVAL_MS = 5000;
+const IMAGE_MAX_ATTEMPTS = 3;
+const IMAGE_RETRY_DELAY_MS = 1000;
+
+type ImageStatus = "loading" | "loaded" | "waiting" | "failed";
 
 interface ChatMessageBoxProps {
   message: ChatMessage;
-  currentUserId?: number; // 현재 사용자 ID
-  partnerNickname?: string; // 상대방 닉네임
+  currentUserId?: number;
+  partnerNickname?: string;
   partnerProfileUrl?: string | null;
   isPartnerMentor?: boolean;
 }
 
-const appendHealthCheckCacheBuster = (src: string, attempt: number) => {
-  if (src.startsWith("blob:") || src.startsWith("data:")) return src;
+const getImageRetryUrl = (src: string, attempt: number, retryRound: number) => {
+  if (src.startsWith("blob:") || src.startsWith("data:") || (attempt === 0 && retryRound === 0)) return src;
 
   try {
-    const url = new URL(src, window.location.origin);
-    url.searchParams.set("__chat_image_health_check", `${Date.now()}-${attempt}`);
+    const url = new URL(src);
+    url.searchParams.set("__chat_image_retry", `${retryRound}-${attempt}`);
     return url.toString();
   } catch {
     return src;
   }
 };
 
-const isLocalPreviewUrl = (src: string) => src.startsWith("blob:") || src.startsWith("data:");
+const RetryableImage = ({ src }: { src: string }) => {
+  const [attempt, setAttempt] = useState(0);
+  const [retryRound, setRetryRound] = useState(0);
+  const [status, setStatus] = useState<ImageStatus>("loading");
 
-const ChatImageLoading = () => (
-  <div className="flex h-[150px] w-[200px] max-w-[200px] items-center justify-center rounded-lg bg-k-50">
-    <div className="h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent" />
-  </div>
-);
+  useEffect(
+    function retryFailedImage() {
+      if (status !== "waiting") return;
 
-const useChatImageHealthCheck = (src: string, enabled: boolean) => {
-  const [isReady, setIsReady] = useState(!enabled);
-  const [readySrc, setReadySrc] = useState(src);
+      const timeoutId = setTimeout(() => {
+        setAttempt((previous) => previous + 1);
+        setStatus("loading");
+      }, IMAGE_RETRY_DELAY_MS);
 
-  useEffect(() => {
-    if (!enabled || !src) {
-      setIsReady(true);
-      setReadySrc(src);
-      return;
-    }
-
-    let isCancelled = false;
-    let attempt = 0;
-    let timeoutId: ReturnType<typeof setTimeout> | null = null;
-    let probeImage: HTMLImageElement | null = null;
-
-    setIsReady(false);
-    setReadySrc("");
-
-    const checkImage = () => {
-      attempt += 1;
-      probeImage = document.createElement("img");
-
-      probeImage.onload = () => {
-        if (isCancelled) return;
-        setIsReady(true);
-        setReadySrc(src);
+      return function cancelImageRetry() {
+        clearTimeout(timeoutId);
       };
-
-      probeImage.onerror = () => {
-        if (isCancelled) return;
-
-        const retryDelayMs =
-          attempt >= CHAT_IMAGE_HEALTH_CHECK_LIMIT
-            ? CHAT_IMAGE_HEALTH_CHECK_SLOW_INTERVAL_MS
-            : CHAT_IMAGE_HEALTH_CHECK_INTERVAL_MS;
-        timeoutId = setTimeout(checkImage, retryDelayMs);
-      };
-
-      probeImage.src = appendHealthCheckCacheBuster(src, attempt);
-    };
-
-    checkImage();
-
-    return () => {
-      isCancelled = true;
-      if (timeoutId) clearTimeout(timeoutId);
-      if (probeImage) {
-        probeImage.onload = null;
-        probeImage.onerror = null;
-      }
-    };
-  }, [enabled, src]);
-
-  return { isReady, readySrc };
-};
-
-const ChatImage = ({ attachment }: { attachment: ChatAttachment }) => {
-  const imageSrc = attachment.previewUrl ?? attachment.thumbnailUrl ?? attachment.url;
-  const normalizedImageSrc = normalizeImageUrlToUploadCdn(imageSrc);
-  const shouldHealthCheck = !attachment.previewUrl && !isLocalPreviewUrl(normalizedImageSrc);
-  const { isReady, readySrc } = useChatImageHealthCheck(normalizedImageSrc, shouldHealthCheck);
-  const displaySrc = readySrc || normalizedImageSrc;
-  const [isImageLoaded, setIsImageLoaded] = useState(!shouldHealthCheck || isLocalPreviewUrl(displaySrc));
-
-  useEffect(() => {
-    setIsImageLoaded(!shouldHealthCheck || isLocalPreviewUrl(displaySrc));
-  }, [displaySrc, shouldHealthCheck]);
+    },
+    [status],
+  );
 
   return (
-    <div className="relative h-[150px] w-[200px] max-w-[200px] overflow-hidden rounded-lg">
-      {(!isReady || !isImageLoaded) && (
-        <div className="absolute inset-0 z-10">
-          <ChatImageLoading />
+    <div className="relative h-[150px] w-[200px] max-w-full overflow-hidden rounded-lg bg-k-50">
+      {status === "failed" ? (
+        <div
+          role="status"
+          className="flex h-full flex-col items-center justify-center gap-2 px-3 text-center text-k-700"
+        >
+          <p className="typo-regular-4">이미지를 불러오지 못했어요.</p>
+          <button
+            type="button"
+            onClick={() => {
+              setAttempt(0);
+              setRetryRound((previous) => previous + 1);
+              setStatus("loading");
+            }}
+            className="rounded border border-k-200 px-3 py-1 typo-regular-4"
+          >
+            다시 불러오기
+          </button>
         </div>
-      )}
-      {isReady && (
-        <Image
-          src={displaySrc}
-          alt="첨부 이미지"
-          width={200}
-          height={150}
-          className={`h-full w-full max-w-[200px] rounded-lg object-cover ${isImageLoaded ? "opacity-100" : "opacity-0"}`}
-          unoptimized
-          onLoad={() => setIsImageLoaded(true)}
-        />
+      ) : (
+        <>
+          {status !== "loaded" && (
+            <div
+              role="status"
+              aria-label="이미지 불러오는 중"
+              className="absolute inset-0 flex items-center justify-center"
+            >
+              <div className="h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+            </div>
+          )}
+          <img
+            key={`${retryRound}-${attempt}`}
+            src={getImageRetryUrl(src, attempt, retryRound)}
+            alt="첨부 이미지"
+            width={200}
+            height={150}
+            onLoad={() => setStatus("loaded")}
+            onError={() => setStatus(attempt + 1 < IMAGE_MAX_ATTEMPTS ? "waiting" : "failed")}
+            className={`h-full w-full rounded-lg object-cover ${status === "loaded" ? "opacity-100" : "opacity-0"}`}
+          />
+        </>
       )}
     </div>
   );
 };
 
+const ChatImage = ({ attachment }: { attachment: ChatAttachment }) => {
+  const src = normalizeImageUrlToUploadCdn(attachment.previewUrl ?? attachment.thumbnailUrl ?? attachment.url);
+  return <RetryableImage key={src} src={src} />;
+};
+
 const ChatMessageBox = ({
   message,
-  currentUserId = 1,
+  currentUserId = 0,
   partnerNickname = "상대방",
   partnerProfileUrl = null,
   isPartnerMentor = false,
@@ -149,31 +123,24 @@ const ChatMessageBox = ({
 
     return (
       <div className="mt-2 space-y-2">
-        {message.attachments.map((attachment) => (
-          <div key={attachment.id}>
+        {message.attachments.map((attachment, index) => (
+          <div key={`${attachment.id > 0 ? attachment.id : attachment.url}-${index}`}>
             {attachment.isImage ? (
               // 이미지 렌더링
               <ChatImage attachment={attachment} />
             ) : (
               // 파일 렌더링
-              <div
+              <button
+                type="button"
                 className="flex max-w-[250px] cursor-pointer items-center space-x-3 rounded-lg bg-gray-100 p-3 transition-colors hover:bg-gray-200"
-                role="button"
-                tabIndex={0}
                 onClick={() => downloadFile(attachment.url, getFileNamePrefix(attachment.url))}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    downloadFile(attachment.url, getFileNamePrefix(attachment.url));
-                  }
-                }}
               >
                 <div className="min-w-0 flex-1 overflow-hidden">
                   <div className="text-k-900 typo-medium-2">첨부파일</div>
                   <div className="text-k-400 typo-regular-4">클릭시 다운로드 됩니다</div>
                   <div className="text-secondary typo-regular-4">{getFileExtension(attachment.url)} 파일</div>
                 </div>
-              </div>
+              </button>
             )}
           </div>
         ))}

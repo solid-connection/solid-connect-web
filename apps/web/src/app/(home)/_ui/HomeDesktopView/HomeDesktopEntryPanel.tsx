@@ -107,7 +107,7 @@ const HomeDesktopEntryPanel = () => {
   }
 
   return (
-    <section className="rounded-lg border border-k-100 bg-white p-6">
+    <section aria-label="파견학교 검색" className="rounded-lg border border-k-100 bg-white p-6">
       <div className="mb-5">
         <h2 className="text-k-900 typo-bold-4">파견학교 검색</h2>
         <p className="mt-1 text-k-500 typo-medium-4">소속 대학과 조건을 선택해 지원 가능한 학교를 찾아보세요.</p>

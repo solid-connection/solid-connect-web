@@ -50,3 +50,8 @@ docs/superpowers/
 # Turborepo
 .turbo
 **/.turbo
+
+# Browser test and Storybook artifacts
+**/playwright-report/
+**/test-results/
+**/storybook-static/
