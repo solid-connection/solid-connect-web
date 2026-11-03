@@ -9,13 +9,15 @@ import { showIconToast } from "@/lib/toast/showIconToast";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { UserRole } from "@/types/mentor";
 import { LOGIN_REQUIRED_MESSAGE } from "@/utils/authRedirect";
+import useIsDesktopViewport from "@/utils/useIsDesktopViewport";
 import MentorPageSkeleton from "../MentorPageSkeleton";
-import MenteePage from "./_ui/MenteePage";
-import MentorPage from "./_ui/MentorPage";
+import { MenteeDesktopPage, MenteeMobilePage } from "./_ui/MenteePage";
+import { MentorDesktopPage, MentorMobilePage } from "./_ui/MentorPage";
 
 const MentorClient = () => {
   const router = useRouter();
   const clientRole = useAuthStore((state) => state.clientRole);
+  const isDesktop = useIsDesktopViewport();
   const { data: myInfo, isLoading, isFetching, isError, error, refetch } = useGetMyInfo();
   const role = myInfo?.role;
   const status = (error as AxiosError | null)?.response?.status;
@@ -31,7 +33,7 @@ const MentorClient = () => {
     }
   }, [isAuthResolving, isUnauthorized, isError, role, router]);
 
-  if (isAuthResolving) {
+  if (isAuthResolving || isDesktop === null) {
     return <MentorPageSkeleton />;
   }
 
@@ -54,11 +56,13 @@ const MentorClient = () => {
     );
   }
 
-  if (role === UserRole.ADMIN) {
-    return clientRole === UserRole.MENTEE ? <MenteePage /> : <MentorPage />;
+  const shouldRenderMentorPage = role === UserRole.ADMIN ? clientRole !== UserRole.MENTEE : role === UserRole.MENTOR;
+
+  if (shouldRenderMentorPage) {
+    return isDesktop ? <MentorDesktopPage /> : <MentorMobilePage />;
   }
 
-  return role === UserRole.MENTOR ? <MentorPage /> : <MenteePage />;
+  return isDesktop ? <MenteeDesktopPage /> : <MenteeMobilePage />;
 };
 
 export default MentorClient;

@@ -19,7 +19,7 @@ interface RegionFilterProps {
 
 const RegionFilter = ({ selectedRegions, onRegionChange }: RegionFilterProps) => {
   return (
-    <div className="mb-4 flex gap-2 overflow-x-auto pb-1">
+    <div className="mb-4 flex gap-2 overflow-x-auto pb-1 md:flex-wrap md:overflow-visible xl:flex-col">
       {REGIONS.map(({ value, label }) => {
         const isSelected = selectedRegions.includes(value);
 

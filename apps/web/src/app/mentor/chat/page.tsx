@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 const ChatPage = () => {
   return (
-    <div className="w-full px-5">
+    <div className="w-full px-5 md:px-0">
       <ChatPageClient />
     </div>
   );

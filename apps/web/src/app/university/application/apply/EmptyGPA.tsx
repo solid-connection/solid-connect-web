@@ -1,12 +1,15 @@
+import clsx from "clsx";
 import Link from "next/link";
 
 import { IconSolidConnectionSmallLogo } from "@/public/svgs/my";
 import ApplicationSectionTitle from "../_components/ApplicationSectionTitle";
 
-const EmptyGPA = () => {
+const EmptyGPABase = ({ isDesktop }: { isDesktop: boolean }) => {
   return (
-    <div className="mt-24 px-5">
-      <div className="rounded-lg bg-white px-6 py-8 text-center shadow-sdwB">
+    <div className={clsx(isDesktop ? "" : "mt-24 px-5")}>
+      <div
+        className={clsx("rounded-lg bg-white px-6 py-8 text-center", isDesktop ? "border border-k-100" : "shadow-sdwB")}
+      >
         <div className="flex justify-center">
           <IconSolidConnectionSmallLogo />
         </div>
@@ -25,4 +28,9 @@ const EmptyGPA = () => {
     </div>
   );
 };
-export default EmptyGPA;
+
+export const DesktopEmptyGPA = () => <EmptyGPABase isDesktop />;
+
+export const MobileEmptyGPA = () => <EmptyGPABase isDesktop={false} />;
+
+export default MobileEmptyGPA;

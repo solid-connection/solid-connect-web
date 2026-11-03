@@ -1,12 +1,16 @@
 "use client";
 
+import clsx from "clsx";
 import { useMemo, useState } from "react";
 
 import TextModal from "@/components/modal/TextModal";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/Select";
 
 import type { ListUniversity } from "@/types/university";
-import ApplicationBottomActionBar from "../_components/ApplicationBottomActionBar";
+import {
+  DesktopApplicationBottomActionBar,
+  MobileApplicationBottomActionBar,
+} from "../_components/ApplicationBottomActionBar";
 
 type UniversityStepProps = {
   universityList: ListUniversity[];
@@ -62,15 +66,17 @@ const UniversityChoiceSelect = ({
   );
 };
 
-const UniversityStep = ({
+const UniversityStepBase = ({
   universityList,
   curUniversityList,
   setCurUniversityList,
   maxChoiceCount,
   onNext,
-}: UniversityStepProps) => {
+  isDesktop,
+}: UniversityStepProps & { isDesktop: boolean }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const choiceIndexes = useMemo(() => Array.from({ length: maxChoiceCount }, (_, index) => index), [maxChoiceCount]);
+  const ActionBar = isDesktop ? DesktopApplicationBottomActionBar : MobileApplicationBottomActionBar;
 
   const handleSelect = (index: number, value: number) => {
     const newList = curUniversityList.slice(0, maxChoiceCount);
@@ -96,9 +102,9 @@ const UniversityStep = ({
 
   return (
     <>
-      <div className="px-5 pb-40 pt-3">
+      <div className={clsx(isDesktop ? "" : "px-5 pb-40 pt-3")}>
         <p className="text-k-300 typo-regular-4">본 과정 완료 후, 지원자 현황을 확인할 수 있습니다.</p>
-        <div className="mt-7 flex flex-col gap-[7px]">
+        <div className={clsx(isDesktop ? "mt-6 grid gap-4 md:grid-cols-2" : "mt-7 flex flex-col gap-[7px]")}>
           {choiceIndexes.map((index) => (
             <UniversityChoiceSelect
               key={index}
@@ -112,7 +118,7 @@ const UniversityStep = ({
           ))}
         </div>
       </div>
-      <ApplicationBottomActionBar label="다음" onClick={handleNext} />
+      <ActionBar label="다음" onClick={handleNext} />
       <TextModal
         isOpen={isModalOpen}
         handleClose={() => setIsModalOpen(false)}
@@ -123,4 +129,8 @@ const UniversityStep = ({
   );
 };
 
-export default UniversityStep;
+export const DesktopUniversityStep = (props: UniversityStepProps) => <UniversityStepBase {...props} isDesktop />;
+
+export const MobileUniversityStep = (props: UniversityStepProps) => <UniversityStepBase {...props} isDesktop={false} />;
+
+export default MobileUniversityStep;

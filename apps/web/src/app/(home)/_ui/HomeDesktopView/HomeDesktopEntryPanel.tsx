@@ -1,0 +1,174 @@
+"use client";
+
+import clsx from "clsx";
+import Link from "next/link";
+
+import CustomDropdown from "@/components/search/CustomDropdown";
+import UniversityZoneLink from "@/components/ui/UniversityZoneLink";
+import useAuthStore from "@/lib/zustand/useAuthStore";
+import { IconIdCard, IconMagnifyingGlass, IconMuseum, IconPaper } from "@/public/svgs/home";
+import { IconHatColor, IconHatGray, IconLocationColor, IconLocationGray } from "@/public/svgs/search";
+import { useHomeUniversitySearch } from "../HomeUniversitySearchSection/_hooks/HomeUniversitySearchProvider";
+
+const actionLinks = [
+  {
+    href: "/university/search",
+    label: "학교 검색하기",
+    icon: IconMagnifyingGlass,
+    isUniversityZone: true,
+  },
+  {
+    href: "/university/score",
+    label: "성적 입력하기",
+    icon: IconPaper,
+    isUniversityZone: false,
+  },
+  {
+    href: "/university/application/apply",
+    label: "학교 지원하기",
+    icon: IconMuseum,
+    isUniversityZone: false,
+  },
+  {
+    href: "/university/application",
+    label: "지원자 현황 확인",
+    icon: IconIdCard,
+    isUniversityZone: false,
+  },
+] as const;
+
+const HomeDesktopEntryPanel = () => {
+  const { isAuthenticated, isInitialized } = useAuthStore();
+  const {
+    homeUniversities,
+    selectedHomeUniversitySlug,
+    setSelectedHomeUniversitySlug,
+    languageTestType,
+    setLanguageTestType,
+    countries,
+    languageOptions,
+    countryOptionsByIndex,
+    handleCountryChange,
+    searchHref,
+  } = useHomeUniversitySearch();
+
+  if (!isInitialized) {
+    return (
+      <div className="rounded-lg border border-k-100 bg-white p-6">
+        <div className="h-7 w-36 animate-pulse rounded bg-k-100" />
+        <div className="mt-5 grid grid-cols-2 gap-3">
+          {Array.from({ length: 4 }).map((_, index) => (
+            <div key={index} className="h-28 animate-pulse rounded-lg bg-k-50" />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (isAuthenticated) {
+    return (
+      <section className="rounded-lg border border-k-100 bg-white p-6">
+        <div className="mb-5">
+          <h2 className="text-k-900 typo-bold-4">빠른 실행</h2>
+        </div>
+
+        <div className="divide-y divide-k-100">
+          {actionLinks.map(({ href, label, icon: Icon, isUniversityZone }) => {
+            const content = (
+              <div key={href} className="flex items-center gap-3 py-4 text-k-800">
+                <span className="shrink-0 text-primary [&>svg]:h-6 [&>svg]:w-6">
+                  <Icon />
+                </span>
+                <span className="typo-medium-2">{label}</span>
+              </div>
+            );
+
+            return isUniversityZone ? (
+              <UniversityZoneLink
+                key={href}
+                href={href}
+                className="block rounded hover:bg-k-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+              >
+                {content}
+              </UniversityZoneLink>
+            ) : (
+              <Link
+                key={href}
+                href={href}
+                className="block rounded hover:bg-k-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+              >
+                {content}
+              </Link>
+            );
+          })}
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section aria-label="파견학교 검색" className="rounded-lg border border-k-100 bg-white p-6">
+      <div className="mb-5">
+        <h2 className="text-k-900 typo-bold-4">파견학교 검색</h2>
+        <p className="mt-1 text-k-500 typo-medium-4">소속 대학과 조건을 선택해 지원 가능한 학교를 찾아보세요.</p>
+      </div>
+
+      <div className="mb-4 flex flex-wrap gap-2">
+        {homeUniversities.map((university) => {
+          const isSelected = university.slug === selectedHomeUniversitySlug;
+
+          return (
+            <button
+              key={university.slug}
+              type="button"
+              onClick={() => setSelectedHomeUniversitySlug(university.slug)}
+              className={clsx(
+                "min-w-0 rounded-full border px-4 py-2 transition-colors typo-medium-3",
+                isSelected
+                  ? "border-primary bg-primary-100 text-primary-900"
+                  : "border-k-100 bg-k-50 text-k-500 hover:border-k-200 hover:bg-k-100",
+              )}
+              aria-pressed={isSelected}
+            >
+              {university.shortName}
+            </button>
+          );
+        })}
+      </div>
+
+      <div className="grid gap-3">
+        <CustomDropdown
+          value={languageTestType}
+          onChange={setLanguageTestType}
+          placeholder="어학"
+          placeholderSelect="선택"
+          placeholderIcon={<IconHatGray />}
+          icon={<IconHatColor />}
+          options={languageOptions}
+        />
+
+        {countryOptionsByIndex.map((countryOptions, index) => (
+          <CustomDropdown
+            key={index}
+            value={countries[index]}
+            onChange={(value) => handleCountryChange(index, value)}
+            placeholder="관심있는 나라"
+            placeholderSelect="나라"
+            placeholderIcon={<IconLocationGray />}
+            icon={<IconLocationColor />}
+            options={countryOptions}
+          />
+        ))}
+
+        <UniversityZoneLink
+          href={searchHref}
+          className="mt-2 w-full rounded-lg bg-primary px-4 py-4 text-center text-k-0 transition-colors typo-sb-8 hover:bg-primary-600"
+        >
+          학교 검색하기
+        </UniversityZoneLink>
+      </div>
+    </section>
+  );
+};
+
+export default HomeDesktopEntryPanel;

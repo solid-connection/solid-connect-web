@@ -13,7 +13,8 @@ import useAuthStore from "@/lib/zustand/useAuthStore";
 import { IconExpandMoreFilled } from "@/public/svgs/community";
 import type { Applicant, ScoreSheet as ScoreSheetType } from "@/types/application";
 import type { RegionKo } from "@/types/university";
-import { getApplicationDetailHref, MobileScoreSheet, ScoreSheetLogo } from "../ScoreSheet";
+import useIsDesktopViewport from "@/utils/useIsDesktopViewport";
+import { DesktopScoreSheet, getApplicationDetailHref, MobileScoreSheet, ScoreSheetLogo } from "../ScoreSheet";
 
 type ApplicationAccessErrorCode = "APPLICATION_NOT_FOUND" | "APPLICATION_NOT_APPROVED";
 
@@ -58,6 +59,7 @@ type ScorePageViewProps = {
 
 const ApprovedApplicationStatusPage = () => {
   const router = useRouter();
+  const isDesktop = useIsDesktopViewport();
   const homeUniversityId = useAuthStore((state) => state.homeUniversityId);
   const maxChoiceCount = getHomeUniversityById(homeUniversityId)?.maxChoiceCount ?? DEFAULT_MAX_CHOICE_COUNT;
 
@@ -139,6 +141,8 @@ const ApprovedApplicationStatusPage = () => {
     );
   }
 
+  if (isDesktop === null) return <CloudSpinnerPage />;
+
   const viewProps = {
     appliedUniversities,
     displayedScoreSheets,
@@ -154,7 +158,7 @@ const ApprovedApplicationStatusPage = () => {
     onChangeUniversities: () => router.push("/university/application/apply"),
   };
 
-  return <ApplicationScoreView {...viewProps} />;
+  return isDesktop ? <ApplicationScoreDesktopView {...viewProps} /> : <ApplicationScoreView {...viewProps} />;
 };
 
 const ApplicationScoreView = ({
@@ -193,6 +197,184 @@ const ApplicationScoreView = ({
   );
 };
 
+const ApplicationScoreDesktopView = ({
+  appliedUniversities,
+  displayedScoreSheets,
+  totalUniversityCount,
+  applicantUniversityCount,
+  participantCount,
+  scope,
+  regionFilter,
+  sortMode,
+  onScopeChange,
+  onRegionChange,
+  onSortModeChange,
+  onChangeUniversities,
+}: ScorePageViewProps) => {
+  return (
+    <main className="min-h-screen bg-k-50 px-8 py-8 lg:px-10">
+      <div className="mx-auto max-w-7xl">
+        <header className="flex flex-col gap-4 border-b border-k-100 pb-7 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <p className="text-primary typo-sb-9">Application scores</p>
+            <h1 className="mt-2 text-k-900 typo-bold-1">지원자 현황 확인</h1>
+            <p className="mt-2 text-k-500 typo-medium-2">
+              지원한 학교와 전체 지원자 현황을 한 화면에서 비교할 수 있어요.
+            </p>
+          </div>
+          <div className="grid grid-cols-3 gap-3">
+            <DesktopMetricCard label="전체 대학" value={`${totalUniversityCount}개`} />
+            <DesktopMetricCard label="지원자 있는 대학" value={`${applicantUniversityCount}개`} />
+            <DesktopMetricCard label="참여자" value={`${participantCount}명`} highlight />
+          </div>
+        </header>
+
+        <div className="mt-8 grid items-start gap-8 xl:grid-cols-[minmax(0,1fr)_360px]">
+          <section className="min-w-0 rounded-lg border border-k-100 bg-white p-6">
+            <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
+              <div>
+                <h2 className="text-k-900 typo-bold-4">
+                  {scope === "withApplicants" ? "지원자 있는 대학" : "모든 대학"}
+                </h2>
+                <p className="mt-1 text-k-500 typo-medium-3">조건에 맞는 대학 {displayedScoreSheets.length}개</p>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <ScopePill isActive={scope === "withApplicants"} onClick={() => onScopeChange("withApplicants")}>
+                  지원자 있음
+                </ScopePill>
+                <ScopePill isActive={scope === "all"} onClick={() => onScopeChange("all")}>
+                  전체 보기
+                </ScopePill>
+                <ScopePill
+                  isActive={sortMode === "gpa"}
+                  onClick={() => onSortModeChange(sortMode === "gpa" ? "applicants" : "gpa")}
+                >
+                  학점 높은 순
+                </ScopePill>
+              </div>
+            </div>
+
+            <ScoreSheetList scoreSheets={displayedScoreSheets} variant="desktop" />
+          </section>
+
+          <aside className="sticky top-8 space-y-5">
+            <DesktopAppliedUniversityPanel
+              appliedUniversities={appliedUniversities}
+              onChangeUniversities={onChangeUniversities}
+            />
+            <DesktopFilterPanel regionFilter={regionFilter} onRegionChange={onRegionChange} />
+          </aside>
+        </div>
+      </div>
+    </main>
+  );
+};
+
+const DesktopAppliedUniversityPanel = ({
+  appliedUniversities,
+  onChangeUniversities,
+}: {
+  appliedUniversities: AppliedUniversity[];
+  onChangeUniversities: () => void;
+}) => (
+  <section className="rounded-lg border border-k-100 bg-white p-5">
+    <div className="flex items-center justify-between gap-3">
+      <div>
+        <h2 className="text-k-900 typo-bold-5">지원한 대학</h2>
+        <p className="mt-1 text-k-500 typo-medium-3">{appliedUniversities.length}개 대학 선택됨</p>
+      </div>
+      <button
+        type="button"
+        onClick={onChangeUniversities}
+        className="rounded-full bg-primary px-4 py-2 text-k-0 typo-sb-12"
+      >
+        변경
+      </button>
+    </div>
+    <div className="mt-4 space-y-2">
+      {appliedUniversities.length > 0 ? (
+        appliedUniversities.map(({ preference, scoreSheet }) => (
+          <AppliedUniversityRow
+            key={`${preference}-${getScoreSheetKey(scoreSheet)}`}
+            preference={preference}
+            scoreSheet={scoreSheet}
+          />
+        ))
+      ) : (
+        <div className="rounded-lg bg-k-50 px-4 py-5 text-k-500 typo-medium-3">지원한 대학 정보가 없어요.</div>
+      )}
+    </div>
+  </section>
+);
+
+const DesktopFilterPanel = ({
+  regionFilter,
+  onRegionChange,
+}: {
+  regionFilter: RegionKo | "";
+  onRegionChange: (region: RegionKo | "") => void;
+}) => (
+  <section className="rounded-lg border border-k-100 bg-white p-5">
+    <h2 className="text-k-900 typo-bold-5">지역 필터</h2>
+    <p className="mt-1 text-k-500 typo-medium-3">권역별로 지원 현황을 좁혀보세요.</p>
+    <div className="mt-4 flex flex-wrap gap-2">
+      <FilterChip isActive={regionFilter === ""} onClick={() => onRegionChange("")}>
+        전체
+      </FilterChip>
+      {REGIONS_KO.map((region) => (
+        <FilterChip
+          key={region}
+          isActive={regionFilter === region}
+          onClick={() => onRegionChange(regionFilter === region ? "" : region)}
+        >
+          {region}
+        </FilterChip>
+      ))}
+    </div>
+  </section>
+);
+
+const ScopePill = ({
+  children,
+  isActive,
+  onClick,
+}: {
+  children: ReactNode;
+  isActive: boolean;
+  onClick: () => void;
+}) => (
+  <button
+    type="button"
+    onClick={onClick}
+    className={clsx(
+      "rounded-full border px-4 py-2 transition-colors typo-sb-12",
+      isActive ? "border-primary bg-primary text-k-0" : "border-k-100 bg-white text-k-500 hover:border-secondary-300",
+    )}
+  >
+    {children}
+  </button>
+);
+
+const DesktopMetricCard = ({
+  label,
+  value,
+  highlight = false,
+}: {
+  label: string;
+  value: string;
+  highlight?: boolean;
+}) => (
+  <div
+    className={clsx(
+      "min-w-32 rounded-lg border px-4 py-3",
+      highlight ? "border-secondary-300 bg-secondary-100" : "border-k-100 bg-white",
+    )}
+  >
+    <p className="text-k-500 typo-medium-12">{label}</p>
+    <p className={clsx("mt-1 typo-bold-4", highlight ? "text-primary" : "text-k-900")}>{value}</p>
+  </div>
+);
+
 const AppliedUniversitySection = ({
   appliedUniversities,
   onChangeUniversities,
@@ -215,7 +397,7 @@ const AppliedUniversitySection = ({
       {appliedUniversities.length > 0 ? (
         appliedUniversities.map(({ preference, scoreSheet }) => (
           <AppliedUniversityRow
-            key={`${preference}-${scoreSheet.koreanName}`}
+            key={`${preference}-${getScoreSheetKey(scoreSheet)}`}
             preference={preference}
             scoreSheet={scoreSheet}
           />
@@ -355,9 +537,25 @@ const FilterChip = ({
   </button>
 );
 
-const ScoreSheetList = ({ scoreSheets }: { scoreSheets: ScoreSheetType[] }) => {
+const ScoreSheetList = ({
+  scoreSheets,
+  variant = "mobile",
+}: {
+  scoreSheets: ScoreSheetType[];
+  variant?: "mobile" | "desktop";
+}) => {
   if (scoreSheets.length === 0) {
     return <ApplicationScoreEmptyState />;
+  }
+
+  if (variant === "desktop") {
+    return (
+      <div className="mt-6 grid gap-4 2xl:grid-cols-2">
+        {scoreSheets.map((scoreSheet, index) => (
+          <DesktopScoreSheet key={getScoreSheetKey(scoreSheet)} scoreSheet={scoreSheet} defaultOpen={index === 0} />
+        ))}
+      </div>
+    );
   }
 
   return (

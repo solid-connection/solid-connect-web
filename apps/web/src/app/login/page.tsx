@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 const LoginPage = () => {
   return (
-    <div className="w-full px-5">
+    <div className="w-full px-5 md:px-0">
       <KakaoScriptLoader />
       <Suspense fallback={<CloudSpinnerPage />}>
         <LoginContent />

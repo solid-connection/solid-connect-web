@@ -33,8 +33,41 @@ interface SchoolSearchFormProps {
   homeUniversitySlug: HomeUniversitySlug;
 }
 
+const SchoolSearchForm = (props: SchoolSearchFormProps) => {
+  return (
+    <SchoolSearchFormBase
+      {...props}
+      regionListClassName="mb-6 flex gap-2 overflow-x-auto"
+      dropdownGridClassName="grid grid-cols-1 gap-3"
+      submitClassName="mt-10"
+    />
+  );
+};
+
+export const DesktopSchoolSearchForm = (props: SchoolSearchFormProps) => {
+  return (
+    <SchoolSearchFormBase
+      {...props}
+      regionListClassName="mb-6 flex flex-wrap gap-2"
+      dropdownGridClassName="grid gap-3 md:grid-cols-2"
+      submitClassName="mt-8 w-full md:max-w-xs"
+    />
+  );
+};
+
+type SchoolSearchFormBaseProps = SchoolSearchFormProps & {
+  regionListClassName: string;
+  dropdownGridClassName: string;
+  submitClassName: string;
+};
+
 // --- 메인 폼 컴포넌트 ---
-const SchoolSearchForm = ({ homeUniversitySlug }: SchoolSearchFormProps) => {
+const SchoolSearchFormBase = ({
+  homeUniversitySlug,
+  regionListClassName,
+  dropdownGridClassName,
+  submitClassName,
+}: SchoolSearchFormBaseProps) => {
   const router = useRouter();
 
   const { handleSubmit, control, watch, setValue } = useForm<SearchFormData>({
@@ -62,7 +95,7 @@ const SchoolSearchForm = ({ homeUniversitySlug }: SchoolSearchFormProps) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-1 flex-col">
-      <div className="mb-6 flex space-x-2">
+      <div className={regionListClassName}>
         {REGIONS_SEARCH.map((region) => (
           <button
             key={region}
@@ -83,7 +116,7 @@ const SchoolSearchForm = ({ homeUniversitySlug }: SchoolSearchFormProps) => {
           </button>
         ))}
       </div>
-      <div className="space-y-3">
+      <div className={dropdownGridClassName}>
         <Controller
           name="languageTestType"
           control={control}
@@ -135,7 +168,10 @@ const SchoolSearchForm = ({ homeUniversitySlug }: SchoolSearchFormProps) => {
       </div>
       <button
         type="submit"
-        className="mt-10 rounded-lg bg-primary px-4 py-3 text-center text-white transition-colors typo-sb-9 hover:bg-primary-600"
+        className={clsx(
+          "rounded-lg bg-primary px-4 py-3 text-center text-white transition-colors typo-sb-9 hover:bg-primary-600",
+          submitClassName,
+        )}
       >
         학교 검색
       </button>

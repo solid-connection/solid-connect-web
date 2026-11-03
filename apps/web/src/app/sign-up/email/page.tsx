@@ -16,7 +16,7 @@ const EmailSignUpPage = () => {
   return (
     <>
       <TopDetailNavigation title="이메일로 시작하기" />
-      <div className="w-full px-5">
+      <div className="w-full px-5 md:px-0">
         <Suspense fallback={<CloudSpinnerPage />}>
           <EmailSignUpForm />
         </Suspense>

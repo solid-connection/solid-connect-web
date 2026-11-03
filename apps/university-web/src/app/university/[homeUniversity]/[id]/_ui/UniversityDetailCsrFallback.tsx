@@ -33,7 +33,7 @@ const UniversityDetailCsrFallback = ({ universityId, backHref }: UniversityDetai
 
   return (
     <div className="w-full">
-      <UniversityDetail koreanName={university.koreanName} university={university} />
+      <UniversityDetail koreanName={university.koreanName} university={university} backHref={backHref} />
     </div>
   );
 };

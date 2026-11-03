@@ -134,11 +134,70 @@ export const MobileScoreSheet = ({ scoreSheet, defaultOpen = false, detailHref }
   );
 };
 
+export const DesktopScoreSheet = ({ scoreSheet, defaultOpen = false, detailHref }: ScoreSheetProps) => {
+  const [tableOpened, setTableOpened] = useState(defaultOpen);
+  const resolvedDetailHref = detailHref ?? getApplicationDetailHref(scoreSheet.koreanName);
+  const capacity = getScoreSheetCapacity(scoreSheet);
+
+  return (
+    <article className="overflow-hidden rounded-lg border border-k-100 bg-white shadow-[0_8px_24px_rgba(15,23,42,0.04)]">
+      <div className="flex min-h-[76px] items-center gap-4 border-b border-k-50 px-5 py-4">
+        <ScoreSheetLogo scoreSheet={scoreSheet} className="size-11" size={44} />
+        <div className="min-w-0 flex-1">
+          <Link href={resolvedDetailHref} className="block truncate text-k-900 typo-bold-5">
+            {scoreSheet.koreanName}
+          </Link>
+          <p className="mt-1 truncate text-k-500 typo-medium-3">
+            {scoreSheet.country} · {scoreSheet.region}
+          </p>
+        </div>
+        <div className="flex shrink-0 items-center gap-2">
+          <span className="rounded-full bg-secondary-100 px-3 py-1 text-primary typo-sb-12">
+            {scoreSheet.applicants.length}명
+          </span>
+          <span className="rounded-full bg-k-50 px-3 py-1 text-k-600 typo-medium-12">모집 {capacity}</span>
+          <button
+            type="button"
+            onClick={() => setTableOpened((prev) => !prev)}
+            className="flex size-8 items-center justify-center rounded-full text-k-600 transition-colors hover:bg-k-50"
+            aria-label={`${scoreSheet.koreanName} 지원자 목록 ${tableOpened ? "접기" : "펼치기"}`}
+          >
+            <IconExpandMoreFilled className={`transition-transform duration-300 ${tableOpened ? "rotate-180" : ""}`} />
+          </button>
+        </div>
+      </div>
+
+      {tableOpened ? (
+        <div className="bg-white">
+          <div className="grid min-h-10 grid-cols-[1fr_70px_110px_70px] items-center border-b border-k-50 px-5 text-k-400 typo-medium-12">
+            <span>닉네임</span>
+            <span className="text-center">학점</span>
+            <span className="text-center">어학</span>
+            <span className="text-right">점수</span>
+          </div>
+          {scoreSheet.applicants.map((applicant, index) => (
+            <DesktopApplicantRow key={`${applicant.nicknameForApply}-${index}`} applicant={applicant} />
+          ))}
+        </div>
+      ) : null}
+    </article>
+  );
+};
+
 const ApplicantInlineRow = ({ applicant }: { applicant: Applicant }) => (
   <div className="grid min-h-[46px] grid-cols-[1fr_54px_1fr_54px] items-center px-9 text-k-700 typo-regular-3">
     <span className="truncate text-k-900">{applicant.nicknameForApply}</span>
     <span className="text-center">{formatApplicantGpa(applicant.gpa)}</span>
     <span className="truncate text-center text-k-900">{formatApplicantLanguageTestName(applicant.testType)}</span>
+    <span className="truncate text-right">{formatApplicantLanguageScore(applicant)}</span>
+  </div>
+);
+
+const DesktopApplicantRow = ({ applicant }: { applicant: Applicant }) => (
+  <div className="grid min-h-12 grid-cols-[1fr_70px_110px_70px] items-center border-b border-k-50 px-5 text-k-700 last:border-b-0 typo-medium-3">
+    <span className="truncate text-k-900">{applicant.nicknameForApply}</span>
+    <span className="text-center">{formatApplicantGpa(applicant.gpa)}</span>
+    <span className="truncate text-center">{formatApplicantLanguageTestName(applicant.testType)}</span>
     <span className="truncate text-right">{formatApplicantLanguageScore(applicant)}</span>
   </div>
 );

@@ -9,9 +9,16 @@ export interface TopDetailNavigationProps {
   handleBack?: () => void;
   backHref?: string;
   icon?: React.ReactNode;
+  showOnDesktop?: boolean;
 }
 
-const TopDetailNavigation = ({ title, handleBack, backHref, icon }: TopDetailNavigationProps) => {
+const TopDetailNavigation = ({
+  title,
+  handleBack,
+  backHref,
+  icon,
+  showOnDesktop = false,
+}: TopDetailNavigationProps) => {
   const router = useRouter();
 
   const routeBack = () => {
@@ -23,7 +30,9 @@ const TopDetailNavigation = ({ title, handleBack, backHref, icon }: TopDetailNav
   };
 
   return (
-    <div className="fixed top-0 z-30 box-border flex h-14 w-full max-w-app items-center justify-between bg-white px-5">
+    <div
+      className={`fixed top-0 z-30 box-border flex h-14 w-full max-w-app items-center justify-between bg-white px-5 ${showOnDesktop ? "md:static md:h-16 md:max-w-none md:border-b md:border-k-100" : "md:hidden"}`}
+    >
       <button className="min-w-6 cursor-pointer" onClick={handleBack || routeBack} type="button" aria-label="뒤로 가기">
         <IconArrowBackFilled />
       </button>

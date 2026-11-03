@@ -15,7 +15,7 @@ const SearchBar = ({ value, onChange, homeUniversitySlug }: SearchBarProps) => {
   const [isFocused, setIsFocused] = useState(false);
 
   return (
-    <div className="mb-4 mt-2">
+    <div className="mb-4 mt-2 md:mt-0">
       <div
         className={`flex items-center gap-2 rounded-lg border px-4 py-3 transition-colors ${
           isFocused ? "border-primary bg-primary-50" : "border-k-100 bg-k-50"

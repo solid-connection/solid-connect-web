@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { QueryKeys } from "@/apis/queryKeys";
 import { type SearchTextResponse, universitiesApi } from "@/apis/universities/api";
+import { getHomeUniversityBySlug } from "@/constants/university";
 import type { HomeUniversitySlug, ListUniversity } from "@/types/university";
 
 import UniversityListContent from "./UniversityListContent";
@@ -53,7 +54,13 @@ const UniversityListCsrFallback = ({ homeUniversityId, homeUniversitySlug }: Uni
     );
   }
 
-  return <UniversityListContent universities={universities} homeUniversitySlug={homeUniversitySlug} />;
+  return (
+    <UniversityListContent
+      universities={universities}
+      homeUniversitySlug={homeUniversitySlug}
+      title={`${getHomeUniversityBySlug(homeUniversitySlug)?.shortName ?? "학교"} 파견학교`}
+    />
+  );
 };
 
 export default UniversityListCsrFallback;

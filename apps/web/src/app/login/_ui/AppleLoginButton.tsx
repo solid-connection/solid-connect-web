@@ -12,7 +12,12 @@ const isAppleSdkReady = () =>
 
 type AppleSdkStatus = "loading" | "ready" | "error";
 
-const AppleLoginButton = ({ redirectPath }: { redirectPath?: string }) => {
+type AppleLoginButtonProps = {
+  redirectPath?: string;
+  className?: string;
+};
+
+const AppleLoginButton = ({ redirectPath, className = "mx-5" }: AppleLoginButtonProps) => {
   const [sdkStatus, setSdkStatus] = useState<AppleSdkStatus>("loading");
   const [retryKey, setRetryKey] = useState<string | null>(null);
   const activeRetryKey = useRef<string | null>(null);
@@ -65,7 +70,7 @@ const AppleLoginButton = ({ redirectPath }: { redirectPath?: string }) => {
   };
 
   return (
-    <div className="mx-5">
+    <div className={className}>
       <AppleScriptLoader
         key={retryKey ?? "initial"}
         retryKey={retryKey}

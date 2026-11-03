@@ -5,8 +5,8 @@ import { IconIdCard, IconMagnifyingGlass, IconMuseum, IconPaper } from "@/public
 
 const HomeActionLinks = () => {
   return (
-    <div className="flex flex-col gap-2.5 px-5 py-3.5">
-      <div className="flex gap-2">
+    <div className="flex flex-col gap-2.5 px-5 py-3.5 md:px-0 md:py-0">
+      <div className="grid grid-cols-2 gap-2">
         <UniversityZoneLink
           className="flex flex-1 flex-col gap-2 rounded-lg bg-bg-accent-blue p-2.5"
           href="/university/search"
@@ -28,8 +28,6 @@ const HomeActionLinks = () => {
             <IconPaper />
           </div>
         </Link>
-      </div>
-      <div className="flex gap-2">
         <Link
           className="flex flex-1 flex-col gap-2 rounded-lg bg-bg-accent-orange p-2.5"
           href="/university/application/apply"

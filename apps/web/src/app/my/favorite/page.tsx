@@ -14,7 +14,7 @@ const FavoritePage = () => {
   return (
     <>
       <TopDetailNavigation title="관심학교" />
-      <div className="w-full px-5">
+      <div className="w-full px-5 md:px-0">
         <FavoriteContent />
       </div>
     </>

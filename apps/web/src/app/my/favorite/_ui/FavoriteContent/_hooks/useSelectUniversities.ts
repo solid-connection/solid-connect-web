@@ -7,7 +7,7 @@ import { showIconToast } from "@/lib/toast/showIconToast";
 interface UseSelectUniversitiesReturn {
   editSelected: number[];
   handleEditSelected: (id: number) => void;
-  handleDeleteAll: () => void;
+  handleDeleteAll: (onSuccess?: () => void) => void;
 }
 const useSelectUniversities = (): UseSelectUniversitiesReturn => {
   const { mutate: deleteUserAccount } = useDeleteWish();
@@ -22,7 +22,7 @@ const useSelectUniversities = (): UseSelectUniversitiesReturn => {
       setEditSelected([...editSelected, id]);
     }
   };
-  const handleDeleteAll = () => {
+  const handleDeleteAll = (onSuccess?: () => void) => {
     if (!confirm("정말 삭제하시겠습니까?")) return;
 
     Promise.allSettled(
@@ -38,6 +38,8 @@ const useSelectUniversities = (): UseSelectUniversitiesReturn => {
     ).then((results) => {
       const hasError = results.some((r) => r.status === "rejected");
       if (!hasError) {
+        setEditSelected([]);
+        onSuccess?.();
         showIconToast("logo", "모든 학교가 삭제되었습니다.");
       }
       queryClient.invalidateQueries({ queryKey: [QueryKeys.universities.wishList] });

@@ -20,7 +20,7 @@ const LanguageSection = ({ languageRequirements, detailsForLanguage }: LanguageS
           <div className="flex flex-col gap-5 pt-5">
             {languageRequirements.map((req, idx) => (
               <Language
-                key={`${req.languageTestType}-${idx}`}
+                key={`${req.languageTestType}-${req.minScore}-${idx}`}
                 name={formatLanguageTestName(req.languageTestType)}
                 logoUrl={getLanguageTestLogo(req.languageTestType)}
                 score={req.minScore}

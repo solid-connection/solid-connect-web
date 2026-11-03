@@ -34,8 +34,8 @@ const UniversityCard = ({ university, showCapacity = true, linkPrefix = "/univer
       aria-labelledby={`university-name-${university.id}`}
     >
       <div className="relative h-[91px] w-full overflow-hidden rounded-lg border border-solid border-k-100 hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/10">
-        <div className="flex justify-between px-5 py-3.5">
-          <div className="flex gap-[23.5px]">
+        <div className="flex justify-between gap-2 px-5 py-3.5">
+          <div className="flex min-w-0 flex-1 gap-[23.5px]">
             <div className="flex flex-shrink-0 items-center">
               <Image
                 className="h-14 w-14 rounded-full object-cover"
@@ -47,7 +47,7 @@ const UniversityCard = ({ university, showCapacity = true, linkPrefix = "/univer
               />
             </div>
 
-            <div className="flex flex-col">
+            <div className="flex min-w-0 flex-1 flex-col">
               <span
                 id={`university-name-${university.id}`}
                 className="truncate text-k-700 typo-bold-4"
@@ -62,10 +62,13 @@ const UniversityCard = ({ university, showCapacity = true, linkPrefix = "/univer
                 {showCapacity && <span className="text-primary typo-sb-11">{capacityLabel}</span>}
               </div>
               <div className="flex gap-4">
-                {university.languageRequirements.slice(0, 3).map((requirement) => {
+                {university.languageRequirements.slice(0, 3).map((requirement, index) => {
                   const testName = shortenLanguageTestName(requirement.languageTestType);
                   return (
-                    <span key={requirement.languageTestType} className="whitespace-nowrap text-primary typo-sb-11">
+                    <span
+                      key={`${requirement.languageTestType}-${requirement.minScore}-${index}`}
+                      className="whitespace-nowrap text-primary typo-sb-11"
+                    >
                       {testName ?? requirement.languageTestType} {requirement.minScore}
                     </span>
                   );
@@ -73,7 +76,7 @@ const UniversityCard = ({ university, showCapacity = true, linkPrefix = "/univer
               </div>
             </div>
           </div>
-          <div className="flex items-center">
+          <div className="flex shrink-0 items-center">
             <CheveronRightFilled color="black" opacity="0.54" />
           </div>
         </div>

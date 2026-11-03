@@ -36,6 +36,7 @@ jobs:
               - 'pnpm-lock.yaml'
               - 'pnpm-workspace.yaml'
               - 'scripts/**'
+              - 'packages/**'
               - 'turbo.json'
               - '.github/workflows/**'
 
@@ -216,3 +217,77 @@ jobs:
         run: pnpm --filter @solid-connect/admin run build
         env:
           NODE_ENV: production
+
+  web-e2e:
+    name: Web - E2E (${{ matrix.project }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: [detect-changes, web-quality-check, university-web-quality-check]
+    if: |
+      always() &&
+      (needs.detect-changes.outputs.web == 'true' || needs.detect-changes.outputs.university-web == 'true' || needs.detect-changes.outputs.root == 'true') &&
+      (needs.web-quality-check.result == 'success' || needs.web-quality-check.result == 'skipped') &&
+      (needs.university-web-quality-check.result == 'success' || needs.university-web-quality-check.result == 'skipped')
+    strategy:
+      fail-fast: false
+      matrix:
+        project: [desktop, mobile, responsive]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22.x"
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @solid-connect/web exec playwright install --with-deps chromium
+      - name: Run browser flows against the local fixture API
+        run: pnpm --filter @solid-connect/web run test:e2e --project=${{ matrix.project }}
+      - name: Upload browser report and failure traces
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-e2e-${{ matrix.project }}
+          path: |
+            apps/web/playwright-report/
+            apps/web/test-results/
+          retention-days: 7
+          if-no-files-found: ignore
+
+  web-stories:
+    name: Web - Storybook
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: [detect-changes, web-quality-check]
+    if: |
+      (needs.detect-changes.outputs.web == 'true' || needs.detect-changes.outputs.root == 'true') &&
+      needs.web-quality-check.result == 'success'
+    env:
+      STORYBOOK_DISABLE_TELEMETRY: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22.x"
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @solid-connect/web exec playwright install --with-deps chromium
+      - name: Build component documentation
+        run: pnpm --filter @solid-connect/web run build:storybook
+      - name: Run story render and interaction tests in Chromium
+        run: pnpm --filter @solid-connect/web run test:stories
+      - name: Upload Storybook and failure screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-storybook
+          path: |
+            apps/web/storybook-static/
+            apps/web/test-results/storybook/
+          retention-days: 7
+          if-no-files-found: ignore
