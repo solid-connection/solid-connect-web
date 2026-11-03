@@ -282,7 +282,9 @@ export class ChatSession {
   private confirmOutgoing(message: ChatMessage) {
     const imageUrls = message.attachments.filter((item) => item.isImage).map((item) => imageKey(item.url));
     const index = this.snapshot.outgoing.findIndex((item) => {
-      if (this.confirmationBaselines.get(item.clientId)?.has(getMessageKey(message))) return false;
+      // Restored outbox items have no proof tying a new echo to their original send.
+      const baseline = this.confirmationBaselines.get(item.clientId);
+      if (!baseline || baseline.has(getMessageKey(message))) return false;
       if (item.imageUrls.length > 0) return item.remainingImageUrls.some((url) => imageUrls.includes(imageKey(url)));
       return imageUrls.length === 0 && item.content.trim() === message.content.trim();
     });

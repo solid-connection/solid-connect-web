@@ -248,6 +248,28 @@ describe("ChatSession history and connection lifecycle", () => {
 });
 
 describe("ChatSession outgoing messages", () => {
+  it("keeps an unconfirmed restored send when a later identical send is echoed after history", async () => {
+    const original = createSession();
+    original.session.start();
+    await settle();
+    original.events[0].onConnection("connected");
+    original.session.publish({ content: "같은 내용", senderId: 7 });
+    const saved = original.session.getSnapshot().outgoing;
+    original.session.stop();
+
+    const { session, events, loadHistory } = createSession(saved);
+    session.start();
+    await settle();
+    events[0].onConnection("connected");
+    session.publish({ content: "같은 내용", senderId: 7 });
+    loadHistory.mockResolvedValue(history([message(1, "같은 내용")]));
+    await session.syncLatest();
+    events[0].onMessage(message(1, "같은 내용"));
+    expect(session.getSnapshot().outgoing).toEqual([{ ...saved[0], status: "unconfirmed" }]);
+    events[0].onMessage(message(1, "같은 내용"));
+    expect(session.getSnapshot().outgoing).toHaveLength(1);
+  });
+
   it("confirms the first socket echo even when history already contains the delivery", async () => {
     const { session, events, loadHistory } = createSession();
     session.start();

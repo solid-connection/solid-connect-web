@@ -1,9 +1,12 @@
 // @vitest-environment jsdom
-import { act, fireEvent, render, screen } from "@testing-library/react/pure";
+import { act, fireEvent, render, screen, waitFor } from "@testing-library/react/pure";
 import { type ReactNode, useEffect, useState } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import useAuthStore from "@/lib/zustand/useAuthStore";
+import { getValidAccessToken } from "@/utils/axiosInstance";
 import ChatAccess from "./ChatAccess";
+
+vi.mock("@/utils/axiosInstance", () => ({ getValidAccessToken: vi.fn() }));
 
 vi.mock("@/apis/chat", async () => await import("@/apis/chat/auth"));
 vi.mock("next/link", () => ({
@@ -33,6 +36,7 @@ function renderDraft() {
 }
 
 beforeEach(() => {
+  vi.mocked(getValidAccessToken).mockReset().mockResolvedValue(null);
   onMount.mockClear();
   onUnmount.mockClear();
   useAuthStore.getState().setAccessToken(token());
@@ -43,6 +47,55 @@ afterEach(() => {
 });
 
 describe("ChatAccess identity continuity", () => {
+  it("refreshes an expired identity on first entry before showing the login gate", async () => {
+    useAuthStore.getState().setAccessToken(token(7, Math.floor(Date.now() / 1000) - 1));
+    let finish!: (token: string) => void;
+    vi.mocked(getValidAccessToken).mockImplementation(
+      () =>
+        new Promise((resolve) => {
+          finish = resolve;
+        }),
+    );
+    renderDraft();
+    await waitFor(() => expect(getValidAccessToken).toHaveBeenCalledOnce());
+    expect(screen.queryByRole("link", { name: "로그인하기" })).toBeNull();
+    expect(screen.getByRole("status")).toBeTruthy();
+    await act(async () => {
+      const refreshed = token();
+      useAuthStore.getState().setRefreshedAccessToken(refreshed, useAuthStore.getState().sessionVersion);
+      finish(refreshed);
+    });
+    expect(screen.getByRole("textbox", { name: "메시지 7" })).toBeTruthy();
+  });
+
+  it("offers explicit retry after a transient refresh failure on first entry", async () => {
+    useAuthStore.getState().setAccessToken(token(7, Math.floor(Date.now() / 1000) - 1));
+    vi.mocked(getValidAccessToken).mockImplementationOnce(async () => {
+      useAuthStore.getState().setRefreshStatus("retryable");
+      throw new Error("temporary failure");
+    });
+    renderDraft();
+    const retry = await screen.findByRole("button", { name: "다시 확인" });
+    expect(getValidAccessToken).toHaveBeenCalledOnce();
+    expect(screen.queryByRole("link", { name: "로그인하기" })).toBeNull();
+    vi.mocked(getValidAccessToken).mockImplementationOnce(async () => {
+      const refreshed = token();
+      useAuthStore.getState().setRefreshedAccessToken(refreshed, useAuthStore.getState().sessionVersion);
+      return refreshed;
+    });
+    fireEvent.click(retry);
+    await screen.findByRole("textbox", { name: "메시지 7" });
+    expect(getValidAccessToken).toHaveBeenCalledTimes(2);
+  });
+
+  it("does not reuse a remembered identity from another authenticated session", () => {
+    renderDraft();
+    act(() => useAuthStore.getState().setAccessToken(token(8, Math.floor(Date.now() / 1000) - 1)));
+    expect(screen.queryByRole("textbox")).toBeNull();
+    expect(screen.getByRole("status")).toBeTruthy();
+    expect(getValidAccessToken).toHaveBeenCalledOnce();
+  });
+
   it("preserves the draft after token expiry before refresh starts", () => {
     renderDraft();
     const input = screen.getByRole("textbox", { name: "메시지 7" }) as HTMLInputElement;

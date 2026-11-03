@@ -38,7 +38,7 @@ test("홈 탐색과 카드가 앱과 웹 경계에서 겹치거나 잘리지 않
         expect((await cards.first().boundingBox())!.width).toBeGreaterThanOrEqual(220);
       }
       if ([390, 768, 1440].includes(width))
-        await page.screenshot({ path: test.info().outputPath(`home-${width}.png`), fullPage: true });
+        await page.screenshot({ caret: "initial", path: test.info().outputPath(`home-${width}.png`), fullPage: true });
     });
   }
 });
@@ -75,7 +75,7 @@ test("대학 목록에서 폭을 바꾸고 검색과 빈 결과 및 초기화를
     await expect(page.getByRole("link").filter({ hasText: "매우 긴 이름의 국제" }).first()).toBeVisible();
     await noHorizontalOverflow(page);
     if ([390, 768, 1440].includes(width))
-      await page.screenshot({ path: test.info().outputPath(`catalog-${width}.png`) });
+      await page.screenshot({ caret: "initial", path: test.info().outputPath(`catalog-${width}.png`) });
   }
   const search = page.getByPlaceholder("학교명 또는 국가 검색").filter({ visible: true });
   await search.fill("아무 결과도 없는 검색어");
@@ -94,7 +94,8 @@ test("로그인 입력이 화면 전환에도 유지되고 로그인을 완료�
     await expect(page.getByPlaceholder("이메일", { exact: true })).toHaveValue("student@example.test");
     await expect(page.getByPlaceholder("비밀번호", { exact: true })).toHaveValue("LocalTest123!");
     await noHorizontalOverflow(page);
-    if (width === 1440) await page.screenshot({ path: test.info().outputPath(`login-${width}.png`), fullPage: true });
+    if (width === 1440)
+      await page.screenshot({ caret: "initial", path: test.info().outputPath(`login-${width}.png`), fullPage: true });
   }
   await page.getByRole("button", { name: "로그인", exact: true }).click();
   await expect(page).toHaveURL("/");
@@ -114,7 +115,7 @@ test("채팅 작성기와 참여자 탐색이 모든 폭에서 화면 안에 있
     expect(composer.y + composer.height).toBeLessThanOrEqual(1000);
     await noHorizontalOverflow(page);
     if ([390, 768, 1440].includes(width))
-      await page.screenshot({ path: test.info().outputPath(`chat-${width}.png`), fullPage: true });
+      await page.screenshot({ caret: "initial", path: test.info().outputPath(`chat-${width}.png`), fullPage: true });
   }
   await page.getByRole("button", { name: "메시지 보내기" }).click();
   await expect(page.locator("[data-message-key]").filter({ hasText: "화면을 바꿔도 보존할 초안" })).toHaveCount(1);
@@ -129,6 +130,6 @@ test("마이페이지의 프로필과 작업 메뉴가 앱과 웹에서 접근 �
     await expect(page.getByRole("link", { name: "공인 어학 / 학점 변경", exact: true })).toBeVisible();
     await noHorizontalOverflow(page);
     if ([390, 1440].includes(width))
-      await page.screenshot({ path: test.info().outputPath(`my-${width}.png`), fullPage: true });
+      await page.screenshot({ caret: "initial", path: test.info().outputPath(`my-${width}.png`), fullPage: true });
   }
 });
