@@ -23,6 +23,7 @@ let isRedirecting = false;
 const clearAuthState = () => {
   useAuthStore.getState().clearAccessToken();
   queryClient.removeQueries({ queryKey: [QueryKeys.MyPage.profile] });
+  queryClient.removeQueries({ queryKey: ["chat"] });
 };
 
 // --- 유틸리티 함수 ---
@@ -71,6 +72,14 @@ const tryReissueAccessToken = async (): Promise<string | null> => {
   return useAuthStore.getState().accessToken;
 };
 
+// HTTP requests, authentication initialization and socket reconnects share one refresh request.
+export const getValidAccessToken = async (): Promise<string | null> => {
+  const token = useAuthStore.getState().accessToken;
+  if (token && !isTokenExpired(token)) return token;
+  if (useAuthStore.getState().refreshStatus === "failed") return null;
+  return tryReissueAccessToken();
+};
+
 // --- Axios 인스턴스 ---
 // 인증이 필요 없는 공용 API 요청에 사용
 export const publicAxiosInstance: AxiosInstance = axios.create({
@@ -89,14 +98,10 @@ export const axiosInstance: AxiosInstance = axios.create({
 // 1. 요청 인터셉터 (Request Interceptor)
 axiosInstance.interceptors.request.use(
   async (config) => {
-    const { accessToken, clearAccessToken, refreshStatus } = useAuthStore.getState();
+    const { accessToken, refreshStatus } = useAuthStore.getState();
 
-    // 만료된 access token은 즉시 제거하고 refresh 재발급 경로를 타게 한다.
-    if (accessToken && isTokenExpired(accessToken)) {
-      clearAccessToken();
-    }
-
-    const validAccessToken = useAuthStore.getState().accessToken;
+    // Keep the session identity while rotating a token so active forms are not unmounted.
+    const validAccessToken = accessToken && !isTokenExpired(accessToken) ? accessToken : null;
 
     // 토큰이 있으면 헤더에 추가하고 진행
     if (validAccessToken) {

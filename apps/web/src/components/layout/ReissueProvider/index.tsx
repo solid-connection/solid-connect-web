@@ -3,8 +3,8 @@
 import type React from "react";
 import { useEffect } from "react";
 
-import { postReissueToken } from "@/apis/Auth";
 import useAuthStore from "@/lib/zustand/useAuthStore";
+import { getValidAccessToken } from "@/utils/axiosInstance";
 import { isTokenExpired } from "@/utils/jwtUtils";
 
 interface ReissueProviderProps {
@@ -12,7 +12,7 @@ interface ReissueProviderProps {
 }
 
 const ReissueProvider: React.FC<ReissueProviderProps> = ({ children }) => {
-  useEffect(() => {
+  useEffect(function initializeAuthentication() {
     let isMounted = true;
 
     const initializeAuth = async () => {
@@ -34,7 +34,8 @@ const ReissueProvider: React.FC<ReissueProviderProps> = ({ children }) => {
         setLoading(true);
 
         // HttpOnly refresh token 쿠키가 있으면 access token을 복구합니다.
-        await postReissueToken();
+        const token = await getValidAccessToken();
+        if (!token) throw new Error("로그인을 복구하지 못했습니다.");
         if (isMounted) {
           useAuthStore.getState().setRefreshStatus("success");
         }
@@ -54,7 +55,7 @@ const ReissueProvider: React.FC<ReissueProviderProps> = ({ children }) => {
     initializeAuth();
 
     // 컴포넌트 언마운트 시 플래그 설정
-    return () => {
+    return function stopAuthenticationInitialization() {
       isMounted = false;
     };
   }, []);
