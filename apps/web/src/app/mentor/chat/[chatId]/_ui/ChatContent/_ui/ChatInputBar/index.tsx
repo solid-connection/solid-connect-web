@@ -1,231 +1,212 @@
-import clsx from "clsx";
-import { useState } from "react";
-import Image from "@/components/ui/FallbackImage";
-import { IconAlbum, IconDirectMessage, IconFile, IconPlusK200, IconXWhite } from "@/public/svgs/mentor";
-import { downloadLocalFile } from "@/utils/fileUtils";
-import useFileHandler from "./_hooks/useFileHandler";
-import useImageHandler from "./_hooks/useImageHandler";
-import useMessageHandler from "./_hooks/useMessageHandler";
+"use client";
+
+import { type ChangeEvent, type FormEvent, type KeyboardEvent, useEffect, useId, useRef, useState } from "react";
+import { IconAlbum, IconDirectMessage } from "@/public/svgs/mentor";
 
 interface ChatInputBarProps {
-  onSendMessage: (data: { message: string }) => void;
-  onSendImages: (data: { images: File[] }) => void;
-  onSendFiles: (data: { files: File[] }) => void;
+  disabled?: boolean;
+  canSend?: boolean;
+  onSendText: (content: string) => Promise<boolean>;
+  onSendImages: (files: File[]) => Promise<boolean>;
 }
 
-const ChatInputBar = ({ onSendMessage, onSendImages, onSendFiles }: ChatInputBarProps) => {
-  const [isAttachmentOptionsOpen, setIsAttachmentOptionsOpen] = useState(false);
+interface SelectedImage {
+  id: number;
+  file: File;
+}
 
-  const { messageForm, onSubmitMessage, isMessageEmpty } = useMessageHandler({ onSendMessage });
-  const {
-    imageInputRef,
-    selectedImages,
-    setSelectedImages,
-    imageForm,
-    onSubmitImages,
-    hasImages,
-    handleImageChange,
-    handleAlbumClick,
-  } = useImageHandler({ onSendImages, setIsAttachmentOptionsOpen });
+const ImagePreview = ({ file }: { file: File }) => {
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
-  const {
-    fileInputRef,
-    selectedFiles,
-    setSelectedFiles,
-    fileForm,
-    onSubmitFiles,
-    hasFiles,
-    handleFileChange,
-    handleFileClick,
-  } = useFileHandler({ onSendFiles, setIsAttachmentOptionsOpen });
+  useEffect(
+    function createImagePreview() {
+      const objectUrl = URL.createObjectURL(file);
+      setPreviewUrl(objectUrl);
 
-  const hasAttachments = hasImages || hasFiles;
+      return function releaseImagePreview() {
+        URL.revokeObjectURL(objectUrl);
+      };
+    },
+    [file],
+  );
 
-  // 통합 전송 함수 - DirectMessage 버튼 클릭 시 호출
-  const handleSend = () => {
-    if (hasImages) {
-      imageForm.setValue("images", selectedImages);
-      imageForm.handleSubmit(onSubmitImages)();
-    } else if (hasFiles) {
-      fileForm.setValue("files", selectedFiles);
-      fileForm.handleSubmit(onSubmitFiles)();
-    } else if (!isMessageEmpty) {
-      messageForm.handleSubmit(onSubmitMessage)();
+  return previewUrl ? (
+    <img src={previewUrl} alt={file.name} className="h-16 w-16 rounded-lg object-cover" />
+  ) : (
+    <div className="h-16 w-16 rounded-lg bg-k-50" />
+  );
+};
+
+const ChatInputBar = ({ disabled = false, canSend = true, onSendText, onSendImages }: ChatInputBarProps) => {
+  const [message, setMessage] = useState("");
+  const [selectedImages, setSelectedImages] = useState<SelectedImage[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const imageInputRef = useRef<HTMLInputElement>(null);
+  const isSubmittingRef = useRef(false);
+  const isComposingRef = useRef(false);
+  const nextImageIdRef = useRef(0);
+  const hintId = useId();
+  const hasImages = selectedImages.length > 0;
+  const isLocked = disabled || isSubmitting;
+
+  const send = async () => {
+    if (disabled || !canSend || isSubmittingRef.current || isComposingRef.current) return;
+
+    const content = message.trim();
+    if (!hasImages && !content) return;
+
+    isSubmittingRef.current = true;
+    setIsSubmitting(true);
+    setError(null);
+
+    try {
+      const isAccepted = hasImages
+        ? await onSendImages(selectedImages.map((image) => image.file))
+        : await onSendText(content);
+
+      if (isAccepted) {
+        if (hasImages) {
+          setSelectedImages([]);
+        } else {
+          setMessage("");
+        }
+      } else {
+        setError("연결을 확인한 뒤 다시 보내주세요. 입력 내용은 유지했어요.");
+      }
+    } catch {
+      setError("전송하지 못했어요. 입력 내용을 유지했으니 다시 시도해주세요.");
+    } finally {
+      isSubmittingRef.current = false;
+      setIsSubmitting(false);
     }
   };
 
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    void send();
+  };
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key !== "Enter" || event.shiftKey) return;
+    if (event.nativeEvent.isComposing || event.nativeEvent.keyCode === 229 || isComposingRef.current) return;
+
+    event.preventDefault();
+    void send();
+  };
+
+  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files ?? []);
+    event.target.value = "";
+    if (disabled || isSubmittingRef.current || files.length === 0) return;
+
+    const images = files.filter((file) => file.type.startsWith("image/"));
+    setError(images.length === files.length ? null : "이미지만 보낼 수 있어요.");
+    setSelectedImages((previous) => [...previous, ...images.map((file) => ({ id: nextImageIdRef.current++, file }))]);
+  };
+
   return (
-    <div
-      className={`flex-shrink-0 transition-all duration-300 ${isAttachmentOptionsOpen ? "bg-primary-100 pb-28" : "pb-0"}`}
+    <form
+      aria-label="채팅 메시지 작성"
+      aria-busy={isSubmitting}
+      onSubmit={handleSubmit}
+      className="shrink-0 border-t border-k-50 bg-k-0 pb-[env(safe-area-inset-bottom)] shadow-top"
     >
-      {/* 숨겨진 파일 입력 요소들 */}
       <input
         ref={imageInputRef}
         type="file"
         accept="image/*"
         multiple
+        disabled={isLocked}
+        aria-label="채팅 이미지 선택"
         className="hidden"
         onChange={handleImageChange}
       />
-      <input ref={fileInputRef} type="file" multiple className="hidden" onChange={handleFileChange} />
 
-      <div className="relative w-full bg-k-0 shadow-top">
-        {/* 선택된 파일들 미리보기 */}
-        {(selectedImages.length > 0 || selectedFiles.length > 0) && (
-          <div className="flex flex-wrap gap-2 border-b border-gray-200 p-4">
-            {selectedImages.map((file, index) => (
-              <div key={`image-${index}`} className="relative">
+      {hasImages && (
+        <div className="border-b border-k-50 px-4 py-3">
+          <p className="mb-2 text-k-600 typo-regular-4">
+            이미지 {selectedImages.length}장만 전송해요. 작성한 메시지는 유지돼요.
+          </p>
+          <ul aria-label="선택한 이미지" className="flex gap-3 overflow-x-auto py-1">
+            {selectedImages.map(({ id, file }) => (
+              <li key={id} className="relative shrink-0">
+                <ImagePreview file={file} />
                 <button
                   type="button"
-                  onClick={() => downloadLocalFile(file)}
-                  className="h-16 w-16 overflow-hidden rounded-lg border transition-opacity hover:opacity-80"
+                  aria-label={`${file.name} 제거`}
+                  disabled={isLocked}
+                  onClick={() => {
+                    if (disabled || isSubmittingRef.current) return;
+                    setSelectedImages((images) => images.filter((image) => image.id !== id));
+                  }}
+                  className="absolute -right-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full bg-k-900 text-white disabled:opacity-50"
                 >
-                  <Image
-                    src={URL.createObjectURL(file)}
-                    alt={`Preview ${index}`}
-                    width={64}
-                    height={64}
-                    className="h-full w-full object-cover"
-                    unoptimized
-                  />
+                  <span aria-hidden="true">×</span>
                 </button>
-                <button
-                  type="button"
-                  onClick={() => setSelectedImages((prev) => prev.filter((_, i) => i !== index))}
-                  className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-white typo-regular-4 hover:bg-red-600"
-                >
-                  ✕
-                </button>
-              </div>
+              </li>
             ))}
-            {selectedFiles.map((file, index) => (
-              <div key={`file-${index}`} className="relative">
-                <button
-                  type="button"
-                  onClick={() => downloadLocalFile(file)}
-                  className="flex h-16 w-16 items-center justify-center rounded-lg bg-blue-200 transition-colors"
-                >
-                  <span className="text-blue-600 typo-regular-4">📁 {file.name.slice(0, 8)}...</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setSelectedFiles((prev) => prev.filter((_, i) => i !== index))}
-                  className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-600 text-white typo-regular-4"
-                >
-                  ✕
-                </button>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* 메시지 폼 */}
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleSend();
-          }}
-          className={clsx(
-            "flex items-center gap-2 p-4",
-            isMessageEmpty && !isAttachmentOptionsOpen ? "bg-white" : "bg-primary-100",
-          )}
-        >
-          {/* + 버튼을 좌측에 배치 */}
-          <button
-            type="button"
-            onClick={() => setIsAttachmentOptionsOpen((prev) => !prev)}
-            disabled={hasAttachments}
-            className={clsx(
-              "h-7 w-7 rounded-full p-1 transition-colors",
-              hasAttachments ? "cursor-not-allowed bg-k-100" : isAttachmentOptionsOpen ? "bg-primary-200" : "bg-k-50",
-            )}
-          >
-            <span className="h-4 w-4">
-              {isAttachmentOptionsOpen ? (
-                // X 아이콘 (임시로 텍스트 사용)
-                <div className="flex h-full w-full items-center justify-center text-k-600 typo-bold-6">
-                  <IconXWhite />
-                </div>
-              ) : (
-                <IconPlusK200 />
-              )}
-            </span>
-          </button>
-
-          {/* Input 영역 */}
-          <div
-            className={clsx(
-              "transition-al flex h-10 flex-1 justify-between rounded-3xl",
-              hasAttachments
-                ? "bg-k-50"
-                : isMessageEmpty && !isAttachmentOptionsOpen
-                  ? "border-transparent bg-k-50"
-                  : "bg-white",
-            )}
-          >
-            <input
-              type="text"
-              disabled={hasAttachments}
-              className={clsx(
-                "flex-1 rounded-2xl py-2 pl-3 pr-2 text-k-800 outline-none transition-colors typo-regular-2 placeholder:text-k-500",
-                hasAttachments
-                  ? "cursor-not-allowed bg-k-50 text-k-400"
-                  : isMessageEmpty && !isAttachmentOptionsOpen
-                    ? "bg-k-50"
-                    : "bg-white",
-              )}
-              {...messageForm.register("message")}
-              placeholder={
-                hasAttachments
-                  ? `${hasImages ? "이미지" : "파일"}를 보내시려면 전송 버튼을 클릭하세요.`
-                  : "메시지를 입력하세요..."
-              }
-            />
-            <button
-              type="submit"
-              disabled={isMessageEmpty && !hasAttachments}
-              className={clsx(
-                "flex h-10 w-10 items-center justify-center rounded-full transition-colors",
-                isMessageEmpty && !hasAttachments ? "bg-k-100" : "bg-primary",
-              )}
-            >
-              <IconDirectMessage />
-            </button>
-          </div>
-        </form>
-      </div>
-
-      {/* 첨부파일 옵션 - 카카오톡 스타일 */}
-      {isAttachmentOptionsOpen && !hasAttachments && (
-        <div className="flex w-full">
-          <div className="ml-12 flex gap-3 p-4">
-            {/* 앨범 버튼 */}
-            <button
-              data-option="album"
-              onClick={handleAlbumClick}
-              className="flex h-10 w-10 flex-col items-center justify-center rounded-lg transition-colors"
-            >
-              <div className="typo-regular-2">
-                <IconAlbum />
-              </div>
-              <span className="text-k-700 typo-medium-5">앨범</span>
-            </button>
-
-            {/* 파일 버튼 */}
-            <button
-              data-option="file"
-              onClick={handleFileClick}
-              className="flex h-10 w-10 flex-col items-center justify-center rounded-lg transition-colors"
-            >
-              <div className="typo-regular-2">
-                <IconFile />
-              </div>
-              <span className="text-k-700 typo-medium-5">파일</span>
-            </button>
-          </div>
+          </ul>
         </div>
       )}
-    </div>
+
+      <div className="flex items-end gap-2 px-4 pt-3">
+        <button
+          type="button"
+          aria-label="이미지 선택"
+          disabled={isLocked}
+          onClick={() => imageInputRef.current?.click()}
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-k-50 disabled:opacity-50"
+        >
+          <span aria-hidden="true">
+            <IconAlbum />
+          </span>
+        </button>
+        <textarea
+          aria-label="메시지"
+          aria-describedby={hintId}
+          rows={1}
+          value={message}
+          disabled={isLocked || hasImages}
+          onChange={(event) => {
+            if (disabled || isSubmittingRef.current) return;
+            setMessage(event.target.value);
+            setError(null);
+          }}
+          onCompositionStart={() => {
+            isComposingRef.current = true;
+          }}
+          onCompositionEnd={() => {
+            isComposingRef.current = false;
+          }}
+          onKeyDown={handleKeyDown}
+          placeholder={hasImages ? "선택한 이미지만 전송해요" : "메시지를 입력하세요..."}
+          className="max-h-36 min-h-10 min-w-0 flex-1 resize-y rounded-2xl bg-k-50 px-3 py-2 text-k-800 typo-regular-2 disabled:opacity-60"
+        />
+        <button
+          type="submit"
+          aria-label={hasImages ? `이미지 ${selectedImages.length}장 보내기` : "메시지 보내기"}
+          disabled={isLocked || !canSend || (!hasImages && !message.trim())}
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-white disabled:bg-k-100"
+        >
+          <span aria-hidden="true">
+            <IconDirectMessage />
+          </span>
+        </button>
+      </div>
+      <p id={hintId} className="px-4 py-2 text-k-500 typo-regular-4">
+        {isSubmitting
+          ? "전송 중이에요."
+          : !canSend
+            ? "연결되면 메시지를 보낼 수 있어요. 작성한 내용은 유지돼요."
+            : "이미지만 보낼 수 있어요. Shift+Enter로 줄을 바꿀 수 있어요."}
+      </p>
+      {error && (
+        <p role="alert" className="px-4 pb-2 text-red-500 typo-regular-4">
+          {error}
+        </p>
+      )}
+    </form>
   );
 };
 

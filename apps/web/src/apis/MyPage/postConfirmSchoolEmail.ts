@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
-import { postReissueToken } from "@/apis/Auth";
 import { SKIP_GLOBAL_ERROR_TOAST_META } from "@/lib/react-query/errorToastMeta";
+import { refreshAccessToken } from "@/utils/axiosInstance";
 import { QueryKeys } from "../queryKeys";
 import { myPageApi, type SchoolEmailConfirmPostRequest } from "./api";
 
@@ -14,7 +14,7 @@ const usePostConfirmSchoolEmail = () => {
     meta: SKIP_GLOBAL_ERROR_TOAST_META,
     onSuccess: async () => {
       try {
-        await postReissueToken();
+        await refreshAccessToken();
       } catch {
         // 학교 인증은 이미 완료되었으므로 토큰 갱신 실패가 성공 흐름을 막지 않게 합니다.
       }
