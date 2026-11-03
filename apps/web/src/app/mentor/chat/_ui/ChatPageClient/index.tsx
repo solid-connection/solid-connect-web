@@ -47,8 +47,8 @@ const EmptyChatRooms = ({ isMentee }: { isMentee: boolean }) => (
   </div>
 );
 
-const ChatRoomList = () => {
-  const { data: chatRooms, isPending, isError, isFetching, refetch } = useGetChatRooms();
+const ChatRoomList = ({ userId }: { userId: number }) => {
+  const { data: chatRooms, isPending, isError, isFetching, refetch } = useGetChatRooms(userId);
   const role = useAuthStore((state) => state.clientRole ?? state.serverRole);
   const isMentee = role === UserRole.MENTEE;
 
@@ -178,6 +178,6 @@ const ChatRoomList = () => {
   );
 };
 
-const ChatPageClient = () => <ChatAccess>{(userId) => <ChatRoomList key={userId} />}</ChatAccess>;
+const ChatPageClient = () => <ChatAccess>{(userId) => <ChatRoomList key={userId} userId={userId} />}</ChatAccess>;
 
 export default ChatPageClient;

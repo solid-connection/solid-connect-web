@@ -6,10 +6,11 @@ import ProfileWithBadge from "@/components/ui/ProfileWithBadge";
 
 interface ChatNavBarProps {
   chatId: number;
+  userId: number;
 }
 
-const ChatNavBar = ({ chatId }: ChatNavBarProps) => {
-  const { data: partnerInfo, isPending, isError, isFetching, refetch } = useGetPartnerInfo(chatId);
+const ChatNavBar = ({ chatId, userId }: ChatNavBarProps) => {
+  const { data: partnerInfo, isPending, isError, isFetching, refetch } = useGetPartnerInfo(chatId, userId);
 
   return (
     <nav aria-label="채팅 탐색">

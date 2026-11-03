@@ -2,6 +2,7 @@
 
 import { useGetPartnerInfo } from "@/apis/chat";
 import ChatAccess from "@/app/mentor/chat/_ui/ChatAccess";
+import TopDetailNavigation from "@/components/layout/TopDetailNavigation";
 import { getMessageKey } from "@/lib/chat/messages";
 import type { ChatConnection, OutgoingMessage } from "@/lib/chat/types";
 import { useChatScroll } from "@/lib/chat/useChatScroll";
@@ -39,7 +40,7 @@ const toPreviewMessage = (outgoing: OutgoingMessage): ChatMessage => ({
 
 const RoomContent = ({ chatId, userId }: { chatId: number; userId: number }) => {
   const role = useAuthStore((state) => state.clientRole ?? state.serverRole);
-  const partner = useGetPartnerInfo(chatId);
+  const partner = useGetPartnerInfo(chatId, userId);
   const partnerStatus = (partner.error as { response?: { status?: number } } | null)?.response?.status;
   const partnerAccessDenied = partnerStatus === 403 || partnerStatus === 404;
   const { session, snapshot, sendText, sendImages } = useChatSession(chatId, userId, !partner.isError);
@@ -219,10 +220,14 @@ const RoomContent = ({ chatId, userId }: { chatId: number; userId: number }) => 
 };
 
 const ChatContent = ({ chatId }: { chatId: number }) => (
-  <>
-    <ChatNavBar chatId={chatId} />
-    <ChatAccess>{(userId) => <RoomContent key={`${userId}:${chatId}`} chatId={chatId} userId={userId} />}</ChatAccess>
-  </>
+  <ChatAccess fallbackHeader={<TopDetailNavigation title="멘토 채팅" backHref="/mentor/chat" />}>
+    {(userId) => (
+      <>
+        <ChatNavBar chatId={chatId} userId={userId} />
+        <RoomContent key={`${userId}:${chatId}`} chatId={chatId} userId={userId} />
+      </>
+    )}
+  </ChatAccess>
 );
 
 export default ChatContent;
