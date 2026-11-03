@@ -23,6 +23,16 @@ afterEach(() => {
 });
 
 describe("chat socket and HTTP token rotation", () => {
+  it("refreshes at the exact expiration second instead of returning expired credentials", async () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2026-11-04T00:00:00Z"));
+    useAuthStore.getState().setAccessToken(token(Math.floor(Date.now() / 1000)));
+    const refreshed = token(Math.floor(Date.now() / 1000) + 3600);
+    reissueToken.mockResolvedValue(refreshed);
+    await expect(getValidAccessToken()).resolves.toBe(refreshed);
+    expect(reissueToken).toHaveBeenCalledOnce();
+  });
+
   it.each([
     "socket-first",
     "http-first",

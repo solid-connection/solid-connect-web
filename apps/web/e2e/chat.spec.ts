@@ -154,3 +154,21 @@ test("토큰 갱신의 일시 장애에서 초안과 선택 이미지를 보존�
   await expect(page.getByRole("list", { name: "선택한 이미지" })).toBeVisible();
   expect((await (await request.get(`${apiURL}/__state`)).json()).refreshes).toBeGreaterThanOrEqual(2);
 });
+
+test("만료된 토큰으로 방에 처음 들어가도 로그인 재요청 없이 갱신과 재시도를 처리한다", async ({ page, request }) => {
+  await login(page);
+  await page.goto("/mentor/chat");
+  const room = page.getByRole("link").filter({ hasText: "두번째 멘토" });
+  await expect(room).toBeVisible();
+  await page.clock.setFixedTime(new Date("2100-01-01T00:00:01Z"));
+  await request.post(`${apiURL}/__control`, { data: { reissueStatus: 503 } });
+  await room.click();
+  await expect(page).toHaveURL("/mentor/chat/2");
+  await expect(page.getByRole("button", { name: "다시 확인", exact: true })).toBeVisible();
+  await expect(page.getByRole("link", { name: "로그인하기", exact: true })).toHaveCount(0);
+  await request.post(`${apiURL}/__control`, { data: { reissueStatus: 200 } });
+  await page.getByRole("button", { name: "다시 확인", exact: true }).click();
+  await expect(page.getByText("실시간으로 연결되어 있어요.")).toBeVisible();
+  await expect(page.getByText("아직 대화가 없어요. 첫 메시지를 보내보세요.")).toBeVisible();
+  expect((await (await request.get(`${apiURL}/__state`)).json()).refreshes).toBe(2);
+});
