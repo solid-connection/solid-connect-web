@@ -22,7 +22,7 @@ const ChatAccess = ({ children }: { children: (userId: number) => ReactNode }) =
   );
 
   // Token rotation must not destroy a room's draft. A failed refresh or logout still closes it immediately.
-  const activeUserId = userId ?? (authenticated && refreshStatus === "refreshing" ? lastValidatedUserId.current : null);
+  const activeUserId = userId ?? (authenticated && refreshStatus !== "failed" ? lastValidatedUserId.current : null);
   if (activeUserId) return children(activeUserId);
   if (!initialized || loading) {
     return (

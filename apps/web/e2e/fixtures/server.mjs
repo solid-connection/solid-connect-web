@@ -21,6 +21,10 @@ function reset() {
   for (const ws of sockets.keys()) ws.close();
   sockets.clear();
   state = {
+    activeToken: token,
+    reissueStatus: 401,
+    refreshes: 0,
+    pendingEchoes: [],
     paused: false,
     failRooms: false,
     failHistory: false,
@@ -100,7 +104,7 @@ const server = createServer(async (req, res) => {
     path === "/file/chat" ||
     path.startsWith("/applications/") ||
     path === "/auth/sign-out";
-  if (protectedPath && req.headers.authorization !== `Bearer ${token}`) return json({}, 401);
+  if (protectedPath && req.headers.authorization !== `Bearer ${state.activeToken}`) return json({}, 401);
   if (path === "/__health") return json({ ok: true });
   if (path === "/__reset") {
     reset();
@@ -115,6 +119,13 @@ const server = createServer(async (req, res) => {
         if (!state.paused) broadcast(control.room ?? 1, message);
       }
     }
+    if (control.flushEcho) {
+      for (const { room, message } of state.pendingEchoes.splice(0)) {
+        broadcast(room, message);
+        broadcast(room, message);
+      }
+    }
+    if ("reissueStatus" in control) state.reissueStatus = control.reissueStatus;
     for (const key of ["paused", "failRooms", "failHistory", "failUpload", "denied", "echo"]) {
       if (key in control) state[key] = control[key];
     }
@@ -133,7 +144,12 @@ const server = createServer(async (req, res) => {
     if (credentials.password !== "LocalTest123!") return json({ message: "이메일 또는 비밀번호를 확인해주세요." }, 401);
     return json({ accessToken: token, refreshToken: "fixture-only" });
   }
-  if (path === "/auth/reissue") return json({ message: "fixture session expired" }, 401);
+  if (path === "/auth/reissue") {
+    state.refreshes++;
+    if (state.reissueStatus !== 200) return json({ message: "fixture refresh unavailable" }, state.reissueStatus);
+    state.activeToken = `${Buffer.from('{"alg":"none"}').toString("base64url")}.${Buffer.from(JSON.stringify({ sub: "101", role: "MENTEE", home_university: "1", exp: 7258118400 })).toString("base64url")}.refreshed`;
+    return json({ accessToken: state.activeToken });
+  }
   if (path === "/auth/sign-out") return json({});
   if (path === "/my") {
     if (!req.headers.authorization) return json({}, 401);
@@ -213,7 +229,7 @@ const server = createServer(async (req, res) => {
 const wss = new WebSocketServer({ noServer: true });
 server.on("upgrade", (req, socket, head) => {
   const url = new URL(req.url, `http://${host}:${port}`);
-  if (url.searchParams.get("token") !== token) {
+  if (url.searchParams.get("token") !== state.activeToken) {
     state.unexpected.push("WebSocket authentication missing or invalid");
     socket.destroy();
     return;
@@ -279,6 +295,7 @@ wss.on("connection", (ws) => {
           }));
           const message = append(room, body.content ?? "", body.senderId ?? 101, attachments);
           if (state.echo) broadcast(room, message);
+          else state.pendingEchoes.push({ room, message });
         }
         if (command === "DISCONNECT") {
           if (headers.receipt) frame(ws, `RECEIPT\nreceipt-id:${headers.receipt}\n\n\0`);

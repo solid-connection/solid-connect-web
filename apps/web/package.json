@@ -15,7 +15,7 @@
     "typecheck:ci": "tsc --noEmit -p tsconfig.ci.json",
     "ci:check": "pnpm run lint:check && pnpm run typecheck:ci && pnpm run test:chat",
     "test": "vitest run --config vitest.config.ts",
-    "test:chat": "vitest run --config vitest.config.ts src/lib/chat src/apis/chat src/app/mentor/chat src/utils/axiosInstance.chat.test.ts",
+    "test:chat": "vitest run --config vitest.config.ts src/lib/chat src/apis/chat src/app/mentor/chat src/utils/axiosInstance.chat.test.ts src/utils/axiosInstance.session.test.ts",
     "analyze": "ANALYZE=true next build --webpack",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",

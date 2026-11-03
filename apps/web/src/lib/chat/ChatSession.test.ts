@@ -248,6 +248,38 @@ describe("ChatSession history and connection lifecycle", () => {
 });
 
 describe("ChatSession outgoing messages", () => {
+  it("confirms the first socket echo even when history already contains the delivery", async () => {
+    const { session, events, loadHistory } = createSession();
+    session.start();
+    await settle();
+    events[0].onConnection("connected");
+    session.publish({ content: "먼저 기록에 도착", senderId: 7 });
+    loadHistory.mockResolvedValue(history([message(1, "먼저 기록에 도착")]));
+    await session.syncLatest();
+    expect(session.getSnapshot().outgoing).toHaveLength(1);
+    session.publish({ content: "먼저 기록에 도착", senderId: 7 });
+
+    events[0].onMessage(message(1, "먼저 기록에 도착"));
+    expect(session.getSnapshot().outgoing).toHaveLength(1);
+    events[0].onMessage(message(1, "먼저 기록에 도착"));
+    expect(session.getSnapshot().outgoing).toHaveLength(1);
+    events[0].onMessage(message(2, "먼저 기록에 도착"));
+    expect(session.getSnapshot().outgoing).toEqual([]);
+  });
+
+  it("does not confirm a new send with an echo already present before publish", async () => {
+    const { session, events, loadHistory } = createSession();
+    loadHistory.mockResolvedValue(history([message(1, "같은 내용")]));
+    session.start();
+    await settle();
+    events[0].onConnection("connected");
+    session.publish({ content: "같은 내용", senderId: 7 });
+    events[0].onMessage(message(1, "같은 내용"));
+    expect(session.getSnapshot().outgoing).toHaveLength(1);
+    events[0].onMessage(message(2, "같은 내용"));
+    expect(session.getSnapshot().outgoing).toEqual([]);
+  });
+
   it("consumes one identical outgoing message per new self echo and ignores duplicate frames", async () => {
     const { session, events } = createSession();
     session.start();
@@ -414,5 +446,23 @@ describe("ChatSession access revocation", () => {
     expect(transports[0].stop).toHaveBeenCalledOnce();
     expect(onRead).not.toHaveBeenCalled();
     expect(session.publish({ content: "차단할 전송", senderId: 7 })).toBe(false);
+  });
+});
+
+describe("ChatSession reading state after a temporary pause", () => {
+  it("resumes read updates without requiring another scroll event", async () => {
+    vi.useFakeTimers();
+    const { session, markRead } = createSession();
+    session.setReading(true);
+    session.start();
+    await settle();
+    await vi.advanceTimersByTimeAsync(300);
+    expect(markRead).toHaveBeenCalledOnce();
+    session.stop();
+    session.start();
+    await settle();
+    await vi.advanceTimersByTimeAsync(300);
+    expect(markRead).toHaveBeenCalledTimes(2);
+    vi.useRealTimers();
   });
 });

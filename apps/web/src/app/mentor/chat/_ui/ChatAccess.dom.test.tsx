@@ -43,6 +43,21 @@ afterEach(() => {
 });
 
 describe("ChatAccess identity continuity", () => {
+  it("preserves the draft after token expiry before refresh starts", () => {
+    renderDraft();
+    const input = screen.getByRole("textbox", { name: "메시지 7" }) as HTMLInputElement;
+    fireEvent.change(input, { target: { value: "만료 직전 작성한 원문" } });
+    act(() =>
+      useAuthStore.setState({
+        accessToken: token(7, Math.floor(Date.now() / 1000) - 1),
+        refreshStatus: "success",
+      }),
+    );
+    expect(screen.getByRole("textbox", { name: "메시지 7" })).toBe(input);
+    expect(input.value).toBe("만료 직전 작성한 원문");
+    expect(onUnmount).not.toHaveBeenCalled();
+  });
+
   it("preserves the mounted composer and its draft while an expired token is refreshed", () => {
     renderDraft();
     const input = screen.getByRole("textbox", { name: "메시지 7" }) as HTMLInputElement;

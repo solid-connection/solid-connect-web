@@ -2,10 +2,11 @@
 
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useMemo, useSyncExternalStore } from "react";
-import { chatApi, chatKeys, getChatUserId } from "@/apis/chat";
+import { chatApi, chatKeys } from "@/apis/chat";
 import { imageUploadApi } from "@/apis/image-upload/api";
 import useAuthStore from "@/lib/zustand/useAuthStore";
 import { getValidAccessToken } from "@/utils/axiosInstance";
+import { tokenParse } from "@/utils/jwtUtils";
 import { ChatSession } from "./ChatSession";
 import { createStompTransport } from "./stompTransport";
 import type { OutgoingMessage } from "./types";
@@ -22,7 +23,7 @@ export const useChatSession = (roomId: number, userId: number, enabled: boolean)
         initialOutgoing: queryClient.getQueryData<OutgoingMessage[]>(chatKeys.outbox(userId, roomId)),
         saveOutgoing: (outgoing) => {
           const auth = useAuthStore.getState();
-          if (auth.isAuthenticated && getChatUserId(auth.accessToken) === userId) {
+          if (auth.isAuthenticated && Number(tokenParse(auth.accessToken)?.sub) === userId) {
             queryClient.setQueryData(chatKeys.outbox(userId, roomId), outgoing);
           }
         },

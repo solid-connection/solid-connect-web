@@ -116,3 +116,41 @@ test("기록 조회 실패에서 재시도하면 전송 가능한 상태로 복�
   await page.getByRole("textbox", { name: "메시지", exact: true }).fill("복구 후 전송");
   await expect(page.getByRole("button", { name: "메시지 보내기" })).toBeEnabled();
 });
+
+test("기록 조회보다 늦게 도착한 소켓 응답도 전송을 한 번만 확인한다", async ({ page, request }) => {
+  await openChat(page);
+  await request.post(`${apiURL}/__control`, { data: { echo: false } });
+  await page.getByRole("textbox", { name: "메시지", exact: true }).fill("기록이 먼저 도착한 전송");
+  await page.getByRole("button", { name: "메시지 보내기" }).click();
+  await expect.poll(async () => (await (await request.get(`${apiURL}/__state`)).json()).sends.length).toBe(1);
+  await page.evaluate(() => window.dispatchEvent(new Event("focus")));
+  await expect(page.locator("[data-message-key]").filter({ hasText: "기록이 먼저 도착한 전송" })).toHaveCount(1);
+  await expect(page.getByText("전송 확인 중…", { exact: true })).toBeVisible();
+  await request.post(`${apiURL}/__control`, { data: { flushEcho: true } });
+  await expect(page.getByText("전송 확인 중…", { exact: true })).toHaveCount(0);
+  await expect(page.getByText("기록이 먼저 도착한 전송", { exact: true })).toHaveCount(1);
+});
+
+test("토큰 갱신의 일시 장애에서 초안과 선택 이미지를 보존하고 재연결한다", async ({ page, request }) => {
+  await openChat(page);
+  const input = page.getByRole("textbox", { name: "메시지", exact: true });
+  await input.fill("갱신 중에도 보존할 초안");
+  await page
+    .getByLabel("채팅 이미지 선택")
+    .setInputFiles({ name: "draft.png", mimeType: "image/png", buffer: Buffer.from("image") });
+  await page.clock.setFixedTime(new Date("2100-01-01T00:00:01Z"));
+  await request.post(`${apiURL}/__control`, { data: { paused: true, reissueStatus: 503 } });
+  await expect(page.getByRole("button", { name: "다시 연결", exact: true })).toBeVisible();
+  await request.post(`${apiURL}/__control`, { data: { paused: false } });
+  await page.getByRole("button", { name: "다시 연결", exact: true }).click();
+  await expect(page.getByText("채팅에 연결하지 못했어요. 다시 연결해주세요.")).toBeVisible();
+  await expect(input).toHaveValue("갱신 중에도 보존할 초안");
+  await expect(page.getByRole("list", { name: "선택한 이미지" })).toBeVisible();
+  await expect(page).toHaveURL("/mentor/chat/1");
+  await request.post(`${apiURL}/__control`, { data: { reissueStatus: 200 } });
+  await page.getByRole("button", { name: "다시 연결", exact: true }).click();
+  await expect(page.getByText("실시간으로 연결되어 있어요.")).toBeVisible();
+  await expect(input).toHaveValue("갱신 중에도 보존할 초안");
+  await expect(page.getByRole("list", { name: "선택한 이미지" })).toBeVisible();
+  expect((await (await request.get(`${apiURL}/__state`)).json()).refreshes).toBeGreaterThanOrEqual(2);
+});

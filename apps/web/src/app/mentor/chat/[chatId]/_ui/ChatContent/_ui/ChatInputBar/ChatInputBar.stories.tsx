@@ -53,3 +53,32 @@ export const ImageSelection: Story = {
     await expect(canvas.queryByRole("list", { name: "선택한 이미지" })).not.toBeInTheDocument();
   },
 };
+
+export const ImageUploadFailure: Story = {
+  args: { onSendImages: fn(async () => false) },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    await userEvent.type(canvas.getByRole("textbox"), "업로드 실패에도 남길 초안");
+    const file = new File(['<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"/>'], "campus.svg", {
+      type: "image/svg+xml",
+    });
+    await userEvent.upload(canvas.getByLabelText("채팅 이미지 선택"), file);
+    await userEvent.click(canvas.getByRole("button", { name: "이미지 1장 보내기" }));
+    await expect(args.onSendImages).toHaveBeenCalledWith([file]);
+    await expect(canvas.getByRole("alert")).toBeVisible();
+    await expect(canvas.getByRole("list", { name: "선택한 이미지" })).toBeVisible();
+    await expect(canvas.getByRole("textbox")).toHaveValue("업로드 실패에도 남길 초안");
+  },
+};
+
+export const Uploading: Story = {
+  args: { onSendText: fn(() => new Promise<boolean>(() => {})) },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.type(canvas.getByRole("textbox"), "전송 중에는 중복 입력을 막아요");
+    await userEvent.click(canvas.getByRole("button", { name: "메시지 보내기" }));
+    await expect(canvas.getByRole("form")).toHaveAttribute("aria-busy", "true");
+    await expect(canvas.getByRole("textbox")).toBeDisabled();
+    await expect(canvas.getByRole("button", { name: "메시지 보내기" })).toBeDisabled();
+  },
+};

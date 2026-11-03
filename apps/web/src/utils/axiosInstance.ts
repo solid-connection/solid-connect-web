@@ -1,4 +1,4 @@
-import axios, { type AxiosError, type AxiosInstance } from "axios";
+import axios, { type AxiosError, type AxiosInstance, type InternalAxiosRequestConfig } from "axios";
 import { postReissueToken } from "@/apis/Auth/server";
 import { QueryKeys } from "@/apis/queryKeys";
 import queryClient from "@/lib/react-query/queryClient";
@@ -7,7 +7,15 @@ import useAuthStore from "@/lib/zustand/useAuthStore";
 import { isTokenExpired } from "@/utils/jwtUtils";
 
 // --- 글로벌 변수 ---
-let reissuePromise: Promise<void> | null = null;
+let refreshRequest: { sessionVersion: number; promise: Promise<string | null> } | null = null;
+type AuthRequestConfig = InternalAxiosRequestConfig & { _retry?: boolean; _sessionVersion?: number };
+
+export class AuthenticationChangedError extends Error {
+  constructor() {
+    super("Authentication changed while the request was pending");
+    this.name = "AuthenticationChangedError";
+  }
+}
 
 // --- 커스텀 에러 클래스 ---
 export class AuthenticationRequiredError extends Error {
@@ -44,40 +52,53 @@ const redirectToLogin = (message: string) => {
 
 export const convertToBearer = (token: string) => `Bearer ${token}`;
 
-const tryReissueAccessToken = async (): Promise<string | null> => {
-  if (reissuePromise) {
-    await reissuePromise;
-    return useAuthStore.getState().accessToken;
-  }
-
-  const { setLoading, setInitialized, setRefreshStatus } = useAuthStore.getState();
-
-  reissuePromise = (async () => {
-    setRefreshStatus("refreshing");
-    setLoading(true);
+// The raw API only returns credentials. This owner alone may commit or clear the active session.
+export const refreshAccessToken = (): Promise<string | null> => {
+  const auth = useAuthStore.getState();
+  if (refreshRequest?.sessionVersion === auth.sessionVersion) return refreshRequest.promise;
+  const request = { sessionVersion: auth.sessionVersion, promise: Promise.resolve<string | null>(null) };
+  let ownedVersion = auth.sessionVersion;
+  const isCurrentSession = () => useAuthStore.getState().sessionVersion === ownedVersion;
+  request.promise = (async () => {
+    auth.setRefreshStatus("refreshing");
+    auth.setLoading(true);
     try {
-      await postReissueToken();
-      setRefreshStatus("success");
-    } catch {
-      clearAuthState();
-      setRefreshStatus("failed");
+      const token = await postReissueToken();
+      if (!isCurrentSession()) throw new AuthenticationChangedError();
+      useAuthStore.getState().setRefreshedAccessToken(token, ownedVersion);
+      return token;
+    } catch (error) {
+      if (!isCurrentSession()) throw new AuthenticationChangedError();
+      const status = (error as AxiosError).response?.status;
+      if (status === 401 || status === 403) {
+        clearAuthState();
+        ownedVersion = useAuthStore.getState().sessionVersion;
+        useAuthStore.getState().setRefreshStatus("failed");
+        return null;
+      }
+      useAuthStore.getState().setRefreshStatus("retryable");
+      throw error;
     } finally {
-      setLoading(false);
-      setInitialized(true);
-      reissuePromise = null;
+      if (isCurrentSession()) {
+        useAuthStore.getState().setLoading(false);
+        useAuthStore.getState().setInitialized(true);
+      }
+      if (refreshRequest === request) refreshRequest = null;
     }
   })();
-
-  await reissuePromise;
-  return useAuthStore.getState().accessToken;
+  refreshRequest = request;
+  return request.promise;
 };
 
 // HTTP requests, authentication initialization and socket reconnects share one refresh request.
 export const getValidAccessToken = async (): Promise<string | null> => {
-  const token = useAuthStore.getState().accessToken;
-  if (token && !isTokenExpired(token)) return token;
-  if (useAuthStore.getState().refreshStatus === "failed") return null;
-  return tryReissueAccessToken();
+  const auth = useAuthStore.getState();
+  if (refreshRequest?.sessionVersion === auth.sessionVersion) return refreshRequest.promise;
+  const { accessToken: token, refreshStatus } = auth;
+  if (refreshStatus === "failed") return null;
+  // A token rejected by the server remains unusable even if its exp has not passed.
+  if (token && !isTokenExpired(token) && refreshStatus !== "retryable") return token;
+  return refreshAccessToken();
 };
 
 // --- Axios 인스턴스 ---
@@ -98,42 +119,20 @@ export const axiosInstance: AxiosInstance = axios.create({
 // 1. 요청 인터셉터 (Request Interceptor)
 axiosInstance.interceptors.request.use(
   async (config) => {
-    const { accessToken, refreshStatus } = useAuthStore.getState();
-
-    // Keep the session identity while rotating a token so active forms are not unmounted.
-    const validAccessToken = accessToken && !isTokenExpired(accessToken) ? accessToken : null;
-
-    // 토큰이 있으면 헤더에 추가하고 진행
-    if (validAccessToken) {
-      config.headers.Authorization = convertToBearer(validAccessToken);
+    const sessionVersion = useAuthStore.getState().sessionVersion;
+    const token = await getValidAccessToken();
+    const currentAuth = useAuthStore.getState();
+    if (
+      sessionVersion !== currentAuth.sessionVersion &&
+      (token !== null || currentAuth.refreshStatus !== "failed" || currentAuth.isAuthenticated)
+    )
+      throw new AuthenticationChangedError();
+    (config as AuthRequestConfig)._sessionVersion = sessionVersion;
+    if (token) {
+      config.headers.Authorization = convertToBearer(token);
       return config;
     }
-
-    if (refreshStatus !== "failed") {
-      try {
-        await tryReissueAccessToken();
-
-        // reissue 완료 후 업데이트된 토큰으로 헤더 설정
-        const updatedAccessToken = useAuthStore.getState().accessToken;
-        if (updatedAccessToken) {
-          config.headers.Authorization = convertToBearer(updatedAccessToken);
-        }
-      } catch {
-        // 에러 발생 시에도 상태 정리는 promise 내부의 finally에서 처리됨
-      }
-
-      // reissue 후 토큰이 있으면 헤더에 추가
-      const finalAccessToken = useAuthStore.getState().accessToken;
-      if (finalAccessToken) {
-        config.headers.Authorization = convertToBearer(finalAccessToken);
-        return config;
-      }
-    }
-
-    const { isInitialized: currentInitialized, accessToken: currentAccessToken } = useAuthStore.getState();
-
-    // 초기화는 되었지만 토큰이 없는 경우 로그인 필요
-    if (currentInitialized && !currentAccessToken) {
+    if (useAuthStore.getState().isInitialized) {
       redirectToLogin("로그인이 필요합니다. 다시 로그인해주세요.");
       return Promise.reject(new AuthenticationRequiredError());
     }
@@ -152,21 +151,25 @@ axiosInstance.interceptors.response.use(
     const status = error.response?.status;
 
     if (status === 401) {
-      const originalRequest = error.config as (typeof error.config & { _retry?: boolean }) | undefined;
+      const originalRequest = error.config as AuthRequestConfig | undefined;
+      if (originalRequest?._sessionVersion !== useAuthStore.getState().sessionVersion) {
+        return Promise.reject(new AuthenticationChangedError());
+      }
 
       if (originalRequest && !originalRequest._retry && useAuthStore.getState().refreshStatus !== "failed") {
         originalRequest._retry = true;
 
         try {
-          const reissuedAccessToken = await tryReissueAccessToken();
+          const reissuedAccessToken = await refreshAccessToken();
 
           if (reissuedAccessToken) {
             originalRequest.headers = originalRequest.headers ?? {};
             originalRequest.headers.Authorization = convertToBearer(reissuedAccessToken);
             return axiosInstance(originalRequest);
           }
-        } catch {
-          // 재발급 실패 시 아래 로그인 리다이렉트로 처리
+        } catch (refreshError) {
+          // Temporary failures keep the local session and let the caller retry.
+          return Promise.reject(refreshError);
         }
       }
 

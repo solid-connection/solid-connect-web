@@ -46,6 +46,8 @@ export class ChatSession {
   private syncPromise: Promise<void> | null = null;
   private resyncRequested = false;
   private readonly synchronizedKeys = new Set<string>();
+  private readonly receivedSocketKeys = new Set<string>();
+  private readonly confirmationBaselines = new Map<string, Set<string>>();
   private hasSynchronizedHistory = false;
 
   constructor(private readonly options: ChatSessionOptions) {
@@ -78,6 +80,10 @@ export class ChatSession {
   }
 
   private updateOutgoing(outgoing: OutgoingMessage[]) {
+    const activeIds = new Set(outgoing.map((item) => item.clientId));
+    for (const id of this.confirmationBaselines.keys()) {
+      if (!activeIds.has(id)) this.confirmationBaselines.delete(id);
+    }
     this.options.saveOutgoing(outgoing);
     this.update({ outgoing });
   }
@@ -133,7 +139,6 @@ export class ChatSession {
     this.syncPromise = null;
     this.resyncRequested = false;
     this.readInFlight = false;
-    this.reading = false;
     if (this.readTimer) clearTimeout(this.readTimer);
     this.readTimer = null;
     for (const timer of this.confirmationTimers.values()) clearTimeout(timer);
@@ -261,9 +266,12 @@ export class ChatSession {
   private receive(message: ChatMessage) {
     const key = getMessageKey(message);
     const isDuplicate = this.snapshot.messages.some((existing) => getMessageKey(existing) === key);
+    const firstSocketDelivery = !this.receivedSocketKeys.has(key);
+    this.receivedSocketKeys.add(key);
     this.update({ messages: mergeMessages(this.snapshot.messages, [message]) });
-    // A missing server id cannot confirm delivery. Duplicate frames cannot confirm another send.
-    if (!isDuplicate && message.id > 0 && message.senderId === this.options.userId) this.confirmOutgoing(message);
+    // History can arrive before the first echo. Only socket replays have already consumed a confirmation.
+    if (firstSocketDelivery && message.id > 0 && message.senderId === this.options.userId)
+      this.confirmOutgoing(message);
     if (!isDuplicate) {
       this.readVersion += 1;
       this.queueRead();
@@ -274,6 +282,7 @@ export class ChatSession {
   private confirmOutgoing(message: ChatMessage) {
     const imageUrls = message.attachments.filter((item) => item.isImage).map((item) => imageKey(item.url));
     const index = this.snapshot.outgoing.findIndex((item) => {
+      if (this.confirmationBaselines.get(item.clientId)?.has(getMessageKey(message))) return false;
       if (item.imageUrls.length > 0) return item.remainingImageUrls.some((url) => imageUrls.includes(imageKey(url)));
       return imageUrls.length === 0 && item.content.trim() === message.content.trim();
     });
@@ -306,6 +315,7 @@ export class ChatSession {
       createdAt: new Date().toISOString(),
       status: "pending",
     };
+    this.confirmationBaselines.set(clientId, new Set(this.snapshot.messages.map(getMessageKey)));
     this.updateOutgoing([...this.snapshot.outgoing, outgoing]);
     try {
       if (!this.transport) throw new Error("연결이 없습니다.");
